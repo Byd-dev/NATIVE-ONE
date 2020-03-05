@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BITYARD</string>
+
+    <string name="tab_one">Trang chủ</string>
+    <string name="tab_two">Báo giá</string>
+    <string name="tab_three">Vị trí mở</string>
+    <string name="tab_four">Giao dịch</string>
+    <string name="tab_five">Của tôi</string>
+    <string name="text_jump">Bỏ qua</string>
+
+</resources>

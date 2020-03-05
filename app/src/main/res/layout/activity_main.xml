@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activity.MainActivity">
+
+
+    <FrameLayout
+        android:id="@+id/layout_fragment_containter"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:visibility="visible"
+        android:background="@color/home_line" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+        android:layout_gravity="center"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_0"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/tab_one"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/tab_one"
+            android:textColor="@color/sel_switcher_txt"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+        <RadioButton
+            android:id="@+id/radio_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:visibility="visible"
+            android:checked="true"
+            android:drawableTop="@drawable/tab_two"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/tab_two"
+            android:textColor="@color/sel_switcher_txt"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+        <RadioButton
+            android:id="@+id/radio_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/tab_three"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="@string/tab_four"
+            android:textColor="@color/sel_switcher_txt"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+
+
+
+        <RadioButton
+            android:id="@+id/radio_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/tab_four"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/sel_switcher_txt"
+            android:textSize="10sp"
+            android:text="@string/tab_three"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+        <RadioButton
+            android:id="@+id/radio_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="false"
+            android:drawableTop="@drawable/tab_five"
+            android:gravity="center"
+            android:maxLines="1"
+            android:textColor="@color/sel_switcher_txt"
+            android:textSize="10sp"
+            android:text="@string/tab_five"
+            android:textStyle="bold"
+            android:visibility="visible" />
+
+
+    </RadioGroup>
+
+</LinearLayout>

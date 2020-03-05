@@ -1,0 +1,2 @@
+include ':app', ':switchlibrary-master'
+rootProject.name='BITYARD'

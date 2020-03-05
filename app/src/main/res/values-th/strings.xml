@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BITYARD</string>
+
+    <string name="tab_one">บ้าน</string>
+    <string name="tab_two">ราคา</string>
+    <string name="tab_three">เปิดตำแหน่ง</string>
+    <string name="tab_four">การซื้อขาย</string>
+    <string name="tab_five">ของฉัน</string>
+    <string name="text_jump">ข้าม</string>
+
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#ffffff</color>
+    <color name="background_maincolor">#4D534C</color>
+    <color name="home_line">#ECEBEB</color>
+    <color name="maincolor">#4D534C</color>
+    <color name="tab_color_normal">#666666</color>
+    <color name="text_maincolor">#222222</color>
+    <color name="text_secondcolor">#717FA1</color>
+</resources>

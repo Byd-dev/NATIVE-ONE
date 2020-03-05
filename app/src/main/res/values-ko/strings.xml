@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">BITYARD</string>
+
+    <string name="tab_one">홈</string>
+    <string name="tab_two">인용문</string>
+    <string name="tab_three">오픈</string>
+    <string name="tab_four">거래</string>
+    <string name="tab_five">광산</string>
+    <string name="text_jump">건너 뛰기</string>
+
+</resources>

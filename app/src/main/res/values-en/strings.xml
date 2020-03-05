@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BITYARD</string>
+
+    <string name="tab_one">Home</string>
+    <string name="tab_two">Market</string>
+    <string name="tab_three">Trade</string>
+    <string name="tab_four">Hold</string>
+    <string name="tab_five">Mine</string>
+    <string name="text_jump">Next</string>
+
+</resources>
