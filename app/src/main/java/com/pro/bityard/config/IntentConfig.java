@@ -5,28 +5,10 @@ package com.pro.bityard.config;
  */
 public class IntentConfig {
 
-    /** Intent的Action常量(广播/服务/隐式Activity). */
-    public static class Actions {
-        public static final String ACTION_NET = "android.net.conn.CONNECTIVITY_CHANGE";    //网络状态
-
-        public static final String ACTION_RELOGIN = "com.magnifier.luckin.action.relogin";    //异地登陆
-
-        public static final String ACTION_REPORT_PROGRESS = "com.magnifier.luckin.action.relport_progress";//报告进度
-
-        public static final String PAY_GIVE_UP = "PAY_GIVE_UP";
-
-        /** 更新头像Intent Action */
-        public static final String ACTION_UPDATE_PORTRAIT = "com.luckin.magnifier.action.update_portrait";
-
-        public static final String ACTION_LOGIN = "com.luckin.magnifier.action.login";
-
-        public static final String ACTION_LOGOUT = "com.luckin.magnifier.action.logout";
-    }
-
     /** Intent传递参数的key(包括Bundle/Argument等传递参数的键).*/
     public static class Keys {
 
-        public static final String CLASS_NAME = "CLASS_NAME";
+        public static final String KEY_LOGIN = "LOGIN";
 
         /**手机号码*/
         public static final String PHONE_NUMBER = "PHONE_NUMBER";

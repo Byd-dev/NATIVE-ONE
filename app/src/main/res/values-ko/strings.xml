@@ -8,5 +8,17 @@
     <string name="tab_four">거래</string>
     <string name="tab_five">광산</string>
     <string name="text_jump">건너 뛰기</string>
+    <string name="text_register">立即注册</string>
+    <string name="text_mobile_login">手机号码登录</string>
+    <string name="text_email_login">邮箱登录</string>
+    <string name="text_email">电子邮箱</string>
+    <string name="text_email_input">请输入邮箱</string>
+    <string name="text_input_pass">请输入密码</string>
+    <string name="text_pass">登录密码</string>
+    <string name="text_pass_err">您输入的密码有误</string>
+    <string name="text_forget_pass">忘记密码?</string>
+    <string name="text_number">手机号码</string>
+    <string name="text_input_number">请输入手机号</string>
+    <string name="text_select">选择国家</string>
 
 </resources>

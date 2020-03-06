@@ -8,5 +8,13 @@
     <dimen name="margin_5">5dp</dimen>
     <dimen name="margin_10">10dp</dimen>
     <dimen name="margin_3">3dp</dimen>
+    <dimen name="margin_2">2dp</dimen>
+    <dimen name="margin_25">25dp</dimen>
+    <dimen name="hint_size">14sp</dimen>
+    <dimen name="margin_50">50dp</dimen>
+    <dimen name="dimen_btn">50dp</dimen>
+    <dimen name="margin_30">30dp</dimen>
+    <dimen name="margin_28">28dp</dimen>
+    <dimen name="height_edit">46dp</dimen>
 
 </resources>

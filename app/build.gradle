@@ -14,7 +14,7 @@ android {
 
 
         manifestPlaceholders = [
-                BAIDU_AK          : "OzMhhfVErZU0GSo9M2ynK9LfV6x92and"
+                BAIDU_AK: "OzMhhfVErZU0GSo9M2ynK9LfV6x92and"
         ]
 
 
@@ -68,8 +68,9 @@ android {
             abortOnError false
         }
     }
+    /*夜间模式*/
 
-
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res-night'] } }
 
     buildTypes {
         release {
@@ -107,4 +108,13 @@ dependencies {
     //轮播图
     implementation 'com.github.xiaohaibin:XBanner:1.7.0'
     implementation project(path: ':switchlibrary-master')
+    //皮肤
+    implementation 'skin.support:skin-support:4.0.4'                   // skin-support
+    implementation 'skin.support:skin-support-appcompat:4.0.4'         // skin-support 基础控件支持
+    implementation 'skin.support:skin-support-design:4.0.4'
+    // skin-support-design material design 控件支持[可选]
+    implementation 'skin.support:skin-support-cardview:4.0.4'
+    // skin-support-cardview CardView 控件支持[可选]
+    implementation 'skin.support:skin-support-constraint-layout:4.0.4'
+    // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
 }

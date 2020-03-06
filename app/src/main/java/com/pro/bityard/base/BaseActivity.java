@@ -22,8 +22,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.app.SkinAppCompatDelegateImpl;
 import androidx.core.graphics.ColorUtils;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -47,7 +50,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.attachBaseContext(newBase);
     }
 
-
+    @NonNull
+    @Override
+    public AppCompatDelegate getDelegate() {
+        return SkinAppCompatDelegateImpl.get(this, this);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

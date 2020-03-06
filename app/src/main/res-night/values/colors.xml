@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary_night">#008577</color>
+    <color name="colorPrimaryDark_night">#00574B</color>
+    <color name="colorAccent_night">#D81B60</color>
+
+    <color name="transparent_night">#00000000</color>
+    <color name="white_night">#ffffff</color>
+    <color name="background_maincolor_night">#ffffff</color>
+    <color name="home_line_night">#ECEBEB</color>
+    <color name="maincolor_night">#E2BE30</color>
+    <color name="tab_color_normal_night">#848E9C</color>
+    <color name="text_maincolor_night">#222222</color>
+    <color name="text_secondcolor_night">#717FA1</color>
+    <color name="edit_color_night">#D4DADF</color>
+    <color name="color_hint_night">#212122</color>
+    <color name="color_err_night">#D55F58</color>
+    <color name="color_btn_bg_night">#848E9C</color>
+    <color name="color_btn_text_night">#1B262D</color>
+
+
+</resources>
