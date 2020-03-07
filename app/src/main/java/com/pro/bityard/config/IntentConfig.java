@@ -9,6 +9,9 @@ public class IntentConfig {
     public static class Keys {
 
         public static final String KEY_LOGIN = "LOGIN";
+        //选择地区
+        public static final String KEY_COUNTRY = "COUNTRY";
+
 
         /**手机号码*/
         public static final String PHONE_NUMBER = "PHONE_NUMBER";

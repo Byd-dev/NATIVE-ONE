@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:id="@+id/layout_view"
     android:layout_height="match_parent"
     android:background="@color/background_maincolor"
     android:orientation="vertical">
@@ -33,6 +34,7 @@
             />
 
         <RelativeLayout
+            android:id="@+id/layout_country"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_edit"
             android:layout_marginTop="@dimen/margin_10"
@@ -40,7 +42,7 @@
 
             <TextView
                 android:id="@+id/text_countryCode"
-                android:layout_width="40dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:text="+86"
                 android:textSize="@dimen/hint_size"
@@ -115,7 +117,7 @@
             android:background="@drawable/bg_shape_edit">
 
             <EditText
-                android:id="@+id/edit_email"
+                android:id="@+id/edit_account"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_10"

@@ -17,6 +17,7 @@
     <color name="color_err_night">#D55F58</color>
     <color name="color_btn_bg_night">#848E9C</color>
     <color name="color_btn_text_night">#1B262D</color>
+    <color name="color_country_code_night">#D3DADF</color>
 
 
 </resources>

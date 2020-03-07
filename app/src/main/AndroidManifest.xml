@@ -6,7 +6,9 @@
     <dist:module dist:instant="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
     <application
@@ -17,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".guide.SplashActivity"
+        <activity android:name=".guide.GuideActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:theme="@style/Splash"
             >
@@ -29,7 +31,7 @@
         </activity>
         <activity android:name=".activity.DetailActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".guide.GuideActivity" />
+        <activity android:name=".guide.SplashActivity" />
         <activity android:name=".activity.UserActivity" />
     </application>
 

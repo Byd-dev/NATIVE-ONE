@@ -1,8 +1,9 @@
 package com.pro.bityard.fragment.user;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
@@ -16,6 +17,10 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
     @BindView(R.id.viewPager)
     NoScrollViewPager viewPager;
+
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 package com.pro.bityard.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,9 @@ public class UserActivity extends BaseActivity {
     private LoginFragment loginFragment;
 
 
+
+
+
     @Override
     protected int setContentLayout() {
         return R.layout.activity_user;
@@ -33,11 +37,15 @@ public class UserActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        type = getIntent().getStringExtra(TYPE);
         StatusBarUtil.setStatusBarDarkTheme(this, false);
+        Intent intent = getIntent();
+        type = intent.getStringExtra(TYPE);
+
 
         if (type.equals(IntentConfig.Keys.KEY_LOGIN)) {
             addLoginFragment();
@@ -45,6 +53,8 @@ public class UserActivity extends BaseActivity {
 
 
     }
+
+
 
     private void addLoginFragment() {
         String name = LoginFragment.class.getSimpleName();
@@ -81,5 +91,7 @@ public class UserActivity extends BaseActivity {
         super.onBackPressed();
         this.finish();
     }
+
+
 
 }

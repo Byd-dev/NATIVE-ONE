@@ -94,6 +94,8 @@ public class SplashActivity extends Activity implements OnResultBack {
     }
 
 
+
+
     public void initPermission() {
 //        判断是否是6.0以上的系统
         if (Build.VERSION.SDK_INT >= 23) {

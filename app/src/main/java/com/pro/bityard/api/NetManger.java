@@ -17,7 +17,7 @@ public class NetManger {
     public static String SUCCESS = "success";
     public static String FAILURE = "failure";
 
-    private String BASE_URL = "https://pc.bityard.com/";
+    private String BASE_URL = "https://www.bityard.com/";
 
 
     public static NetManger getInstance() {
@@ -41,7 +41,6 @@ public class NetManger {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Log.d("print", "onSuccess:45:  "+response);
                         if (!TextUtils.isEmpty(response.body())) {
                             onNetResult.onNetResult(SUCCESS, response.body());
                         }
@@ -54,5 +53,61 @@ public class NetManger {
                 });
 
     }
+    //登录
+    public void login(String vHash,String contryCode,String username,String password,String geetestToken,OnNetResult onNetResult) {
 
+        OkGo.<String>post(BASE_URL+"api/sso/user_login_check")
+                .params("vHash",vHash)
+                .params("contryCode",contryCode)
+                .params("username",username)
+                .params("password",password)
+                .params("geetestToken",geetestToken)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, null);
+
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (!TextUtils.isEmpty(response.body())) {
+                            onNetResult.onNetResult(SUCCESS, response.body());
+                        }
+                    }
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, response.body());
+                    }
+                });
+
+    }
+    //获取国家code
+    public void register(OnNetResult onNetResult) {
+
+        OkGo.<String>get(BASE_URL+"api/home/country/list")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, null);
+
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (!TextUtils.isEmpty(response.body())) {
+                            onNetResult.onNetResult(SUCCESS, response.body());
+                        }
+                    }
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, response.body());
+                    }
+                });
+
+    }
 }

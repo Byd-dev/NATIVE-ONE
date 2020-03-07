@@ -13,24 +13,34 @@ public class CountryCodeEntity implements Serializable {
      * message :
      */
 
-    private int code;
-    private int countryCode;
+    private String code;
+    private String countryCode;
     private String message;
     private List<DataBean> data;
 
-    public int getCode() {
+    @Override
+    public String toString() {
+        return "CountryCodeEntity{" +
+                "code='" + code + '\'' +
+                ", countryCode='" + countryCode + '\'' +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public int getCountryCode() {
+    public String getCountryCode() {
         return countryCode;
     }
 
-    public void setCountryCode(int countryCode) {
+    public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
 
@@ -62,12 +72,25 @@ public class CountryCodeEntity implements Serializable {
          */
 
         private Object code;
-        private int countryCode;
+        private String countryCode;
         private Object currency;
         private String id;
         private Object language;
         private String nameCn;
         private String nameEn;
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "code=" + code +
+                    ", countryCode='" + countryCode + '\'' +
+                    ", currency=" + currency +
+                    ", id='" + id + '\'' +
+                    ", language=" + language +
+                    ", nameCn='" + nameCn + '\'' +
+                    ", nameEn='" + nameEn + '\'' +
+                    '}';
+        }
 
         public Object getCode() {
             return code;
@@ -77,11 +100,11 @@ public class CountryCodeEntity implements Serializable {
             this.code = code;
         }
 
-        public int getCountryCode() {
+        public String getCountryCode() {
             return countryCode;
         }
 
-        public void setCountryCode(int countryCode) {
+        public void setCountryCode(String countryCode) {
             this.countryCode = countryCode;
         }
 
