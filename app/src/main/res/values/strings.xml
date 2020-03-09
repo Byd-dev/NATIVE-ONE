@@ -19,5 +19,14 @@
     <string name="text_number">手机号码</string>
     <string name="text_input_number">请输入手机号</string>
     <string name="text_select">选择国家</string>
+    <string name="text_login">立即登录</string>
+    <string name="text_register_title">注册Bityard</string>
+    <string name="text_mobile_register">手机号码注册-></string>
+    <string name="text_email_code">邮箱验证码</string>
+    <string name="text_email_code_input">请输入邮箱验证码</string>
+    <string name="text_register_btn">注册</string>
+    <string name="text_mobile_code">手机验证码</string>
+    <string name="text_mobile_code_input">请输入手机验证码</string>
+    <string name="text_email_register">邮箱注册-></string>
 
 </resources>

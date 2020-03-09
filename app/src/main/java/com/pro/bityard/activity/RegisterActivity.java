@@ -15,13 +15,11 @@ import com.pro.bityard.viewutil.StatusBarUtil;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
-public class UserActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity {
     private static final String TYPE = "USER_TYPE";
     private String type;
 
     private FragmentTransaction ft;
-    //登录页面
-    private LoginFragment loginFragment;
     //注册页面
     private RegisterFragment registerFragment;
 
@@ -34,7 +32,7 @@ public class UserActivity extends BaseActivity {
     }
 
     public static void enter(Context context, String type) {
-        Intent intent = new Intent(context, UserActivity.class);
+        Intent intent = new Intent(context, RegisterActivity.class);
         intent.putExtra(TYPE, type);
         context.startActivity(intent);
     }
@@ -49,9 +47,7 @@ public class UserActivity extends BaseActivity {
         type = intent.getStringExtra(TYPE);
 
 
-        if (type.equals(IntentConfig.Keys.KEY_LOGIN)) {
-            addLoginFragment();
-        }else if (type.equals(IntentConfig.Keys.KEY_REGISTER)){
+        if (type.equals(IntentConfig.Keys.KEY_REGISTER)) {
             addRegisterFragment();
         }
 
@@ -68,14 +64,7 @@ public class UserActivity extends BaseActivity {
     }
 
 
-    private void addLoginFragment() {
-        String name = LoginFragment.class.getSimpleName();
-        loginFragment = new LoginFragment();
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.layout_fragment_containter, loginFragment, name);
-        ft.addToBackStack(name);
-        ft.commitAllowingStateLoss();
-    }
+
 
 
     @Override

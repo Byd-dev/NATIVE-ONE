@@ -10,7 +10,7 @@ public class IntentConfig {
 
         public static final String KEY_LOGIN = "LOGIN";
         //选择地区
-        public static final String KEY_COUNTRY = "COUNTRY";
+        public static final String KEY_REGISTER = "REGISTER";
 
 
         /**手机号码*/

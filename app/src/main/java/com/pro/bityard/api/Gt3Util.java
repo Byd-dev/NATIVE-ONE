@@ -9,12 +9,22 @@ import com.geetest.sdk.GT3ConfigBean;
 import com.geetest.sdk.GT3ErrorBean;
 import com.geetest.sdk.GT3GeetestUtils;
 import com.geetest.sdk.GT3Listener;
+import com.pro.bityard.utils.Util;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 public class Gt3Util {
 
     public static Gt3Util instance;
+    private Map<String, Object> stringObjectMap;
 
     public static Gt3Util getInstance() {
         if (instance == null) {
@@ -25,17 +35,15 @@ public class Gt3Util {
     }
 
 
-
     /**
      * api1，需替换成自己的服务器URL
      */
-    private static final String URL_API1 = "http://test.bityard.com/api/geetest/api1";
+    private static final String URL_API1 = NetManger.BASE_URL + "api/geetest/api1";
     /**
      * api2，需替换成自己的服务器URL
      */
-    private static final String URL_API2 = "http://test.bityard.com/api/geetest/api2";
-    private String TAG="abcdefghijklmn";
-
+    private static final String URL_API2 = NetManger.BASE_URL + "api/geetest/api2";
+    private String TAG = "abcdefghijklmn";
 
 
     private GT3GeetestUtils gt3GeetestUtils;
@@ -46,7 +54,7 @@ public class Gt3Util {
         gt3GeetestUtils = new GT3GeetestUtils(context);
     }
 
-    public void destroy(){
+    public void destroy() {
         gt3GeetestUtils.destory();
     }
 
@@ -75,8 +83,13 @@ public class Gt3Util {
              */
             @Override
             public void onApi1Result(String result) {
-                //onGtUtilResult.onGtResult(result);
-                Log.e(TAG, "onApi1Result-->" + result);
+                if (!result.equals("")) {
+                    Map<String, Object> stringObjectMap = Util.jsonToMap(result);
+                    String geetestToken = (String) stringObjectMap.get("geetestToken");
+                    onGtUtilResult.onApi1Result(geetestToken);
+                    Log.e(TAG, "onApi1Result-->" + result);
+                }
+
             }
 
             /**
@@ -85,7 +98,7 @@ public class Gt3Util {
              */
             @Override
             public void onDialogReady(String duration) {
-               // onGtUtilResult.onGtResult(duration);
+                // onGtUtilResult.onGtResult(duration);
 
                 Log.e(TAG, "onDialogReady-->" + duration);
             }
@@ -96,7 +109,7 @@ public class Gt3Util {
              */
             @Override
             public void onDialogResult(String result) {
-               // onGtUtilResult.onGtResult(result);
+                // onGtUtilResult.onGtResult(result);
 
                 Log.e(TAG, "onDialogResult-->" + result);
                 // 开启api2逻辑
@@ -109,7 +122,7 @@ public class Gt3Util {
              */
             @Override
             public void onApi2Result(String result) {
-               // onGtUtilResult.onGtResult(result);
+                // onGtUtilResult.onGtResult(result);
 
                 Log.e(TAG, "onApi2Result-->" + result);
             }
@@ -120,7 +133,7 @@ public class Gt3Util {
              */
             @Override
             public void onStatistics(String result) {
-               // onGtUtilResult.onGtResult(result);
+                // onGtUtilResult.onGtResult(result);
 
                 Log.e(TAG, "onStatistics-->" + result);
             }
@@ -131,7 +144,7 @@ public class Gt3Util {
              */
             @Override
             public void onClosed(int num) {
-               // onGtUtilResult.onGtResult(String.valueOf(num));
+                // onGtUtilResult.onGtResult(String.valueOf(num));
 
                 Log.e(TAG, "onClosed-->" + num);
             }
@@ -143,7 +156,7 @@ public class Gt3Util {
             @Override
             public void onSuccess(String result) {
                 Log.e(TAG, "onSuccess-->" + result);
-                onGtUtilResult.onGtResult(result);
+                onGtUtilResult.onSuccessResult(result);
 
             }
 
@@ -154,7 +167,7 @@ public class Gt3Util {
             @Override
             public void onFailed(GT3ErrorBean errorBean) {
                 Log.e(TAG, "onFailed-->" + errorBean.toString());
-                onGtUtilResult.onGtResult(errorBean.toString());
+                onGtUtilResult.onFailedResult(errorBean);
 
             }
 
@@ -164,12 +177,15 @@ public class Gt3Util {
             @Override
             public void onButtonClick() {
                 new RequestAPI1().execute();
+
             }
         });
         gt3GeetestUtils.init(gt3ConfigBean);
         // 开启验证
         gt3GeetestUtils.startCustomFlow();
     }
+
+
     /**
      * 请求api1
      */
@@ -178,6 +194,9 @@ public class Gt3Util {
         @Override
         protected JSONObject doInBackground(Void... params) {
             String string = HttpUtils.requestGet(URL_API1);
+            stringObjectMap = jsonToMap(string);
+
+
             Log.e(TAG, "doInBackground: " + string);
             JSONObject jsonObject = null;
             try {
@@ -190,6 +209,8 @@ public class Gt3Util {
 
         @Override
         protected void onPostExecute(JSONObject parmas) {
+
+
             // 继续验证
             Log.e(TAG, "RequestAPI1-->onPostExecute: " + parmas);
             // SDK可识别格式为
@@ -200,6 +221,7 @@ public class Gt3Util {
             gt3GeetestUtils.getGeetest();
         }
     }
+
     /**
      * 请求api2
      */
@@ -208,8 +230,8 @@ public class Gt3Util {
         @Override
         protected String doInBackground(String... params) {
             if (!TextUtils.isEmpty(params[0])) {
-                Log.d(TAG, "RequestAPI2-->doInBackground: "+params[0]);
-                return HttpUtils.requestPost(URL_API2, params[0]);
+                Log.d(TAG, "RequestAPI2-->doInBackground: " + params[0]);
+                return HttpUtils.requestPost(URL_API2, params[0], (String) stringObjectMap.get("geetestToken"));
             } else {
                 return null;
             }
@@ -237,4 +259,39 @@ public class Gt3Util {
         }
     }
 
+    private static Map<String, Object> jsonToMap(String content) {
+        content = content.trim();
+        Map<String, Object> result = new HashMap<>();
+        try {
+            if (content.charAt(0) == '[') {
+                JSONArray jsonArray = new JSONArray(content);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    Object value = jsonArray.get(i);
+                    if (value instanceof JSONArray || value instanceof JSONObject) {
+                        result.put(i + "", jsonToMap(value.toString().trim()));
+                    } else {
+                        result.put(i + "", jsonArray.getString(i));
+                    }
+                }
+            } else if (content.charAt(0) == '{') {
+                JSONObject jsonObject = new JSONObject(content);
+                Iterator<String> iterator = jsonObject.keys();
+                while (iterator.hasNext()) {
+                    String key = iterator.next();
+                    Object value = jsonObject.get(key);
+                    if (value instanceof JSONArray || value instanceof JSONObject) {
+                        result.put(key, jsonToMap(value.toString().trim()));
+                    } else {
+                        result.put(key, value.toString().trim());
+                    }
+                }
+            } else {
+                Log.e("异常", "json2Map: 字符串格式错误");
+            }
+        } catch (JSONException e) {
+            Log.e("异常", "json2Map: ", e);
+            result = null;
+        }
+        return result;
+    }
 }

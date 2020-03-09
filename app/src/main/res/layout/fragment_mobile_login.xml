@@ -237,7 +237,7 @@
         android:layout_marginLeft="@dimen/margin_25"
         android:layout_marginTop="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
-        android:layout_marginBottom="@dimen/margin_30"
+        android:layout_marginBottom="@dimen/margin_15"
         android:background="@drawable/bg_shape_button"
         android:padding="10dp"
         android:text="登录"

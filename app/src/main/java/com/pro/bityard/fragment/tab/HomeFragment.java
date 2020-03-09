@@ -5,7 +5,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.UserActivity;
+import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.view.AlphaChangeListener;
@@ -106,7 +106,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
             case R.id.text_login:
 
 
-                UserActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
+                LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
 
 
                 break;

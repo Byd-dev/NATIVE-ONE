@@ -1,21 +1,45 @@
 package com.pro.bityard.fragment.user;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.geetest.sdk.GT3ErrorBean;
 import com.pro.bityard.R;
 import com.pro.bityard.api.Gt3Util;
+import com.pro.bityard.api.HttpUtils;
+import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.utils.Util;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Random;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
+
+import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
+import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class EmailLoginFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.img_eye)
@@ -28,6 +52,9 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     EditText edit_account;
     @BindView(R.id.edit_pass)
     EditText edit_password;
+
+    private String geetestToken = null;
+    private String keyHash;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +85,6 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     }
 
 
-
     @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_email_login;
@@ -73,6 +99,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     protected void initData() {
 
     }
+
 
 
     private int isHide = 0;
@@ -99,44 +126,74 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.btn_login:
 
+
+
+
+
+                String strRand = "";
+                for (int i = 0; i < 32; i++) {
+                    strRand += String.valueOf((int) (Math.random() * 10));
+                }
+
+                keyHash = strRand;
+
+                Log.d("print", "onClick: "+keyHash);
+
+                String account_value = edit_account.getText().toString();
+                String pass_value = edit_password.getText().toString();
+
+                if (account_value.equals("")) {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_email_input), Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (pass_value.equals("")) {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_input_pass), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
+
                     @Override
-                    public void onGtResult(String result) {
-                        Log.d("print", "onGtResult:119:  "+result);
+                    public void onApi1Result(String result) {
+                        geetestToken = result;
+                    }
+
+                    @Override
+                    public void onSuccessResult(String result) {
+                        HashMap<String,String> map=new HashMap<>();
+
+                        map.put("vHash",keyHash);
+                        map.put("username",keyHash);
+                        map.put("username",account_value);
+                        map.put("password",pass_value);
+                        map.put("geetestToken",geetestToken);
+
+
+
+                        NetManger.getInstance().login(map,keyHash, null, account_value, pass_value, geetestToken, new OnNetResult() {
+                            @Override
+                            public void onNetResult(String state, Object response) {
+                                if (state.equals(BUSY)) {
+                                    showProgressDialog();
+                                } else if (state.equals(SUCCESS)) {
+                                    dismissProgressDialog();
+                                    Log.d("print", "onNetResult:116:登录返回:  " + response.toString());
+                                } else if (state.equals(FAILURE)) {
+                                    dismissProgressDialog();
+                                }
+                            }
+                        });
+
+
+                    }
+
+                    @Override
+                    public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
 
                     }
                 });
 
 
-
-
-
-             /*   HashSet integerHashSet = new HashSet();
-                Random random = new Random();
-                int randoms = random.nextInt(1000);
-                if (!integerHashSet.contains(randoms)) {
-                    integerHashSet.add(randoms);
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssss");
-                    String hash = sdf.format(new Date()) + String.valueOf(randoms);//唯一哈希码
-                    Log.d("print", "onClick: " + hash);
-                    String account_value = edit_account.getText().toString();
-                    String pass_value = edit_password.getText().toString();
-                    NetManger.getInstance().login(hash, null, account_value, pass_value, null, new OnNetResult() {
-                        @Override
-                        public void onNetResult(String state, Object response) {
-                            if (state.equals(BUSY)){
-                                showProgressDialog();
-                            }else if (state.equals(SUCCESS)){
-                                dismissProgressDialog();
-                                Log.d("print", "onNetResult:116:登录返回:  "+response.toString());
-                            }else if (state.equals(FAILURE)){
-                                dismissProgressDialog();
-                            }
-                        }
-                    });
-
-
-                }*/
                 break;
 
         }

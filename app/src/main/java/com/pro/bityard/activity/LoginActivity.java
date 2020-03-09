@@ -9,21 +9,19 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.fragment.user.LoginFragment;
-import com.pro.bityard.fragment.user.RegisterFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
-public class UserActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity {
     private static final String TYPE = "USER_TYPE";
     private String type;
 
     private FragmentTransaction ft;
     //登录页面
     private LoginFragment loginFragment;
-    //注册页面
-    private RegisterFragment registerFragment;
+
 
 
 
@@ -34,7 +32,7 @@ public class UserActivity extends BaseActivity {
     }
 
     public static void enter(Context context, String type) {
-        Intent intent = new Intent(context, UserActivity.class);
+        Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra(TYPE, type);
         context.startActivity(intent);
     }
@@ -51,21 +49,11 @@ public class UserActivity extends BaseActivity {
 
         if (type.equals(IntentConfig.Keys.KEY_LOGIN)) {
             addLoginFragment();
-        }else if (type.equals(IntentConfig.Keys.KEY_REGISTER)){
-            addRegisterFragment();
         }
 
 
     }
 
-    private void addRegisterFragment() {
-        String name = RegisterFragment.class.getSimpleName();
-        registerFragment = new RegisterFragment();
-        ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.layout_fragment_containter, registerFragment, name);
-        ft.addToBackStack(name);
-        ft.commitAllowingStateLoss();
-    }
 
 
     private void addLoginFragment() {

@@ -8,6 +8,12 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.pro.bityard.utils.Util;
+import com.pro.switchlibrary.PhotoUtils;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class NetManger {
 
@@ -17,7 +23,7 @@ public class NetManger {
     public static String SUCCESS = "success";
     public static String FAILURE = "failure";
 
-    private String BASE_URL = "https://www.bityard.com/";
+    public static String BASE_URL = "http://test.bityard.com/";
 
 
     public static NetManger getInstance() {
@@ -27,6 +33,7 @@ public class NetManger {
 
         return instance;
     }
+
     //获取国家code
     public void countryCode(OnNetResult onNetResult) {
 
@@ -53,15 +60,44 @@ public class NetManger {
                 });
 
     }
-    //登录
-    public void login(String vHash,String contryCode,String username,String password,String geetestToken,OnNetResult onNetResult) {
 
-        OkGo.<String>post(BASE_URL+"api/sso/user_login_check")
-                .params("vHash",vHash)
+    StringBuilder stringBuilder=new StringBuilder();
+
+    //登录
+    public void login(HashMap map,String vHash,String contryCode,String username,String password,String geetestToken,OnNetResult onNetResult) {
+
+
+        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+
+        while (iterator.hasNext()) {
+            Map.Entry<String, String> next = iterator.next();
+            String key = next.getKey();
+            String value = (String) next.getValue();
+            stringBuilder.append((key+"="+value+"&"));
+        }
+
+
+
+        Log.d("print", "login: "+("?"+stringBuilder.toString()));
+
+
+
+
+        String url=BASE_URL+"api/sso/user_login_check"
+             /*   +"?vHash="+vHash
+                //+"&contryCode="+contryCode
+                +"&username="+username
+                +"&password="+password
+                +"&geetestToken="+geetestToken*/;
+
+        Log.d("print", "login:65:  "+url);
+
+        OkGo.<String>post(url+"?"+stringBuilder.toString())
+               /* .params("vHash",vHash)
                 .params("contryCode",contryCode)
                 .params("username",username)
                 .params("password",password)
-                .params("geetestToken",geetestToken)
+                .params("geetestToken",geetestToken)*/
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
@@ -110,4 +146,12 @@ public class NetManger {
                 });
 
     }
+
+    public void  getURL(String...value){
+
+
+
+    }
+
+
 }

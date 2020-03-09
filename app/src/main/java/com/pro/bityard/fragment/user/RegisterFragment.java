@@ -3,32 +3,22 @@ package com.pro.bityard.fragment.user;
 import android.view.View;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.RegisterActivity;
 import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.view.NoScrollViewPager;
 
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
-public class LoginFragment extends BaseFragment implements View.OnClickListener {
+public class RegisterFragment extends BaseFragment implements View.OnClickListener {
 
     @BindView(R.id.viewPager)
     NoScrollViewPager viewPager;
 
 
-
-
-
-
-
-
-
-
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_login;
+        return R.layout.fragment_register;
     }
 
     @Override
@@ -49,8 +39,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
     private void initViewPager(ViewPager viewPager) {
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
-        myPagerAdapter.addFragment(new EmailLoginFragment(viewPager));
-        myPagerAdapter.addFragment(new MobileLoginFragment(viewPager));
+        myPagerAdapter.addFragment(new EmailRegisterFragment(viewPager));
+        myPagerAdapter.addFragment(new MobileRegisterFragment(viewPager));
         viewPager.setAdapter(myPagerAdapter);
     }
 
@@ -66,17 +56,13 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:
+            case R.id.text_right:
                 getActivity().finish();
                 break;
-            case R.id.text_right:
-                RegisterActivity.enter(getContext(), IntentConfig.Keys.KEY_REGISTER);
-                break;
-
         }
     }
 }
