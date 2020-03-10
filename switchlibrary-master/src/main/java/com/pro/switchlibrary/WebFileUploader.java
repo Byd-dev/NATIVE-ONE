@@ -86,7 +86,6 @@ public class WebFileUploader {
 
     public void onResult(int requestCode, int resultCode, Intent intent) {
 
-        Log.d("print", "onResult: "+requestCode+"   ---   "+resultCode );
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

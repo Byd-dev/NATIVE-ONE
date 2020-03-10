@@ -11,6 +11,7 @@ public class AppConfig {
 
     public static final String ONIDSAVALID= "OnIdsAvalid"; //安全认证信息
     public static final String LOCATION= "location"; //安全认证信息
+    public static final String COUNTRY_NAME= "country_name"; //安全认证信息
 
     public  static  final  String PARAM_NAME="name";
     public  static  final  String PARAM_MAC="mac";

@@ -67,7 +67,6 @@ public class SplashActivity extends Activity implements OnResultBack {
 
     private void init() {
 
-        SPUtils.init(this);
 
         SwitchMainEnter.getInstance().initOCR(this, BuildConfig.AK, BuildConfig.SK);
 

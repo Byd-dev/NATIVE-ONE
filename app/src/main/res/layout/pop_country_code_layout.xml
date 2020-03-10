@@ -51,20 +51,38 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/bar_height"
-        android:text="常用国家"
-        android:gravity="left|center_vertical"
-        android:textSize="@dimen/hint_size"
-        android:textColor="@color/color_hint"
-        android:paddingLeft="@dimen/margin_15"
         android:background="@color/color_country_code"
-        />
+        android:gravity="left|center_vertical"
+        android:paddingLeft="@dimen/margin_15"
+        android:text="常用国家"
+        android:textColor="@color/color_hint"
+        android:textSize="@dimen/hint_size" />
 
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/text_try"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_try"
+            android:layout_centerInParent="true"
+            android:textColor="@color/color_hint"
+            android:textSize="15sp"
+            android:padding="@dimen/margin_40"
+            android:visibility="gone"
+            />
+
+
+
+    </RelativeLayout>
 
 
 </LinearLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BITYARD</string>
+    <string name="app_name">Bityard</string>
 
     <string name="tab_one">首页</string>
     <string name="tab_two">行情</string>
@@ -28,5 +28,7 @@
     <string name="text_mobile_code">手机验证码</string>
     <string name="text_mobile_code_input">请输入手机验证码</string>
     <string name="text_email_register">邮箱注册-></string>
+    <string name="text_try">点击重试</string>
+    <string name="text_register_success">注册成功!</string>
 
 </resources>

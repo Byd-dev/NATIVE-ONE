@@ -1,37 +1,31 @@
 package com.pro.bityard.fragment.user;
 
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Base64;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geetest.sdk.GT3ErrorBean;
+import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.api.Gt3Util;
-import com.pro.bityard.api.HttpUtils;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.utils.Util;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Random;
+import com.pro.switchlibrary.SPUtils;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
@@ -53,8 +47,16 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     @BindView(R.id.edit_pass)
     EditText edit_password;
 
+    @BindView(R.id.text_err)
+    TextView text_err;
+
+    @BindView(R.id.text_forget_pass)
+    TextView text_forget_pass;
+    private int count_pass=0;
+
     private String geetestToken = null;
-    private String keyHash;
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,6 +84,32 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         view.findViewById(R.id.btn_login).setOnClickListener(this);
 
 
+        //检测错误提示是否显示
+        edit_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (count_pass>=1&&s.length()!=0){
+                    text_err.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        //忘记密码下划线
+        text_forget_pass.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        text_forget_pass.getPaint().setAntiAlias(true);//抗锯齿
+
+
+
     }
 
 
@@ -98,8 +126,12 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initData() {
 
-    }
+        LoginEntity.UserBean data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.UserBean.class);
+        if (data!=null){
+            edit_account.setText(data.getEmail());
+        }
 
+    }
 
 
     private int isHide = 0;
@@ -127,18 +159,6 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
             case R.id.btn_login:
 
 
-
-
-
-                String strRand = "";
-                for (int i = 0; i < 32; i++) {
-                    strRand += String.valueOf((int) (Math.random() * 10));
-                }
-
-                keyHash = strRand;
-
-                Log.d("print", "onClick: "+keyHash);
-
                 String account_value = edit_account.getText().toString();
                 String pass_value = edit_password.getText().toString();
 
@@ -160,24 +180,29 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                     @Override
                     public void onSuccessResult(String result) {
-                        HashMap<String,String> map=new HashMap<>();
+                        ArrayMap<String, String> map = new ArrayMap<>();
 
-                        map.put("vHash",keyHash);
-                        map.put("username",keyHash);
-                        map.put("username",account_value);
-                        map.put("password",pass_value);
-                        map.put("geetestToken",geetestToken);
+                        map.put("vHash", Util.Random32());
+                        map.put("username", account_value);
+                        map.put("password", pass_value);
+                        map.put("geetestToken", geetestToken);
 
-
-
-                        NetManger.getInstance().login(map,keyHash, null, account_value, pass_value, geetestToken, new OnNetResult() {
+                        NetManger.getInstance().login(map, new OnNetResult() {
                             @Override
                             public void onNetResult(String state, Object response) {
                                 if (state.equals(BUSY)) {
                                     showProgressDialog();
                                 } else if (state.equals(SUCCESS)) {
                                     dismissProgressDialog();
-                                    Log.d("print", "onNetResult:116:登录返回:  " + response.toString());
+                                    LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
+                                    if (loginEntity.getCode()==200){
+                                        SPUtils.putData(AppConfig.LOGIN,loginEntity.getUser());
+                                        getActivity().finish();
+
+                                    }else if (loginEntity.getCode()==401){
+                                        count_pass++;
+                                        text_err.setVisibility(View.VISIBLE);
+                                    }
                                 } else if (state.equals(FAILURE)) {
                                     dismissProgressDialog();
                                 }

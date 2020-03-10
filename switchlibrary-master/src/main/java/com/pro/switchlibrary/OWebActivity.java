@@ -415,7 +415,6 @@ public class OWebActivity extends BaseActivity {
                 stringBuilder.append(latitude).append(",").append(longitude);
                 String s = stringBuilder.toString();
                 SPUtils.putString(AppConfig.LOCATION, s);
-                Log.d("print", "onCreate:117:   " + latitude + "   " + longitude);
                 //Toast.makeText(context, address.getCountryName() + address.getAdminArea() + address.getLocality()  + address.getSubLocality() + address.getFeatureName(), Toast.LENGTH_LONG).show();
                 System.out.println(address.getAddressLine(0) + " " + address.getAddressLine(1) + " " + address.getAddressLine(2) + " " + address.getFeatureName());
 

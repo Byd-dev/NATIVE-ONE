@@ -117,6 +117,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             findViewById(R.id.text_jump).setOnClickListener(this);
             btn_sure.setOnClickListener(this);
 
+            GuideActivity.this.finish();
+
         }
     }
 

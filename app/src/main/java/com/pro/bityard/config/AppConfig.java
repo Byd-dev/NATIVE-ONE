@@ -6,6 +6,12 @@ public class AppConfig {
     /*缓存国家代码*/
     public static final String COUNTRY_CODE = "country"; //安全认证信息
 
-
-
+    /*用户登录*/
+    public static final String LOGIN = "login";
+    /*用户区号*/
+    public static final String USER_COUNTRY_CODE = "user_country_code";
+    /*用户国家*/
+    public static final String USER_COUNTRY_NAME = "user_country_name";
+    /*手机号*/
+    public static final String USER_MOBILE = "user_mobile";
 }

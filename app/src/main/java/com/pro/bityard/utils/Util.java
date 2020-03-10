@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 
 public class Util {
 
@@ -46,5 +47,14 @@ public class Util {
             result = null;
         }
         return result;
+    }
+
+    public static String Random32(){
+        String strRand = "";
+        for (int i = 0; i < 32; i++) {
+            strRand += String.valueOf((int) (Math.random() * 10));
+        }
+
+        return strRand;
     }
 }

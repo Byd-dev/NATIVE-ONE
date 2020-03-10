@@ -2,6 +2,7 @@ package com.pro.bityard.api;
 
 
 import android.text.TextUtils;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.lzy.okgo.OkGo;
@@ -24,6 +25,7 @@ public class NetManger {
     public static String FAILURE = "failure";
 
     public static String BASE_URL = "http://test.bityard.com/";
+    private String substring_url;
 
 
     public static NetManger getInstance() {
@@ -37,7 +39,7 @@ public class NetManger {
     //获取国家code
     public void countryCode(OnNetResult onNetResult) {
 
-        OkGo.<String>get(BASE_URL+"api/home/country/list")
+        OkGo.<String>get(BASE_URL + "api/home/country/list")
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
@@ -52,6 +54,7 @@ public class NetManger {
                             onNetResult.onNetResult(SUCCESS, response.body());
                         }
                     }
+
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
@@ -61,95 +64,105 @@ public class NetManger {
 
     }
 
-    StringBuilder stringBuilder=new StringBuilder();
 
     //登录
-    public void login(HashMap map,String vHash,String contryCode,String username,String password,String geetestToken,OnNetResult onNetResult) {
+    public void login(ArrayMap map, OnNetResult onNetResult) {
 
+        OkGo.<String>post(getURL("api/sso/user_login_check",map))
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, null);
 
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (!TextUtils.isEmpty(response.body())) {
+                            onNetResult.onNetResult(SUCCESS, response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, response.body());
+                    }
+                });
+
+    }
+
+    //获取验证码
+    public void getCode(ArrayMap map,OnNetResult onNetResult) {
+
+        OkGo.<String>post(getURL("api/system/sendEmail",map) )
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, null);
+
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (!TextUtils.isEmpty(response.body())) {
+                            onNetResult.onNetResult(SUCCESS, response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, response.body());
+                    }
+                });
+
+    }
+
+    //获取验证码
+    public void register(ArrayMap map,OnNetResult onNetResult) {
+
+        OkGo.<String>post(getURL("api/register/submit",map) )
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, null);
+
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (!TextUtils.isEmpty(response.body())) {
+                            onNetResult.onNetResult(SUCCESS, response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, response.body());
+                    }
+                });
+
+    }
+
+    //URL拼接参数
+    public String getURL(String url,ArrayMap map) {
+        String substring_url = null;
         Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-
+        StringBuilder stringBuilder = new StringBuilder();
         while (iterator.hasNext()) {
             Map.Entry<String, String> next = iterator.next();
             String key = next.getKey();
-            String value = (String) next.getValue();
-            stringBuilder.append((key+"="+value+"&"));
+            String value = next.getValue();
+            StringBuilder append = stringBuilder.append(key).append("=").append(value).append("&");
+            substring_url = append.toString().substring(0, append.toString().length() - 1);
         }
-
-
-
-        Log.d("print", "login: "+("?"+stringBuilder.toString()));
-
-
-
-
-        String url=BASE_URL+"api/sso/user_login_check"
-             /*   +"?vHash="+vHash
-                //+"&contryCode="+contryCode
-                +"&username="+username
-                +"&password="+password
-                +"&geetestToken="+geetestToken*/;
-
-        Log.d("print", "login:65:  "+url);
-
-        OkGo.<String>post(url+"?"+stringBuilder.toString())
-               /* .params("vHash",vHash)
-                .params("contryCode",contryCode)
-                .params("username",username)
-                .params("password",password)
-                .params("geetestToken",geetestToken)*/
-                .execute(new StringCallback() {
-                    @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                        onNetResult.onNetResult(BUSY, null);
-
-                    }
-
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        if (!TextUtils.isEmpty(response.body())) {
-                            onNetResult.onNetResult(SUCCESS, response.body());
-                        }
-                    }
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        onNetResult.onNetResult(FAILURE, response.body());
-                    }
-                });
-
-    }
-    //获取国家code
-    public void register(OnNetResult onNetResult) {
-
-        OkGo.<String>get(BASE_URL+"api/home/country/list")
-                .execute(new StringCallback() {
-                    @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                        onNetResult.onNetResult(BUSY, null);
-
-                    }
-
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        if (!TextUtils.isEmpty(response.body())) {
-                            onNetResult.onNetResult(SUCCESS, response.body());
-                        }
-                    }
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        onNetResult.onNetResult(FAILURE, response.body());
-                    }
-                });
-
-    }
-
-    public void  getURL(String...value){
-
-
+        String url_result = BASE_URL + url + "?" + substring_url;
+        return url_result;
 
     }
 
