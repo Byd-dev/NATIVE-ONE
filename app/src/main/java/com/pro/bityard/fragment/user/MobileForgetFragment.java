@@ -1,18 +1,15 @@
 package com.pro.bityard.fragment.user;
 
-import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -21,7 +18,6 @@ import android.widget.Toast;
 import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
-import com.pro.bityard.activity.ForgetActivity;
 import com.pro.bityard.adapter.CountryCodeAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
@@ -29,16 +25,17 @@ import com.pro.bityard.api.OnGtUtilResult;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.LoginEntity;
-import com.pro.bityard.utils.Util;
+import com.pro.bityard.entity.TipEntity;
+import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -48,7 +45,10 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class MobileLoginFragment extends BaseFragment implements View.OnClickListener {
+public class MobileForgetFragment extends BaseFragment implements View.OnClickListener {
+
+
+    private ViewPager viewPager;
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
 
@@ -57,38 +57,31 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
     @BindView(R.id.text_countryCode)
     TextView text_countryCode;
-
     @BindView(R.id.edit_account)
     EditText edit_account;
-    @BindView(R.id.edit_pass)
-    EditText edit_password;
 
-    private ViewPager viewPager;
+    @BindView(R.id.edit_code)
+    EditText edit_code;
+
+    @BindView(R.id.text_getCode)
+    TextView text_getCode;
     private CountryCodeEntity countryCodeEntity;
-
-
-    @BindView(R.id.text_err)
-    TextView text_err;
-
-    @BindView(R.id.text_forget_pass)
-    TextView text_forget_pass;
-    private int count_pass = 0;
-    private String geetestToken = null;
-
-    @BindView(R.id.img_eye)
-    ImageView img_eye;
     //地区的适配器
     private CountryCodeAdapter countryCodeAdapter;
 
     private List<CountryCodeEntity.DataBean> searchData;
 
+    private String geetestToken = null;
 
-    public MobileLoginFragment() {
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //初始化G3util
+        Gt3Util.getInstance().init(getContext());
     }
 
-
-    public MobileLoginFragment(ViewPager viewPager) {
+    public MobileForgetFragment(ViewPager viewPager) {
         this.viewPager = viewPager;
     }
 
@@ -98,53 +91,24 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-
     @Override
     protected void initView(View view) {
 
-        view.findViewById(R.id.text_email_login).setOnClickListener(this);
+        view.findViewById(R.id.text_email_forget).setOnClickListener(this);
+
+
+        view.findViewById(R.id.btn_submit).setOnClickListener(this);
         view.findViewById(R.id.layout_country).setOnClickListener(this);
-        view.findViewById(R.id.text_forget_pass).setOnClickListener(this);
 
-        view.findViewById(R.id.btn_login).setOnClickListener(this);
-        img_eye.setOnClickListener(this);
+        text_getCode.setOnClickListener(this);
 
-        //检测错误提示是否显示
-        edit_password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count_pass >= 1 && s.length() != 0) {
-                    text_err.setVisibility(View.GONE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        //忘记密码下划线
-        text_forget_pass.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-        text_forget_pass.getPaint().setAntiAlias(true);//抗锯齿
 
     }
+
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_mobile_login;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //初始化G3util
-        Gt3Util.getInstance().init(getContext());
+        return R.layout.fragment_mobile_forget;
     }
 
     @Override
@@ -165,7 +129,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
         //获取国家code
         countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
         if (countryCodeEntity == null) {
-            NetManger.getInstance().getRequest("api/home/country/list",null,new OnNetResult() {
+            NetManger.getInstance().getRequest("api/home/country/list", null, new OnNetResult() {
                 @Override
                 public void onNetResult(String state, Object response) {
                     if (state.equals(BUSY)) {
@@ -202,114 +166,60 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private int isHide = 0;
 
     @Override
     public void onClick(View v) {
+        String account_value = edit_account.getText().toString();
+        String country_code = text_countryCode.getText().toString();
+
         switch (v.getId()) {
-            case R.id.img_eye:
-                if (isHide == 0) {
-                    edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    isHide = 1;
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                } else if (isHide == 1) {
-                    edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    isHide = 0;
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-
-
-                }
-                break;
-
-            case R.id.text_email_login:
-                viewPager.setCurrentItem(0);
-                break;
-
             case R.id.layout_country:
                 countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
                 showEditPopWindow(countryCodeEntity);
                 break;
-            case R.id.btn_login:
+
+            case R.id.text_email_forget:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.text_getCode:
+                if (account_value.equals("")) {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_input_number), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                getCode(account_value, country_code);
 
 
-                String account_value = edit_account.getText().toString();
-                String pass_value = edit_password.getText().toString();
-                String code_value = text_countryCode.getText().toString();
+                break;
+
+            case R.id.btn_submit:
+                //1  人机  2 发送验证码  3 验证验证码 4 验证账号 5改密码
+
+//获取到父parentFragment
+
+                viewPager.setCurrentItem(2);
+                setToken("tokenValue");
+
+
+                String code_value = edit_code.getText().toString();
 
                 if (account_value.equals("")) {
                     Toast.makeText(getContext(), getResources().getString(R.string.text_input_number), Toast.LENGTH_SHORT).show();
                     return;
-                } else if (pass_value.equals("")) {
-                    Toast.makeText(getContext(), getResources().getString(R.string.text_input_pass), Toast.LENGTH_SHORT).show();
+                } else if (code_value.equals("")) {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_mobile_code_input), Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
-                Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
-
-                    @Override
-                    public void onApi1Result(String result) {
-                        geetestToken = result;
-                    }
-
-                    @Override
-                    public void onSuccessResult(String result) {
-                        ArrayMap<String, String> map = new ArrayMap<>();
-
-                        map.put("vHash", Util.Random32());
-                        map.put("username", (code_value + account_value));//默认加上区号
-                        map.put("password", pass_value);
-                        map.put("contryCode", code_value);
-                        map.put("geetestToken", geetestToken);
-
-                        NetManger.getInstance().postRequest("api/sso/user_login_check",map, new OnNetResult() {
-                            @Override
-                            public void onNetResult(String state, Object response) {
-                                if (state.equals(BUSY)) {
-                                    showProgressDialog();
-                                } else if (state.equals(SUCCESS)) {
-                                    Log.d("print", "onNetResult:268:  "+response.toString());
-                                    dismissProgressDialog();
-                                    LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
-                                    if (loginEntity.getCode() == 200) {
-                                        SPUtils.putData(AppConfig.LOGIN, loginEntity.getUser());
-                                        getActivity().finish();
-                                        //缓存上一次登录成功的区号和地址
-                                        SPUtils.putString(AppConfig.USER_COUNTRY_CODE, text_countryCode.getText().toString());
-                                        SPUtils.putString(AppConfig.USER_COUNTRY_NAME, text_countryName.getText().toString());
-                                        SPUtils.putString(AppConfig.USER_MOBILE, edit_account.getText().toString());
-
-
-                                    } else if (loginEntity.getCode() == 401) {
-                                        count_pass++;
-                                        text_err.setVisibility(View.VISIBLE);
-                                    } else if (loginEntity.getCode() == 500) {
-                                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
-                                    }
-                                } else if (state.equals(FAILURE)) {
-                                    dismissProgressDialog();
-                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip),Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        });
-
-
-                    }
-
-                    @Override
-                    public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
-                        Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
-                    }
-                });
+                //1验证验证码
+                checkCode(country_code, account_value, code_value);
 
 
                 break;
-            case R.id.text_forget_pass:
-                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET);
-                break;
+
+
         }
     }
+
 
     //国际区号选择
     private void showEditPopWindow(CountryCodeEntity data) {
@@ -341,7 +251,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             text_try.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NetManger.getInstance().getRequest("api/home/country/list",null,new OnNetResult() {
+                    NetManger.getInstance().getRequest("api/home/country/list", null, new OnNetResult() {
                         @Override
                         public void onNetResult(String state, Object response) {
                             if (state.equals(BUSY)) {
@@ -427,6 +337,171 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             }
         });
     }
+
+
+    /*1获取验证码*/
+    private void getCode(String account_value, String country_code) {
+
+
+        Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
+
+            @Override
+            public void onApi1Result(String result) {
+                geetestToken = result;
+
+            }
+
+            @Override
+            public void onSuccessResult(String result) {
+                ArrayMap<String, String> map = new ArrayMap<>();
+
+                map.put("account", country_code + account_value);
+                map.put("type", "FORGOT_PASSWORD");
+                map.put("geetestToken", geetestToken);
+                NetManger.getInstance().postRequest("api/system/sendSMS", map, new OnNetResult() {
+                    @Override
+                    public void onNetResult(String state, Object response) {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                            if (tipEntity.getCode() == 200) {
+                                mHandler.sendEmptyMessage(0);
+                                Message msg = new Message();
+                                mHandler.sendMessage(msg);
+                            } else if (tipEntity.getCode() == 500) {
+                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
+                Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+    }
+
+    /*2校验手机验证码*/
+    private void checkCode(String country_code, String account_value, String code_value) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+
+        map.put("account", country_code + account_value);
+        map.put("type", "FORGOT_PASSWORD");
+        map.put("code", code_value);
+
+        NetManger.getInstance().postRequest("api/system/checkSMS", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
+                        //2 验证账号
+                        checkAccount(country_code, account_value);
+
+                    } else {
+                        Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
+            }
+        });
+
+    }
+
+    /*3账号验证*/
+    private void checkAccount(String country_code, String account_value) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("account", account_value);
+
+        NetManger.getInstance().postRequest("api/forgot/account-verify", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 200 && tipEntity.isVerify_email() == true) {
+                        //3 安全验证
+                        checkSafe(country_code, account_value);
+
+
+                    } else {
+                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+
+                    }
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
+            }
+        });
+
+    }
+
+    /*4安全验证*/
+    private void checkSafe(String country_code, String account_value) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("account", country_code + account_value);
+        NetManger.getInstance().postRequest("api/forgot/securify-verify", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 200) {
+                        String token = tipEntity.getToken();
+                        viewPager.setCurrentItem(2);
+
+
+                    } else {
+                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+
+                    }
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
+            }
+        });
+    }
+
+
+    /*获取倒计时*/
+    Handler mHandler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case 0:
+                    SmsTimeUtils.check(SmsTimeUtils.SETTING_FINANCE_ACCOUNT_TIME, false);
+                    SmsTimeUtils.startCountdown(text_getCode);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    };
+
+
+
 
     @Override
     public void onDestroy() {

@@ -8,7 +8,6 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.fragment.user.LoginFragment;
 import com.pro.bityard.fragment.user.RegisterFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
@@ -28,7 +27,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected int setContentLayout() {
-        return R.layout.activity_user;
+        return R.layout.activity_content;
     }
 
     public static void enter(Context context, String type) {

@@ -56,6 +56,9 @@ public class AppContext extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        SPUtils.init(this);
+
         //换肤的初始化
         SkinCompatManager.withoutActivity(this)
                 .addInflater(new SkinAppCompatViewInflater())           // 基础控件换肤初始化
@@ -87,7 +90,6 @@ public class AppContext extends Application {
 
         appContext = this;
 
-        SPUtils.init(this);
 
         mContext = this;
 

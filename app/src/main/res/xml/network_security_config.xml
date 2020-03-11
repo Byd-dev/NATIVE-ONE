@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" /><!--Android 9.0 以上获取不到数据http请求-->
+</network-security-config>

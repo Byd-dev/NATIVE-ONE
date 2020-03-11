@@ -47,6 +47,8 @@ public abstract class BaseFragment extends Fragment {
     private boolean isFirstLoad = true;//是否是第一次加载数据
     protected boolean mIsViewCreated = false;
 
+    private String token;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -173,6 +175,16 @@ public abstract class BaseFragment extends Fragment {
 //        mlooper.quit();
 //        Looper.loop();
     }
+
+    public void setToken(String token){
+        this.token=token;
+    }
+
+    public String getToken(){
+        return token;
+    }
+
+
 
 
     protected abstract void intPresenter();

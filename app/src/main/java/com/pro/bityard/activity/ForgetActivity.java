@@ -8,20 +8,19 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.fragment.user.LoginFragment;
+import com.pro.bityard.fragment.user.ForgetFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
-public class LoginActivity extends BaseActivity {
+public class ForgetActivity extends BaseActivity {
     private static final String TYPE = "USER_TYPE";
     private String type;
 
     private FragmentTransaction ft;
-    //登录页面
-    private LoginFragment loginFragment;
-
+    //注册页面
+    private ForgetFragment forgetFragment;
 
 
 
@@ -32,7 +31,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public static void enter(Context context, String type) {
-        Intent intent = new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, ForgetActivity.class);
         intent.putExtra(TYPE, type);
         context.startActivity(intent);
     }
@@ -47,23 +46,24 @@ public class LoginActivity extends BaseActivity {
         type = intent.getStringExtra(TYPE);
 
 
-        if (type.equals(IntentConfig.Keys.KEY_LOGIN)) {
-            addLoginFragment();
+        if (type.equals(IntentConfig.Keys.KEY_FORGET)) {
+            addForgetFragment();
         }
 
 
     }
 
-
-
-    private void addLoginFragment() {
-        String name = LoginFragment.class.getSimpleName();
-        loginFragment = new LoginFragment();
+    private void addForgetFragment() {
+        String name = ForgetFragment.class.getSimpleName();
+        forgetFragment = new ForgetFragment();
         ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.layout_fragment_containter, loginFragment, name);
+        ft.add(R.id.layout_fragment_containter, forgetFragment, name);
         ft.addToBackStack(name);
         ft.commitAllowingStateLoss();
     }
+
+
+
 
 
     @Override

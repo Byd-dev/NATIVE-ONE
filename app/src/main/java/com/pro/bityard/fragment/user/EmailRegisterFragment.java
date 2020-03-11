@@ -70,9 +70,9 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     protected void initView(View view) {
 
         view.findViewById(R.id.text_mobile_login).setOnClickListener(this);
+        view.findViewById(R.id.btn_login).setOnClickListener(this);
 
         img_eye.setOnClickListener(this);
-        view.findViewById(R.id.btn_login).setOnClickListener(this);
 
         text_getCode.setOnClickListener(this);
 
@@ -128,7 +128,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                     return;
                 }
 
-                getCode(account_value);
+                getCode( account_value);
 
 
                 break;
@@ -157,7 +157,8 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 map.put("password", pass_value);
 
 
-                register(map);
+                checkCode(account_value, code_value, map);
+
 
 
                 break;
@@ -165,9 +166,42 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
         }
     }
 
+    /*校验验证码*/
+    private void checkCode(String account_value, String code_value, ArrayMap<String, String> register_map) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+
+        map.put("account", account_value);
+        map.put("type", "REGISTER");
+        map.put("code", code_value);
+
+        NetManger.getInstance().postRequest("api/system/checkEmail", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
+                        //成功了再注册
+                        Log.d("print", "onNetResult: 238: " + tipEntity);
+                        register(register_map);
+                    } else {
+                        Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
+
+                    }
+
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
+            }
+        });
+
+    }
+
     private void register(ArrayMap<String, String> map) {
 
-        NetManger.getInstance().register(map, new OnNetResult() {
+        NetManger.getInstance().postRequest("api/register/submit",map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -207,7 +241,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 map.put("account", account_value);
                 map.put("type", "REGISTER");
                 map.put("geetestToken", geetestToken);
-                NetManger.getInstance().getCode(map, new OnNetResult() {
+                NetManger.getInstance().postRequest("api/system/sendEmail",map, new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
                         if (state.equals(BUSY)) {
@@ -219,6 +253,8 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                                 mHandler.sendEmptyMessage(0);
                                 Message msg = new Message();
                                 mHandler.sendMessage(msg);
+                            } else if (tipEntity.getCode() == 500) {
+                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
 
                         } else if (state.equals(FAILURE)) {
@@ -230,6 +266,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
 
             @Override
             public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
+                Toast.makeText(getContext(),gt3ErrorBean.errorDesc,Toast.LENGTH_SHORT).show();
 
             }
         });

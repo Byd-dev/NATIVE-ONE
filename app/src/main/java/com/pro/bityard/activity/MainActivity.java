@@ -73,16 +73,16 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected void initData() {
         //获取国家code
-        NetManger.getInstance().countryCode(new OnNetResult() {
+        NetManger.getInstance().getRequest("api/home/country/list",null,new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)){
+                if (state.equals(BUSY)) {
 
-                } else if (state.equals(SUCCESS)){
+                } else if (state.equals(SUCCESS)) {
                     CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                    SPUtils.putData(AppConfig.COUNTRY_CODE,countryCodeEntity);
+                    SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
 
-                }else if (state.equals(FAILURE)){
+                } else if (state.equals(FAILURE)) {
 
                 }
             }

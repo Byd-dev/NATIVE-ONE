@@ -30,7 +30,7 @@ public class UserActivity extends BaseActivity {
 
     @Override
     protected int setContentLayout() {
-        return R.layout.activity_user;
+        return R.layout.activity_content;
     }
 
     public static void enter(Context context, String type) {

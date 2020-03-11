@@ -11,8 +11,8 @@ public class IntentConfig {
         public static final String KEY_LOGIN = "LOGIN";
         //选择地区
         public static final String KEY_REGISTER = "REGISTER";
-
-
+        //忘记密码
+        public static final String KEY_FORGET = "FORGET";
         /**手机号码*/
         public static final String PHONE_NUMBER = "PHONE_NUMBER";
 

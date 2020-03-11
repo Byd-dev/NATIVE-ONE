@@ -17,12 +17,14 @@ import android.widget.Toast;
 import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
+import com.pro.bityard.activity.ForgetActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
@@ -52,10 +54,9 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
     @BindView(R.id.text_forget_pass)
     TextView text_forget_pass;
-    private int count_pass=0;
+    private int count_pass = 0;
 
     private String geetestToken = null;
-
 
 
     @Override
@@ -80,6 +81,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
         view.findViewById(R.id.text_mobile_login).setOnClickListener(this);
 
+        view.findViewById(R.id.text_forget_pass).setOnClickListener(this);
+
         img_eye.setOnClickListener(this);
         view.findViewById(R.id.btn_login).setOnClickListener(this);
 
@@ -93,7 +96,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count_pass>=1&&s.length()!=0){
+                if (count_pass >= 1 && s.length() != 0) {
                     text_err.setVisibility(View.GONE);
                 }
             }
@@ -107,7 +110,6 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         //忘记密码下划线
         text_forget_pass.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         text_forget_pass.getPaint().setAntiAlias(true);//抗锯齿
-
 
 
     }
@@ -127,7 +129,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     protected void initData() {
 
         LoginEntity.UserBean data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.UserBean.class);
-        if (data!=null){
+        if (data != null) {
             edit_account.setText(data.getEmail());
         }
 
@@ -170,7 +172,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                     return;
                 }
 
-
+                //注册需要人机验证
                 Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
 
                     @Override
@@ -187,24 +189,31 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                         map.put("password", pass_value);
                         map.put("geetestToken", geetestToken);
 
-                        NetManger.getInstance().login(map, new OnNetResult() {
+                        NetManger.getInstance().postRequest("api/sso/user_login_check",map, new OnNetResult() {
                             @Override
                             public void onNetResult(String state, Object response) {
                                 if (state.equals(BUSY)) {
                                     showProgressDialog();
                                 } else if (state.equals(SUCCESS)) {
+                                    Log.d("print", "onNetResult:196:  " + response.toString());
+
                                     dismissProgressDialog();
                                     LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
-                                    if (loginEntity.getCode()==200){
-                                        SPUtils.putData(AppConfig.LOGIN,loginEntity.getUser());
+                                    if (loginEntity.getCode() == 200) {
+                                        SPUtils.putData(AppConfig.LOGIN, loginEntity.getUser());
                                         getActivity().finish();
 
-                                    }else if (loginEntity.getCode()==401){
+                                    } else if (loginEntity.getCode() == 401) {
                                         count_pass++;
                                         text_err.setVisibility(View.VISIBLE);
+                                    } else if (loginEntity.getCode() == 500) {
+                                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                     }
                                 } else if (state.equals(FAILURE)) {
                                     dismissProgressDialog();
+                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+
+
                                 }
                             }
                         });
@@ -214,11 +223,16 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                     @Override
                     public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
+                        Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
 
                     }
                 });
 
 
+                break;
+
+            case R.id.text_forget_pass:
+                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET);
                 break;
 
         }

@@ -15,10 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 public class Gt3Util {
@@ -135,6 +133,7 @@ public class Gt3Util {
             public void onStatistics(String result) {
                 // onGtUtilResult.onGtResult(result);
 
+
                 Log.e(TAG, "onStatistics-->" + result);
             }
 
@@ -194,6 +193,7 @@ public class Gt3Util {
         @Override
         protected JSONObject doInBackground(Void... params) {
             String string = HttpUtils.requestGet(URL_API1);
+
             stringObjectMap = jsonToMap(string);
 
 

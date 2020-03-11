@@ -5,9 +5,7 @@
     android:background="@color/background_maincolor"
     android:orientation="vertical"
     android:overScrollMode="never"
-    android:scrollbars="none"
-
-    >
+    android:scrollbars="none">
 
     <LinearLayout
         android:id="@+id/layout_view"
@@ -22,7 +20,7 @@
             android:layout_marginTop="@dimen/margin_25"
             android:layout_marginRight="@dimen/margin_25"
             android:layout_marginBottom="@dimen/margin_50"
-            android:text="@string/text_register_title"
+            android:text="@string/text_forget"
             android:textColor="@color/text_maincolor"
             android:textSize="24sp" />
         <!--选择国家-->
@@ -58,45 +56,42 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="+"
-                        android:textSize="@dimen/hint_size"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/margin_10"
-                        android:textColor="@color/color_hint"/>
+                        android:text="+"
+                        android:textColor="@color/color_hint"
+                        android:textSize="@dimen/hint_size" />
 
                     <TextView
                         android:id="@+id/text_countryCode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="86"
-                        android:textSize="@dimen/hint_size"
                         android:layout_gravity="center_vertical"
-                        android:textColor="@color/color_hint"/>
+                        android:text="86"
+                        android:textColor="@color/color_hint"
+                        android:textSize="@dimen/hint_size" />
 
                 </LinearLayout>
-
-
 
 
                 <View
                     android:id="@+id/view"
                     android:layout_width="1dp"
                     android:layout_height="15dp"
-                    android:background="@color/color_hint"
-                    android:layout_toRightOf="@id/stay_code"
                     android:layout_centerVertical="true"
-                    />
+                    android:layout_toRightOf="@id/stay_code"
+                    android:background="@color/color_hint" />
 
                 <TextView
                     android:id="@+id/text_CountryName"
                     android:layout_width="wrap_content"
-                    android:layout_toRightOf="@+id/view"
                     android:layout_height="wrap_content"
-                    android:text="中国大陆"
                     android:layout_centerVertical="true"
-                    android:textSize="@dimen/hint_size"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:textColor="@color/color_hint"/>
+                    android:layout_toRightOf="@+id/view"
+                    android:text="中国大陆"
+                    android:textColor="@color/color_hint"
+                    android:textSize="@dimen/hint_size" />
 
 
                 <ImageView
@@ -112,9 +107,7 @@
 
 
         </LinearLayout>
-
-
-        <!--手机号码-->
+        <!--账户-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,7 +139,7 @@
                     android:layout_marginRight="@dimen/margin_10"
                     android:background="@null"
                     android:hint="@string/text_input_number"
-                    android:inputType="number"
+                    android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textColor="@color/text_maincolor"
                     android:textColorHint="@color/color_hint"
@@ -159,7 +152,7 @@
 
         </LinearLayout>
 
-        <!--手机验证码-->
+        <!--邮箱验证码-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -193,7 +186,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="@string/text_mobile_code_input"
-                    android:inputType="number"
+                    android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:textColor="@color/text_maincolor"
                     android:textColorHint="@color/color_hint"
@@ -216,67 +209,10 @@
 
         </LinearLayout>
 
-        <!--密码-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_25"
-            android:layout_marginTop="@dimen/margin_25"
-            android:layout_marginRight="@dimen/margin_25"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_pass"
-                android:textColor="@color/text_maincolor"
-                android:textSize="14sp"
-
-                />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/height_edit"
-                android:layout_marginTop="@dimen/margin_10"
-                android:background="@drawable/bg_shape_edit"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/edit_pass"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginRight="@dimen/margin_10"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:hint="@string/text_input_pass"
-                    android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:textColor="@color/text_maincolor"
-                    android:textColorHint="@color/color_hint"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/hint_size" />
-
-
-                <ImageView
-                    android:id="@+id/img_eye"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="@dimen/margin_15"
-                    android:paddingRight="@dimen/margin_15"
-                    android:src="@mipmap/icon_eye_open" />
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
 
         <!--登录button-->
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_btn"
             android:layout_marginLeft="@dimen/margin_25"
@@ -285,24 +221,22 @@
             android:layout_marginBottom="@dimen/margin_15"
             android:background="@drawable/bg_shape_button"
             android:padding="10dp"
-            android:text="@string/text_register_btn"
+            android:text="@string/text_next"
             android:textColor="@color/color_btn_text"
             android:textSize="16sp"
 
             />
 
+
         <TextView
-            android:id="@+id/text_email_login"
+            android:id="@+id/text_email_forget"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:padding="@dimen/margin_15"
-            android:layout_marginBottom="@dimen/margin_40"
-            android:text="@string/text_email_register"
+            android:text="@string/text_email_forget"
             android:textColor="@color/maincolor"
             android:textSize="16sp" />
 
     </LinearLayout>
-
-
 </ScrollView>

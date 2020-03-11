@@ -62,11 +62,11 @@ public class SwitchMainEnter implements DeviceUtil.AppIdsUpdater {
 
         getLocation(context);
 
-        //初始化设备
-        int i = new DeviceUtil(this).DirectCall(context);
+        //初始化设备 暂时屏蔽 三星闪退
+        /*int i = new DeviceUtil(this).DirectCall(context);
         if (i == 0) {
             new DeviceUtil(this).getDeviceIds(context);
-        }
+        }*/
 
 
         OCR.getInstance(context).initAccessTokenWithAkSk(new OnResultListener<AccessToken>() {
