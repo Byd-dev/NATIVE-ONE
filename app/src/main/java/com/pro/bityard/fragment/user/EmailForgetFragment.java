@@ -20,6 +20,7 @@ import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ForgetActivity;
+import com.pro.bityard.activity.ResetPassActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
@@ -171,7 +172,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                 map.put("account", account_value);
                 map.put("type", "FORGOT_PASSWORD");
                 map.put("geetestToken", geetestToken);
-                NetManger.getInstance().postRequest("api/system/sendEmail", map, new OnNetResult() {
+                NetManger.getInstance().postRequest("/api/system/sendEmail", map, new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
                         if (state.equals(BUSY)) {
@@ -211,7 +212,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
         map.put("type", "FORGOT_PASSWORD");
         map.put("code", code_value);
 
-        NetManger.getInstance().postRequest("api/system/checkEmail", map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/system/checkEmail", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -241,7 +242,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("account", account_value);
 
-        NetManger.getInstance().postRequest("api/forgot/account-verify", map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/forgot/account-verify", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -270,7 +271,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
     private void checkSafe(String account_value) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("account", account_value);
-        NetManger.getInstance().postRequest("api/forgot/securify-verify", map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/forgot/securify-verify", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -280,7 +281,8 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 200) {
                         String token = tipEntity.getToken();
-                        viewPager.setCurrentItem(2);
+                        ResetPassActivity.enter(getContext(), token);
+                        getActivity().finish();
 
 
                     } else {

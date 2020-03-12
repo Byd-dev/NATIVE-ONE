@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 public class DoGet {
 
     private static String KEY = "42980fcm2d3409d!";
-    private static String HEX_KEY = "1111111122222222";
+    private static String HEX_KEY = AppConfig.S_KEY;
     public static String RGEX = "@@(.*?)@@";
     private String macAddress;
 

@@ -36,11 +36,11 @@ public class Gt3Util {
     /**
      * api1，需替换成自己的服务器URL
      */
-    private static final String URL_API1 = NetManger.BASE_URL + "api/geetest/api1";
+    private static final String URL_API1 = NetManger.BASE_URL + "/api/geetest/api1";
     /**
      * api2，需替换成自己的服务器URL
      */
-    private static final String URL_API2 = NetManger.BASE_URL + "api/geetest/api2";
+    private static final String URL_API2 = NetManger.BASE_URL + "/api/geetest/api2";
     private String TAG = "abcdefghijklmn";
 
 

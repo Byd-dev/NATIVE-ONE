@@ -189,7 +189,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                         map.put("password", pass_value);
                         map.put("geetestToken", geetestToken);
 
-                        NetManger.getInstance().postRequest("api/sso/user_login_check",map, new OnNetResult() {
+                        NetManger.getInstance().postRequest("/api/sso/user_login_check",map, new OnNetResult() {
                             @Override
                             public void onNetResult(String state, Object response) {
                                 if (state.equals(BUSY)) {
@@ -232,7 +232,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.text_forget_pass:
-                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET);
+                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET,0);
                 break;
 
         }

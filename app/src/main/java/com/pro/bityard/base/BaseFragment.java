@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.pro.bityard.entity.LoginEntity;
+
 import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -159,14 +161,14 @@ public abstract class BaseFragment extends Fragment {
         return mContentView;
     }
 
- /*   protected boolean isLogin() {
+    protected boolean isLogin() {
         return LoginEntity.getInstance().isLogin();
     }
 
-    protected boolean isMineLogin() {
+
+    /*protected boolean isMineLogin() {
         return OMineEntity.getInstance().isMineLogin();
-    }
-*/
+    }*/
 
     public void showToast(String msg) {
 //        Looper.prepare();
@@ -176,13 +178,7 @@ public abstract class BaseFragment extends Fragment {
 //        Looper.loop();
     }
 
-    public void setToken(String token){
-        this.token=token;
-    }
 
-    public String getToken(){
-        return token;
-    }
 
 
 

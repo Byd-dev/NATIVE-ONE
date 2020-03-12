@@ -21,8 +21,7 @@ public class ForgetActivity extends BaseActivity {
     private FragmentTransaction ft;
     //注册页面
     private ForgetFragment forgetFragment;
-
-
+    private int pageIndex;
 
 
     @Override
@@ -30,9 +29,10 @@ public class ForgetActivity extends BaseActivity {
         return R.layout.activity_content;
     }
 
-    public static void enter(Context context, String type) {
+    public static void enter(Context context, String type,int pageIndex) {
         Intent intent = new Intent(context, ForgetActivity.class);
         intent.putExtra(TYPE, type);
+        intent.putExtra("pageIndex",pageIndex);
         context.startActivity(intent);
     }
 
@@ -44,6 +44,7 @@ public class ForgetActivity extends BaseActivity {
         StatusBarUtil.setStatusBarDarkTheme(this, false);
         Intent intent = getIntent();
         type = intent.getStringExtra(TYPE);
+        pageIndex = intent.getIntExtra("pageIndex",0);
 
 
         if (type.equals(IntentConfig.Keys.KEY_FORGET)) {
@@ -55,7 +56,7 @@ public class ForgetActivity extends BaseActivity {
 
     private void addForgetFragment() {
         String name = ForgetFragment.class.getSimpleName();
-        forgetFragment = new ForgetFragment();
+        forgetFragment = new ForgetFragment().newInstance(pageIndex);
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, forgetFragment, name);
         ft.addToBackStack(name);

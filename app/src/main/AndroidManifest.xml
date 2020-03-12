@@ -37,6 +37,7 @@
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.UserActivity" />
         <activity android:name=".activity.ForgetActivity" />
+        <activity android:name=".activity.ResetPassActivity" />
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.io.Serializable;
@@ -115,11 +116,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-   /* protected boolean isLogin() {
+    protected boolean isLogin() {
         return LoginEntity.getInstance().isLogin();
     }
 
-    protected boolean isMineLogin() {
+    /*protected boolean isMineLogin() {
         return OMineEntity.getInstance().isMineLogin();
     }*/
 

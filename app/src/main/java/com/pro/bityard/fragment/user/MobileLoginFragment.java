@@ -165,7 +165,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
         //获取国家code
         countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
         if (countryCodeEntity == null) {
-            NetManger.getInstance().getRequest("api/home/country/list",null,new OnNetResult() {
+            NetManger.getInstance().getRequest("/api/home/country/list",null,new OnNetResult() {
                 @Override
                 public void onNetResult(String state, Object response) {
                     if (state.equals(BUSY)) {
@@ -262,7 +262,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                         map.put("contryCode", code_value);
                         map.put("geetestToken", geetestToken);
 
-                        NetManger.getInstance().postRequest("api/sso/user_login_check",map, new OnNetResult() {
+                        NetManger.getInstance().postRequest("/api/sso/user_login_check",map, new OnNetResult() {
                             @Override
                             public void onNetResult(String state, Object response) {
                                 if (state.equals(BUSY)) {
@@ -306,7 +306,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                 break;
             case R.id.text_forget_pass:
-                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET);
+                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET,1);
                 break;
         }
     }
@@ -341,7 +341,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             text_try.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NetManger.getInstance().getRequest("api/home/country/list",null,new OnNetResult() {
+                    NetManger.getInstance().getRequest("/api/home/country/list",null,new OnNetResult() {
                         @Override
                         public void onNetResult(String state, Object response) {
                             if (state.equals(BUSY)) {

@@ -1,9 +1,30 @@
 package com.pro.bityard.entity;
 
+import com.pro.bityard.config.AppConfig;
+import com.pro.switchlibrary.SPUtils;
+
 import java.io.Serializable;
 
 public class LoginEntity implements Serializable {
 
+
+    private static LoginEntity instance;
+
+    public static LoginEntity getInstance() {
+        if (instance == null) {
+            instance = new LoginEntity();
+        }
+        return instance;
+    }
+
+    public static LoginEntity getUserIsLogin() {
+        LoginEntity data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+        return data;
+    }
+
+    public boolean isLogin() {
+        return LoginEntity.getUserIsLogin() != null;
+    }
 
     /**
      * code : 200

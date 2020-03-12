@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.user;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
@@ -67,7 +68,6 @@ public class ResetPassFragment extends BaseFragment implements View.OnClickListe
 
 
 
-
     @BindView(R.id.img_eye)
     ImageView img_eye;
 
@@ -104,6 +104,9 @@ public class ResetPassFragment extends BaseFragment implements View.OnClickListe
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
         img_eye.setOnClickListener(this);
         img_eye_new.setOnClickListener(this);
+
+
+
 
 
     }
@@ -169,8 +172,7 @@ public class ResetPassFragment extends BaseFragment implements View.OnClickListe
 
 
             case R.id.btn_submit:
-                String token = getToken();
-                Log.d("print", "initData:130:  "+token);
+                Log.d("print", "onClick:175:  "+"点击了去确定");
 
                 break;
 
@@ -183,4 +185,6 @@ public class ResetPassFragment extends BaseFragment implements View.OnClickListe
     public void onDestroy() {
         super.onDestroy();
     }
+
+
 }

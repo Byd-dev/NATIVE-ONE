@@ -134,7 +134,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         //获取国家code
         countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
         if (countryCodeEntity == null) {
-            NetManger.getInstance().getRequest("api/home/country/list",null,new OnNetResult() {
+            NetManger.getInstance().getRequest("/api/home/country/list",null,new OnNetResult() {
                 @Override
                 public void onNetResult(String state, Object response) {
                     if (state.equals(BUSY)) {
@@ -198,7 +198,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
             case R.id.text_getCode:
                 if (account_value.equals("")) {
-                    Toast.makeText(getContext(), getResources().getString(R.string.text_email_input), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_input_number), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //获取验证码
@@ -246,7 +246,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         map.put("type", "REGISTER");
         map.put("code", code_value);
 
-        NetManger.getInstance().postRequest("api/system/checkSMS", map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/system/checkSMS", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -273,7 +273,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
     private void register(ArrayMap<String, String> map) {
 
-        NetManger.getInstance().postRequest("api/register/submit",map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/register/submit",map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -316,7 +316,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 map.put("account", country_code + account_value);
                 map.put("type", "REGISTER");
                 map.put("geetestToken", geetestToken);
-                NetManger.getInstance().postRequest("api/system/sendSMS", map, new OnNetResult() {
+                NetManger.getInstance().postRequest("/api/system/sendSMS", map, new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
                         if (state.equals(BUSY)) {
@@ -396,7 +396,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
             text_try.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NetManger.getInstance().getRequest("api/home/country/list",null,new OnNetResult() {
+                    NetManger.getInstance().getRequest("/api/home/country/list",null,new OnNetResult() {
                         @Override
                         public void onNetResult(String state, Object response) {
                             if (state.equals(BUSY)) {

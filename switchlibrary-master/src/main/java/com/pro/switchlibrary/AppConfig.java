@@ -2,6 +2,8 @@ package com.pro.switchlibrary;
 
 public class AppConfig {
     /*账户头像保存名称*/
+    public static final String S_KEY="1111111122222222";
+
     public static final String NAME_OF_USERHEADPIC = "/userheadpic.jpg";
     public static final String key_touch_id = "key_touch_id:";
     public static final String key_bank = "key_bank:";

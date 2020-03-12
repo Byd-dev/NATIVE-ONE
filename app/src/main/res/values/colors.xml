@@ -11,7 +11,7 @@
     <color name="maincolor">#E2BE30</color>
     <color name="tab_color_normal">#848E9C</color>
     <color name="text_maincolor">#ffffff</color>
-    <color name="text_secondcolor">#717FA1</color>
+    <color name="text_secondcolor">#DDDDDD</color>
     <color name="edit_color">#1E2C37</color>
     <color name="color_hint">#848E9C</color>
     <color name="color_err">#D55F58</color>

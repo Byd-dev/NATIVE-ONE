@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
+import com.pro.bityard.activity.ResetPassActivity;
 import com.pro.bityard.adapter.CountryCodeAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
@@ -26,7 +27,6 @@ import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
-import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.switchlibrary.SPUtils;
@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -45,7 +44,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class MobileForgetFragment extends BaseFragment implements View.OnClickListener {
+public class MobileForgetFragment extends BaseFragment implements View.OnClickListener{
 
 
     private ViewPager viewPager;
@@ -74,6 +73,8 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     private String geetestToken = null;
 
 
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +85,8 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     public MobileForgetFragment(ViewPager viewPager) {
         this.viewPager = viewPager;
     }
-
+    public MobileForgetFragment() {
+    }
 
     @Override
     protected void onLazyLoad() {
@@ -129,7 +131,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
         //获取国家code
         countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
         if (countryCodeEntity == null) {
-            NetManger.getInstance().getRequest("api/home/country/list", null, new OnNetResult() {
+            NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
                 @Override
                 public void onNetResult(String state, Object response) {
                     if (state.equals(BUSY)) {
@@ -167,6 +169,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     }
 
 
+
     @Override
     public void onClick(View v) {
         String account_value = edit_account.getText().toString();
@@ -193,12 +196,8 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                 break;
 
             case R.id.btn_submit:
-                //1  人机  2 发送验证码  3 验证验证码 4 验证账号 5改密码
+                //1  人机  2 发送验证码  3 验证验证码 4 验证账号 5改密
 
-//获取到父parentFragment
-
-                viewPager.setCurrentItem(2);
-                setToken("tokenValue");
 
 
                 String code_value = edit_code.getText().toString();
@@ -251,7 +250,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
             text_try.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NetManger.getInstance().getRequest("api/home/country/list", null, new OnNetResult() {
+                    NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
                         @Override
                         public void onNetResult(String state, Object response) {
                             if (state.equals(BUSY)) {
@@ -358,7 +357,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                 map.put("account", country_code + account_value);
                 map.put("type", "FORGOT_PASSWORD");
                 map.put("geetestToken", geetestToken);
-                NetManger.getInstance().postRequest("api/system/sendSMS", map, new OnNetResult() {
+                NetManger.getInstance().postRequest("/api/system/sendSMS", map, new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
                         if (state.equals(BUSY)) {
@@ -398,7 +397,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
         map.put("type", "FORGOT_PASSWORD");
         map.put("code", code_value);
 
-        NetManger.getInstance().postRequest("api/system/checkSMS", map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/system/checkSMS", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -428,7 +427,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("account", account_value);
 
-        NetManger.getInstance().postRequest("api/forgot/account-verify", map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/forgot/account-verify", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -457,7 +456,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     private void checkSafe(String country_code, String account_value) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("account", country_code + account_value);
-        NetManger.getInstance().postRequest("api/forgot/securify-verify", map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/forgot/securify-verify", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -467,7 +466,9 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 200) {
                         String token = tipEntity.getToken();
-                        viewPager.setCurrentItem(2);
+                        ResetPassActivity.enter(getContext(),token);
+                        getActivity().finish();
+
 
 
                     } else {
@@ -501,11 +502,12 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     };
 
 
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         Gt3Util.getInstance().destroy();
     }
+
+
+
 }

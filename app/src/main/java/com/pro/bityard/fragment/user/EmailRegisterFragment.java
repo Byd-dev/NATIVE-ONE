@@ -174,7 +174,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
         map.put("type", "REGISTER");
         map.put("code", code_value);
 
-        NetManger.getInstance().postRequest("api/system/checkEmail", map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/system/checkEmail", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -201,7 +201,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
 
     private void register(ArrayMap<String, String> map) {
 
-        NetManger.getInstance().postRequest("api/register/submit",map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/register/submit",map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -241,7 +241,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 map.put("account", account_value);
                 map.put("type", "REGISTER");
                 map.put("geetestToken", geetestToken);
-                NetManger.getInstance().postRequest("api/system/sendEmail",map, new OnNetResult() {
+                NetManger.getInstance().postRequest("/api/system/sendEmail",map, new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
                         if (state.equals(BUSY)) {

@@ -20,8 +20,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.bar)
     RelativeLayout layout_bar;
 
-    @BindView(R.id.text_login)
-    TextView text_login;
+
 
     @BindView(R.id.scrollView)
     MyScrollView myScrollView;
@@ -70,7 +69,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
         view.findViewById(R.id.img_icon1).setOnClickListener(this);
         view.findViewById(R.id.img_icon2).setOnClickListener(this);
-        text_login.setOnClickListener(this);
+        view.findViewById(R.id.img_head).setOnClickListener(this);
 
     }
 
@@ -103,7 +102,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                 break;
 
-            case R.id.text_login:
+            case R.id.img_head:
 
 
                 LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);

@@ -1,5 +1,7 @@
 package com.pro.bityard.fragment.user;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.view.View;
 
 import com.pro.bityard.R;
@@ -14,7 +16,26 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
 
     @BindView(R.id.viewPager)
     NoScrollViewPager viewPager;
+    private int pageIndex;
 
+
+    public ForgetFragment newInstance(int pageIndex){
+        ForgetFragment forgetFragment =new ForgetFragment();
+        Bundle args = new Bundle();
+        args.putInt("page", pageIndex);
+        forgetFragment.setArguments(args);
+        return forgetFragment;
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (getArguments() != null) {
+            pageIndex = getArguments().getInt("page");
+        }
+
+    }
 
     @Override
     protected int setLayoutResourceID() {
@@ -30,6 +51,7 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
     protected void initView(View view) {
 
         initViewPager(viewPager);
+        viewPager.setCurrentItem(pageIndex);
         viewPager.setOffscreenPageLimit(3);
 
         view.findViewById(R.id.img_back).setOnClickListener(this);
@@ -42,7 +64,7 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         myPagerAdapter.addFragment(new EmailForgetFragment(viewPager));
         myPagerAdapter.addFragment(new MobileForgetFragment(viewPager));
-        myPagerAdapter.addFragment(new ResetPassFragment(viewPager));
+       // myPagerAdapter.addFragment(new ResetPassFragment(viewPager));
         viewPager.setAdapter(myPagerAdapter);
     }
 
@@ -67,4 +89,7 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
                 break;
         }
     }
+
+
+
 }

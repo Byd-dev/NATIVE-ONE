@@ -57,4 +57,12 @@ public class Util {
 
         return strRand;
     }
+
+    public static String jsonReplace(String content){
+        String s = content.replaceAll("\\?", "").replaceAll("\\(", "").replaceAll("\\)", "");
+        String substring = s.substring(0, s.length() - 1);
+
+
+        return substring;
+    }
 }

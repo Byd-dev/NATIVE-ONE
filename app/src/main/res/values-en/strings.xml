@@ -41,5 +41,9 @@
     <string name="text_edit_pass_new_sure">请确认新密码</string>
     <string name="text_sure">确定</string>
     <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
+    <string name="text_recommend">推荐榜单</string>
+    <string name="text_trade_bonus">交易赠金</string>
+    <string name="text_trade_simulation">模拟交易</string>
+    <string name="text_err_init">初始化失败</string>
 
 </resources>

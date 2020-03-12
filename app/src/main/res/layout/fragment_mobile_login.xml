@@ -6,16 +6,17 @@
     android:background="@color/background_maincolor"
     android:orientation="vertical">
 
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_25"
-        android:layout_marginTop="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_40"
         android:layout_marginRight="@dimen/margin_25"
         android:layout_marginBottom="@dimen/margin_50"
-        android:text="登录Bityard"
-        android:textColor="@color/text_maincolor"
-        android:textSize="24sp" />
+        android:src="@mipmap/icon_bityard_user"
+        android:layout_gravity="center"
+
+        />
     <!--选择国家-->
     <LinearLayout
         android:layout_width="match_parent"

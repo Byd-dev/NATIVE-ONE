@@ -13,16 +13,17 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_25"
-            android:layout_marginTop="@dimen/margin_25"
+            android:layout_marginTop="@dimen/margin_40"
             android:layout_marginRight="@dimen/margin_25"
             android:layout_marginBottom="@dimen/margin_50"
-            android:text="@string/text_forget"
-            android:textColor="@color/text_maincolor"
-            android:textSize="24sp" />
+            android:src="@mipmap/icon_bityard_user"
+            android:layout_gravity="center"
+
+            />
         <!--选择国家-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -186,7 +187,7 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:hint="@string/text_mobile_code_input"
-                    android:inputType="textEmailAddress"
+                    android:inputType="number"
                     android:maxLines="1"
                     android:textColor="@color/text_maincolor"
                     android:textColorHint="@color/color_hint"

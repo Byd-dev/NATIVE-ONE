@@ -5,18 +5,31 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetHostResult;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.QuoteEntity;
+import com.pro.bityard.entity.TradeListEntity;
+import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.fragment.tab.HomeFragment;
+import com.pro.bityard.fragment.tab.MarketFragment;
+import com.pro.bityard.fragment.tab.MyFragment;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
+import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -38,6 +51,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     }
 
+
+    private StringBuilder stringBuilder;
 
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
@@ -70,10 +85,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.getChildAt(0).performClick();
     }
 
+    private Object result = null;
+
     @Override
     protected void initData() {
         //获取国家code
-        NetManger.getInstance().getRequest("api/home/country/list",null,new OnNetResult() {
+        NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -87,7 +104,56 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 }
             }
         });
+
+
+        NetManger.getInstance().initURL(new OnNetHostResult() {
+
+            @Override
+            public void setResult(String state, Object response1, Object response2) {
+                if (state.equals(BUSY)) {
+
+                } else if (state.equals(SUCCESS)) {
+
+                    List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response2;
+                    stringBuilder = new StringBuilder();
+                    for (int i = 0; i < tradeListEntityList.size(); i++) {
+                        Log.d("print", "onNetResult:返回得到的数值:  " + tradeListEntityList.get(i).getContractCode());
+                        stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
+                    }
+
+                    NetManger.getInstance().getQuote(response1.toString(), "/quote.jsp", stringBuilder.toString(), new OnNetResult() {
+                        @Override
+                        public void onNetResult(String state, Object response) {
+                            if (state.equals(BUSY)) {
+
+                            } else if (state.equals(SUCCESS)) {
+                                String jsonReplace = Util.jsonReplace(response.toString());
+                                QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
+                                String data = quoteEntity.getData();
+                                Log.d("print", "onNetResult:返回行情数据:  " + data);
+                            } else if (state.equals(FAILURE)) {
+
+                            }
+                        }
+                    });
+                    result = response1;
+
+
+                } else if (state.equals(FAILURE)) {
+
+                }
+            }
+        });
+
+        if (result == null) {
+            return;
+        } else {
+
+        }
+
+
     }
+
 
     @Override
     protected void initEvent() {
@@ -102,6 +168,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
                 break;
             case R.id.radio_1:
+                showFragment(R.id.layout_fragment_containter, new MarketFragment(), null, null);
 
 
                 break;
@@ -112,10 +179,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 break;
 
             case R.id.radio_3:
+                showFragment(R.id.layout_fragment_containter, new HoldFragment(), null, null);
 
 
                 break;
             case R.id.radio_4:
+                showFragment(R.id.layout_fragment_containter, new MyFragment(), null, null);
 
                 break;
         }
