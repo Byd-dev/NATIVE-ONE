@@ -16,4 +16,14 @@ public class AppConfig {
     public static final String USER_COUNTRY_NAME = "user_country_name";
     /*手机号*/
     public static final String USER_MOBILE = "user_mobile";
+    /*行情地址*/
+    public static final String QUOTE_HOST = "QUOTE_HOST";
+    /*行情合约号*/
+    public static final String QUOTE_CODE = "QUOTE_CODE";
+    /*合约号详情*/
+    public static final String QUOTE_DETAIL = "QUOTE_DETAIL";
+
+
+
+
 }

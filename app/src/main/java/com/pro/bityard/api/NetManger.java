@@ -22,6 +22,7 @@ import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.PhotoUtils;
+import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,8 +45,9 @@ public class NetManger {
     public static String SUCCESS = "success";
     public static String FAILURE = "failure";
 
-    public static String BASE_URL = "http://test.bityard.com";    //https://www.bityard.com/
+     public static String BASE_URL = "http://test.bityard.com";   //测试
 
+   // public static String BASE_URL = "https://www.bityard.com";    //正式
 
     public static NetManger getInstance() {
         if (instance == null) {
@@ -57,7 +59,7 @@ public class NetManger {
 
     //get 请求
     public void getRequest(String url, ArrayMap map, OnNetResult onNetResult) {
-
+        Log.d("print ", "getRequest:get请求地址:  " + getURL(url, map));
         OkGo.<String>get(getURL(url, map))
                 .execute(new StringCallback() {
                     @Override
@@ -168,7 +170,7 @@ public class NetManger {
 
     //动态URL拼接参数
     public String getHostURL(String host, String url, ArrayMap map) {
-        Log.d("print", "getURL:参数:  " + map);
+        Log.d("print", "getURL:HOST参数:  " + map);
 
         String substring_url = null;
         if (map == null) {
@@ -190,6 +192,31 @@ public class NetManger {
 
     }
 
+    /*行情地址host 合约号 合约号详情 的方法  关键*/
+    public void getHostCodeTradeList(OnNetThreeResult onNetThreeResult) {
+
+        initURL(new OnNetHostResult() {
+            @Override
+            public void setResult(String state, Object response1, Object response2) {
+                if (state.equals(BUSY)) {
+                    onNetThreeResult.setResult(BUSY, null, null, null);
+
+                } else if (state.equals(SUCCESS)) {
+
+                    List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response2;
+                    StringBuilder stringBuilder = new StringBuilder();
+                    for (int i = 0; i < tradeListEntityList.size(); i++) {
+                        stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
+                    }
+                    onNetThreeResult.setResult(SUCCESS, response1, stringBuilder.toString(), tradeListEntityList);
+
+                } else if (state.equals(FAILURE)) {
+                    onNetThreeResult.setResult(FAILURE, null, null, null);
+
+                }
+            }
+        });
+    }
 
     //行情init初始化
     public void initURL(OnNetHostResult onNetResult) {
@@ -201,6 +228,7 @@ public class NetManger {
                 } else if (state.equals(SUCCESS)) {
                     InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
+                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历 
                     for (InitEntity.GroupBean data : group) {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
@@ -211,7 +239,6 @@ public class NetManger {
 
                                     } else if (state.equals(SUCCESS)) {
                                         String quoteDomain = initEntity.getQuoteDomain();//获取域名
-
                                         onNetResult.setResult(SUCCESS, quoteDomain, response);
 
                                     } else if (state.equals(FAILURE)) {
@@ -222,7 +249,7 @@ public class NetManger {
                         }
                     }
                 } else if (state.equals(FAILURE)) {
-                    onNetResult.setResult(FAILURE, null, response.toString());
+                    onNetResult.setResult(FAILURE, null, null);
                 }
             }
         });
@@ -248,13 +275,21 @@ public class NetManger {
                     try {
                         jsonObject = new JSONObject(response.toString());
                         JSONObject jsonObject1 = (JSONObject) jsonObject.get("data");
+                        Log.d("print", "onNetResult:250:  " + jsonObject1.length());
+
+                        Log.d("print", "onNetResult:252: " + codeSplitList.length);
+
                         tradeListEntityList = new ArrayList<>();
                         for (int i = 0; i < jsonObject1.length(); i++) {
                             for (int j = codeSplitList.length - 1; j > 0; j--) {
-                                JSONObject trxusdt = (JSONObject) jsonObject1.get(codeSplitList[i]);
+                                JSONObject trxusdt = (JSONObject) jsonObject1.get(codeSplitList[i]);  //trxusdt.length() =46
+                                // Log.d("print", "onNetResult: 258:"+trxusdt.length());
                                 tradeListEntity = new Gson().fromJson(trxusdt.toString(), TradeListEntity.class);
+                                //  Log.d("print", "onNetResult:260: "+tradeListEntity);
                             }
                             tradeListEntityList.add(tradeListEntity);
+                            // Log.d("print", "onNetResult:263:  "+tradeListEntityList.size());
+
 
                         }
                         onNetResult.onNetResult(SUCCESS, tradeListEntityList);
@@ -283,24 +318,28 @@ public class NetManger {
 
         try {
             String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
+            Log.d("print", "setResult:294:  " + urlList);
+
             String[] split = urlList.split(";");
             int length = split.length;
-            getHostRequest(split[count], url, map, new OnNetResult() {
-                @Override
-                public void onNetResult(String state, Object response) {
-                    if (state.equals(BUSY)) {
+            if (count < length) {
+                getHostRequest(split[count], url, map, new OnNetResult() {
+                    @Override
+                    public void onNetResult(String state, Object response) {
+                        if (state.equals(BUSY)) {
 
-                    } else if (state.equals(SUCCESS)) {
-                        onNetResult.onNetResult(SUCCESS, response.toString());
-                    } else if (state.equals(FAILURE)) {
-                        if (length == 0) {
+                        } else if (state.equals(SUCCESS)) {
+                            onNetResult.onNetResult(SUCCESS, response.toString());
+                        } else if (state.equals(FAILURE)) {
+                            if (length == 0) {
 
-                        } else {
-                            count++;
+                            } else {
+                                count++;
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
 
 
         } catch (Exception e) {
@@ -308,6 +347,20 @@ public class NetManger {
         }
 
 
+    }
+
+    public void initQuote() {
+        /*初始化获取行情 合约号 行情地址*/
+        getHostCodeTradeList(new OnNetThreeResult() {
+            @Override
+            public void setResult(String state, Object response1, Object response2, Object response3) {
+                if (state.equals(SUCCESS)) {
+                    SPUtils.putString(AppConfig.QUOTE_HOST, response1.toString());
+                    SPUtils.putString(AppConfig.QUOTE_CODE, response2.toString());
+                    SPUtils.putString(AppConfig.QUOTE_DETAIL, response3.toString());
+                }
+            }
+        });
     }
 
 

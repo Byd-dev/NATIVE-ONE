@@ -10,26 +10,19 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetHostResult;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
-import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.QuoteEntity;
-import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.fragment.tab.HomeFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
-import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -83,6 +76,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
+
+
     }
 
     private Object result = null;
@@ -106,48 +101,30 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         });
 
 
-        NetManger.getInstance().initURL(new OnNetHostResult() {
+        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE);
+        if (quote_host.equals("") && quote_code.equals("")) {
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.text_err_init), Toast.LENGTH_SHORT).show();
+            NetManger.getInstance().initQuote();
 
-            @Override
-            public void setResult(String state, Object response1, Object response2) {
-                if (state.equals(BUSY)) {
-
-                } else if (state.equals(SUCCESS)) {
-
-                    List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response2;
-                    stringBuilder = new StringBuilder();
-                    for (int i = 0; i < tradeListEntityList.size(); i++) {
-                        Log.d("print", "onNetResult:返回得到的数值:  " + tradeListEntityList.get(i).getContractCode());
-                        stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
-                    }
-
-                    NetManger.getInstance().getQuote(response1.toString(), "/quote.jsp", stringBuilder.toString(), new OnNetResult() {
-                        @Override
-                        public void onNetResult(String state, Object response) {
-                            if (state.equals(BUSY)) {
-
-                            } else if (state.equals(SUCCESS)) {
-                                String jsonReplace = Util.jsonReplace(response.toString());
-                                QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
-                                String data = quoteEntity.getData();
-                                Log.d("print", "onNetResult:返回行情数据:  " + data);
-                            } else if (state.equals(FAILURE)) {
-
-                            }
-                        }
-                    });
-                    result = response1;
-
-
-                } else if (state.equals(FAILURE)) {
-
-                }
-            }
-        });
-
-        if (result == null) {
-            return;
         } else {
+            NetManger.getInstance().getQuote(quote_host, "/quote.jsp", quote_code, new OnNetResult() {
+                @Override
+                public void onNetResult(String state, Object response) {
+                    if (state.equals(BUSY)) {
+
+                    } else if (state.equals(SUCCESS)) {
+                        String jsonReplace = Util.jsonReplace(response.toString());
+                        QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
+                        String data = quoteEntity.getData();
+                        String[] split = data.split(";");
+
+                        Log.d("print", "onNetResult:返回行情数据:  " + data);
+                    } else if (state.equals(FAILURE)) {
+
+                    }
+                }
+            });
 
         }
 
@@ -159,6 +136,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void initEvent() {
 
     }
+
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {

@@ -58,8 +58,11 @@ public class SplashActivity extends Activity implements OnResultBack {
         setContentView(R.layout.activity_splash);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN, WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
-
         initPermission();
+
+
+
+
 
 
     }

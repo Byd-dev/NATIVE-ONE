@@ -1,8 +1,6 @@
 package com.pro.bityard.entity;
-
 import java.util.List;
-
-public class TradeListEntity {
+public class TradeListFormalEntity {
     private String amClearingTime;
     private String amCloseTime;
     private String amOpenTime;
@@ -43,64 +41,12 @@ public class TradeListEntity {
     private List<Long> closeTime;
     private List<Double> depositList;
     private List<Integer> leverList;
-    private List<Double> leverShowList;
+    private List<?> leverShowList;
+    private List<?> priceRateList;
     private List<Integer> moneyTypeList;
-    private List<Double> priceRateList;
-    private List<Double> stopLossList;
-    private List<Double> stopProfitList;
-    private List<Double> volumeList;
-
-    @Override
-    public String toString() {
-        return "TradeListEntity{" +
-                "amClearingTime='" + amClearingTime + '\'' +
-                ", amCloseTime='" + amCloseTime + '\'' +
-                ", amOpenTime='" + amOpenTime + '\'' +
-                ", amTradeTime='" + amTradeTime + '\'' +
-                ", amWarningTime='" + amWarningTime + '\'' +
-                ", code='" + code + '\'' +
-                ", coins=" + coins +
-                ", contractCode='" + contractCode + '\'' +
-                ", currency='" + currency + '\'' +
-                ", defer=" + defer +
-                ", deferFee=" + deferFee +
-                ", deferType=" + deferType +
-                ", exchange='" + exchange + '\'' +
-                ", exgRate=" + exgRate +
-                ", foreign=" + foreign +
-                ", holiday='" + holiday + '\'' +
-                ", name='" + name + '\'' +
-                ", niteClearingTime='" + niteClearingTime + '\'' +
-                ", niteCloseTime='" + niteCloseTime + '\'' +
-                ", niteOpenTime='" + niteOpenTime + '\'' +
-                ", niteTradeTime='" + niteTradeTime + '\'' +
-                ", niteWarningTime='" + niteWarningTime + '\'' +
-                ", offset=" + offset +
-                ", pmClearingTime='" + pmClearingTime + '\'' +
-                ", pmCloseTime='" + pmCloseTime + '\'' +
-                ", pmOpenTime='" + pmOpenTime + '\'' +
-                ", pmTradeTime='" + pmTradeTime + '\'' +
-                ", pmWarningTime='" + pmWarningTime + '\'' +
-                ", priceChange=" + priceChange +
-                ", priceDigit=" + priceDigit +
-                ", priceOriginal=" + priceOriginal +
-                ", priceUnit=" + priceUnit +
-                ", range=" + range +
-                ", remark='" + remark + '\'' +
-                ", spread=" + spread +
-                ", type='" + type + '\'' +
-                ", valid=" + valid +
-                ", closeTime=" + closeTime +
-                ", depositList=" + depositList +
-                ", leverList=" + leverList +
-                ", leverShowList=" + leverShowList +
-                ", moneyTypeList=" + moneyTypeList +
-                ", priceRateList=" + priceRateList +
-                ", stopLossList=" + stopLossList +
-                ", stopProfitList=" + stopProfitList +
-                ", volumeList=" + volumeList +
-                '}';
-    }
+    private List<Integer> stopLossList;
+    private List<Integer> stopProfitList;
+    private List<Integer> volumeList;
 
     public String getAmClearingTime() {
         return amClearingTime;
@@ -422,11 +368,11 @@ public class TradeListEntity {
         this.leverList = leverList;
     }
 
-    public List<Double> getLeverShowList() {
+    public List<?> getLeverShowList() {
         return leverShowList;
     }
 
-    public void setLeverShowList(List<Double> leverShowList) {
+    public void setLeverShowList(List<?> leverShowList) {
         this.leverShowList = leverShowList;
     }
 
@@ -438,35 +384,35 @@ public class TradeListEntity {
         this.moneyTypeList = moneyTypeList;
     }
 
-    public List<Double> getPriceRateList() {
+    public List<?> getPriceRateList() {
         return priceRateList;
     }
 
-    public void setPriceRateList(List<Double> priceRateList) {
+    public void setPriceRateList(List<?> priceRateList) {
         this.priceRateList = priceRateList;
     }
 
-    public List<Double> getStopLossList() {
+    public List<Integer> getStopLossList() {
         return stopLossList;
     }
 
-    public void setStopLossList(List<Double> stopLossList) {
+    public void setStopLossList(List<Integer> stopLossList) {
         this.stopLossList = stopLossList;
     }
 
-    public List<Double> getStopProfitList() {
+    public List<Integer> getStopProfitList() {
         return stopProfitList;
     }
 
-    public void setStopProfitList(List<Double> stopProfitList) {
+    public void setStopProfitList(List<Integer> stopProfitList) {
         this.stopProfitList = stopProfitList;
     }
 
-     public List<Double> getVolumeList() {
+    public List<Integer> getVolumeList() {
         return volumeList;
     }
 
-    public void setVolumeList(List<Double> volumeList) {
+    public void setVolumeList(List<Integer> volumeList) {
         this.volumeList = volumeList;
     }
 }

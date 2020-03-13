@@ -27,7 +27,6 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
-import androidx.appcompat.app.AppCompatDelegate;
 import okhttp3.OkHttpClient;
 import skin.support.SkinCompatManager;
 import skin.support.app.SkinAppCompatViewInflater;
@@ -85,7 +84,7 @@ public class AppContext extends Application {
             }
         };
         //x5内核初始化接口
-        QbSdk.initX5Environment(getApplicationContext(),  cb);
+        QbSdk.initX5Environment(getApplicationContext(), cb);
 
 
         appContext = this;
@@ -107,8 +106,6 @@ public class AppContext extends Application {
 
 
 
-
-
     }
 
 
@@ -116,7 +113,6 @@ public class AppContext extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
     }
-
 
 
     @Override

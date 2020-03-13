@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainActivity;
+import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
@@ -28,10 +29,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
     @BindView(R.id.btn_sure)
     Button btn_sure;
-    private List<String> contractsList, getalllist;
-    private List<String> foreignList, getForeignList;
-    private List<String> stockindexList, getStockindexList;
-    private List<String> domesList, getDomesList;
 
     private List<GuideEntity> data;
 
@@ -55,20 +52,13 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     protected void initView(View view) {
 
         String string = SPUtils.getString(AppConfig.FIRST_OPEN);
+        Log.d("print", "initView:58:  "+string);
         if (!string.equals("")) {
             MainActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_HOME);
             GuideActivity.this.finish();
 
-
         } else {
-
-           // getApi();
-
-            MainActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_HOME);
-
             SPUtils.putString(AppConfig.FIRST_OPEN, "first");
-
-
             data = new ArrayList<>();
             data.add(new GuideEntity("实盘", "模拟", "助您验证理财方案", getResources().getDrawable(R.mipmap.guide_1)));
             data.add(new GuideEntity("闪电下单", "让您快人一步", "同样的操作 不同的收益", getResources().getDrawable(R.mipmap.guide_2)));
@@ -117,13 +107,19 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             findViewById(R.id.text_jump).setOnClickListener(this);
             btn_sure.setOnClickListener(this);
 
-            GuideActivity.this.finish();
-
         }
     }
 
     @Override
     protected void initData() {
+        /*初始化获取行情 合约号 行情地址*/
+        // TODO: 2020/3/13    这里到时候再判断是先有了行情再跳入主页还是另外判断 
+        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE);
+        if (quote_host.equals("") && quote_code.equals("")) {
+            NetManger.getInstance().initQuote();
+        }
+
 
     }
 
@@ -143,116 +139,5 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         }
     }
 
-   /* private void getApi() {
-        OkGo.<String>get(OConstant.URL_API)
-                .tag(this)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
 
-                        if (!TextUtils.isEmpty(response.body())) {
-
-                            OApiEntity oApiEntity = new Gson().fromJson(response.body(), OApiEntity.class);
-
-                            QuoteProxy.getInstance().setoApiEntity(oApiEntity);
-
-                            SPUtils.putData(UserConfig.API, oApiEntity);
-                            String contracts = oApiEntity.getContracts().replaceAll("\"", "")
-                                    .replaceAll("\\[", "").replaceAll("]", "");
-
-                            String[] split = contracts.split(",");
-
-                            contractsList = new ArrayList<>();
-
-                            for (String x : split) {
-                                contractsList.add(x);
-                            }
-
-
-                            foreignList = new ArrayList<>();
-                            List<OApiEntity.ForeignCommdsBean> foreignCommds = oApiEntity.getForeignCommds();
-                            for (int i = 0; i < foreignCommds.size(); i++) {
-                                foreignList.add(foreignCommds.get(i).getCode());
-                            }
-
-                            QuoteProxy.getInstance().setForeignList(foreignList);
-
-
-                            List<OApiEntity.StockIndexCommdsBean> stockIndexCommds = oApiEntity.getStockIndexCommds();
-                            stockindexList = new ArrayList<>();
-                            for (OApiEntity.StockIndexCommdsBean y :
-                                    stockIndexCommds) {
-                                stockindexList.add(y.getCode());
-                            }
-
-                            QuoteProxy.getInstance().setStockindexList(stockindexList);
-
-                            domesList = new ArrayList<>();
-                            List<OApiEntity.DomesticCommdsBean> domesticCommds = oApiEntity.getDomesticCommds();
-                            for (OApiEntity.DomesticCommdsBean y :
-                                    domesticCommds) {
-                                domesList.add(y.getCode());
-                            }
-
-                            QuoteProxy.getInstance().setDomesList(domesList);
-
-                            Log.d("SplashActivity", "onSuccess:guide 197: " + contractsList);
-                            Log.d("SplashActivity", "onSuccess:guide 198:" + foreignList);
-                            Log.d("SplashActivity", "onSuccess:guide 199: " + stockindexList);
-                            Log.d("SplashActivity", "onSuccess:guide 200: " + domesList);
-                            getForeignList = new ArrayList<>();
-                            for (int i = 0; i < contractsList.size(); i++) {
-                                for (int j = 0; j < foreignList.size(); j++) {
-                                    if (contractsList.get(i).startsWith(foreignList.get(j))) {
-                                        getForeignList.add(contractsList.get(i));
-                                    }
-                                }
-                            }
-
-                            getStockindexList = new ArrayList<>();
-                            for (int i = 0; i < contractsList.size(); i++) {
-                                for (int j = 0; j < stockindexList.size(); j++) {
-                                    if (contractsList.get(i).startsWith(stockindexList.get(j))) {
-                                        getStockindexList.add(contractsList.get(i));
-                                    }
-                                }
-                            }
-
-                            getDomesList = new ArrayList<>();
-                            for (int i = 0; i < contractsList.size(); i++) {
-                                for (int j = 0; j < domesList.size(); j++) {
-                                    if (contractsList.get(i).startsWith(domesList.get(j))) {
-                                        getDomesList.add(contractsList.get(i));
-                                    }
-                                }
-                            }
-
-
-                         *//*   Log.d("print", "onSuccess:234: " + getForeignList);
-                            Log.d("print", "onSuccess:235:" + getStockindexList);
-                            Log.d("print", "onSuccess:236: " + getDomesList);*//*
-                            getalllist = new ArrayList<>();
-                            getalllist.addAll(getForeignList);
-                            getalllist.addAll(getStockindexList);
-                            getalllist.addAll(getDomesList);
-
-                            SPUtils.putString(UserConfig.ALLDEX, getalllist.toString());
-                         *//*   SPUtils.putString(UserConfig.FOREIGN, getForeignList.toString());
-                            SPUtils.putString(UserConfig.STOCKINDEX, getStockindexList.toString());
-                            SPUtils.putString(UserConfig.DOMESTIC, getDomesList.toString());*//*
-
-
-                        }
-
-                    }
-
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-
-                    }
-                });
-
-    }*/
 }
