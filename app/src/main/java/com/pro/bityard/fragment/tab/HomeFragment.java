@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.tab;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.quote.Observer;
 import com.pro.bityard.view.AlphaChangeListener;
 import com.pro.bityard.view.MyScrollView;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -16,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import skin.support.SkinCompatManager;
 
-public class HomeFragment extends BaseFragment implements View.OnClickListener {
+public class HomeFragment extends BaseFragment implements View.OnClickListener , Observer {
     @BindView(R.id.bar)
     RelativeLayout layout_bar;
 
@@ -110,6 +112,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener {
 
                 break;
         }
+    }
+
+    @Override
+    public void update(String message) {
+        Log.d("print", "update:119:  "+"首页:"+message);
     }
 }
 

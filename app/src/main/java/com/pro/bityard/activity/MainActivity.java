@@ -2,6 +2,8 @@ package com.pro.bityard.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -20,6 +22,9 @@ import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.fragment.tab.HomeFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
+import com.pro.bityard.quote.Observable;
+import com.pro.bityard.quote.Observer;
+import com.pro.bityard.quote.QuoteManger;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
@@ -31,6 +36,8 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
+
+
     /**
      * 首页Tab索引
      */
@@ -45,7 +52,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
 
-    private StringBuilder stringBuilder;
 
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
@@ -77,13 +83,21 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
 
+        QuoteManger.getInstance().startScheduleJob(3000,3000);
+
 
     }
 
-    private Object result = null;
+
+
+
 
     @Override
     protected void initData() {
+
+
+
+
         //获取国家code
         NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
             @Override
@@ -100,32 +114,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             }
         });
 
-
+        //行情
         String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
         String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE);
         if (quote_host.equals("") && quote_code.equals("")) {
             Toast.makeText(MainActivity.this, getResources().getString(R.string.text_err_init), Toast.LENGTH_SHORT).show();
             NetManger.getInstance().initQuote();
-
+            return;
         } else {
-            NetManger.getInstance().getQuote(quote_host, "/quote.jsp", quote_code, new OnNetResult() {
-                @Override
-                public void onNetResult(String state, Object response) {
-                    if (state.equals(BUSY)) {
-
-                    } else if (state.equals(SUCCESS)) {
-                        String jsonReplace = Util.jsonReplace(response.toString());
-                        QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
-                        String data = quoteEntity.getData();
-                        String[] split = data.split(";");
-
-                        Log.d("print", "onNetResult:返回行情数据:  " + data);
-                    } else if (state.equals(FAILURE)) {
-
-                    }
-                }
-            });
-
+            QuoteManger.getInstance().quote(quote_host, quote_code);
         }
 
 
@@ -169,4 +166,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        QuoteManger.getInstance().cancelTimer();
+    }
 }
