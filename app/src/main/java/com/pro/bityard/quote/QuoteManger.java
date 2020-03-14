@@ -38,6 +38,16 @@ public class QuoteManger implements Observable {
         return instance;
     }
 
+    private List<String> quoteList;
+
+    public List<String> getQuoteList() {
+        return quoteList;
+    }
+
+    public void setQuoteList(List<String> quoteList) {
+        this.quoteList = quoteList;
+    }
+
     private Timer mTimer;
 
     public void startScheduleJob(long delay, long interval) {
@@ -99,6 +109,8 @@ public class QuoteManger implements Observable {
                         QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
                         String data = quoteEntity.getData();
                         observable.notifyQuote(data);
+                        List<String> strings = Util.quoteResult(data);
+                        setQuoteList(strings);
 
                     } else if (state.equals(FAILURE)) {
 

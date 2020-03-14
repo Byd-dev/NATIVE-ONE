@@ -19,4 +19,7 @@
     <color name="color_btn_text">#1B262D</color>
     <color name="color_country_code">#1D2A34</color>
     <color name="color_code">#333333</color>
+    <color name="text_quote_color">#C2C2C2</color>
+    <color name="text_quote_red">#D55F58</color>
+    <color name="text_quote_green">#8AB152</color>
 </resources>
