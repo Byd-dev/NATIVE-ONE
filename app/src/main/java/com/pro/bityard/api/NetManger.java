@@ -47,7 +47,7 @@ public class NetManger {
 
      public static String BASE_URL = "http://test.bityard.com";   //测试
 
-   // public static String BASE_URL = "https://www.bityard.com";    //正式
+  //  public static String BASE_URL = "https://www.bityard.com";    //正式
 
     public static NetManger getInstance() {
         if (instance == null) {
@@ -318,10 +318,10 @@ public class NetManger {
 
         try {
             String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
-            Log.d("print", "setResult:294:  " + urlList);
 
             String[] split = urlList.split(";");
             int length = split.length;
+            Log.d("print", "getQuote:324: 请求次数: "+count+ "请求地址长度: "+length+"  --   "+urlList);
             if (count < length) {
                 getHostRequest(split[count], url, map, new OnNetResult() {
                     @Override
@@ -339,6 +339,8 @@ public class NetManger {
                         }
                     }
                 });
+            }else {
+                count=0;//这里是重置
             }
 
 

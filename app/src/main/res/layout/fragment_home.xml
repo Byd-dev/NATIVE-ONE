@@ -90,6 +90,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
+                    android:background="@drawable/bg_shape_background"
                     android:layout_margin="@dimen/margin_15">
 
                     <androidx.recyclerview.widget.RecyclerView
