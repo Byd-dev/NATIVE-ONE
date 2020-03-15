@@ -103,7 +103,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         recyclerView_list.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView_list.setAdapter(quoteAdapter);
 
-        startScheduleJob(mHandler,3000,3000);
+        startScheduleJob(mHandler,500,500);
 
 
     }
