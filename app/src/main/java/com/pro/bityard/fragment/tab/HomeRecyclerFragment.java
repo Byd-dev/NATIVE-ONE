@@ -92,6 +92,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
         xBanner = home_view.findViewById(R.id.banner);
 
+
         textSwitcher = home_view.findViewById(R.id.ts_news);
 
         textSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
@@ -174,6 +175,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
 
     }
+
     /*跑马灯*/
     private void getReport() {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -210,7 +212,6 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
                     BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
                     upBanner(bannerEntity.getCarousels());
 
-                    Log.d("print", "onNetResult: " + response.toString());
                 } else if (state.equals(FAILURE)) {
                     swipeRefreshLayout.setRefreshing(false);
 
@@ -233,9 +234,13 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
                 public void loadBanner(XBanner banner, Object model, View view, int position) {
 
                     ImageView imageView = view.findViewById(R.id.img_banner);
+                    TextView text_title = view.findViewById(R.id.text_title);
+
+                    text_title.setText(data.get(position).getName());
 
 
                     Glide.with(getActivity()).load(NetManger.getInstance().BASE_URL + data.get(position).getXBannerUrl()).into(imageView);
+                    Log.d("print", "loadBanner:242:  "+NetManger.getInstance().BASE_URL +data.get(position).getXBannerUrl());
                 }
             });
 

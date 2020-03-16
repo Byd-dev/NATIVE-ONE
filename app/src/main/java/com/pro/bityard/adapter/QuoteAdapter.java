@@ -18,10 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<String> datas;
-    private int type = 0;
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
+
+    private boolean isHigh=false;
 
     public boolean isLoadMore = false;
 
@@ -38,6 +39,11 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void addDatas(List<String> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
+        this.notifyDataSetChanged();
+    }
+
+    public void sortPrice(boolean isHigh){
+        this.isHigh=isHigh;
         this.notifyDataSetChanged();
     }
 

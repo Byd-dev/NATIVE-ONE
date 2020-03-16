@@ -2,11 +2,8 @@ package com.pro.bityard.quote;
 
 import android.os.Handler;
 import android.os.Message;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pro.bityard.R;
-import com.pro.bityard.activity.MainActivity;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.config.AppConfig;

@@ -18,7 +18,7 @@ public class MyFragment extends BaseFragment {
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_market;
+        return R.layout.fragment_my;
     }
 
     @Override

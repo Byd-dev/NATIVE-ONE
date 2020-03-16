@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_maincolor"
     android:orientation="vertical">
+
+    <com.pro.bityard.view.StatusBarHeightView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:use_type="use_padding_top">
     <!--bar-->
     <RelativeLayout
         android:id="@+id/bar"
@@ -42,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="首页"
+                android:text="@string/text_home_tab"
                 android:textColor="@color/text_maincolor"
                 android:textSize="@dimen/title_size" />
 
@@ -73,4 +79,6 @@
         </LinearLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </com.pro.bityard.view.StatusBarHeightView>
 </LinearLayout>

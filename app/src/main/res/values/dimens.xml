@@ -18,5 +18,6 @@
     <dimen name="height_edit">46dp</dimen>
     <dimen name="margin_40">40dp</dimen>
     <dimen name="margin_9">9dp</dimen>
+    <dimen name="margin_8">8dp</dimen>
 
 </resources>

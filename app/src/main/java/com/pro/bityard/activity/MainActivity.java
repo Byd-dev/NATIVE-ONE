@@ -79,6 +79,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void initView(View view) {
         //主题是深色的标题
         StatusBarUtil.setStatusBarDarkTheme(this, false);
+        //打开沉浸式状态栏
+        StatusBarUtil.setRootViewFitsSystemWindows(this, false);
 
 
         radioGroup.setOnCheckedChangeListener(this);

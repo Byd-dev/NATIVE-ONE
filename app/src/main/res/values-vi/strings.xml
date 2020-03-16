@@ -46,5 +46,10 @@
     <string name="text_trade_bonus">交易赠金</string>
     <string name="text_trade_simulation">模拟交易</string>
     <string name="text_err_init">初始化失败</string>
+    <string name="text_market_tab">行情</string>
+    <string name="text_home_tab">首页</string>
+    <string name="text_new_price">最新价</string>
+    <string name="text_up_down">涨跌幅</string>
+    <string name="text_name">名称</string>
 
 </resources>
