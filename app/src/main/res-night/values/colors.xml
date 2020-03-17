@@ -16,7 +16,7 @@
     <color name="color_hint_night">#212122</color>
     <color name="color_err_night">#D55F58</color>
     <color name="color_btn_bg_night">#848E9C</color>
-    <color name="color_btn_text_night">#1B262D</color>
+    <color name="color_btn_text_night">#DEE3E6</color>
     <color name="color_country_code_night">#D3DADF</color>
     <color name="color_code_night">#333333</color>
     <color name="text_quote_color_night">#C2C2C2</color>
@@ -24,6 +24,7 @@
     <color name="text_quote_green_night">#8AB152</color>
     <color name="text_report_color_night">#ACB9BC</color>
     <color name="text_mainclor_black_night">#1D2A34</color>
+    <color name="text_second_color_night">#A0ACBC</color>
 
 
 </resources>

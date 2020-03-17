@@ -22,6 +22,10 @@ public class AppConfig {
     public static final String QUOTE_CODE = "QUOTE_CODE";
     /*合约号详情*/
     public static final String QUOTE_DETAIL = "QUOTE_DETAIL";
+    /*主题切换*/
+    public static final String KEY_THEME = "KEY_THEME";
+    /*多语言*/
+    public static final String KEY_LANGUAGE = "KEY_LANGUAGE";
 
 
 

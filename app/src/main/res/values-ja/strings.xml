@@ -51,6 +51,30 @@
     <string name="text_new_price">最新价</string>
     <string name="text_up_down">涨跌幅</string>
     <string name="text_name">名称</string>
+    <string name="text_all_balance">总资金(USDT)</string>
+    <string name="text_mining">立即挖矿</string>
+    <string name="text_fabi_trade">法币交易</string>
+    <string name="text_coin_turn">币币闪兑</string>
+    <string name="text_withdrawal">提币</string>
+    <string name="text_recharge">充币</string>
+    <string name="text_unlogin">未登录</string>
+    <string name="text_setup">系统设置</string>
+    <string name="text_logout">退出登录</string>
+    <string name="text_theme">主题切换</string>
+    <string name="text_rate">汇率</string>
+    <string name="text_language">选择语言</string>
+    <string name="text_theme_setup">主题设置</string>
+    <string name="text_night">夜间模式</string>
+    <string name="text_day">日间模式</string>
+    <string name="text_english">English</string>
+    <string name="text_chinese">简体中文</string>
+    <string name="text_chinese_second">Chinese,Simplified</string>
+    <string name="text_traditional">繁體中文</string>
+    <string name="text_traditional_second">Chinese,Traditional</string>
+    <string name="text_japan">日本語</string>
+    <string name="text_japan_second">Japanese</string>
+    <string name="text_korean">한국어</string>
+    <string name="text_korean_second">Korean</string>
 
 
 </resources>

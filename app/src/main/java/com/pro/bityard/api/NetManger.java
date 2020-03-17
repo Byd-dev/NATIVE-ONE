@@ -59,7 +59,7 @@ public class NetManger {
 
     //get 请求
     public void getRequest(String url, ArrayMap map, OnNetResult onNetResult) {
-        Log.d("print ", "getRequest:get请求地址:  " + getURL(url, map));
+        Log.d("NetManger ", "getRequest:get请求地址:  " + getURL(url, map));
         OkGo.<String>get(getURL(url, map))
                 .execute(new StringCallback() {
                     @Override
@@ -117,7 +117,7 @@ public class NetManger {
 
     //动态host get 请求
     public void getHostRequest(String host, String url, ArrayMap map, OnNetResult onNetResult) {
-        Log.d("print", "getHostRequest:动态:  " + getHostURL(host, url, map));
+        Log.d("NetManger", "getHostRequest:动态:  " + getHostURL(host, url, map));
         OkGo.<String>get(getHostURL(host, url, map))
                 .execute(new StringCallback() {
                     @Override
@@ -146,7 +146,7 @@ public class NetManger {
 
     //URL拼接参数
     public String getURL(String url, ArrayMap map) {
-        Log.d("print", "getURL:参数:  " + map);
+        Log.d("NetManger", "getURL:参数:  " + map);
 
         String substring_url = null;
         if (map == null) {
@@ -170,7 +170,7 @@ public class NetManger {
 
     //动态URL拼接参数
     public String getHostURL(String host, String url, ArrayMap map) {
-        Log.d("print", "getURL:HOST参数:  " + map);
+        Log.d("NetManger", "getURL:HOST参数:  " + map);
 
         String substring_url = null;
         if (map == null) {
@@ -275,20 +275,20 @@ public class NetManger {
                     try {
                         jsonObject = new JSONObject(response.toString());
                         JSONObject jsonObject1 = (JSONObject) jsonObject.get("data");
-                        Log.d("print", "onNetResult:250:  " + jsonObject1.length());
+                        Log.d("NetManger", "onNetResult:250:  " + jsonObject1.length());
 
-                        Log.d("print", "onNetResult:252: " + codeSplitList.length);
+                        Log.d("NetManger", "onNetResult:252: " + codeSplitList.length);
 
                         tradeListEntityList = new ArrayList<>();
                         for (int i = 0; i < jsonObject1.length(); i++) {
                             for (int j = codeSplitList.length - 1; j > 0; j--) {
                                 JSONObject trxusdt = (JSONObject) jsonObject1.get(codeSplitList[i]);  //trxusdt.length() =46
-                                // Log.d("print", "onNetResult: 258:"+trxusdt.length());
+                                // Log.d("NetManger", "onNetResult: 258:"+trxusdt.length());
                                 tradeListEntity = new Gson().fromJson(trxusdt.toString(), TradeListEntity.class);
-                                //  Log.d("print", "onNetResult:260: "+tradeListEntity);
+                                //  Log.d("NetManger", "onNetResult:260: "+tradeListEntity);
                             }
                             tradeListEntityList.add(tradeListEntity);
-                            // Log.d("print", "onNetResult:263:  "+tradeListEntityList.size());
+                            // Log.d("NetManger", "onNetResult:263:  "+tradeListEntityList.size());
 
 
                         }
@@ -321,7 +321,7 @@ public class NetManger {
 
             String[] split = urlList.split(";");
             int length = split.length;
-            Log.d("print", "getQuote:324: 请求次数: "+count+ "请求地址长度: "+length+"  --   "+urlList);
+            Log.d("NetManger", "getQuote:324: 请求次数: "+count+ "请求地址长度: "+length+"  --   "+urlList);
             if (count < length) {
                 getHostRequest(split[count], url, map, new OnNetResult() {
                     @Override

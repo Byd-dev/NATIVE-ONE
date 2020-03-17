@@ -9,6 +9,13 @@ public class IntentConfig {
     public static class Keys {
 
         public static final String KEY_LOGIN = "LOGIN";
+
+        public static final String KEY_SET_UP = "SETUP";
+        public static final String KEY_LANGUAGE = "LANGUAGE";
+        public static final String KEY_RATE = "RATE";
+
+        public static final String KEY_THEME = "THEME";
+
         //选择地区
         public static final String KEY_REGISTER = "REGISTER";
         //忘记密码

@@ -200,7 +200,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                     dismissProgressDialog();
                                     LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
                                     if (loginEntity.getCode() == 200) {
-                                        SPUtils.putData(AppConfig.LOGIN, loginEntity.getUser());
+                                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
                                         getActivity().finish();
 
                                     } else if (loginEntity.getCode() == 401) {

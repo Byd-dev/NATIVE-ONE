@@ -8,6 +8,9 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.fragment.my.LanguageFragment;
+import com.pro.bityard.fragment.my.SetUpFragment;
+import com.pro.bityard.fragment.my.ThemeFragment;
 import com.pro.bityard.fragment.user.LoginFragment;
 import com.pro.bityard.fragment.user.RegisterFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -20,11 +23,12 @@ public class UserActivity extends BaseActivity {
     private String type;
 
     private FragmentTransaction ft;
-    //登录页面
-    private LoginFragment loginFragment;
-    //注册页面
-    private RegisterFragment registerFragment;
-
+    //系统设置
+    private SetUpFragment setUpFragment;
+    //主题设置
+    private ThemeFragment themeFragment;
+    //语言设置
+    private LanguageFragment languageFragment;
 
 
 
@@ -49,30 +53,41 @@ public class UserActivity extends BaseActivity {
         type = intent.getStringExtra(TYPE);
 
 
-        if (type.equals(IntentConfig.Keys.KEY_LOGIN)) {
-            addLoginFragment();
-        }else if (type.equals(IntentConfig.Keys.KEY_REGISTER)){
-            addRegisterFragment();
+        if (type.equals(IntentConfig.Keys.KEY_SET_UP)) {
+            addSetUpFragment();
+        }else if (type.equals(IntentConfig.Keys.KEY_THEME)){
+            addThemeFragment();
+        }else if (type.equals(IntentConfig.Keys.KEY_LANGUAGE)){
+            addLanguageFragment();
         }
 
 
     }
 
-    private void addRegisterFragment() {
-        String name = RegisterFragment.class.getSimpleName();
-        registerFragment = new RegisterFragment();
+    private void addLanguageFragment() {
+        String name = LanguageFragment.class.getSimpleName();
+        languageFragment = new LanguageFragment();
         ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.layout_fragment_containter, registerFragment, name);
+        ft.add(R.id.layout_fragment_containter, languageFragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
+    }
+
+    private void addThemeFragment() {
+        String name = ThemeFragment.class.getSimpleName();
+        themeFragment = new ThemeFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, themeFragment, name);
         ft.addToBackStack(name);
         ft.commitAllowingStateLoss();
     }
 
 
-    private void addLoginFragment() {
-        String name = LoginFragment.class.getSimpleName();
-        loginFragment = new LoginFragment();
+    private void addSetUpFragment() {
+        String name = SetUpFragment.class.getSimpleName();
+        setUpFragment = new SetUpFragment();
         ft = getSupportFragmentManager().beginTransaction();
-        ft.add(R.id.layout_fragment_containter, loginFragment, name);
+        ft.add(R.id.layout_fragment_containter, setUpFragment, name);
         ft.addToBackStack(name);
         ft.commitAllowingStateLoss();
     }

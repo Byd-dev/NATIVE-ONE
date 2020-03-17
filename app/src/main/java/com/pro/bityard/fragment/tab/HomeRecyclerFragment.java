@@ -188,7 +188,6 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
 
-                    Log.d("print", "onNetResult: 190: " + response.toString());
                 } else if (state.equals(FAILURE)) {
                     swipeRefreshLayout.setRefreshing(false);
 
@@ -240,7 +239,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
 
                     Glide.with(getActivity()).load(NetManger.getInstance().BASE_URL + data.get(position).getXBannerUrl()).into(imageView);
-                    Log.d("print", "loadBanner:242:  "+NetManger.getInstance().BASE_URL +data.get(position).getXBannerUrl());
+                    Log.d("print", "loadBanner:242:  " + NetManger.getInstance().BASE_URL + data.get(position).getXBannerUrl());
                 }
             });
 
@@ -272,8 +271,11 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
             case R.id.img_head:
 
+                if (isLogin()) {
 
-                LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
+                } else {
+                    LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
+                }
 
 
                 break;

@@ -2,8 +2,12 @@ package com.pro.bityard.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
@@ -30,6 +34,9 @@ import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
+import java.util.Locale;
+
+import androidx.annotation.Nullable;
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -53,6 +60,53 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+       /* String language = SPUtils.getString(AppConfig.KEY_LANGUAGE);
+        Log.d("print", "onCreate:68:  " + language);
+        if (language.equals("")) {
+
+        } else {
+            switchLanguage(language);
+        }*/
+
+    }
+
+    private void switchLanguage(String language) {
+
+        //设置应用语言类型
+
+        Resources resources = getResources();
+
+        Configuration config = resources.getConfiguration();
+
+        DisplayMetrics dm = resources.getDisplayMetrics();
+
+        if (language.equals("zh_simple")) {
+
+            config.locale = Locale.SIMPLIFIED_CHINESE;
+
+        } else if (language.equals("en")) {
+
+            config.locale = Locale.ENGLISH;
+
+        } else if (language.equals("zh_traditional")) {
+
+            config.locale = Locale.TRADITIONAL_CHINESE;
+
+        } else if (language.equals("ja")) {
+            config.locale = Locale.JAPANESE;
+
+        } else if (language.equals("ko")) {
+            config.locale = Locale.KOREAN;
+
+        }
+        resources.updateConfiguration(config, dm);
+
+
+    }
 
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
@@ -86,19 +140,14 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
 
-        QuoteManger.getInstance().startScheduleJob(3000,3000);
+        QuoteManger.getInstance().startScheduleJob(3000, 3000);
 
 
     }
 
 
-
-
-
     @Override
     protected void initData() {
-
-
 
 
         //获取国家code

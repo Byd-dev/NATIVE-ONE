@@ -272,7 +272,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                                     dismissProgressDialog();
                                     LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
                                     if (loginEntity.getCode() == 200) {
-                                        SPUtils.putData(AppConfig.LOGIN, loginEntity.getUser());
+                                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
                                         getActivity().finish();
                                         //缓存上一次登录成功的区号和地址
                                         SPUtils.putString(AppConfig.USER_COUNTRY_CODE, text_countryCode.getText().toString());

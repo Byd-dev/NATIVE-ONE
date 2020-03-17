@@ -47,7 +47,7 @@ public class MarketFragment extends BaseFragment implements Observer, View.OnCli
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-            if (quoteList != null) {
+            if (quoteList != null&&swipeRefreshLayout!=null) {
                 swipeRefreshLayout.setRefreshing(false);
                 quoteAdapter.setDatas(quoteList);
             }else {
