@@ -1,6 +1,18 @@
 package com.pro.bityard.utils;
 
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
+import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+
+import com.pro.bityard.api.Constant;
+import com.pro.bityard.config.AppConfig;
+import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -11,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
@@ -107,6 +120,100 @@ public class Util {
         double v = Double.parseDouble(value);
         DecimalFormat mFormat = new DecimalFormat("#0.00");
         return mFormat.format(v);
+    }
+
+
+    public static Context selectLanguage(Context context, String language) {
+        Context updateContext;
+        //设置语言类型
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            updateContext = createConfigurationResources(context, language);
+        } else {
+            applyLanguage(context, language);
+            updateContext = context;
+        }
+        //保存设置语言的类型
+        SPUtils.putString(AppConfig.KEY_LANGUAGE, language);
+        return updateContext;
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private static Context createConfigurationResources(Context context, String language) {
+        //设置语言类型
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale;
+        switch (language) {
+            case "en":
+                locale = Locale.ENGLISH;
+                break;
+            case "zh_simple":
+                locale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            case "zh_traditional":
+                locale = Locale.TRADITIONAL_CHINESE;
+                break;
+            case "ja":
+                locale = Locale.JAPANESE;
+                break;
+            case "ko":
+                locale = Locale.KOREAN;
+                break;
+            default:
+                locale = Locale.getDefault();
+                break;
+        }
+        configuration.setLocale(locale);
+        return context.createConfigurationContext(configuration);
+    }
+
+    private static void applyLanguage(Context context, String language) {
+        //设置语言类型
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale locale;
+        switch (language) {
+            case "en":
+                locale = Locale.ENGLISH;
+                break;
+            case "zh_simple":
+                locale = Locale.SIMPLIFIED_CHINESE;
+                break;
+            case "zh_traditional":
+                locale = Locale.TRADITIONAL_CHINESE;
+                break;
+            case "ja":
+                locale = Locale.JAPANESE;
+                break;
+            case "ko":
+                locale = Locale.KOREAN;
+                break;
+            default:
+                locale = Locale.getDefault();
+                break;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // apply locale
+            configuration.setLocale(locale);
+        } else {
+            // updateConfiguration
+            configuration.locale = locale;
+            DisplayMetrics dm = resources.getDisplayMetrics();
+            resources.updateConfiguration(configuration, dm);
+        }
+    }
+
+    public static Context updateLanguage(Context context) {
+        String curLanguage = SPUtils.getString(AppConfig.KEY_LANGUAGE);
+        if (null == curLanguage || TextUtils.isEmpty(curLanguage)) {
+            curLanguage = AppConfig.KEY_LANGUAGE;
+        }
+        return selectLanguage(context, curLanguage);
+    }
+
+    public static void switchLanguage(Context context, String value) {
+
+        selectLanguage(context, value);
     }
 
 }

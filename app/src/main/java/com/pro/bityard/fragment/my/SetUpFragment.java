@@ -1,6 +1,5 @@
 package com.pro.bityard.fragment.my;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,7 +12,6 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LogoutTipEntity;
-import com.pro.bityard.utils.ViewUtil;
 import com.pro.switchlibrary.SPUtils;
 
 import butterknife.BindView;
@@ -40,12 +38,32 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
     public void onResume() {
         super.onResume();
         boolean theme = SPUtils.getBoolean(AppConfig.KEY_THEME, true);
-        if (theme==true){
+        if (theme == true) {
             text_theme.setText(getResources().getText(R.string.text_night));
-        }else {
+        } else {
             text_theme.setText(getResources().getText(R.string.text_day));
         }
 
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE);
+        if (language.equals("")) {
+
+        } else {
+            if (language.equals("en")) {
+                text_language.setText(getResources().getText(R.string.text_english));
+            } else if (language.equals("zh_simple")) {
+                text_language.setText(getResources().getText(R.string.text_chinese));
+
+            } else if (language.equals("zh_traditional")) {
+                text_language.setText(getResources().getText(R.string.text_traditional));
+
+            } else if (language.equals("ja")) {
+                text_language.setText(getResources().getText(R.string.text_japan));
+
+            } else if (language.equals("ko")) {
+                text_language.setText(getResources().getText(R.string.text_korean));
+
+            }
+        }
 
 
     }
@@ -66,15 +84,6 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
         view.findViewById(R.id.layout_two).setOnClickListener(this);
         view.findViewById(R.id.layout_three).setOnClickListener(this);
 
-        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE);
-        Log.d("print", "onResume:47:  "+language);
-        if (language.equals("en")){
-            ViewUtil.updateViewLanguage(view.findViewById(android.R.id.content));
-        }else if (language.equals("zh_simple")){
-            ViewUtil.updateViewLanguage(view.findViewById(android.R.id.content));
-
-        }
-
 
     }
 
@@ -90,7 +99,6 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
 
     @Override
     protected void initData() {
-
 
 
     }

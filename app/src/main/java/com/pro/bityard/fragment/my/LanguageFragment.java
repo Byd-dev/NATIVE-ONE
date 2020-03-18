@@ -11,6 +11,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.MainActivity;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
@@ -65,11 +66,49 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
     protected void initData() {
 
 
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE);
+        if (language.equals("")) {
+
+        } else {
+            if (language.equals("en")) {
+                img_one.setBackgroundResource(R.mipmap.icon_check_true);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+            } else if (language.equals("zh_simple")) {
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_true);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+            } else if (language.equals("zh_traditional")) {
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_true);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+            } else if (language.equals("ja")) {
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_true);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+            } else if (language.equals("ko")) {
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_true);
+            }
+        }
+
     }
 
 
     @Override
     public void onClick(View v) {
+
         switch (v.getId()) {
             case R.id.img_back:
                 getActivity().finish();
@@ -83,8 +122,11 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-                SPUtils.putString(AppConfig.KEY_LANGUAGE, "en");
-              //  switchLanguage("en");
+
+                Util.switchLanguage(getContext(), "en");
+                getActivity().finish();
+
+
                 break;
             case R.id.layout_two:
 
@@ -94,8 +136,11 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-                SPUtils.putString(AppConfig.KEY_LANGUAGE, "zh_simple");
-              //  switchLanguage("zh_simple");
+
+                Util.switchLanguage(getContext(), "zh_simple");
+                getActivity().finish();
+
+
                 break;
             case R.id.layout_three:
 
@@ -105,8 +150,10 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_true);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-                SPUtils.putString(AppConfig.KEY_LANGUAGE, "zh_traditional");
-               // switchLanguage("zh_traditional");
+
+                Util.switchLanguage(getContext(), "zh_traditional");
+                getActivity().finish();
+
 
                 break;
             case R.id.layout_four:
@@ -117,8 +164,11 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_true);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-                SPUtils.putString(AppConfig.KEY_LANGUAGE, "ja");
-              //  switchLanguage("ja");
+
+                Util.switchLanguage(getContext(), "ja");
+                getActivity().finish();
+
+
                 break;
             case R.id.layout_five:
 
@@ -128,46 +178,18 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_true);
-                SPUtils.putString(AppConfig.KEY_LANGUAGE, "ko");
-               // switchLanguage("ko");
+
+                Util.switchLanguage(getContext(), "ko");
+
+                getActivity().finish();
+
+
                 break;
         }
     }
 
-    private void switchLanguage(String language) {
 
-        //设置应用语言类型
-
-        Resources resources = getResources();
-
-        Configuration config = resources.getConfiguration();
-
-        DisplayMetrics dm = resources.getDisplayMetrics();
-
-        if (language.equals("zh_simple")) {
-
-            config.locale = Locale.SIMPLIFIED_CHINESE;
-
-        } else if (language.equals("en")) {
-
-            config.locale = Locale.ENGLISH;
-
-        } else if (language.equals("zh_traditional")) {
-
-            config.locale = Locale.TRADITIONAL_CHINESE;
-
-        } else if (language.equals("ja")) {
-            config.locale = Locale.JAPANESE;
-
-        } else if (language.equals("ko")) {
-            config.locale = Locale.KOREAN;
-
-        }
-
-        resources.updateConfiguration(config, dm);
-
-        //更新语言后，destroy当前页面，重新绘制
-
+    private void finish() {
         getActivity().finish();
 
         Intent it = new Intent(getActivity(), MainActivity.class);
@@ -177,6 +199,5 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
         it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         startActivity(it);
-
     }
 }

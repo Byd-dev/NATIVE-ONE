@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
-        <com.pro.bityard.view.AppTextView
+        <TextView
             android:id="@+id/text_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

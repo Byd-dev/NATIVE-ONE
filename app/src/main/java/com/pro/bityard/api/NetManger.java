@@ -18,6 +18,8 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.MainActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.OpenPositionEntity;
+import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
@@ -45,9 +47,9 @@ public class NetManger {
     public static String SUCCESS = "success";
     public static String FAILURE = "failure";
 
-     public static String BASE_URL = "http://test.bityard.com";   //测试
+    public static String BASE_URL = "http://test.bityard.com";   //测试
 
-  //  public static String BASE_URL = "https://www.bityard.com";    //正式
+    //  public static String BASE_URL = "https://www.bityard.com";    //正式
 
     public static NetManger getInstance() {
         if (instance == null) {
@@ -321,7 +323,7 @@ public class NetManger {
 
             String[] split = urlList.split(";");
             int length = split.length;
-            Log.d("NetManger", "getQuote:324: 请求次数: "+count+ "请求地址长度: "+length+"  --   "+urlList);
+            Log.d("NetManger", "getQuote:324: 请求次数: " + count + "请求地址长度: " + length + "  --   " + urlList);
             if (count < length) {
                 getHostRequest(split[count], url, map, new OnNetResult() {
                     @Override
@@ -339,8 +341,8 @@ public class NetManger {
                         }
                     }
                 });
-            }else {
-                count=0;//这里是重置
+            } else {
+                count = 0;//这里是重置
             }
 
 
@@ -360,6 +362,35 @@ public class NetManger {
                     SPUtils.putString(AppConfig.QUOTE_HOST, response1.toString());
                     SPUtils.putString(AppConfig.QUOTE_CODE, response2.toString());
                     SPUtils.putString(AppConfig.QUOTE_DETAIL, response3.toString());
+                }
+            }
+        });
+    }
+
+    /*持仓列表*/
+    public void getHold(String tradeType,OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("tradeType", tradeType);
+        map.put("_", String.valueOf(new Date().getTime()));
+        getRequest("/api/trade/scheme/holdings", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    onNetResult.onNetResult(BUSY,null);
+                } else if (state.equals(SUCCESS)) {
+
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 200) {
+                        OpenPositionEntity openPositionEntity = new Gson().fromJson(response.toString(), OpenPositionEntity.class);
+
+                        onNetResult.onNetResult(SUCCESS,openPositionEntity);
+
+
+                    }
+
+                } else if (state.equals(FAILURE)) {
+                    onNetResult.onNetResult(FAILURE,null);
+
                 }
             }
         });

@@ -16,6 +16,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.io.Serializable;
@@ -46,11 +47,13 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
 
+
+    /*多语言的设置*/
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
+        super.attachBaseContext(Util.updateLanguage(newBase));
     }
-
+    /*皮肤初始化*/
     @NonNull
     @Override
     public AppCompatDelegate getDelegate() {
@@ -64,7 +67,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(setContentLayout());
         ButterKnife.bind(this);
         //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
-        StatusBarUtil.setRootViewFitsSystemWindows(this,true);
+        StatusBarUtil.setRootViewFitsSystemWindows(this, true);
         //设置状态栏透明
         StatusBarUtil.setTranslucentStatus(this);
         //一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
@@ -72,7 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
             //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
             //这样半透明+白=灰, 状态栏的文字能看得清
-            StatusBarUtil.setStatusBarColor(this,0x55000000);
+            StatusBarUtil.setStatusBarColor(this, 0x55000000);
         }
 
 
@@ -190,8 +193,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
 //正确的做法
-
-
     protected void showFragment(int resid, BaseFragment fragment, String key, Object object) {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
@@ -246,6 +247,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         fragment.setArguments(bundle);
         fragmentTransaction.commit();
     }
+
     //隐藏虚拟键盘
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {

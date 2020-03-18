@@ -2,13 +2,7 @@ package com.pro.bityard.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -21,20 +15,13 @@ import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
-import com.pro.bityard.entity.QuoteEntity;
 import com.pro.bityard.fragment.tab.HoldFragment;
-import com.pro.bityard.fragment.tab.HomeFragment;
 import com.pro.bityard.fragment.tab.HomeRecyclerFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
-import com.pro.bityard.quote.Observable;
-import com.pro.bityard.quote.Observer;
 import com.pro.bityard.quote.QuoteManger;
-import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
-
-import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import butterknife.BindView;
@@ -64,49 +51,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       /* String language = SPUtils.getString(AppConfig.KEY_LANGUAGE);
-        Log.d("print", "onCreate:68:  " + language);
-        if (language.equals("")) {
-
-        } else {
-            switchLanguage(language);
-        }*/
-
-    }
-
-    private void switchLanguage(String language) {
-
-        //设置应用语言类型
-
-        Resources resources = getResources();
-
-        Configuration config = resources.getConfiguration();
-
-        DisplayMetrics dm = resources.getDisplayMetrics();
-
-        if (language.equals("zh_simple")) {
-
-            config.locale = Locale.SIMPLIFIED_CHINESE;
-
-        } else if (language.equals("en")) {
-
-            config.locale = Locale.ENGLISH;
-
-        } else if (language.equals("zh_traditional")) {
-
-            config.locale = Locale.TRADITIONAL_CHINESE;
-
-        } else if (language.equals("ja")) {
-            config.locale = Locale.JAPANESE;
-
-        } else if (language.equals("ko")) {
-            config.locale = Locale.KOREAN;
-
-        }
-        resources.updateConfiguration(config, dm);
 
 
     }
+
 
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
@@ -122,6 +70,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected int setContentLayout() {
         return R.layout.activity_main;
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -199,6 +152,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
 
                 break;
+
 
             case R.id.radio_2:
 

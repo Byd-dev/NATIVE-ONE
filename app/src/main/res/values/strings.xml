@@ -74,5 +74,22 @@
     <string name="text_japan_second">Japanese</string>
     <string name="text_korean">한국어</string>
     <string name="text_korean_second">Korean</string>
+    <string name="text_real">实盘</string>
+    <string name="text_simulation">模拟</string>
+    <string name="text_available">可用</string>
+    <string name="text_freeze">冻结</string>
+    <string name="text_worth">净值</string>
+    <string name="text_open">持仓</string>
+    <string name="text_order">挂单</string>
+    <string name="text_history">历史</string>
+    <string name="text_detail">查看详情</string>
+    <string name="text_buy_price">买价</string>
+    <string name="text_stoploss_price">止损价</string>
+    <string name="text_close_out_color">平仓</string>
+    <string name="text_profit_loss">止盈止损</string>
+    <string name="text_price">现价</string>
+    <string name="text_profit_price">止盈价</string>
+    <string name="text_total_profit_loss">总盈亏:</string>
+    <string name="text_all_cloes">一键平仓</string>
 
 </resources>
