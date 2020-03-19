@@ -4,40 +4,28 @@ package com.pro.bityard.api;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
-import com.pro.bityard.R;
-import com.pro.bityard.activity.MainActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.OpenPositionEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TradeListEntity;
-import com.pro.bityard.utils.Util;
+import com.pro.bityard.quote.QuoteManger;
 import com.pro.switchlibrary.AES;
-import com.pro.switchlibrary.PhotoUtils;
 import com.pro.switchlibrary.SPUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import androidx.core.app.NavUtils;
 
 public class NetManger {
 
@@ -197,7 +185,7 @@ public class NetManger {
     /*行情地址host 合约号 合约号详情 的方法  关键*/
     public void getHostCodeTradeList(OnNetThreeResult onNetThreeResult) {
 
-        initURL(new OnNetHostResult() {
+        initURL(new OnNetTwoResult() {
             @Override
             public void setResult(String state, Object response1, Object response2) {
                 if (state.equals(BUSY)) {
@@ -221,7 +209,7 @@ public class NetManger {
     }
 
     //行情init初始化
-    public void initURL(OnNetHostResult onNetResult) {
+    public void initURL(OnNetTwoResult onNetResult) {
         /*获取行情的host*/
         getRequest("/api/trade/commodity/initial", null, new OnNetResult() {
             @Override
@@ -368,7 +356,7 @@ public class NetManger {
     }
 
     /*持仓列表*/
-    public void getHold(String tradeType,OnNetResult onNetResult) {
+    public void getHold(String tradeType, OnNetTwoResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("tradeType", tradeType);
         map.put("_", String.valueOf(new Date().getTime()));
@@ -376,20 +364,20 @@ public class NetManger {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
-                    onNetResult.onNetResult(BUSY,null);
+                    onNetResult.setResult(BUSY, null, null);
                 } else if (state.equals(SUCCESS)) {
 
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 200) {
                         OpenPositionEntity openPositionEntity = new Gson().fromJson(response.toString(), OpenPositionEntity.class);
-
-                        onNetResult.onNetResult(SUCCESS,openPositionEntity);
+                        List<String> quoteList = QuoteManger.getInstance().getQuoteList();
+                        onNetResult.setResult(SUCCESS, openPositionEntity, quoteList);
 
 
                     }
 
                 } else if (state.equals(FAILURE)) {
-                    onNetResult.onNetResult(FAILURE,null);
+                    onNetResult.setResult(FAILURE, null, null);
 
                 }
             }

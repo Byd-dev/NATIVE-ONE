@@ -29,6 +29,7 @@ import butterknife.BindView;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener {
 
@@ -93,7 +94,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
 
-        QuoteManger.getInstance().startScheduleJob(3000, 3000);
+        QuoteManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
 
 
     }

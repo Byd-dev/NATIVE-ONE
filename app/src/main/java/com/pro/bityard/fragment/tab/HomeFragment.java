@@ -30,6 +30,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import skin.support.SkinCompatManager;
 
+import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
+
 public class HomeFragment extends BaseFragment implements View.OnClickListener, Observer {
     @BindView(R.id.bar)
     RelativeLayout layout_bar;
@@ -103,7 +105,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         recyclerView_list.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView_list.setAdapter(quoteAdapter);
 
-        startScheduleJob(mHandler,500,500);
+        startScheduleJob(mHandler,GET_QUOTE_SECOND,GET_QUOTE_SECOND);
 
 
     }

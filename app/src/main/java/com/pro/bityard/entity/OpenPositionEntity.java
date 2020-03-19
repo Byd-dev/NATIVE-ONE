@@ -15,6 +15,15 @@ public class OpenPositionEntity {
     private String message;
     private List<DataBean> data;
 
+    @Override
+    public String toString() {
+        return "OpenPositionEntity{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
     public int getCode() {
         return code;
     }

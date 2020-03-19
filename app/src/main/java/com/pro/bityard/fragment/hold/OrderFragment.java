@@ -25,7 +25,6 @@ public class OrderFragment extends BaseFragment {
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
 
-    private PositionAdapter positionAdapter;
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -61,10 +60,8 @@ public class OrderFragment extends BaseFragment {
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
 
-        positionAdapter = new PositionAdapter(getContext());
 
-        headerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        headerRecyclerView.setAdapter(positionAdapter);
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

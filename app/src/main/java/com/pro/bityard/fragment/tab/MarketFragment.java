@@ -18,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
+import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
+
 public class MarketFragment extends BaseFragment implements Observer, View.OnClickListener {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -38,7 +40,7 @@ public class MarketFragment extends BaseFragment implements Observer, View.OnCli
 
     @Override
     protected void onLazyLoad() {
-        startScheduleJob(mHandler, 1000, 1000);
+        startScheduleJob(mHandler, GET_QUOTE_SECOND, GET_QUOTE_SECOND);
 
     }
 

@@ -43,6 +43,7 @@ import skin.support.SkinCompatManager;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
 
 public class HomeRecyclerFragment extends BaseFragment implements View.OnClickListener, Observer {
 
@@ -128,7 +129,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
         recyclerView_list.addHeaderView(home_view);
 
-        startScheduleJob(mHandler, 1000, 1000);
+        startScheduleJob(mHandler, GET_QUOTE_SECOND, GET_QUOTE_SECOND);
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/

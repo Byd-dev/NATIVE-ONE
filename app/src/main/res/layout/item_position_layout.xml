@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_maincolor"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,7 +17,7 @@
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
 
                 >
 
@@ -43,12 +42,14 @@
                     android:textSize="13sp" />
 
                 <ImageView
+                    android:id="@+id/img_buy"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_9"
                     android:layout_toRightOf="@+id/text_name_usdt"
-                    android:src="@mipmap/icon_up" />
+
+                    />
 
                 <TextView
                     android:id="@+id/text_volume"
@@ -101,7 +102,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -248,6 +249,7 @@
                     android:layout_weight="1">
 
                     <TextView
+                        android:id="@+id/text_income"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -282,7 +284,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/margin_15"
-                        android:text="(净资产)"
+                        android:text="@string/text_netincome"
                         android:textColor="@color/text_second_color" />
 
 
@@ -307,7 +309,7 @@
                 android:layout_height="wrap_content"
                 android:text="追加保证金"
                 android:drawablePadding="@dimen/margin_5"
-                android:drawableLeft="@mipmap/icon_up"
+                android:drawableLeft="@mipmap/icon_add"
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
                 android:layout_marginLeft="@dimen/margin_15"
