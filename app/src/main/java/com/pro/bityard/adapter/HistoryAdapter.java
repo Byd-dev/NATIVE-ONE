@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
+import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.OpenPositionEntity;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
@@ -24,9 +26,9 @@ import static com.pro.bityard.utils.TradeUtil.income;
 import static com.pro.bityard.utils.TradeUtil.netIncome;
 import static com.pro.bityard.utils.TradeUtil.price;
 
-public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<OpenPositionEntity.DataBean> datas;
+    private List<HistoryEntity.DataBean> datas;
 
     private List<String> quoteList;
 
@@ -41,18 +43,18 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<Double> incomeList;
 
 
-    public PositionAdapter(Context context) {
+    public HistoryAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<OpenPositionEntity.DataBean> datas, List<String> quoteList) {
+    public void setDatas(List<HistoryEntity.DataBean> datas, List<String> quoteList) {
         this.datas = datas;
         this.quoteList = quoteList;
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<OpenPositionEntity.DataBean> datas) {
+    public void addDatas(List<HistoryEntity.DataBean> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -86,7 +88,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         if (viewType == TYPE_ITEM) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.item_position_layout, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_history_layout, parent, false);
             holder = new MyViewHolder(view);
             return holder;
         }
@@ -106,7 +108,13 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((MyViewHolder) holder).text_name.setText(split[0]);
             ((MyViewHolder) holder).text_volume.setText(String.valueOf(datas.get(position).getVolume()));
 
-            double price = datas.get(position).getPrice();
+            ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getTime()));
+
+            ((MyViewHolder) holder).text_tag.setText(datas.get(position).getTradeMode());
+
+            double opPrice = datas.get(position).getOpPrice();
+
+            double cpPrice = datas.get(position).getCpPrice();
 
             boolean isBuy = datas.get(position).isIsBuy();
 
@@ -128,40 +136,38 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             }
 
-            //买价
-            ((MyViewHolder) holder).text_buy_price.setText(String.valueOf(price));
+            //开仓价
+            ((MyViewHolder) holder).text_open_price.setText(String.valueOf(opPrice));
+            //平仓价
+            ((MyViewHolder) holder).text_close_price.setText(String.valueOf(cpPrice));
             //止损价格
-            ((MyViewHolder) holder).text_loss_price.setText(StopLossPrice(isBuy, price, priceDigit, lever, margin, stopLoss));
+            ((MyViewHolder) holder).text_loss_price.setText(StopLossPrice(isBuy, opPrice, priceDigit, lever, margin, stopLoss));
             //止盈价格
-            ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, price, priceDigit, lever, margin, stopProfit));
-            //现价和盈亏
-            price(quoteList, datas.get(position).getContractCode(), new TradeResult() {
-                @Override
-                public void setResult(Object response) {
-                    ((MyViewHolder) holder).text_price.setText(response.toString());
-                    String income = income(isBuy, Double.parseDouble(response.toString()), price, datas.get(position).getVolume());
-                    ((MyViewHolder) holder).text_income.setText(income);
-                    double incomeDouble = Double.parseDouble(income);
+            ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, opPrice, priceDigit, lever, margin, stopProfit));
 
 
-                    String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
-                    double netIncomeDouble = Double.parseDouble(netIncome);
 
-                    ((MyViewHolder) holder).text_worth.setText(netIncome);
-                    if (incomeDouble > 0) {
-                        ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
-                    } else {
-                        ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
-                    }
 
-                    if (netIncomeDouble > 0) {
-                        ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_green));
-                    } else {
-                        ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_red));
-                    }
+            String income = income(isBuy, cpPrice, opPrice, datas.get(position).getVolume());
+            ((MyViewHolder) holder).text_income.setText(income);
+            double incomeDouble = Double.parseDouble(income);
 
-                }
-            });
+
+            String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
+            double netIncomeDouble = Double.parseDouble(netIncome);
+
+            ((MyViewHolder) holder).text_worth.setText(netIncome);
+            if (incomeDouble > 0) {
+                ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+            } else {
+                ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+            }
+
+            if (netIncomeDouble > 0) {
+                ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+            } else {
+                ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+            }
 
 
         }
@@ -194,23 +200,24 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_volume, text_buy_price,
-                text_loss_price, text_price, text_profit_price,
-                text_income, text_worth, text_close_out;
+        TextView text_name, text_volume, text_open_price,
+                text_loss_price, text_close_price, text_profit_price,
+                text_income, text_worth,text_time,text_tag;
         ImageView img_buy;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             text_name = itemView.findViewById(R.id.text_name);
             text_volume = itemView.findViewById(R.id.text_volume);
-            text_buy_price = itemView.findViewById(R.id.text_buy_price);
+            text_open_price = itemView.findViewById(R.id.text_open_price);
             text_loss_price = itemView.findViewById(R.id.text_loss_price);
-            text_price = itemView.findViewById(R.id.text_price);
+            text_close_price = itemView.findViewById(R.id.text_close_price);
             text_profit_price = itemView.findViewById(R.id.text_profit_price);
             text_income = itemView.findViewById(R.id.text_income);
             text_worth = itemView.findViewById(R.id.text_worth);
-            text_close_out = itemView.findViewById(R.id.text_close_out);
             img_buy = itemView.findViewById(R.id.img_buy);
+            text_time=itemView.findViewById(R.id.text_time);
+            text_tag=itemView.findViewById(R.id.text_tag);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -222,14 +229,6 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
 
-            text_close_out.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClick != null) {
-                        onItemClick.onCloseListener(datas.get(getPosition() - 1).getId());
-                    }
-                }
-            });
 
 
         }
@@ -242,11 +241,9 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public interface OnItemClick {
-        void onClickListener(OpenPositionEntity.DataBean data);
+        void onClickListener(HistoryEntity.DataBean data);
 
-        void onCloseListener(String id);
 
-        void onProfitLossListener();
 
     }
 }

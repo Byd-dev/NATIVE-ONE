@@ -7,16 +7,26 @@ import com.pro.bityard.entity.OpenPositionEntity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class TradeUtil {
     private static String TAG = "TradeUtil";
-
+    /*保留两位小数*/
     public static String getNumberFormat(double value, int scale) {
         BigDecimal bd = new BigDecimal(value);
         String mon = bd.setScale(scale, RoundingMode.DOWN).toString();//保留两位数字，并且是截断不进行四舍五
         return mon;
+    }
+
+    /*long转时间*/
+    public static String dateToStamp(long time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date(time);
+        String format = simpleDateFormat.format(date);
+        return format;
     }
 
     public static String numberHalfUp(double value, int scale) {
@@ -26,41 +36,27 @@ public class TradeUtil {
     }
 
     /*止损价*/
-    public static String StopLossPrice(boolean isBusy, double opPrice, double lever, double margin, double stopLoss) {
+    public static String StopLossPrice(boolean isBusy, double price,int priceDigit, double lever, double margin, double stopLoss) {
         String stopLossPrice;
-        int scale = 0;//根据后台返回的价位小数点多少  就保留多少
-        if (String.valueOf(opPrice).contains(".")) {
-            String[] split = String.valueOf(opPrice).split("\\.");
-            scale = split[1].length();
-        } else {
-            scale = 0;
-        }
         if (isBusy == true) {
             //买多 止损价  =  开仓价 - （开仓价 / 杠杆 * 止损比例） //因为比例是负数   公式是按的正数  所以刚好相反
-            stopLossPrice = getNumberFormat(add(opPrice, mul(div(opPrice, lever, 5), div(stopLoss, margin, 5))), scale);
+            stopLossPrice = getNumberFormat(add(price, mul(div(price, lever, 5), div(stopLoss, margin, 5))), priceDigit);
         } else {
             //买空 止损价  =  开仓价 +（开仓价 / 杠杆 * 止损比例）
-            stopLossPrice = getNumberFormat(sub(opPrice, mul(div(opPrice, lever, 5), div(stopLoss, margin, 5))), scale);
+            stopLossPrice = getNumberFormat(sub(price, mul(div(price, lever, 5), div(stopLoss, margin, 5))), priceDigit);
         }
         return stopLossPrice;
     }
 
     /*止盈价*/
-    public static String StopProfitPrice(boolean isBusy, double opPrice, double lever, double margin, double stopProfit) {
+    public static String StopProfitPrice(boolean isBusy, double price,int priceDigit, double lever, double margin, double stopProfit) {
         String stopLossPrice;
-        int scale = 0;
-        if (String.valueOf(opPrice).contains(".")) {
-            String[] split = String.valueOf(opPrice).split("\\.");
-            scale = split[1].length();
-        } else {
-            scale = 0;
-        }
         if (isBusy == true) {
             //买多 止盈价  =  开仓价 + （开仓价 / 杠杆 * 止损比例） //因为比例是负数   公式是按的正数  所以刚好相反
-            stopLossPrice = getNumberFormat(add(opPrice, mul(div(opPrice, lever, 5), div(stopProfit, margin, 5))), scale);
+            stopLossPrice = getNumberFormat(add(price, mul(div(price, lever, 5), div(stopProfit, margin, 5))), priceDigit);
         } else {
             //买空 止盈价  =  开仓价 -（开仓价 / 杠杆 * 止损比例）
-            stopLossPrice = getNumberFormat(sub(opPrice, mul(div(opPrice, lever, 5), div(stopProfit, margin, 5))), scale);
+            stopLossPrice = getNumberFormat(sub(price, mul(div(price, lever, 5), div(stopProfit, margin, 5))), priceDigit);
         }
         return stopLossPrice;
     }

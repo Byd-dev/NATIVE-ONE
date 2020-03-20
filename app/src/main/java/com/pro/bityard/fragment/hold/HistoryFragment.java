@@ -5,12 +5,19 @@ import android.util.Log;
 import android.view.View;
 
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.HistoryAdapter;
+import com.pro.bityard.adapter.PendingAdapter;
 import com.pro.bityard.adapter.PositionAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
+import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.OpenPositionEntity;
+import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.view.HeaderRecyclerView;
+
+import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,6 +31,9 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 public class HistoryFragment extends BaseFragment {
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
+
+
+    private HistoryAdapter historyAdapter;
 
 
     @BindView(R.id.swipeRefreshLayout)
@@ -59,7 +69,11 @@ public class HistoryFragment extends BaseFragment {
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
+        historyAdapter = new HistoryAdapter(getContext());
 
+        headerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        headerRecyclerView.setAdapter(historyAdapter);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -83,6 +97,27 @@ public class HistoryFragment extends BaseFragment {
 
     @Override
     protected void initData() {
+
+        NetManger.getInstance().getHistory(tradeType, new OnNetTwoResult() {
+            @Override
+            public void setResult(String state, Object response1, Object response2) {
+                if (state.equals(BUSY)) {
+                    swipeRefreshLayout.setRefreshing(true);
+                } else if (state.equals(SUCCESS)) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    HistoryEntity historyEntity= (HistoryEntity) response1;
+                    List<String> quoteList= (List<String>) response2;
+                    historyAdapter.setDatas(historyEntity.getData(),quoteList);
+
+
+                } else if (state.equals(FAILURE)) {
+                    swipeRefreshLayout.setRefreshing(false);
+
+                }
+            }
+
+
+        });
 
     }
 }

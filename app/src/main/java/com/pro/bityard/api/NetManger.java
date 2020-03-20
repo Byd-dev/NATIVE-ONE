@@ -11,8 +11,10 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.OpenPositionEntity;
+import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TradeListEntity;
@@ -27,6 +29,8 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class NetManger {
 
@@ -457,8 +461,11 @@ public class NetManger {
                         onNetResult.setResult(FAILURE, null, null);
 
                     } else if (tipEntity.getCode() == 200) {
+                        PendingEntity pendingEntity = new Gson().fromJson(response.toString(), PendingEntity.class);
+
                         List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-                       // onNetResult.setResult(SUCCESS, openPositionEntity, quoteList);
+
+                        onNetResult.setResult(SUCCESS, pendingEntity, quoteList);
 
 
                     }
@@ -470,5 +477,65 @@ public class NetManger {
             }
         });
     }
+
+
+    /*撤单*/
+    public void cancel(String id,String tradeType,OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("bettingId", id);
+        map.put("tradeType", tradeType);
+        map.put("source", "取消挂单");
+        postRequest("/api/trade/revoke.htm", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)){
+                    onNetResult.onNetResult(BUSY,null);
+                }else if (state.equals(SUCCESS)){
+                    TipCloseEntity tipCloseEntity = new Gson().fromJson(response.toString(), TipCloseEntity.class);
+                    onNetResult.onNetResult(SUCCESS,tipCloseEntity);
+
+                }else if (state.equals(FAILURE)){
+                    onNetResult.onNetResult(FAILURE,null);
+
+                }
+            }
+        });
+    }
+
+    /*持仓历史*/
+    public void getHistory(String tradeType, OnNetTwoResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("schemeSort","2");
+        map.put("tradeType", tradeType);
+        map.put("_", String.valueOf(new Date().getTime()));
+        getRequest("/api/trade/scheme/history", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    onNetResult.setResult(BUSY, null, null);
+                } else if (state.equals(SUCCESS)) {
+
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 401) {
+                        onNetResult.setResult(FAILURE, null, null);
+
+                    } else if (tipEntity.getCode() == 200) {
+                        HistoryEntity historyEntity = new Gson().fromJson(response.toString(), HistoryEntity.class);
+
+                        List<String> quoteList = QuoteManger.getInstance().getQuoteList();
+
+                        onNetResult.setResult(SUCCESS, historyEntity, quoteList);
+
+
+                    }
+
+                } else if (state.equals(FAILURE)) {
+                    onNetResult.setResult(FAILURE, null, null);
+
+                }
+            }
+        });
+    }
+
 
 }

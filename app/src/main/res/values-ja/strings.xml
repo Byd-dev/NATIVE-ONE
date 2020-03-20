@@ -93,6 +93,10 @@
     <string name="text_total_profit_loss">总盈亏:</string>
     <string name="text_all_cloes">一键平仓</string>
     <string name="text_netincome">(净盈亏)</string>
+    <string name="text_pending_text">挂单价</string>
+    <string name="text_cancel">撤单</string>
+    <string name="text_o_price">开仓价</string>
+    <string name="text_close_price">平仓价</string>
 
 
 </resources>

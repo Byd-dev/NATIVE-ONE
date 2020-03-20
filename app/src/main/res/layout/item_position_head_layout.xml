@@ -48,9 +48,5 @@
             android:textColor="@color/text_main_color_black"
             android:textSize="14sp" />
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_5"
-        android:background="@color/home_line"
-        />
+
 </LinearLayout>

@@ -3,7 +3,6 @@ package com.pro.bityard.fragment.hold;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -15,6 +14,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.api.TradeResult;
+import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.OpenPositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
@@ -167,7 +167,7 @@ public class OpenFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-            if (quoteList != null && openPositionEntity.getData().size() != 0) {
+            if (quoteList != null && openPositionEntity.getData() != null) {
                 setIncome(quoteList, openPositionEntity);
                 positionAdapter.setDatas(openPositionEntity.getData(), quoteList);
             }
@@ -181,9 +181,9 @@ public class OpenFragment extends BaseFragment {
             public void setResult(Object response) {
                 Double incomeAll = (Double) response;
                 if (incomeAll > 0) {
-                    text_incomeAll.setTextColor(getResources().getColor(R.color.text_quote_green));
+                    text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_green));
                 } else {
-                    text_incomeAll.setTextColor(getResources().getColor(R.color.text_quote_red));
+                    text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
                 }
                 text_incomeAll.setText(response.toString());
 
@@ -213,7 +213,6 @@ public class OpenFragment extends BaseFragment {
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
                     openPositionEntity = (OpenPositionEntity) response1;
-                    Log.d("print", "setResult:123: " + openPositionEntity);
                     List<String> quoteList = (List<String>) response2;
                     positionAdapter.setDatas(openPositionEntity.getData(), quoteList);
                     //这里根据持仓来是否显示头部视图

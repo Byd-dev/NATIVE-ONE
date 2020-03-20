@@ -124,7 +124,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/text_buy_price"
+                            android:text="@string/text_pending_text"
                             android:textColor="@color/text_second_color"
                             android:textSize="14sp"
 
@@ -252,17 +252,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/text_income"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginRight="@dimen/margin_15"
-                        android:text="--"
-                        android:textColor="@color/text_red_position"
 
-                        android:textSize="20sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -270,27 +260,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
-                    <TextView
-                        android:id="@+id/text_worth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/text_worth_stay"
-                        android:text="--"
-                        android:layout_marginRight="@dimen/margin_5"
-                        android:textColor="@color/text_red_position"
-                        android:textSize="16sp" />
 
-
-                    <TextView
-                        android:id="@+id/text_worth_stay"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/margin_15"
-                        android:text="@string/text_netincome"
-                        android:textColor="@color/text_second_color" />
 
 
                 </RelativeLayout>
@@ -310,11 +280,10 @@
 
             >
             <TextView
+                android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="追加保证金"
-                android:drawablePadding="@dimen/margin_5"
-                android:drawableLeft="@mipmap/icon_add"
+                android:text="--"
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
                 android:layout_marginLeft="@dimen/margin_15"
@@ -322,7 +291,7 @@
                 />
 
             <TextView
-                android:id="@+id/text_close_out"
+                android:id="@+id/text_cancel"
                 android:layout_width="70dp"
                 android:layout_height="@dimen/margin_28"
                 android:gravity="center"
@@ -331,20 +300,9 @@
                 android:layout_centerVertical="true"
                 android:textSize="14sp"
                 android:textColor="@color/text_main_color_black"
-                android:text="@string/text_close_out_color"
+                android:text="@string/text_cancel"
                 android:background="@drawable/bg_shape_main_color"/>
-            <TextView
-                android:id="@+id/text_profit_loss"
-                android:layout_width="70dp"
-                android:layout_height="@dimen/margin_28"
-                android:gravity="center"
-                android:layout_marginRight="@dimen/margin_15"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/text_close_out"
-                android:textSize="14sp"
-                android:textColor="@color/maincolor"
-                android:text="@string/text_profit_loss"
-                android:background="@drawable/bg_kuang_main_color"/>
+
 
 
         </RelativeLayout>
