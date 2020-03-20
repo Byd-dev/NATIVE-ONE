@@ -10,6 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.OpenPositionEntity;
 import com.pro.bityard.utils.TradeUtil;
@@ -38,6 +39,10 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private boolean isHigh = false;
 
     public boolean isLoadMore = false;
+
+
+    private List<Double>incomeList;
+
 
     public PositionAdapter(Context context) {
         this.context = context;
@@ -69,6 +74,11 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void stopLoad() {
         isLoadMore = false;
         this.notifyDataSetChanged();
+    }
+
+
+    public void getIncome(TradeResult tradeResult){
+        tradeResult.setResult(incomeList);
     }
 
 
@@ -133,13 +143,22 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                     String income = income(isBuy, Double.parseDouble(response.toString()), opPrice, datas.get(position).getVolume());
                     ((MyViewHolder) holder).text_income.setText(income);
                     double incomeDouble = Double.parseDouble(income);
-                    ((MyViewHolder) holder).text_worth.setText(netIncome(incomeDouble, datas.get(position).getServiceCharge()));
+
+
+                    String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
+                    double netIncomeDouble = Double.parseDouble(netIncome);
+
+                    ((MyViewHolder) holder).text_worth.setText(netIncome);
                     if (incomeDouble > 0) {
-                        ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_green));
                         ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
                     } else {
-                        ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_red));
                         ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                    }
+
+                    if (netIncomeDouble > 0) {
+                        ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                    } else {
+                        ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_red));
                     }
 
                 }

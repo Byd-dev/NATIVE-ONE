@@ -368,7 +368,10 @@ public class NetManger {
                 } else if (state.equals(SUCCESS)) {
 
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 200) {
+                    if (tipEntity.getCode() == 401) {
+                        onNetResult.setResult(FAILURE, null, null);
+
+                    } else if (tipEntity.getCode() == 200) {
                         OpenPositionEntity openPositionEntity = new Gson().fromJson(response.toString(), OpenPositionEntity.class);
                         List<String> quoteList = QuoteManger.getInstance().getQuoteList();
                         onNetResult.setResult(SUCCESS, openPositionEntity, quoteList);

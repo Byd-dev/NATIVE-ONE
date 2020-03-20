@@ -1,9 +1,11 @@
 package com.pro.bityard.utils;
 
 import com.pro.bityard.api.TradeResult;
+import com.pro.bityard.entity.OpenPositionEntity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TradeUtil {
@@ -24,7 +26,7 @@ public class TradeUtil {
     /*止损价*/
     public static String StopLossPrice(boolean isBusy, double opPrice, double lever, double margin, double stopLoss) {
         String stopLossPrice;
-        int scale = 0;
+        int scale = 0;//根据后台返回的价位小数点多少  就保留多少
         if (String.valueOf(opPrice).contains(".")) {
             String[] split = String.valueOf(opPrice).split("\\.");
             scale = split[1].length();
@@ -79,7 +81,7 @@ public class TradeUtil {
     /*净盈亏*/
     public static String netIncome(double income, double service) {
         String netIncome;
-        netIncome = getNumberFormat((sub(income, service)),2);
+        netIncome = getNumberFormat((sub(income, service)), 2);
         return netIncome;
     }
 
@@ -125,5 +127,30 @@ public class TradeUtil {
 
 
     }
+
+
+    /*全部盈亏*/
+    public static void getIncome(List<String> quoteList, OpenPositionEntity openPositionEntity, TradeResult tradeResult) {
+        List<Double> incomeList = new ArrayList<>();
+        for (OpenPositionEntity.DataBean dataBean : openPositionEntity.getData()) {
+            boolean isBuy = dataBean.isIsBuy();
+            TradeUtil.price(quoteList, dataBean.getContractCode(), new TradeResult() {
+                @Override
+                public void setResult(Object response) {
+                    Double income = Double.valueOf(TradeUtil.income(isBuy, Double.parseDouble(response.toString()), dataBean.getOpPrice(), dataBean.getVolume()));
+                    incomeList.add(income);
+                }
+            });
+        }
+        if (incomeList.size() > 0) {
+            double income = 0.0;
+            for (int i = 0; i < incomeList.size(); i++) {
+                income = TradeUtil.add(income, incomeList.get(i));
+            }
+            tradeResult.setResult(income);
+        }
+    }
+
+
 
 }
