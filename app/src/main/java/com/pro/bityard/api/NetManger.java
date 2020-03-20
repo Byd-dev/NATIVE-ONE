@@ -13,6 +13,7 @@ import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.OpenPositionEntity;
+import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.quote.QuoteManger;
@@ -136,7 +137,6 @@ public class NetManger {
 
     //URL拼接参数
     public String getURL(String url, ArrayMap map) {
-        Log.d("NetManger", "getURL:参数:  " + map);
 
         String substring_url = null;
         if (map == null) {
@@ -152,6 +152,8 @@ public class NetManger {
                 substring_url = append.toString().substring(0, append.toString().length() - 1);
             }
             String url_result = BASE_URL + url + "?" + substring_url;
+            Log.d("NetManger", "getURL:请求地址:  " + url_result);
+
             return url_result;
         }
 
@@ -218,7 +220,7 @@ public class NetManger {
                 } else if (state.equals(SUCCESS)) {
                     InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
-                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历 
+                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
                     for (InitEntity.GroupBean data : group) {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
@@ -387,5 +389,86 @@ public class NetManger {
         });
     }
 
+    /*平仓*/
+    public void close(String id,String tradeType,OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("bettingId", id);
+        map.put("tradeType", tradeType);
+        map.put("source", "下单");
+        postRequest("/api/trade/close.htm", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)){
+                    onNetResult.onNetResult(BUSY,null);
+                }else if (state.equals(SUCCESS)){
+                    TipCloseEntity tipCloseEntity = new Gson().fromJson(response.toString(), TipCloseEntity.class);
+                    onNetResult.onNetResult(SUCCESS,tipCloseEntity);
+
+                }else if (state.equals(FAILURE)){
+                    onNetResult.onNetResult(FAILURE,null);
+
+                }
+            }
+        });
+    }
+
+    /*一键平仓*/
+    public void closeAll(String idList,String tradeType,OnNetResult onNetResult) {
+
+        if (idList==null){
+            return;
+        }
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("bettingList", idList);
+        map.put("tradeType", tradeType);
+        map.put("source", "一键平仓");
+        postRequest("/api/trade/close.htm", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)){
+                    onNetResult.onNetResult(BUSY,null);
+                }else if (state.equals(SUCCESS)){
+                    TipCloseEntity tipCloseEntity = new Gson().fromJson(response.toString(), TipCloseEntity.class);
+                    onNetResult.onNetResult(SUCCESS,tipCloseEntity);
+                }else if (state.equals(FAILURE)){
+                    onNetResult.onNetResult(FAILURE,null);
+
+                }
+            }
+        });
+    }
+
+    /*挂单列表*/
+    public void getPending(String tradeType, OnNetTwoResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("schemeSort","4");
+        map.put("tradeType", tradeType);
+        map.put("beginTime","");
+        map.put("_", String.valueOf(new Date().getTime()));
+        getRequest("/api/trade/scheme/limit", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    onNetResult.setResult(BUSY, null, null);
+                } else if (state.equals(SUCCESS)) {
+
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 401) {
+                        onNetResult.setResult(FAILURE, null, null);
+
+                    } else if (tipEntity.getCode() == 200) {
+                        List<String> quoteList = QuoteManger.getInstance().getQuoteList();
+                       // onNetResult.setResult(SUCCESS, openPositionEntity, quoteList);
+
+
+                    }
+
+                } else if (state.equals(FAILURE)) {
+                    onNetResult.setResult(FAILURE, null, null);
+
+                }
+            }
+        });
+    }
 
 }

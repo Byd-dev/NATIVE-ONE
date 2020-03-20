@@ -273,6 +273,7 @@
                         android:layout_centerVertical="true"
                         android:layout_toLeftOf="@+id/text_worth_stay"
                         android:text="--"
+                        android:layout_marginRight="@dimen/margin_5"
                         android:textColor="@color/text_red_position"
                         android:textSize="16sp" />
 

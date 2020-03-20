@@ -1,5 +1,7 @@
 package com.pro.bityard.utils;
 
+import android.util.Log;
+
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.OpenPositionEntity;
 
@@ -151,6 +153,23 @@ public class TradeUtil {
         }
     }
 
+    /*持仓的列表ID*/
+    public static String positionIdList(OpenPositionEntity openPositionEntity) {
+        String substring;
+        StringBuilder stringBuilder = new StringBuilder();
+        if (openPositionEntity.getData().size() > 0) {
+            for (OpenPositionEntity.DataBean dataBean : openPositionEntity.getData()) {
+                String id = dataBean.getId();
+                stringBuilder.append(id + ",");
+            }
+            substring = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
+            Log.d(TAG, "positionIdList: 167: " + substring);
+        } else {
+            substring=null;
+        }
+
+        return substring;
+    }
 
 
 }

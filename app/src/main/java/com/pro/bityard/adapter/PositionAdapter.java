@@ -1,7 +1,6 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +9,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.OpenPositionEntity;
-import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
@@ -41,7 +38,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public boolean isLoadMore = false;
 
 
-    private List<Double>incomeList;
+    private List<Double> incomeList;
 
 
     public PositionAdapter(Context context) {
@@ -77,7 +74,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    public void getIncome(TradeResult tradeResult){
+    public void getIncome(TradeResult tradeResult) {
         tradeResult.setResult(incomeList);
     }
 
@@ -190,12 +187,14 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public ProgressViewHoler(View itemView) {
             super(itemView);
-            bar = (ProgressBar) itemView.findViewById(R.id.progress);
+            bar = itemView.findViewById(R.id.progress);
         }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_volume, text_buy_price, text_loss_price, text_price, text_profit_price, text_income, text_worth;
+        TextView text_name, text_volume, text_buy_price,
+                text_loss_price, text_price, text_profit_price,
+                text_income, text_worth,text_close_out;
         ImageView img_buy;
 
         public MyViewHolder(View itemView) {
@@ -208,7 +207,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             text_profit_price = itemView.findViewById(R.id.text_profit_price);
             text_income = itemView.findViewById(R.id.text_income);
             text_worth = itemView.findViewById(R.id.text_worth);
-
+            text_close_out=itemView.findViewById(R.id.text_close_out);
             img_buy = itemView.findViewById(R.id.img_buy);
 
 
@@ -216,10 +215,21 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
                     if (onItemClick != null) {
-                        onItemClick.onSuccessListener(datas.get(getPosition()));
+                        onItemClick.onClickListener(datas.get(getPosition()-1));
                     }
                 }
             });
+
+            text_close_out.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClick != null) {
+                        onItemClick.onCloseListener(datas.get(getPosition()-1).getId());
+                    }
+                }
+            });
+
+
         }
     }
 
@@ -230,7 +240,9 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public interface OnItemClick {
-        void onSuccessListener(OpenPositionEntity.DataBean data);
+        void onClickListener(OpenPositionEntity.DataBean data);
+        void onCloseListener(String id);
+        void onProfitLossListener();
 
     }
 }

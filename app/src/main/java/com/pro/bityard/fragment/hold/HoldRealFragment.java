@@ -70,7 +70,7 @@ public class HoldRealFragment extends BaseFragment {
         Log.d("print", "initViewPager:HoldRealFragment: "+tradeType);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         myPagerAdapter.addFragment(new OpenFragment().newInstance(tradeType), getString(R.string.text_open));
-        myPagerAdapter.addFragment(new OrderFragment().newInstance(tradeType), getString(R.string.text_order));
+        myPagerAdapter.addFragment(new PendingFragment().newInstance(tradeType), getString(R.string.text_order));
         myPagerAdapter.addFragment(new HistoryFragment().newInstance(tradeType), getString(R.string.text_history));
 
         viewPager.setAdapter(myPagerAdapter);

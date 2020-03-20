@@ -1,27 +1,17 @@
 package com.pro.bityard.fragment.hold;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.PositionAdapter;
-import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.OpenPositionEntity;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
-import static com.pro.bityard.api.NetManger.BUSY;
-import static com.pro.bityard.api.NetManger.FAILURE;
-import static com.pro.bityard.api.NetManger.SUCCESS;
-
-public class OrderFragment extends BaseFragment {
+public class PendingFragment extends BaseFragment {
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
 
@@ -31,8 +21,8 @@ public class OrderFragment extends BaseFragment {
     private String tradeType;
 
 
-    public OrderFragment newInstance(String type) {
-        OrderFragment fragment = new OrderFragment();
+    public PendingFragment newInstance(String type) {
+        PendingFragment fragment = new PendingFragment();
         Bundle args = new Bundle();
         args.putString("tradeType", type);
         fragment.setArguments(args);
