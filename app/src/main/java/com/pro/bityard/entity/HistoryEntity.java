@@ -7,7 +7,7 @@ public class HistoryEntity {
 
 
 
-    private int code;
+    private double code;
     private String message;
     private List<DataBean> data;
 
@@ -20,11 +20,11 @@ public class HistoryEntity {
                 '}';
     }
 
-    public int getCode() {
+    public double getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(double code) {
         this.code = code;
     }
 
@@ -97,9 +97,9 @@ public class HistoryEntity {
         private double cpPrice;
         private double cpVolume;
         private String currency;
-        private int deferDays;
-        private int deferFee;
-        private int eagleDeduction;
+        private double deferDays;
+        private double deferFee;
+        private double eagleDeduction;
         private String followId;
         private String id;
         private double income;
@@ -108,7 +108,7 @@ public class HistoryEntity {
         private boolean isBuy;
         private double lever;
         private double margin;
-        private int moneyType;
+        private double moneyType;
         private double opPrice;
         private double opVolume;
         private double orVolume;
@@ -125,7 +125,7 @@ public class HistoryEntity {
         private long time;
         private String tradeMode;
         private String tradeMsg;
-        private int tradeStatus;
+        private double tradeStatus;
         private long tradeTime;
         private double volume;
 
@@ -247,27 +247,27 @@ public class HistoryEntity {
             this.currency = currency;
         }
 
-        public int getDeferDays() {
+        public double getDeferDays() {
             return deferDays;
         }
 
-        public void setDeferDays(int deferDays) {
+        public void setDeferDays(double deferDays) {
             this.deferDays = deferDays;
         }
 
-        public int getDeferFee() {
+        public double getDeferFee() {
             return deferFee;
         }
 
-        public void setDeferFee(int deferFee) {
+        public void setDeferFee(double deferFee) {
             this.deferFee = deferFee;
         }
 
-        public int getEagleDeduction() {
+        public double getEagleDeduction() {
             return eagleDeduction;
         }
 
-        public void setEagleDeduction(int eagleDeduction) {
+        public void setEagleDeduction(double eagleDeduction) {
             this.eagleDeduction = eagleDeduction;
         }
 
@@ -335,11 +335,11 @@ public class HistoryEntity {
             this.margin = margin;
         }
 
-        public int getMoneyType() {
+        public double getMoneyType() {
             return moneyType;
         }
 
-        public void setMoneyType(int moneyType) {
+        public void setMoneyType(double moneyType) {
             this.moneyType = moneyType;
         }
 
@@ -471,11 +471,11 @@ public class HistoryEntity {
             this.tradeMsg = tradeMsg;
         }
 
-        public int getTradeStatus() {
+        public double getTradeStatus() {
             return tradeStatus;
         }
 
-        public void setTradeStatus(int tradeStatus) {
+        public void setTradeStatus(double tradeStatus) {
             this.tradeStatus = tradeStatus;
         }
 

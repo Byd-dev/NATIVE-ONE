@@ -97,5 +97,16 @@
     <string name="text_cancel">撤单</string>
     <string name="text_o_price">开仓价</string>
     <string name="text_close_price">平仓价</string>
+    <string name="text_now_price">当前价</string>
+    <string name="text_price_tab">价格</string>
+    <string name="text_amount_tab">金额</string>
+    <string name="text_cancel_position">取消</string>
+    <string name="text_sure_position">确认</string>
+    <string name="text_stop_profit_pop">止盈:</string>
+    <string name="text_stop_loss_pop">止损</string>
+    <string name="text_loss_rate">亏损百分比:</string>
+    <string name="text_profit_rate">盈利百分比</string>
+    <string name="text_profit_amount">盈利金额</string>
+    <string name="text_loss_amount">亏损金额</string>
 
 </resources>

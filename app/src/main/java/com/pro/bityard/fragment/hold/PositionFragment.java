@@ -3,8 +3,14 @@ package com.pro.bityard.fragment.hold;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +26,7 @@ import com.pro.bityard.entity.OpenPositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.quote.QuoteManger;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import java.util.List;
@@ -33,8 +40,12 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
+import static com.pro.bityard.utils.TradeUtil.price;
 
-public class OpenFragment extends BaseFragment {
+public class PositionFragment extends BaseFragment {
+    @BindView(R.id.layout_view)
+    LinearLayout layout_view;
+
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
 
@@ -47,15 +58,22 @@ public class OpenFragment extends BaseFragment {
 
     private TextView text_incomeAll;
     private View headView;
+    private TextView text_price;
+    private String contractCode;
 
 
-    public OpenFragment newInstance(String type) {
-        OpenFragment fragment = new OpenFragment();
+    public PositionFragment newInstance(String type) {
+        PositionFragment fragment = new PositionFragment();
         Bundle args = new Bundle();
         args.putString("tradeType", type);
         fragment.setArguments(args);
         return fragment;
 
+    }
+
+    @Override
+    protected int setLayoutResourceID() {
+        return R.layout.fragment_open;
     }
 
     @Override
@@ -109,7 +127,6 @@ public class OpenFragment extends BaseFragment {
         });
 
 
-        // headerRecyclerView.addHeaderView(headView);
         headerRecyclerView.setAdapter(positionAdapter);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -150,12 +167,90 @@ public class OpenFragment extends BaseFragment {
             }
 
             @Override
-            public void onProfitLossListener() {
+            public void onProfitLossListener(OpenPositionEntity.DataBean data) {
+                Log.d("print", "onProfitLossListener:165:  " + data);
+                showPopWindow(data);
 
             }
+
+
         });
 
         startScheduleJob(mHandler, GET_QUOTE_SECOND, GET_QUOTE_SECOND);
+
+
+    }
+
+    /*修改止盈止损*/
+    private void showPopWindow(OpenPositionEntity.DataBean data) {
+        contractCode = data.getContractCode();
+
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_spsl_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                backgroundAlpha(1f);
+            }
+        });
+
+        LinearLayout layout_amount = view.findViewById(R.id.layout_amount);
+
+        LinearLayout layout_price = view.findViewById(R.id.layout_price);
+
+        text_price = view.findViewById(R.id.text_price);
+
+        TextView text_volume=view.findViewById(R.id.text_volume);
+        text_volume.setText(String.valueOf(data.getVolume()));
+
+        TextView text_name=view.findViewById(R.id.text_name);
+        String[] split = Util.quoteList(contractCode).split(",");
+        text_name.setText(split[0]);
+
+        TextView text_open_price=view.findViewById(R.id.text_open_price);
+
+        text_open_price.setText(String.valueOf(data.getOpPrice()));
+
+
+
+        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_0:
+                        layout_amount.setVisibility(View.VISIBLE);
+                        layout_price.setVisibility(View.GONE);
+                        break;
+                    case R.id.radio_1:
+                        layout_amount.setVisibility(View.GONE);
+                        layout_price.setVisibility(View.VISIBLE);
+                        break;
+                }
+            }
+        });
+
+
+        WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
+        params.alpha = 0.6f;
+        getActivity().getWindow().setAttributes(params);
+
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setAnimationStyle(R.style.pop_anim);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+
+    }
+
+
+    public void backgroundAlpha(float bgalpha) {
+        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+        lp.alpha = bgalpha;
+        getActivity().getWindow().setAttributes(lp);
 
 
     }
@@ -167,9 +262,18 @@ public class OpenFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-            if (quoteList != null && openPositionEntity.getData() != null) {
+            if (quoteList != null && openPositionEntity != null) {
                 setIncome(quoteList, openPositionEntity);
                 positionAdapter.setDatas(openPositionEntity.getData(), quoteList);
+                //pop也是同步刷新
+                if (text_price != null) {
+                    price(quoteList, contractCode, new TradeResult() {
+                        @Override
+                        public void setResult(Object response) {
+                            text_price.setText(response.toString());
+                        }
+                    });
+                }
             }
         }
     };
@@ -191,10 +295,6 @@ public class OpenFragment extends BaseFragment {
         });
     }
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_open;
-    }
 
     @Override
     protected void intPresenter() {

@@ -196,7 +196,8 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_volume, text_buy_price,
                 text_loss_price, text_price, text_profit_price,
-                text_income, text_worth, text_close_out;
+                text_income, text_worth, text_close_out,
+                text_profit_loss;
         ImageView img_buy;
 
         public MyViewHolder(View itemView) {
@@ -211,6 +212,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             text_worth = itemView.findViewById(R.id.text_worth);
             text_close_out = itemView.findViewById(R.id.text_close_out);
             img_buy = itemView.findViewById(R.id.img_buy);
+            text_profit_loss=itemView.findViewById(R.id.text_profit_loss);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -231,6 +233,17 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
 
+            text_profit_loss.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClick != null) {
+                        onItemClick.onProfitLossListener(datas.get(getPosition() - 1));
+                    }
+                }
+            });
+
+
+
 
         }
     }
@@ -246,7 +259,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         void onCloseListener(String id);
 
-        void onProfitLossListener();
+        void onProfitLossListener(OpenPositionEntity.DataBean data);
 
     }
 }

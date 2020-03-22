@@ -27,4 +27,5 @@
     <color name="text_second_color">#A0ACBC</color>
     <color name="text_main_color_black">#333333</color>
     <color name="text_red_position">#D55F58</color>
+    <color name="text_edit_pop">#2C3940</color>
 </resources>
