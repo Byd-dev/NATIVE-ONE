@@ -56,6 +56,10 @@
 
     </style>
 
+    <declare-styleable name="DecimalEditText">
+        <attr name="decimalStarNumber" format="integer"/>
+        <attr name="decimalEndNumber" format="integer"/>
+    </declare-styleable>
 
 
 </resources>

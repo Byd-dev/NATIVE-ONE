@@ -172,9 +172,6 @@ public class TradeUtil {
     }
     /*输入只能两位*/
     public static String inputTwoScale(String text) {
-
-
-
         Log.d(TAG, "inputTwoScale:175:  "+text);
         String content = null;
         if (text.contains(".")) {
@@ -191,6 +188,23 @@ public class TradeUtil {
         return content;
 
     }
+
+    /*输入只能两位*/
+    public static int getScaleLength(String text) {
+        Log.d(TAG, "inputTwoScale:175:  "+text);
+        int length=0;
+        if (text.contains(".")) {
+            int index = text.indexOf(".");
+             length = text.substring(index, text.length()).length();
+        }else {
+            length=0;
+        }
+        Log.d(TAG, "inputTwoScale:185:  "+length);
+
+        return length;
+
+    }
+
 
 
 }
