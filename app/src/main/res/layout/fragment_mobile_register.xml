@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_select"
                 android:textColor="@color/text_maincolor"
-                android:textSize="14sp"
+                android:textSize="@dimen/size_normal"
 
                 />
 
@@ -130,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_number"
                 android:textColor="@color/text_maincolor"
-                android:textSize="14sp"
+                android:textSize="@dimen/size_normal"
 
                 />
 
@@ -175,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_mobile_code"
                 android:textColor="@color/text_maincolor"
-                android:textSize="14sp"
+                android:textSize="@dimen/size_normal"
 
                 />
 
@@ -210,7 +210,7 @@
                     android:gravity="center"
                     android:text="获取验证码"
                     android:textColor="@color/color_code"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/size_normal" />
 
 
             </LinearLayout>
@@ -232,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_pass"
                 android:textColor="@color/text_maincolor"
-                android:textSize="14sp"
+                android:textSize="@dimen/size_normal"
 
                 />
 

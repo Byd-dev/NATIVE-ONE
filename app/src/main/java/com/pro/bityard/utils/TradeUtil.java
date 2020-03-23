@@ -14,6 +14,10 @@ import java.util.List;
 
 public class TradeUtil {
     private static String TAG = "TradeUtil";
+
+    public static double scale = 0.01;
+
+
     /*保留两位小数*/
     public static String getNumberFormat(double value, int scale) {
         BigDecimal bd = new BigDecimal(value);
@@ -36,27 +40,27 @@ public class TradeUtil {
     }
 
     /*止损价*/
-    public static String StopLossPrice(boolean isBusy, double price,int priceDigit, double lever, double margin, double stopLoss) {
+    public static String StopLossPrice(boolean isBusy, double price, int priceDigit, double lever, double margin, double stopLoss) {
         String stopLossPrice;
         if (isBusy == true) {
             //买多 止损价  =  开仓价 - （开仓价 / 杠杆 * 止损比例） //因为比例是负数   公式是按的正数  所以刚好相反
-            stopLossPrice = getNumberFormat(add(price, mul(div(price, lever, 5), div(stopLoss, margin, 5))), priceDigit);
+            stopLossPrice = getNumberFormat(sub(price, mul(div(price, lever, 10), div(stopLoss, margin, 10))), priceDigit);
         } else {
+            stopLossPrice = getNumberFormat(add(price, mul(div(price, lever, 10), div(stopLoss, margin, 10))), priceDigit);
             //买空 止损价  =  开仓价 +（开仓价 / 杠杆 * 止损比例）
-            stopLossPrice = getNumberFormat(sub(price, mul(div(price, lever, 5), div(stopLoss, margin, 5))), priceDigit);
         }
         return stopLossPrice;
     }
 
     /*止盈价*/
-    public static String StopProfitPrice(boolean isBusy, double price,int priceDigit, double lever, double margin, double stopProfit) {
+    public static String StopProfitPrice(boolean isBusy, double price, int priceDigit, double lever, double margin, double stopProfit) {
         String stopLossPrice;
         if (isBusy == true) {
-            //买多 止盈价  =  开仓价 + （开仓价 / 杠杆 * 止损比例） //因为比例是负数   公式是按的正数  所以刚好相反
-            stopLossPrice = getNumberFormat(add(price, mul(div(price, lever, 5), div(stopProfit, margin, 5))), priceDigit);
+            //买多 止盈价  =  开仓价 + （开仓价 / 杠杆 * 止损比例）
+            stopLossPrice = getNumberFormat(add(price, mul(div(price, lever, 10), div(stopProfit, margin, 10))), priceDigit);
         } else {
+            stopLossPrice = getNumberFormat(sub(price, mul(div(price, lever, 10), div(stopProfit, margin, 10))), priceDigit);
             //买空 止盈价  =  开仓价 -（开仓价 / 杠杆 * 止损比例）
-            stopLossPrice = getNumberFormat(sub(price, mul(div(price, lever, 5), div(stopProfit, margin, 5))), priceDigit);
         }
         return stopLossPrice;
     }
@@ -112,7 +116,7 @@ public class TradeUtil {
         return b1.divide(b2, len, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
-    /*持仓行情*/
+    /*价格*/
     public static void price(List<String> quoteList, String contractCode, TradeResult result) {
         if (quoteList != null) {
             for (String value : quoteList) {
@@ -161,10 +165,31 @@ public class TradeUtil {
             substring = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
             Log.d(TAG, "positionIdList: 167: " + substring);
         } else {
-            substring=null;
+            substring = null;
         }
 
         return substring;
+    }
+    /*输入只能两位*/
+    public static String inputTwoScale(String text) {
+
+
+
+        Log.d(TAG, "inputTwoScale:175:  "+text);
+        String content = null;
+        if (text.contains(".")) {
+            int index = text.indexOf(".");
+            if (index + 3 < text.length()) {
+                text = text.substring(0, index + 3);
+                content = text;
+            }
+        }else {
+            content=text;
+        }
+        Log.d(TAG, "inputTwoScale:185:  "+content);
+
+        return content;
+
     }
 
 

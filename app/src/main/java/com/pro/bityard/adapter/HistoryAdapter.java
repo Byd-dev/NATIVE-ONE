@@ -106,7 +106,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof MyViewHolder) {
             String[] split = Util.quoteList(datas.get(position).getContractCode()).split(",");
             ((MyViewHolder) holder).text_name.setText(split[0]);
-            ((MyViewHolder) holder).text_volume.setText(String.valueOf(datas.get(position).getVolume()));
+            ((MyViewHolder) holder).text_volume.setText("×"+String.valueOf(datas.get(position).getVolume()));
 
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getTime()));
 
@@ -141,7 +141,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //平仓价
             ((MyViewHolder) holder).text_close_price.setText(String.valueOf(cpPrice));
             //止损价格
-            ((MyViewHolder) holder).text_loss_price.setText(StopLossPrice(isBuy, opPrice, priceDigit, lever, margin, stopLoss));
+            ((MyViewHolder) holder).text_loss_price.setText(StopLossPrice(isBuy, opPrice, priceDigit, lever, margin, Math.abs(stopLoss)));
             //止盈价格
             ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, opPrice, priceDigit, lever, margin, stopProfit));
 

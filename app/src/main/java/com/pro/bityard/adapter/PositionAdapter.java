@@ -104,9 +104,9 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof MyViewHolder) {
             String[] split = Util.quoteList(datas.get(position).getContractCode()).split(",");
             ((MyViewHolder) holder).text_name.setText(split[0]);
-            ((MyViewHolder) holder).text_volume.setText(String.valueOf(datas.get(position).getVolume()));
+            ((MyViewHolder) holder).text_volume.setText("×"+String.valueOf(datas.get(position).getVolume()));
 
-            double price = datas.get(position).getPrice();
+            double opPrice = datas.get(position).getOpPrice();
 
             boolean isBuy = datas.get(position).isIsBuy();
 
@@ -128,18 +128,18 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             }
 
-            //买价
-            ((MyViewHolder) holder).text_buy_price.setText(String.valueOf(price));
+            //开仓价
+            ((MyViewHolder) holder).text_buy_price.setText(String.valueOf(opPrice));
             //止损价格
-            ((MyViewHolder) holder).text_loss_price.setText(StopLossPrice(isBuy, price, priceDigit, lever, margin, stopLoss));
+            ((MyViewHolder) holder).text_loss_price.setText(StopLossPrice(isBuy, opPrice, priceDigit, lever, margin, Math.abs(stopLoss)));
             //止盈价格
-            ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, price, priceDigit, lever, margin, stopProfit));
+            ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, opPrice, priceDigit, lever, margin, stopProfit));
             //现价和盈亏
             price(quoteList, datas.get(position).getContractCode(), new TradeResult() {
                 @Override
                 public void setResult(Object response) {
                     ((MyViewHolder) holder).text_price.setText(response.toString());
-                    String income = income(isBuy, Double.parseDouble(response.toString()), price, datas.get(position).getVolume());
+                    String income = income(isBuy, Double.parseDouble(response.toString()), opPrice, datas.get(position).getVolume());
                     ((MyViewHolder) holder).text_income.setText(income);
                     double incomeDouble = Double.parseDouble(income);
 

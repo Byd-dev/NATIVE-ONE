@@ -83,12 +83,12 @@
     <string name="text_order">挂单</string>
     <string name="text_history">历史</string>
     <string name="text_detail">查看详情</string>
-    <string name="text_buy_price">买价</string>
-    <string name="text_stoploss_price">止损价</string>
+    <string name="text_buy_price">开仓价</string>
     <string name="text_close_out_color">平仓</string>
     <string name="text_profit_loss">止盈止损</string>
-    <string name="text_price">现价</string>
+    <string name="text_price">当前价</string>
     <string name="text_profit_price">止盈价</string>
+    <string name="text_stoploss_price">止损价</string>
     <string name="text_total_profit_loss">总盈亏:</string>
     <string name="text_all_cloes">一键平仓</string>
     <string name="text_netincome">(净盈亏)</string>
@@ -101,11 +101,13 @@
     <string name="text_amount_tab">金额</string>
     <string name="text_cancel_position">取消</string>
     <string name="text_sure_position">确认</string>
-    <string name="text_stop_profit_pop">止盈:</string>
-    <string name="text_stop_loss_pop">止损</string>
+    <string name="text_stop_profit_pop">止盈价:</string>
+    <string name="text_stop_loss_pop">止损价:</string>
     <string name="text_loss_rate">亏损百分比:</string>
     <string name="text_profit_rate">盈利百分比</string>
-    <string name="text_profit_amount">盈利金额</string>
-    <string name="text_loss_amount">亏损金额</string>
+    <string name="text_profit_amount">盈利金额:</string>
+    <string name="text_loss_amount">亏损金额:</string>
+    <string name="text_profit_forward">预计盈利</string>
+    <string name="text_loss_forward">预计亏损</string>
 
 </resources>

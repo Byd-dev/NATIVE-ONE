@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="@string/text_email"
             android:textColor="@color/text_maincolor"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_normal"
 
             />
 
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:text="@string/text_email_code"
             android:textColor="@color/text_maincolor"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_normal"
 
             />
 
@@ -111,7 +111,7 @@
                 android:background="@drawable/bg_shape_code"
                 android:gravity="center"
                 android:textColor="@color/color_code"
-                android:textSize="14sp"
+                android:textSize="@dimen/size_normal"
                 />
 
 
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:text="@string/text_pass"
             android:textColor="@color/text_maincolor"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_normal"
 
             />
 

@@ -35,7 +35,7 @@
                     android:typeface="monospace"
 
                     android:textColor="@color/text_maincolor"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/size_big" />
 
                 <TextView
                     android:id="@+id/text_name_usdt"
@@ -46,7 +46,7 @@
                     android:text="/USDT"
                     android:typeface="monospace"
                     android:textColor="@color/text_second_color"
-                    android:textSize="13sp" />
+                    android:textSize="@dimen/size_normal" />
 
                 <ImageView
                     android:id="@+id/img_buy"
@@ -66,8 +66,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="--"
+                    android:typeface="monospace"
                     android:textColor="@color/text_maincolor"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/size_normal" />
 
             </RelativeLayout>
 
@@ -91,7 +92,7 @@
                     android:typeface="monospace"
 
                     android:textColor="@color/text_second_color"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/size_normal" />
 
             </RelativeLayout>
 
@@ -131,7 +132,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_pending_text"
                             android:textColor="@color/text_second_color"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 
                             />
@@ -141,9 +142,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="--"
-                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:textColor="@color/text_maincolor"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 
                             />
@@ -162,7 +163,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_stoploss_price"
                             android:textColor="@color/text_second_color"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 
                             />
@@ -173,8 +174,8 @@
                             android:layout_height="wrap_content"
                             android:text="--"
                             android:textColor="@color/text_maincolor"
-                            android:textSize="14sp"
-                            android:layout_marginLeft="@dimen/margin_10"
+                            android:textSize="@dimen/size_normal"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:typeface="monospace"
 
                             />
@@ -200,7 +201,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_price"
                             android:textColor="@color/text_second_color"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 
                             />
@@ -211,8 +212,8 @@
                             android:layout_height="wrap_content"
                             android:text="--"
                             android:textColor="@color/text_maincolor"
-                            android:textSize="14sp"
-                            android:layout_marginLeft="@dimen/margin_10"
+                            android:textSize="@dimen/size_normal"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:typeface="monospace"
 
                             />
@@ -231,7 +232,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_profit_price"
                             android:textColor="@color/text_second_color"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 
                             />
@@ -242,8 +243,8 @@
                             android:layout_height="wrap_content"
                             android:text="--"
                             android:textColor="@color/text_maincolor"
-                            android:textSize="14sp"
-                            android:layout_marginLeft="@dimen/margin_10"
+                            android:textSize="@dimen/size_normal"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:typeface="monospace"
 
                             />
@@ -298,7 +299,7 @@
                 android:layout_height="wrap_content"
                 android:text="--"
                 android:layout_centerVertical="true"
-                android:textSize="14sp"
+                android:textSize="@dimen/size_normal"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:textColor="@color/text_second_color"
                 />
@@ -311,7 +312,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/margin_15"
                 android:layout_centerVertical="true"
-                android:textSize="14sp"
+                android:textSize="@dimen/size_normal"
                 android:textColor="@color/text_main_color_black"
                 android:text="@string/text_cancel"
                 android:typeface="monospace"

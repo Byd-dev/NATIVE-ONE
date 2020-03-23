@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:text="@string/text_select"
             android:textColor="@color/text_maincolor"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_normal"
 
             />
 
@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:text="@string/text_number"
             android:textColor="@color/text_maincolor"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_normal"
 
             />
 
@@ -172,7 +172,7 @@
             android:layout_height="wrap_content"
             android:text="@string/text_pass"
             android:textColor="@color/text_maincolor"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_normal"
 
             />
 
@@ -233,7 +233,7 @@
             android:paddingTop="@dimen/margin_15"
             android:paddingBottom="@dimen/margin_15"
             android:layout_centerVertical="true"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_normal"
             android:visibility="gone"
             android:text="@string/text_pass_err"/>
         <TextView
@@ -246,7 +246,7 @@
             android:paddingTop="@dimen/margin_15"
             android:paddingBottom="@dimen/margin_15"
             android:layout_alignParentRight="true"
-            android:textSize="14sp"
+            android:textSize="@dimen/size_normal"
             android:text="@string/text_forget_pass"/>
     </RelativeLayout>
 
