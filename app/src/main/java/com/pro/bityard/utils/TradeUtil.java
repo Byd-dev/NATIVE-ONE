@@ -92,18 +92,17 @@ public class TradeUtil {
 
         if (isBusy==true){
            // (stopProfitPrice-price)/(price/lever)  *margin;
-
             double sub = sub(stopProfitPrice, price);
-            double div = div(Math.abs(sub), div(price, lever, priceDigit), 10);
+            double div = div(Math.abs(sub), div(price, lever, 10), 10);
             double mul = mul(div, margin);
-            profitAmount=getNumberFormat(mul,priceDigit);
+            profitAmount=getNumberFormat(mul,2);
 
         }else {
             double sub = sub(price, stopProfitPrice);
-            double div = div(Math.abs(sub), div(price, lever, priceDigit), 10);
+            double div = div(Math.abs(sub), div(price, lever, 10), 10);
             double mul = mul(div, margin);
 
-            profitAmount=getNumberFormat(mul,priceDigit);
+            profitAmount=getNumberFormat(mul,2);
 
         }
 
@@ -216,24 +215,26 @@ public class TradeUtil {
 
         return substring;
     }
-    /*盈利百分比*/
-
+    /*盈利百分比=盈利/保证金*/
     public static String profitRate(double content, double margin) {
-        double div = div(content, margin, 2);
+        Log.d(TAG, "profitRate: "+content+"  --  "+margin);
+        double div = div(content, margin, 10);
         double mul = mul(div, 100);
         String numberFormat = getNumberFormat(mul, 2);
         return numberFormat + "%";
     }
 
     public static double big(double a,double b){
-        if (a>b){
+        Log.d(TAG, "big: "+a+"  --  "+b);
+        if (sub(a,b)>0){
             return a;
         }else {
             return b;
         }
     }
     public static double small(double a,double b){
-        if (a>b){
+        Log.d(TAG, "small: "+a+"  --  "+b);
+        if (sub(a,b)>0){
             return b;
         }else {
             return a;

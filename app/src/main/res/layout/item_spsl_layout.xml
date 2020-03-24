@@ -522,7 +522,7 @@
                         android:orientation="horizontal">
 
 
-                        <EditText
+                        <com.pro.bityard.view.DecimalEditText
                             android:id="@+id/edit_stop_profit_price"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
