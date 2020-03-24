@@ -15,8 +15,27 @@ import java.util.List;
 public class TradeUtil {
     private static String TAG = "TradeUtil";
 
-    public static double scale = 0.01;
-
+    public static double scale(int priceDigit) {
+        if (priceDigit == 1) {
+            return 0.1;
+        } else if (priceDigit == 2) {
+            return 0.01;
+        } else if (priceDigit == 3) {
+            return 0.001;
+        } else if (priceDigit == 4) {
+            return 0.0001;
+        } else if (priceDigit == 5) {
+            return 0.00001;
+        } else if (priceDigit == 6) {
+            return 0.000001;
+        } else if (priceDigit == 7) {
+            return 0.0000001;
+        } else if (priceDigit == 9) {
+            return 0.00000001;
+        } else {
+            return 0;
+        }
+    }
 
     /*保留两位小数*/
     public static String getNumberFormat(double value, int scale) {
@@ -54,16 +73,43 @@ public class TradeUtil {
 
     /*止盈价*/
     public static String StopProfitPrice(boolean isBusy, double price, int priceDigit, double lever, double margin, double stopProfit) {
-        String stopLossPrice;
+        String stopProfitPrice;
         if (isBusy == true) {
             //买多 止盈价  =  开仓价 + （开仓价 / 杠杆 * 止损比例）
-            stopLossPrice = getNumberFormat(add(price, mul(div(price, lever, 10), div(stopProfit, margin, 10))), priceDigit);
+            stopProfitPrice = getNumberFormat(add(price, mul(div(price, lever, 10), div(stopProfit, margin, 10))), priceDigit);
         } else {
-            stopLossPrice = getNumberFormat(sub(price, mul(div(price, lever, 10), div(stopProfit, margin, 10))), priceDigit);
+            stopProfitPrice = getNumberFormat(sub(price, mul(div(price, lever, 10), div(stopProfit, margin, 10))), priceDigit);
             //买空 止盈价  =  开仓价 -（开仓价 / 杠杆 * 止损比例）
         }
-        return stopLossPrice;
+        return stopProfitPrice;
     }
+
+    /*盈利金额*/
+    public static String ProfitAmount(boolean isBusy,double price,int priceDigit, double lever, double margin, double stopProfitPrice){
+        //盈利 金额
+
+        String profitAmount;
+
+        if (isBusy==true){
+           // (stopProfitPrice-price)/(price/lever)  *margin;
+
+            double sub = sub(stopProfitPrice, price);
+            double div = div(Math.abs(sub), div(price, lever, priceDigit), 10);
+            double mul = mul(div, margin);
+            profitAmount=getNumberFormat(mul,priceDigit);
+
+        }else {
+            double sub = sub(price, stopProfitPrice);
+            double div = div(Math.abs(sub), div(price, lever, priceDigit), 10);
+            double mul = mul(div, margin);
+
+            profitAmount=getNumberFormat(mul,priceDigit);
+
+        }
+
+        return profitAmount;
+    }
+
 
 
     /*订单盈亏*/
@@ -170,41 +216,28 @@ public class TradeUtil {
 
         return substring;
     }
-    /*输入只能两位*/
-    public static String inputTwoScale(String text) {
-        Log.d(TAG, "inputTwoScale:175:  "+text);
-        String content = null;
-        if (text.contains(".")) {
-            int index = text.indexOf(".");
-            if (index + 3 < text.length()) {
-                text = text.substring(0, index + 3);
-                content = text;
-            }
-        }else {
-            content=text;
-        }
-        Log.d(TAG, "inputTwoScale:185:  "+content);
+    /*盈利百分比*/
 
-        return content;
-
+    public static String profitRate(double content, double margin) {
+        double div = div(content, margin, 2);
+        double mul = mul(div, 100);
+        String numberFormat = getNumberFormat(mul, 2);
+        return numberFormat + "%";
     }
 
-    /*输入只能两位*/
-    public static int getScaleLength(String text) {
-        Log.d(TAG, "inputTwoScale:175:  "+text);
-        int length=0;
-        if (text.contains(".")) {
-            int index = text.indexOf(".");
-             length = text.substring(index, text.length()).length();
+    public static double big(double a,double b){
+        if (a>b){
+            return a;
         }else {
-            length=0;
+            return b;
         }
-        Log.d(TAG, "inputTwoScale:185:  "+length);
-
-        return length;
-
     }
-
-
+    public static double small(double a,double b){
+        if (a>b){
+            return b;
+        }else {
+            return a;
+        }
+    }
 
 }

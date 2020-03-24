@@ -73,8 +73,8 @@ public class DecimalEditText extends AppCompatEditText {
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
                 String lastInputContent = dest.toString();
 
-                Log.d("EditUtil", "source->" + source + "--start->" + start + " " +
-                        "--lastInputContent->" + lastInputContent + "--dstart->" + dstart + "--dend->" + dend);
+                /*Log.d("EditUtil", "source->" + source + "--start->" + start + " " +
+                        "--lastInputContent->" + lastInputContent + "--dstart->" + dstart + "--dend->" + dend);*/
 
 
                 if (source.equals(".") && lastInputContent.length() == 0) {

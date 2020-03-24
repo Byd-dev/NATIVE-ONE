@@ -104,7 +104,7 @@
     <string name="text_stop_profit_pop">止盈价:</string>
     <string name="text_stop_loss_pop">止损价:</string>
     <string name="text_loss_rate">亏损百分比:</string>
-    <string name="text_profit_rate">盈利百分比</string>
+    <string name="text_profit_rate">盈利百分比:</string>
     <string name="text_profit_amount">盈利金额:</string>
     <string name="text_loss_amount">亏损金额:</string>
     <string name="text_profit_forward">预计盈利</string>
