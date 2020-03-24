@@ -377,7 +377,7 @@
 
 
 
-                        <EditText
+                        <com.pro.bityard.view.DecimalEditText
                             android:id="@+id/edit_loss_amount"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"

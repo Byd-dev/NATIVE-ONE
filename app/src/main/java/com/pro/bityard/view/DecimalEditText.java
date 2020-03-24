@@ -17,7 +17,27 @@ public class DecimalEditText extends AppCompatEditText {
     /**
      * 保留小数点前多少位，默认三位，既到千位
      */
-    private int mDecimalStarNumber = 10;
+    private int mDecimalStarNumber = 20;
+
+    private double max=75.0;
+
+    private double min=0.75;
+
+    public double getMax() {
+        return max;
+    }
+
+    public void setMax(double max) {
+        this.max = max;
+    }
+
+    public double getMin() {
+        return min;
+    }
+
+    public void setMin(double min) {
+        this.min = min;
+    }
 
     /**
      * 保留小数点后多少位，默认两位
@@ -38,6 +58,8 @@ public class DecimalEditText extends AppCompatEditText {
 
         mDecimalStarNumber = typedArray.getInt(R.styleable.DecimalEditText_decimalStarNumber, mDecimalStarNumber);
         mDecimalEndNumber = typedArray.getInt(R.styleable.DecimalEditText_decimalEndNumber, mDecimalEndNumber);
+        max=typedArray.getFloat(R.styleable.DecimalEditText_max,0);
+        min=typedArray.getFloat(R.styleable.DecimalEditText_min,0);
         typedArray.recycle();
         init();
     }
@@ -60,12 +82,14 @@ public class DecimalEditText extends AppCompatEditText {
                 }
 
                 if (!source.equals(".") && !source.equals("") && lastInputContent.equals("0")) {
-                    return ".";
+                    return "";
                 }
 
                 if (source.equals(".") && lastInputContent.contains(".")) {
                     return "";
                 }
+
+
 
                 if (lastInputContent.contains(".")) {
                     int index = lastInputContent.indexOf(".");
@@ -77,6 +101,11 @@ public class DecimalEditText extends AppCompatEditText {
                         return "";
                     }
                 }
+
+
+
+
+
 
                 return null;
             }

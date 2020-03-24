@@ -44,8 +44,6 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
-import static com.pro.bityard.utils.TradeUtil.getScaleLength;
-import static com.pro.bityard.utils.TradeUtil.inputTwoScale;
 import static com.pro.bityard.utils.TradeUtil.price;
 
 public class PositionFragment extends BaseFragment {
@@ -234,8 +232,12 @@ public class PositionFragment extends BaseFragment {
         text_open_price.setText(String.valueOf(data.getOpPrice()));
 
 
-        double mul_max = TradeUtil.mul(margin, 5);
-        double mul_min = TradeUtil.mul(margin, 0.05);
+        double profit_max = TradeUtil.mul(margin, 5);
+        double profit_min = TradeUtil.mul(margin, 0.05);
+
+        double loss_max = TradeUtil.mul(margin, 0.9);
+        double loss_min = TradeUtil.mul(margin, 0.05);
+
         //金额 预计盈利 输入框
         DecimalEditText edit_profit_amount = view.findViewById(R.id.edit_profit_amount);
         edit_profit_amount.setText(String.valueOf(stopProfit));
@@ -244,9 +246,10 @@ public class PositionFragment extends BaseFragment {
 
 
         //金额 亏损 输入框
-        EditText edit_loss_amount = view.findViewById(R.id.edit_loss_amount);
+        DecimalEditText edit_loss_amount = view.findViewById(R.id.edit_loss_amount);
         edit_loss_amount.setText(String.valueOf(Math.abs(stopLoss)));
-
+        edit_loss_amount.setSelection(String.valueOf(Math.abs(stopLoss)).length());//默认光标在最后面
+        edit_loss_amount.setDecimalEndNumber(2);
         //金额 止盈价
         TextView text_profit_amount = view.findViewById(R.id.text_profit_amount);
         text_profit_amount.setText(String.valueOf(stopProfit));
@@ -257,16 +260,21 @@ public class PositionFragment extends BaseFragment {
         view.findViewById(R.id.text_add_profit_amount).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double a = TradeUtil.add(Double.parseDouble(edit_profit_amount.getText().toString()), TradeUtil.scale);
-                edit_profit_amount.setText(String.valueOf(a));
+                if (edit_profit_amount.getText().toString().length() > 0) {
+                    double a = TradeUtil.add(Double.parseDouble(edit_profit_amount.getText().toString()), TradeUtil.scale);
+                    edit_profit_amount.setText(String.valueOf(a));
+                }
+
             }
         });
         //金额 盈利 减号
         view.findViewById(R.id.text_sub_profit_amount).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                double a = TradeUtil.sub(Double.parseDouble(edit_profit_amount.getText().toString()), TradeUtil.scale);
-                edit_profit_amount.setText(String.valueOf(a));
+                if (edit_profit_amount.getText().toString().length() > 0) {
+                    double a = TradeUtil.sub(Double.parseDouble(edit_profit_amount.getText().toString()), TradeUtil.scale);
+                    edit_profit_amount.setText(String.valueOf(a));
+                }
             }
         });
 
@@ -307,101 +315,39 @@ public class PositionFragment extends BaseFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Log.d("print", "onTextChanged:304:  " + s.toString());
                 if (s.length() == 0) {
-                    edit_profit_amount.setHint(mul_min + "~" + mul_max);
-                    text_profit_amount.setText(String.valueOf(mul_min));
+                    edit_profit_amount.setHint(profit_min + "~" + profit_max);
+                    text_profit_amount.setText(String.valueOf(profit_min));
                 } else {
-                    if (Double.parseDouble(s.toString()) > mul_max) {
-                        edit_profit_amount.setText(String.valueOf(mul_max));
-                        text_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, mul_max));
-                        text_profit_amount.setText(String.valueOf(mul_max));
-                    } else if (Double.parseDouble(s.toString()) < mul_min) {
-                        edit_profit_amount.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (s.length() != 0 && Double.parseDouble(s.toString()) < mul_min) {
-                                    edit_profit_amount.setText(String.valueOf(mul_min));
-                                    text_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, mul_min));
-                                    text_profit_amount.setText(String.valueOf(mul_min));
-                                }
-                            }
-                        }, 3000);
-                    } else {
-                        text_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
-                        text_profit_amount.setText(s.toString());
-                        edit_profit_amount.setSelection(s.length());
-                    }
+                    if (!s.toString().startsWith(".")) {
+                        if (Double.parseDouble(s.toString()) > profit_max) {
+                            edit_profit_amount.setText(String.valueOf(profit_max));
+                            text_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_max));
+                            text_profit_amount.setText(String.valueOf(profit_max));
+                        } else if (Double.parseDouble(s.toString()) < profit_min) {
 
-
-                }
-
-
-
-
-
-
-
-
-
-              /*  if (s.length() == 0) {
-                    edit_profit_amount.setHint(mul_min + "~" + mul_max);
-                    text_profit_amount.setText(String.valueOf(mul_min));
-                }
-                if (s.length() == 1) {
-                    if (s.toString().startsWith("0")) {
-                        edit_profit_amount.setText("0");
-                        edit_profit_amount.setSelection(s.length());
-                    } else if (s.toString().startsWith(".")) {
-                        edit_profit_amount.setText(".");
-                        edit_profit_amount.setSelection(s.length());
-                    } else {
-                        edit_profit_amount.setText(s.toString());
-                        edit_profit_amount.setSelection(s.length());
-                    }
-                }
-               else if (s.length() == 2) {
-                    if (s.toString().startsWith("0") && s.toString().startsWith("0", 1)) {
-                        edit_profit_amount.setText("0");
-                        edit_profit_amount.setSelection(s.length());
-                    } else if (s.toString().startsWith("0") && s.toString().startsWith(".", 1)) {
-                        edit_profit_amount.setText("0.");
-                        edit_profit_amount.setSelection(s.length());
-                    } else {
-                        edit_profit_amount.setText(s.toString());
-                        edit_profit_amount.setSelection(s.length());
-                    }
-                }
-                else  if (s.length() > 2) {
-                    if (getScaleLength(s.toString()) > 3) {
-                        String s1 = inputTwoScale(s.toString());
-                        Log.d("print", "onTextChanged:325:  " + s1);
-                        text_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
-                        text_profit_amount.setText(s1);
-                        edit_profit_amount.setText(s1);
-                        edit_profit_amount.setSelection(s1.length());
-                    } else {
-                        if (Double.parseDouble(s.toString()) > mul_max) {
-                            edit_profit_amount.setText(String.valueOf(mul_max));
-                            text_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, mul_max));
-                            text_profit_amount.setText(String.valueOf(mul_max));
-                        } else if (Double.parseDouble(s.toString()) < mul_min) {
                             edit_profit_amount.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
-                                    if (s.length() != 0 && Double.parseDouble(s.toString()) < mul_min) {
-                                        edit_profit_amount.setText(String.valueOf(mul_min));
-                                        text_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, mul_min));
-                                        text_profit_amount.setText(String.valueOf(mul_min));
+                                    if (s.length() != 0 && Double.parseDouble(s.toString()) < profit_min) {
+                                        edit_profit_amount.setText(String.valueOf(profit_min));
+                                        text_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_min));
+                                        text_profit_amount.setText(String.valueOf(profit_min));
                                     }
                                 }
-                            }, 3000);
+                            }, 1000);
                         } else {
                             text_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
                             text_profit_amount.setText(s.toString());
                             edit_profit_amount.setSelection(s.length());
-
                         }
+                    } else {
+                        String s1 = s.toString().replace(".", "");
+                        edit_profit_amount.setText(s1);
                     }
-                }*/
+
+
+                }
+
             }
 
             @Override
@@ -422,7 +368,43 @@ public class PositionFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 0) {
+
+                if (s.length()==0){
+                    edit_loss_amount.setHint(loss_min+"~"+loss_max);
+                    text_loss_amount.setText(String.valueOf(loss_min));
+
+                }else {
+                    if (!s.toString().startsWith(".")) {
+                        if (Double.parseDouble(s.toString()) > loss_max) {
+                            edit_loss_amount.setText(String.valueOf(loss_max));
+                            text_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max));
+                            text_loss_amount.setText(String.valueOf(loss_max));
+                        } else if (Double.parseDouble(s.toString()) < loss_min) {
+
+                            edit_loss_amount.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (s.length() != 0 && Double.parseDouble(s.toString()) < profit_min) {
+                                        edit_loss_amount.setText(String.valueOf(profit_min));
+                                        text_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, profit_min));
+                                        text_profit_amount.setText(String.valueOf(profit_min));
+                                    }
+                                }
+                            }, 1000);
+                        } else {
+                            text_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
+                            text_loss_amount.setText(s.toString());
+                            edit_loss_amount.setSelection(s.length());
+                        }
+                    } else {
+                        String s1 = s.toString().replace(".", "");
+                        edit_loss_amount.setText(s1);
+                    }
+                }
+
+
+
+              /*  if (s.length() > 0) {
                     //如果输入大于初始的 亏损值  就默认到 设置的亏损
                     if (Double.parseDouble(s.toString()) > Math.abs(stopLossBegin)) {
                         edit_loss_amount.setText(String.valueOf(Math.abs(stopLoss)));
@@ -432,9 +414,10 @@ public class PositionFragment extends BaseFragment {
                         text_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
 
                     }
+                }else {
+                    edit_loss_amount.setHint(loss_min+"~"+loss_max);
 
-
-                }
+                }*/
             }
 
             @Override
