@@ -205,15 +205,13 @@
 
         </RelativeLayout>
         <!--中间的布局-->
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-            <!--金额-->
+
+            <!--金额和价格-->
             <LinearLayout
                 android:id="@+id/layout_amount"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -228,7 +226,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/text_profit_forward"
+                        android:id="@+id/text_profit_stop_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_profit_forward"
@@ -244,7 +242,7 @@
 
 
                         <com.pro.bityard.view.DecimalEditText
-                            android:id="@+id/edit_profit_amount"
+                            android:id="@+id/edit_profit_stop_price"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/margin_10"
@@ -257,7 +255,7 @@
                             android:textSize="@dimen/size_normal" />
 
                         <TextView
-                            android:id="@+id/text_add_profit_amount"
+                            android:id="@+id/profit_add"
                             android:layout_width="@dimen/margin_25"
                             android:layout_height="@dimen/margin_25"
                             android:layout_gravity="center"
@@ -270,7 +268,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/text_sub_profit_amount"
+                            android:id="@+id/profit_sub"
                             android:layout_width="@dimen/margin_25"
                             android:layout_height="@dimen/margin_25"
                             android:layout_gravity="center"
@@ -299,16 +297,16 @@
 
 
                             <TextView
-                                android:id="@+id/text_stop_profit_pop"
+                                android:id="@+id/text_stop_price_profit"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:text="@string/text_stop_profit_pop"
                                 android:textColor="@color/text_second_color"
                                 android:textSize="@dimen/size_normal" />
 
                             <TextView
-                                android:id="@+id/text_stop_profit_amount"
+                                android:id="@+id/text_stop_price_profit_content"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -334,7 +332,7 @@
                                 android:textSize="@dimen/size_normal" />
 
                             <TextView
-                                android:id="@+id/text_profit_rate_amount"
+                                android:id="@+id/text_profit_rate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -367,7 +365,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/text_loss_forward"
+                        android:id="@+id/text_loss_forward_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_loss_forward"
@@ -383,7 +381,7 @@
 
 
                         <com.pro.bityard.view.DecimalEditText
-                            android:id="@+id/edit_loss_amount"
+                            android:id="@+id/edit_loss_amount_price"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/margin_10"
@@ -397,7 +395,7 @@
                             android:textSize="@dimen/size_normal" />
 
                         <TextView
-                            android:id="@+id/text_add_loss_amount"
+                            android:id="@+id/loss_add"
                             android:layout_width="@dimen/margin_25"
                             android:layout_height="@dimen/margin_25"
                             android:layout_gravity="center"
@@ -411,7 +409,7 @@
                             android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/text_sub_loss_amount"
+                            android:id="@+id/loss_sub"
                             android:layout_width="@dimen/margin_25"
                             android:layout_height="@dimen/margin_25"
                             android:layout_gravity="center"
@@ -440,7 +438,7 @@
 
 
                             <TextView
-                                android:id="@+id/text_second_color"
+                                android:id="@+id/text_stop_loss_price_amount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -449,7 +447,7 @@
                                 android:textSize="@dimen/size_normal" />
 
                             <TextView
-                                android:id="@+id/text_stop_loss_amount"
+                                android:id="@+id/text_stop_loss_price_amount_content"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -475,281 +473,7 @@
                                 android:textSize="@dimen/size_normal" />
 
                             <TextView
-                                android:id="@+id/text_loss_rate_amount"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="--"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-                        </LinearLayout>
-
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-            </LinearLayout>
-            <!--价格-->
-            <LinearLayout
-                android:id="@+id/layout_price"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="gone">
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_20"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:layout_marginRight="@dimen/margin_20"
-                    android:gravity="left"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_profit_price"
-                        android:textColor="@color/text_maincolor"
-                        android:textSize="@dimen/size_normal" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/margin_30"
-                        android:layout_marginTop="@dimen/margin_5"
-                        android:background="@drawable/bg_kuang_second_color"
-                        android:orientation="horizontal">
-
-
-                        <EditText
-                            android:id="@+id/edit_stop_profit_price"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:inputType="numberDecimal"
-                            android:textColor="@color/text_maincolor"
-                            android:textColorHint="@color/text_second_color"
-                            android:textCursorDrawable="@null"
-                            android:textSize="@dimen/size_normal" />
-
-                        <TextView
-                            android:id="@+id/text_add_profit_price"
-                            android:layout_width="@dimen/margin_25"
-                            android:layout_height="@dimen/margin_25"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="@dimen/margin_10"
-                            android:background="@drawable/bg_shape_main_color"
-                            android:gravity="center"
-                            android:text="＋"
-                            android:textColor="@color/text_main_color_black"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/text_sub_profit_price"
-                            android:layout_width="@dimen/margin_25"
-                            android:layout_height="@dimen/margin_25"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="11dp"
-                            android:background="@drawable/bg_shape_main_color"
-                            android:gravity="center"
-                            android:text="－"
-                            android:textColor="@color/text_main_color_black"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_5"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/text_profit_amount"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-
-                            <TextView
-                                android:id="@+id/text_profit_amount_price"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="--"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/text_profit_rate"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-
-                            <TextView
-                                android:id="@+id/text_profit_rate_price"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="--"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-                        </LinearLayout>
-
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:layout_marginRight="@dimen/margin_15"
-                    android:background="@color/home_line" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_20"
-                    android:layout_marginTop="@dimen/margin_10"
-                    android:layout_marginRight="@dimen/margin_20"
-                    android:gravity="left"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_stoploss_price"
-                        android:textColor="@color/text_maincolor"
-                        android:textSize="@dimen/size_normal" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/margin_30"
-                        android:layout_marginTop="@dimen/margin_5"
-                        android:background="@drawable/bg_kuang_second_color"
-                        android:orientation="horizontal">
-
-
-                        <EditText
-                            android:id="@+id/edit_stop_loss_price"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:inputType="numberDecimal"
-                            android:textColor="@color/text_maincolor"
-
-                            android:textColorHint="@color/text_second_color"
-                            android:textCursorDrawable="@null"
-                            android:textSize="@dimen/size_normal" />
-
-                        <TextView
-                            android:id="@+id/text_add_loss_price"
-                            android:layout_width="@dimen/margin_25"
-                            android:layout_height="@dimen/margin_25"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="@dimen/margin_10"
-                            android:background="@drawable/bg_shape_main_color"
-                            android:gravity="center"
-                            android:text="＋"
-                            android:textColor="@color/text_main_color_black"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/text_sub_loss_price"
-                            android:layout_width="@dimen/margin_25"
-                            android:layout_height="@dimen/margin_25"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="11dp"
-                            android:background="@drawable/bg_shape_main_color"
-                            android:gravity="center"
-                            android:text="－"
-                            android:textColor="@color/text_main_color_black"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-
-
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_5"
-                        android:orientation="horizontal">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/text_loss_amount"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-
-                            <TextView
-                                android:id="@+id/text_loss_amount_price"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="--"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:orientation="horizontal">
-
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/text_loss_rate"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-
-                            <TextView
-                                android:id="@+id/text_loss_rate_price"
+                                android:id="@+id/text_loss_rate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -765,7 +489,7 @@
             </LinearLayout>
 
 
-        </RelativeLayout>
+
 
 
         <LinearLayout

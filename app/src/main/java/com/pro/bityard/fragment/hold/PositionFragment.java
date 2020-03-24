@@ -235,18 +235,11 @@ public class PositionFragment extends BaseFragment {
         TextView text_open_price = view.findViewById(R.id.text_open_price);
         text_open_price.setText(String.valueOf(data.getOpPrice()));
 
-        //金额 盈利百分比
-        TextView text_profit_rate_amount = view.findViewById(R.id.text_profit_rate_amount);
-        //金额 亏损百分比
-        TextView text_loss_rate_amount = view.findViewById(R.id.text_loss_rate_amount);
-        //价格 盈利百分比
-        TextView text_profit_rate_price = view.findViewById(R.id.text_profit_rate_price);
-        //价格 亏损百分比
-        TextView text_loss_rate_price = view.findViewById(R.id.text_loss_rate_price);
-        //价格 止盈价输入框
-        EditText edit_stop_profit_price = view.findViewById(R.id.edit_stop_profit_price);
-        //价格 止损价输入框
-        EditText edit_stop_loss_price = view.findViewById(R.id.edit_stop_loss_price);
+
+
+
+
+
 
         double profit_max_amount = TradeUtil.mul(margin, 5);
         double profit_min_amount = TradeUtil.mul(margin, 0.05);
@@ -261,25 +254,13 @@ public class PositionFragment extends BaseFragment {
         double loss_max_price = Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max_amount));
         double loss_min_price = Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_min_amount));
 
+        /* -----------------------------------------------------------金额---------------------------------------------------------------------------*/
 
         //金额 预计盈利 输入框
         DecimalEditText edit_profit_amount = view.findViewById(R.id.edit_profit_amount);
         edit_profit_amount.setText(String.valueOf(stopProfit));
         edit_profit_amount.setSelection(String.valueOf(stopProfit).length());//默认光标在最后面
         edit_profit_amount.setDecimalEndNumber(2);
-
-
-        //金额 亏损 输入框
-        DecimalEditText edit_loss_amount = view.findViewById(R.id.edit_loss_amount);
-        edit_loss_amount.setText(String.valueOf(Math.abs(stopLoss)));
-        edit_loss_amount.setSelection(String.valueOf(Math.abs(stopLoss)).length());//默认光标在最后面
-        edit_loss_amount.setDecimalEndNumber(2);
-        //金额 止盈价
-        TextView text_profit_amount_price = view.findViewById(R.id.text_profit_amount_price);
-        text_profit_amount_price.setText(String.valueOf(stopProfit));
-        //金额 止损价
-        TextView text_loss_amount_price = view.findViewById(R.id.text_loss_amount_price);
-        text_loss_amount_price.setText(String.valueOf(Math.abs(stopLoss)));
         //金额 盈利 加号
         view.findViewById(R.id.text_add_profit_amount).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -305,7 +286,17 @@ public class PositionFragment extends BaseFragment {
                 }
             }
         });
-
+        //金额 止盈价
+        TextView text_stop_profit_amount = view.findViewById(R.id.text_stop_profit_amount);
+        text_stop_profit_amount.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, stopProfit));
+        //金额 盈利百分比 默认
+        TextView text_profit_rate_amount = view.findViewById(R.id.text_profit_rate_amount);
+        text_profit_rate_amount.setText(profitRate(Double.parseDouble(edit_profit_amount.getText().toString()), margin));
+        //金额 预计亏损 输入框
+        DecimalEditText edit_loss_amount = view.findViewById(R.id.edit_loss_amount);
+        edit_loss_amount.setText(String.valueOf(Math.abs(stopLoss)));
+        edit_loss_amount.setSelection(String.valueOf(Math.abs(stopLoss)).length());//默认光标在最后面
+        edit_loss_amount.setDecimalEndNumber(2);
         //金额 亏损 加号
         view.findViewById(R.id.text_add_loss_amount).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -319,7 +310,6 @@ public class PositionFragment extends BaseFragment {
                 }
             }
         });
-
         //金额 亏损 减号
         view.findViewById(R.id.text_sub_loss_amount).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -330,17 +320,92 @@ public class PositionFragment extends BaseFragment {
 
             }
         });
+        //金额 止损价
+        TextView text_stop_loss_amount = view.findViewById(R.id.text_stop_loss_amount);
+        text_stop_loss_amount.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin,Math.abs(stopLoss)));
+        //金额 亏损百分比 默认
+        TextView text_loss_rate_amount = view.findViewById(R.id.text_loss_rate_amount);
+        text_loss_rate_amount.setText(profitRate(Double.parseDouble(edit_loss_amount.getText().toString()), margin));
 
-        //金额 止盈价
-        TextView text_stop_profit_amount = view.findViewById(R.id.text_stop_profit_amount);
-        text_stop_profit_amount.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(edit_profit_amount.getText().toString())));
 
-        //金额 盈利百分比默认
-        text_profit_rate_amount.setText(profitRate(Double.parseDouble(edit_profit_amount.getText().toString()), margin));
-        //价格 盈利百分比默认
-        text_profit_rate_price.setText(profitRate(Double.parseDouble(edit_profit_amount.getText().toString()), margin));
 
-        //金额 预计盈利 输入框
+
+        /* -----------------------------------------------------------价格---------------------------------------------------------------------------*/
+
+
+        //价格 止盈价 输入框
+        EditText edit_stop_profit_price = view.findViewById(R.id.edit_stop_profit_price);
+        edit_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, stopProfit));
+        edit_stop_profit_price.setSelection(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, stopProfit).length());
+        //价格 盈利金额
+        TextView text_profit_amount_price = view.findViewById(R.id.text_profit_amount_price);
+        text_profit_amount_price.setText(String.valueOf(stopProfit));
+        //价格 盈利 加
+        view.findViewById(R.id.text_add_profit_price).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_stop_profit_price.getText().toString().length() > 0) {
+                    double a = TradeUtil.add(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
+                    edit_stop_profit_price.setText(String.valueOf(a));
+                    edit_stop_profit_price.setSelection(String.valueOf(a).length());
+                }
+            }
+        });
+        //价格 盈利 减
+        view.findViewById(R.id.text_sub_profit_price).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_stop_profit_price.getText().toString().length() > 0) {
+                    double a = TradeUtil.sub(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
+                    edit_stop_profit_price.setText(String.valueOf(a));
+                    edit_stop_profit_price.setSelection(String.valueOf(a).length());
+
+                }
+            }
+        });
+        //价格 盈利百分比 默认
+        TextView text_profit_rate_price = view.findViewById(R.id.text_profit_rate_price);
+        text_profit_rate_price.setText(profitRate(stopProfit, margin));
+        //价格 止损价 输入框
+        EditText edit_stop_loss_price = view.findViewById(R.id.edit_stop_loss_price);
+        edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin,Math.abs(stopLoss)));
+        edit_stop_loss_price.setSelection(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin,Math.abs(stopLoss)).length());
+        //价格 损失 加
+        view.findViewById(R.id.text_add_loss_price).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_stop_loss_price.getText().toString().length() > 0) {
+                    double a = TradeUtil.add(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
+                    edit_stop_loss_price.setText(String.valueOf(a));
+                    edit_stop_loss_price.setSelection(String.valueOf(a).length());
+
+                }
+            }
+        });
+        //价格 损失 减
+        view.findViewById(R.id.text_sub_loss_price).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_stop_loss_price.getText().toString().length() > 0) {
+                    double a = TradeUtil.sub(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
+                    edit_stop_loss_price.setText(String.valueOf(a));
+                    edit_stop_loss_price.setSelection(String.valueOf(a).length());
+
+                }
+            }
+        });
+        //价格 亏损金额
+        TextView text_loss_amount_price = view.findViewById(R.id.text_loss_amount_price);
+        text_loss_amount_price.setText(String.valueOf(Math.abs(stopLoss)));
+        //价格 亏损百分比
+        TextView text_loss_rate_price = view.findViewById(R.id.text_loss_rate_price);
+        text_loss_rate_price.setText(profitRate(Double.parseDouble(edit_loss_amount.getText().toString()), margin));
+
+
+        /* -----------------------------------------------------------金额监听---------------------------------------------------------------------------*/
+
+
+        //金额 预计盈利 监听
         edit_profit_amount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -393,7 +458,6 @@ public class PositionFragment extends BaseFragment {
                             edit_stop_profit_price.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
                             //edit_stop_profit_price.setText(text_stop_profit_amount.getText().toString());
 
-
                             //价格页面 盈利金额 直接输入获取
                             text_profit_amount_price.setText(s.toString());
                             //金额页面 盈利百分比
@@ -424,14 +488,6 @@ public class PositionFragment extends BaseFragment {
             }
         });
 
-
-        //金额 止损价
-        TextView text_stop_loss_amount = view.findViewById(R.id.text_stop_loss_amount);
-        text_stop_loss_amount.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(edit_loss_amount.getText().toString())));
-        //金额 亏损百分比 默认
-        text_loss_rate_amount.setText(profitRate(Double.parseDouble(edit_loss_amount.getText().toString()), margin));
-        //价格 亏损百分比 默认
-        text_loss_rate_price.setText(profitRate(Double.parseDouble(edit_loss_amount.getText().toString()), margin));
         //金额 预计亏损 监听
         edit_loss_amount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -501,10 +557,8 @@ public class PositionFragment extends BaseFragment {
             }
         });
 
+        /* -----------------------------------------------------------价格监听---------------------------------------------------------------------------*/
 
-        //价格 止盈价 默认
-        edit_stop_profit_price.setText(text_stop_profit_amount.getText().toString());
-        edit_stop_profit_price.setSelection(text_stop_profit_amount.getText().toString().length());
         //价格 止盈价 监听
         edit_stop_profit_price.addTextChangedListener(new TextWatcher() {
             @Override
@@ -557,9 +611,9 @@ public class PositionFragment extends BaseFragment {
                             //价格页面 盈利金额 通过输入计算得到
                             text_profit_amount_price.setText(ProfitAmount(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
                             //金额页面的 预计盈利输入框 通过价格页面 盈利金额计算获取
-                            Log.d("print", "onTextChanged:560:  "+ProfitAmount(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
+                            Log.d("print", "onTextChanged:560:  " + ProfitAmount(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
 
-                           // edit_profit_amount.setText(text_profit_amount_price.getText().toString());
+                            // edit_profit_amount.setText(text_profit_amount_price.getText().toString());
 
 
                         }
@@ -579,10 +633,6 @@ public class PositionFragment extends BaseFragment {
             }
         });
 
-
-        //价格 止损价 默认
-        edit_stop_loss_price.setText(text_stop_loss_amount.getText().toString());
-        edit_stop_loss_price.setSelection(text_stop_loss_amount.getText().toString().length());
         //价格 止损价 监听
         edit_stop_loss_price.addTextChangedListener(new TextWatcher() {
             @Override
@@ -611,53 +661,7 @@ public class PositionFragment extends BaseFragment {
         });
 
 
-        //价格 盈利 加
-        view.findViewById(R.id.text_add_profit_price).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_stop_profit_price.getText().toString().length() > 0) {
-                    double a = TradeUtil.add(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
-                    edit_stop_profit_price.setText(String.valueOf(a));
-                    edit_stop_profit_price.setSelection(String.valueOf(a).length());
-                }
-            }
-        });
-        //价格 盈利 减
-        view.findViewById(R.id.text_sub_profit_price).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_stop_profit_price.getText().toString().length() > 0) {
-                    double a = TradeUtil.sub(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
-                    edit_stop_profit_price.setText(String.valueOf(a));
-                    edit_stop_profit_price.setSelection(String.valueOf(a).length());
-
-                }
-            }
-        });
-        //价格 损失 加
-        view.findViewById(R.id.text_add_loss_price).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_stop_loss_price.getText().toString().length() > 0) {
-                    double a = TradeUtil.add(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
-                    edit_stop_loss_price.setText(String.valueOf(a));
-                    edit_stop_loss_price.setSelection(String.valueOf(a).length());
-
-                }
-            }
-        });
-        //价格 损失 减
-        view.findViewById(R.id.text_sub_loss_price).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_stop_loss_price.getText().toString().length() > 0) {
-                    double a = TradeUtil.sub(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
-                    edit_stop_loss_price.setText(String.valueOf(a));
-                    edit_stop_loss_price.setSelection(String.valueOf(a).length());
-
-                }
-            }
-        });
+        /* -----------------------------------------------------------RadioGroup监听---------------------------------------------------------------------------*/
 
 
         RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
