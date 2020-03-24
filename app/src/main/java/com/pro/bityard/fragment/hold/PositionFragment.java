@@ -356,8 +356,8 @@ public class PositionFragment extends BaseFragment {
         view.findViewById(R.id.text_add_profit_price).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edit_stop_profit_price.getText().toString().length() > 0 &&
-                        Double.parseDouble(edit_stop_profit_price.getText().toString()) < profit_max_price) {
+                if (edit_stop_profit_price.getText().toString().length() > 0 /*&&
+                        Double.parseDouble(edit_stop_profit_price.getText().toString()) < small(profit_min_price,profit_max_price)*/) {
                     double a = TradeUtil.add(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
                     edit_stop_profit_price.setText(String.valueOf(a));
                     edit_stop_profit_price.setSelection(String.valueOf(a).length());
@@ -368,8 +368,8 @@ public class PositionFragment extends BaseFragment {
         view.findViewById(R.id.text_sub_profit_price).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edit_stop_profit_price.getText().toString().length() > 0 &&
-                        Double.parseDouble(edit_stop_profit_price.getText().toString()) > profit_min_price) {
+                if (edit_stop_profit_price.getText().toString().length() > 0 /*&&
+                        Double.parseDouble(edit_stop_profit_price.getText().toString()) > big(profit_min_price,profit_max_price)*/) {
                     double a = TradeUtil.sub(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
                     edit_stop_profit_price.setText(String.valueOf(a));
                     edit_stop_profit_price.setSelection(String.valueOf(a).length());
@@ -624,7 +624,6 @@ public class PositionFragment extends BaseFragment {
 
                     } else {
                         if (!s.toString().startsWith(".")) {
-
                             if (Double.parseDouble(s.toString()) > big(profit_min_price, profit_max_price)) {
                                 //价格 止盈价 输入框
                                 edit_stop_profit_price.setText(String.valueOf(big(profit_min_price, profit_max_price)));
