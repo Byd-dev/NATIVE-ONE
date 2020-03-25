@@ -735,7 +735,6 @@ public class PositionFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.d("print", "afterTextChanged: 736:  "+s.toString());
                 if (isEdit_loss_price){
                     if (TextUtils.isEmpty(s)) {
                         if (isBuy) {
@@ -747,7 +746,6 @@ public class PositionFragment extends BaseFragment {
                     } else {
                         if (!s.toString().startsWith(".")) {
                             if (Double.parseDouble(s.toString()) > big(loss_min_price,loss_max_price)) {
-                                Log.d("print", "afterTextChanged:748:  "+big(loss_min_price,loss_max_price));
                                 //价格 止损价 输入框
                                 edit_stop_loss_price.setText(String.valueOf(big(loss_min_price,loss_max_price)));//ok
                                 //价格 亏损金额
@@ -763,7 +761,6 @@ public class PositionFragment extends BaseFragment {
 
 
                             } else if (Double.parseDouble(s.toString()) < small(loss_min_price,loss_max_price)) {
-                                Log.d("print", "afterTextChanged:764:  "+small(loss_min_price,loss_max_price));
 
                                 edit_loss_amount.postDelayed(new Runnable() {
                                     @Override
@@ -787,7 +784,6 @@ public class PositionFragment extends BaseFragment {
                                     }
                                 }, 1000);
                             } else {
-                                Log.d("print", "afterTextChanged:788:  "+s.toString());
 
                                 //价格 亏损金额
                                 text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
@@ -814,6 +810,13 @@ public class PositionFragment extends BaseFragment {
             }
         });
 
+
+        view.findViewById(R.id.text_sure).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
 
         WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
