@@ -85,30 +85,56 @@ public class TradeUtil {
     }
 
     /*盈利金额*/
-    public static String ProfitAmount(boolean isBusy,double price,int priceDigit, double lever, double margin, double stopProfitPrice){
+    public static String ProfitAmount(boolean isBusy, double price, int priceDigit, double lever, double margin, double stopProfitPrice) {
         //盈利 金额
 
         String profitAmount;
 
-        if (isBusy==true){
-           // (stopProfitPrice-price)/(price/lever)  *margin;
+        if (isBusy == true) {
+            // (stopProfitPrice-price)/(price/lever)  *margin;
             double sub = sub(stopProfitPrice, price);
             double div = div(Math.abs(sub), div(price, lever, 10), 10);
             double mul = mul(div, margin);
-            profitAmount=getNumberFormat(mul,2);
+            profitAmount = getNumberFormat(mul, 2);
 
-        }else {
+        } else {
             double sub = sub(price, stopProfitPrice);
             double div = div(Math.abs(sub), div(price, lever, 10), 10);
             double mul = mul(div, margin);
 
-            profitAmount=getNumberFormat(mul,2);
+            profitAmount = getNumberFormat(mul, 2);
 
         }
 
         return profitAmount;
     }
 
+
+    /*亏损金额*/
+    public static String lossAmount(boolean isBusy, double price, int priceDigit, double lever, double margin, double stopProfitPrice) {
+        //盈利 金额
+
+        String lossAmount;
+        Log.d(TAG, "lossAmount: " + price + "  stopProfitPrice:" + stopProfitPrice + "  lever:" + lever + "  margin:" + margin);
+
+        if (isBusy == true) {
+            // (stopProfitPrice-price)/(price/lever)  *margin;
+            double sub = sub(price, stopProfitPrice);
+            double div = div(Math.abs(sub), div(price, lever, 20), 20);
+            double mul = mul(div, margin);
+            lossAmount = getNumberFormat(mul, 2);
+
+        } else {
+            double sub = sub(stopProfitPrice, price);
+            double div = div(Math.abs(sub), div(price, lever, 20), 20);
+            double mul = mul(div, margin);
+
+            lossAmount = getNumberFormat(mul, 2);
+
+        }
+        Log.d(TAG, "lossAmount:134:  " + lossAmount);
+        return lossAmount;
+    }
 
 
     /*订单盈亏*/
@@ -215,28 +241,61 @@ public class TradeUtil {
 
         return substring;
     }
+
     /*盈利百分比=盈利/保证金*/
     public static String profitRate(double content, double margin) {
-        Log.d(TAG, "profitRate: "+content+"  --  "+margin);
+        Log.d(TAG, "profitRate: " + content + "  --  " + margin);
         double div = div(content, margin, 10);
         double mul = mul(div, 100);
         String numberFormat = getNumberFormat(mul, 2);
         return numberFormat + "%";
     }
 
-    public static double big(double a,double b){
-        Log.d(TAG, "big: "+a+"  --  "+b);
-        if (sub(a,b)>0){
+    /*亏损百分比=亏损/保证金*/
+    public static String lossRate(double content, double margin) {
+        Log.d(TAG, "profitRate: " + content + "  --  " + margin);
+        double div = div(content, margin, 20);
+        double mul = mul(div, 100);
+        String numberFormat = getNumberFormat(mul, 2);
+        return numberFormat + "%";
+    }
+
+   /* public static double big(double a, double b) {
+        Log.d(TAG, "big: " + a + "  --  " + b);
+        if (sub(a, b) > 0) {
             return a;
-        }else {
+        } else {
             return b;
         }
     }
-    public static double small(double a,double b){
-        Log.d(TAG, "small: "+a+"  --  "+b);
-        if (sub(a,b)>0){
+
+    public static double small(double a, double b) {
+        Log.d(TAG, "small: " + a + "  --  " + b);
+        if (sub(a, b) > 0) {
             return b;
-        }else {
+        } else {
+            return a;
+        }
+    }*/
+
+    public static double big(double a, double b) {
+        BigDecimal a1 = new BigDecimal(a);
+        BigDecimal b1 = new BigDecimal(b);
+        int bj = a1.compareTo(b1);
+        if (bj > 0) {
+            return a;
+        } else {
+            return b;
+        }
+    }
+
+    public static double small(double a, double b) {
+        BigDecimal a1 = new BigDecimal(a);
+        BigDecimal b1 = new BigDecimal(b);
+        int bj = a1.compareTo(b1);
+        if (bj > 0) {
+            return b;
+        } else {
             return a;
         }
     }

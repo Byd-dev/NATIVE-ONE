@@ -47,6 +47,8 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
 import static com.pro.bityard.utils.TradeUtil.big;
+import static com.pro.bityard.utils.TradeUtil.lossAmount;
+import static com.pro.bityard.utils.TradeUtil.lossRate;
 import static com.pro.bityard.utils.TradeUtil.price;
 import static com.pro.bityard.utils.TradeUtil.profitRate;
 import static com.pro.bityard.utils.TradeUtil.small;
@@ -212,8 +214,7 @@ public class PositionFragment extends BaseFragment {
         double stopProfit = data.getStopProfit();
         double stopLoss = data.getStopLoss();
 
-        double stopLossBegin = data.getStopLossBegin();
-        double stopProfitBegin = data.getStopProfitBegin();
+
 
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_spsl_layout, null);
@@ -414,15 +415,17 @@ public class PositionFragment extends BaseFragment {
         TextView text_profit_rate_price = view.findViewById(R.id.text_profit_rate_price);
         text_profit_rate_price.setText(profitRate(stopProfit, margin));
         //价格 止损价 输入框
-        EditText edit_stop_loss_price = view.findViewById(R.id.edit_stop_loss_price);
+        DecimalEditText edit_stop_loss_price = view.findViewById(R.id.edit_stop_loss_price);
         edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Math.abs(stopLoss)));
         edit_stop_loss_price.setSelection(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Math.abs(stopLoss)).length());
+        edit_stop_loss_price.setDecimalEndNumber(priceDigit);
+
         //价格 止损价 加
         view.findViewById(R.id.text_add_loss_price).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edit_stop_loss_price.getText().toString().length() > 0 &&
-                        Double.parseDouble(edit_stop_loss_price.getText().toString()) < loss_max_price) {
+                if (edit_stop_loss_price.getText().toString().length() > 0 /*&&
+                        Double.parseDouble(edit_stop_loss_price.getText().toString()) < loss_max_price*/) {
                     double a = TradeUtil.add(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
                     edit_stop_loss_price.setText(String.valueOf(a));
                     edit_stop_loss_price.setSelection(String.valueOf(a).length());
@@ -434,8 +437,8 @@ public class PositionFragment extends BaseFragment {
         view.findViewById(R.id.text_sub_loss_price).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edit_stop_loss_price.getText().toString().length() > 0 &&
-                        Double.parseDouble(edit_stop_loss_price.getText().toString()) > loss_min_price) {
+                if (edit_stop_loss_price.getText().toString().length() > 0/* &&
+                        Double.parseDouble(edit_stop_loss_price.getText().toString()) > loss_min_price*/) {
                     double a = TradeUtil.sub(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
                     edit_stop_loss_price.setText(String.valueOf(a));
                     edit_stop_loss_price.setSelection(String.valueOf(a).length());
@@ -648,7 +651,6 @@ public class PositionFragment extends BaseFragment {
             public void afterTextChanged(Editable s) {
                 if (isEdit_profit_price) {
                     if (TextUtils.isEmpty(s)) {
-                        Log.d("edit", "afterTextChanged:619:价格止盈监听: "+s.toString());
                         if (isBuy) {
                             edit_stop_profit_price.setHint(profit_min_price + "~" + profit_max_price);
                         } else {
@@ -656,7 +658,6 @@ public class PositionFragment extends BaseFragment {
                         }
 
                     } else {
-                        Log.d("edit", "afterTextChanged:627:价格止盈监听: "+s.toString());
                         if (!s.toString().startsWith(".")) {
                             if (Double.parseDouble(s.toString()) > big(profit_min_price, profit_max_price)) {
                                 //价格 止盈价 输入框
@@ -734,6 +735,7 @@ public class PositionFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                Log.d("print", "afterTextChanged: 736:  "+s.toString());
                 if (isEdit_loss_price){
                     if (TextUtils.isEmpty(s)) {
                         if (isBuy) {
@@ -743,7 +745,68 @@ public class PositionFragment extends BaseFragment {
                         }
 
                     } else {
+                        if (!s.toString().startsWith(".")) {
+                            if (Double.parseDouble(s.toString()) > big(loss_min_price,loss_max_price)) {
+                                Log.d("print", "afterTextChanged:748:  "+big(loss_min_price,loss_max_price));
+                                //价格 止损价 输入框
+                                edit_stop_loss_price.setText(String.valueOf(big(loss_min_price,loss_max_price)));//ok
+                                //价格 亏损金额
+                                text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price,loss_max_price)));
+                                //价格 亏损百分比
+                                text_loss_rate_price.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price,loss_max_price))), margin));
+                                //金额 预计亏损 输入框
+                                edit_loss_amount.setText(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price,loss_max_price)));
+                                //金额 止损价
+                                text_stop_loss_amount.setText(String.valueOf(big(loss_min_price,loss_max_price)));
+                                //金额 亏损百分比
+                                text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price,loss_max_price))), margin));
 
+
+                            } else if (Double.parseDouble(s.toString()) < small(loss_min_price,loss_max_price)) {
+                                Log.d("print", "afterTextChanged:764:  "+small(loss_min_price,loss_max_price));
+
+                                edit_loss_amount.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (s.length() != 0 && Double.parseDouble(s.toString()) < small(loss_min_price,loss_max_price)) {
+                                            //价格 止损价 输入框
+                                            edit_stop_loss_price.setText(String.valueOf(small(loss_min_price,loss_max_price)));//ok
+                                            //价格 亏损金额
+                                            text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price,loss_max_price)));
+                                            //价格 亏损百分比
+                                            text_loss_rate_price.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price,loss_max_price))), margin));
+                                            //金额 预计亏损 输入框
+                                            edit_loss_amount.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price,loss_max_price)));
+                                            //金额 止损价
+                                            text_stop_loss_amount.setText(String.valueOf(small(loss_min_price,loss_max_price)));
+                                            //金额 亏损百分比
+                                            text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price,loss_max_price))), margin));
+
+
+                                        }
+                                    }
+                                }, 1000);
+                            } else {
+                                Log.d("print", "afterTextChanged:788:  "+s.toString());
+
+                                //价格 亏损金额
+                                text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
+                                //价格 亏损百分比
+                                text_loss_rate_price.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString()))), margin));
+                                //金额 预计亏损 输入框
+                                edit_loss_amount.setText(lossAmount(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
+                                //金额 止损价
+                                text_stop_loss_amount.setText(s.toString());
+                                //金额 亏损百分比
+                                text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString()))), margin));
+
+                            }
+                        } else {
+                            String s1 = s.toString().replace(".", "");
+                            edit_stop_loss_price.setText(s1);
+                            text_stop_loss_amount.setText(s1);
+
+                        }
                     }
                 }else {
 
