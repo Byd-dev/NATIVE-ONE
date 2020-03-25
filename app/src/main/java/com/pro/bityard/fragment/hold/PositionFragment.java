@@ -47,8 +47,10 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
 import static com.pro.bityard.utils.TradeUtil.big;
+import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.lossAmount;
 import static com.pro.bityard.utils.TradeUtil.lossRate;
+import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
 import static com.pro.bityard.utils.TradeUtil.price;
 import static com.pro.bityard.utils.TradeUtil.profitRate;
 import static com.pro.bityard.utils.TradeUtil.small;
@@ -276,15 +278,11 @@ public class PositionFragment extends BaseFragment {
 
 
         double profit_max_amount = TradeUtil.mul(margin, 5.00);
-        Log.d("print", "showPopWindow:金额盈利最大: " + profit_max_amount);
         double profit_min_amount = TradeUtil.mul(margin, 0.05);
-        Log.d("print", "showPopWindow:金额盈利最小: " + profit_min_amount);
 
         double loss_max_amount = TradeUtil.mul(margin, 0.90);
-        Log.d("print", "showPopWindow:金额亏损最大: " + loss_max_amount);
 
         double loss_min_amount = TradeUtil.mul(margin, 0.05);
-        Log.d("print", "showPopWindow:金额亏损最小: " + loss_min_amount);
 
 
         double profit_max_price = Double.parseDouble(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_max_amount));
@@ -811,10 +809,36 @@ public class PositionFragment extends BaseFragment {
         });
 
 
+
+
         view.findViewById(R.id.text_sure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String rateProfit= numberHalfUp(TradeUtil.div(Double.parseDouble(edit_profit_amount.getText().toString()),margin,priceDigit),2);
+                String rateLoss= numberHalfUp(TradeUtil.div(Double.parseDouble(edit_loss_amount.getText().toString()),margin,priceDigit),2);
 
+                    NetManger.getInstance().submitSPSL(data.getId(),
+                            tradeType, rateProfit,
+                            "-"+rateLoss,
+                            new OnNetResult() {
+                                @Override
+                                public void onNetResult(String state, Object response) {
+                                    if (state.equals(BUSY)){
+                                        showProgressDialog();
+                                    }else if (state.equals(SUCCESS)){
+                                        dismissProgressDialog();
+                                        popupWindow.dismiss();
+                                        backgroundAlpha(1f);
+                                        initData();
+                                        Toast.makeText(getActivity(),response.toString(),Toast.LENGTH_SHORT).show();
+
+                                    }else if (state.equals(FAILURE)){
+                                        dismissProgressDialog();
+                                        Toast.makeText(getActivity(),response.toString(),Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                            });
             }
         });
 
