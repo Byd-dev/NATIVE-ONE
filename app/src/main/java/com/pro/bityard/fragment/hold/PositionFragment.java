@@ -70,8 +70,13 @@ public class PositionFragment extends BaseFragment {
     private TextView text_price;
     private String contractCode;
 
-    private boolean isEdit_profit = true;
-    private boolean isEdit_loss = true;
+    private boolean isEdit_profit_amount = true;
+    private boolean isEdit_profit_price = false;
+
+    private boolean isEdit_loss_amount=true;
+    private boolean isEdit_loss_price=false;
+
+
 
 
     public PositionFragment newInstance(String type) {
@@ -181,6 +186,7 @@ public class PositionFragment extends BaseFragment {
             @Override
             public void onProfitLossListener(OpenPositionEntity.DataBean data) {
                 Log.d("print", "onProfitLossListener:165:  " + data);
+
                 showPopWindow(data);
 
             }
@@ -196,6 +202,7 @@ public class PositionFragment extends BaseFragment {
     /*修改止盈止损*/
     private void showPopWindow(OpenPositionEntity.DataBean data) {
         contractCode = data.getContractCode();
+
 
         final boolean isBuy = data.isIsBuy();
         final int priceDigit = data.getPriceDigit();
@@ -213,7 +220,36 @@ public class PositionFragment extends BaseFragment {
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
+        /* -----------------------------------------------------------RadioGroup监听---------------------------------------------------------------------------*/
 
+        //金额布局
+        LinearLayout layout_amount = view.findViewById(R.id.layout_amount);
+        //价格布局
+        LinearLayout layout_price = view.findViewById(R.id.layout_price);
+        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.radio_0:
+                        layout_amount.setVisibility(View.VISIBLE);
+                        layout_price.setVisibility(View.GONE);
+                        isEdit_profit_amount=true;
+                        isEdit_profit_price=false;
+                        isEdit_loss_amount=true;
+                        isEdit_loss_price=false;
+                        break;
+                    case R.id.radio_1:
+                        layout_amount.setVisibility(View.GONE);
+                        layout_price.setVisibility(View.VISIBLE);
+                        isEdit_profit_amount=false;
+                        isEdit_profit_price=true;
+                        isEdit_loss_amount=false;
+                        isEdit_loss_price=true;
+                        break;
+                }
+            }
+        });
         view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,10 +258,7 @@ public class PositionFragment extends BaseFragment {
 
             }
         });
-        //金额布局
-        LinearLayout layout_amount = view.findViewById(R.id.layout_amount);
-        //价格布局
-        LinearLayout layout_price = view.findViewById(R.id.layout_price);
+
         //当前价格
         text_price = view.findViewById(R.id.text_price);
 
@@ -437,8 +470,7 @@ public class PositionFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (isEdit_profit) {
-                    isEdit_profit = false;
+                if (isEdit_profit_amount) {
                     if (TextUtils.isEmpty(s)) {
                         edit_profit_amount.setHint(profit_min_amount + "~" + profit_max_amount);
                         text_profit_amount_price.setText(String.valueOf(profit_min_amount));
@@ -509,7 +541,6 @@ public class PositionFragment extends BaseFragment {
 
                     }
                 } else {
-                    isEdit_profit = true;
                 }
             }
         });
@@ -524,74 +555,76 @@ public class PositionFragment extends BaseFragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                if (s.length() == 0) {
-                    edit_loss_amount.setHint(loss_min_amount + "~" + loss_max_amount);
-                    text_loss_amount_price.setText(String.valueOf(loss_min_amount));
-                    text_loss_rate_amount.setText("0.00%");
-                    text_loss_rate_price.setText("0.00%");
-                    edit_stop_loss_price.setText(text_stop_loss_amount.getText().toString());
 
-                } else {
-                    if (!s.toString().startsWith(".")) {
-                        if (Double.parseDouble(s.toString()) > loss_max_amount) {
-                            edit_loss_amount.setText(String.valueOf(loss_max_amount));
-                            text_stop_loss_amount.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max_amount));
-                            text_loss_rate_amount.setText(profitRate(loss_max_amount, margin));
-                            edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max_amount));
-                            text_loss_rate_price.setText(profitRate(loss_max_amount, margin));
-                            text_loss_amount_price.setText(String.valueOf(loss_max_amount));
-
-                        } else if (Double.parseDouble(s.toString()) < loss_min_amount) {
-
-                            edit_loss_amount.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (s.length() != 0 && Double.parseDouble(s.toString()) < loss_min_amount) {
-                                        //金额 预计亏损 输入框
-                                        edit_loss_amount.setText(String.valueOf(loss_min_amount));
-                                        //金额 止损价
-                                        text_stop_loss_amount.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_min_amount));
-                                        //金额 亏损百分比
-                                        text_loss_rate_amount.setText(profitRate(loss_min_amount, margin));
-                                        //价格 止损价 输入框
-                                        edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_min_amount));
-                                        //价格 亏损百分比
-                                        text_loss_rate_price.setText(profitRate(loss_min_amount, margin));
-                                        //价格 亏损金额
-                                        text_loss_amount_price.setText(String.valueOf(loss_min_amount));
-
-
-                                    }
-                                }
-                            }, 1000);
-                        } else {
-                            //金额 止损价
-                            text_stop_loss_amount.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
-                            //金额 亏损百分比
-                            text_loss_rate_amount.setText(profitRate(Double.parseDouble(s.toString()), margin));
-                            //价格 止损价 输入框
-                            edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
-                            //价格 亏损金额
-                            text_loss_amount_price.setText(s.toString());
-                            //价格 亏损百分比
-                            text_loss_rate_price.setText(profitRate(Double.parseDouble(s.toString()), margin));
-
-                        }
-                    } else {
-                        String s1 = s.toString().replace(".", "");
-                        edit_loss_amount.setText(s1);
-                        text_loss_rate_amount.setText(profitRate(Double.parseDouble(s1), margin));
-                        text_loss_rate_price.setText(profitRate(Double.parseDouble(s1), margin));
-                        edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Math.abs(Double.parseDouble(s1))));
-
-                    }
-                }
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (isEdit_loss_amount){
+                    if (TextUtils.isEmpty(s)) {
+                        edit_loss_amount.setHint(loss_min_amount + "~" + loss_max_amount);
+                        text_loss_amount_price.setText(String.valueOf(loss_min_amount));
+                        text_loss_rate_amount.setText("0.00%");
+                        text_loss_rate_price.setText("0.00%");
+                        edit_stop_loss_price.setText(text_stop_loss_amount.getText().toString());
 
+                    } else {
+                        if (!s.toString().startsWith(".")) {
+                            if (Double.parseDouble(s.toString()) > loss_max_amount) {
+                                edit_loss_amount.setText(String.valueOf(loss_max_amount));
+                                text_stop_loss_amount.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max_amount));
+                                text_loss_rate_amount.setText(profitRate(loss_max_amount, margin));
+                                edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max_amount));
+                                text_loss_rate_price.setText(profitRate(loss_max_amount, margin));
+                                text_loss_amount_price.setText(String.valueOf(loss_max_amount));
+
+                            } else if (Double.parseDouble(s.toString()) < loss_min_amount) {
+
+                                edit_loss_amount.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (s.length() != 0 && Double.parseDouble(s.toString()) < loss_min_amount) {
+                                            //金额 预计亏损 输入框
+                                            edit_loss_amount.setText(String.valueOf(loss_min_amount));
+                                            //金额 止损价
+                                            text_stop_loss_amount.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_min_amount));
+                                            //金额 亏损百分比
+                                            text_loss_rate_amount.setText(profitRate(loss_min_amount, margin));
+                                            //价格 止损价 输入框
+                                            edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_min_amount));
+                                            //价格 亏损百分比
+                                            text_loss_rate_price.setText(profitRate(loss_min_amount, margin));
+                                            //价格 亏损金额
+                                            text_loss_amount_price.setText(String.valueOf(loss_min_amount));
+
+
+                                        }
+                                    }
+                                }, 1000);
+                            } else {
+                                //金额 止损价
+                                text_stop_loss_amount.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
+                                //金额 亏损百分比
+                                text_loss_rate_amount.setText(profitRate(Double.parseDouble(s.toString()), margin));
+                                //价格 止损价 输入框
+                                edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
+                                //价格 亏损金额
+                                text_loss_amount_price.setText(s.toString());
+                                //价格 亏损百分比
+                                text_loss_rate_price.setText(profitRate(Double.parseDouble(s.toString()), margin));
+
+                            }
+                        } else {
+                            String s1 = s.toString().replace(".", "");
+                            edit_loss_amount.setText(s1);
+                            text_loss_rate_amount.setText(profitRate(Double.parseDouble(s1), margin));
+                            text_loss_rate_price.setText(profitRate(Double.parseDouble(s1), margin));
+                            edit_stop_loss_price.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Math.abs(Double.parseDouble(s1))));
+
+                        }
+                    }
+                }
             }
         });
 
@@ -613,9 +646,9 @@ public class PositionFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (isEdit_profit) {
-                    isEdit_profit = false;
+                if (isEdit_profit_price) {
                     if (TextUtils.isEmpty(s)) {
+                        Log.d("edit", "afterTextChanged:619:价格止盈监听: "+s.toString());
                         if (isBuy) {
                             edit_stop_profit_price.setHint(profit_min_price + "~" + profit_max_price);
                         } else {
@@ -623,6 +656,7 @@ public class PositionFragment extends BaseFragment {
                         }
 
                     } else {
+                        Log.d("edit", "afterTextChanged:627:价格止盈监听: "+s.toString());
                         if (!s.toString().startsWith(".")) {
                             if (Double.parseDouble(s.toString()) > big(profit_min_price, profit_max_price)) {
                                 //价格 止盈价 输入框
@@ -682,7 +716,6 @@ public class PositionFragment extends BaseFragment {
                         }
                     }
                 } else {
-                    isEdit_profit = true;
                 }
             }
         });
@@ -696,44 +729,30 @@ public class PositionFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() == 0) {
-                    if (isBuy) {
-                        edit_stop_loss_price.setHint(loss_max_price + "~" + loss_min_price);
-                    } else {
-                        edit_stop_loss_price.setHint(loss_min_price + "~" + loss_max_price);
-                    }
 
-                } else {
-
-                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (isEdit_loss_price){
+                    if (TextUtils.isEmpty(s)) {
+                        if (isBuy) {
+                            edit_stop_loss_price.setHint(loss_max_price + "~" + loss_min_price);
+                        } else {
+                            edit_stop_loss_price.setHint(loss_min_price + "~" + loss_max_price);
+                        }
 
-            }
-        });
+                    } else {
 
+                    }
+                }else {
 
-        /* -----------------------------------------------------------RadioGroup监听---------------------------------------------------------------------------*/
-
-
-        RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.radio_0:
-                        layout_amount.setVisibility(View.VISIBLE);
-                        layout_price.setVisibility(View.GONE);
-                        break;
-                    case R.id.radio_1:
-                        layout_amount.setVisibility(View.GONE);
-                        layout_price.setVisibility(View.VISIBLE);
-                        break;
                 }
             }
         });
+
+
+
         WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
         params.alpha = 0.6f;
         getActivity().getWindow().setAttributes(params);
