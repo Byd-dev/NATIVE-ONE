@@ -110,6 +110,7 @@
     <string name="text_loss_amount">亏损金额</string>
     <string name="text_profit_forward">预计盈利</string>
     <string name="text_loss_forward">预计亏损</string>
+    <string name="text_success">订单设置成功</string>
 
 
 </resources>

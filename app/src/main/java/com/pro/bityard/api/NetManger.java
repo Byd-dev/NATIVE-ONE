@@ -11,6 +11,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.OpenPositionEntity;
@@ -560,6 +561,37 @@ public class NetManger {
                         onNetResult.onNetResult(SUCCESS, tipSPSLEntity.getMessage());
                     }else {
                         onNetResult.onNetResult(FAILURE, tipSPSLEntity.getMessage());
+
+                    }
+
+                } else if (state.equals(FAILURE)) {
+                    onNetResult.onNetResult(FAILURE, null);
+
+                }
+            }
+        });
+    }
+
+    /*可用余额*/
+    public void getBalance(OnNetResult onNetResult) {
+        getRequest("/api/user/asset/list", null, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    onNetResult.onNetResult(BUSY, null);
+                } else if (state.equals(SUCCESS)) {
+
+                    Log.d("print", "onNetResult:583:  "+response);
+
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 401) {
+                        onNetResult.onNetResult(FAILURE, null);
+
+                    } else if (tipEntity.getCode() == 200) {
+                        BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
+
+                        onNetResult.onNetResult(SUCCESS, balanceEntity);
+
 
                     }
 

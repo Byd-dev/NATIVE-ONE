@@ -54,7 +54,7 @@ public class TradeUtil {
 
     public static String numberHalfUp(double value, int scale) {
         BigDecimal bd = new BigDecimal(value);
-        String mon = bd.setScale(scale, RoundingMode.HALF_UP).toString();//保留两位数字，四舍五入
+        String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五入
         return mon;
     }
 
@@ -108,6 +108,8 @@ public class TradeUtil {
 
         return profitAmount;
     }
+
+
 
 
     /*亏损金额*/
@@ -222,6 +224,24 @@ public class TradeUtil {
             }
             tradeResult.setResult(income);
         }
+    }
+
+
+    /*冻结资金  所有的保证金和*/
+    public static void getMargin(OpenPositionEntity openPositionEntity, TradeResult tradeResult){
+        List<Double> marginList = new ArrayList<>();
+        for (OpenPositionEntity.DataBean dataBean : openPositionEntity.getData()) {
+            double margin = dataBean.getMargin();
+            marginList.add(margin);
+        }
+        if (marginList.size() > 0) {
+            double margin = 0.0;
+            for (int i = 0; i < marginList.size(); i++) {
+                margin = TradeUtil.add(margin, marginList.get(i));
+            }
+            tradeResult.setResult(margin);
+        }
+
     }
 
     /*持仓的列表ID*/

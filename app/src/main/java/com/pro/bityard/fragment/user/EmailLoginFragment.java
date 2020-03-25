@@ -128,10 +128,11 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initData() {
 
-        LoginEntity.UserBean data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.UserBean.class);
-        if (data != null) {
-            edit_account.setText(data.getEmail());
+        String text_email = SPUtils.getString(AppConfig.USER_EMAIL);
+        if (!text_email.equals("")) {
+            edit_account.setText(text_email);
         }
+
 
     }
 
@@ -202,6 +203,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                     if (loginEntity.getCode() == 200) {
                                         SPUtils.putData(AppConfig.LOGIN, loginEntity);
                                         getActivity().finish();
+                                        SPUtils.putString(AppConfig.USER_EMAIL, edit_account.getText().toString());
 
                                     } else if (loginEntity.getCode() == 401) {
                                         count_pass++;

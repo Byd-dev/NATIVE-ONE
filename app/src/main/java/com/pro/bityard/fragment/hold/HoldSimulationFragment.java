@@ -78,7 +78,7 @@ public class HoldSimulationFragment extends BaseFragment {
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_hold_real;
+        return R.layout.fragment_hold_tab;
     }
 
     @Override

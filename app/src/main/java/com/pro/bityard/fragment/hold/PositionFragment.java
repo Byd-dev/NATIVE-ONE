@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
@@ -47,7 +46,6 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
 import static com.pro.bityard.utils.TradeUtil.big;
-import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.lossAmount;
 import static com.pro.bityard.utils.TradeUtil.lossRate;
 import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
@@ -830,7 +828,8 @@ public class PositionFragment extends BaseFragment {
                                         popupWindow.dismiss();
                                         backgroundAlpha(1f);
                                         initData();
-                                        Toast.makeText(getActivity(),response.toString(),Toast.LENGTH_SHORT).show();
+
+                                        Toast.makeText(getActivity(),getResources().getText(R.string.text_success),Toast.LENGTH_SHORT).show();
 
                                     }else if (state.equals(FAILURE)){
                                         dismissProgressDialog();
@@ -872,9 +871,10 @@ public class PositionFragment extends BaseFragment {
             super.handleMessage(msg);
             List<String> quoteList = QuoteManger.getInstance().getQuoteList();
             if (quoteList != null && openPositionEntity != null) {
+                //整体盈亏
                 setIncome(quoteList, openPositionEntity);
                 positionAdapter.setDatas(openPositionEntity.getData(), quoteList);
-                //pop也是同步刷新
+                //pop 实时价格也是同步刷新
                 if (text_price != null) {
                     price(quoteList, contractCode, new TradeResult() {
                         @Override

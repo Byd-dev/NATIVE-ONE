@@ -20,6 +20,9 @@ public class HoldRealFragment extends BaseFragment {
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+
+
+
     private String tradeType;
 
     public HoldRealFragment newInstance(String type) {
@@ -78,7 +81,7 @@ public class HoldRealFragment extends BaseFragment {
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_hold_real;
+        return R.layout.fragment_hold_tab;
     }
 
     @Override
