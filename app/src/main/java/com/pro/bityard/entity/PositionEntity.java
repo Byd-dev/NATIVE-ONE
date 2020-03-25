@@ -2,7 +2,7 @@ package com.pro.bityard.entity;
 
 import java.util.List;
 
-public class OpenPositionEntity {
+public class PositionEntity {
 
 
     /**

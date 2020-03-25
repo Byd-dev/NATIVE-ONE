@@ -3,7 +3,7 @@ package com.pro.bityard.utils;
 import android.util.Log;
 
 import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.entity.OpenPositionEntity;
+import com.pro.bityard.entity.PositionEntity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -205,9 +205,9 @@ public class TradeUtil {
 
 
     /*全部盈亏*/
-    public static void getIncome(List<String> quoteList, OpenPositionEntity openPositionEntity, TradeResult tradeResult) {
+    public static void getIncome(List<String> quoteList, PositionEntity positionEntity, TradeResult tradeResult) {
         List<Double> incomeList = new ArrayList<>();
-        for (OpenPositionEntity.DataBean dataBean : openPositionEntity.getData()) {
+        for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
             boolean isBuy = dataBean.isIsBuy();
             TradeUtil.price(quoteList, dataBean.getContractCode(), new TradeResult() {
                 @Override
@@ -228,9 +228,9 @@ public class TradeUtil {
 
 
     /*冻结资金  所有的保证金和*/
-    public static void getMargin(OpenPositionEntity openPositionEntity, TradeResult tradeResult){
+    public static void getMargin(PositionEntity positionEntity, TradeResult tradeResult){
         List<Double> marginList = new ArrayList<>();
-        for (OpenPositionEntity.DataBean dataBean : openPositionEntity.getData()) {
+        for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
             double margin = dataBean.getMargin();
             marginList.add(margin);
         }
@@ -245,11 +245,11 @@ public class TradeUtil {
     }
 
     /*持仓的列表ID*/
-    public static String positionIdList(OpenPositionEntity openPositionEntity) {
+    public static String positionIdList(PositionEntity positionEntity) {
         String substring;
         StringBuilder stringBuilder = new StringBuilder();
-        if (openPositionEntity.getData().size() > 0) {
-            for (OpenPositionEntity.DataBean dataBean : openPositionEntity.getData()) {
+        if (positionEntity.getData().size() > 0) {
+            for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
                 String id = dataBean.getId();
                 stringBuilder.append(id + ",");
             }

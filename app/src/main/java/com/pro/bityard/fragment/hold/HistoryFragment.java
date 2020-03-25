@@ -1,20 +1,14 @@
 package com.pro.bityard.fragment.hold;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.HistoryAdapter;
-import com.pro.bityard.adapter.PendingAdapter;
-import com.pro.bityard.adapter.PositionAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.HistoryEntity;
-import com.pro.bityard.entity.OpenPositionEntity;
-import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import java.util.List;

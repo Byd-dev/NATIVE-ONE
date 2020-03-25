@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.HistoryEntity;
-import com.pro.bityard.entity.OpenPositionEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
@@ -24,7 +23,6 @@ import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
 import static com.pro.bityard.utils.TradeUtil.income;
 import static com.pro.bityard.utils.TradeUtil.netIncome;
-import static com.pro.bityard.utils.TradeUtil.price;
 
 public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;

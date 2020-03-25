@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.entity.OpenPositionEntity;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import static com.pro.bityard.utils.TradeUtil.price;
 
 public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<OpenPositionEntity.DataBean> datas;
+    private List<PositionEntity.DataBean> datas;
 
     private List<String> quoteList;
 
@@ -46,13 +46,13 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<OpenPositionEntity.DataBean> datas, List<String> quoteList) {
+    public void setDatas(List<PositionEntity.DataBean> datas, List<String> quoteList) {
         this.datas = datas;
         this.quoteList = quoteList;
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<OpenPositionEntity.DataBean> datas) {
+    public void addDatas(List<PositionEntity.DataBean> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -255,11 +255,11 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     public interface OnItemClick {
-        void onClickListener(OpenPositionEntity.DataBean data);
+        void onClickListener(PositionEntity.DataBean data);
 
         void onCloseListener(String id);
 
-        void onProfitLossListener(OpenPositionEntity.DataBean data);
+        void onProfitLossListener(PositionEntity.DataBean data);
 
     }
 }

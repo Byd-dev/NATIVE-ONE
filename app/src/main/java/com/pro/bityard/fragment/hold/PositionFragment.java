@@ -25,7 +25,7 @@ import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.OpenPositionEntity;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.quote.QuoteManger;
 import com.pro.bityard.utils.TradeUtil;
@@ -65,7 +65,7 @@ public class PositionFragment extends BaseFragment {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     private String tradeType;
-    private OpenPositionEntity openPositionEntity;
+    private PositionEntity positionEntity;
 
     private TextView text_incomeAll;
     private View headView;
@@ -127,7 +127,7 @@ public class PositionFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                NetManger.getInstance().closeAll(TradeUtil.positionIdList(openPositionEntity), tradeType, new OnNetResult() {
+                NetManger.getInstance().closeAll(TradeUtil.positionIdList(positionEntity), tradeType, new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
                         if (state.equals(BUSY)) {
@@ -156,7 +156,7 @@ public class PositionFragment extends BaseFragment {
 
         positionAdapter.setOnItemClick(new PositionAdapter.OnItemClick() {
             @Override
-            public void onClickListener(OpenPositionEntity.DataBean data) {
+            public void onClickListener(PositionEntity.DataBean data) {
 
             }
 
@@ -186,7 +186,7 @@ public class PositionFragment extends BaseFragment {
             }
 
             @Override
-            public void onProfitLossListener(OpenPositionEntity.DataBean data) {
+            public void onProfitLossListener(PositionEntity.DataBean data) {
                 Log.d("print", "onProfitLossListener:165:  " + data);
 
                 showPopWindow(data);
@@ -202,7 +202,7 @@ public class PositionFragment extends BaseFragment {
     }
 
     /*修改止盈止损*/
-    private void showPopWindow(OpenPositionEntity.DataBean data) {
+    private void showPopWindow(PositionEntity.DataBean data) {
         contractCode = data.getContractCode();
 
 
@@ -870,10 +870,10 @@ public class PositionFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-            if (quoteList != null && openPositionEntity != null) {
+            if (quoteList != null && positionEntity != null) {
                 //整体盈亏
-                setIncome(quoteList, openPositionEntity);
-                positionAdapter.setDatas(openPositionEntity.getData(), quoteList);
+                setIncome(quoteList, positionEntity);
+                positionAdapter.setDatas(positionEntity.getData(), quoteList);
                 //pop 实时价格也是同步刷新
                 if (text_price != null) {
                     price(quoteList, contractCode, new TradeResult() {
@@ -888,8 +888,8 @@ public class PositionFragment extends BaseFragment {
     };
 
     /*设置浮动盈亏*/
-    private void setIncome(List<String> quoteList, OpenPositionEntity openPositionEntity) {
-        TradeUtil.getIncome(quoteList, openPositionEntity, new TradeResult() {
+    private void setIncome(List<String> quoteList, PositionEntity positionEntity) {
+        TradeUtil.getIncome(quoteList, positionEntity, new TradeResult() {
             @Override
             public void setResult(Object response) {
                 Double incomeAll = (Double) response;
@@ -921,11 +921,11 @@ public class PositionFragment extends BaseFragment {
                     swipeRefreshLayout.setRefreshing(true);
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
-                    openPositionEntity = (OpenPositionEntity) response1;
+                    positionEntity = (PositionEntity) response1;
                     List<String> quoteList = (List<String>) response2;
-                    positionAdapter.setDatas(openPositionEntity.getData(), quoteList);
+                    positionAdapter.setDatas(positionEntity.getData(), quoteList);
                     //这里根据持仓来是否显示头部视图
-                    if (openPositionEntity.getData().size() == 0) {
+                    if (positionEntity.getData().size() == 0) {
                         text_incomeAll.setText("");
                         headerRecyclerView.removeHeaderView(headView);
                     } else {

@@ -14,7 +14,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
-import com.pro.bityard.entity.OpenPositionEntity;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
@@ -31,8 +31,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class NetManger {
 
@@ -380,9 +378,9 @@ public class NetManger {
                         onNetResult.setResult(FAILURE, null, null);
 
                     } else if (tipEntity.getCode() == 200) {
-                        OpenPositionEntity openPositionEntity = new Gson().fromJson(response.toString(), OpenPositionEntity.class);
+                        PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
                         List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-                        onNetResult.setResult(SUCCESS, openPositionEntity, quoteList);
+                        onNetResult.setResult(SUCCESS, positionEntity, quoteList);
 
 
                     }

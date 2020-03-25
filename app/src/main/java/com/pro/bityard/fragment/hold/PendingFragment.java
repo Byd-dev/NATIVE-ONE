@@ -7,12 +7,10 @@ import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.PendingAdapter;
-import com.pro.bityard.adapter.PositionAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.OpenPositionEntity;
 import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.view.HeaderRecyclerView;

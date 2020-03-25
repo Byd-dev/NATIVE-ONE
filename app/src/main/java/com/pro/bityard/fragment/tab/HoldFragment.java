@@ -1,6 +1,5 @@
 package com.pro.bityard.fragment.tab;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -8,11 +7,16 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
+import com.pro.bityard.api.OnNetTwoResult;
+import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.fragment.hold.HoldRealFragment;
 import com.pro.bityard.fragment.hold.HoldSimulationFragment;
 import com.pro.bityard.utils.TradeUtil;
+
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -28,8 +32,12 @@ public class HoldFragment extends BaseFragment implements RadioGroup.OnCheckedCh
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
 
+    @BindView(R.id.text_freeze)
+    TextView text_freeze;
+
     private boolean isReal=true;
     private BalanceEntity balanceEntity;
+    private PositionEntity positionEntity;
 
     @Override
     protected void onLazyLoad() {
@@ -72,6 +80,29 @@ public class HoldFragment extends BaseFragment implements RadioGroup.OnCheckedCh
 
                 }
             }
+        });
+
+
+        NetManger.getInstance().getHold("1", new OnNetTwoResult() {
+            @Override
+            public void setResult(String state, Object response1, Object response2) {
+                if (state.equals(BUSY)) {
+                } else if (state.equals(SUCCESS)) {
+                    positionEntity = (PositionEntity) response1;
+                    List<String> quoteList = (List<String>) response2;
+                    TradeUtil.getMargin(positionEntity, new TradeResult() {
+                        @Override
+                        public void setResult(Object response) {
+                            text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()),2));
+                        }
+                    });
+
+                } else if (state.equals(FAILURE)) {
+
+                }
+            }
+
+
         });
     }
 
