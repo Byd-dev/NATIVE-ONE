@@ -114,7 +114,7 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (tradeType.equals("2")) {
+                if (tradeType.equals("2")&&text_balance!=null) {
                     text_balance.setText(TradeUtil.getNumberFormat(data.getGame(), 2));
                 }
             }

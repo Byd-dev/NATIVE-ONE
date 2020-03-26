@@ -117,7 +117,7 @@ public class HoldRealFragment extends BaseFragment implements Observer {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (tradeType.equals("1")) {
+                if (tradeType.equals("1")&&text_balance!=null) {
                     text_balance.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
                 }
             }

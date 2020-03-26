@@ -5,9 +5,12 @@ import android.widget.ImageView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuoteAdapter;
+import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.manger.QuoteManger;
 import com.pro.bityard.utils.Util;
+import com.pro.switchlibrary.SPUtils;
 
 import java.util.List;
 import java.util.Observable;
@@ -47,6 +50,8 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
     @Override
     protected void initView(View view) {
 
+        swipeRefreshLayout.setRefreshing(true);
+
         QuoteManger.getInstance().addObserver(this);
 
 
@@ -64,7 +69,14 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(false);
-                // quoteAdapter.setDatas(quoteList);
+                String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
+                String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE);
+                if (quote_host.equals("") && quote_code.equals("")) {
+                    NetManger.getInstance().initQuote();
+                    return;
+                } else {
+                    QuoteManger.getInstance().quote(quote_host, quote_code);
+                }
             }
         });
 
@@ -127,6 +139,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void run() {
                 quoteAdapter.setDatas(quoteList);
+                swipeRefreshLayout.setRefreshing(false);
 
             }
         });
