@@ -89,7 +89,7 @@
     <string name="text_price">当前价</string>
     <string name="text_profit_price">止盈价</string>
     <string name="text_stoploss_price">止损价</string>
-    <string name="text_total_profit_loss">总盈亏:</string>
+    <string name="text_total_profit_loss">浮动盈亏:</string>
     <string name="text_all_cloes">一键平仓</string>
     <string name="text_netincome">(净盈亏)</string>
     <string name="text_pending_text">挂单价</string>

@@ -9,9 +9,13 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
+import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.PositionRealManger;
+import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.utils.TradeUtil;
 
 import java.util.Observable;
@@ -62,7 +66,8 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
     protected void initView(View view) {
 
         BalanceManger.getInstance().addObserver(this);
-
+        //持仓注册
+        PositionSimulationManger.getInstance().addObserver(this);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -109,17 +114,33 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        BalanceEntity.DataBean data = (BalanceEntity.DataBean) arg;
-        Log.d("print", "update: 114: "+data);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (tradeType.equals("2")&&text_balance!=null) {
-                    text_balance.setText(TradeUtil.getNumberFormat(data.getGame(), 2));
+        if (o == BalanceManger.getInstance()) {
+            BalanceEntity.DataBean data = (BalanceEntity.DataBean) arg;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (tradeType.equals("2") && text_balance != null) {
+                        text_balance.setText(TradeUtil.getNumberFormat(data.getGame(), 2));
+                    }
                 }
-            }
-        });
+            });
+        } else if (o == PositionSimulationManger.getInstance()) {
+            PositionEntity positionEntity = (PositionEntity) arg;
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (text_freeze != null) {
+                        TradeUtil.getMargin(positionEntity, new TradeResult() {
+                            @Override
+                            public void setResult(Object response) {
+                                text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()),2));
 
+                            }
+                        });
+                    }
+                }
+            });
+        }
 
     }
 }

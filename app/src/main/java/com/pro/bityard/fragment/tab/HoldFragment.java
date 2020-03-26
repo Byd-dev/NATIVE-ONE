@@ -7,7 +7,6 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.fragment.hold.HoldRealFragment;
 import com.pro.bityard.fragment.hold.HoldSimulationFragment;
-import com.pro.bityard.manger.BalanceManger;
 
 import butterknife.BindView;
 
@@ -56,11 +55,13 @@ public class HoldFragment extends BaseFragment implements RadioGroup.OnCheckedCh
         switch (checkedId) {
             case R.id.radio_0:
                 showFragment(R.id.layout_content, new HoldRealFragment(), "tradeType", "1");
-
+                //持仓初始化
+                //PositionManger.getInstance().getHold("1");
                 break;
             case R.id.radio_1:
 
                 showFragment(R.id.layout_content, new HoldSimulationFragment(), "tradeType", "2");
+               // PositionManger.getInstance().getHold("2");
 
 
                 break;

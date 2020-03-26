@@ -152,6 +152,21 @@ public class TradeUtil {
 
         return income;
     }
+    /*浮动盈亏 需要的订单盈亏*/
+    public static String incomeAdd(boolean isBuy, double price, double opPrice, double volume) {
+        String income;
+
+        if (isBuy) {
+            income = getNumberFormat(mul(sub(price, opPrice), volume), 10);
+        } else {
+            income = getNumberFormat(mul(sub(opPrice, price), volume), 10);
+
+        }
+
+        return income;
+    }
+
+
 
     /*净盈亏*/
     public static String netIncome(double income, double service) {
@@ -212,7 +227,7 @@ public class TradeUtil {
             TradeUtil.price(quoteList, dataBean.getContractCode(), new TradeResult() {
                 @Override
                 public void setResult(Object response) {
-                    Double income = Double.valueOf(TradeUtil.income(isBuy, Double.parseDouble(response.toString()), dataBean.getOpPrice(), dataBean.getVolume()));
+                    Double income = Double.valueOf(TradeUtil.incomeAdd(isBuy, Double.parseDouble(response.toString()), dataBean.getOpPrice(), dataBean.getVolume()));
                     incomeList.add(income);
                 }
             });
@@ -280,23 +295,7 @@ public class TradeUtil {
         return numberFormat + "%";
     }
 
-   /* public static double big(double a, double b) {
-        Log.d(TAG, "big: " + a + "  --  " + b);
-        if (sub(a, b) > 0) {
-            return a;
-        } else {
-            return b;
-        }
-    }
 
-    public static double small(double a, double b) {
-        Log.d(TAG, "small: " + a + "  --  " + b);
-        if (sub(a, b) > 0) {
-            return b;
-        } else {
-            return a;
-        }
-    }*/
 
     public static double big(double a, double b) {
         BigDecimal a1 = new BigDecimal(a);

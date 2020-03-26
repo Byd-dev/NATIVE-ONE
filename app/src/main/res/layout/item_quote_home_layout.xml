@@ -26,7 +26,8 @@
                 android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="比特币(BTC)"
+                android:text="--"
+                android:typeface="monospace"
                 android:textColor="@color/text_quote_color"
                 android:textSize="13sp"
 
@@ -40,7 +41,8 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/margin_5"
                 android:layout_marginBottom="@dimen/margin_2"
-                android:text="5555.55"
+                android:text="--.--"
+                android:typeface="monospace"
                 android:textColor="@color/text_quote_red"
                 android:textSize="19sp"
                 android:textStyle="bold" />
@@ -49,7 +51,9 @@
                 android:id="@+id/text_change"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-22%"
+                android:text="-.-%"
+                android:typeface="monospace"
+
                 android:textColor="@color/text_maincolor"
                 android:textSize="14sp" />
         </LinearLayout>

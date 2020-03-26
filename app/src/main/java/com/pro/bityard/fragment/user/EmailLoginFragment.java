@@ -26,6 +26,10 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.PositionRealManger;
+import com.pro.bityard.manger.PositionSimulationManger;
+import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
@@ -78,6 +82,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initView(View view) {
+
 
         view.findViewById(R.id.text_mobile_login).setOnClickListener(this);
 
@@ -204,6 +209,11 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                         SPUtils.putData(AppConfig.LOGIN, loginEntity);
                                         getActivity().finish();
                                         SPUtils.putString(AppConfig.USER_EMAIL, edit_account.getText().toString());
+
+
+                                        //登录成功 初始化
+                                      TagManger.getInstance().tag();
+
 
                                     } else if (loginEntity.getCode() == 401) {
                                         count_pass++;

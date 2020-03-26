@@ -155,7 +155,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="0.0000"
+                                android:text="0.00"
                                 android:textColor="@color/text_maincolor"
 
                                 android:textSize="24sp"
@@ -166,7 +166,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="≈ 0.00(CNY)"
+                                android:text="≈ 0.0(CNY)"
                                 android:textColor="@color/text_maincolor"
 
                                 android:textSize="@dimen/size_big"
@@ -221,7 +221,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/margin_15"
                             android:layout_toRightOf="@+id/img_byd"
-                            android:text="6666.00"
+                            android:text="0.00"
                             android:textColor="@color/text_maincolor"
                             android:textSize="18sp"
 

@@ -26,7 +26,10 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.PositionRealManger;
+import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
@@ -47,6 +50,7 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
 import static com.pro.bityard.utils.TradeUtil.big;
+import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.lossAmount;
 import static com.pro.bityard.utils.TradeUtil.lossRate;
 import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
@@ -112,8 +116,11 @@ public class PositionFragment extends BaseFragment implements Observer {
 
     @Override
     protected void initView(View view) {
-
+        //行情的注册
         QuoteManger.getInstance().addObserver(this);
+        //标签
+        TagManger.getInstance().addObserver(this);
+
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
@@ -867,7 +874,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                 } else {
                     text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
                 }
-                text_incomeAll.setText(response.toString());
+                text_incomeAll.setText(getNumberFormat(Double.parseDouble(response.toString()), 2));
 
             }
         });
@@ -884,6 +891,9 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         //余额初始化
         BalanceManger.getInstance().getBalance("USDT");
+        //持仓初始化
+        PositionRealManger.getInstance().getHold();
+        PositionSimulationManger.getInstance().getHold();
 
         NetManger.getInstance().getHold(tradeType, new OnNetTwoResult() {
             @Override
@@ -893,7 +903,6 @@ public class PositionFragment extends BaseFragment implements Observer {
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
                     positionEntity = (PositionEntity) response1;
-                    //List<String> quoteList = (List<String>) response2;
                     positionAdapter.setDatas(positionEntity.getData(), quoteList);
 
                     //这里根据持仓来是否显示头部视图
@@ -918,6 +927,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
 
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -927,31 +937,34 @@ public class PositionFragment extends BaseFragment implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        List<String> quoteList = (List<String>) arg;
-        if (quoteList != null && positionEntity != null) {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    //整体盈亏
-                    setIncome(quoteList, positionEntity);
-                    positionAdapter.setDatas(positionEntity.getData(), quoteList);
-                    //pop 实时价格也是同步刷新
-                    if (text_price != null) {
-                        price(quoteList, contractCode, new TradeResult() {
-                            @Override
-                            public void setResult(Object response) {
-                                text_price.setText(response.toString());
-                            }
-                        });
+
+        if (o == QuoteManger.getInstance()) {
+             quoteList = (List<String>) arg;
+            if (quoteList != null && positionEntity != null) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //整体盈亏
+                        setIncome(quoteList, positionEntity);
+                        positionAdapter.setDatas(positionEntity.getData(), quoteList);
+                        //pop 实时价格也是同步刷新
+                        if (text_price != null) {
+                            price(quoteList, contractCode, new TradeResult() {
+                                @Override
+                                public void setResult(Object response) {
+                                    text_price.setText(response.toString());
+                                }
+                            });
+                        }
                     }
-                }
-            });
+                });
+            }
 
 
+        } else if (o == TagManger.getInstance()) {
+            initData();
         }
     }
-
-
 
 
 }

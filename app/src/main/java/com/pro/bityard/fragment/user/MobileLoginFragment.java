@@ -32,6 +32,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
@@ -165,7 +166,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
         //获取国家code
         countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
         if (countryCodeEntity == null) {
-            NetManger.getInstance().getRequest("/api/home/country/list",null,new OnNetResult() {
+            NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
                 @Override
                 public void onNetResult(String state, Object response) {
                     if (state.equals(BUSY)) {
@@ -262,13 +263,13 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                         map.put("contryCode", code_value);
                         map.put("geetestToken", geetestToken);
 
-                        NetManger.getInstance().postRequest("/api/sso/user_login_check",map, new OnNetResult() {
+                        NetManger.getInstance().postRequest("/api/sso/user_login_check", map, new OnNetResult() {
                             @Override
                             public void onNetResult(String state, Object response) {
                                 if (state.equals(BUSY)) {
                                     showProgressDialog();
                                 } else if (state.equals(SUCCESS)) {
-                                    Log.d("print", "onNetResult:268:  "+response.toString());
+                                    Log.d("print", "onNetResult:268:  " + response.toString());
                                     dismissProgressDialog();
                                     LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
                                     if (loginEntity.getCode() == 200) {
@@ -279,6 +280,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                                         SPUtils.putString(AppConfig.USER_COUNTRY_NAME, text_countryName.getText().toString());
                                         SPUtils.putString(AppConfig.USER_MOBILE, edit_account.getText().toString());
 
+                                        //登录成功 初始化
+                                        TagManger.getInstance().tag();
 
                                     } else if (loginEntity.getCode() == 401) {
                                         count_pass++;
@@ -288,7 +291,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                                     }
                                 } else if (state.equals(FAILURE)) {
                                     dismissProgressDialog();
-                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip),Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
 
                                 }
                             }
@@ -306,7 +309,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                 break;
             case R.id.text_forget_pass:
-                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET,1);
+                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET, 1);
                 break;
         }
     }
@@ -341,7 +344,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             text_try.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NetManger.getInstance().getRequest("/api/home/country/list",null,new OnNetResult() {
+                    NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
                         @Override
                         public void onNetResult(String state, Object response) {
                             if (state.equals(BUSY)) {

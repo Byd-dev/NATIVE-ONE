@@ -12,6 +12,10 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LogoutTipEntity;
+import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.PositionRealManger;
+import com.pro.bityard.manger.PositionSimulationManger;
+import com.pro.bityard.manger.TagManger;
 import com.pro.switchlibrary.SPUtils;
 
 import butterknife.BindView;
@@ -136,7 +140,12 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
                             if (tipEntity.getCode() == 200) {
                                 SPUtils.remove(AppConfig.LOGIN);
                                 showToast(tipEntity.getMessage());
+                                //退出成功 初始化
+                                //余额初始化
+                                TagManger.getInstance().clear();
                                 getActivity().finish();
+
+
                             }
                         } else if (state.equals(FAILURE)) {
                             dismissProgressDialog();
