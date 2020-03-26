@@ -1,26 +1,26 @@
 package com.pro.bityard.fragment.tab;
 
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.quote.Observer;
-import com.pro.bityard.quote.QuoteManger;
+import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.utils.Util;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
-import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 
-public class MarketFragment extends BaseFragment implements Observer, View.OnClickListener {
+public class MarketFragment extends BaseFragment implements View.OnClickListener, Observer {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -29,8 +29,8 @@ public class MarketFragment extends BaseFragment implements Observer, View.OnCli
 
     private QuoteAdapter quoteAdapter;
 
-    private int flag_new_price=0;
-    private int flag_up_down=0;
+    private int flag_new_price = 0;
+    private int flag_up_down = 0;
 
     @BindView(R.id.img_new_price)
     ImageView img_new_price;
@@ -40,29 +40,15 @@ public class MarketFragment extends BaseFragment implements Observer, View.OnCli
 
     @Override
     protected void onLazyLoad() {
-        startScheduleJob(mHandler, GET_QUOTE_SECOND, GET_QUOTE_SECOND);
 
     }
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-            if (quoteList != null&&swipeRefreshLayout!=null) {
-                swipeRefreshLayout.setRefreshing(false);
-                quoteAdapter.setDatas(quoteList);
-            }else {
-
-            }
-
-
-        }
-    };
 
     @Override
     protected void initView(View view) {
-        swipeRefreshLayout.setRefreshing(true);
+
+        QuoteManger.getInstance().addObserver(this);
+
 
         quoteAdapter = new QuoteAdapter(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -78,14 +64,10 @@ public class MarketFragment extends BaseFragment implements Observer, View.OnCli
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(false);
-                List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-                if (quoteList != null) {
-                    quoteAdapter.setDatas(quoteList);
-                }else {
-
-                }
+                // quoteAdapter.setDatas(quoteList);
             }
         });
+
     }
 
     @Override
@@ -103,10 +85,6 @@ public class MarketFragment extends BaseFragment implements Observer, View.OnCli
 
     }
 
-    @Override
-    public void update(String message) {
-
-    }
 
     @Override
     public void onClick(View v) {
@@ -134,5 +112,25 @@ public class MarketFragment extends BaseFragment implements Observer, View.OnCli
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        QuoteManger.getInstance().clear();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        List<String> quoteList = (List<String>) arg;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                quoteAdapter.setDatas(quoteList);
+
+            }
+        });
+
+
     }
 }

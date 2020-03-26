@@ -1,12 +1,9 @@
 package com.pro.bityard.fragment.tab;
 
-import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
@@ -14,15 +11,15 @@ import com.pro.bityard.adapter.HomeQuoteAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.quote.Observer;
-import com.pro.bityard.quote.QuoteManger;
+import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.QuoteManger;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.AlphaChangeListener;
 import com.pro.bityard.view.MyScrollView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,9 +27,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import skin.support.SkinCompatManager;
 
-import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 
-public class HomeFragment extends BaseFragment implements View.OnClickListener, Observer {
+public class HomeFragment extends BaseFragment implements View.OnClickListener, java.util.Observer {
     @BindView(R.id.bar)
     RelativeLayout layout_bar;
 
@@ -75,6 +72,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     protected void initView(View view) {
 
+        QuoteManger.getInstance().addObserver(this);
+
 
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
@@ -105,7 +104,6 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         recyclerView_list.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView_list.setAdapter(quoteAdapter);
 
-        startScheduleJob(mHandler,GET_QUOTE_SECOND,GET_QUOTE_SECOND);
 
 
     }
@@ -129,19 +127,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         });
     }
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-            if (quoteList!=null){
-                homeQuoteAdapter.setDatas(quoteList.subList(0,3));
-                quoteAdapter.setDatas(quoteList);
-            }
 
-
-        }
-    };
 
 
     @Override
@@ -183,17 +169,27 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         }
     }
 
-    @Override
-    public void update(String data) {
-        List<String> strings = Util.quoteResult(data);
 
-
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         cancelTimer();
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        String a= (String) arg;
+        List<String> quoteList = Util.quoteResult(a);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                homeQuoteAdapter.setDatas(quoteList.subList(0,3));
+                quoteAdapter.setDatas(quoteList);
+            }
+        });
+
+
     }
 }
 

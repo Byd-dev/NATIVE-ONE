@@ -28,7 +28,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private Context context;
     private List<HistoryEntity.DataBean> datas;
 
-    private List<String> quoteList;
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
@@ -46,9 +45,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<HistoryEntity.DataBean> datas, List<String> quoteList) {
+    public void setDatas(List<HistoryEntity.DataBean> datas) {
         this.datas = datas;
-        this.quoteList = quoteList;
         this.notifyDataSetChanged();
     }
 

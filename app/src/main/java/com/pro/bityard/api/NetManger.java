@@ -20,7 +20,7 @@ import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TipSPSLEntity;
 import com.pro.bityard.entity.TradeListEntity;
-import com.pro.bityard.quote.QuoteManger;
+import com.pro.bityard.manger.QuoteManger;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
 
@@ -379,8 +379,8 @@ public class NetManger {
 
                     } else if (tipEntity.getCode() == 200) {
                         PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
-                        List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-                        onNetResult.setResult(SUCCESS, positionEntity, quoteList);
+                      //  List<String> quoteList = QuoteManger.getInstance().getQuoteList();
+                        onNetResult.setResult(SUCCESS, positionEntity, null);
 
 
                     }
@@ -463,9 +463,8 @@ public class NetManger {
                     } else if (tipEntity.getCode() == 200) {
                         PendingEntity pendingEntity = new Gson().fromJson(response.toString(), PendingEntity.class);
 
-                        List<String> quoteList = QuoteManger.getInstance().getQuoteList();
 
-                        onNetResult.setResult(SUCCESS, pendingEntity, quoteList);
+                        onNetResult.setResult(SUCCESS, pendingEntity, null);
 
 
                     }
@@ -503,7 +502,7 @@ public class NetManger {
     }
 
     /*持仓历史*/
-    public void getHistory(String tradeType, OnNetTwoResult onNetResult) {
+    public void getHistory(String tradeType, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("schemeSort", "2");
         map.put("tradeType", tradeType);
@@ -512,25 +511,24 @@ public class NetManger {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
-                    onNetResult.setResult(BUSY, null, null);
+                    onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
 
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 401) {
-                        onNetResult.setResult(FAILURE, null, null);
+                        onNetResult.onNetResult(FAILURE, null);
 
                     } else if (tipEntity.getCode() == 200) {
                         HistoryEntity historyEntity = new Gson().fromJson(response.toString(), HistoryEntity.class);
 
-                        List<String> quoteList = QuoteManger.getInstance().getQuoteList();
 
-                        onNetResult.setResult(SUCCESS, historyEntity, quoteList);
+                        onNetResult.onNetResult(SUCCESS, historyEntity);
 
 
                     }
 
                 } else if (state.equals(FAILURE)) {
-                    onNetResult.setResult(FAILURE, null, null);
+                    onNetResult.onNetResult(FAILURE, null);
 
                 }
             }
@@ -539,25 +537,25 @@ public class NetManger {
 
 
     /*设置止盈止损*/
-    public void submitSPSL(String bettingId, String tradeType,String stopProfit,String stopLoss, OnNetResult onNetResult) {
+    public void submitSPSL(String bettingId, String tradeType, String stopProfit, String stopLoss, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("bettingId", bettingId);
         map.put("tradeType", tradeType);
-        map.put("stopProfit",stopProfit );
+        map.put("stopProfit", stopProfit);
         map.put("stopLoss", stopLoss);
-        map.put("source","设置止盈止损");
+        map.put("source", "设置止盈止损");
         postRequest("/api/trade/spsl.htm", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
                     onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
-                    Log.d("print", "onNetResult:设置止盈止损:  "+response.toString());
+                    Log.d("print", "onNetResult:设置止盈止损:  " + response.toString());
                     TipSPSLEntity tipSPSLEntity = new Gson().fromJson(response.toString(), TipSPSLEntity.class);
-                    if (tipSPSLEntity.getCode()==200){
+                    if (tipSPSLEntity.getCode() == 200) {
 
                         onNetResult.onNetResult(SUCCESS, tipSPSLEntity.getMessage());
-                    }else {
+                    } else {
                         onNetResult.onNetResult(FAILURE, tipSPSLEntity.getMessage());
 
                     }
@@ -570,8 +568,47 @@ public class NetManger {
         });
     }
 
+
     /*可用余额*/
-    public void getBalance(OnNetResult onNetResult) {
+    private BalanceEntity.DataBean balanceData;
+
+    public BalanceEntity.DataBean getBalanceData() {
+        return balanceData;
+    }
+
+    public void setBalanceData(BalanceEntity.DataBean balanceData) {
+        this.balanceData = balanceData;
+    }
+
+    public void getBalance(String moneyType) {
+        getRequest("/api/user/asset/list", null, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                } else if (state.equals(SUCCESS)) {
+
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 401) {
+
+                    } else if (tipEntity.getCode() == 200) {
+                        BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
+                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                            if (data.getCurrency().equals(moneyType)) {
+                                setBalanceData(data);
+                            }
+                        }
+
+
+                    }
+
+                } else if (state.equals(FAILURE)) {
+
+                }
+            }
+        });
+    }
+
+    public void getBalance(String moneyType, OnNetResult onNetResult) {
         getRequest("/api/user/asset/list", null, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
@@ -579,7 +616,6 @@ public class NetManger {
                     onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
 
-                    Log.d("print", "onNetResult:583:  "+response);
 
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 401) {
@@ -587,7 +623,12 @@ public class NetManger {
 
                     } else if (tipEntity.getCode() == 200) {
                         BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
+                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                            if (data.getCurrency().equals(moneyType)) {
+                                setBalanceData(data);
 
+                            }
+                        }
                         onNetResult.onNetResult(SUCCESS, balanceEntity);
 
 
@@ -600,5 +641,4 @@ public class NetManger {
             }
         });
     }
-
 }

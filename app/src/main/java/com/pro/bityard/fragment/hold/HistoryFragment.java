@@ -6,6 +6,7 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.HistoryAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.HistoryEntity;
@@ -47,7 +48,7 @@ public class HistoryFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments()!=null){
+        if (getArguments() != null) {
             tradeType = getArguments().getString("tradeType");
         }
     }
@@ -92,16 +93,15 @@ public class HistoryFragment extends BaseFragment {
     @Override
     protected void initData() {
 
-        NetManger.getInstance().getHistory(tradeType, new OnNetTwoResult() {
+        NetManger.getInstance().getHistory(tradeType, new OnNetResult() {
             @Override
-            public void setResult(String state, Object response1, Object response2) {
+            public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
                     swipeRefreshLayout.setRefreshing(true);
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
-                    HistoryEntity historyEntity= (HistoryEntity) response1;
-                    List<String> quoteList= (List<String>) response2;
-                    historyAdapter.setDatas(historyEntity.getData(),quoteList);
+                    HistoryEntity historyEntity = (HistoryEntity) response;
+                    historyAdapter.setDatas(historyEntity.getData());
 
 
                 } else if (state.equals(FAILURE)) {

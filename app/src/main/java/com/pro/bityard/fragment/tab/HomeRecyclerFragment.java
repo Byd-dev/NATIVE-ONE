@@ -1,7 +1,5 @@
 package com.pro.bityard.fragment.tab;
 
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -23,14 +21,16 @@ import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BannerEntity;
-import com.pro.bityard.quote.Observer;
-import com.pro.bityard.quote.QuoteManger;
+import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.QuoteManger;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.stx.xhb.xbanner.XBanner;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -40,10 +40,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import skin.support.SkinCompatManager;
 
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
-import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
 
 public class HomeRecyclerFragment extends BaseFragment implements View.OnClickListener, Observer {
 
@@ -84,6 +84,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
     @Override
     protected void initView(View view) {
 
+        QuoteManger.getInstance().addObserver(this);
 
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
@@ -129,7 +130,6 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
         recyclerView_list.addHeaderView(home_view);
 
-        startScheduleJob(mHandler, GET_QUOTE_SECOND, GET_QUOTE_SECOND);
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
@@ -143,21 +143,6 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
 
     }
-
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-            if (quoteList != null) {
-                homeQuoteAdapter.setDatas(quoteList.subList(0, 3));
-                quoteAdapter.setDatas(quoteList);
-            }
-
-
-        }
-    };
 
 
     @Override
@@ -283,12 +268,6 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
         }
     }
 
-    @Override
-    public void update(String data) {
-        List<String> strings = Util.quoteResult(data);
-
-
-    }
 
     @Override
     public void onDestroy() {
@@ -297,6 +276,23 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
         if (xBanner != null) {
             xBanner.stopAutoPlay();
         }
+        QuoteManger.getInstance().clear();
+    }
+
+
+    @Override
+    public void update(Observable o, Object arg) {
+
+        List<String> quoteList = (List<String>) arg;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                homeQuoteAdapter.setDatas(quoteList.subList(0, 3));
+                quoteAdapter.setDatas(quoteList);
+            }
+        });
+
+
     }
 }
 

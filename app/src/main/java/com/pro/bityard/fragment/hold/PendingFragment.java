@@ -13,20 +13,25 @@ import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.TipCloseEntity;
+import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class PendingFragment extends BaseFragment {
+public class PendingFragment extends BaseFragment implements Observer {
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
 
@@ -36,6 +41,7 @@ public class PendingFragment extends BaseFragment {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     private String tradeType;
+    private PendingEntity pendingEntity;
 
 
     public PendingFragment newInstance(String type) {
@@ -63,6 +69,8 @@ public class PendingFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
+        QuoteManger.getInstance().addObserver(this);
+
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
@@ -138,10 +146,7 @@ public class PendingFragment extends BaseFragment {
                     swipeRefreshLayout.setRefreshing(true);
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
-                    PendingEntity pendingEntity= (PendingEntity) response1;
-                    Log.d("print", "setResult:106:  "+pendingEntity);
-                    List<String> quoteList= (List<String>) response2;
-                    pendingAdapter.setDatas(pendingEntity.getData(),quoteList);
+                    pendingEntity = (PendingEntity) response1;
 
 
                 } else if (state.equals(FAILURE)) {
@@ -151,6 +156,17 @@ public class PendingFragment extends BaseFragment {
             }
 
 
+        });
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        List<String> quoteList = (List<String>) arg;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                pendingAdapter.setDatas(pendingEntity.getData(),quoteList);
+            }
         });
     }
 }

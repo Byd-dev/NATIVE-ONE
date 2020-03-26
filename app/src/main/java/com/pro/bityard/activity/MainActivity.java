@@ -19,7 +19,7 @@ import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.fragment.tab.HomeRecyclerFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
-import com.pro.bityard.quote.QuoteManger;
+import com.pro.bityard.manger.QuoteManger;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
@@ -51,7 +51,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
 
     }
@@ -95,6 +94,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.getChildAt(0).performClick();
 
         QuoteManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+
+
+        NetManger.getInstance().getBalance("USDT");
 
 
     }
@@ -177,5 +179,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     protected void onDestroy() {
         super.onDestroy();
         QuoteManger.getInstance().cancelTimer();
+        QuoteManger.getInstance().clear();
     }
 }

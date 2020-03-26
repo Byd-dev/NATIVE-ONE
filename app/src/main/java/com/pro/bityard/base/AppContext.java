@@ -15,11 +15,14 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.pro.bityard.manger.BalanceManger;
 import com.pro.switchlibrary.SPUtils;
 import com.tencent.smtt.sdk.QbSdk;
 
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
@@ -102,7 +105,6 @@ public class AppContext extends Application {
             builder.detectFileUriExposure();
         }
         StrictMode.setVmPolicy(builder.build());
-
 
 
 

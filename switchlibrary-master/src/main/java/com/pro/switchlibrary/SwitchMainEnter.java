@@ -208,7 +208,7 @@ public class SwitchMainEnter implements DeviceUtil.AppIdsUpdater {
                     stringBuilder.append(latitude).append(",").append(longitude);
                     String s = stringBuilder.toString();
                     SPUtils.putString(AppConfig.LOCATION, s);
-                    Log.d("print", "onCreate:117:   " + latitude + "   " + longitude);
+                    Log.d("print", "onCreate:地理位置:   " + latitude + "   " + longitude);
 
                     SPUtils.putString(AppConfig.COUNTRY_NAME,address.getCountryName());
 

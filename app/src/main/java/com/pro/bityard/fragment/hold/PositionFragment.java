@@ -1,8 +1,6 @@
 package com.pro.bityard.fragment.hold;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,23 +25,26 @@ import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
-import com.pro.bityard.quote.QuoteManger;
+import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.QuoteManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
-import static com.pro.bityard.config.AppConfig.GET_QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
 import static com.pro.bityard.utils.TradeUtil.big;
 import static com.pro.bityard.utils.TradeUtil.lossAmount;
@@ -53,7 +54,7 @@ import static com.pro.bityard.utils.TradeUtil.price;
 import static com.pro.bityard.utils.TradeUtil.profitRate;
 import static com.pro.bityard.utils.TradeUtil.small;
 
-public class PositionFragment extends BaseFragment {
+public class PositionFragment extends BaseFragment implements Observer {
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
 
@@ -75,10 +76,9 @@ public class PositionFragment extends BaseFragment {
     private boolean isEdit_profit_amount = true;
     private boolean isEdit_profit_price = false;
 
-    private boolean isEdit_loss_amount=true;
-    private boolean isEdit_loss_price=false;
-
-
+    private boolean isEdit_loss_amount = true;
+    private boolean isEdit_loss_price = false;
+    private List<String> quoteList;
 
 
     public PositionFragment newInstance(String type) {
@@ -113,8 +113,9 @@ public class PositionFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        QuoteManger.getInstance().addObserver(this);
 
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
         positionAdapter = new PositionAdapter(getContext());
 
@@ -196,8 +197,6 @@ public class PositionFragment extends BaseFragment {
 
         });
 
-        startScheduleJob(mHandler, GET_QUOTE_SECOND, GET_QUOTE_SECOND);
-
 
     }
 
@@ -213,8 +212,6 @@ public class PositionFragment extends BaseFragment {
         final double margin = data.getMargin();
         double stopProfit = data.getStopProfit();
         double stopLoss = data.getStopLoss();
-
-
 
 
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_spsl_layout, null);
@@ -235,18 +232,18 @@ public class PositionFragment extends BaseFragment {
                     case R.id.radio_0:
                         layout_amount.setVisibility(View.VISIBLE);
                         layout_price.setVisibility(View.GONE);
-                        isEdit_profit_amount=true;
-                        isEdit_profit_price=false;
-                        isEdit_loss_amount=true;
-                        isEdit_loss_price=false;
+                        isEdit_profit_amount = true;
+                        isEdit_profit_price = false;
+                        isEdit_loss_amount = true;
+                        isEdit_loss_price = false;
                         break;
                     case R.id.radio_1:
                         layout_amount.setVisibility(View.GONE);
                         layout_price.setVisibility(View.VISIBLE);
-                        isEdit_profit_amount=false;
-                        isEdit_profit_price=true;
-                        isEdit_loss_amount=false;
-                        isEdit_loss_price=true;
+                        isEdit_profit_amount = false;
+                        isEdit_profit_price = true;
+                        isEdit_loss_amount = false;
+                        isEdit_loss_price = true;
                         break;
                 }
             }
@@ -464,7 +461,6 @@ public class PositionFragment extends BaseFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-
             }
 
             @Override
@@ -555,12 +551,11 @@ public class PositionFragment extends BaseFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (isEdit_loss_amount){
+                if (isEdit_loss_amount) {
                     if (TextUtils.isEmpty(s)) {
                         edit_loss_amount.setHint(loss_min_amount + "~" + loss_max_amount);
                         text_loss_amount_price.setText(String.valueOf(loss_min_amount));
@@ -638,7 +633,6 @@ public class PositionFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
 
 
             }
@@ -731,7 +725,7 @@ public class PositionFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (isEdit_loss_price){
+                if (isEdit_loss_price) {
                     if (TextUtils.isEmpty(s)) {
                         if (isBuy) {
                             edit_stop_loss_price.setHint(loss_max_price + "~" + loss_min_price);
@@ -741,39 +735,39 @@ public class PositionFragment extends BaseFragment {
 
                     } else {
                         if (!s.toString().startsWith(".")) {
-                            if (Double.parseDouble(s.toString()) > big(loss_min_price,loss_max_price)) {
+                            if (Double.parseDouble(s.toString()) > big(loss_min_price, loss_max_price)) {
                                 //价格 止损价 输入框
-                                edit_stop_loss_price.setText(String.valueOf(big(loss_min_price,loss_max_price)));//ok
+                                edit_stop_loss_price.setText(String.valueOf(big(loss_min_price, loss_max_price)));//ok
                                 //价格 亏损金额
-                                text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price,loss_max_price)));
+                                text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price, loss_max_price)));
                                 //价格 亏损百分比
-                                text_loss_rate_price.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price,loss_max_price))), margin));
+                                text_loss_rate_price.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price, loss_max_price))), margin));
                                 //金额 预计亏损 输入框
-                                edit_loss_amount.setText(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price,loss_max_price)));
+                                edit_loss_amount.setText(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price, loss_max_price)));
                                 //金额 止损价
-                                text_stop_loss_amount.setText(String.valueOf(big(loss_min_price,loss_max_price)));
+                                text_stop_loss_amount.setText(String.valueOf(big(loss_min_price, loss_max_price)));
                                 //金额 亏损百分比
-                                text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price,loss_max_price))), margin));
+                                text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price, loss_max_price))), margin));
 
 
-                            } else if (Double.parseDouble(s.toString()) < small(loss_min_price,loss_max_price)) {
+                            } else if (Double.parseDouble(s.toString()) < small(loss_min_price, loss_max_price)) {
 
                                 edit_loss_amount.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (s.length() != 0 && Double.parseDouble(s.toString()) < small(loss_min_price,loss_max_price)) {
+                                        if (s.length() != 0 && Double.parseDouble(s.toString()) < small(loss_min_price, loss_max_price)) {
                                             //价格 止损价 输入框
-                                            edit_stop_loss_price.setText(String.valueOf(small(loss_min_price,loss_max_price)));//ok
+                                            edit_stop_loss_price.setText(String.valueOf(small(loss_min_price, loss_max_price)));//ok
                                             //价格 亏损金额
-                                            text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price,loss_max_price)));
+                                            text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price)));
                                             //价格 亏损百分比
-                                            text_loss_rate_price.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price,loss_max_price))), margin));
+                                            text_loss_rate_price.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price))), margin));
                                             //金额 预计亏损 输入框
-                                            edit_loss_amount.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price,loss_max_price)));
+                                            edit_loss_amount.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price)));
                                             //金额 止损价
-                                            text_stop_loss_amount.setText(String.valueOf(small(loss_min_price,loss_max_price)));
+                                            text_stop_loss_amount.setText(String.valueOf(small(loss_min_price, loss_max_price)));
                                             //金额 亏损百分比
-                                            text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price,loss_max_price))), margin));
+                                            text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price))), margin));
 
 
                                         }
@@ -800,44 +794,42 @@ public class PositionFragment extends BaseFragment {
 
                         }
                     }
-                }else {
+                } else {
 
                 }
             }
         });
 
 
-
-
         view.findViewById(R.id.text_sure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String rateProfit= numberHalfUp(TradeUtil.div(Double.parseDouble(edit_profit_amount.getText().toString()),margin,priceDigit),2);
-                String rateLoss= numberHalfUp(TradeUtil.div(Double.parseDouble(edit_loss_amount.getText().toString()),margin,priceDigit),2);
+                String rateProfit = numberHalfUp(TradeUtil.div(Double.parseDouble(edit_profit_amount.getText().toString()), margin, priceDigit), 2);
+                String rateLoss = numberHalfUp(TradeUtil.div(Double.parseDouble(edit_loss_amount.getText().toString()), margin, priceDigit), 2);
 
-                    NetManger.getInstance().submitSPSL(data.getId(),
-                            tradeType, rateProfit,
-                            "-"+rateLoss,
-                            new OnNetResult() {
-                                @Override
-                                public void onNetResult(String state, Object response) {
-                                    if (state.equals(BUSY)){
-                                        showProgressDialog();
-                                    }else if (state.equals(SUCCESS)){
-                                        dismissProgressDialog();
-                                        popupWindow.dismiss();
-                                        backgroundAlpha(1f);
-                                        initData();
+                NetManger.getInstance().submitSPSL(data.getId(),
+                        tradeType, rateProfit,
+                        "-" + rateLoss,
+                        new OnNetResult() {
+                            @Override
+                            public void onNetResult(String state, Object response) {
+                                if (state.equals(BUSY)) {
+                                    showProgressDialog();
+                                } else if (state.equals(SUCCESS)) {
+                                    dismissProgressDialog();
+                                    popupWindow.dismiss();
+                                    backgroundAlpha(1f);
+                                    initData();
 
-                                        Toast.makeText(getActivity(),getResources().getText(R.string.text_success),Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
 
-                                    }else if (state.equals(FAILURE)){
-                                        dismissProgressDialog();
-                                        Toast.makeText(getActivity(),response.toString(),Toast.LENGTH_SHORT).show();
+                                } else if (state.equals(FAILURE)) {
+                                    dismissProgressDialog();
+                                    Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
-                                    }
                                 }
-                            });
+                            }
+                        });
             }
         });
 
@@ -863,29 +855,6 @@ public class PositionFragment extends BaseFragment {
 
     }
 
-    private Handler mHandler = new Handler() {
-
-
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-            if (quoteList != null && positionEntity != null) {
-                //整体盈亏
-                setIncome(quoteList, positionEntity);
-                positionAdapter.setDatas(positionEntity.getData(), quoteList);
-                //pop 实时价格也是同步刷新
-                if (text_price != null) {
-                    price(quoteList, contractCode, new TradeResult() {
-                        @Override
-                        public void setResult(Object response) {
-                            text_price.setText(response.toString());
-                        }
-                    });
-                }
-            }
-        }
-    };
 
     /*设置浮动盈亏*/
     private void setIncome(List<String> quoteList, PositionEntity positionEntity) {
@@ -922,8 +891,9 @@ public class PositionFragment extends BaseFragment {
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
                     positionEntity = (PositionEntity) response1;
-                    List<String> quoteList = (List<String>) response2;
+                    //List<String> quoteList = (List<String>) response2;
                     positionAdapter.setDatas(positionEntity.getData(), quoteList);
+
                     //这里根据持仓来是否显示头部视图
                     if (positionEntity.getData().size() == 0) {
                         text_incomeAll.setText("");
@@ -946,4 +916,38 @@ public class PositionFragment extends BaseFragment {
 
 
     }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        QuoteManger.getInstance().clear();
+    }
+
+
+    @Override
+    public void update(Observable o, Object arg) {
+        List<String> quoteList = (List<String>) arg;
+        if (quoteList != null && positionEntity != null) {
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    //整体盈亏
+                    setIncome(quoteList, positionEntity);
+                    positionAdapter.setDatas(positionEntity.getData(), quoteList);
+                    //pop 实时价格也是同步刷新
+                    if (text_price != null) {
+                        price(quoteList, contractCode, new TradeResult() {
+                            @Override
+                            public void setResult(Object response) {
+                                text_price.setText(response.toString());
+                            }
+                        });
+                    }
+                }
+            });
+
+
+        }
+    }
+
+
 }
