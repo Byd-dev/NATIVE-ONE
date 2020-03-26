@@ -165,7 +165,9 @@ public class PendingFragment extends BaseFragment implements Observer {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                pendingAdapter.setDatas(pendingEntity.getData(),quoteList);
+                if (pendingEntity!=null){
+                    pendingAdapter.setDatas(pendingEntity.getData(),quoteList);
+                }
             }
         });
     }

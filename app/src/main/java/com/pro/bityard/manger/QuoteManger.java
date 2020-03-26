@@ -94,7 +94,7 @@ public class QuoteManger extends Observable {
                         QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
                         String data = quoteEntity.getData();
                         List<String> strings = Util.quoteResult(data);
-                        postMessage(strings);
+                        postQuote(strings);
 
                     } else if (state.equals(FAILURE)) {
 
@@ -106,7 +106,7 @@ public class QuoteManger extends Observable {
 
     }
 
-    public void postMessage(Object data) {
+    public void postQuote(Object data) {
         setChanged();
         notifyObservers(data);
 

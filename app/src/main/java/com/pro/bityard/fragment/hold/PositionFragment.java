@@ -882,6 +882,8 @@ public class PositionFragment extends BaseFragment implements Observer {
     @Override
     protected void initData() {
 
+        //余额初始化
+        BalanceManger.getInstance().getBalance("USDT");
 
         NetManger.getInstance().getHold(tradeType, new OnNetTwoResult() {
             @Override

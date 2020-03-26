@@ -569,76 +569,8 @@ public class NetManger {
     }
 
 
-    /*可用余额*/
-    private BalanceEntity.DataBean balanceData;
-
-    public BalanceEntity.DataBean getBalanceData() {
-        return balanceData;
-    }
-
-    public void setBalanceData(BalanceEntity.DataBean balanceData) {
-        this.balanceData = balanceData;
-    }
-
-    public void getBalance(String moneyType) {
-        getRequest("/api/user/asset/list", null, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                } else if (state.equals(SUCCESS)) {
-
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 401) {
-
-                    } else if (tipEntity.getCode() == 200) {
-                        BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
-                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                            if (data.getCurrency().equals(moneyType)) {
-                                setBalanceData(data);
-                            }
-                        }
 
 
-                    }
-
-                } else if (state.equals(FAILURE)) {
-
-                }
-            }
-        });
-    }
-
-    public void getBalance(String moneyType, OnNetResult onNetResult) {
-        getRequest("/api/user/asset/list", null, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.onNetResult(BUSY, null);
-                } else if (state.equals(SUCCESS)) {
 
 
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 401) {
-                        onNetResult.onNetResult(FAILURE, null);
-
-                    } else if (tipEntity.getCode() == 200) {
-                        BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
-                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                            if (data.getCurrency().equals(moneyType)) {
-                                setBalanceData(data);
-
-                            }
-                        }
-                        onNetResult.onNetResult(SUCCESS, balanceEntity);
-
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
-                    onNetResult.onNetResult(FAILURE, null);
-
-                }
-            }
-        });
-    }
 }
