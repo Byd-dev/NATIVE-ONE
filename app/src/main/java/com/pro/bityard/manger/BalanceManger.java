@@ -55,7 +55,6 @@ public class BalanceManger extends Observable {
 
                     } else if (tipEntity.getCode() == 200) {
                         BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
-                       // Log.d("print", "onNetResult:58: "+balanceEntity.toString());
 
                         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                             if (data.getCurrency().equals(moneyType)) {
@@ -73,6 +72,32 @@ public class BalanceManger extends Observable {
         });
     }
 
+
+    public void getBalance() {
+        NetManger.getInstance().getRequest("/api/user/asset/list", null, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                } else if (state.equals(SUCCESS)) {
+                    //Log.d("print", "onNetResult:52: "+response.toString());
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 401) {
+
+                    } else if (tipEntity.getCode() == 200) {
+                        BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
+                        postBalance(balanceEntity);
+
+
+
+
+                    }
+
+                } else if (state.equals(FAILURE)) {
+
+                }
+            }
+        });
+    }
     /**
      * 清理消息监听
      */

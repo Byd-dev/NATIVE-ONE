@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_3"
                 android:text="@string/text_available"
+                android:typeface="monospace"
                 android:textColor="@color/text_main_color_black"
                 android:textSize="14sp" />
 
@@ -63,6 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_3"
                 android:text="@string/text_freeze"
+                android:typeface="monospace"
                 android:textColor="@color/text_main_color_black"
                 android:textSize="14sp" />
 
@@ -92,6 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_3"
                 android:text="@string/text_worth"
+                android:typeface="monospace"
                 android:textColor="@color/text_main_color_black"
                 android:textSize="14sp" />
 

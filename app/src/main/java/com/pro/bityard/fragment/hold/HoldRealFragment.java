@@ -14,6 +14,7 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.utils.TradeUtil;
 
@@ -38,7 +39,10 @@ public class HoldRealFragment extends BaseFragment implements Observer {
     TextView text_balance;
     @BindView(R.id.text_freeze)
     TextView text_freeze;
+    @BindView(R.id.text_worth)
+    TextView text_worth;
     private String tradeType;
+    private BalanceEntity balanceEntity;
 
     public HoldRealFragment newInstance(String type) {
         HoldRealFragment fragment = new HoldRealFragment();
@@ -69,6 +73,8 @@ public class HoldRealFragment extends BaseFragment implements Observer {
         BalanceManger.getInstance().addObserver(this);
         //持仓注册
         PositionRealManger.getInstance().addObserver(this);
+        //净值注册
+        NetIncomeManger.getInstance().addObserver(this);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -117,12 +123,17 @@ public class HoldRealFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         if (o == BalanceManger.getInstance()) {
-            BalanceEntity.DataBean data = (BalanceEntity.DataBean) arg;
+
+            balanceEntity = (BalanceEntity) arg;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (tradeType.equals("1") && text_balance != null) {
-                        text_balance.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
+                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                            if (data.getCurrency().equals("USDT")) {
+                                text_balance.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
+                            }
+                        }
                     }
                 }
             });
@@ -131,18 +142,54 @@ public class HoldRealFragment extends BaseFragment implements Observer {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (text_freeze!=null){
+                    if (text_freeze != null) {
                         TradeUtil.getMargin(positionEntity, new TradeResult() {
                             @Override
                             public void setResult(Object response) {
-                                text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()),2));
+
+                                text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
                             }
                         });
                     }
                 }
             });
+        } else if (o == NetIncomeManger.getInstance()) {
+
+            String result = (String) arg;
+            String[] split = result.split(",");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (text_worth != null && split[0].equals("1")&&tradeType.equals("1")) {
+                        // 1,2.5,5
+                        String netIncome = split[1];
+                        String margin = split[2];
+                        if (balanceEntity!=null){
+                            for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                                if (data.getCurrency().equals("USDT")) {
+                                    double money = data.getMoney();
+                                    double sub = TradeUtil.sub(money, Double.parseDouble(margin));
+                                    double add = TradeUtil.add(sub, Double.parseDouble(netIncome));
+                                    text_worth.setText(TradeUtil.getNumberFormat(add, 2));
+
+                                }
+                            }
+                        }
+
+                    }
+                }
+            });
         }
+    }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //余额注册
+        BalanceManger.getInstance().clear();
+        //持仓注册
+        PositionRealManger.getInstance().clear();
+        //净值注册
+        NetIncomeManger.getInstance().clear();
     }
 }

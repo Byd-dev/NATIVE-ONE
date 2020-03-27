@@ -379,7 +379,7 @@ public class NetManger {
 
                     } else if (tipEntity.getCode() == 200) {
                         PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
-                      //  List<String> quoteList = QuoteManger.getInstance().getQuoteList();
+                        //  List<String> quoteList = QuoteManger.getInstance().getQuoteList();
                         onNetResult.setResult(SUCCESS, positionEntity, null);
 
 
@@ -569,8 +569,35 @@ public class NetManger {
     }
 
 
+    /*汇率*/
+    public void rate(String src,String des,OnNetResult onNetResult){
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("src", src);
+        map.put("des", des);
+        getRequest("/api/home/currency/rate", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    onNetResult.onNetResult(BUSY, null);
+                } else if (state.equals(SUCCESS)) {
+
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 401) {
+                        onNetResult.onNetResult(FAILURE, null);
+
+                    } else if (tipEntity.getCode() == 200) {
+                        Log.d("print", "onNetResult:589:  "+response.toString());
 
 
+                    }
+
+                } else if (state.equals(FAILURE)) {
+                    onNetResult.onNetResult(FAILURE, null);
+
+                }
+            }
+        });
+    }
 
 
 }

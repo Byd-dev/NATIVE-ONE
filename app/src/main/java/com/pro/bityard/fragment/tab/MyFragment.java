@@ -83,7 +83,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Ob
     @Override
     protected void initData() {
         //余额注册
-        BalanceManger.getInstance().getBalance("USDT");
+        BalanceManger.getInstance().getBalance();
     }
 
     @Override
@@ -102,12 +102,17 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Ob
     @Override
     public void update(Observable o, Object arg) {
         if (o == BalanceManger.getInstance()) {
-            BalanceEntity.DataBean data = (BalanceEntity.DataBean) arg;
+            BalanceEntity data = (BalanceEntity) arg;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (text_balance != null) {
-                        text_balance.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
+                        for (BalanceEntity.DataBean data : data.getData()) {
+                            if (data.getCurrency().equals("USDT")) {
+                                text_balance.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
+                            }
+                        }
+
                     }
                 }
             });

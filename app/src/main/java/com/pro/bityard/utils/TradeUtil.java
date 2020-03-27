@@ -110,8 +110,6 @@ public class TradeUtil {
     }
 
 
-
-
     /*亏损金额*/
     public static String lossAmount(boolean isBusy, double price, int priceDigit, double lever, double margin, double stopProfitPrice) {
         //盈利 金额
@@ -152,6 +150,7 @@ public class TradeUtil {
 
         return income;
     }
+
     /*浮动盈亏 需要的订单盈亏*/
     public static String incomeAdd(boolean isBuy, double price, double opPrice, double volume) {
         String income;
@@ -164,15 +163,6 @@ public class TradeUtil {
         }
 
         return income;
-    }
-
-
-
-    /*净盈亏*/
-    public static String netIncome(double income, double service) {
-        String netIncome;
-        netIncome = getNumberFormat((sub(income, service)), 2);
-        return netIncome;
     }
 
 
@@ -218,8 +208,44 @@ public class TradeUtil {
 
     }
 
+    /*净盈亏*/
+    public static String netIncome(double income, double service) {
+        String netIncome;
+        netIncome = getNumberFormat((sub(income, service)), 2);
+        return netIncome;
+    }
 
-    /*全部盈亏*/
+
+    public static void getNetIncome(List<String> quoteList, PositionEntity positionEntity, TradeResult tradeResult) {
+        if (positionEntity==null){
+            return;
+        }
+        List<Double> incomeList = new ArrayList<>();
+        for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
+            boolean isBuy = dataBean.isIsBuy();
+            double opPrice = dataBean.getOpPrice();
+            double volume = dataBean.getVolume();
+            double serviceCharge = dataBean.getServiceCharge();
+            TradeUtil.price(quoteList, dataBean.getContractCode(), new TradeResult() {
+                @Override
+                public void setResult(Object response) {
+                    String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume);
+                    String s = netIncome(Double.parseDouble(income1), serviceCharge);
+                    incomeList.add(Double.parseDouble(s));
+                }
+            });
+        }
+        if (incomeList.size() > 0) {
+            double income = 0.0;
+            for (int i = 0; i < incomeList.size(); i++) {
+                income = TradeUtil.add(income, incomeList.get(i));
+            }
+            tradeResult.setResult(income);
+        }
+    }
+
+
+    /*全部浮动盈亏*/
     public static void getIncome(List<String> quoteList, PositionEntity positionEntity, TradeResult tradeResult) {
         List<Double> incomeList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
@@ -241,9 +267,18 @@ public class TradeUtil {
         }
     }
 
+    private double marginAll;
+
+    public double getMarginAll() {
+        return marginAll;
+    }
+
+    public void setMarginAll(double marginAll) {
+        this.marginAll = marginAll;
+    }
 
     /*冻结资金  所有的保证金和*/
-    public static void getMargin(PositionEntity positionEntity, TradeResult tradeResult){
+    public static void getMargin(PositionEntity positionEntity, TradeResult tradeResult) {
         List<Double> marginList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
             double margin = dataBean.getMargin();
@@ -254,6 +289,8 @@ public class TradeUtil {
             for (int i = 0; i < marginList.size(); i++) {
                 margin = TradeUtil.add(margin, marginList.get(i));
             }
+
+
             tradeResult.setResult(margin);
         }
 
@@ -294,7 +331,6 @@ public class TradeUtil {
         String numberFormat = getNumberFormat(mul, 2);
         return numberFormat + "%";
     }
-
 
 
     public static double big(double a, double b) {

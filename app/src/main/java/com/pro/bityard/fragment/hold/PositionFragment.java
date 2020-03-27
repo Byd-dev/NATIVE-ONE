@@ -26,6 +26,7 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteManger;
@@ -865,6 +866,10 @@ public class PositionFragment extends BaseFragment implements Observer {
 
     /*设置浮动盈亏*/
     private void setIncome(List<String> quoteList, PositionEntity positionEntity) {
+        Log.d("print", "setIncome:869:  " + positionEntity);
+        if (positionEntity == null) {
+            return;
+        }
         TradeUtil.getIncome(quoteList, positionEntity, new TradeResult() {
             @Override
             public void setResult(Object response) {
@@ -881,6 +886,42 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
 
+    public void setNetIncome(String tradeType, List<String> quoteList, PositionEntity positionEntity) {
+
+        TradeUtil.getNetIncome(quoteList, positionEntity, new TradeResult() {
+            @Override
+            public void setResult(Object response1) {
+                Log.d("print", "setResult:整体净盈亏:  " + response1.toString());
+
+                TradeUtil.getMargin(positionEntity, new TradeResult() {
+                    @Override
+                    public void setResult(Object response2) {
+                        double margin;
+                        double income;
+                        if (positionEntity == null) {
+                            margin = 0.0;
+                            income = 0.0;
+                        } else {
+                            margin = Double.parseDouble(response2.toString());
+                            income = Double.parseDouble(response1.toString());
+                        }
+                        StringBuilder stringBuilder = new StringBuilder();
+
+                        StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
+                                .append(",").append(margin);
+                        //净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+                        NetIncomeManger.getInstance().postNetIncome(append.toString());
+                    }
+                });
+
+
+            }
+        });
+
+
+    }
+
+
     @Override
     protected void intPresenter() {
 
@@ -890,10 +931,11 @@ public class PositionFragment extends BaseFragment implements Observer {
     protected void initData() {
 
         //余额初始化
-        BalanceManger.getInstance().getBalance("USDT");
+        BalanceManger.getInstance().getBalance();
         //持仓初始化
         PositionRealManger.getInstance().getHold();
         PositionSimulationManger.getInstance().getHold();
+
 
         NetManger.getInstance().getHold(tradeType, new OnNetTwoResult() {
             @Override
@@ -939,13 +981,16 @@ public class PositionFragment extends BaseFragment implements Observer {
     public void update(Observable o, Object arg) {
 
         if (o == QuoteManger.getInstance()) {
-             quoteList = (List<String>) arg;
-            if (quoteList != null && positionEntity != null) {
+            quoteList = (List<String>) arg;
+            if (positionEntity != null && positionEntity.getData().size() > 0) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         //整体盈亏
                         setIncome(quoteList, positionEntity);
+                        //整体净值
+                        setNetIncome(tradeType, quoteList, positionEntity);
+
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
                         //pop 实时价格也是同步刷新
                         if (text_price != null) {
@@ -958,6 +1003,13 @@ public class PositionFragment extends BaseFragment implements Observer {
                         }
                     }
                 });
+            } else {
+                StringBuilder stringBuilder = new StringBuilder();
+
+                StringBuilder append = stringBuilder.append(tradeType).append(",").append("0.0")
+                        .append(",").append("0.0");
+                NetIncomeManger.getInstance().postNetIncome(append.toString());
+
             }
 
 
