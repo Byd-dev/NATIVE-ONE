@@ -144,7 +144,13 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                         TradeUtil.getMargin(positionEntity, new TradeResult() {
                             @Override
                             public void setResult(Object response) {
-                                text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
+                                if (positionEntity != null && positionEntity.getData().size() > 0){
+
+                                    text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
+                                }else {
+                                    text_freeze.setText("--.--");
+
+                                }
 
                             }
                         });
