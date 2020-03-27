@@ -164,13 +164,15 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                         // 1,2.5,5
                         String netIncome = split[1];
                         String margin = split[2];
-                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                            if (data.getCurrency().equals("USDT")) {
-                                double game = data.getGame();
-                                double sub = TradeUtil.sub(game, Double.parseDouble(margin));
-                                double add = TradeUtil.add(sub, Double.parseDouble(netIncome));
-                                text_worth.setText(TradeUtil.getNumberFormat(add, 2));
+                        if (balanceEntity!=null){
+                            for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                                if (data.getCurrency().equals("USDT")) {
+                                    double game = data.getGame();
+                                    double sub = TradeUtil.sub(game, Double.parseDouble(margin));
+                                    double add = TradeUtil.add(sub, Double.parseDouble(netIncome));
+                                    text_worth.setText(TradeUtil.getNumberFormat(add, 2));
 
+                                }
                             }
                         }
 

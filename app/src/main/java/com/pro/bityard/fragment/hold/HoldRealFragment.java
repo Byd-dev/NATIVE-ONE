@@ -139,6 +139,7 @@ public class HoldRealFragment extends BaseFragment implements Observer {
             });
         } else if (o == PositionRealManger.getInstance()) {
             PositionEntity positionEntity = (PositionEntity) arg;
+            Log.d("print", "update: 142: "+positionEntity);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -146,8 +147,14 @@ public class HoldRealFragment extends BaseFragment implements Observer {
                         TradeUtil.getMargin(positionEntity, new TradeResult() {
                             @Override
                             public void setResult(Object response) {
+                                if (positionEntity != null && positionEntity.getData().size() > 0){
 
-                                text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
+                                    text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
+                                }else {
+                                    text_freeze.setText("--.--");
+
+                                }
+
                             }
                         });
                     }
