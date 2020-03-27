@@ -137,6 +137,7 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
             });
         } else if (o == PositionSimulationManger.getInstance()) {
             PositionEntity positionEntity = (PositionEntity) arg;
+            Log.d("print", "update: 140: "+positionEntity);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -144,11 +145,10 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                         TradeUtil.getMargin(positionEntity, new TradeResult() {
                             @Override
                             public void setResult(Object response) {
-                                if (positionEntity != null && positionEntity.getData().size() > 0){
-
-                                    text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
-                                }else {
+                                if (response==null){
                                     text_freeze.setText("--.--");
+                                }else {
+                                    text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
 
                                 }
 

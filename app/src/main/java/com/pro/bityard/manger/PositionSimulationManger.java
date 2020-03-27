@@ -1,6 +1,7 @@
 package com.pro.bityard.manger;
 
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
@@ -54,12 +55,13 @@ public class PositionSimulationManger extends Observable {
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
                 } else if (state.equals(SUCCESS)) {
-
+                    Log.d("print", "onNetResult:模拟持仓58: "+response.toString());
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 401) {
 
                     } else if (tipEntity.getCode() == 200) {
                         PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
+
                         postPosition(positionEntity);
 
                     }

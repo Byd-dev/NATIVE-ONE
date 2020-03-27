@@ -217,9 +217,6 @@ public class TradeUtil {
 
 
     public static void getNetIncome(List<String> quoteList, PositionEntity positionEntity, TradeResult tradeResult) {
-        if (positionEntity==null){
-            return;
-        }
         List<Double> incomeList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
             boolean isBuy = dataBean.isIsBuy();
@@ -279,6 +276,9 @@ public class TradeUtil {
 
     /*冻结资金  所有的保证金和*/
     public static void getMargin(PositionEntity positionEntity, TradeResult tradeResult) {
+        if (positionEntity.getData().size()==0){
+            tradeResult.setResult(null);
+        }
         List<Double> marginList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
             double margin = dataBean.getMargin();
@@ -290,8 +290,9 @@ public class TradeUtil {
                 margin = TradeUtil.add(margin, marginList.get(i));
             }
 
-
             tradeResult.setResult(margin);
+        }else {
+
         }
 
     }
@@ -306,7 +307,6 @@ public class TradeUtil {
                 stringBuilder.append(id + ",");
             }
             substring = stringBuilder.toString().substring(0, stringBuilder.length() - 1);
-            Log.d(TAG, "positionIdList: 167: " + substring);
         } else {
             substring = null;
         }
