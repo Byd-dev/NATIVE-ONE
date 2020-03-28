@@ -16,11 +16,13 @@ import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.PendingEntity;
+import com.pro.bityard.entity.RateEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TipSPSLEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
 
@@ -570,7 +572,8 @@ public class NetManger {
 
 
     /*汇率*/
-    public void rate(String src,String des,OnNetResult onNetResult){
+    public void rate(BalanceEntity.DataBean dataBean,String src,String des,OnNetResult onNetResult){
+
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("src", src);
         map.put("des", des);
@@ -586,7 +589,11 @@ public class NetManger {
                         onNetResult.onNetResult(FAILURE, null);
 
                     } else if (tipEntity.getCode() == 200) {
-                        Log.d("print", "onNetResult:589:  "+response.toString());
+                        RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
+                        double mul = TradeUtil.mul(dataBean.getGame(), rateEntity.getRate());
+                        Log.d("print", "onNetResult:595:  "+mul);
+                        onNetResult.onNetResult(SUCCESS, mul);
+
 
 
                     }

@@ -6,8 +6,12 @@ import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.RateEntity;
 import com.pro.bityard.entity.TipEntity;
+import com.pro.bityard.utils.TradeUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -56,6 +60,7 @@ public class BalanceManger extends Observable {
                     } else if (tipEntity.getCode() == 200) {
                         BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
 
+
                         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                             if (data.getCurrency().equals(moneyType)) {
                                 postBalance(data);
@@ -73,7 +78,11 @@ public class BalanceManger extends Observable {
     }
 
 
+
+
     public void getBalance() {
+        List<Double> balanceList=new ArrayList<>();
+
         NetManger.getInstance().getRequest("/api/user/asset/list", null, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
@@ -85,6 +94,27 @@ public class BalanceManger extends Observable {
 
                     } else if (tipEntity.getCode() == 200) {
                         BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
+                        Log.d("print", "onNetResult:59:  "+balanceEntity);
+
+                        for (BalanceEntity.DataBean data:balanceEntity.getData()) {
+                            String currency = data.getCurrency();
+                            NetManger.getInstance().rate(data,currency, "USDT", new OnNetResult() {
+                                @Override
+                                public void onNetResult(String state, Object response) {
+                                    if (state.equals(SUCCESS)){
+                                        balanceList.add(Double.parseDouble(response.toString()));
+                                        double balance=0.0;
+                                        for (double a:balanceList) {
+                                            balance=TradeUtil.add(balance,a);
+                                        }
+                                        Log.d("print", "onNetResult:110: "+balance);
+                                    }
+                                }
+                            });
+
+                        }
+                        Log.d("print", "onNetResult:112:  "+balanceList);
+
                         postBalance(balanceEntity);
 
 

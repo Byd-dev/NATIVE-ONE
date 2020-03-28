@@ -866,7 +866,6 @@ public class PositionFragment extends BaseFragment implements Observer {
 
     /*设置浮动盈亏*/
     private void setIncome(List<String> quoteList, PositionEntity positionEntity) {
-        Log.d("print", "setIncome:869:  " + positionEntity);
         if (positionEntity == null) {
             return;
         }
@@ -891,7 +890,6 @@ public class PositionFragment extends BaseFragment implements Observer {
         TradeUtil.getNetIncome(quoteList, positionEntity, new TradeResult() {
             @Override
             public void setResult(Object response1) {
-                Log.d("print", "setResult:整体净盈亏:  " + response1.toString());
 
                 TradeUtil.getMargin(positionEntity, new TradeResult() {
                     @Override
