@@ -572,8 +572,7 @@ public class NetManger {
 
 
     /*汇率*/
-    public void rate(BalanceEntity.DataBean dataBean,String src,String des,OnNetResult onNetResult){
-
+    public void rate(BalanceEntity.DataBean dataBean,String moneyType,String src,String des,OnNetResult onNetResult){
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("src", src);
         map.put("des", des);
@@ -587,12 +586,18 @@ public class NetManger {
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 401) {
                         onNetResult.onNetResult(FAILURE, null);
-
                     } else if (tipEntity.getCode() == 200) {
                         RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
-                        double mul = TradeUtil.mul(dataBean.getGame(), rateEntity.getRate());
-                        Log.d("print", "onNetResult:595:  "+mul);
-                        onNetResult.onNetResult(SUCCESS, mul);
+
+                        if (moneyType.equals("1")){
+                            double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
+                           // Log.d("print", "onNetResult:595实盘:  "+mul);
+                            onNetResult.onNetResult(SUCCESS, mul);
+                        }else {
+                            double mul = TradeUtil.mul(dataBean.getGame(), rateEntity.getRate());
+                           // Log.d("print", "onNetResult:595虚拟:  "+mul);
+                            onNetResult.onNetResult(SUCCESS, mul);
+                        }
 
 
 

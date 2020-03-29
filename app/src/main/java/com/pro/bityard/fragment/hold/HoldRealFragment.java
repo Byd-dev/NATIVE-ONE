@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
+import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.BalanceEntity;
@@ -18,6 +20,8 @@ import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.utils.TradeUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -26,6 +30,7 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
+import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class HoldRealFragment extends BaseFragment implements Observer {
     @BindView(R.id.tabLayout)
@@ -125,6 +130,14 @@ public class HoldRealFragment extends BaseFragment implements Observer {
         if (o == BalanceManger.getInstance()) {
 
             balanceEntity = (BalanceEntity) arg;
+
+            TradeUtil.getRate(balanceEntity, "1", new TradeResult() {
+                @Override
+                public void setResult(Object response) {
+                    Log.d("print", "setResult:137实盘:  " + response.toString());
+                }
+            });
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -146,9 +159,9 @@ public class HoldRealFragment extends BaseFragment implements Observer {
                         TradeUtil.getMargin(positionEntity, new TradeResult() {
                             @Override
                             public void setResult(Object response) {
-                                if (response==null){
+                                if (response == null) {
                                     text_freeze.setText("--.--");
-                                }else {
+                                } else {
                                     text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
 
                                 }
@@ -165,17 +178,24 @@ public class HoldRealFragment extends BaseFragment implements Observer {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (text_worth != null && split[0].equals("1")&&tradeType.equals("1")) {
+                    if (text_worth != null && split[0].equals("1") && tradeType.equals("1")) {
                         // 1,2.5,5
                         String netIncome = split[1];
                         String margin = split[2];
-                        if (balanceEntity!=null){
+                        if (balanceEntity != null) {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
-                                    double money = data.getMoney();
-                                    double sub = TradeUtil.sub(money, Double.parseDouble(margin));
-                                    double add = TradeUtil.add(sub, Double.parseDouble(netIncome));
-                                    text_worth.setText(TradeUtil.getNumberFormat(add, 2));
+                                    //汇率是实时的
+                                    TradeUtil.getRate(balanceEntity, "1", new TradeResult() {
+                                        @Override
+                                        public void setResult(Object response) {
+                                            double money = Double.parseDouble(response.toString());
+                                            double sub = TradeUtil.sub(money, Double.parseDouble(margin));
+                                            double add = TradeUtil.add(sub, Double.parseDouble(netIncome));
+                                            text_worth.setText(TradeUtil.getNumberFormat(add, 2));
+                                        }
+                                    });
+
 
                                 }
                             }

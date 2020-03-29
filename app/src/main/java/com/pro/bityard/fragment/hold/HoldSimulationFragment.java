@@ -122,6 +122,13 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
     public void update(Observable o, Object arg) {
         if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
+            TradeUtil.getRate(balanceEntity, "2", new TradeResult() {
+                @Override
+                public void setResult(Object response) {
+                    Log.d("print", "setResult:137虚拟:  " + response.toString());
+                }
+            });
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -137,7 +144,7 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
             });
         } else if (o == PositionSimulationManger.getInstance()) {
             PositionEntity positionEntity = (PositionEntity) arg;
-            Log.d("print", "update: 140: "+positionEntity);
+            Log.d("print", "update: 140: " + positionEntity);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -145,9 +152,9 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                         TradeUtil.getMargin(positionEntity, new TradeResult() {
                             @Override
                             public void setResult(Object response) {
-                                if (response==null){
+                                if (response == null) {
                                     text_freeze.setText("--.--");
-                                }else {
+                                } else {
                                     text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
 
                                 }
@@ -170,13 +177,18 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                         // 1,2.5,5
                         String netIncome = split[1];
                         String margin = split[2];
-                        if (balanceEntity!=null){
+                        if (balanceEntity != null) {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
-                                    double game = data.getGame();
-                                    double sub = TradeUtil.sub(game, Double.parseDouble(margin));
-                                    double add = TradeUtil.add(sub, Double.parseDouble(netIncome));
-                                    text_worth.setText(TradeUtil.getNumberFormat(add, 2));
+                                    TradeUtil.getRate(balanceEntity, "2", new TradeResult() {
+                                        @Override
+                                        public void setResult(Object response) {
+                                            double money = Double.parseDouble(response.toString());
+                                            double sub = TradeUtil.sub(money, Double.parseDouble(margin));
+                                            double add = TradeUtil.add(sub, Double.parseDouble(netIncome));
+                                            text_worth.setText(TradeUtil.getNumberFormat(add, 2));
+                                        }
+                                    });
 
                                 }
                             }

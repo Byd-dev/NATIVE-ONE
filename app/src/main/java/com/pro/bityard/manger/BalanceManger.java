@@ -81,7 +81,6 @@ public class BalanceManger extends Observable {
 
 
     public void getBalance() {
-        List<Double> balanceList=new ArrayList<>();
 
         NetManger.getInstance().getRequest("/api/user/asset/list", null, new OnNetResult() {
             @Override
@@ -96,24 +95,8 @@ public class BalanceManger extends Observable {
                         BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
                         Log.d("print", "onNetResult:59:  "+balanceEntity);
 
-                        for (BalanceEntity.DataBean data:balanceEntity.getData()) {
-                            String currency = data.getCurrency();
-                            NetManger.getInstance().rate(data,currency, "USDT", new OnNetResult() {
-                                @Override
-                                public void onNetResult(String state, Object response) {
-                                    if (state.equals(SUCCESS)){
-                                        balanceList.add(Double.parseDouble(response.toString()));
-                                        double balance=0.0;
-                                        for (double a:balanceList) {
-                                            balance=TradeUtil.add(balance,a);
-                                        }
-                                        Log.d("print", "onNetResult:110: "+balance);
-                                    }
-                                }
-                            });
 
-                        }
-                        Log.d("print", "onNetResult:112:  "+balanceList);
+
 
                         postBalance(balanceEntity);
 

@@ -2,7 +2,10 @@ package com.pro.bityard.utils;
 
 import android.util.Log;
 
+import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.TradeResult;
+import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.PositionEntity;
 
 import java.math.BigDecimal;
@@ -11,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class TradeUtil {
     private static String TAG = "TradeUtil";
@@ -276,7 +281,7 @@ public class TradeUtil {
 
     /*冻结资金  所有的保证金和*/
     public static void getMargin(PositionEntity positionEntity, TradeResult tradeResult) {
-        if (positionEntity.getData().size()==0){
+        if (positionEntity.getData().size() == 0) {
             tradeResult.setResult(null);
         }
         List<Double> marginList = new ArrayList<>();
@@ -291,7 +296,7 @@ public class TradeUtil {
             }
 
             tradeResult.setResult(margin);
-        }else {
+        } else {
 
         }
 
@@ -353,6 +358,31 @@ public class TradeUtil {
         } else {
             return a;
         }
+    }
+
+
+    /*计算汇率*/
+    public static void getRate(BalanceEntity balanceEntity, String moneyType,TradeResult tradeResult) {
+        List<Double> balanceList = new ArrayList<>();
+        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+            String currency = data.getCurrency();
+            NetManger.getInstance().rate(data, moneyType,currency, "USDT", new OnNetResult() {
+                @Override
+                public void onNetResult(String state, Object response) {
+                    if (state.equals(SUCCESS)) {
+                        balanceList.add(Double.parseDouble(response.toString()));
+                        double balance = 0.0;
+                        for (double a : balanceList) {
+                            balance = TradeUtil.add(balance, a);
+                        }
+                        if (balanceList.size() == balanceEntity.getData().size()) {
+                            tradeResult.setResult(balance);
+                        }
+                    }
+                }
+            });
+        }
+
     }
 
 }
