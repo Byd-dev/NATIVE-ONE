@@ -6,6 +6,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.PositionEntity;
 
 import java.math.BigDecimal;
@@ -221,9 +222,9 @@ public class TradeUtil {
     }
 
 
-    public static void getNetIncome(List<String> quoteList, PositionEntity positionEntity, TradeResult tradeResult) {
+    public static void getNetIncome(List<String> quoteList, List<PositionEntity.DataBean> positionList, TradeResult tradeResult) {
         List<Double> incomeList = new ArrayList<>();
-        for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
+        for (PositionEntity.DataBean dataBean : positionList) {
             boolean isBuy = dataBean.isIsBuy();
             double opPrice = dataBean.getOpPrice();
             double volume = dataBean.getVolume();
@@ -269,26 +270,21 @@ public class TradeUtil {
         }
     }
 
-    private double marginAll;
-
-    public double getMarginAll() {
-        return marginAll;
-    }
-
-    public void setMarginAll(double marginAll) {
-        this.marginAll = marginAll;
-    }
 
     /*冻结资金  所有的保证金和*/
-    public static void getMargin(PositionEntity positionEntity, TradeResult tradeResult) {
-        if (positionEntity.getData().size() == 0) {
+    public static void getMargin(List<PositionEntity.DataBean> positionList, TradeResult tradeResult) {
+        if (positionList.size() == 0) {
             tradeResult.setResult(null);
         }
         List<Double> marginList = new ArrayList<>();
-        for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
+
+
+        for (PositionEntity.DataBean dataBean : positionList) {
             double margin = dataBean.getMargin();
             marginList.add(margin);
         }
+
+
         if (marginList.size() > 0) {
             double margin = 0.0;
             for (int i = 0; i < marginList.size(); i++) {
@@ -363,6 +359,7 @@ public class TradeUtil {
 
     /*计算汇率*/
     public static void getRate(BalanceEntity balanceEntity, String moneyType,TradeResult tradeResult) {
+
         List<Double> balanceList = new ArrayList<>();
         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
             String currency = data.getCurrency();

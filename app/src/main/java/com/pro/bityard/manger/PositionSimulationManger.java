@@ -62,7 +62,7 @@ public class PositionSimulationManger extends Observable {
                     } else if (tipEntity.getCode() == 200) {
                         PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
 
-                        postPosition(positionEntity);
+                        postPosition(positionEntity.getData());
 
                     }
 

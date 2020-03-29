@@ -6,10 +6,13 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
+import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipEntity;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Observable;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -47,6 +50,8 @@ public class PositionRealManger extends Observable {
 
     /*持仓列表*/
     public void getHold() {
+
+        List<PositionEntity.DataBean> dataBeanList=new ArrayList<>();
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("tradeType", "1");
         map.put("_", String.valueOf(new Date().getTime()));
@@ -61,7 +66,20 @@ public class PositionRealManger extends Observable {
 
                     } else if (tipEntity.getCode() == 200) {
                         PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
-                        postPosition(positionEntity);
+                        List<PositionEntity.DataBean> data = positionEntity.getData();
+                        dataBeanList.addAll(data);
+
+                        NetManger.getInstance().getPending("1", new OnNetTwoResult() {
+                            @Override
+                            public void setResult(String state, Object response1, Object response2) {
+                                if (state.equals(SUCCESS)){
+                                    PositionEntity positionEntity= (PositionEntity) response1;
+                                    dataBeanList.addAll(positionEntity.getData());
+                                    postPosition(dataBeanList);
+
+                                }
+                            }
+                        });
 
                     }
 

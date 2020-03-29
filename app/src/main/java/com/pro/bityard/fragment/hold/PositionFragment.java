@@ -885,13 +885,13 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
 
-    public void setNetIncome(String tradeType, List<String> quoteList, PositionEntity positionEntity) {
+    public void setNetIncome(String tradeType, List<String> quoteList, List<PositionEntity.DataBean> positionList) {
 
-        TradeUtil.getNetIncome(quoteList, positionEntity, new TradeResult() {
+        TradeUtil.getNetIncome(quoteList, positionList, new TradeResult() {
             @Override
             public void setResult(Object response1) {
 
-                TradeUtil.getMargin(positionEntity, new TradeResult() {
+                TradeUtil.getMargin(positionList, new TradeResult() {
                     @Override
                     public void setResult(Object response2) {
                         double margin;
@@ -987,7 +987,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                         //整体盈亏
                         setIncome(quoteList, positionEntity);
                         //整体净值
-                        setNetIncome(tradeType, quoteList, positionEntity);
+                        setNetIncome(tradeType, quoteList, positionEntity.getData());
 
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
                         //pop 实时价格也是同步刷新

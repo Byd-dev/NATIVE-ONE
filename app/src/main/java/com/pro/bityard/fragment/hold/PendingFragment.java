@@ -12,7 +12,9 @@ import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.PendingEntity;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
+import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.QuoteManger;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -41,7 +43,7 @@ public class PendingFragment extends BaseFragment implements Observer {
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     private String tradeType;
-    private PendingEntity pendingEntity;
+    private PositionEntity positionEntity;
 
 
     public PendingFragment newInstance(String type) {
@@ -91,7 +93,7 @@ public class PendingFragment extends BaseFragment implements Observer {
 
         pendingAdapter.setOnItemClick(new PendingAdapter.OnItemClick() {
             @Override
-            public void onClickListener(PendingEntity.DataBean data) {
+            public void onClickListener(PositionEntity.DataBean data) {
 
             }
 
@@ -107,6 +109,8 @@ public class PendingFragment extends BaseFragment implements Observer {
                             dismissProgressDialog();
                             TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
                             Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            //更新下持仓页面的数据
+                            PositionRealManger.getInstance().getHold();
                             initData();
 
                         } else if (state.equals(FAILURE)) {
@@ -146,7 +150,7 @@ public class PendingFragment extends BaseFragment implements Observer {
                     swipeRefreshLayout.setRefreshing(true);
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
-                    pendingEntity = (PendingEntity) response1;
+                    positionEntity = (PositionEntity) response1;
 
 
                 } else if (state.equals(FAILURE)) {
@@ -165,8 +169,8 @@ public class PendingFragment extends BaseFragment implements Observer {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (pendingEntity!=null){
-                    pendingAdapter.setDatas(pendingEntity.getData(),quoteList);
+                if (positionEntity!=null){
+                    pendingAdapter.setDatas(positionEntity.getData(),quoteList);
                 }
             }
         });

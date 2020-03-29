@@ -9,8 +9,6 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
-import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.BalanceEntity;
@@ -20,7 +18,6 @@ import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.utils.TradeUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -30,7 +27,6 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
-import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class HoldRealFragment extends BaseFragment implements Observer {
     @BindView(R.id.tabLayout)
@@ -151,12 +147,13 @@ public class HoldRealFragment extends BaseFragment implements Observer {
                 }
             });
         } else if (o == PositionRealManger.getInstance()) {
-            PositionEntity positionEntity = (PositionEntity) arg;
+            List<PositionEntity.DataBean> positionList= (List<PositionEntity.DataBean>) arg;
+         //   PositionEntity positionEntity = (PositionEntity) arg;
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (text_freeze != null) {
-                        TradeUtil.getMargin(positionEntity, new TradeResult() {
+                        TradeUtil.getMargin(positionList, new TradeResult() {
                             @Override
                             public void setResult(Object response) {
                                 if (response == null) {
@@ -182,6 +179,10 @@ public class HoldRealFragment extends BaseFragment implements Observer {
                         // 1,2.5,5  类型 整体净盈亏  整体  保证金
                         String netIncome = split[1];
                         String margin = split[2];
+
+
+
+
                         if (balanceEntity != null) {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
@@ -195,7 +196,6 @@ public class HoldRealFragment extends BaseFragment implements Observer {
                                             text_worth.setText(TradeUtil.getNumberFormat(add, 2));
                                         }
                                     });
-
 
                                 }
                             }

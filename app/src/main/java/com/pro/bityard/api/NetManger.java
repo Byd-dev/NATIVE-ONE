@@ -463,10 +463,10 @@ public class NetManger {
                         onNetResult.setResult(FAILURE, null, null);
 
                     } else if (tipEntity.getCode() == 200) {
-                        PendingEntity pendingEntity = new Gson().fromJson(response.toString(), PendingEntity.class);
+                        PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
 
 
-                        onNetResult.setResult(SUCCESS, pendingEntity, null);
+                        onNetResult.setResult(SUCCESS, positionEntity, null);
 
 
                     }

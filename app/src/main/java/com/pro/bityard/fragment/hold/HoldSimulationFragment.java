@@ -19,6 +19,7 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.utils.TradeUtil;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -143,13 +144,13 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                 }
             });
         } else if (o == PositionSimulationManger.getInstance()) {
-            PositionEntity positionEntity = (PositionEntity) arg;
-            Log.d("print", "update: 140: " + positionEntity);
+            List<PositionEntity.DataBean> positionList= (List<PositionEntity.DataBean>) arg;
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     if (text_freeze != null) {
-                        TradeUtil.getMargin(positionEntity, new TradeResult() {
+                        TradeUtil.getMargin(positionList, new TradeResult() {
                             @Override
                             public void setResult(Object response) {
                                 if (response == null) {
@@ -180,9 +181,12 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                         String margin = split[2];
                         Log.d("print", "run:185:  " + netIncome + "   --  " + margin);
 
+
                         if (balanceEntity != null) {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
+
+
                                     TradeUtil.getRate(balanceEntity, "2", new TradeResult() {
                                         @Override
                                         public void setResult(Object response) {

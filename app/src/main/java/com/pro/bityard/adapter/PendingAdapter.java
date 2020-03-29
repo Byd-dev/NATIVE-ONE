@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.PendingEntity;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
@@ -26,7 +27,7 @@ import static com.pro.bityard.utils.TradeUtil.price;
 
 public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<PendingEntity.DataBean> datas;
+    private List<PositionEntity.DataBean> datas;
 
     private List<String> quoteList;
 
@@ -46,13 +47,13 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<PendingEntity.DataBean> datas, List<String> quoteList) {
+    public void setDatas(List<PositionEntity.DataBean> datas, List<String> quoteList) {
         this.datas = datas;
         this.quoteList = quoteList;
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<PendingEntity.DataBean> datas) {
+    public void addDatas(List<PositionEntity.DataBean> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -221,7 +222,7 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     public interface OnItemClick {
-        void onClickListener(PendingEntity.DataBean data);
+        void onClickListener(PositionEntity.DataBean data);
 
         void onCancelListener(String id);
 
