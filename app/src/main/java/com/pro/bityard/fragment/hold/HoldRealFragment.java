@@ -179,7 +179,7 @@ public class HoldRealFragment extends BaseFragment implements Observer {
                 @Override
                 public void run() {
                     if (text_worth != null && split[0].equals("1") && tradeType.equals("1")) {
-                        // 1,2.5,5
+                        // 1,2.5,5  类型 整体净盈亏  整体  保证金
                         String netIncome = split[1];
                         String margin = split[2];
                         if (balanceEntity != null) {
@@ -190,8 +190,8 @@ public class HoldRealFragment extends BaseFragment implements Observer {
                                         @Override
                                         public void setResult(Object response) {
                                             double money = Double.parseDouble(response.toString());
-                                            double sub = TradeUtil.sub(money, Double.parseDouble(margin));
-                                            double add = TradeUtil.add(sub, Double.parseDouble(netIncome));
+                                            double add1 = TradeUtil.add(money, Double.parseDouble(margin));
+                                            double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
                                             text_worth.setText(TradeUtil.getNumberFormat(add, 2));
                                         }
                                     });

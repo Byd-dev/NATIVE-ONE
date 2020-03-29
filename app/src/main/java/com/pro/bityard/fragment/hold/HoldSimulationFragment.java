@@ -170,6 +170,7 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
             }*/
             String result = (String) arg;
             String[] split = result.split(",");
+
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -177,6 +178,8 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                         // 1,2.5,5
                         String netIncome = split[1];
                         String margin = split[2];
+                        Log.d("print", "run:185:  " + netIncome + "   --  " + margin);
+
                         if (balanceEntity != null) {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
@@ -184,8 +187,8 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                                         @Override
                                         public void setResult(Object response) {
                                             double money = Double.parseDouble(response.toString());
-                                            double sub = TradeUtil.sub(money, Double.parseDouble(margin));
-                                            double add = TradeUtil.add(sub, Double.parseDouble(netIncome));
+                                            double add1 = TradeUtil.add(money, Double.parseDouble(margin));
+                                            double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
                                             text_worth.setText(TradeUtil.getNumberFormat(add, 2));
                                         }
                                     });
