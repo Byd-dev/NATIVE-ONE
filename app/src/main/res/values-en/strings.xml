@@ -110,5 +110,11 @@
     <string name="text_profit_forward">预计盈利</string>
     <string name="text_loss_forward">预计亏损</string>
     <string name="text_success">订单设置成功</string>
+    <string name="text_add_margin">追加保证金</string>
+    <string name="text_available_add">可用:</string>
+    <string name="text_margin">保证金</string>
+    <string name="text_lever">杠杆</string>
+    <string name="text_hand_fee">追加手续费</string>
+    <string name="text_all">合计</string>
 
 </resources>

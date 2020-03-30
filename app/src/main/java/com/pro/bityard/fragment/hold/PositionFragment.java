@@ -23,6 +23,7 @@ import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.BalanceManger;
@@ -166,7 +167,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         positionAdapter.setOnItemClick(new PositionAdapter.OnItemClick() {
             @Override
             public void onClickListener(PositionEntity.DataBean data) {
-
+                showAddPopWindow(data);
             }
 
             @Override
@@ -205,6 +206,185 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         });
 
+
+    }
+
+    /*增加保证金*/
+    private void showAddPopWindow(PositionEntity.DataBean data) {
+
+        boolean isBuy = data.isIsBuy();
+        double lever = data.getLever();
+        double margin = data.getMargin();
+        double price = data.getPrice();
+        int priceDigit = data.getPriceDigit();
+        double stopProfit = data.getStopProfit();
+        double stopLoss = data.getStopLoss();
+
+
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_add_margin_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        //可用余额
+        TextView text_balance = view.findViewById(R.id.text_balance);
+
+        if (tradeType.equals("1")) {
+            text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+        } else {
+            text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+
+        }
+        //保证金
+        TextView text_margin = view.findViewById(R.id.text_margin);
+        text_margin.setText(String.valueOf(margin));
+        //保证金 之后
+        TextView text_margin_after = view.findViewById(R.id.text_margin_after);
+        text_margin_after.setText(String.valueOf(margin));
+
+        //杠杆
+        TextView text_lever = view.findViewById(R.id.text_lever);
+        text_lever.setText(String.valueOf(lever));
+        //杠杆 之后
+        TextView text_lever_after = view.findViewById(R.id.text_lever_after);
+        text_lever_after.setText(String.valueOf(lever));
+
+        //止盈价
+        TextView text_stop_profit = view.findViewById(R.id.text_stop_profit);
+        text_stop_profit.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, stopProfit));
+        //止盈价 之后
+        TextView text_stop_profit_after = view.findViewById(R.id.text_stop_profit_after);
+        text_stop_profit_after.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, stopProfit));
+        //止损价
+        TextView text_stop_loss = view.findViewById(R.id.text_stop_loss);
+        text_stop_loss.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Math.abs(stopLoss)));
+        //止损价 之后
+        TextView text_stop_loss_after = view.findViewById(R.id.text_stop_loss_after);
+        text_stop_loss_after.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Math.abs(stopLoss)));
+        //输入框
+        DecimalEditText edit_margin = view.findViewById(R.id.edit_margin);
+        edit_margin.setDecimalEndNumber(2);
+        edit_margin.setHint(0 + "~" + TradeUtil.maxMargin(lever, data.getOpPrice(), data.getVolume()));
+        edit_margin.setSelection(0, edit_margin.getText().toString().length());
+
+        //总计
+        TextView text_all = view.findViewById(R.id.text_all);
+
+
+        //加 监听
+        view.findViewById(R.id.text_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_margin.getText().toString().length() == 0) {
+                    double a = TradeUtil.add(0, TradeUtil.scale(2));
+                    edit_margin.setText(String.valueOf(a));
+
+                } else {
+                    double a = TradeUtil.add(Double.parseDouble(edit_margin.getText().toString()), TradeUtil.scale(2));
+                    edit_margin.setText(String.valueOf(a));
+
+                }
+
+            }
+        });
+
+        //减 监听
+        view.findViewById(R.id.text_sub).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (edit_margin.getText().toString().length() == 0 || Double.parseDouble(edit_margin.getText().toString()) <= 0) {
+                    edit_margin.setText(String.valueOf(0));
+                } else {
+                    double a = TradeUtil.sub(Double.parseDouble(edit_margin.getText().toString()), TradeUtil.scale(2));
+                    edit_margin.setText(String.valueOf(a));
+                }
+
+            }
+        });
+        edit_margin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() == 0) {
+                    return;
+                } else {
+                    String edit_result = edit_margin.getText().toString();
+                    text_margin_after.setText(String.valueOf(TradeUtil.add(margin, Double.parseDouble(edit_result))));
+                    text_all.setText(edit_margin.getText().toString() + " USDT");
+
+                    String margin_after = text_margin_after.getText().toString();
+
+                    text_lever_after.setText(TradeUtil.lever(Double.parseDouble(margin_after),
+                            data.getOpPrice(), data.getVolume()));
+
+                    String lever_after = TradeUtil.lever(Double.parseDouble(margin_after),
+                            data.getOpPrice(), data.getVolume());
+
+                    text_stop_profit_after.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit,
+                            Double.parseDouble(lever_after),
+                            margin, stopProfit));
+
+                    text_stop_loss_after.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit,
+                            Double.parseDouble(lever_after),
+                            margin, Math.abs(stopLoss)));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        view.findViewById(R.id.text_sure).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NetManger.getInstance().submitMargin(data.getId(), text_margin_after.getText().toString(), new OnNetResult() {
+                    @Override
+                    public void onNetResult(String state, Object response) {
+                        if (state.equals(BUSY)){
+                            showProgressDialog();
+                        }else if (state.equals(SUCCESS)){
+                            dismissProgressDialog();
+                            popupWindow.dismiss();
+                            backgroundAlpha(1f);
+                            Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
+
+                        }else if (state.equals(FAILURE)){
+                            dismissProgressDialog();
+                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+
+
+
+            }
+        });
+
+
+        view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                backgroundAlpha(1f);
+            }
+        });
+
+        WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
+        params.alpha = 0.6f;
+        getActivity().getWindow().setAttributes(params);
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setAnimationStyle(R.style.pop_anim);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 
     }
 
@@ -929,7 +1109,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     protected void initData() {
 
         //余额初始化
-        BalanceManger.getInstance().getBalance();
+        BalanceManger.getInstance().getBalance("USDT");
         //持仓初始化
         PositionRealManger.getInstance().getHold();
         PositionSimulationManger.getInstance().getHold();
@@ -972,6 +1152,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     public void onDestroy() {
         super.onDestroy();
         QuoteManger.getInstance().clear();
+        TagManger.getInstance().clear();
     }
 
 

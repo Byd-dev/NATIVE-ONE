@@ -197,7 +197,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView text_name, text_volume, text_buy_price,
                 text_loss_price, text_price, text_profit_price,
                 text_income, text_worth, text_close_out,
-                text_profit_loss;
+                text_profit_loss,text_add;
         ImageView img_buy;
 
         public MyViewHolder(View itemView) {
@@ -213,6 +213,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             text_close_out = itemView.findViewById(R.id.text_close_out);
             img_buy = itemView.findViewById(R.id.img_buy);
             text_profit_loss=itemView.findViewById(R.id.text_profit_loss);
+            text_add=itemView.findViewById(R.id.text_add);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -238,6 +239,15 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 public void onClick(View v) {
                     if (onItemClick != null) {
                         onItemClick.onProfitLossListener(datas.get(getPosition() - 1));
+                    }
+                }
+            });
+
+            text_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClick!=null){
+                        onItemClick.onClickListener(datas.get(getPosition()-1));
                     }
                 }
             });

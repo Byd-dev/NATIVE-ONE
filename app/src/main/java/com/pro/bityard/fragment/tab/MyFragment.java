@@ -83,7 +83,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Ob
     @Override
     protected void initData() {
         //余额注册
-        BalanceManger.getInstance().getBalance();
+        BalanceManger.getInstance().getBalance("USDT");
     }
 
     @Override
@@ -125,5 +125,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Ob
     public void onDestroy() {
         super.onDestroy();
         BalanceManger.getInstance().clear();
+        TagManger.getInstance().clear();
     }
 }

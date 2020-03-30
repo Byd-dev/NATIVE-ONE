@@ -15,13 +15,11 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.PositionEntity;
-import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.RateEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
-import com.pro.bityard.entity.TipSPSLEntity;
+import com.pro.bityard.entity.TipSPSLMarginEntity;
 import com.pro.bityard.entity.TradeListEntity;
-import com.pro.bityard.manger.QuoteManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
@@ -553,12 +551,12 @@ public class NetManger {
                     onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
                     Log.d("print", "onNetResult:设置止盈止损:  " + response.toString());
-                    TipSPSLEntity tipSPSLEntity = new Gson().fromJson(response.toString(), TipSPSLEntity.class);
-                    if (tipSPSLEntity.getCode() == 200) {
+                    TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
+                    if (tipSPSLMarginEntity.getCode() == 200) {
 
-                        onNetResult.onNetResult(SUCCESS, tipSPSLEntity.getMessage());
+                        onNetResult.onNetResult(SUCCESS, tipSPSLMarginEntity.getMessage());
                     } else {
-                        onNetResult.onNetResult(FAILURE, tipSPSLEntity.getMessage());
+                        onNetResult.onNetResult(FAILURE, tipSPSLMarginEntity.getMessage());
 
                     }
 
@@ -569,7 +567,33 @@ public class NetManger {
             }
         });
     }
+    /*追加保证金*/
+    public void submitMargin(String bettingId, String margin,  OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("bettingId", bettingId);
+        map.put("margin", margin);
+        postRequest("/api/trade/margin.htm", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    onNetResult.onNetResult(BUSY, null);
+                } else if (state.equals(SUCCESS)) {
+                    Log.d("print", "onNetResult:583:  "+response.toString());
+                    TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
+                    if (tipSPSLMarginEntity.getCode() == 200) {
+                        onNetResult.onNetResult(SUCCESS, tipSPSLMarginEntity.getMessage());
+                    } else {
+                        onNetResult.onNetResult(FAILURE, tipSPSLMarginEntity.getMessage());
 
+                    }
+
+                } else if (state.equals(FAILURE)) {
+                    onNetResult.onNetResult(FAILURE, null);
+
+                }
+            }
+        });
+    }
 
     /*汇率*/
     public void rate(BalanceEntity.DataBean dataBean,String moneyType,String src,String des,OnNetResult onNetResult){

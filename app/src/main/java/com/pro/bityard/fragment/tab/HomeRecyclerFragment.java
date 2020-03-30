@@ -192,8 +192,8 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
                     swipeRefreshLayout.setRefreshing(true);
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
-                    BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
-                    upBanner(bannerEntity.getCarousels());
+                   // BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                  //  upBanner(bannerEntity.getCarousels());
 
                 } else if (state.equals(FAILURE)) {
                     swipeRefreshLayout.setRefreshing(false);

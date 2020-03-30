@@ -68,11 +68,11 @@ public class TradeUtil {
     public static String StopLossPrice(boolean isBusy, double price, int priceDigit, double lever, double margin, double stopLoss) {
         String stopLossPrice;
         if (isBusy == true) {
-            //买多 止损价  =  开仓价 - （开仓价 / 杠杆 * 止损比例） //因为比例是负数   公式是按的正数  所以刚好相反
+            //买多 止损价  =  开仓价 - （开仓价 / 杠杆 * 止损比例）
             stopLossPrice = getNumberFormat(sub(price, mul(div(price, lever, 10), div(stopLoss, margin, 10))), priceDigit);
         } else {
-            stopLossPrice = getNumberFormat(add(price, mul(div(price, lever, 10), div(stopLoss, margin, 10))), priceDigit);
             //买空 止损价  =  开仓价 +（开仓价 / 杠杆 * 止损比例）
+            stopLossPrice = getNumberFormat(add(price, mul(div(price, lever, 10), div(stopLoss, margin, 10))), priceDigit);
         }
         return stopLossPrice;
     }
@@ -84,8 +84,8 @@ public class TradeUtil {
             //买多 止盈价  =  开仓价 + （开仓价 / 杠杆 * 止损比例）
             stopProfitPrice = getNumberFormat(add(price, mul(div(price, lever, 10), div(stopProfit, margin, 10))), priceDigit);
         } else {
-            stopProfitPrice = getNumberFormat(sub(price, mul(div(price, lever, 10), div(stopProfit, margin, 10))), priceDigit);
             //买空 止盈价  =  开仓价 -（开仓价 / 杠杆 * 止损比例）
+            stopProfitPrice = getNumberFormat(sub(price, mul(div(price, lever, 10), div(stopProfit, margin, 10))), priceDigit);
         }
         return stopProfitPrice;
     }
@@ -93,7 +93,6 @@ public class TradeUtil {
     /*盈利金额*/
     public static String ProfitAmount(boolean isBusy, double price, int priceDigit, double lever, double margin, double stopProfitPrice) {
         //盈利 金额
-
         String profitAmount;
 
         if (isBusy == true) {
@@ -107,7 +106,6 @@ public class TradeUtil {
             double sub = sub(price, stopProfitPrice);
             double div = div(Math.abs(sub), div(price, lever, 10), 10);
             double mul = mul(div, margin);
-
             profitAmount = getNumberFormat(mul, 2);
 
         }
@@ -221,7 +219,7 @@ public class TradeUtil {
         return netIncome;
     }
 
-
+    /*净盈亏所有*/
     public static void getNetIncome(List<String> quoteList, List<PositionEntity.DataBean> positionList, TradeResult tradeResult) {
         List<Double> incomeList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionList) {
@@ -331,6 +329,20 @@ public class TradeUtil {
         double mul = mul(div, 100);
         String numberFormat = getNumberFormat(mul, 2);
         return numberFormat + "%";
+    }
+    /* 仓位 =  杠杆 * 保证金 / 开仓价格*/
+    public static String lever(double margin,double opPrice,double volume){
+        double mul = mul(volume, opPrice);
+        double div = div(mul, margin, 10);
+        return  getNumberFormat(div,2);
+    }
+
+    /*保证金=仓位*开仓价格/杠杆*/
+    public static String maxMargin(double lever,double opPrice,double volume){
+
+        double mul = mul(volume, opPrice);
+        double mul1 = div(mul, lever,0);
+        return  String.valueOf(mul1);
     }
 
 

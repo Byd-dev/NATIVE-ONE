@@ -338,15 +338,16 @@
 
             >
             <TextView
+                android:id="@+id/text_add"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="追加保证金"
                 android:drawablePadding="@dimen/margin_5"
                 android:drawableLeft="@mipmap/icon_add"
                 android:layout_centerVertical="true"
                 android:textSize="@dimen/size_normal"
                 android:typeface="monospace"
-
+                android:gravity="center"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:textColor="@color/text_second_color"
                 />

@@ -1,6 +1,6 @@
 package com.pro.bityard.entity;
 
-public class TipSPSLEntity {
+public class TipSPSLMarginEntity {
 
 
     /**
