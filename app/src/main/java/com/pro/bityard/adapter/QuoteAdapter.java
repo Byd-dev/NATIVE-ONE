@@ -25,7 +25,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
-    private boolean isHigh = false;
 
     public boolean isLoadMore = false;
 
@@ -46,7 +45,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public void sortPrice(boolean isHigh) {
-        this.isHigh = isHigh;
         this.notifyDataSetChanged();
     }
 

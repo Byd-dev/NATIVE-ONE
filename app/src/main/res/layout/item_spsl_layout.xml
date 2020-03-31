@@ -176,7 +176,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="@string/text_amount_tab"
-                    android:textColor="@color/sel_switcher_txt"
+                    android:textColor="@color/sel_switcher_txt_night"
                     android:textSize="@dimen/size_normal"
                     android:typeface="monospace"
 
@@ -193,7 +193,7 @@
                     android:gravity="center"
                     android:maxLines="1"
                     android:text="@string/text_price_tab"
-                    android:textColor="@color/sel_switcher_txt"
+                    android:textColor="@color/sel_switcher_txt_night"
                     android:textSize="@dimen/size_normal"
                     android:typeface="monospace"
 

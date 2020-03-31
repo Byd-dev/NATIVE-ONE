@@ -43,7 +43,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/tab_one"
-            android:textColor="@color/sel_switcher_txt"
+            android:textColor="@color/sel_switcher_txt_night"
             android:textSize="10sp"
             android:textStyle="bold" />
         <RadioButton
@@ -60,7 +60,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/tab_two"
-            android:textColor="@color/sel_switcher_txt"
+            android:textColor="@color/sel_switcher_txt_night"
             android:textSize="10sp"
             android:textStyle="bold" />
         <RadioButton
@@ -96,7 +96,7 @@
             android:drawableTop="@drawable/tab_four"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="@color/sel_switcher_txt"
+            android:textColor="@color/sel_switcher_txt_night"
             android:textSize="10sp"
             android:text="@string/tab_four"
             android:textStyle="bold"
@@ -114,7 +114,7 @@
             android:drawableTop="@drawable/tab_five"
             android:gravity="center"
             android:maxLines="1"
-            android:textColor="@color/sel_switcher_txt"
+            android:textColor="@color/sel_switcher_txt_night"
             android:textSize="10sp"
             android:text="@string/tab_five"
             android:textStyle="bold"

@@ -32,7 +32,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/home_line">
+        android:background="@color/color_bg_left">
 
         <TextView
             android:layout_width="wrap_content"

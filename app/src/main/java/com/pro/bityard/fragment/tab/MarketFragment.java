@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.tab;
 
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -84,6 +85,13 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
+
+        quoteAdapter.setOnItemClick(new QuoteAdapter.OnItemClick() {
+            @Override
+            public void onSuccessListener(String data) {
+                Log.d("print", "onSuccessListener:92:  "+data);
+            }
+        });
     }
 
     @Override

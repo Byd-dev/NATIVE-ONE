@@ -7,7 +7,7 @@
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
     <color name="background_maincolor">#1B262D</color>
-    <color name="home_line">#1D2A34</color>
+    <color name="home_line">#2C3940</color>
     <color name="maincolor">#E2BE30</color>
     <color name="tab_color_normal">#848E9C</color>
     <color name="text_maincolor">#ffffff</color>
@@ -31,4 +31,5 @@
     <color name="color_bg_green">#338AB152</color>
     <color name="color_bg_normal">#E8EAE6</color>
     <color name="color_bg_red">#338B2A2F</color>
+    <color name="color_bg_left">#1D2A34</color>
 </resources>
