@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.hold;
 
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -165,7 +166,8 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        List<String> quoteList = (List<String>) arg;
+        ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
+        List<String> quoteList = arrayMap.get("0");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

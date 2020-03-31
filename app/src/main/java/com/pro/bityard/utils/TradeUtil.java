@@ -13,6 +13,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -330,19 +332,20 @@ public class TradeUtil {
         String numberFormat = getNumberFormat(mul, 2);
         return numberFormat + "%";
     }
+
     /* 仓位 =  杠杆 * 保证金 / 开仓价格*/
-    public static String lever(double margin,double opPrice,double volume){
+    public static String lever(double margin, double opPrice, double volume) {
         double mul = mul(volume, opPrice);
         double div = div(mul, margin, 10);
-        return  getNumberFormat(div,2);
+        return getNumberFormat(div, 2);
     }
 
     /*保证金=仓位*开仓价格/杠杆*/
-    public static String maxMargin(double lever,double opPrice,double volume){
+    public static String maxMargin(double lever, double opPrice, double volume) {
 
         double mul = mul(volume, opPrice);
-        double mul1 = div(mul, lever,0);
-        return  String.valueOf(mul1);
+        double mul1 = div(mul, lever, 0);
+        return String.valueOf(mul1);
     }
 
 
@@ -370,12 +373,12 @@ public class TradeUtil {
 
 
     /*计算汇率*/
-    public static void getRate(BalanceEntity balanceEntity, String moneyType,TradeResult tradeResult) {
+    public static void getRate(BalanceEntity balanceEntity, String moneyType, TradeResult tradeResult) {
 
         List<Double> balanceList = new ArrayList<>();
         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
             String currency = data.getCurrency();
-            NetManger.getInstance().rate(data, moneyType,currency, "USDT", new OnNetResult() {
+            NetManger.getInstance().rate(data, moneyType, currency, "USDT", new OnNetResult() {
                 @Override
                 public void onNetResult(String state, Object response) {
                     if (state.equals(SUCCESS)) {
@@ -394,4 +397,105 @@ public class TradeUtil {
 
     }
 
+    /*价格从小到大*/
+    public static List<String> priceLowToHigh(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        Collections.sort(quoteList, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String[] split1 = o1.split(",");
+                String[] split2 = o2.split(",");
+                double sub = TradeUtil.sub(Double.parseDouble(split1[2]), Double.parseDouble(split2[2]));
+                if (sub == 0) {
+                    return (int) TradeUtil.sub(Double.parseDouble(split2[2]), Double.parseDouble(split1[2]));
+                }
+                return (int) sub;
+            }
+        });
+        for (String quote : quoteList) {
+            quoteList2.add(quote);
+        }
+
+        return quoteList2;
+    }
+
+    /*价格从大到小*/
+    public static List<String> priceHighToLow(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        Collections.sort(quoteList, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String[] split1 = o1.split(",");
+                String[] split2 = o2.split(",");
+                double sub = TradeUtil.sub(Double.parseDouble(split2[2]), Double.parseDouble(split1[2]));
+                if (sub == 0) {
+                    return (int) TradeUtil.sub(Double.parseDouble(split1[2]), Double.parseDouble(split2[2]));
+                }
+                return (int) sub;
+            }
+        });
+        for (String quote : quoteList) {
+            quoteList2.add(quote);
+        }
+
+        return quoteList2;
+    }
+
+    /*涨跌幅从小到大*/
+    public static List<String> rangeLowToHigh(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        Collections.sort(quoteList, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String[] split1 = o1.split(",");
+                String[] split2 = o2.split(",");
+                double v = Double.valueOf(split1[2]);
+                double v1 = Double.valueOf(split1[3]);
+                double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 2), 100);
+                double v2 = Double.valueOf(split2[2]);
+                double v3 = Double.valueOf(split2[3]);
+                double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
+
+                double sub = TradeUtil.sub(mul,mul2);
+                if (sub == 0) {
+                    return (int) TradeUtil.sub(mul2,mul);
+                }
+                return (int) sub;
+            }
+        });
+        for (String quote : quoteList) {
+            quoteList2.add(quote);
+        }
+
+        return quoteList2;
+    }
+
+    /*涨跌幅从大到小*/
+    public static List<String> rangeHighToLow(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        Collections.sort(quoteList, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                String[] split1 = o1.split(",");
+                String[] split2 = o2.split(",");
+                double v = Double.valueOf(split1[2]);
+                double v1 = Double.valueOf(split1[3]);
+                double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 2), 100);
+                double v2 = Double.valueOf(split2[2]);
+                double v3 = Double.valueOf(split2[3]);
+                double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
+
+                double sub = TradeUtil.sub(mul2,mul);
+                if (sub == 0) {
+                    return (int) TradeUtil.sub(mul,mul2);
+                }
+                return (int) sub;
+            }
+        });
+        for (String quote : quoteList) {
+            quoteList2.add(quote);
+        }
+
+        return quoteList2;
+    }
 }

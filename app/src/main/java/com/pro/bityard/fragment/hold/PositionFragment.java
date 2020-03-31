@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -1158,7 +1159,8 @@ public class PositionFragment extends BaseFragment implements Observer {
     public void update(Observable o, Object arg) {
 
         if (o == QuoteManger.getInstance()) {
-            quoteList = (List<String>) arg;
+            ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
+            quoteList = arrayMap.get("0");
             if (positionEntity != null && positionEntity.getData().size() > 0) {
                 runOnUiThread(new Runnable() {
                     @Override

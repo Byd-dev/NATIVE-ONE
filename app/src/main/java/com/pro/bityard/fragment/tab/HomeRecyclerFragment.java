@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.HomeQuoteAdapter;
@@ -192,8 +191,8 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
                     swipeRefreshLayout.setRefreshing(true);
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
-                   // BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
-                  //  upBanner(bannerEntity.getCarousels());
+                    // BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                    //  upBanner(bannerEntity.getCarousels());
 
                 } else if (state.equals(FAILURE)) {
                     swipeRefreshLayout.setRefreshing(false);
@@ -281,7 +280,8 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
     @Override
     public void update(Observable o, Object arg) {
 
-        List<String> quoteList = (List<String>) arg;
+        ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
+        List<String> quoteList = arrayMap.get("0");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {

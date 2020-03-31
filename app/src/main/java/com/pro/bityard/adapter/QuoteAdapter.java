@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
-    private boolean isHigh=false;
+    private boolean isHigh = false;
 
     public boolean isLoadMore = false;
 
@@ -44,8 +45,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.notifyDataSetChanged();
     }
 
-    public void sortPrice(boolean isHigh){
-        this.isHigh=isHigh;
+    public void sortPrice(boolean isHigh) {
+        this.isHigh = isHigh;
         this.notifyDataSetChanged();
     }
 
@@ -96,9 +97,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             double v = Double.valueOf(split[2]);
             double v1 = Double.valueOf(split[3]);
 
-
-            String a = String.valueOf((v - v1) / v * 100);
-            String numberFormat2 = Util.getNumberFormat2(a);
+            String numberFormat2 = TradeUtil.getNumberFormat(TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 10), 100),2);
 
 
             String tag = split[1];
@@ -169,8 +168,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             text_change = itemView.findViewById(R.id.text_change);
             text_price = itemView.findViewById(R.id.text_lastPrice);
-             layout_bg=itemView.findViewById(R.id.layout_bg);
-            img_up_down=itemView.findViewById(R.id.img_up_down);
+            layout_bg = itemView.findViewById(R.id.layout_bg);
+            img_up_down = itemView.findViewById(R.id.img_up_down);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

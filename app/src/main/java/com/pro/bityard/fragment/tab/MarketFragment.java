@@ -1,5 +1,7 @@
 package com.pro.bityard.fragment.tab;
 
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -9,9 +11,12 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -40,6 +45,9 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
     @BindView(R.id.img_up_down)
     ImageView img_up_down;
+
+
+    private String type = "0";
 
     @Override
     protected void onLazyLoad() {
@@ -106,20 +114,31 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
                 if (flag_new_price == 0) {
                     img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_new_price = 1;
+                    type = "1";
+                    swipeRefreshLayout.setRefreshing(true);
+
                 } else if (flag_new_price == 1) {
                     img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_new_price = 0;
+                    type = "2";
+                    swipeRefreshLayout.setRefreshing(true);
 
                 }
+
 
                 break;
             case R.id.layout_up_down:
                 if (flag_up_down == 0) {
                     img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_up_down = 1;
+                    type = "3";
+                    swipeRefreshLayout.setRefreshing(true);
+
                 } else if (flag_up_down == 1) {
                     img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_up_down = 0;
+                    type = "4";
+                    swipeRefreshLayout.setRefreshing(true);
 
                 }
                 break;
@@ -134,13 +153,13 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     public void update(Observable o, Object arg) {
-        List<String> quoteList = (List<String>) arg;
+        ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
+        List<String> quoteList = arrayMap.get(type);
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 quoteAdapter.setDatas(quoteList);
                 swipeRefreshLayout.setRefreshing(false);
-
             }
         });
 

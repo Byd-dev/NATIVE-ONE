@@ -2,12 +2,14 @@ package com.pro.bityard.manger;
 
 import android.os.Handler;
 import android.os.Message;
+import android.util.ArrayMap;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.QuoteEntity;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
@@ -81,6 +83,8 @@ public class QuoteManger extends Observable {
 
     public void quote(String quote_host, String quote_code) {
 
+        ArrayMap<String, List<String>> arrayMap = new ArrayMap<>();
+
         if (quote_host.equals("") && quote_code.equals("")) {
             NetManger.getInstance().initQuote();
         } else {
@@ -94,7 +98,20 @@ public class QuoteManger extends Observable {
                         QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
                         String data = quoteEntity.getData();
                         List<String> strings = Util.quoteResult(data);
-                        postQuote(strings);
+                        //价格从高到低
+                        List<String> stringList = TradeUtil.priceHighToLow(strings);
+                        //价格从低到高
+                        List<String> stringList1 = TradeUtil.priceLowToHigh(strings);
+                        //涨跌幅从高到低
+                        List<String> stringList2 = TradeUtil.rangeHighToLow(strings);
+                        //涨跌幅从低到高
+                        List<String> stringList3 = TradeUtil.rangeLowToHigh(strings);
+                        arrayMap.put("0",strings);
+                        arrayMap.put("1", stringList);
+                        arrayMap.put("2", stringList1);
+                        arrayMap.put("3", stringList2);
+                        arrayMap.put("4", stringList3);
+                        postQuote(arrayMap);
 
                     } else if (state.equals(FAILURE)) {
 
@@ -106,9 +123,9 @@ public class QuoteManger extends Observable {
 
     }
 
-    public void postQuote(Object data) {
+    public void postQuote(ArrayMap<String, List<String>> arrayMap) {
         setChanged();
-        notifyObservers(data);
+        notifyObservers(arrayMap);
 
     }
 
