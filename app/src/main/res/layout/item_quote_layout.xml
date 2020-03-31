@@ -52,23 +52,38 @@
             android:textSize="19sp"
             android:textStyle="bold" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RelativeLayout
+            android:id="@+id/layout_bg"
+            android:layout_width="80dp"
+            android:layout_height="@dimen/margin_30"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_15"
+            android:background="@drawable/bg_shape_red"
             android:layout_centerVertical="true"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+
 
             <TextView
                 android:id="@+id/text_change"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-.-%"
+                android:layout_centerInParent="true"
                 android:typeface="monospace"
                 android:textColor="@color/text_maincolor"
-                android:textSize="14sp" />
-        </LinearLayout>
+                android:textSize="@dimen/size_normal" />
+
+            <ImageView
+                android:id="@+id/img_up_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_5"
+                android:layout_alignParentRight="true"
+                />
+
+        </RelativeLayout>
 
 
     </RelativeLayout>

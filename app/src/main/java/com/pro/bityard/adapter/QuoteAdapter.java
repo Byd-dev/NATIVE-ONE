@@ -4,7 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
@@ -104,16 +106,21 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (Integer.parseInt(tag) == 1) {
                 percent = "+" + numberFormat2 + "%";
 
-                ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                ((MyViewHolder) holder).text_change.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_quote_green));
+                ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_green));
+                ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_up));
             } else if (Integer.parseInt(tag) == -1) {
                 percent = numberFormat2 + "%";
 
                 ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_red));
+                ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_down));
 
             } else if (Integer.parseInt(tag) == 0) {
                 percent = numberFormat2 + "%";
 
                 ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_maincolor));
+                ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_normal));
 
             }
 
@@ -151,6 +158,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_name_usdt, text_change, text_price;
+        RelativeLayout layout_bg;
+        ImageView img_up_down;
 
 
         public MyViewHolder(View itemView) {
@@ -160,6 +169,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             text_change = itemView.findViewById(R.id.text_change);
             text_price = itemView.findViewById(R.id.text_lastPrice);
+             layout_bg=itemView.findViewById(R.id.layout_bg);
+            img_up_down=itemView.findViewById(R.id.img_up_down);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

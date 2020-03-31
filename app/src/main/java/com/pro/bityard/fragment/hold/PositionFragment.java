@@ -23,7 +23,6 @@ import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.BalanceManger;
@@ -346,22 +345,21 @@ public class PositionFragment extends BaseFragment implements Observer {
                 NetManger.getInstance().submitMargin(data.getId(), text_margin_after.getText().toString(), new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)){
+                        if (state.equals(BUSY)) {
                             showProgressDialog();
-                        }else if (state.equals(SUCCESS)){
+                        } else if (state.equals(SUCCESS)) {
                             dismissProgressDialog();
                             popupWindow.dismiss();
                             backgroundAlpha(1f);
                             Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
 
-                        }else if (state.equals(FAILURE)){
+                        } else if (state.equals(FAILURE)) {
                             dismissProgressDialog();
                             Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
                         }
                     }
                 });
-
 
 
             }

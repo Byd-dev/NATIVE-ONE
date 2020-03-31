@@ -28,5 +28,7 @@
     <color name="text_main_color_black_night">#333333</color>
     <color name="text_red_position_night">#D55F58</color>
     <color name="text_edit_pop_night">#2C3940</color>
-
+    <color name="color_bg_green_night">#338AB152</color>
+    <color name="color_bg_normal_night">#E8EAE6</color>
+    <color name="color_bg_red_night">#338B2A2F</color>
 </resources>
