@@ -602,9 +602,11 @@ public class TradeUtil {
     /*涨跌幅*/
     public static String quoteRange(String price, String todayPrice) {
         double sub = sub(Double.parseDouble(price), Double.parseDouble(todayPrice));
+
         double div = div(sub, Double.parseDouble(price), 10);
         double mul = mul(div, 100);
         String numberFormat = getNumberFormat(mul, 2);
+
         return numberFormat + "%";
     }
 

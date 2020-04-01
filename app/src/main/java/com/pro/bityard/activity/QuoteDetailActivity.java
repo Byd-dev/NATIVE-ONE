@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
@@ -28,6 +29,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
@@ -79,6 +82,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     private List<String> quoteList;
 
+    private QuotePopAdapter quotePopAdapter;
+
 
     public static void enter(Context context, String MoneyType, String data) {
         Intent intent = new Intent(context, QuoteDetailActivity.class);
@@ -123,6 +128,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.img_setting).setOnClickListener(this);
         findViewById(R.id.layout_more).setOnClickListener(this);
+
+
     }
 
     @Override
@@ -193,12 +200,46 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
 
+
+
+    private void showMoreWindow() {
+        View view = LayoutInflater.from(this).inflate(R.layout.item_more_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        RecyclerView recyclerView=view.findViewById(R.id.recyclerView_pop);
+        recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+        quotePopAdapter=new QuotePopAdapter(this);
+        recyclerView.setAdapter(quotePopAdapter);
+
+
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.alpha = 0.6f;
+        getWindow().setAttributes(params);
+
+        view.findViewById(R.id.btn_change).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                backgroundAlpha(1f);
+                popupWindow.dismiss();
+            }
+        });
+
+        popupWindow.setFocusable(false);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setAnimationStyle(R.style.pop_anim_quote);
+        popupWindow.setContentView(view);
+        popupWindow.showAsDropDown(layout_bar);
+    }
     @Override
     public void update(Observable o, Object arg) {
         if (o == QuoteListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(quoteType);
-
+            Log.d("print", "update:239:  "+quoteList);
+            if (quotePopAdapter!=null){
+                quotePopAdapter.setDatas(quoteList);
+            }
 
         } else if (o == QuoteItemManger.getInstance()) {
             String quote = (String) arg;
@@ -236,31 +277,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         }
     }
-
-    private void showMoreWindow() {
-        View view = LayoutInflater.from(this).inflate(R.layout.item_more_layout, null);
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 0.6f;
-        getWindow().setAttributes(params);
-
-        view.findViewById(R.id.btn_change).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                backgroundAlpha(1f);
-                popupWindow.dismiss();
-            }
-        });
-
-        popupWindow.setFocusable(false);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setAnimationStyle(R.style.pop_anim_quote);
-        popupWindow.setContentView(view);
-        popupWindow.showAsDropDown(layout_bar);
-    }
-
     public void backgroundAlpha(float bgalpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgalpha;

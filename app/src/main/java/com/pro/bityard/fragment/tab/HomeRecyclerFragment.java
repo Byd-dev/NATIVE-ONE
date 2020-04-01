@@ -13,7 +13,7 @@ import android.widget.ViewSwitcher;
 import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
-import com.pro.bityard.adapter.HomeQuoteAdapter;
+import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
@@ -51,7 +51,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    private HomeQuoteAdapter homeQuoteAdapter;
+    private QuoteHomeAdapter quoteHomeAdapter;
 
     private QuoteAdapter quoteAdapter;
     private XBanner xBanner;
@@ -111,9 +111,9 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
         RecyclerView recyclerView_hot = home_view.findViewById(R.id.recyclerView_hot);
         //首页三个行情
-        homeQuoteAdapter = new HomeQuoteAdapter(getActivity());
+        quoteHomeAdapter = new QuoteHomeAdapter(getActivity());
         recyclerView_hot.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        recyclerView_hot.setAdapter(homeQuoteAdapter);
+        recyclerView_hot.setAdapter(quoteHomeAdapter);
 
 
         home_view.findViewById(R.id.img_icon1).setOnClickListener(this);
@@ -285,7 +285,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                homeQuoteAdapter.setDatas(quoteList.subList(0, 3));
+                quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
                 quoteAdapter.setDatas(quoteList);
             }
         });

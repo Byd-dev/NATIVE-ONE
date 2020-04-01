@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
@@ -16,7 +17,9 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class HomeQuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
+
+public class QuoteHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<String> datas;
     private int type = 0;
@@ -26,7 +29,7 @@ public class HomeQuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public boolean isLoadMore = false;
 
-    public HomeQuoteAdapter(Context context) {
+    public QuoteHomeAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
     }
@@ -78,38 +81,28 @@ public class HomeQuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof MyViewHolder) {
 
             String[] split = datas.get(position).split(",");
-
+            String price = TradeUtil.listQuotePrice(datas.get(position));
             ((MyViewHolder) holder).text_name.setText(Util.quoteNme(split[0]));
-            ((MyViewHolder) holder).text_price.setText(split[2]);
-
-            double v = Double.valueOf(split[2]);
-            double v1 = Double.valueOf(split[3]);
-
-
-            String a = String.valueOf((v - v1) / v * 100);
-            String numberFormat2 = Util.getNumberFormat2(a);
+            ((MyViewHolder) holder).text_price.setText(price);
 
 
 
-            String tag = split[1];
-            String percent = null;
+            String tag = TradeUtil.listQuoteIsRange(datas.get(position));
+
             if (Integer.parseInt(tag)==1){
-                percent = "+" + numberFormat2 + "%";
 
                 ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_quote_green));
             }else if (Integer.parseInt(tag)==-1){
-                percent = numberFormat2 + "%";
 
                 ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
             }else if (Integer.parseInt(tag)==0){
-                percent = numberFormat2 + "%";
 
                 ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_maincolor));
 
             }
 
-            ((MyViewHolder) holder).text_change.setText(percent);
+            ((MyViewHolder) holder).text_change.setText(TradeUtil.quoteRange(price, listQuoteTodayPrice(datas.get(position))));
 
 
 

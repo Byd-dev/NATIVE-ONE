@@ -5,7 +5,7 @@ import android.widget.RelativeLayout;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
-import com.pro.bityard.adapter.HomeQuoteAdapter;
+import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
@@ -40,7 +40,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
 
-    private HomeQuoteAdapter homeQuoteAdapter;
+    private QuoteHomeAdapter quoteHomeAdapter;
 
     private QuoteAdapter quoteAdapter;
 
@@ -93,9 +93,9 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         initRecyclerView(recyclerView_list);
 
 
-        homeQuoteAdapter = new HomeQuoteAdapter(getActivity());
+        quoteHomeAdapter = new QuoteHomeAdapter(getActivity());
         recyclerView_hot.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        recyclerView_hot.setAdapter(homeQuoteAdapter);
+        recyclerView_hot.setAdapter(quoteHomeAdapter);
 
         quoteAdapter = new QuoteAdapter(getActivity());
         recyclerView_list.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -181,7 +181,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                homeQuoteAdapter.setDatas(quoteList.subList(0,3));
+                quoteHomeAdapter.setDatas(quoteList.subList(0,3));
                 quoteAdapter.setDatas(quoteList);
             }
         });
