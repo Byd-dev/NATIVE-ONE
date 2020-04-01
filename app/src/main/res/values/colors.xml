@@ -29,7 +29,7 @@
     <color name="text_red_position">#D55F58</color>
     <color name="text_edit_pop">#2C3940</color>
     <color name="color_bg_green">#338AB152</color>
-    <color name="color_bg_normal">#E8EAE6</color>
+    <color name="color_bg_normal">#535352</color>
     <color name="color_bg_red">#338B2A2F</color>
     <color name="color_bg_left">#1D2A34</color>
 </resources>

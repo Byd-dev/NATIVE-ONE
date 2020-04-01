@@ -19,8 +19,7 @@ import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.fragment.tab.HomeRecyclerFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
-import com.pro.bityard.manger.BalanceManger;
-import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
@@ -94,7 +93,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
         //行情初始化
-        QuoteManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+        QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
 
 
 
@@ -129,7 +128,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             NetManger.getInstance().initQuote();
             return;
         } else {
-            QuoteManger.getInstance().quote(quote_host, quote_code);
+            QuoteListManger.getInstance().quote(quote_host, quote_code);
         }
 
 
@@ -177,7 +176,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        QuoteManger.getInstance().cancelTimer();
-        QuoteManger.getInstance().clear();
+        QuoteListManger.getInstance().cancelTimer();
+        QuoteListManger.getInstance().clear();
     }
 }

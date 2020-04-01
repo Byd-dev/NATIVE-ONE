@@ -106,7 +106,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_50"
+        android:layout_height="@dimen/tab_height"
         app:tabIndicatorFullWidth="false"
         app:tabTextColor="@color/text_second_color"
         app:tabSelectedTextColor="@color/maincolor"
@@ -116,7 +116,7 @@
         app:tabMode="fixed" />
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="@dimen/size_line"
         android:background="@color/home_line"/>
 
     <androidx.viewpager.widget.ViewPager

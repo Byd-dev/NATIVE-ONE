@@ -1,7 +1,5 @@
 package com.pro.bityard.fragment.tab;
 
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -11,8 +9,7 @@ import com.pro.bityard.adapter.HomeQuoteAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.manger.BalanceManger;
-import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.AlphaChangeListener;
 import com.pro.bityard.view.MyScrollView;
@@ -72,7 +69,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @Override
     protected void initView(View view) {
 
-        QuoteManger.getInstance().addObserver(this);
+        QuoteListManger.getInstance().addObserver(this);
 
 
         view.setFocusable(true);

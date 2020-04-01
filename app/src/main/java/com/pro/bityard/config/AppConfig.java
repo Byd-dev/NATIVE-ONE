@@ -4,6 +4,7 @@ public class AppConfig {
     public static final String S_KEY="1111111122222222";
 
     public static  final  long QUOTE_SECOND=2000;
+    public static  final  long ITEM_QUOTE_SECOND=1000;
 
     /*账户头像保存名称*/
     public static final String FIRST_OPEN = "first_open"; //安全认证信息

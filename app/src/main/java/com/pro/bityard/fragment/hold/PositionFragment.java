@@ -30,7 +30,7 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
-import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -119,7 +119,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     @Override
     protected void initView(View view) {
         //行情的注册
-        QuoteManger.getInstance().addObserver(this);
+        QuoteListManger.getInstance().addObserver(this);
         //标签
         TagManger.getInstance().addObserver(this);
 
@@ -1150,7 +1150,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        QuoteManger.getInstance().clear();
+        QuoteListManger.getInstance().clear();
         TagManger.getInstance().clear();
     }
 
@@ -1158,7 +1158,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        if (o == QuoteManger.getInstance()) {
+        if (o == QuoteListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("0");
             if (positionEntity != null && positionEntity.getData().size() > 0) {

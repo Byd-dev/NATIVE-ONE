@@ -50,9 +50,17 @@
 
     <style name="pop_anim" parent="android:Animation">
 
-        <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
+    <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
 
-        <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
+    <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
+
+</style>
+
+    <style name="pop_anim_quote" parent="android:Animation">
+
+        <item name="android:windowEnterAnimation">@anim/pop_enter_anim_quote</item>
+
+        <item name="android:windowExitAnimation">@anim/pop_exit_anim_quote</item>
 
     </style>
 

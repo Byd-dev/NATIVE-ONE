@@ -116,5 +116,13 @@
     <string name="text_lever">杠杆</string>
     <string name="text_hand_fee">追加手续费</string>
     <string name="text_all">合计</string>
+    <string name="text_add_coin">加币</string>
+    <string name="text_buy_much">做多</string>
+    <string name="text_buy_empty">做空</string>
+    <string name="text_max">24H最高</string>
+    <string name="text_default">--.--</string>
+    <string name="text_min">24H最低</string>
+    <string name="text_volume">24H量</string>
+    <string name="text_simulation_btn">切换模拟盘</string>
 
 </resources>

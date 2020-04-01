@@ -103,7 +103,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="@dimen/size_line"
             android:layout_marginLeft="@dimen/margin_15"
             android:background="@color/home_line" />
         <!--2-->
@@ -322,7 +322,7 @@
         <!--3-->
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="@dimen/size_line"
             android:background="@color/home_line" />
 
         <RelativeLayout
@@ -355,8 +355,7 @@
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal"
                 android:typeface="monospace"
-                android:visibility="gone"
-                />
+                android:visibility="gone" />
 
 
         </RelativeLayout>
@@ -366,7 +365,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="@dimen/size_line"
         android:background="@color/home_line" />
 
 

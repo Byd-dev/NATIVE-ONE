@@ -18,6 +18,10 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pro.bityard.utils.TradeUtil.itemQuotePrice;
+import static com.pro.bityard.utils.TradeUtil.itemQuoteTodayPrice;
+import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
+
 public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<String> datas;
@@ -90,38 +94,31 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ((MyViewHolder) holder).text_name.setText(split1[0]);
             ((MyViewHolder) holder).text_name_usdt.setText("/" + split1[1]);
 
-            ((MyViewHolder) holder).text_price.setText(split[2]);
+            String price = TradeUtil.listQuotePrice(datas.get(position));
 
-            double v = Double.valueOf(split[2]);
-            double v1 = Double.valueOf(split[3]);
+            ((MyViewHolder) holder).text_price.setText(price);
 
-            String numberFormat2 = TradeUtil.getNumberFormat(TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 10), 100),2);
+            ((MyViewHolder) holder).text_change.setText(TradeUtil.quoteRange(price, listQuoteTodayPrice(datas.get(position))));
 
 
-            String tag = split[1];
-            String percent = null;
+            String tag = TradeUtil.listQuoteIsRange(datas.get(position));
             if (Integer.parseInt(tag) == 1) {
-                percent = "+" + numberFormat2 + "%";
 
                 ((MyViewHolder) holder).text_change.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_quote_green));
                 ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_green));
                 ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_up));
             } else if (Integer.parseInt(tag) == -1) {
-                percent = numberFormat2 + "%";
 
                 ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_quote_red));
                 ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_red));
                 ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_down));
 
             } else if (Integer.parseInt(tag) == 0) {
-                percent = numberFormat2 + "%";
 
                 ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_maincolor));
                 ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_normal));
 
             }
-
-            ((MyViewHolder) holder).text_change.setText(percent);
 
 
         }

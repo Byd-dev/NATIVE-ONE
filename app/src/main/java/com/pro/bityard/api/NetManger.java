@@ -347,6 +347,48 @@ public class NetManger {
 
     }
 
+
+    /*获取单个行情*/
+    public void getItemQuote(String quoteDomain, String url, String code, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("callback", "?");
+        map.put("code", code);
+        map.put("_", String.valueOf(new Date().getTime()));
+
+        try {
+            String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
+
+            String[] split = urlList.split(";");
+            int length = split.length;
+            if (count < length) {
+                getHostRequest(split[count], url, map, new OnNetResult() {
+                    @Override
+                    public void onNetResult(String state, Object response) {
+                        if (state.equals(BUSY)) {
+
+                        } else if (state.equals(SUCCESS)) {
+                            onNetResult.onNetResult(SUCCESS, response.toString());
+                        } else if (state.equals(FAILURE)) {
+                            if (length == 0) {
+
+                            } else {
+                                count++;
+                            }
+                        }
+                    }
+                });
+            } else {
+                count = 0;//这里是重置
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public void initQuote() {
         /*初始化获取行情 合约号 行情地址*/
         getHostCodeTradeList(new OnNetThreeResult() {

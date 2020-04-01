@@ -2,7 +2,6 @@ package com.pro.bityard.fragment.hold;
 
 import android.os.Bundle;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,12 +11,10 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.PositionRealManger;
-import com.pro.bityard.manger.QuoteManger;
-import com.pro.bityard.utils.Util;
+import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import java.util.List;
@@ -72,7 +69,7 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     protected void initView(View view) {
-        QuoteManger.getInstance().addObserver(this);
+        QuoteListManger.getInstance().addObserver(this);
 
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));

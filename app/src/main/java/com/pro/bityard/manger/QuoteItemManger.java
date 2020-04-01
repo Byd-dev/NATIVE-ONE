@@ -3,6 +3,7 @@ package com.pro.bityard.manger;
 import android.os.Handler;
 import android.os.Message;
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
@@ -22,28 +23,31 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class QuoteManger extends Observable {
+public class QuoteItemManger extends Observable {
 
 
-    private static QuoteManger quoteManger;
+    private static QuoteItemManger quoteItemManger;
+
+    private String code;
 
 
-    public static QuoteManger getInstance() {
-        if (quoteManger == null) {
-            synchronized (QuoteManger.class) {
-                if (quoteManger == null) {
-                    quoteManger = new QuoteManger();
+    public static QuoteItemManger getInstance() {
+        if (quoteItemManger == null) {
+            synchronized (QuoteItemManger.class) {
+                if (quoteItemManger == null) {
+                    quoteItemManger = new QuoteItemManger();
                 }
             }
 
         }
-        return quoteManger;
+        return quoteItemManger;
 
     }
 
     private Timer mTimer;
 
-    public void startScheduleJob(long delay, long interval) {
+    public void startScheduleJob(long delay, long interval, String code) {
+        this.code = code;
         if (mTimer != null) cancelTimer();
 
         mTimer = new Timer();
@@ -62,12 +66,11 @@ public class QuoteManger extends Observable {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
-            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE);
-            if (quote_host.equals("") && quote_code.equals("")) {
+            if (quote_host.equals("")) {
                 NetManger.getInstance().initQuote();
                 return;
             } else {
-                quote(quote_host, quote_code);
+                quote(quote_host, code);
             }
         }
     };
@@ -83,12 +86,11 @@ public class QuoteManger extends Observable {
 
     public void quote(String quote_host, String quote_code) {
 
-        ArrayMap<String, List<String>> arrayMap = new ArrayMap<>();
 
         if (quote_host.equals("") && quote_code.equals("")) {
             NetManger.getInstance().initQuote();
         } else {
-            NetManger.getInstance().getQuote(quote_host, "/quote.jsp", quote_code, new OnNetResult() {
+            NetManger.getInstance().getItemQuote(quote_host, "/quote.jsp", quote_code, new OnNetResult() {
                 @Override
                 public void onNetResult(String state, Object response) {
                     if (state.equals(BUSY)) {
@@ -97,21 +99,7 @@ public class QuoteManger extends Observable {
                         String jsonReplace = Util.jsonReplace(response.toString());
                         QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
                         String data = quoteEntity.getData();
-                        List<String> strings = Util.quoteResult(data);
-                        //价格从高到低
-                        List<String> stringList = TradeUtil.priceHighToLow(strings);
-                        //价格从低到高
-                        List<String> stringList1 = TradeUtil.priceLowToHigh(strings);
-                        //涨跌幅从高到低
-                        List<String> stringList2 = TradeUtil.rangeHighToLow(strings);
-                        //涨跌幅从低到高
-                        List<String> stringList3 = TradeUtil.rangeLowToHigh(strings);
-                        arrayMap.put("0",strings);
-                        arrayMap.put("1", stringList);
-                        arrayMap.put("2", stringList1);
-                        arrayMap.put("3", stringList2);
-                        arrayMap.put("4", stringList3);
-                        postQuote(arrayMap);
+                        postQuote(data);
 
                     } else if (state.equals(FAILURE)) {
 
@@ -123,9 +111,9 @@ public class QuoteManger extends Observable {
 
     }
 
-    public void postQuote(ArrayMap<String, List<String>> arrayMap) {
+    public void postQuote(String data) {
         setChanged();
-        notifyObservers(arrayMap);
+        notifyObservers(data);
 
     }
 
@@ -134,7 +122,7 @@ public class QuoteManger extends Observable {
      */
     public void clear() {
         deleteObservers();
-        quoteManger = null;
+        quoteItemManger = null;
     }
 
 

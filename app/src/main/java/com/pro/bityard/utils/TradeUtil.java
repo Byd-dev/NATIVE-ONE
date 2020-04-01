@@ -456,9 +456,9 @@ public class TradeUtil {
                 double v3 = Double.valueOf(split2[3]);
                 double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
 
-                double sub = TradeUtil.sub(mul,mul2);
+                double sub = TradeUtil.sub(mul, mul2);
                 if (sub == 0) {
-                    return (int) TradeUtil.sub(mul2,mul);
+                    return (int) TradeUtil.sub(mul2, mul);
                 }
                 return (int) sub;
             }
@@ -485,9 +485,9 @@ public class TradeUtil {
                 double v3 = Double.valueOf(split2[3]);
                 double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
 
-                double sub = TradeUtil.sub(mul2,mul);
+                double sub = TradeUtil.sub(mul2, mul);
                 if (sub == 0) {
-                    return (int) TradeUtil.sub(mul,mul2);
+                    return (int) TradeUtil.sub(mul, mul2);
                 }
                 return (int) sub;
             }
@@ -498,4 +498,115 @@ public class TradeUtil {
 
         return quoteList2;
     }
+
+
+    /*根据合约号获取相应的实时行情*/
+    public static String itemQuote(String contCode, List<String> quoteList) {
+        if (quoteList == null) {
+            return null;
+        } else {
+            for (String quote : quoteList) {
+                String[] split = quote.split(",");
+                if (contCode.equals(split[0])) {
+                    return quote;
+                }
+            }
+        }
+        return null;
+    }
+
+    /*获取当前行情的ContCode*/
+    public static String itemQuoteContCode(String quote) {
+        String[] split = quote.split(",");
+
+
+        return split[0];
+    }
+
+    /*当前是否涨跌*/
+    public static String itemQuoteIsRange(String quote) {
+        String[] split = quote.split(",");
+        if (sub(Double.parseDouble(split[9]), Double.parseDouble(split[6])) > 0) {
+            return "1";
+        } else if (sub(Double.parseDouble(split[9]), Double.parseDouble(split[6])) == 0) {
+            return "0";
+        } else {
+            return "-1";
+        }
+    }
+
+    /*当前是否涨跌*/
+    public static String listQuoteIsRange(String quote) {
+        String[] split = quote.split(",");
+        return split[1];
+    }
+
+
+    /*获取当前价格*/
+    public static String itemQuotePrice(String quote) {
+        String[] split = quote.split(",");
+        return split[9];
+    }
+
+    /*今日最高价格*/
+    public static String itemQuoteMaxPrice(String quote) {
+        String[] split = quote.split(",");
+        return split[7];
+    }
+
+    /*今日最低价格*/
+    public static String itemQuoteMinPrice(String quote) {
+        String[] split = quote.split(",");
+        return split[8];
+    }
+    /*24H成交量*/
+    public static String itemQuoteVolume(String quote) {
+        String[] split = quote.split(",");
+        return split[12];
+    }
+
+    /*获取当前价格*/
+    public static String listQuotePrice(String quote) {
+        String[] split = quote.split(",");
+        return split[2];
+    }
+
+    /*开盘价*/
+    public static String itemQuoteTodayPrice(String quote) {
+        String[] split = quote.split(",");
+        return split[6];
+    }
+
+    /*开盘价*/
+    public static String listQuoteTodayPrice(String quote) {
+        String[] split = quote.split(",");
+        return split[3];
+    }
+
+
+    /*判断当前有几位小数*/
+    public static int decimalPoint(String price) {
+        if (price.contains(".")) {
+            return price.length() - price.indexOf(".") - 1;
+        } else {
+            return 0;
+        }
+    }
+
+    /*价格变化*/
+    public static String quoteChange(String price, String todayPrice) {
+        double sub = sub(Double.parseDouble(price), Double.parseDouble(todayPrice));
+        return numberHalfUp(sub, decimalPoint(price));
+    }
+
+    /*涨跌幅*/
+    public static String quoteRange(String price, String todayPrice) {
+        double sub = sub(Double.parseDouble(price), Double.parseDouble(todayPrice));
+        double div = div(sub, Double.parseDouble(price), 10);
+        double mul = mul(div, 100);
+        String numberFormat = getNumberFormat(mul, 2);
+        return numberFormat + "%";
+    }
+
+
 }

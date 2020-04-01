@@ -20,7 +20,7 @@ import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BannerEntity;
-import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.stx.xhb.xbanner.XBanner;
@@ -81,7 +81,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
     @Override
     protected void initView(View view) {
 
-        QuoteManger.getInstance().addObserver(this);
+        QuoteListManger.getInstance().addObserver(this);
 
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
@@ -273,7 +273,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
         if (xBanner != null) {
             xBanner.stopAutoPlay();
         }
-        QuoteManger.getInstance().clear();
+        QuoteListManger.getInstance().clear();
     }
 
 

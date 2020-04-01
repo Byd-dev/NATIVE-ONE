@@ -6,11 +6,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.QuoteDetailActivity;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.manger.QuoteManger;
+import com.pro.bityard.manger.QuoteItemManger;
+import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.List;
@@ -23,6 +26,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
+import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 
 public class MarketFragment extends BaseFragment implements View.OnClickListener, Observer {
     @BindView(R.id.swipeRefreshLayout)
@@ -57,7 +61,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
         swipeRefreshLayout.setRefreshing(true);
 
-        QuoteManger.getInstance().addObserver(this);
+        QuoteListManger.getInstance().addObserver(this);
 
 
         quoteAdapter = new QuoteAdapter(getActivity());
@@ -80,7 +84,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
                     NetManger.getInstance().initQuote();
                     return;
                 } else {
-                    QuoteManger.getInstance().quote(quote_host, quote_code);
+                    QuoteListManger.getInstance().quote(quote_host, quote_code);
                 }
             }
         });
@@ -89,7 +93,10 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
         quoteAdapter.setOnItemClick(new QuoteAdapter.OnItemClick() {
             @Override
             public void onSuccessListener(String data) {
-                Log.d("print", "onSuccessListener:92:  "+data);
+                Log.d("print", "onSuccessListener:92:  " + data);
+                QuoteDetailActivity.enter(getContext(), "1", data);
+
+
             }
         });
     }
@@ -155,7 +162,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onDestroy() {
         super.onDestroy();
-        QuoteManger.getInstance().clear();
+        QuoteListManger.getInstance().clear();
     }
 
     @Override

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="bar_height">48dp</dimen>
-    <dimen name="title_size">15sp</dimen>
+    <dimen name="title_size">17sp</dimen>
     <dimen name="radio_textsize">17sp</dimen>
     <dimen name="margin_15">15dp</dimen>
     <dimen name="margin_20">20dp</dimen>
@@ -12,7 +12,7 @@
     <dimen name="margin_25">25dp</dimen>
     <dimen name="hint_size">14sp</dimen>
     <dimen name="margin_50">50dp</dimen>
-    <dimen name="dimen_btn">50dp</dimen>
+    <dimen name="dimen_btn">40dp</dimen>
     <dimen name="margin_30">30dp</dimen>
     <dimen name="margin_28">28dp</dimen>
     <dimen name="height_edit">46dp</dimen>
@@ -29,5 +29,6 @@
     <dimen name="size_big">15sp</dimen>
     <dimen name="size_bigger">17sp</dimen>
     <dimen name="size_normal_two">13sp</dimen>
-
+    <dimen name="tab_height">42dp</dimen>
+    <dimen name="size_line">0.2dp</dimen>
 </resources>

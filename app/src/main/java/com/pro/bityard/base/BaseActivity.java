@@ -84,12 +84,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         // setStatusBar(getResources().getColor(R.color.white));
 
 
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         fragmentManager = getSupportFragmentManager();
         init();
         initPresenter();
-        initView(mView);
         initData();
+        initView(mView);
         initEvent();
 
 

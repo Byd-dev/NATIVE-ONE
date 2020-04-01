@@ -130,7 +130,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
+            android:layout_height="@dimen/size_line"
             android:background="@color/home_line" />
 
 
@@ -347,7 +347,7 @@
             </LinearLayout>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp"
+                android:layout_height="@dimen/size_line"
                 android:background="@color/home_line" />
             <RelativeLayout
                 android:layout_width="match_parent"
