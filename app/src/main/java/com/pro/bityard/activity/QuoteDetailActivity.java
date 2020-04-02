@@ -19,7 +19,10 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuotePopAdapter;
+import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
+import com.pro.bityard.entity.TradeListEntity;
+import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.utils.TradeUtil;
@@ -98,6 +101,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.radio_1)
     RadioButton radio_btn1;
 
+    @BindView(R.id.text_buy_much)
+    TextView text_buy_much;
+    @BindView(R.id.text_buy_empty)
+    TextView text_buy_empty;
+
     @BindView(R.id.layout_market_price)
     LinearLayout layout_market_price;
     @BindView(R.id.layout_limit_price)
@@ -105,6 +113,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.text_market_price)
     TextView text_market_price;
+    @BindView(R.id.text_market_balance)
+    TextView text_market_balance;
+    @BindView(R.id.text_limit_balance)
+    TextView text_limit_balance;
 
     private List<String> quoteList;
 
@@ -151,6 +163,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         QuoteListManger.getInstance().addObserver(this);
 
         QuoteItemManger.getInstance().addObserver(this);
+
+        BalanceManger.getInstance().getBalance("USDT");
 
 
         findViewById(R.id.img_back).setOnClickListener(this);
@@ -200,6 +214,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
             text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
 
+        }
+
+
+        //可用余额
+        if (moneyType.equals("1")) {
+            text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+            text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+        } else {
+            text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+            text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
         }
 
 
@@ -305,6 +329,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     layout_market_price.setVisibility(View.VISIBLE);
                     layout_limit_price.setVisibility(View.GONE);
                 }
+                //可用余额
+                if (moneyType.equals("1")) {
+                    text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+                    text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+                } else {
+                    text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+                    text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+                }
+
                 backgroundAlpha(1f);
                 popupWindow.dismiss();
                 img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
@@ -365,6 +398,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 text_max.setText(itemQuoteMaxPrice(quote));
                 text_min.setText(itemQuoteMinPrice(quote));
                 text_volume.setText(itemQuoteVolume(quote));
+
+
+                List<TradeListEntity> tradeListEntityList = NetManger.getInstance().getTradeListEntityList();
+                Log.d("print", "update:404: "+tradeListEntityList);
+
+                text_buy_much.setText(TradeUtil.itemQuoteBuyMuchPrice(quote));
+                text_buy_empty.setText(TradeUtil.itemQuoteBuyEmptyPrice(quote));
             }
 
         }

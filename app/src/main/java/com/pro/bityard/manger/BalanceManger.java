@@ -89,8 +89,6 @@ public class BalanceManger extends Observable {
 
                             }
                         }
-
-
                         postBalance(balanceEntity);
 
 

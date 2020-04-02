@@ -551,6 +551,18 @@ public class TradeUtil {
         return split[9];
     }
 
+    /*获取做多价格*/
+    public static String itemQuoteBuyMuchPrice(String quote) {
+        String[] split = quote.split(",");
+        return split[1];
+    }
+
+    /*获取做空价格*/
+    public static String itemQuoteBuyEmptyPrice(String quote) {
+        String[] split = quote.split(",");
+        return split[3];
+    }
+
     /*今日最高价格*/
     public static String itemQuoteMaxPrice(String quote) {
         String[] split = quote.split(",");

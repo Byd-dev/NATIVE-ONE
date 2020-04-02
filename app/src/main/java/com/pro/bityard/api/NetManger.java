@@ -254,6 +254,14 @@ public class NetManger {
 
     private List<TradeListEntity> tradeListEntityList;
 
+    public List<TradeListEntity> getTradeListEntityList() {
+        return tradeListEntityList;
+    }
+
+    public void setTradeListEntityList(List<TradeListEntity> tradeListEntityList) {
+        this.tradeListEntityList = tradeListEntityList;
+    }
+
     /*获取合约号*/
     private void getTradeList(String codeList, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -284,6 +292,7 @@ public class NetManger {
                                 //  Log.d("NetManger", "onNetResult:260: "+tradeListEntity);
                             }
                             tradeListEntityList.add(tradeListEntity);
+                            setTradeListEntityList(tradeListEntityList);
                             // Log.d("NetManger", "onNetResult:263:  "+tradeListEntityList.size());
 
 
@@ -609,8 +618,9 @@ public class NetManger {
             }
         });
     }
+
     /*追加保证金*/
-    public void submitMargin(String bettingId, String margin,  OnNetResult onNetResult) {
+    public void submitMargin(String bettingId, String margin, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("bettingId", bettingId);
         map.put("margin", margin);
@@ -620,7 +630,7 @@ public class NetManger {
                 if (state.equals(BUSY)) {
                     onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
-                    Log.d("print", "onNetResult:583:  "+response.toString());
+                    Log.d("print", "onNetResult:583:  " + response.toString());
                     TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
                     if (tipSPSLMarginEntity.getCode() == 200) {
                         onNetResult.onNetResult(SUCCESS, tipSPSLMarginEntity.getMessage());
@@ -638,7 +648,7 @@ public class NetManger {
     }
 
     /*汇率*/
-    public void rate(BalanceEntity.DataBean dataBean,String moneyType,String src,String des,OnNetResult onNetResult){
+    public void rate(BalanceEntity.DataBean dataBean, String moneyType, String src, String des, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("src", src);
         map.put("des", des);
@@ -655,16 +665,15 @@ public class NetManger {
                     } else if (tipEntity.getCode() == 200) {
                         RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
 
-                        if (moneyType.equals("1")){
+                        if (moneyType.equals("1")) {
                             double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
-                           // Log.d("print", "onNetResult:595实盘:  "+mul);
+                            // Log.d("print", "onNetResult:595实盘:  "+mul);
                             onNetResult.onNetResult(SUCCESS, mul);
-                        }else {
+                        } else {
                             double mul = TradeUtil.mul(dataBean.getGame(), rateEntity.getRate());
-                           // Log.d("print", "onNetResult:595虚拟:  "+mul);
+                            // Log.d("print", "onNetResult:595虚拟:  "+mul);
                             onNetResult.onNetResult(SUCCESS, mul);
                         }
-
 
 
                     }
