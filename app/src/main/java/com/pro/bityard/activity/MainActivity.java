@@ -131,6 +131,16 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             QuoteListManger.getInstance().quote(quote_host, quote_code);
         }
 
+         //获取合约号
+        NetManger.getInstance().getSpread(new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(SUCCESS)){
+                    Toast.makeText(MainActivity.this,"合约号获取成功",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
     }
 

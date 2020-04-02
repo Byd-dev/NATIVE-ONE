@@ -37,7 +37,7 @@ public class TradeListEntity {
     private double priceUnit;
     private boolean range;
     private String remark;
-    private double spread;
+    private int spread;
     private String type;
     private boolean valid;
     private List<Long> closeTime;
@@ -374,11 +374,11 @@ public class TradeListEntity {
         this.remark = remark;
     }
 
-    public double getSpread() {
+    public int getSpread() {
         return spread;
     }
 
-    public void setSpread(double spread) {
+    public void setSpread(int spread) {
         this.spread = spread;
     }
 

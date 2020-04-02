@@ -8,6 +8,7 @@ import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.PositionEntity;
+import com.pro.bityard.entity.TradeListEntity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -552,15 +553,27 @@ public class TradeUtil {
     }
 
     /*获取做多价格*/
-    public static String itemQuoteBuyMuchPrice(String quote) {
+    public static String itemQuoteBuyMuchPrice(String quote, int spread) {
         String[] split = quote.split(",");
-        return split[1];
+        if (spread == 0) {
+            return split[1];
+        } else if (spread == -1) {
+            return split[9];
+        } else {
+            return getNumberFormat(sub(Double.parseDouble(split[9]), spread), decimalPoint(split[9]));
+        }
     }
 
     /*获取做空价格*/
-    public static String itemQuoteBuyEmptyPrice(String quote) {
+    public static String itemQuoteBuyEmptyPrice(String quote, int spread) {
         String[] split = quote.split(",");
-        return split[3];
+        if (spread == 0) {
+            return split[3];
+        } else if (spread == -1) {
+            return split[9];
+        } else {
+            return getNumberFormat(add(Double.parseDouble(split[9]), spread), decimalPoint(split[9]));
+        }
     }
 
     /*今日最高价格*/
@@ -663,6 +676,22 @@ public class TradeUtil {
         }
 
         return result;
+    }
+
+    /*获取合约号的 Spread*/
+    public static Integer spread(String contractCode, List<TradeListEntity> tradeListEntityList) {
+        if (tradeListEntityList.size() == 0 ) {
+            return null;
+        }
+        if (contractCode == null){
+            return null;
+        }
+        for (TradeListEntity data : tradeListEntityList) {
+            if (contractCode.equals(data.getContractCode())) {
+                return data.getSpread();
+            }
+        }
+        return null;
     }
 
 

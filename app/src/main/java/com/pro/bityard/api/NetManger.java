@@ -252,6 +252,44 @@ public class NetManger {
     }
 
 
+
+    public void getSpread(OnNetResult onNetResult){
+        /*获取行情的host*/
+        getRequest("/api/trade/commodity/initial", null, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                } else if (state.equals(SUCCESS)) {
+                    InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
+                    List<InitEntity.GroupBean> group = initEntity.getGroup();
+                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
+                    for (InitEntity.GroupBean data : group) {
+                        if (data.getName().equals("数字货币")) {
+                            String list = data.getList();
+                            getTradeList(list, new OnNetResult() {
+                                @Override
+                                public void onNetResult(String state, Object response) {
+                                    if (state.equals(BUSY)) {
+
+                                    } else if (state.equals(SUCCESS)) {
+                                        onNetResult.onNetResult(SUCCESS,response);
+                                    } else if (state.equals(FAILURE)) {
+                                    }
+                                }
+                            });//获取合约号
+                        }
+                    }
+                } else if (state.equals(FAILURE)) {
+                }
+            }
+        });
+    }
+
+
+
+
+
+
     private List<TradeListEntity> tradeListEntityList;
 
     public List<TradeListEntity> getTradeListEntityList() {

@@ -123,6 +123,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private QuotePopAdapter quotePopAdapter;
     private PopupWindow popupWindow;
     private String quote;
+    private List<TradeListEntity> tradeListEntityList;
 
 
     public static void enter(Context context, String MoneyType, String data) {
@@ -225,6 +226,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
             text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
         }
+
+
+        tradeListEntityList = NetManger.getInstance().getTradeListEntityList();
+        Log.d("print", "initData:233:  " + tradeListEntityList);
+
+
 
 
     }
@@ -365,10 +372,17 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == QuoteItemManger.getInstance()) {
             quote = (String) arg;
             Log.d("print", "update:171:  " + quote);
-            if (quote != null && quotePopAdapter != null) {
 
 
-                quotePopAdapter.select(itemQuoteContCode(quote));
+
+            if (quote != null ) {
+
+                if (quotePopAdapter!=null){
+                    quotePopAdapter.select(itemQuoteContCode(quote));
+                }
+
+
+
                 text_lastPrice.setText(itemQuotePrice(quote));
                 text_market_price.setText(itemQuotePrice(quote));
                 text_change.setText(TradeUtil.quoteChange(itemQuotePrice(quote), itemQuoteTodayPrice(quote)));
@@ -400,11 +414,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 text_volume.setText(itemQuoteVolume(quote));
 
 
-                List<TradeListEntity> tradeListEntityList = NetManger.getInstance().getTradeListEntityList();
-                Log.d("print", "update:404: "+tradeListEntityList);
+                int spread = TradeUtil.spread(itemQuoteContCode(quote), tradeListEntityList);
 
-                text_buy_much.setText(TradeUtil.itemQuoteBuyMuchPrice(quote));
-                text_buy_empty.setText(TradeUtil.itemQuoteBuyEmptyPrice(quote));
+                text_buy_much.setText(TradeUtil.itemQuoteBuyMuchPrice(quote,spread));
+                text_buy_empty.setText(TradeUtil.itemQuoteBuyEmptyPrice(quote,spread));
             }
 
         }
