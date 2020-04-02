@@ -128,6 +128,20 @@
     <string name="text_real_trade">(实盘)</string>
     <string name="text_real_btn">切换成实盘</string>
     <string name="text_simulation_trade">(模拟)</string>
+    <string name="text_market_price">市价</string>
+    <string name="text_limit_price">限价</string>
+    <string name="text_market_price_edit">市价:</string>
+    <string name="text_margin_edit">保证金:</string>
+    <string name="text_volume_edit">仓位:</string>
+    <string name="text_market_price_input_edit">以当前最优价格成交</string>
+    <string name="text_lever_edit">杠杆:</string>
+    <string name="text_20x">20X</string>
+    <string name="text_40x">40X</string>
+    <string name="text_60x">60X</string>
+    <string name="text_80x">80X</string>
+    <string name="text_100x">100X</string>
+    <string name="text_market_all">总计支付:</string>
+    <string name="text_limit_price_edit">限价:</string>
 
 
 </resources>

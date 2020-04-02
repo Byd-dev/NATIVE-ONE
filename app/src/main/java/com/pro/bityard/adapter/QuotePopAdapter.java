@@ -97,13 +97,13 @@ public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             if (contCode.equals(Code)) {
                 ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_pop_item_select));
                 ((MyViewHolder) holder).text_name.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_main_color_black));
-                ((MyViewHolder) holder).text_price.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_main_color_black));
+                ((MyViewHolder) holder).text_price.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_second_color_black));
                 ((MyViewHolder) holder).text_name_usdt.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_second_color_black));
 
             } else {
                 ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_pop_item));
                 ((MyViewHolder) holder).text_name.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_maincolor));
-                ((MyViewHolder) holder).text_price.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                ((MyViewHolder) holder).text_price.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_second_color));
                 ((MyViewHolder) holder).text_name_usdt.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_second_color));
             }
 
@@ -133,7 +133,7 @@ public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         public ProgressViewHoler(View itemView) {
             super(itemView);
-            bar = (ProgressBar) itemView.findViewById(R.id.progress);
+            bar =  itemView.findViewById(R.id.progress);
         }
     }
 

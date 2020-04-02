@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,7 +49,7 @@ import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteUSD;
 
-public class QuoteDetailActivity extends BaseActivity implements View.OnClickListener, Observer {
+public class QuoteDetailActivity extends BaseActivity implements View.OnClickListener, Observer, RadioGroup.OnCheckedChangeListener {
     private static final String TYPE = "MoneyType";
     private static final String VALUE = "value";
     private static final String quoteType = "1";
@@ -88,6 +90,21 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     TextView text_min;
     @BindView(R.id.text_volume)
     TextView text_volume;
+
+    @BindView(R.id.radioGroup)
+    RadioGroup radioGroup;
+    @BindView(R.id.radio_0)
+    RadioButton radio_btn0;
+    @BindView(R.id.radio_1)
+    RadioButton radio_btn1;
+
+    @BindView(R.id.layout_market_price)
+    LinearLayout layout_market_price;
+    @BindView(R.id.layout_limit_price)
+    LinearLayout layout_limit_price;
+
+    @BindView(R.id.text_market_price)
+    TextView text_market_price;
 
     private List<String> quoteList;
 
@@ -141,6 +158,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         findViewById(R.id.layout_more).setOnClickListener(this);
 
+        radioGroup.setOnCheckedChangeListener(this);
+
 
     }
 
@@ -156,6 +175,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         text_name.setText(split1[0]);
         text_name_usdt.setText(split1[1]);
         text_lastPrice.setText(listQuotePrice(itemData));
+        text_market_price.setText(listQuotePrice(itemData));
+
         text_change.setText(TradeUtil.quoteChange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
         text_range.setText(TradeUtil.quoteRange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
 
@@ -164,14 +185,14 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
             text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
 
-            img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_down));
+            img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_down));
 
         } else if (listQuoteIsRange(itemData).equals("1")) {
             text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
             text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
             text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
 
-            img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_up));
+            img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_up));
 
         } else if (listQuoteIsRange(itemData).equals("0")) {
 
@@ -201,8 +222,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
                     backgroundAlpha(1f);
                 } else {
-                    showMoreWindow();
-                    img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_down));
+                    showMoreWindow(quoteList);
+                    img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_open));
                 }
                 break;
 
@@ -214,7 +235,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-    private void showMoreWindow() {
+    private void showMoreWindow(List<String> quoteList) {
         View view = LayoutInflater.from(this).inflate(R.layout.item_more_layout, null);
         popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -222,8 +243,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_pop);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         quotePopAdapter = new QuotePopAdapter(this);
+        if (quoteList != null) {
+            quotePopAdapter.setDatas(quoteList);
+        }
         if (quote != null) {
             quotePopAdapter.select(itemQuoteContCode(quote));
+
         }
 
 
@@ -264,15 +289,22 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                     moneyType = "2";
                     text_switch.setText(getResources().getText(R.string.text_simulation_trade));
+                    radio_btn1.setVisibility(View.GONE);
+
 
                 } else if (moneyType.equals("2")) {
 
                     moneyType = "1";
                     text_switch.setText(getResources().getText(R.string.text_real_trade));
+                    radio_btn1.setVisibility(View.VISIBLE);
 
 
                 }
-
+                radio_btn0.setChecked(true);
+                if (radio_btn0.isChecked()) {
+                    layout_market_price.setVisibility(View.VISIBLE);
+                    layout_limit_price.setVisibility(View.GONE);
+                }
                 backgroundAlpha(1f);
                 popupWindow.dismiss();
                 img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
@@ -299,37 +331,41 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         } else if (o == QuoteItemManger.getInstance()) {
             quote = (String) arg;
-
             Log.d("print", "update:171:  " + quote);
-            text_lastPrice.setText(itemQuotePrice(quote));
-            text_change.setText(TradeUtil.quoteChange(itemQuotePrice(quote), itemQuoteTodayPrice(quote)));
-            text_range.setText(TradeUtil.quoteRange(itemQuotePrice(quote), itemQuoteTodayPrice(quote)));
+            if (quote != null && quotePopAdapter != null) {
 
-            if (itemQuoteIsRange(quote).equals("-1")) {
-                text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
-                text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
-                text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
 
-                img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_down));
+                quotePopAdapter.select(itemQuoteContCode(quote));
+                text_lastPrice.setText(itemQuotePrice(quote));
+                text_market_price.setText(itemQuotePrice(quote));
+                text_change.setText(TradeUtil.quoteChange(itemQuotePrice(quote), itemQuoteTodayPrice(quote)));
+                text_range.setText(TradeUtil.quoteRange(itemQuotePrice(quote), itemQuoteTodayPrice(quote)));
 
-            } else if (itemQuoteIsRange(quote).equals("1")) {
-                text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
-                text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
-                text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
-                img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_up));
+                if (itemQuoteIsRange(quote).equals("-1")) {
+                    text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
+                    text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
+                    text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
 
-            } else if (itemQuoteIsRange(quote).equals("0")) {
+                    img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_down));
 
-                text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-                text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-                text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                } else if (itemQuoteIsRange(quote).equals("1")) {
+                    text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
+                    text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
+                    text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
+                    img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_up));
 
+                } else if (itemQuoteIsRange(quote).equals("0")) {
+
+                    text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                    text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                    text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
+
+                }
+
+                text_max.setText(itemQuoteMaxPrice(quote));
+                text_min.setText(itemQuoteMinPrice(quote));
+                text_volume.setText(itemQuoteVolume(quote));
             }
-
-            text_max.setText(itemQuoteMaxPrice(quote));
-            text_min.setText(itemQuoteMinPrice(quote));
-            text_volume.setText(itemQuoteVolume(quote));
-
 
         }
     }
@@ -348,5 +384,20 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         QuoteItemManger.getInstance().clear();
         QuoteItemManger.getInstance().cancelTimer();
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.radio_0:
+                layout_market_price.setVisibility(View.VISIBLE);
+                layout_limit_price.setVisibility(View.GONE);
+
+                break;
+            case R.id.radio_1:
+                layout_market_price.setVisibility(View.GONE);
+                layout_limit_price.setVisibility(View.VISIBLE);
+                break;
+        }
     }
 }

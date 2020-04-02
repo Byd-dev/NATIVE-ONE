@@ -31,4 +31,5 @@
     <dimen name="size_normal_two">13sp</dimen>
     <dimen name="tab_height">42dp</dimen>
     <dimen name="size_line">0.2dp</dimen>
+    <dimen name="margin_36">36dp</dimen>
 </resources>
