@@ -129,6 +129,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter.setDatas(quoteList);
 
+
                 } else if (flag_new_price == 1) {
                     img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_new_price = 0;
@@ -137,6 +138,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
                     quoteAdapter.setDatas(quoteList);
 
                 }
+                img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
 
                 break;
             case R.id.layout_up_down:
@@ -155,6 +157,8 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
                     quoteAdapter.setDatas(quoteList);
 
                 }
+                img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+
                 break;
         }
     }

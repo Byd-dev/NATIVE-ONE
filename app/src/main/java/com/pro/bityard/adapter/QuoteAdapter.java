@@ -1,6 +1,7 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,7 +92,42 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             String[] split1 = Util.quoteList(split[0]).split(",");
 
-            ((MyViewHolder) holder).text_name.setText(split1[0]);
+
+            String name = split1[0];
+
+            Drawable drawable = null;
+
+            if (name.equals("BTC")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_btc);
+            } else if (name.equals("ETC")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_etc);
+            } else if (name.equals("BCH")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_bch);
+            } else if (name.equals("ETH")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_eth);
+            } else if (name.equals("DASH")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_dash);
+            } else if (name.equals("LTC")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_ltc);
+            } else if (name.equals("ETC")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_etc);
+            } else if (name.equals("BNB")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_bnb);
+            } else if (name.equals("EOS")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_eos);
+            } else if (name.equals("TRX")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_trx);
+            } else if (name.equals("XRP")) {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_xrp);
+            } else {
+                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_usdt);
+            }
+
+
+            ((MyViewHolder) holder).img_icon.setImageDrawable(drawable);
+
+
+            ((MyViewHolder) holder).text_name.setText(name);
             ((MyViewHolder) holder).text_name_usdt.setText("/" + split1[1]);
 
             String price = TradeUtil.listQuotePrice(datas.get(position));
@@ -153,7 +189,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_name_usdt, text_change, text_price;
         RelativeLayout layout_bg;
-        ImageView img_up_down;
+        ImageView img_up_down, img_icon;
 
 
         public MyViewHolder(View itemView) {
@@ -165,6 +201,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             text_price = itemView.findViewById(R.id.text_lastPrice);
             layout_bg = itemView.findViewById(R.id.layout_bg);
             img_up_down = itemView.findViewById(R.id.img_up_down);
+            img_icon = itemView.findViewById(R.id.img_icon);
 
 
             itemView.setOnClickListener(new View.OnClickListener() {
