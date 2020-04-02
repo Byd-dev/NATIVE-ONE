@@ -125,6 +125,9 @@
     <string name="text_min">24H最低</string>
     <string name="text_volume">24H成交量</string>
     <string name="text_simulation_btn">切换模拟盘</string>
+    <string name="text_real_trade">(实盘)</string>
+    <string name="text_real_btn">切换成实盘</string>
+    <string name="text_simulation_trade">(模拟)</string>
 
 
 </resources>

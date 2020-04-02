@@ -7,14 +7,15 @@
 
 
     <LinearLayout
+        android:id="@+id/layout_bg"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="@drawable/bg_shape_pop_item"
         android:layout_centerInParent="true"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/margin_4"
         android:layout_marginLeft="@dimen/margin_2"
+        android:layout_marginTop="@dimen/margin_4"
         android:layout_marginRight="@dimen/margin_2"
+        android:background="@drawable/bg_shape_pop_item"
+        android:gravity="center"
         android:orientation="vertical">
 
 
@@ -22,34 +23,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:gravity="center"
             android:orientation="vertical">
 
 
-            <TextView
-                android:id="@+id/text_name"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="USDT"
-                android:typeface="monospace"
-                android:textColor="@color/text_quote_color"
-                android:textSize="@dimen/size_normal_two"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginRight="@dimen/margin_5"
+                >
 
-                />
+                <TextView
+                    android:id="@+id/text_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BTC"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+                <TextView
+                    android:id="@+id/text_name_usdt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:text="usdt"
+                    android:layout_alignParentBottom="true"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal"
+                    android:layout_marginBottom="@dimen/margin_5"
+                    android:typeface="monospace" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/text_lastPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="@dimen/margin_5"
-                android:layout_marginBottom="@dimen/margin_2"
+                android:layout_marginTop="@dimen/margin_2"
+                android:layout_marginBottom="@dimen/margin_5"
                 android:text="--.--"
-                android:typeface="monospace"
+                android:layout_marginLeft="@dimen/margin_5"
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:typeface="monospace" />
 
 
         </LinearLayout>

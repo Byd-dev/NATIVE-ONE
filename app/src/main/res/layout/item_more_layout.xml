@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -21,14 +22,15 @@
                 android:id="@+id/recyclerView_pop"
                 android:layout_width="match_parent"
                 android:layout_margin="@dimen/margin_3"
-
                 android:layout_height="match_parent" />
+
+
 
         </RelativeLayout>
 
-        <!--退出登录button-->
+
         <Button
-            android:id="@+id/btn_change"
+            android:id="@+id/btn_switch"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_btn"
             android:layout_gravity="center"
@@ -41,7 +43,7 @@
             android:textColor="@color/color_btn_text"
             android:textSize="16sp"
 
-            />
+            tools:ignore="HardcodedText" />
 
 
     </LinearLayout>

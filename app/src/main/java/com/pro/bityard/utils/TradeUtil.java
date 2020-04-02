@@ -517,10 +517,13 @@ public class TradeUtil {
 
     /*获取当前行情的ContCode*/
     public static String itemQuoteContCode(String quote) {
-        String[] split = quote.split(",");
+        if (quote == null) {
+            return null;
+        } else {
+            String[] split = quote.split(",");
+            return split[0];
+        }
 
-
-        return split[0];
     }
 
     /*当前是否涨跌*/
@@ -559,10 +562,33 @@ public class TradeUtil {
         String[] split = quote.split(",");
         return split[8];
     }
+
     /*24H成交量*/
     public static String itemQuoteVolume(String quote) {
         String[] split = quote.split(",");
         return split[12];
+    }
+
+    /*名称*/
+    public static String listQuoteName(String quote) {
+        String[] split = quote.split(",");
+
+        String[] split1 = Util.quoteList(split[0]).split(",");
+        return split1[0];
+    }
+
+    /*usdt*/
+    public static String listQuoteUSD(String quote) {
+        String[] split = quote.split(",");
+
+        String[] split1 = Util.quoteList(split[0]).split(",");
+        return split1[1];
+    }
+
+    /*名称合起来*/
+    public static String listQuoteNameUSD(String quote) {
+        String[] split = quote.split(",");
+        return Util.quoteNme(split[0]);
     }
 
     /*获取当前价格*/
@@ -570,6 +596,7 @@ public class TradeUtil {
         String[] split = quote.split(",");
         return split[2];
     }
+
 
     /*开盘价*/
     public static String itemQuoteTodayPrice(String quote) {
@@ -596,7 +623,15 @@ public class TradeUtil {
     /*价格变化*/
     public static String quoteChange(String price, String todayPrice) {
         double sub = sub(Double.parseDouble(price), Double.parseDouble(todayPrice));
-        return numberHalfUp(sub, decimalPoint(price));
+        String result = null;
+        if (sub > 0) {
+            result = "+" + numberHalfUp(sub, decimalPoint(price));
+        } else if (sub < 0) {
+            result = numberHalfUp(sub, decimalPoint(price));
+        } else if (sub == 0) {
+            result = numberHalfUp(sub, decimalPoint(price));
+        }
+        return result;
     }
 
     /*涨跌幅*/
@@ -606,8 +641,16 @@ public class TradeUtil {
         double div = div(sub, Double.parseDouble(price), 10);
         double mul = mul(div, 100);
         String numberFormat = getNumberFormat(mul, 2);
+        String result = null;
+        if (sub > 0) {
+            result = "+" + numberFormat + "%";
+        } else if (sub == 0) {
+            result = numberFormat + "%";
+        } else if (sub < 0) {
+            result = numberFormat + "%";
+        }
 
-        return numberFormat + "%";
+        return result;
     }
 
 

@@ -32,4 +32,5 @@
     <color name="color_bg_normal">#535352</color>
     <color name="color_bg_red">#338B2A2F</color>
     <color name="color_bg_left">#1D2A34</color>
+    <color name="text_second_color_black">#222222</color>
 </resources>

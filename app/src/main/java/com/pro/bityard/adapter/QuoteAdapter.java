@@ -88,14 +88,10 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
-            String[] split = datas.get(position).split(",");
 
-            String[] split1 = Util.quoteList(split[0]).split(",");
+            String name = TradeUtil.listQuoteName(datas.get(position));
 
-
-            String name = split1[0];
-
-            Drawable drawable = null;
+            Drawable drawable;
 
             if (name.equals("BTC")) {
                 drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_btc);
@@ -128,7 +124,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
             ((MyViewHolder) holder).text_name.setText(name);
-            ((MyViewHolder) holder).text_name_usdt.setText("/" + split1[1]);
+            ((MyViewHolder) holder).text_name_usdt.setText("/" + TradeUtil.listQuoteUSD(datas.get(position)));
 
             String price = TradeUtil.listQuotePrice(datas.get(position));
 

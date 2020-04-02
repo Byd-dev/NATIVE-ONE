@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -42,17 +42,20 @@ import static com.pro.bityard.utils.TradeUtil.itemQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteTodayPrice;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteVolume;
 import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
+import static com.pro.bityard.utils.TradeUtil.listQuoteName;
 import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
+import static com.pro.bityard.utils.TradeUtil.listQuoteUSD;
 
 public class QuoteDetailActivity extends BaseActivity implements View.OnClickListener, Observer {
     private static final String TYPE = "MoneyType";
     private static final String VALUE = "value";
-    private static final String quoteType = "0";
+    private static final String quoteType = "1";
 
     @BindView(R.id.layout_bar)
     RelativeLayout layout_bar;
-    private String moneyType;
+    private String moneyType = "1";
+
     private String itemData;
 
     @BindView(R.id.text_name)
@@ -60,6 +63,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.text_usdt)
     TextView text_name_usdt;
+
+    @BindView(R.id.text_switch)
+    TextView text_switch;
+
+    @BindView(R.id.img_right)
+    ImageView img_right;
 
     @BindView(R.id.text_lastPrice)
     TextView text_lastPrice;
@@ -83,6 +92,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private List<String> quoteList;
 
     private QuotePopAdapter quotePopAdapter;
+    private PopupWindow popupWindow;
+    private String quote;
 
 
     public static void enter(Context context, String MoneyType, String data) {
@@ -127,6 +138,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.img_setting).setOnClickListener(this);
+
         findViewById(R.id.layout_more).setOnClickListener(this);
 
 
@@ -184,15 +196,17 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.layout_more:
-
-                showMoreWindow();
-
+                if (popupWindow != null && popupWindow.isShowing()) {
+                    popupWindow.dismiss();
+                    img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
+                    backgroundAlpha(1f);
+                } else {
+                    showMoreWindow();
+                    img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_down));
+                }
                 break;
 
-
             case R.id.img_setting:
-                //BNBUSDT1808
-                QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, "BNBUSDT1808");
 
                 break;
 
@@ -200,28 +214,70 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-
-
     private void showMoreWindow() {
         View view = LayoutInflater.from(this).inflate(R.layout.item_more_layout, null);
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        RecyclerView recyclerView=view.findViewById(R.id.recyclerView_pop);
-        recyclerView.setLayoutManager(new GridLayoutManager(this,4));
-        quotePopAdapter=new QuotePopAdapter(this);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_pop);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+        quotePopAdapter = new QuotePopAdapter(this);
+        if (quote != null) {
+            quotePopAdapter.select(itemQuoteContCode(quote));
+        }
+
+
         recyclerView.setAdapter(quotePopAdapter);
+        quotePopAdapter.setOnItemClick(new QuotePopAdapter.OnItemClick() {
+            @Override
+            public void onSuccessListener(String data) {
+                text_name.setText(listQuoteName(data));
+                text_name_usdt.setText(listQuoteUSD(data));
+                QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
+                //相应选择
+                quotePopAdapter.select(itemQuoteContCode(data));
+                backgroundAlpha(1f);
+                img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
+                popupWindow.dismiss();
+            }
+        });
 
 
         WindowManager.LayoutParams params = getWindow().getAttributes();
         params.alpha = 0.6f;
         getWindow().setAttributes(params);
 
-        view.findViewById(R.id.btn_change).setOnClickListener(new View.OnClickListener() {
+        Button btn_switch = view.findViewById(R.id.btn_switch);
+
+        if (moneyType.equals("1")) {
+            btn_switch.setText(getResources().getText(R.string.text_simulation_btn));
+
+        } else if (moneyType.equals("2")) {
+            btn_switch.setText(getResources().getText(R.string.text_real_btn));
+
+        }
+
+        btn_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (moneyType.equals("1")) {
+
+                    moneyType = "2";
+                    text_switch.setText(getResources().getText(R.string.text_simulation_trade));
+
+                } else if (moneyType.equals("2")) {
+
+                    moneyType = "1";
+                    text_switch.setText(getResources().getText(R.string.text_real_trade));
+
+
+                }
+
                 backgroundAlpha(1f);
                 popupWindow.dismiss();
+                img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
+
+
             }
         });
 
@@ -231,18 +287,18 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_bar);
     }
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == QuoteListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(quoteType);
-            Log.d("print", "update:239:  "+quoteList);
-            if (quotePopAdapter!=null){
+            if (quotePopAdapter != null && quoteList != null) {
                 quotePopAdapter.setDatas(quoteList);
             }
 
         } else if (o == QuoteItemManger.getInstance()) {
-            String quote = (String) arg;
+            quote = (String) arg;
 
             Log.d("print", "update:171:  " + quote);
             text_lastPrice.setText(itemQuotePrice(quote));
@@ -277,6 +333,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         }
     }
+
     public void backgroundAlpha(float bgalpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = bgalpha;

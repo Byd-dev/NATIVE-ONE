@@ -17,6 +17,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import static com.pro.bityard.utils.TradeUtil.listQuoteNameUSD;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 
 public class QuoteHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -80,32 +81,27 @@ public class QuoteHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
-            String[] split = datas.get(position).split(",");
             String price = TradeUtil.listQuotePrice(datas.get(position));
-            ((MyViewHolder) holder).text_name.setText(Util.quoteNme(split[0]));
+            ((MyViewHolder) holder).text_name.setText(listQuoteNameUSD(datas.get(position)));
             ((MyViewHolder) holder).text_price.setText(price);
-
 
 
             String tag = TradeUtil.listQuoteIsRange(datas.get(position));
 
-            if (Integer.parseInt(tag)==1){
+            if (Integer.parseInt(tag) == 1) {
 
                 ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_quote_green));
-            }else if (Integer.parseInt(tag)==-1){
+            } else if (Integer.parseInt(tag) == -1) {
 
                 ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
-            }else if (Integer.parseInt(tag)==0){
+            } else if (Integer.parseInt(tag) == 0) {
 
                 ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_maincolor));
 
             }
 
             ((MyViewHolder) holder).text_change.setText(TradeUtil.quoteRange(price, listQuoteTodayPrice(datas.get(position))));
-
-
-
 
 
         }

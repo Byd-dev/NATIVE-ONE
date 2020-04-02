@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -27,6 +28,7 @@ public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private static final int TYPE_FOOTER = 1;
 
     public boolean isLoadMore = false;
+    private String contCode=null;
 
     public QuotePopAdapter(Context context) {
         this.context = context;
@@ -36,6 +38,12 @@ public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void setDatas(List<String> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
+    }
+
+    public void select(String contCode) {
+        this.contCode = contCode;
+        this.notifyDataSetChanged();
+
     }
 
     public void addDatas(List<String> datas) {
@@ -78,18 +86,26 @@ public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
+            ((MyViewHolder) holder).text_price.setText(TradeUtil.listQuotePrice(datas.get(position)));
+            ((MyViewHolder) holder).text_name.setText(TradeUtil.listQuoteName(datas.get(position)));
+            ((MyViewHolder) holder).text_name_usdt.setText(TradeUtil.listQuoteUSD(datas.get(position)));
 
-            String[] split = datas.get(position).split(",");
-            String price = TradeUtil.listQuotePrice(datas.get(position));
-            ((MyViewHolder) holder).text_name.setText(Util.quoteNme(split[0]));
-            ((MyViewHolder) holder).text_price.setText(price);
+            String Code = TradeUtil.itemQuoteContCode(datas.get(position));
+            if (contCode==null){
+                return;
+            }
+            if (contCode.equals(Code)) {
+                ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_pop_item_select));
+                ((MyViewHolder) holder).text_name.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_main_color_black));
+                ((MyViewHolder) holder).text_price.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_main_color_black));
+                ((MyViewHolder) holder).text_name_usdt.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_second_color_black));
 
-            
-
-
-
-
-
+            } else {
+                ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_pop_item));
+                ((MyViewHolder) holder).text_name.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                ((MyViewHolder) holder).text_price.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                ((MyViewHolder) holder).text_name_usdt.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_second_color));
+            }
 
 
         }
@@ -122,14 +138,16 @@ public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name,  text_price;
+        TextView text_name, text_price, text_name_usdt;
+        LinearLayout layout_bg;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
             text_name = itemView.findViewById(R.id.text_name);
             text_price = itemView.findViewById(R.id.text_lastPrice);
-
+            text_name_usdt = itemView.findViewById(R.id.text_name_usdt);
+            layout_bg = itemView.findViewById(R.id.layout_bg);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
