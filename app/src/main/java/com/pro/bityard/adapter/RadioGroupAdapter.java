@@ -91,7 +91,6 @@ public class RadioGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             } else {
                 ((MyViewHolder) holder).radioButton.setChecked(false);
             }
-            Log.d("print", "onBindViewHolder:89:  " + index + "   --   " + position + ((MyViewHolder) holder).radioButton.isChecked());
 
         }
     }

@@ -31,6 +31,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class NetManger {
 
@@ -252,53 +253,8 @@ public class NetManger {
     }
 
 
-
-    public void getSpread(OnNetResult onNetResult){
-        /*获取行情的host*/
-        getRequest("/api/trade/commodity/initial", null, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                } else if (state.equals(SUCCESS)) {
-                    InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
-                    List<InitEntity.GroupBean> group = initEntity.getGroup();
-                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                    for (InitEntity.GroupBean data : group) {
-                        if (data.getName().equals("数字货币")) {
-                            String list = data.getList();
-                            getTradeList(list, new OnNetResult() {
-                                @Override
-                                public void onNetResult(String state, Object response) {
-                                    if (state.equals(BUSY)) {
-
-                                    } else if (state.equals(SUCCESS)) {
-                                        onNetResult.onNetResult(SUCCESS,response);
-                                    } else if (state.equals(FAILURE)) {
-                                    }
-                                }
-                            });//获取合约号
-                        }
-                    }
-                } else if (state.equals(FAILURE)) {
-                }
-            }
-        });
-    }
-
-
-
-
-
-
     private List<TradeListEntity> tradeListEntityList;
 
-    public List<TradeListEntity> getTradeListEntityList() {
-        return tradeListEntityList;
-    }
-
-    public void setTradeListEntityList(List<TradeListEntity> tradeListEntityList) {
-        this.tradeListEntityList = tradeListEntityList;
-    }
 
     /*获取合约号*/
     private void getTradeList(String codeList, OnNetResult onNetResult) {
@@ -330,7 +286,6 @@ public class NetManger {
                                 //  Log.d("NetManger", "onNetResult:260: "+tradeListEntity);
                             }
                             tradeListEntityList.add(tradeListEntity);
-                            setTradeListEntityList(tradeListEntityList);
                             // Log.d("NetManger", "onNetResult:263:  "+tradeListEntityList.size());
 
 
@@ -623,34 +578,45 @@ public class NetManger {
             }
         });
     }
+
     /*下单*/
-    public void order(String identity, String tradeType, String leverType,
-                      String commodity,String contract,String isBuy,String margin,
-                      String lever,String price,String defer,String deferFee,
-                      String stopProfit, String stopLoss,String serviceCharge,
-                      String eagleDeduction,String volume,String moneyType,
+    public void order(String tradeType, String leverType,
+                      String commodity, String contract, String isBuy, String margin,
+                      String lever, String price, String defer, String deferFee,
+                      String stopProfit, String stopLoss, String serviceCharge,
+                      String eagleDeduction, String volume, String moneyType,
                       String currency,
                       OnNetResult onNetResult) {
+        String SEED = "0Aa1Bb2Cc3Dd4Ee5Ff6Gg7Hh8Ii9Jj0Kk1Ll2Mm3Nn4Oo5Pp6Qq7Rr8Ss9Tt0Uu1Vv2Ww3Xx4Yy5Zz6789";
+
+        Random random = new Random();
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < 16; i++) {
+            int i1 = random.nextInt(SEED.length());
+            stringBuffer.append(SEED.charAt(i1));
+        }
+
+
         ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("identity",identity);
+        map.put("identity", stringBuffer.toString());
         map.put("tradeType", tradeType);
-        map.put("leverType",leverType);
+        map.put("leverType", leverType);
         map.put("source", "下单");
-        map.put("commodity",commodity);
-        map.put("contract",contract);
-        map.put("isBuy",isBuy);
-        map.put("margin",margin);
-        map.put("lever",lever);
-        map.put("price",price);
-        map.put("defer",defer);
-        map.put("deferFee",deferFee);
+        map.put("commodity", commodity);
+        map.put("contract", contract);
+        map.put("isBuy", isBuy);
+        map.put("margin", margin);
+        map.put("lever", lever);
+        map.put("price", price);
+        map.put("defer", defer);
+        map.put("deferFee", deferFee);
         map.put("stopProfit", stopProfit);
         map.put("stopLoss", stopLoss);
-        map.put("serviceCharge",serviceCharge);
-        map.put("eagleDeduction",eagleDeduction);
-        map.put("volume",volume);
-        map.put("moneyType",moneyType);
-        map.put("platform","Android");
+        map.put("serviceCharge", serviceCharge);
+        map.put("eagleDeduction", eagleDeduction);
+        map.put("volume", volume);
+        map.put("moneyType", moneyType);
+        map.put("platform", "Android");
         map.put("currency", currency);
         postRequest("/api/trade/open.htm", map, new OnNetResult() {
             @Override

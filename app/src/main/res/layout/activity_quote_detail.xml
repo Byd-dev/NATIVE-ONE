@@ -281,15 +281,16 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_3"
-        android:background="@color/home_line"/>
+        android:background="@color/home_line" />
     <!--市价和限价-->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="210dp">
+        android:layout_height="210dp"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/layout_radioGroup"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_10"
@@ -299,7 +300,7 @@
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
+                android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:visibility="visible">
@@ -350,8 +351,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/layout_radioGroup"
-            android:visibility="visible"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -410,7 +411,6 @@
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_weight="1"
                     android:background="@null"
-
                     android:inputType="numberDecimal"
                     android:textColor="@color/text_maincolor"
                     android:textColorHint="@color/text_second_color"
@@ -419,7 +419,7 @@
 
 
                 <RelativeLayout
-                    android:layout_width="100dp"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
 
                     >
@@ -428,14 +428,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_marginRight="@dimen/margin_10"
+                        android:layout_toLeftOf="@id/text_market_volume"
                         android:text="@string/text_volume_edit"
                         android:textColor="@color/text_second_color"
                         android:textSize="@dimen/size_normal" />
 
 
                     <TextView
-                        android:id="@+id/text_market_position"
+                        android:id="@+id/text_market_volume"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -469,15 +470,14 @@
                     android:text="@string/text_lever_edit"
                     android:textColor="@color/text_second_color"
                     android:textSize="@dimen/size_normal" />
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_market"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="1dp"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp"
-                    />
-
+                    android:layout_marginBottom="1dp" />
 
 
             </LinearLayout>
@@ -556,8 +556,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/layout_radioGroup"
-            android:visibility="gone"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -620,7 +620,6 @@
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_weight="1"
                     android:background="@null"
-
                     android:inputType="numberDecimal"
                     android:textColor="@color/text_maincolor"
                     android:textColorHint="@color/text_second_color"
@@ -629,7 +628,7 @@
 
 
                 <RelativeLayout
-                    android:layout_width="100dp"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
 
                     >
@@ -638,14 +637,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_marginRight="@dimen/margin_10"
+                        android:layout_toLeftOf="@+id/text_limit_volume"
                         android:text="@string/text_volume_edit"
                         android:textColor="@color/text_second_color"
                         android:textSize="@dimen/size_normal" />
 
 
                     <TextView
-                        android:id="@+id/text_limit_position"
+                        android:id="@+id/text_limit_volume"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -687,8 +687,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="1dp"
                     android:layout_marginRight="1dp"
-                    android:layout_marginBottom="1dp"
-                    />
+                    android:layout_marginBottom="1dp" />
 
 
             </LinearLayout>
@@ -762,7 +761,7 @@
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
     <LinearLayout

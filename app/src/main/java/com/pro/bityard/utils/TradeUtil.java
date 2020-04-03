@@ -6,7 +6,6 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.BalanceEntity;
-import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TradeListEntity;
 
@@ -334,11 +333,19 @@ public class TradeUtil {
         return numberFormat + "%";
     }
 
-    /* 仓位 =  杠杆 * 保证金 / 开仓价格*/
+
+    /* 杠杆 = 仓位*开仓价格/保证金 */
     public static String lever(double margin, double opPrice, double volume) {
         double mul = mul(volume, opPrice);
         double div = div(mul, margin, 10);
         return getNumberFormat(div, 2);
+    }
+
+    /* 仓位 =  杠杆 * 保证金 / 开仓价格*/
+    public static String volume(double lever, double margin, double opPrice) {
+        double mul = mul(lever, margin);
+        double div = div(mul, opPrice, 10);
+        return numberHalfUp(div, 4);
     }
 
     /*保证金=仓位*开仓价格/杠杆*/
@@ -554,7 +561,7 @@ public class TradeUtil {
 
     /*获取单个的合约*/
     public static Object tradeDetail(String contractCode, List<TradeListEntity> tradeListEntityList) {
-        if (tradeListEntityList==null) {
+        if (tradeListEntityList == null) {
             return null;
         } else {
             for (TradeListEntity data : tradeListEntityList) {
@@ -571,8 +578,8 @@ public class TradeUtil {
         if (depositList.size() == 0) {
             deposit = null;
         } else if (depositList.size() == 1) {
-            deposit = depositList.get(0)+"";
-        }else if (depositList.size() == 2) {
+            deposit = depositList.get(0) + "";
+        } else if (depositList.size() == 2) {
             deposit = depositList.get(0) + "~" + depositList.get(1);
         }
         return deposit;
@@ -707,8 +714,8 @@ public class TradeUtil {
 
     /*获取合约号的 Spread*/
     public static String spread(String contractCode, List<TradeListEntity> tradeListEntityList) {
-        Log.d(TAG, "spread:710:  "+tradeListEntityList);
-        if (tradeListEntityList==null) {
+        Log.d(TAG, "spread:710:  " + tradeListEntityList);
+        if (tradeListEntityList == null) {
             return null;
         }
         if (contractCode == null) {

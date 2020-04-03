@@ -120,7 +120,11 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.layout_new_price:
+                if (arrayMap==null){
+                    return;
+                }
 
                 if (flag_new_price == 0) {
                     img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
@@ -131,6 +135,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
 
                 } else if (flag_new_price == 1) {
+
                     img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_new_price = 0;
                     type = "2";
@@ -142,6 +147,9 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
                 break;
             case R.id.layout_up_down:
+                if (arrayMap==null){
+                    return;
+                }
                 if (flag_up_down == 0) {
                     img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_up_down = 1;

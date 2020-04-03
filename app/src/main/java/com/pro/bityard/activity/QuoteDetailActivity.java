@@ -3,7 +3,12 @@ package com.pro.bityard.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,15 +25,15 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
-import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
-import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.util.List;
@@ -40,6 +45,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
+import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteIsRange;
@@ -55,13 +61,14 @@ import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteUSD;
 
 public class QuoteDetailActivity extends BaseActivity implements View.OnClickListener, Observer, RadioGroup.OnCheckedChangeListener {
-    private static final String TYPE = "MoneyType";
+    private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
     private static final String quoteType = "1";
+    private int lever;
 
     @BindView(R.id.layout_bar)
     RelativeLayout layout_bar;
-    private String moneyType = "1";
+    private String tradeType = "1";
 
     private String itemData;
 
@@ -132,6 +139,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.recyclerView_limit)
     RecyclerView recyclerView_limit;
+
+    @BindView(R.id.text_market_volume)
+    TextView text_market_volume;
+
+    @BindView(R.id.text_limit_volume)
+    TextView text_limit_volume;
     private RadioGroupAdapter radioGroupAdapter;
 
     private List<String> quoteList;
@@ -142,11 +155,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private List<TradeListEntity> tradeListEntityList;
 
 
-    public static void enter(Context context, String MoneyType, String data) {
+    public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, QuoteDetailActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(VALUE, data);
-        bundle.putString(TYPE, MoneyType);
+        bundle.putString(TYPE, tradeType);
         intent.putExtra("bundle", bundle);
         context.startActivity(intent);
     }
@@ -184,6 +197,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         BalanceManger.getInstance().getBalance("USDT");
 
+        TradeListManger.getInstance().addObserver(this);
+
 
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.img_setting).setOnClickListener(this);
@@ -204,20 +219,32 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         Bundle bundle = getIntent().getBundleExtra("bundle");
-        moneyType = bundle.getString(TYPE);
+        tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
 
         //开启单个刷新
         QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        //合约号
+        tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
+        Log.d("print", "initData:258:  " + tradeListEntityList);
+
+        if (tradeListEntityList == null) {
+            startScheduleJob(handler, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
+        } else {
+            TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+            setContent(tradeListEntity);
+        }
+
 
         String[] split1 = Util.quoteList(itemQuoteContCode(itemData)).split(",");
         text_name.setText(split1[0]);
         text_name_usdt.setText(split1[1]);
         text_lastPrice.setText(listQuotePrice(itemData));
         text_market_price.setText(listQuotePrice(itemData));
-
         text_change.setText(TradeUtil.quoteChange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
         text_range.setText(TradeUtil.quoteRange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
+
+
 
         if (listQuoteIsRange(itemData).equals("-1")) {
             text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
@@ -243,7 +270,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         //可用余额
-        if (moneyType.equals("1")) {
+        if (tradeType.equals("1")) {
             text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
             text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
         } else {
@@ -251,10 +278,25 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
         }
 
+    }
 
-        tradeListEntityList = NetManger.getInstance().getTradeListEntityList();
-        TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            TradeListManger.getInstance().tradeList(new OnNetResult() {
+                @Override
+                public void onNetResult(String state, Object response) {
+                    if (state.equals(SUCCESS)) {
+                        cancelTimer();
+                    }
+                }
+            });
+        }
+    };
 
+    /*设置 保证金和杠杆*/
+    public void setContent(TradeListEntity tradeListEntity) {
         if (tradeListEntity != null) {
             edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
             edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
@@ -264,10 +306,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             radioGroupAdapter.setDatas(leverShowList);
             radioGroupAdapter.select(0);
+            lever = leverShowList.get(0);
 
             radioGroupAdapter.setOnItemClick(new RadioGroupAdapter.OnItemClick() {
                 @Override
                 public void onSuccessListener(Integer position, Integer data) {
+                    lever = data;
                     radioGroupAdapter.select(position);
                     recyclerView_market.setAdapter(radioGroupAdapter);
                     recyclerView_limit.setAdapter(radioGroupAdapter);
@@ -277,8 +321,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 }
             });
         }
-
-
     }
 
     @Override
@@ -304,6 +346,30 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.img_setting:
+
+                break;
+
+            case R.id.layout_much:
+                Log.d("print", "onCheckedChanged:543:  " + lever);
+
+                // TODO: 2020/4/3   开仓
+              /*  TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(quote), tradeListEntityList);
+                double margin = Double.parseDouble(edit_market_margin.getText().toString());
+                String s = text_buy_much.getText().toString();
+                double price = Double.parseDouble(s);
+                int priceDigit = tradeListEntity.getPriceDigit();
+                String stopProfitPrice = TradeUtil.StopProfitPrice(true, price, priceDigit, lever, margin, );
+                String profitAmount = ProfitAmount(true, price, priceDigit, lever, margin, Double.parseDouble(stopProfitPrice));
+                String profitRate = profitRate(Double.parseDouble(profitAmount), margin);
+
+                NetManger.getInstance().order(tradeType,"2",tradeListEntity.getContractCode(),
+                        tradeListEntity.getCode(), "true",edit_market_margin.getText().toString(),String.valueOf(lever),
+                        s,String.valueOf(tradeListEntity.isDefer()),
+                        String.valueOf(tradeListEntity.getDeferFee()),profitRate,
+
+                        );*/
+                break;
+            case R.id.layout_empty:
 
                 break;
 
@@ -344,29 +410,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
 
-                if (tradeListEntity != null) {
-                    edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
-                    edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
-
-                    List<Integer> leverShowList = tradeListEntity.getLeverShowList();
-                    recyclerView_market.setLayoutManager(new GridLayoutManager(QuoteDetailActivity.this, leverShowList.size()));
-                    recyclerView_limit.setLayoutManager(new GridLayoutManager(QuoteDetailActivity.this, leverShowList.size()));
-
-                    radioGroupAdapter.setDatas(leverShowList);
-                    radioGroupAdapter.select(0);
-
-                    radioGroupAdapter.setOnItemClick(new RadioGroupAdapter.OnItemClick() {
-                        @Override
-                        public void onSuccessListener(Integer position, Integer data) {
-                            radioGroupAdapter.select(position);
-                            recyclerView_market.setAdapter(radioGroupAdapter);
-                            recyclerView_limit.setAdapter(radioGroupAdapter);
-                            radioGroupAdapter.notifyDataSetChanged();
-
-
-                        }
-                    });
-                }
+                setContent(tradeListEntity);
 
 
             }
@@ -379,10 +423,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         Button btn_switch = view.findViewById(R.id.btn_switch);
 
-        if (moneyType.equals("1")) {
+        if (tradeType.equals("1")) {
             btn_switch.setText(getResources().getText(R.string.text_simulation_btn));
 
-        } else if (moneyType.equals("2")) {
+        } else if (tradeType.equals("2")) {
             btn_switch.setText(getResources().getText(R.string.text_real_btn));
 
         }
@@ -390,16 +434,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         btn_switch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (moneyType.equals("1")) {
+                if (tradeType.equals("1")) {
 
-                    moneyType = "2";
+                    tradeType = "2";
                     text_switch.setText(getResources().getText(R.string.text_simulation_trade));
                     radio_btn1.setVisibility(View.GONE);
 
 
-                } else if (moneyType.equals("2")) {
+                } else if (tradeType.equals("2")) {
 
-                    moneyType = "1";
+                    tradeType = "1";
                     text_switch.setText(getResources().getText(R.string.text_real_trade));
                     radio_btn1.setVisibility(View.VISIBLE);
 
@@ -413,7 +457,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 }
                 //可用余额
-                if (moneyType.equals("1")) {
+                if (tradeType.equals("1")) {
                     text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
                     text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
                 } else {
@@ -450,6 +494,14 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
             if (quote != null) {
+                //仓位实时更新
+                if (edit_market_margin.getText().length()!=0){
+                    text_market_volume.setText(TradeUtil.volume(lever,Double.parseDouble(edit_market_margin.getText().toString()),Double.parseDouble(itemQuotePrice(quote))));
+                }
+                if (edit_limit_margin.getText().length()!=0){
+                    text_limit_volume.setText(TradeUtil.volume(lever,Double.parseDouble(edit_limit_margin.getText().toString()),Double.parseDouble(itemQuotePrice(quote))));
+                }
+
 
                 if (quotePopAdapter != null) {
                     quotePopAdapter.select(itemQuoteContCode(quote));
@@ -496,6 +548,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             }
 
+        } else if (o == TradeListManger.getInstance()) {
+            tradeListEntityList = (List<TradeListEntity>) arg;
+            Log.d("print", "initData:510:  " + tradeListEntityList);
+            TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+            setContent(tradeListEntity);
         }
     }
 
@@ -533,12 +590,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 break;
 
-            case R.id.layout_much:
-                //NetManger.getInstance().order();
-                break;
-            case R.id.layout_empty:
 
-                break;
         }
     }
 }

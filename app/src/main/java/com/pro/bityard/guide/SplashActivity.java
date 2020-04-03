@@ -20,7 +20,6 @@ import com.pro.bityard.R;
 import com.pro.switchlibrary.DoGet;
 import com.pro.switchlibrary.JumpPermissionManagement;
 import com.pro.switchlibrary.OnResultBack;
-import com.pro.switchlibrary.SPUtils;
 import com.pro.switchlibrary.SwitchMainEnter;
 
 import androidx.annotation.NonNull;
@@ -61,10 +60,6 @@ public class SplashActivity extends Activity implements OnResultBack {
         initPermission();
 
 
-
-
-
-
     }
 
 
@@ -94,8 +89,6 @@ public class SplashActivity extends Activity implements OnResultBack {
             activity.finish();
         }
     }
-
-
 
 
     public void initPermission() {

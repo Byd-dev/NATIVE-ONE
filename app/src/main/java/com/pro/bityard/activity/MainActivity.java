@@ -20,6 +20,7 @@ import com.pro.bityard.fragment.tab.HomeRecyclerFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
@@ -96,7 +97,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
 
 
-
     }
 
 
@@ -119,7 +119,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 }
             }
         });
-
+        //合约号初始化
+        TradeListManger.getInstance().tradeList(new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(SUCCESS)) {
+                    Toast.makeText(MainActivity.this, "合约号获取成功", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         //行情
         String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
         String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE);
@@ -130,16 +138,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         } else {
             QuoteListManger.getInstance().quote(quote_host, quote_code);
         }
-
-         //获取合约号
-        NetManger.getInstance().getSpread(new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(SUCCESS)){
-                    Toast.makeText(MainActivity.this,"合约号获取成功",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
 
 
     }

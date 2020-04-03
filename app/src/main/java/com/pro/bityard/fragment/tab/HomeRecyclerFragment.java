@@ -13,6 +13,7 @@ import android.widget.ViewSwitcher;
 import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
+import com.pro.bityard.activity.QuoteDetailActivity;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.api.NetManger;
@@ -116,6 +117,15 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
         recyclerView_hot.setAdapter(quoteHomeAdapter);
 
 
+        quoteHomeAdapter.setOnItemClick(new QuoteHomeAdapter.OnItemClick() {
+            @Override
+            public void onSuccessListener(String data) {
+                QuoteDetailActivity.enter(getContext(), "1", data);
+
+            }
+        });
+
+
         home_view.findViewById(R.id.img_icon1).setOnClickListener(this);
         home_view.findViewById(R.id.img_icon2).setOnClickListener(this);
         view.findViewById(R.id.img_head).setOnClickListener(this);
@@ -135,6 +145,15 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
             public void onRefresh() {
                 getBanner();
                 getReport();
+            }
+        });
+
+        quoteAdapter.setOnItemClick(new QuoteAdapter.OnItemClick() {
+            @Override
+            public void onSuccessListener(String data) {
+                QuoteDetailActivity.enter(getContext(), "1", data);
+
+
             }
         });
 
@@ -167,12 +186,20 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
-                    swipeRefreshLayout.setRefreshing(true);
-                } else if (state.equals(SUCCESS)) {
-                    swipeRefreshLayout.setRefreshing(false);
+                    if (swipeRefreshLayout != null) {
 
+                        swipeRefreshLayout.setRefreshing(true);
+                    }
+                } else if (state.equals(SUCCESS)) {
+                    if (swipeRefreshLayout != null) {
+
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                 } else if (state.equals(FAILURE)) {
-                    swipeRefreshLayout.setRefreshing(false);
+                    if (swipeRefreshLayout != null) {
+
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
 
                 }
             }
@@ -188,14 +215,23 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
-                    swipeRefreshLayout.setRefreshing(true);
+                    if (swipeRefreshLayout != null) {
+
+                        swipeRefreshLayout.setRefreshing(true);
+                    }
                 } else if (state.equals(SUCCESS)) {
-                    swipeRefreshLayout.setRefreshing(false);
+                    if (swipeRefreshLayout != null) {
+
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
                     // BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
                     //  upBanner(bannerEntity.getCarousels());
 
                 } else if (state.equals(FAILURE)) {
-                    swipeRefreshLayout.setRefreshing(false);
+                    if (swipeRefreshLayout != null) {
+
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
 
                 }
             }
