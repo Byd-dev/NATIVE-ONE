@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_maincolor"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -401,13 +403,14 @@
                     android:textSize="@dimen/size_normal" />
 
 
-                <com.pro.bityard.view.DecimalEditText
+                <EditText
                     android:id="@+id/edit_market_margin"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_weight="1"
                     android:background="@null"
+
                     android:inputType="numberDecimal"
                     android:textColor="@color/text_maincolor"
                     android:textColorHint="@color/text_second_color"
@@ -466,103 +469,15 @@
                     android:text="@string/text_lever_edit"
                     android:textColor="@color/text_second_color"
                     android:textSize="@dimen/size_normal" />
-
-
-                <RadioGroup
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_market"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginBottom="1dp"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
+                    />
 
-                    <RadioButton
-                        android:id="@+id/radio_market_lever_one"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="true"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_20x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-
-                    <RadioButton
-                        android:id="@+id/radio_market_lever_two"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="false"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_40x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-
-                    <RadioButton
-                        android:id="@+id/radio_market_lever_three"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="false"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_60x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-
-                    <RadioButton
-                        android:id="@+id/radio_market_lever_four"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="false"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_80x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-
-                    <RadioButton
-                        android:id="@+id/radio_market_lever_five"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="false"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_100x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-                </RadioGroup>
 
 
             </LinearLayout>
@@ -698,13 +613,14 @@
                     android:textSize="@dimen/size_normal" />
 
 
-                <com.pro.bityard.view.DecimalEditText
+                <EditText
                     android:id="@+id/edit_limit_margin"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_weight="1"
                     android:background="@null"
+
                     android:inputType="numberDecimal"
                     android:textColor="@color/text_maincolor"
                     android:textColorHint="@color/text_second_color"
@@ -765,101 +681,14 @@
                     android:textSize="@dimen/size_normal" />
 
 
-                <RadioGroup
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_limit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="1dp"
                     android:layout_marginRight="1dp"
                     android:layout_marginBottom="1dp"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
-
-                    <RadioButton
-                        android:id="@+id/radio_limit_lever_one"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="true"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_20x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-
-                    <RadioButton
-                        android:id="@+id/radio_limit_lever_two"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="false"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_40x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-
-                    <RadioButton
-                        android:id="@+id/radio_limit_lever_three"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="false"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_60x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-
-                    <RadioButton
-                        android:id="@+id/radio_limit_lever_four"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="false"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_80x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-
-                    <RadioButton
-                        android:id="@+id/radio_limit_lever_five"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@drawable/sel_switcher_lever_bg"
-                        android:button="@null"
-                        android:checked="false"
-                        android:gravity="center"
-                        android:maxLines="1"
-                        android:text="@string/text_100x"
-                        android:textColor="@color/sel_switcher_lever_text"
-                        android:textSize="@dimen/size_normal_two"
-                        android:typeface="monospace"
-
-                        />
-                </RadioGroup>
+                    />
 
 
             </LinearLayout>

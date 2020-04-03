@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuotePopAdapter;
+import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.entity.TradeListEntity;
@@ -27,6 +28,7 @@ import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
+import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.util.List;
@@ -118,6 +120,20 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.text_limit_balance)
     TextView text_limit_balance;
 
+    @BindView(R.id.edit_market_margin)
+    EditText edit_market_margin;
+
+    @BindView(R.id.edit_limit_margin)
+    EditText edit_limit_margin;
+
+
+    @BindView(R.id.recyclerView_market)
+    RecyclerView recyclerView_market;
+
+    @BindView(R.id.recyclerView_limit)
+    RecyclerView recyclerView_limit;
+    private RadioGroupAdapter radioGroupAdapter;
+
     private List<String> quoteList;
 
     private QuotePopAdapter quotePopAdapter;
@@ -165,6 +181,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         QuoteItemManger.getInstance().addObserver(this);
 
+
         BalanceManger.getInstance().getBalance("USDT");
 
 
@@ -177,6 +194,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.layout_much).setOnClickListener(this);
         findViewById(R.id.layout_empty).setOnClickListener(this);
 
+        radioGroupAdapter = new RadioGroupAdapter(this);
+        recyclerView_market.setAdapter(radioGroupAdapter);
+        recyclerView_limit.setAdapter(radioGroupAdapter);
+
+
     }
 
     @Override
@@ -184,6 +206,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Bundle bundle = getIntent().getBundleExtra("bundle");
         moneyType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
+
         //开启单个刷新
         QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
 
@@ -230,9 +253,30 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         tradeListEntityList = NetManger.getInstance().getTradeListEntityList();
-        Log.d("print", "initData:233:  " + tradeListEntityList);
+        TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+
+        if (tradeListEntity != null) {
+            edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+            edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+            List<Integer> leverShowList = tradeListEntity.getLeverShowList();
+            recyclerView_market.setLayoutManager(new GridLayoutManager(this, leverShowList.size()));
+            recyclerView_limit.setLayoutManager(new GridLayoutManager(this, leverShowList.size()));
+
+            radioGroupAdapter.setDatas(leverShowList);
+            radioGroupAdapter.select(0);
+
+            radioGroupAdapter.setOnItemClick(new RadioGroupAdapter.OnItemClick() {
+                @Override
+                public void onSuccessListener(Integer position, Integer data) {
+                    radioGroupAdapter.select(position);
+                    recyclerView_market.setAdapter(radioGroupAdapter);
+                    recyclerView_limit.setAdapter(radioGroupAdapter);
+                    radioGroupAdapter.notifyDataSetChanged();
 
 
+                }
+            });
+        }
 
 
     }
@@ -296,6 +340,35 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 backgroundAlpha(1f);
                 img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
                 popupWindow.dismiss();
+
+
+                TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
+
+                if (tradeListEntity != null) {
+                    edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+                    edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+
+                    List<Integer> leverShowList = tradeListEntity.getLeverShowList();
+                    recyclerView_market.setLayoutManager(new GridLayoutManager(QuoteDetailActivity.this, leverShowList.size()));
+                    recyclerView_limit.setLayoutManager(new GridLayoutManager(QuoteDetailActivity.this, leverShowList.size()));
+
+                    radioGroupAdapter.setDatas(leverShowList);
+                    radioGroupAdapter.select(0);
+
+                    radioGroupAdapter.setOnItemClick(new RadioGroupAdapter.OnItemClick() {
+                        @Override
+                        public void onSuccessListener(Integer position, Integer data) {
+                            radioGroupAdapter.select(position);
+                            recyclerView_market.setAdapter(radioGroupAdapter);
+                            recyclerView_limit.setAdapter(radioGroupAdapter);
+                            radioGroupAdapter.notifyDataSetChanged();
+
+
+                        }
+                    });
+                }
+
+
             }
         });
 
@@ -374,16 +447,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         } else if (o == QuoteItemManger.getInstance()) {
             quote = (String) arg;
-            Log.d("print", "update:171:  " + quote);
 
 
+            if (quote != null) {
 
-            if (quote != null ) {
-
-                if (quotePopAdapter!=null){
+                if (quotePopAdapter != null) {
                     quotePopAdapter.select(itemQuoteContCode(quote));
                 }
-
 
 
                 text_lastPrice.setText(itemQuotePrice(quote));
@@ -417,10 +487,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 text_volume.setText(itemQuoteVolume(quote));
 
 
-                int spread = TradeUtil.spread(itemQuoteContCode(quote), tradeListEntityList);
+                String spread = TradeUtil.spread(itemQuoteContCode(quote), tradeListEntityList);
 
-                text_buy_much.setText(TradeUtil.itemQuoteBuyMuchPrice(quote,spread));
-                text_buy_empty.setText(TradeUtil.itemQuoteBuyEmptyPrice(quote,spread));
+                if (spread != null) {
+                    text_buy_much.setText(TradeUtil.itemQuoteBuyMuchPrice(quote, Integer.valueOf(spread)));
+                    text_buy_empty.setText(TradeUtil.itemQuoteBuyEmptyPrice(quote, Integer.valueOf(spread)));
+                }
+
             }
 
         }

@@ -552,6 +552,33 @@ public class TradeUtil {
         return split[9];
     }
 
+    /*获取单个的合约*/
+    public static Object tradeDetail(String contractCode, List<TradeListEntity> tradeListEntityList) {
+        if (tradeListEntityList==null) {
+            return null;
+        } else {
+            for (TradeListEntity data : tradeListEntityList) {
+                if (data.getContractCode().equals(contractCode)) {
+                    return data;
+                }
+            }
+        }
+        return null;
+    }
+
+    public static String deposit(List<Integer> depositList) {
+        String deposit = null;
+        if (depositList.size() == 0) {
+            deposit = null;
+        } else if (depositList.size() == 1) {
+            deposit = depositList.get(0)+"";
+        }else if (depositList.size() == 2) {
+            deposit = depositList.get(0) + "~" + depositList.get(1);
+        }
+        return deposit;
+    }
+
+
     /*获取做多价格*/
     public static String itemQuoteBuyMuchPrice(String quote, int spread) {
         String[] split = quote.split(",");
@@ -679,16 +706,17 @@ public class TradeUtil {
     }
 
     /*获取合约号的 Spread*/
-    public static Integer spread(String contractCode, List<TradeListEntity> tradeListEntityList) {
-        if (tradeListEntityList.size() == 0 ) {
+    public static String spread(String contractCode, List<TradeListEntity> tradeListEntityList) {
+        Log.d(TAG, "spread:710:  "+tradeListEntityList);
+        if (tradeListEntityList==null) {
             return null;
         }
-        if (contractCode == null){
+        if (contractCode == null) {
             return null;
         }
         for (TradeListEntity data : tradeListEntityList) {
             if (contractCode.equals(data.getContractCode())) {
-                return data.getSpread();
+                return String.valueOf(data.getSpread());
             }
         }
         return null;

@@ -624,7 +624,13 @@ public class NetManger {
         });
     }
     /*下单*/
-    public void order(String identity, String tradeType, String leverType,String commodity,String contract,String isBuy,String bettingId,String stopProfit, String stopLoss, OnNetResult onNetResult) {
+    public void order(String identity, String tradeType, String leverType,
+                      String commodity,String contract,String isBuy,String margin,
+                      String lever,String price,String defer,String deferFee,
+                      String stopProfit, String stopLoss,String serviceCharge,
+                      String eagleDeduction,String volume,String moneyType,
+                      String currency,
+                      OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("identity",identity);
         map.put("tradeType", tradeType);
@@ -633,16 +639,26 @@ public class NetManger {
         map.put("commodity",commodity);
         map.put("contract",contract);
         map.put("isBuy",isBuy);
-        map.put("bettingId", bettingId);
+        map.put("margin",margin);
+        map.put("lever",lever);
+        map.put("price",price);
+        map.put("defer",defer);
+        map.put("deferFee",deferFee);
         map.put("stopProfit", stopProfit);
         map.put("stopLoss", stopLoss);
+        map.put("serviceCharge",serviceCharge);
+        map.put("eagleDeduction",eagleDeduction);
+        map.put("volume",volume);
+        map.put("moneyType",moneyType);
+        map.put("platform","Android");
+        map.put("currency", currency);
         postRequest("/api/trade/open.htm", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
                     onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
-                    Log.d("print", "onNetResult:设置止盈止损:  " + response.toString());
+                    Log.d("print", "onNetResult:下单:  " + response.toString());
                     TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
                     if (tipSPSLMarginEntity.getCode() == 200) {
 

@@ -88,8 +88,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         init();
         initPresenter();
-        initData();
         initView(mView);
+        initData();
         initEvent();
 
 

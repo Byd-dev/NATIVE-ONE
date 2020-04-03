@@ -41,9 +41,9 @@ public class TradeListEntity {
     private String type;
     private boolean valid;
     private List<Long> closeTime;
-    private List<Double> depositList;
+    private List<Integer> depositList;
     private List<Integer> leverList;
-    private List<Double> leverShowList;
+    private List<Integer> leverShowList;
     private List<Integer> moneyTypeList;
     private List<Double> priceRateList;
     private List<Double> stopLossList;
@@ -406,11 +406,11 @@ public class TradeListEntity {
         this.closeTime = closeTime;
     }
 
-    public List<Double> getDepositList() {
+    public List<Integer> getDepositList() {
         return depositList;
     }
 
-    public void setDepositList(List<Double> depositList) {
+    public void setDepositList(List<Integer> depositList) {
         this.depositList = depositList;
     }
 
@@ -422,11 +422,11 @@ public class TradeListEntity {
         this.leverList = leverList;
     }
 
-    public List<Double> getLeverShowList() {
+    public List<Integer> getLeverShowList() {
         return leverShowList;
     }
 
-    public void setLeverShowList(List<Double> leverShowList) {
+    public void setLeverShowList(List<Integer> leverShowList) {
         this.leverShowList = leverShowList;
     }
 
