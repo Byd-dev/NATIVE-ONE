@@ -623,6 +623,42 @@ public class NetManger {
             }
         });
     }
+    /*下单*/
+    public void order(String identity, String tradeType, String leverType,String commodity,String contract,String isBuy,String bettingId,String stopProfit, String stopLoss, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("identity",identity);
+        map.put("tradeType", tradeType);
+        map.put("leverType",leverType);
+        map.put("source", "下单");
+        map.put("commodity",commodity);
+        map.put("contract",contract);
+        map.put("isBuy",isBuy);
+        map.put("bettingId", bettingId);
+        map.put("stopProfit", stopProfit);
+        map.put("stopLoss", stopLoss);
+        postRequest("/api/trade/open.htm", map, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    onNetResult.onNetResult(BUSY, null);
+                } else if (state.equals(SUCCESS)) {
+                    Log.d("print", "onNetResult:设置止盈止损:  " + response.toString());
+                    TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
+                    if (tipSPSLMarginEntity.getCode() == 200) {
+
+                        onNetResult.onNetResult(SUCCESS, tipSPSLMarginEntity.getMessage());
+                    } else {
+                        onNetResult.onNetResult(FAILURE, tipSPSLMarginEntity.getMessage());
+
+                    }
+
+                } else if (state.equals(FAILURE)) {
+                    onNetResult.onNetResult(FAILURE, null);
+
+                }
+            }
+        });
+    }
 
 
     /*设置止盈止损*/

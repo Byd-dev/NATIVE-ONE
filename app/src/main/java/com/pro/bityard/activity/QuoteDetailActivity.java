@@ -174,7 +174,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.layout_more).setOnClickListener(this);
 
         radioGroup.setOnCheckedChangeListener(this);
-
+        findViewById(R.id.layout_much).setOnClickListener(this);
+        findViewById(R.id.layout_empty).setOnClickListener(this);
 
     }
 
@@ -335,6 +336,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 if (radio_btn0.isChecked()) {
                     layout_market_price.setVisibility(View.VISIBLE);
                     layout_limit_price.setVisibility(View.GONE);
+
+
                 }
                 //可用余额
                 if (moneyType.equals("1")) {
@@ -445,11 +448,23 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.radio_0:
                 layout_market_price.setVisibility(View.VISIBLE);
                 layout_limit_price.setVisibility(View.GONE);
+                text_buy_much.setVisibility(View.VISIBLE);
+                text_buy_empty.setVisibility(View.VISIBLE);
 
                 break;
             case R.id.radio_1:
                 layout_market_price.setVisibility(View.GONE);
                 layout_limit_price.setVisibility(View.VISIBLE);
+                text_buy_much.setVisibility(View.GONE);
+                text_buy_empty.setVisibility(View.GONE);
+
+                break;
+
+            case R.id.layout_much:
+                //NetManger.getInstance().order();
+                break;
+            case R.id.layout_empty:
+
                 break;
         }
     }
