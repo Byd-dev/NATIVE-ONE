@@ -19,6 +19,7 @@ import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.fragment.tab.HomeRecyclerFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
+import com.pro.bityard.manger.ChargeUnitManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -125,6 +126,18 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             public void onNetResult(String state, Object response) {
                 if (state.equals(SUCCESS)) {
                     Toast.makeText(MainActivity.this, "合约号获取成功", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        /*手续费*/
+        ChargeUnitManger.getInstance().chargeUnit(new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(SUCCESS)){
+                    Toast.makeText(MainActivity.this, "手续费获取成功", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });

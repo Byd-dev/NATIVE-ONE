@@ -49,35 +49,23 @@ public class TradeListManger extends Observable {
 
 
     public void tradeList(OnNetResult onNetResult) {
-        /*获取行情的host*/
-        NetManger.getInstance().getRequest("/api/trade/commodity/initial", null, new OnNetResult() {
+
+        NetManger.getInstance().codeList(new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.onNetResult(BUSY, null);
-                } else if (state.equals(SUCCESS)) {
-                    InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
-                    List<InitEntity.GroupBean> group = initEntity.getGroup();
-                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                    for (InitEntity.GroupBean data : group) {
-                        if (data.getName().equals("数字货币")) {
-                            String list = data.getList();
-                            getTradeList(list, new OnNetResult() {
-                                @Override
-                                public void onNetResult(String state, Object response) {
-                                    if (state.equals(SUCCESS)) {
-                                        onNetResult.onNetResult(SUCCESS, response);
-                                    }
-                                }
-                            });
+                if (state.equals(SUCCESS)) {
+                    getTradeList(response.toString(), new OnNetResult() {
+                        @Override
+                        public void onNetResult(String state, Object response) {
+                            if (state.equals(SUCCESS)) {
+                                onNetResult.onNetResult(SUCCESS, response);
+                            }
                         }
-                    }
-                } else if (state.equals(FAILURE)) {
-                    onNetResult.onNetResult(FAILURE, null);
-
+                    });
                 }
             }
         });
+
     }
 
     private List<TradeListEntity> tradeListEntityList;

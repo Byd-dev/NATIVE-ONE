@@ -6,6 +6,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TradeListEntity;
 
@@ -379,6 +380,12 @@ public class TradeUtil {
         }
     }
 
+    /*计算手续费*/
+    public static void serviceCharge(TradeListEntity tradeListEntity) {
+
+
+    }
+
 
     /*计算汇率*/
     public static void getRate(BalanceEntity balanceEntity, String moneyType, TradeResult tradeResult) {
@@ -534,6 +541,18 @@ public class TradeUtil {
 
     }
 
+    /*获取当前行情的Code*/
+    public static String itemQuoteCode(String quote) {
+        if (quote == null) {
+            return null;
+        } else {
+            String[] split = quote.split(",");
+            Log.d(TAG, "itemQuoteCode:550: "+split[0].replaceAll("[^a-z^A-Z]", ""));
+            return split[0].replaceAll("[^a-z^A-Z]", "");
+        }
+
+    }
+
     /*当前是否涨跌*/
     public static String itemQuoteIsRange(String quote) {
         String[] split = quote.split(",");
@@ -572,6 +591,21 @@ public class TradeUtil {
         }
         return null;
     }
+
+    /*获取单个的手续费*/
+    public static Object chargeDetail(String code, List<ChargeUnitEntity> chargeUnitEntityList) {
+        if (chargeUnitEntityList == null) {
+            return null;
+        } else {
+            for (ChargeUnitEntity data : chargeUnitEntityList) {
+                if (data.getCode().equals(code)) {
+                    return data;
+                }
+            }
+        }
+        return null;
+    }
+
 
     public static String deposit(List<Integer> depositList) {
         String deposit = null;
@@ -714,7 +748,6 @@ public class TradeUtil {
 
     /*获取合约号的 Spread*/
     public static String spread(String contractCode, List<TradeListEntity> tradeListEntityList) {
-        Log.d(TAG, "spread:710:  " + tradeListEntityList);
         if (tradeListEntityList == null) {
             return null;
         }

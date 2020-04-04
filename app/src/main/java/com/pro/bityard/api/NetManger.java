@@ -215,6 +215,33 @@ public class NetManger {
         });
     }
 
+    /*获取codelist*/
+    public void codeList(OnNetResult onNetResult) {
+        /*获取行情的host*/
+        NetManger.getInstance().getRequest("/api/trade/commodity/initial", null, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    onNetResult.onNetResult(BUSY, null);
+                } else if (state.equals(SUCCESS)) {
+                    InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
+                    List<InitEntity.GroupBean> group = initEntity.getGroup();
+                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
+                    for (InitEntity.GroupBean data : group) {
+                        if (data.getName().equals("数字货币")) {
+                            String list = data.getList();
+                            onNetResult.onNetResult(SUCCESS, list);
+                        }
+                    }
+                } else if (state.equals(FAILURE)) {
+                    onNetResult.onNetResult(FAILURE, null);
+
+                }
+            }
+        });
+    }
+
+
     //行情init初始化
     public void initURL(OnNetTwoResult onNetResult) {
         /*获取行情的host*/

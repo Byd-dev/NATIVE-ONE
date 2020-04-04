@@ -111,6 +111,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         }, delay, interval);
     }
 
+
+    protected void startHandler(final Handler handler,int what, long delay, long interval) {
+        if (mTimer != null) cancelTimer();
+
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (handler != null) {
+                    handler.sendEmptyMessage(what);
+                }
+            }
+        }, delay, interval);
+    }
+
+
+
     protected void cancelTimer() {
         if (mTimer != null) {
             mTimer.cancel();

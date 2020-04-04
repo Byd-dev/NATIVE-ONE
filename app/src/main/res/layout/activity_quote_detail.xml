@@ -577,7 +577,7 @@
                     android:textSize="@dimen/size_normal" />
 
 
-                <com.pro.bityard.view.DecimalEditText
+                <EditText
                     android:id="@+id/edit_limit_price"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"

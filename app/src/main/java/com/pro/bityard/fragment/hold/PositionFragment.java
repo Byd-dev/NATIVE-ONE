@@ -401,6 +401,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         double stopLoss = data.getStopLoss();
 
 
+
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_spsl_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);

@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.hold;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.pro.bityard.R;
@@ -101,6 +102,7 @@ public class HistoryFragment extends BaseFragment {
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
                     HistoryEntity historyEntity = (HistoryEntity) response;
+                    Log.d("print", "onNetResult:105:  "+historyEntity.getData().get(0));
                     historyAdapter.setDatas(historyEntity.getData());
 
 
