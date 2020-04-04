@@ -145,5 +145,10 @@
     <string name="text_margin_input">请输入保证金</string>
     <string name="text_limit_price_input">请输入限价</string>
     <string name="text_trade_set">交易设置</string>
+    <string name="text_stop_profit_rate">默认止盈比例</string>
+    <string name="text_stop_loss_rate">默认止损比例</string>
+    <string name="text_close_sure">平仓确认</string>
+    <string name="text_order_sure">下单确认</string>
+    <string name="text_defer_sure">持仓过夜</string>
 
 </resources>

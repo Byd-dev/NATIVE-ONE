@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
+import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
@@ -42,6 +43,7 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -156,6 +158,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.recyclerView_limit)
     RecyclerView recyclerView_limit;
 
+    @BindView(R.id.recyclerView_profit)
+    RecyclerView recyclerView_profit;
+
+    @BindView(R.id.recyclerView_loss)
+    RecyclerView recyclerView_loss;
+
     @BindView(R.id.text_market_volume)
     TextView text_market_volume;
 
@@ -173,8 +181,18 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
 
+    @BindView(R.id.img_one)
+    ImageView img_one;
+    @BindView(R.id.img_two)
+    ImageView img_two;
+    @BindView(R.id.img_three)
+    ImageView img_three;
 
-    private RadioGroupAdapter radioGroupAdapter;
+
+    private RadioGroupAdapter radioGroupAdapter;//杠杆适配器
+    private RadioRateAdapter radioRateProfitAdapter, radioRateLossAdapter;
+
+    private List<Integer> stopProfitList, stopLossList;
 
     private List<String> quoteList;
 
@@ -184,6 +202,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private List<TradeListEntity> tradeListEntityList;
     private List<ChargeUnitEntity> chargeUnitEntityList;
     private ChargeUnitEntity chargeUnitEntity;
+    private double stopProfit = 3;
+    private double stopLoss = -0.9;
+    private boolean imgOne = false;
 
 
     public static void enter(Context context, String tradeType, String data) {
@@ -248,6 +269,57 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         radioGroupAdapter = new RadioGroupAdapter(this);
         recyclerView_market.setAdapter(radioGroupAdapter);
         recyclerView_limit.setAdapter(radioGroupAdapter);
+
+        stopProfitList = new ArrayList<>();
+        stopProfitList.add(300);
+        stopProfitList.add(350);
+        stopProfitList.add(400);
+        stopProfitList.add(450);
+        stopProfitList.add(500);
+        radioRateProfitAdapter = new RadioRateAdapter(this);
+        recyclerView_profit.setAdapter(radioRateProfitAdapter);
+        recyclerView_profit.setLayoutManager(new GridLayoutManager(this, stopProfitList.size()));
+        radioRateProfitAdapter.setDatas(stopProfitList);
+        radioRateProfitAdapter.select(0);
+        radioRateProfitAdapter.setOnItemClick(new RadioRateAdapter.OnItemClick() {
+            @Override
+            public void onSuccessListener(Integer position, Integer data) {
+                radioRateProfitAdapter.select(position);
+                recyclerView_profit.setAdapter(radioRateProfitAdapter);
+                stopProfit = TradeUtil.div(data, 100, 2);
+
+            }
+        });
+
+        stopLossList = new ArrayList<>();
+        stopLossList.add(-10);
+        stopLossList.add(-30);
+        stopLossList.add(-50);
+        stopLossList.add(-70);
+        stopLossList.add(-90);
+        radioRateLossAdapter = new RadioRateAdapter(this);
+        recyclerView_loss.setAdapter(radioRateLossAdapter);
+        recyclerView_loss.setLayoutManager(new GridLayoutManager(this, stopLossList.size()));
+        radioRateLossAdapter.setDatas(stopLossList);
+        radioRateLossAdapter.select(4);
+        radioRateLossAdapter.setOnItemClick(new RadioRateAdapter.OnItemClick() {
+            @Override
+            public void onSuccessListener(Integer position, Integer data) {
+                radioRateLossAdapter.select(position);
+                recyclerView_loss.setAdapter(radioRateLossAdapter);
+                stopLoss = TradeUtil.div(data, 100, 2);
+
+            }
+        });
+
+        img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
+        img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
+        img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
+
+        findViewById(R.id.layout_one).setOnClickListener(this);
+        findViewById(R.id.layout_two).setOnClickListener(this);
+        findViewById(R.id.layout_three).setOnClickListener(this);
+        findViewById(R.id.btn_sure).setOnClickListener(this);
 
 
     }
@@ -381,6 +453,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 }
             });
+
+
         }
     }
 
@@ -413,6 +487,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_open));
                 }
                 break;
+            case R.id.btn_sure:
             case R.id.img_back_two:
                 drawerLayout.closeDrawers();
                 break;
@@ -431,6 +506,22 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 String priceEmpty = text_buy_empty.getText().toString();
                 setOpen("false", priceEmpty);
 
+                break;
+            case R.id.layout_one:
+                if (imgOne) {
+                    isDefer = false;
+                    imgOne = false;
+                    img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
+
+                } else {
+                    isDefer = true;
+                    imgOne = true;
+                    img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
+                }
+                break;
+            case R.id.layout_two:
+                break;
+            case R.id.layout_three:
                 break;
 
         }
@@ -464,8 +555,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
         String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
         NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
-                tradeListEntity.getContractCode(), isBuy, String.valueOf(margin), String.valueOf(lever), priceOrder, defer,
-                TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), "3", "-0.9", serviceCharge,
+                tradeListEntity.getContractCode(), isBuy, margin, String.valueOf(lever), priceOrder, defer,
+                TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), String.valueOf(stopProfit), String.valueOf(stopLoss), serviceCharge,
                 "0", TradeUtil.volume(lever, margin, Double.parseDouble(priceMuchOrEmpty)), "0", "USDT", new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
