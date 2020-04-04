@@ -144,6 +144,8 @@
     <string name="text_limit_price_edit">限价:</string>
     <string name="text_order_success">买入委托已提交</string>
     <string name="text_margin_input">请输入保证金</string>
+    <string name="text_limit_price_input">请输入价格</string>
+    <string name="text_trade_set">交易设置</string>
 
 
 </resources>

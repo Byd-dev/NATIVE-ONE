@@ -356,8 +356,11 @@ public class TradeUtil {
     }
 
     /* 仓位 =  杠杆 * 保证金 / 开仓价格*/
-    public static String volume(double lever, double margin, double opPrice) {
-        double mul = mul(lever, margin);
+    public static String volume(double lever, String margin, double opPrice) {
+        if (margin==null){
+            return null;
+        }
+        double mul = mul(lever, Double.parseDouble(margin));
         double div = div(mul, opPrice, 10);
         return numberHalfUp(div, 4);
     }
@@ -394,15 +397,18 @@ public class TradeUtil {
     }
 
     /*计算手续费*/
-    public static String serviceCharge(ChargeUnitEntity chargeUnitEntity, int coinFormula, double margin, double lever) {
+    public static String serviceCharge(ChargeUnitEntity chargeUnitEntity, int coinFormula, String margin, double lever) {
 
         String charge = null;
         if (chargeUnitEntity == null) {
             return null;
         }
+        if (margin==null){
+            return null;
+        }
         double div = div(chargeUnitEntity.getChargeCoinList().get(1), 1000, 10);
         if (coinFormula == 3) {
-            charge = getNumberFormat(mul(mul(margin, sub(lever, 1)), div), 4);
+            charge = getNumberFormat(mul(mul(Double.parseDouble(margin), sub(lever, 1)), div), 4);
         }
         return charge;
 
@@ -420,12 +426,20 @@ public class TradeUtil {
     }
 
     /*下单保证金*/
-    public static Double marginOrder(String orderType, String marginMarket, String marginLimit) {
-        double margin;
+    public static String marginOrder(String orderType, String marginMarket, String marginLimit) {
+        String margin;
         if (orderType.equals("0")) {
-            margin = Double.parseDouble(marginMarket);
+            if (marginMarket.length() == 0) {
+                margin = null;
+            } else {
+                margin = marginMarket;
+            }
         } else {
-            margin = Double.parseDouble(marginLimit);
+            if (marginLimit.length() == 0) {
+                margin = null;
+            } else {
+                margin = marginLimit;
+            }
         }
         return margin;
     }
@@ -436,16 +450,23 @@ public class TradeUtil {
         if (orderType.equals("0")) {
             priceOrder = "0";
         } else {
-            priceOrder = limitPrice;
+            if (limitPrice.length() == 0) {
+                priceOrder = null;
+            } else {
+                priceOrder = limitPrice;
+            }
         }
         return priceOrder;
     }
 
     /*计算递延费*/
-    public static String deferFee(String defer, double deferBase, double margin, double lever) {
+    public static String deferFee(String defer, double deferBase, String margin, double lever) {
+        if (margin==null){
+            return null;
+        }
         String deferFee;
         if (defer.equals("true")) {
-            deferFee = String.valueOf(mul(mul(margin, sub(lever, 1)), deferBase));
+            deferFee = String.valueOf(mul(mul(Double.parseDouble(margin), sub(lever, 1)), deferBase));
         } else {
             deferFee = "0";
         }

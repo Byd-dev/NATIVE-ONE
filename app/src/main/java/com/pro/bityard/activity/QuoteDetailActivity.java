@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -46,6 +47,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import androidx.annotation.Nullable;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -74,6 +76,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private static final String VALUE = "value";
     private static final String quoteType = "1";
     private int lever;
+
+    @BindView(R.id.layout_view)
+    LinearLayout layout_view;
 
     @BindView(R.id.layout_bar)
     RelativeLayout layout_bar;
@@ -165,6 +170,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.text_limit_all)
     TextView text_limit_all;
 
+    @BindView(R.id.drawerLayout)
+    DrawerLayout drawerLayout;
+
+
     private RadioGroupAdapter radioGroupAdapter;
 
     private List<String> quoteList;
@@ -226,6 +235,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         findViewById(R.id.img_back).setOnClickListener(this);
+        findViewById(R.id.img_back_two).setOnClickListener(this);
+
         findViewById(R.id.img_setting).setOnClickListener(this);
 
         findViewById(R.id.layout_more).setOnClickListener(this);
@@ -378,6 +389,14 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    private void showDrawerLayout() {
+        if (!drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
+            drawerLayout.openDrawer(Gravity.RIGHT);
+        } else {
+            drawerLayout.closeDrawer(Gravity.RIGHT);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -394,59 +413,78 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_open));
                 }
                 break;
+            case R.id.img_back_two:
+                drawerLayout.closeDrawers();
+                break;
 
             case R.id.img_setting:
-
+                showDrawerLayout();
                 break;
 
             case R.id.layout_much:
 
-                TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(quote), tradeListEntityList);
                 String priceMuch = text_buy_much.getText().toString();
+                setOpen("true", priceMuch);
 
-                if (priceMuch.equals(getResources().getString(R.string.text_default))) {
-                    return;
-                }
-                String marginMarket = edit_market_margin.getText().toString();
-                String marginLimit = edit_limit_margin.getText().toString();
-                String priceOrder = TradeUtil.priceOrder(orderType, edit_limit_price.getText().toString());
-                double margin = marginOrder(orderType, marginMarket, marginLimit);
-                String defer = TradeUtil.defer(tradeType, isDefer);
-
-                ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
-                String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
-                NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
-                        tradeListEntity.getContractCode(), "true", String.valueOf(margin), String.valueOf(lever), priceOrder, defer,
-                        TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), "3", "-0.9", serviceCharge,
-                        "0", TradeUtil.volume(lever, margin, Double.parseDouble(priceMuch)), "0", "USDT", new OnNetResult() {
-                            @Override
-                            public void onNetResult(String state, Object response) {
-                                if (state.equals(BUSY)) {
-                                    showProgressDialog();
-                                } else if (state.equals(SUCCESS)) {
-                                    Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                                    dismissProgressDialog();
-                                    PositionRealManger.getInstance().getHold();
-                                    PositionSimulationManger.getInstance().getHold();
-
-
-                                } else if (state.equals(FAILURE)) {
-                                    dismissProgressDialog();
-                                    Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-
-                                }
-                            }
-                        }
-
-                );
                 break;
             case R.id.layout_empty:
+                String priceEmpty = text_buy_empty.getText().toString();
+                setOpen("false", priceEmpty);
 
                 break;
 
         }
     }
 
+    /*下单*/
+    private void setOpen(String isBuy, String priceMuchOrEmpty) {
+        TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(quote), tradeListEntityList);
+        if (priceMuchOrEmpty.equals(getResources().getString(R.string.text_default))) {
+            return;
+        }
+
+        String marginMarket = edit_market_margin.getText().toString();
+        String marginLimit = edit_limit_margin.getText().toString();
+
+        String margin = marginOrder(orderType, marginMarket, marginLimit);
+        String priceOrder = TradeUtil.priceOrder(orderType, edit_limit_price.getText().toString());
+        String defer = TradeUtil.defer(tradeType, isDefer);
+        Log.d("print", "onClick: 保证金:" + margin + "  是否递延:" + defer + "  价格:" + priceOrder);
+
+        if (margin == null) {
+            Toast.makeText(QuoteDetailActivity.this, getResources().getText(R.string.text_margin_input), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (priceOrder == null) {
+            Toast.makeText(QuoteDetailActivity.this, getResources().getText(R.string.text_limit_price_input), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
+        String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
+        NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
+                tradeListEntity.getContractCode(), isBuy, String.valueOf(margin), String.valueOf(lever), priceOrder, defer,
+                TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), "3", "-0.9", serviceCharge,
+                "0", TradeUtil.volume(lever, margin, Double.parseDouble(priceMuchOrEmpty)), "0", "USDT", new OnNetResult() {
+                    @Override
+                    public void onNetResult(String state, Object response) {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                            dismissProgressDialog();
+                            PositionRealManger.getInstance().getHold();
+                            PositionSimulationManger.getInstance().getHold();
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+
+                        }
+                    }
+                }
+
+        );
+    }
 
     private void showMoreWindow(List<String> quoteList) {
         View view = LayoutInflater.from(this).inflate(R.layout.item_more_layout, null);
@@ -567,13 +605,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             if (quote != null) {
                 //仓位实时更新 服务费
                 if (edit_market_margin.getText().length() != 0) {
-                    text_market_volume.setText(TradeUtil.volume(lever, Double.parseDouble(edit_market_margin.getText().toString()), Double.parseDouble(itemQuotePrice(quote))));
-                    text_market_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, Double.parseDouble(edit_market_margin.getText().toString()), lever));
+                    text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), Double.parseDouble(itemQuotePrice(quote))));
+                    text_market_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever));
 
                 }
                 if (edit_limit_margin.getText().length() != 0) {
-                    text_limit_volume.setText(TradeUtil.volume(lever, Double.parseDouble(edit_limit_margin.getText().toString()), Double.parseDouble(itemQuotePrice(quote))));
-                    text_limit_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, Double.parseDouble(edit_limit_margin.getText().toString()), lever));
+                    text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), Double.parseDouble(itemQuotePrice(quote))));
+                    text_limit_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever));
 
                 }
 

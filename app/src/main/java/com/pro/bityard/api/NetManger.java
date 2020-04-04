@@ -651,12 +651,7 @@ public class NetManger {
                     onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
                     OrderEntity orderEntity = new Gson().fromJson(response.toString(), OrderEntity.class);
-                    if (orderEntity.getCode() == 200) {
-                        onNetResult.onNetResult(SUCCESS, orderEntity.getMessage());
-                    } else {
-                        onNetResult.onNetResult(FAILURE, orderEntity.getMessage());
-
-                    }
+                    onNetResult.onNetResult(SUCCESS, orderEntity.getMessage());
 
                 } else if (state.equals(FAILURE)) {
                     onNetResult.onNetResult(FAILURE, null);
