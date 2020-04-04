@@ -1115,6 +1115,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         PositionSimulationManger.getInstance().getHold();
 
 
+
         NetManger.getInstance().getHold(tradeType, new OnNetTwoResult() {
             @Override
             public void setResult(String state, Object response1, Object response2) {

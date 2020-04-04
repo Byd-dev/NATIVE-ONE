@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +19,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuotePopAdapter;
@@ -32,8 +31,11 @@ import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.ChargeUnitManger;
+import com.pro.bityard.manger.PositionRealManger;
+import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -48,9 +50,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
+import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
-import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteIsRange;
@@ -64,9 +67,7 @@ import static com.pro.bityard.utils.TradeUtil.listQuoteName;
 import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteUSD;
-import static com.pro.bityard.utils.TradeUtil.lossAmount;
-import static com.pro.bityard.utils.TradeUtil.lossRate;
-import static com.pro.bityard.utils.TradeUtil.profitRate;
+import static com.pro.bityard.utils.TradeUtil.marginOrder;
 
 public class QuoteDetailActivity extends BaseActivity implements View.OnClickListener, Observer, RadioGroup.OnCheckedChangeListener {
     private static final String TYPE = "tradeType";
@@ -76,8 +77,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.layout_bar)
     RelativeLayout layout_bar;
-    private String tradeType = "1";
-    private String orderType = "0";
+    private String tradeType = "1";//实盘=1 模拟=2
+    private String orderType = "0"; //市价=0 限价=1
+    private boolean isDefer = false; //是否递延
 
     private String itemData;
 
@@ -157,6 +159,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.edit_limit_price)
     EditText edit_limit_price;
+    @BindView(R.id.text_market_all)
+    TextView text_market_all;
+
+    @BindView(R.id.text_limit_all)
+    TextView text_limit_all;
 
     private RadioGroupAdapter radioGroupAdapter;
 
@@ -167,6 +174,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private String quote;
     private List<TradeListEntity> tradeListEntityList;
     private List<ChargeUnitEntity> chargeUnitEntityList;
+    private ChargeUnitEntity chargeUnitEntity;
 
 
     public static void enter(Context context, String tradeType, String data) {
@@ -214,6 +222,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         TradeListManger.getInstance().addObserver(this);
 
         ChargeUnitManger.getInstance().addObserver(this);
+        TagManger.getInstance().addObserver(this);
 
 
         findViewById(R.id.img_back).setOnClickListener(this);
@@ -255,7 +264,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         if (chargeUnitEntityList == null) {
             startHandler(handler, 1, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
         } else {
-            ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
+            chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
             Log.d("print", "initData:259:手续费: " + chargeUnitEntity);
         }
 
@@ -340,6 +349,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         if (tradeListEntity != null) {
             edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
             edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
             recyclerView_market.setLayoutManager(new GridLayoutManager(this, leverShowList.size()));
             recyclerView_limit.setLayoutManager(new GridLayoutManager(this, leverShowList.size()));
@@ -390,35 +400,45 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.layout_much:
-                Log.d("print", "onCheckedChanged:543:  " + lever);
 
-                // TODO: 2020/4/3   开仓
                 TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(quote), tradeListEntityList);
-                double margin = Double.parseDouble(edit_market_margin.getText().toString());
-                String s = text_buy_much.getText().toString();
-                double price = Double.parseDouble(s);
-                int priceDigit = tradeListEntity.getPriceDigit();
-                String stopProfitPrice = TradeUtil.StopProfitPrice(true, price, priceDigit, lever, margin, TradeUtil.mul(margin, tradeListEntity.getStopProfitList().get(1)));
-                String profitAmount = ProfitAmount(true, price, priceDigit, lever, margin, Double.parseDouble(stopProfitPrice));
-                String profitRate = profitRate(Double.parseDouble(profitAmount), margin);
+                String priceMuch = text_buy_much.getText().toString();
 
-                String stopLossPrice = TradeUtil.StopLossPrice(true, price, priceDigit, lever, margin, TradeUtil.mul(margin, tradeListEntity.getStopProfitList().get(0)));
-                String lossAmount = lossAmount(true, price, priceDigit, lever, margin, Double.parseDouble(stopLossPrice));
-                String lossRate = lossRate(Double.parseDouble(lossAmount), margin);
-
-                String priceOrder;
-                if (orderType.equals("0")) {
-                    priceOrder = String.valueOf(price);
-                } else {
-                    priceOrder = edit_limit_price.getText().toString();
+                if (priceMuch.equals(getResources().getString(R.string.text_default))) {
+                    return;
                 }
+                String marginMarket = edit_market_margin.getText().toString();
+                String marginLimit = edit_limit_margin.getText().toString();
+                String priceOrder = TradeUtil.priceOrder(orderType, edit_limit_price.getText().toString());
+                double margin = marginOrder(orderType, marginMarket, marginLimit);
+                String defer = TradeUtil.defer(tradeType, isDefer);
 
-               /* NetManger.getInstance().order(tradeType, "2", tradeListEntity.getContractCode(),
-                        tradeListEntity.getCode(), "true", edit_market_margin.getText().toString(), String.valueOf(lever),
-                        priceOrder, String.valueOf(tradeListEntity.isDefer()),
-                        String.valueOf(tradeListEntity.getDeferFee()), profitRate, lossRate,
+                ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
+                String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
+                NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
+                        tradeListEntity.getContractCode(), "true", String.valueOf(margin), String.valueOf(lever), priceOrder, defer,
+                        TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), "3", "-0.9", serviceCharge,
+                        "0", TradeUtil.volume(lever, margin, Double.parseDouble(priceMuch)), "0", "USDT", new OnNetResult() {
+                            @Override
+                            public void onNetResult(String state, Object response) {
+                                if (state.equals(BUSY)) {
+                                    showProgressDialog();
+                                } else if (state.equals(SUCCESS)) {
+                                    Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                                    dismissProgressDialog();
+                                    PositionRealManger.getInstance().getHold();
+                                    PositionSimulationManger.getInstance().getHold();
 
-                        );*/
+
+                                } else if (state.equals(FAILURE)) {
+                                    dismissProgressDialog();
+                                    Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+
+                                }
+                            }
+                        }
+
+                );
                 break;
             case R.id.layout_empty:
 
@@ -545,12 +565,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
             if (quote != null) {
-                //仓位实时更新
+                //仓位实时更新 服务费
                 if (edit_market_margin.getText().length() != 0) {
                     text_market_volume.setText(TradeUtil.volume(lever, Double.parseDouble(edit_market_margin.getText().toString()), Double.parseDouble(itemQuotePrice(quote))));
+                    text_market_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, Double.parseDouble(edit_market_margin.getText().toString()), lever));
+
                 }
                 if (edit_limit_margin.getText().length() != 0) {
                     text_limit_volume.setText(TradeUtil.volume(lever, Double.parseDouble(edit_limit_margin.getText().toString()), Double.parseDouble(itemQuotePrice(quote))));
+                    text_limit_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, Double.parseDouble(edit_limit_margin.getText().toString()), lever));
+
                 }
 
 
@@ -606,8 +630,17 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             setContent(tradeListEntity);
         } else if (o == ChargeUnitManger.getInstance()) {
             chargeUnitEntityList = (List<ChargeUnitEntity>) arg;
-            ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
+            chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
             Log.d("print", "update:596: " + chargeUnitEntity);
+
+
+        } else if (o == TagManger.getInstance()) {
+            ChargeUnitManger.getInstance().chargeUnit(new OnNetResult() {
+                @Override
+                public void onNetResult(String state, Object response) {
+
+                }
+            });
         }
     }
 

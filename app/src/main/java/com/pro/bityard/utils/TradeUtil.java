@@ -325,6 +325,13 @@ public class TradeUtil {
         return numberFormat + "%";
     }
 
+    public static String profitRateWithout(double content, double margin) {
+        double div = div(content, margin, 10);
+        String numberFormat = numberHalfUp(div, 2);
+        return numberFormat;
+    }
+
+
     /*亏损百分比=亏损/保证金*/
     public static String lossRate(double content, double margin) {
         Log.d(TAG, "profitRate: " + content + "  --  " + margin);
@@ -334,6 +341,12 @@ public class TradeUtil {
         return numberFormat + "%";
     }
 
+    public static String lossRateWithout(double content, double margin) {
+        Log.d(TAG, "profitRate: " + content + "  --  " + margin);
+        double div = div(content, margin, 20);
+        String numberFormat = numberHalfUp(div, 2);
+        return numberFormat;
+    }
 
     /* 杠杆 = 仓位*开仓价格/保证金 */
     public static String lever(double margin, double opPrice, double volume) {
@@ -381,11 +394,64 @@ public class TradeUtil {
     }
 
     /*计算手续费*/
-    public static void serviceCharge(TradeListEntity tradeListEntity) {
+    public static String serviceCharge(ChargeUnitEntity chargeUnitEntity, int coinFormula, double margin, double lever) {
 
+        String charge = null;
+        if (chargeUnitEntity == null) {
+            return null;
+        }
+        double div = div(chargeUnitEntity.getChargeCoinList().get(1), 1000, 10);
+        if (coinFormula == 3) {
+            charge = getNumberFormat(mul(mul(margin, sub(lever, 1)), div), 4);
+        }
+        return charge;
 
     }
 
+    /*是否递延*/
+    public static String defer(String tradeType, boolean isDefer) {
+        String defer;
+        if (tradeType.equals("1")) {
+            defer = isDefer ? "true" : "false";
+        } else {
+            defer = "false";
+        }
+        return defer;
+    }
+
+    /*下单保证金*/
+    public static Double marginOrder(String orderType, String marginMarket, String marginLimit) {
+        double margin;
+        if (orderType.equals("0")) {
+            margin = Double.parseDouble(marginMarket);
+        } else {
+            margin = Double.parseDouble(marginLimit);
+        }
+        return margin;
+    }
+
+    /*下单 价格*/
+    public static String priceOrder(String orderType, String limitPrice) {
+        String priceOrder;
+        if (orderType.equals("0")) {
+            priceOrder = "0";
+        } else {
+            priceOrder = limitPrice;
+        }
+        return priceOrder;
+    }
+
+    /*计算递延费*/
+    public static String deferFee(String defer, double deferBase, double margin, double lever) {
+        String deferFee;
+        if (defer.equals("true")) {
+            deferFee = String.valueOf(mul(mul(margin, sub(lever, 1)), deferBase));
+        } else {
+            deferFee = "0";
+        }
+        return deferFee;
+
+    }
 
     /*计算汇率*/
     public static void getRate(BalanceEntity balanceEntity, String moneyType, TradeResult tradeResult) {
@@ -547,7 +613,7 @@ public class TradeUtil {
             return null;
         } else {
             String[] split = quote.split(",");
-            Log.d(TAG, "itemQuoteCode:550: "+split[0].replaceAll("[^a-z^A-Z]", ""));
+            Log.d(TAG, "itemQuoteCode:550: " + split[0].replaceAll("[^a-z^A-Z]", ""));
             return split[0].replaceAll("[^a-z^A-Z]", "");
         }
 

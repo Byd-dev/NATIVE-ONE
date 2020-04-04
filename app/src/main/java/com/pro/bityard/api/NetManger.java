@@ -14,6 +14,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.RateEntity;
 import com.pro.bityard.entity.TipCloseEntity;
@@ -622,8 +623,6 @@ public class NetManger {
             int i1 = random.nextInt(SEED.length());
             stringBuffer.append(SEED.charAt(i1));
         }
-
-
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("identity", stringBuffer.toString());
         map.put("tradeType", tradeType);
@@ -651,13 +650,11 @@ public class NetManger {
                 if (state.equals(BUSY)) {
                     onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
-                    Log.d("print", "onNetResult:下单:  " + response.toString());
-                    TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
-                    if (tipSPSLMarginEntity.getCode() == 200) {
-
-                        onNetResult.onNetResult(SUCCESS, tipSPSLMarginEntity.getMessage());
+                    OrderEntity orderEntity = new Gson().fromJson(response.toString(), OrderEntity.class);
+                    if (orderEntity.getCode() == 200) {
+                        onNetResult.onNetResult(SUCCESS, orderEntity.getMessage());
                     } else {
-                        onNetResult.onNetResult(FAILURE, tipSPSLMarginEntity.getMessage());
+                        onNetResult.onNetResult(FAILURE, orderEntity.getMessage());
 
                     }
 
