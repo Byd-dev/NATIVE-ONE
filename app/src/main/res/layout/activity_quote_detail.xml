@@ -420,7 +420,7 @@
                             android:textSize="@dimen/size_normal" />
 
 
-                        <EditText
+                        <com.pro.bityard.view.DecimalEditText
                             android:id="@+id/edit_market_margin"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -593,7 +593,7 @@
                             android:textSize="@dimen/size_normal" />
 
 
-                        <EditText
+                        <com.pro.bityard.view.DecimalEditText
                             android:id="@+id/edit_limit_price"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
@@ -629,7 +629,7 @@
                             android:textSize="@dimen/size_normal" />
 
 
-                        <EditText
+                        <com.pro.bityard.view.DecimalEditText
                             android:id="@+id/edit_limit_margin"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"

@@ -693,7 +693,7 @@ public class TradeUtil {
         return null;
     }
 
-
+    /*获取保证金范围*/
     public static String deposit(List<Integer> depositList) {
         String deposit = null;
         if (depositList.size() == 0) {
@@ -706,7 +706,22 @@ public class TradeUtil {
         return deposit;
     }
 
-
+    public static String marginMin(List<Integer> depositList) {
+        String deposit = null;
+        if (depositList.size() == 0) {
+        } else {
+            deposit = depositList.get(0) + "";
+        }
+        return deposit;
+    }
+    public static String marginMax(List<Integer> depositList) {
+        String deposit = null;
+        if (depositList.size() == 0) {
+        } else {
+            deposit = depositList.get(1) + "";
+        }
+        return deposit;
+    }
     /*获取做多价格*/
     public static String itemQuoteBuyMuchPrice(String quote, int spread) {
         String[] split = quote.split(",");

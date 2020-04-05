@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
@@ -43,6 +45,7 @@ import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
+import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
@@ -71,6 +74,8 @@ import static com.pro.bityard.utils.TradeUtil.listQuoteName;
 import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteUSD;
+import static com.pro.bityard.utils.TradeUtil.marginMax;
+import static com.pro.bityard.utils.TradeUtil.marginMin;
 import static com.pro.bityard.utils.TradeUtil.marginOrder;
 
 public class QuoteDetailActivity extends BaseActivity implements View.OnClickListener, Observer, RadioGroup.OnCheckedChangeListener {
@@ -146,10 +151,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     TextView text_limit_balance;
 
     @BindView(R.id.edit_market_margin)
-    EditText edit_market_margin;
+    DecimalEditText edit_market_margin;
 
     @BindView(R.id.edit_limit_margin)
-    EditText edit_limit_margin;
+    DecimalEditText edit_limit_margin;
 
 
     @BindView(R.id.recyclerView_market)
@@ -171,7 +176,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     TextView text_limit_volume;
 
     @BindView(R.id.edit_limit_price)
-    EditText edit_limit_price;
+    DecimalEditText edit_limit_price;
     @BindView(R.id.text_market_all)
     TextView text_market_all;
 
@@ -300,13 +305,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         recyclerView_profit.setAdapter(radioRateProfitAdapter);
         recyclerView_profit.setLayoutManager(new GridLayoutManager(this, stopProfitList.size()));
         radioRateProfitAdapter.setDatas(stopProfitList);
-        int index_profit = SPUtils.getInt(AppConfig.INDEX_PROFIT,0);
+        int index_profit = SPUtils.getInt(AppConfig.INDEX_PROFIT, 0);
         radioRateProfitAdapter.select(index_profit);
         radioRateProfitAdapter.setOnItemClick((position, data) -> {
             radioRateProfitAdapter.select(position);
             recyclerView_profit.setAdapter(radioRateProfitAdapter);
             stopProfit = TradeUtil.div(data, 100, 2);
-            SPUtils.putInt(AppConfig.INDEX_PROFIT,position);
+            SPUtils.putInt(AppConfig.INDEX_PROFIT, position);
 
         });
 
@@ -320,13 +325,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         recyclerView_loss.setAdapter(radioRateLossAdapter);
         recyclerView_loss.setLayoutManager(new GridLayoutManager(this, stopLossList.size()));
         radioRateLossAdapter.setDatas(stopLossList);
-        int index_loss = SPUtils.getInt(AppConfig.INDEX_LOSS,4);
+        int index_loss = SPUtils.getInt(AppConfig.INDEX_LOSS, 4);
         radioRateLossAdapter.select(index_loss);
         radioRateLossAdapter.setOnItemClick((position, data) -> {
             radioRateLossAdapter.select(position);
             recyclerView_loss.setAdapter(radioRateLossAdapter);
             stopLoss = TradeUtil.div(data, 100, 2);
-            SPUtils.putInt(AppConfig.INDEX_LOSS,position);
+            SPUtils.putInt(AppConfig.INDEX_LOSS, position);
 
         });
 
@@ -470,7 +475,69 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             });
 
+            edit_market_margin.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (s.length() == 0) {
+                        return;
+                    } else {
+                        if (!s.toString().startsWith(".")) {
+                            if (Double.parseDouble(s.toString()) > Double.parseDouble(marginMax(tradeListEntity.getDepositList()))) {
+                                edit_market_margin.setText(marginMax(tradeListEntity.getDepositList()));
+                            } else if (Double.parseDouble(s.toString()) < Double.parseDouble(marginMin(tradeListEntity.getDepositList()))) {
+                                edit_market_margin.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        edit_market_margin.setText(marginMin(tradeListEntity.getDepositList()));
+                                    }
+                                }, 1000);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
+            edit_limit_margin.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (s.length() == 0) {
+                        return;
+                    } else {
+                        if (!s.toString().startsWith(".")) {
+                            if (Double.parseDouble(s.toString()) > Double.parseDouble(marginMax(tradeListEntity.getDepositList()))) {
+                                edit_limit_margin.setText(marginMax(tradeListEntity.getDepositList()));
+                            } else if (Double.parseDouble(s.toString()) < Double.parseDouble(marginMin(tradeListEntity.getDepositList()))) {
+                                edit_limit_margin.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        edit_limit_margin.setText(marginMin(tradeListEntity.getDepositList()));
+                                    }
+                                }, 1000);
+                            }
+                        }
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
         }
     }
 
@@ -717,7 +784,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == QuoteItemManger.getInstance()) {
             quote = (String) arg;
 
-            Log.d("print", "update:720: 单个行情:  "+quote);
+            Log.d("print", "update:720: 单个行情:  " + quote);
             if (quote != null) {
                 //仓位实时更新 服务费
                 if (edit_market_margin.getText().length() != 0) {
