@@ -2,7 +2,6 @@ package com.pro.bityard.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,13 +41,10 @@ public class PopUtil {
         text_tip.setText(content);
 
 
-        view.findViewById(R.id.text_sure).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onPopResult.setPopResult(true);
-                popupWindow.dismiss();
-                backgroundAlpha(activity, 1f);
-            }
+        view.findViewById(R.id.text_sure).setOnClickListener(v -> {
+            onPopResult.setPopResult(true);
+            popupWindow.dismiss();
+            backgroundAlpha(activity);
         });
 
         TextView text_cancel = view.findViewById(R.id.text_cancel);
@@ -58,13 +54,10 @@ public class PopUtil {
             text_cancel.setVisibility(View.GONE);
 
         }
-        view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onPopResult.setPopResult(false);
-                popupWindow.dismiss();
-                backgroundAlpha(activity, 1f);
-            }
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            onPopResult.setPopResult(false);
+            popupWindow.dismiss();
+            backgroundAlpha(activity);
         });
         WindowManager.LayoutParams params = activity.getWindow().getAttributes();
         params.alpha = 0.6f;
@@ -77,9 +70,9 @@ public class PopUtil {
 
     }
 
-    public void backgroundAlpha(Activity activity, float bgAlpha) {
+    private void backgroundAlpha(Activity activity) {
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
-        lp.alpha = bgAlpha;
+        lp.alpha = (float) 1.0;
         activity.getWindow().setAttributes(lp);
 
 

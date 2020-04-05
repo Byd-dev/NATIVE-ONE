@@ -809,23 +809,20 @@ public class PositionFragment extends BaseFragment implements Observer {
 
                             } else if (Double.parseDouble(s.toString()) < small(profit_min_price, profit_max_price)) {
 
-                                edit_stop_profit_price.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (s.length() != 0 && Double.parseDouble(s.toString()) < small(profit_min_price, profit_max_price)) {
-                                            //价格 止盈价 输入框
-                                            edit_stop_profit_price.setText(String.valueOf(small(profit_min_price, profit_max_price)));
-                                            //价格 盈利金额
-                                            text_profit_amount_price.setText(ProfitAmount(isBuy, price, priceDigit, lever, margin, small(profit_min_price, profit_max_price)));
-                                            //价格 盈利百分比
-                                            text_profit_rate_price.setText(profitRate(Double.parseDouble(ProfitAmount(isBuy, price, priceDigit, lever, margin, small(profit_min_price, profit_max_price))), margin));
-                                            //金额 预计盈利 输入框
-                                            edit_profit_amount.setText(ProfitAmount(isBuy, price, priceDigit, lever, margin, small(profit_min_price, profit_max_price)));
-                                            //金额 止盈价
-                                            text_stop_profit_amount.setText(String.valueOf(small(profit_min_price, profit_max_price)));
-                                            //金额 盈利百分比
-                                            text_profit_rate_amount.setText(profitRate(Double.parseDouble(ProfitAmount(isBuy, price, priceDigit, lever, margin, small(profit_min_price, profit_max_price))), margin));
-                                        }
+                                edit_stop_profit_price.postDelayed(() -> {
+                                    if (s.length() != 0 && Double.parseDouble(s.toString()) < small(profit_min_price, profit_max_price)) {
+                                        //价格 止盈价 输入框
+                                        edit_stop_profit_price.setText(String.valueOf(small(profit_min_price, profit_max_price)));
+                                        //价格 盈利金额
+                                        text_profit_amount_price.setText(ProfitAmount(isBuy, price, priceDigit, lever, margin, small(profit_min_price, profit_max_price)));
+                                        //价格 盈利百分比
+                                        text_profit_rate_price.setText(profitRate(Double.parseDouble(ProfitAmount(isBuy, price, priceDigit, lever, margin, small(profit_min_price, profit_max_price))), margin));
+                                        //金额 预计盈利 输入框
+                                        edit_profit_amount.setText(ProfitAmount(isBuy, price, priceDigit, lever, margin, small(profit_min_price, profit_max_price)));
+                                        //金额 止盈价
+                                        text_stop_profit_amount.setText(String.valueOf(small(profit_min_price, profit_max_price)));
+                                        //金额 盈利百分比
+                                        text_profit_rate_amount.setText(profitRate(Double.parseDouble(ProfitAmount(isBuy, price, priceDigit, lever, margin, small(profit_min_price, profit_max_price))), margin));
                                     }
                                 }, 3000);
                             } else {
@@ -850,7 +847,6 @@ public class PositionFragment extends BaseFragment implements Observer {
 
                         }
                     }
-                } else {
                 }
             }
         });
@@ -896,25 +892,22 @@ public class PositionFragment extends BaseFragment implements Observer {
 
                             } else if (Double.parseDouble(s.toString()) < small(loss_min_price, loss_max_price)) {
 
-                                edit_loss_amount.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        if (s.length() != 0 && Double.parseDouble(s.toString()) < small(loss_min_price, loss_max_price)) {
-                                            //价格 止损价 输入框
-                                            edit_stop_loss_price.setText(String.valueOf(small(loss_min_price, loss_max_price)));//ok
-                                            //价格 亏损金额
-                                            text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price)));
-                                            //价格 亏损百分比
-                                            text_loss_rate_price.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price))), margin));
-                                            //金额 预计亏损 输入框
-                                            edit_loss_amount.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price)));
-                                            //金额 止损价
-                                            text_stop_loss_amount.setText(String.valueOf(small(loss_min_price, loss_max_price)));
-                                            //金额 亏损百分比
-                                            text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price))), margin));
+                                edit_loss_amount.postDelayed(() -> {
+                                    if (s.length() != 0 && Double.parseDouble(s.toString()) < small(loss_min_price, loss_max_price)) {
+                                        //价格 止损价 输入框
+                                        edit_stop_loss_price.setText(String.valueOf(small(loss_min_price, loss_max_price)));//ok
+                                        //价格 亏损金额
+                                        text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price)));
+                                        //价格 亏损百分比
+                                        text_loss_rate_price.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price))), margin));
+                                        //金额 预计亏损 输入框
+                                        edit_loss_amount.setText(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price)));
+                                        //金额 止损价
+                                        text_stop_loss_amount.setText(String.valueOf(small(loss_min_price, loss_max_price)));
+                                        //金额 亏损百分比
+                                        text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, small(loss_min_price, loss_max_price))), margin));
 
 
-                                        }
                                     }
                                 }, 1000);
                             } else {
@@ -938,8 +931,6 @@ public class PositionFragment extends BaseFragment implements Observer {
 
                         }
                     }
-                } else {
-
                 }
             }
         });
@@ -1012,7 +1003,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
 
-    public void setNetIncome(String tradeType, List<String> quoteList, List<PositionEntity.DataBean> positionList) {
+    private void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
 
         TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
             double margin;
@@ -1098,7 +1089,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                     //整体盈亏
                     setIncome(quoteList, positionEntity);
                     //整体净值
-                    setNetIncome(tradeType, quoteList, positionEntity.getData());
+                    setNetIncome(tradeType, positionEntity.getData(), quoteList);
 
                     positionAdapter.setDatas(positionEntity.getData(), quoteList);
                     //pop 实时价格也是同步刷新
