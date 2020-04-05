@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.tab;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -31,6 +32,7 @@ import com.pro.bityard.viewutil.StatusBarUtil;
 import com.stx.xhb.xbanner.XBanner;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -53,13 +55,15 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
     @BindView(R.id.recyclerView_list)
     HeaderRecyclerView recyclerView_list;
 
+    @BindView(R.id.banner)
+    XBanner xBanner;
+
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
     private QuoteHomeAdapter quoteHomeAdapter;
 
     private QuoteAdapter quoteAdapter;
-    private XBanner xBanner;
     private TextSwitcher textSwitcher;
 
     private List<BannerEntity.NoticesBean> notices;
@@ -69,10 +73,13 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
     public void onResume() {
         super.onResume();
         xBanner.startAutoPlay();
-
-
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        xBanner.stopAutoPlay();
+    }
 
     @Override
     protected int setLayoutResourceID() {
@@ -94,9 +101,8 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
         view.setFocusableInTouchMode(true);
         view.requestFocus();
 
-        View home_view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_layout, null);
+        @SuppressLint("InflateParams") View home_view = LayoutInflater.from(getContext()).inflate(R.layout.item_home_layout, null);
 
-        xBanner = home_view.findViewById(R.id.banner);
 
 
         textSwitcher = home_view.findViewById(R.id.ts_news);
@@ -108,7 +114,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
                 textView.setMaxLines(1);
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 textView.setLineSpacing(1.1f, 1.1f);
-                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.text_maincolor));
+                textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.text_maincolor));
                 textView.setTextSize(13);
                 textView.setSingleLine();
                 return textView;
@@ -183,6 +189,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
     }
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -213,6 +220,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
                         swipeRefreshLayout.setRefreshing(false);
                     }
                     BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                    Log.d("print", "onNetResult:219: "+bannerEntity.getCarousels().size()+"  --  "+bannerEntity.getCarousels());
                     upBanner(bannerEntity.getCarousels());
 
                     notices = bannerEntity.getNotices();
@@ -250,19 +258,16 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
         if (xBanner != null) {
 
             xBanner.setBannerData(R.layout.item_banner_layout, data);
-            xBanner.loadImage(new XBanner.XBannerAdapter() {
-                @Override
-                public void loadBanner(XBanner banner, Object model, View view, int position) {
+            xBanner.loadImage((banner, model, view, position) -> {
 
-                    ImageView imageView = view.findViewById(R.id.img_banner);
-                    TextView text_title = view.findViewById(R.id.text_title);
+                ImageView imageView = view.findViewById(R.id.img_banner);
+                TextView text_title = view.findViewById(R.id.text_title);
 
-                    text_title.setText(data.get(position).getName());
+                text_title.setText(data.get(position).getName());
 
 
-                    Glide.with(getActivity()).load(NetManger.getInstance().BASE_URL + data.get(position).getXBannerUrl()).into(imageView);
-                    Log.d("print", "loadBanner:242:  " + NetManger.getInstance().BASE_URL + data.get(position).getXBannerUrl());
-                }
+                Glide.with(getActivity()).load(data.get(position).getXBannerUrl()).into(imageView);
+                Log.d("print", "loadBanner:242:  " +  data.get(position).getXBannerUrl());
             });
 
             xBanner.setOnItemClickListener(new XBanner.OnItemClickListener() {
@@ -321,12 +326,9 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
         ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
         List<String> quoteList = arrayMap.get("0");
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
-                quoteAdapter.setDatas(quoteList);
-            }
+        runOnUiThread(() -> {
+            quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
+            quoteAdapter.setDatas(quoteList);
         });
 
 

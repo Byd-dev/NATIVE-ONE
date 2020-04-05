@@ -181,20 +181,15 @@ public class HoldRealFragment extends BaseFragment implements Observer {
                         String margin = split[2];
 
 
-
-
                         if (balanceEntity != null) {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
                                     //汇率是实时的
-                                    TradeUtil.getRate(balanceEntity, "1", new TradeResult() {
-                                        @Override
-                                        public void setResult(Object response) {
-                                            double money = Double.parseDouble(response.toString());
-                                            double add1 = TradeUtil.add(money, Double.parseDouble(margin));
-                                            double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
-                                            text_worth.setText(TradeUtil.getNumberFormat(add, 2));
-                                        }
+                                    TradeUtil.getRate(balanceEntity, "1", response -> {
+                                        double money = Double.parseDouble(response.toString());
+                                        double add1 = TradeUtil.add(money, Double.parseDouble(margin));
+                                        double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
+                                        text_worth.setText(TradeUtil.getNumberFormat(add, 2));
                                     });
 
                                 }

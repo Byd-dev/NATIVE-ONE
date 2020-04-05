@@ -16,6 +16,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.fragment.tab.HoldFragment;
+import com.pro.bityard.fragment.tab.HomeFragment;
 import com.pro.bityard.fragment.tab.HomeRecyclerFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
@@ -156,7 +157,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId) {
             case R.id.radio_0:
-                showFragment(R.id.layout_fragment_containter, new HomeRecyclerFragment(), null, null);
+                showFragment(R.id.layout_fragment_containter, new HomeFragment(), null, null);
 
                 break;
             case R.id.radio_1:

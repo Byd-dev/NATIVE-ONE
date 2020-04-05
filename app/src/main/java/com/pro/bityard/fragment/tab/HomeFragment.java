@@ -1,59 +1,85 @@
 package com.pro.bityard.fragment.tab;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.TextSwitcher;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
-import com.pro.bityard.adapter.QuoteHomeAdapter;
+import com.pro.bityard.activity.QuoteDetailActivity;
 import com.pro.bityard.adapter.QuoteAdapter;
+import com.pro.bityard.adapter.QuoteHomeAdapter;
+import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.manger.QuoteListManger;
-import com.pro.bityard.utils.Util;
-import com.pro.bityard.view.AlphaChangeListener;
-import com.pro.bityard.view.MyScrollView;
+import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.viewutil.StatusBarUtil;
+import com.stx.xhb.xbanner.XBanner;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
+import java.util.Observer;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import skin.support.SkinCompatManager;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
+import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
+import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class HomeFragment extends BaseFragment implements View.OnClickListener, java.util.Observer {
-    @BindView(R.id.bar)
-    RelativeLayout layout_bar;
-
-
-    @BindView(R.id.scrollView)
-    MyScrollView myScrollView;
+public class HomeFragment extends BaseFragment implements View.OnClickListener, Observer {
 
 
-    @BindView(R.id.recyclerView_hot)
-    RecyclerView recyclerView_hot;
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
+
+    @BindView(R.id.banner)
+    XBanner xBanner;
+
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private QuoteHomeAdapter quoteHomeAdapter;
 
     private QuoteAdapter quoteAdapter;
+    @BindView(R.id.ts_news)
+    TextSwitcher textSwitcher;
 
-
-
+    private List<BannerEntity.NoticesBean> notices;
+    private int mNewsIndex;
+    @BindView(R.id.recyclerView_hot)
+    RecyclerView recyclerView_hot;
 
     @Override
     public void onResume() {
         super.onResume();
-
-
+        xBanner.startAutoPlay();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        xBanner.stopAutoPlay();
+    }
 
     @Override
     protected int setLayoutResourceID() {
@@ -71,60 +97,51 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
         QuoteListManger.getInstance().addObserver(this);
 
-
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
         view.requestFocus();
 
 
-        myScrollView.setAlphaChangeListener(new AlphaChangeListener() {
-            @Override
-            public void alphaChanging(float alpha) {
-                layout_bar.setAlpha(1 - alpha);
-            }
+        textSwitcher.setFactory(() -> {
+            TextView textView = new TextView(getContext());
+            textView.setMaxLines(1);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+            textView.setLineSpacing(1.1f, 1.1f);
+            textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.text_maincolor));
+            textView.setTextSize(13);
+            textView.setSingleLine();
+            return textView;
         });
+
+        startScheduleJob(mHandler, 3000, 3000);
+
+        //首页三个行情
+        quoteHomeAdapter = new QuoteHomeAdapter(getActivity());
+        recyclerView_hot.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recyclerView_hot.setAdapter(quoteHomeAdapter);
+
+
+        quoteHomeAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(getContext(), "1", data));
 
 
         view.findViewById(R.id.img_icon1).setOnClickListener(this);
         view.findViewById(R.id.img_icon2).setOnClickListener(this);
         view.findViewById(R.id.img_head).setOnClickListener(this);
 
-        initRecyclerView(recyclerView_hot);
-        initRecyclerView(recyclerView_list);
-
-
-        quoteHomeAdapter = new QuoteHomeAdapter(getActivity());
-        recyclerView_hot.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        recyclerView_hot.setAdapter(quoteHomeAdapter);
 
         quoteAdapter = new QuoteAdapter(getActivity());
         recyclerView_list.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView_list.setAdapter(quoteAdapter);
 
 
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        /*刷新监听*/
+        swipeRefreshLayout.setOnRefreshListener(() -> getBanner());
+
+        quoteAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(getContext(), "1", data));
+
 
     }
-
-    private void initRecyclerView(RecyclerView recyclerView){
-        //解决数据加载不完的问题
-        recyclerView.setNestedScrollingEnabled(false);
-        //当知道Adapter内Item的改变不会影响RecyclerView宽高的时候，可以设置为true让RecyclerView避免重新计算大小
-        recyclerView.setHasFixedSize(true);
-        //解决数据加载完成后, 没有停留在顶部的问题
-        recyclerView.setFocusable(false);
-
-
-        //防止嵌套出现轻微卡顿的问题
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()) {
-            @Override
-            public boolean canScrollVertically() {
-                return false;
-
-            }
-        });
-    }
-
-
 
 
     @Override
@@ -137,7 +154,101 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     protected void initData() {
 
 
+        //获取轮播图和banner
+        getBanner();
 
+
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            updateNews();
+
+
+        }
+    };
+
+    /*轮播图*/
+    private void getBanner() {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("action", "carousel");
+        NetManger.getInstance().getRequest("/api/index.htm", map, new OnNetResult() {
+
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    if (swipeRefreshLayout != null) {
+
+                        swipeRefreshLayout.setRefreshing(true);
+                    }
+                } else if (state.equals(SUCCESS)) {
+                    if (swipeRefreshLayout != null) {
+
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                    BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                    Log.d("print", "onNetResult:219: " + bannerEntity.getCarousels().size() + "  --  " + bannerEntity.getCarousels());
+                    upBanner(bannerEntity.getCarousels());
+
+                    notices = bannerEntity.getNotices();
+
+
+                } else if (state.equals(FAILURE)) {
+                    if (swipeRefreshLayout != null) {
+
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                }
+            }
+        });
+    }
+
+
+    private void updateNews() {
+        if (notices != null) {
+            mNewsIndex++;
+            if (notices.size() > 0) {
+                if (mNewsIndex >= notices.size()) mNewsIndex = 0;
+                if (ListUtil.isNotEmpty(notices)) {
+                    textSwitcher.setText(notices.get(mNewsIndex).getTitle());
+                }
+            }
+        }
+    }
+
+    private void upBanner(List<BannerEntity.CarouselsBean> data) {
+        if (data == null) {
+            return;
+        }
+
+        if (xBanner != null) {
+
+            xBanner.setBannerData(R.layout.item_banner_layout, data);
+            xBanner.loadImage((banner, model, view, position) -> {
+
+                ImageView imageView = view.findViewById(R.id.img_banner);
+                TextView text_title = view.findViewById(R.id.text_title);
+
+                text_title.setText(data.get(position).getName());
+
+
+                Glide.with(getActivity()).load(data.get(position).getXBannerUrl()).into(imageView);
+                Log.d("print", "loadBanner:242:  " + data.get(position).getXBannerUrl());
+            });
+
+            xBanner.setOnItemClickListener(new XBanner.OnItemClickListener() {
+                @Override
+                public void onItemClick(XBanner banner, Object model, View view, int position) {
+
+
+                }
+            });
+        }
     }
 
 
@@ -158,8 +269,11 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
             case R.id.img_head:
 
+                if (isLogin()) {
 
-                LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
+                } else {
+                    LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
+                }
 
 
                 break;
@@ -167,23 +281,25 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     }
 
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         cancelTimer();
+        if (xBanner != null) {
+            xBanner.stopAutoPlay();
+        }
+        QuoteListManger.getInstance().clear();
     }
+
 
     @Override
     public void update(Observable o, Object arg) {
-        String a= (String) arg;
-        List<String> quoteList = Util.quoteResult(a);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                quoteHomeAdapter.setDatas(quoteList.subList(0,3));
-                quoteAdapter.setDatas(quoteList);
-            }
+
+        ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
+        List<String> quoteList = arrayMap.get("0");
+        runOnUiThread(() -> {
+            quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
+            quoteAdapter.setDatas(quoteList);
         });
 
 

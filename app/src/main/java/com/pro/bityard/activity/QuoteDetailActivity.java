@@ -50,6 +50,7 @@ import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -206,7 +207,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private ChargeUnitEntity chargeUnitEntity;
     private double stopProfit = 3;
     private double stopLoss = -0.9;
-    private boolean imgOne = false;
     private boolean isOpenSure;
     private boolean isCloseSure;
 
@@ -634,8 +634,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
-        String marginMarket = edit_market_margin.getText().toString();
-        String marginLimit = edit_limit_margin.getText().toString();
+        String marginMarket = Objects.requireNonNull(edit_market_margin.getText()).toString();
+        String marginLimit = Objects.requireNonNull(edit_limit_margin.getText()).toString();
 
         String margin = marginOrder(orderType, marginMarket, marginLimit);
         String priceOrder = TradeUtil.priceOrder(orderType, edit_limit_price.getText().toString());
@@ -722,46 +722,43 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         }
 
-        btn_switch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (tradeType.equals("1")) {
+        btn_switch.setOnClickListener(v -> {
+            if (tradeType.equals("1")) {
 
-                    tradeType = "2";
-                    text_switch.setText(getResources().getText(R.string.text_simulation_trade));
-                    radio_btn1.setVisibility(View.GONE);
+                tradeType = "2";
+                text_switch.setText(getResources().getText(R.string.text_simulation_trade));
+                radio_btn1.setVisibility(View.GONE);
 
 
-                } else if (tradeType.equals("2")) {
+            } else if (tradeType.equals("2")) {
 
-                    tradeType = "1";
-                    text_switch.setText(getResources().getText(R.string.text_real_trade));
-                    radio_btn1.setVisibility(View.VISIBLE);
-
-
-                }
-                radio_btn0.setChecked(true);
-                if (radio_btn0.isChecked()) {
-                    layout_market_price.setVisibility(View.VISIBLE);
-                    layout_limit_price.setVisibility(View.GONE);
-
-
-                }
-                //可用余额
-                if (tradeType.equals("1")) {
-                    text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
-                    text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
-                } else {
-                    text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
-                    text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
-                }
-
-                backgroundAlpha(1f);
-                popupWindow.dismiss();
-                img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
+                tradeType = "1";
+                text_switch.setText(getResources().getText(R.string.text_real_trade));
+                radio_btn1.setVisibility(View.VISIBLE);
 
 
             }
+            radio_btn0.setChecked(true);
+            if (radio_btn0.isChecked()) {
+                layout_market_price.setVisibility(View.VISIBLE);
+                layout_limit_price.setVisibility(View.GONE);
+
+
+            }
+            //可用余额
+            if (tradeType.equals("1")) {
+                text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+                text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+            } else {
+                text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+                text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+            }
+
+            backgroundAlpha(1f);
+            popupWindow.dismiss();
+            img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
+
+
         });
 
         popupWindow.setFocusable(false);

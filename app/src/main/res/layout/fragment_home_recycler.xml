@@ -4,6 +4,7 @@
     android:id="@+id/layout_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
     android:orientation="vertical">
 
     <com.pro.bityard.view.StatusBarHeightView
@@ -11,75 +12,100 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:use_type="use_padding_top">
-    <!--bar-->
-    <RelativeLayout
-        android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="vertical">
-
+        <!--bar-->
         <RelativeLayout
-
+            android:id="@+id/bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/bar_height"
-            android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:src="@mipmap/icon_bityard_home"
-                android:visibility="visible" />
-
-            <ImageView
-                android:id="@+id/img_head"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:paddingRight="@dimen/margin_15"
-                android:paddingLeft="@dimen/margin_15"
-                android:src="@mipmap/icon_service"
-                android:visibility="visible" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/text_home_tab"
-                android:textColor="@color/text_maincolor"
-                android:textSize="@dimen/title_size" />
-
-
-        </RelativeLayout>
-    </RelativeLayout>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="48dp"
             android:orientation="vertical">
 
+            <RelativeLayout
 
-            <com.pro.bityard.view.HeaderRecyclerView
-                android:id="@+id/recyclerView_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never" />
+                android:layout_height="@dimen/bar_height"
+                android:layout_alignParentBottom="true"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:src="@mipmap/icon_bityard_home"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/img_head"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:paddingRight="@dimen/margin_15"
+                    android:src="@mipmap/icon_service"
+                    android:visibility="visible" />
 
 
-        </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/text_home_tab"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/title_size" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:background="@color/home_line" />
+
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            >
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <com.stx.xhb.xbanner.XBanner
+                        android:id="@+id/banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="125dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="@dimen/margin_13"
+                        android:visibility="visible"
+                        app:AutoPlayTime="5000"
+                        app:clipChildrenLeftRightMargin="@dimen/margin_15"
+                        app:isClipChildrenMode="false"
+                        app:isHandLoop="true"
+                        app:pageChangeDuration="800"
+                        app:pointNormal="@mipmap/ic_point_gray"
+                        app:pointSelect="@mipmap/ic_point_blue" />
+
+                    <com.pro.bityard.view.HeaderRecyclerView
+                        android:id="@+id/recyclerView_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never" />
+
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </com.pro.bityard.view.StatusBarHeightView>
 </LinearLayout>
