@@ -74,30 +74,24 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                swipeRefreshLayout.setRefreshing(false);
-                String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST,null);
-                String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE,null);
-                if (quote_host==null && quote_code==null) {
-                    NetManger.getInstance().initQuote();
-                    return;
-                } else {
-                    QuoteListManger.getInstance().quote(quote_host, quote_code);
-                }
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(false);
+            String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
+            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+            if (quote_host == null && quote_code == null) {
+                NetManger.getInstance().initQuote();
+            } else {
+                assert quote_host != null;
+                QuoteListManger.getInstance().quote(quote_host, quote_code);
             }
         });
 
 
-        quoteAdapter.setOnItemClick(new QuoteAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(String data) {
-                Log.d("print", "onSuccessListener:92:  " + data);
-                QuoteDetailActivity.enter(getContext(), "1", data);
+        quoteAdapter.setOnItemClick(data -> {
+            Log.d("print", "onSuccessListener:92:  " + data);
+            QuoteDetailActivity.enter(getContext(), "1", data);
 
 
-            }
         });
     }
 
@@ -122,7 +116,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
         switch (v.getId()) {
 
             case R.id.layout_new_price:
-                if (arrayMap==null){
+                if (arrayMap == null) {
                     return;
                 }
 
@@ -147,7 +141,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
                 break;
             case R.id.layout_up_down:
-                if (arrayMap==null){
+                if (arrayMap == null) {
                     return;
                 }
                 if (flag_up_down == 0) {
@@ -181,12 +175,9 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
     public void update(Observable o, Object arg) {
         arrayMap = (ArrayMap<String, List<String>>) arg;
         List<String> quoteList = arrayMap.get(type);
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                quoteAdapter.setDatas(quoteList);
-                swipeRefreshLayout.setRefreshing(false);
-            }
+        runOnUiThread(() -> {
+            quoteAdapter.setDatas(quoteList);
+            swipeRefreshLayout.setRefreshing(false);
         });
 
 

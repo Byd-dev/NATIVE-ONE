@@ -96,6 +96,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Ob
                     LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
 
@@ -103,17 +105,14 @@ public class MyFragment extends BaseFragment implements View.OnClickListener, Ob
     public void update(Observable o, Object arg) {
         if (o == BalanceManger.getInstance()) {
             BalanceEntity data = (BalanceEntity) arg;
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (text_balance != null) {
-                        for (BalanceEntity.DataBean data : data.getData()) {
-                            if (data.getCurrency().equals("USDT")) {
-                                text_balance.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
-                            }
+            runOnUiThread(() -> {
+                if (text_balance != null) {
+                    for (BalanceEntity.DataBean data1 : data.getData()) {
+                        if (data1.getCurrency().equals("USDT")) {
+                            text_balance.setText(TradeUtil.getNumberFormat(data1.getMoney(), 2));
                         }
-
                     }
+
                 }
             });
         }else if (o==TagManger.getInstance()){

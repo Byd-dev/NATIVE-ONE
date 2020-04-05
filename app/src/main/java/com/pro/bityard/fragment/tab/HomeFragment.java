@@ -28,6 +28,8 @@ import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.stx.xhb.xbanner.XBanner;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
@@ -136,7 +138,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
-        swipeRefreshLayout.setOnRefreshListener(() -> getBanner());
+        swipeRefreshLayout.setOnRefreshListener(this::getBanner);
 
         quoteAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(getContext(), "1", data));
 
@@ -163,7 +165,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
 
             updateNews();
@@ -176,34 +178,30 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     private void getBanner() {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("action", "carousel");
-        NetManger.getInstance().getRequest("/api/index.htm", map, new OnNetResult() {
+        NetManger.getInstance().getRequest("/api/index.htm", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                if (swipeRefreshLayout != null) {
 
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    if (swipeRefreshLayout != null) {
-
-                        swipeRefreshLayout.setRefreshing(true);
-                    }
-                } else if (state.equals(SUCCESS)) {
-                    if (swipeRefreshLayout != null) {
-
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                    BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
-                    Log.d("print", "onNetResult:219: " + bannerEntity.getCarousels().size() + "  --  " + bannerEntity.getCarousels());
-                    upBanner(bannerEntity.getCarousels());
-
-                    notices = bannerEntity.getNotices();
-
-
-                } else if (state.equals(FAILURE)) {
-                    if (swipeRefreshLayout != null) {
-
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-
+                    swipeRefreshLayout.setRefreshing(true);
                 }
+            } else if (state.equals(SUCCESS)) {
+                if (swipeRefreshLayout != null) {
+
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                Log.d("print", "onNetResult:219: " + bannerEntity.getCarousels().size() + "  --  " + bannerEntity.getCarousels());
+                upBanner(bannerEntity.getCarousels());
+
+                notices = bannerEntity.getNotices();
+
+
+            } else if (state.equals(FAILURE)) {
+                if (swipeRefreshLayout != null) {
+
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+
             }
         });
     }
@@ -237,16 +235,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                 text_title.setText(data.get(position).getName());
 
 
-                Glide.with(getActivity()).load(data.get(position).getXBannerUrl()).into(imageView);
+                Glide.with(Objects.requireNonNull(getActivity())).load(data.get(position).getXBannerUrl()).into(imageView);
                 Log.d("print", "loadBanner:242:  " + data.get(position).getXBannerUrl());
             });
 
-            xBanner.setOnItemClickListener(new XBanner.OnItemClickListener() {
-                @Override
-                public void onItemClick(XBanner banner, Object model, View view, int position) {
+            xBanner.setOnItemClickListener((banner, model, view, position) -> {
 
 
-                }
             });
         }
     }
@@ -269,14 +264,14 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
             case R.id.img_head:
 
-                if (isLogin()) {
-
-                } else {
+                if (!isLogin()) {
                     LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
                 }
 
 
                 break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
 
@@ -298,6 +293,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
         List<String> quoteList = arrayMap.get("0");
         runOnUiThread(() -> {
+            assert quoteList != null;
             quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
             quoteAdapter.setDatas(quoteList);
         });
