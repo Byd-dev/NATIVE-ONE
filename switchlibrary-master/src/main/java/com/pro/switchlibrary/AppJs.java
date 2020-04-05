@@ -150,7 +150,10 @@ public class AppJs {
 
     @JavascriptInterface
     public String isSupportDiscern() {
-        String isSupport = SPUtils.getString(AppConfig.KEY_SUPPORT_DISCERN);
+        String isSupport = SPUtils.getString(AppConfig.KEY_SUPPORT_DISCERN,null);
+        if (isSupport==null){
+            return "false";
+        }
         if (isSupport.equals("false")) {
             return "false";
         } else {

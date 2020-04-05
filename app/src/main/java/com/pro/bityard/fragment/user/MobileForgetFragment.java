@@ -122,10 +122,9 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     protected void initData() {
 
         //获取默认的国家区号 如果没有地理位置 就默认中国
-        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME);
-        if (!country_name.equals("")) {
-            text_countryName.setText(country_name);
-        }
+        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME,"中国");
+
+        text_countryName.setText(country_name);
 
 
         //获取国家code
@@ -158,11 +157,11 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
             }
         }
 
-        String text_mobile = SPUtils.getString(AppConfig.USER_MOBILE);
-        if (!text_mobile.equals("")) {
-            text_countryCode.setText(SPUtils.getString(AppConfig.USER_COUNTRY_CODE));
-            text_countryName.setText(SPUtils.getString(AppConfig.USER_COUNTRY_NAME));
-            edit_account.setText(SPUtils.getString(AppConfig.USER_MOBILE));
+        String text_mobile = SPUtils.getString(AppConfig.USER_MOBILE,null);
+        if (text_mobile!=null) {
+            text_countryCode.setText(SPUtils.getString(AppConfig.USER_COUNTRY_CODE,null));
+            text_countryName.setText(SPUtils.getString(AppConfig.USER_COUNTRY_NAME,null));
+            edit_account.setText(SPUtils.getString(AppConfig.USER_MOBILE,null));
         }
 
 

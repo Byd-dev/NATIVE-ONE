@@ -18,6 +18,7 @@ public class SPUtils {
 
     /**
      * 使用之前初始化, 可在Application中调用
+     *
      * @param context 请传入ApplicationContext避免内存泄漏
      */
     public static void init(Context context) {
@@ -37,6 +38,7 @@ public class SPUtils {
      * <pre>
      * PreferencesHelper.putData(saveUser);
      * </pre>
+     *
      * @param data 不带泛型的任意数据类型实例
      */
     public static <T> void putData(T data) {
@@ -48,6 +50,7 @@ public class SPUtils {
      * <pre>
      * PreferencesHelper.putData(key, saveUser);
      * </pre>
+     *
      * @param data 不带泛型的任意数据类型实例
      */
     public static <T> void putData(String key, T data) {
@@ -62,6 +65,7 @@ public class SPUtils {
      * <pre>
      * PreferencesHelper.putData(users);
      * </pre>
+     *
      * @param data List类型实例
      */
     public static <T> void putData(List<T> data) {
@@ -73,8 +77,6 @@ public class SPUtils {
         sharedPreferences.edit().putString(returnType.getName() + LIST_TAG,
                 gson.toJson(data)).apply();
     }
-
-
 
 
     /**
@@ -103,10 +105,11 @@ public class SPUtils {
      * 将数据从SharedPreferences中取出, 如
      * <pre>List<User> users = PreferencesHelper.getData(List.class, User.class)</pre>
      */
-    public static <T> List<T> getData(Class<List> clz,  Class<T> gClz) {
+    public static <T> List<T> getData(Class<List> clz, Class<T> gClz) {
         checkInit();
         String json = sharedPreferences.getString(gClz.getName() + LIST_TAG, "");
-        return gson.fromJson(json, new TypeToken<List>(){}.getType());
+        return gson.fromJson(json, new TypeToken<List>() {
+        }.getType());
     }
 
     /**
@@ -119,39 +122,39 @@ public class SPUtils {
     /**
      * 简易字符串获取, 仅支持字符串
      */
-    public static String getString(String key) {
-        return sharedPreferences.getString(key, "");
+    public static String getString(String key, String defValue) {
+        return sharedPreferences.getString(key, defValue);
     }
 
     public static void putInt(String key, int data) {
-        sharedPreferences.edit().putInt(key,data).apply();
+        sharedPreferences.edit().putInt(key, data).apply();
     }
 
-    public static int getInt(String key) {
-        return sharedPreferences.getInt(key, -1);
+    public static int getInt(String key, int defValue) {
+        return sharedPreferences.getInt(key, -defValue);
     }
 
     public static void putBoolean(String key, boolean data) {
-        sharedPreferences.edit().putBoolean(key,data).apply();
+        sharedPreferences.edit().putBoolean(key, data).apply();
     }
 
-    public static boolean getBoolean(String key,boolean defaultData) {
+    public static boolean getBoolean(String key, boolean defaultData) {
         return sharedPreferences.getBoolean(key, defaultData);
     }
 
     public static void putFloat(String key, float data) {
-        sharedPreferences.edit().putFloat(key,data).apply();
+        sharedPreferences.edit().putFloat(key, data).apply();
     }
 
-    public static float getFloat(String key,float defaultData) {
+    public static float getFloat(String key, float defaultData) {
         return sharedPreferences.getFloat(key, defaultData);
     }
 
     public static void putLong(String key, long data) {
-        sharedPreferences.edit().putLong(key,data).apply();
+        sharedPreferences.edit().putLong(key, data).apply();
     }
 
-    public static float getLong(String key,long defaultData) {
+    public static float getLong(String key, long defaultData) {
         return sharedPreferences.getLong(key, defaultData);
     }
 

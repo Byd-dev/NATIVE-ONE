@@ -125,10 +125,9 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     @Override
     protected void initData() {
         //获取默认的国家区号 如果没有地理位置 就默认中国
-        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME);
-        if (!country_name.equals("")) {
-            text_countryName.setText(country_name);
-        }
+        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME,"中国");
+
+        text_countryName.setText(country_name);
 
 
         //获取国家code

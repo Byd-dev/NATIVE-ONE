@@ -48,8 +48,8 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
             text_theme.setText(getResources().getText(R.string.text_day));
         }
 
-        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE);
-        if (language.equals("")) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE,null);
+        if (language==null) {
 
         } else {
             if (language.equals("en")) {

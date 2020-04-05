@@ -53,12 +53,12 @@ public class DoGet {
         macAddress = DeviceUtil.getMACAddress();
         JsonEntity data = SPUtils.getData(AppConfig.CHECKVERSION, JsonEntity.class);
 
-        String onIdsAvalid = SPUtils.getString(AppConfig.ONIDSAVALID);
-        location = SPUtils.getString(AppConfig.LOCATION);
+        String onIdsAvalid = SPUtils.getString(AppConfig.ONIDSAVALID,null);
+        location = SPUtils.getString(AppConfig.LOCATION,null);
         //  String deviceUUID = DeviceUtil.getDeviceUniqueID(context);
         String deviceUUID = UUID.randomUUID().toString();
 
-        if (onIdsAvalid.equals("")) {
+        if (onIdsAvalid==null) {
             uuid = deviceUUID;
         } else {
             uuid = onIdsAvalid;

@@ -78,9 +78,9 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onRefresh() {
                 swipeRefreshLayout.setRefreshing(false);
-                String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
-                String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE);
-                if (quote_host.equals("") && quote_code.equals("")) {
+                String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST,null);
+                String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE,null);
+                if (quote_host==null && quote_code==null) {
                     NetManger.getInstance().initQuote();
                     return;
                 } else {

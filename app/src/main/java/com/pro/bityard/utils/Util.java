@@ -207,7 +207,7 @@ public class Util {
     }
 
     public static Context updateLanguage(Context context) {
-        String curLanguage = SPUtils.getString(AppConfig.KEY_LANGUAGE);
+        String curLanguage = SPUtils.getString(AppConfig.KEY_LANGUAGE,null);
         if (null == curLanguage || TextUtils.isEmpty(curLanguage)) {
             curLanguage = AppConfig.KEY_LANGUAGE;
         }

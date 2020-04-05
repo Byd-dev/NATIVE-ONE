@@ -42,8 +42,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public static final class TAB_TYPE {
         public static final int COUNT = 4;
         public static final int TAB_HOME = 0;
-        public static final int TAB_HALL = TAB_HOME + 1;
-        public static final int TAB_POSITION = TAB_HALL + 1;
+        static final int TAB_HALL = TAB_HOME + 1;
+        static final int TAB_POSITION = TAB_HALL + 1;
         public static final int TAB_INFORMATION = TAB_POSITION + 1;
 
 
@@ -96,6 +96,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         radioGroup.getChildAt(0).performClick();
         //行情初始化
         QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+        //初始化 交易设置
+
+
+
 
 
     }
@@ -106,48 +110,34 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
 
         //获取国家code
-        NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
+        NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
+                SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
 
-                } else if (state.equals(SUCCESS)) {
-                    CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                    SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-
-                } else if (state.equals(FAILURE)) {
-
-                }
             }
         });
         //合约号初始化
-        TradeListManger.getInstance().tradeList(new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(SUCCESS)) {
-                    Toast.makeText(MainActivity.this, "合约号获取成功", Toast.LENGTH_SHORT).show();
-                }
+        TradeListManger.getInstance().tradeList((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                Toast.makeText(MainActivity.this, "合约号获取成功", Toast.LENGTH_SHORT).show();
             }
         });
 
 
         /*手续费*/
-        ChargeUnitManger.getInstance().chargeUnit(new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(SUCCESS)){
-                    Toast.makeText(MainActivity.this, "手续费获取成功", Toast.LENGTH_SHORT).show();
+        ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
+            if (state.equals(SUCCESS)){
+                Toast.makeText(MainActivity.this, "手续费获取成功", Toast.LENGTH_SHORT).show();
 
-                }
             }
         });
         //行情
-        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE);
-        if (quote_host.equals("") && quote_code.equals("")) {
+        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST,null);
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE,null);
+        if (quote_host==null && quote_code==null) {
             Toast.makeText(MainActivity.this, getResources().getString(R.string.text_err_init), Toast.LENGTH_SHORT).show();
             NetManger.getInstance().initQuote();
-            return;
         } else {
             QuoteListManger.getInstance().quote(quote_host, quote_code);
         }

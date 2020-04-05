@@ -51,9 +51,9 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initView(View view) {
 
-        String string = SPUtils.getString(AppConfig.FIRST_OPEN);
+        String string = SPUtils.getString(AppConfig.FIRST_OPEN,null);
         Log.d("print", "initView:58:  "+string);
-        if (!string.equals("")) {
+        if (string!=null) {
             MainActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_HOME);
             GuideActivity.this.finish();
 
@@ -114,9 +114,9 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     protected void initData() {
         /*初始化获取行情 合约号 行情地址*/
         // TODO: 2020/3/13    这里到时候再判断是先有了行情再跳入主页还是另外判断 
-        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE);
-        if (quote_host.equals("") && quote_code.equals("")) {
+        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST,null);
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE,null);
+        if (quote_host==null && quote_code==null) {
             NetManger.getInstance().initQuote();
         }
 

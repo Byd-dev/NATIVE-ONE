@@ -65,8 +65,8 @@ public class QuoteItemManger extends Observable {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST);
-            if (quote_host.equals("")) {
+            String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST,null);
+            if (quote_host!=null) {
                 NetManger.getInstance().initQuote();
                 return;
             } else {

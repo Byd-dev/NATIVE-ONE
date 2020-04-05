@@ -1,5 +1,6 @@
 package com.pro.bityard.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
@@ -42,6 +44,7 @@ import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
+import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,11 +64,8 @@ import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteIsRange;
-import static com.pro.bityard.utils.TradeUtil.itemQuoteMaxPrice;
-import static com.pro.bityard.utils.TradeUtil.itemQuoteMinPrice;
 import static com.pro.bityard.utils.TradeUtil.itemQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteTodayPrice;
-import static com.pro.bityard.utils.TradeUtil.itemQuoteVolume;
 import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
 import static com.pro.bityard.utils.TradeUtil.listQuoteName;
 import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
@@ -86,7 +86,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     RelativeLayout layout_bar;
     private String tradeType = "1";//实盘=1 模拟=2
     private String orderType = "0"; //市价=0 限价=1
-    private boolean isDefer = false; //是否递延
+    private boolean isDefer; //是否递延
 
     private String itemData;
 
@@ -192,8 +192,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private RadioGroupAdapter radioGroupAdapter;//杠杆适配器
     private RadioRateAdapter radioRateProfitAdapter, radioRateLossAdapter;
 
-    private List<Integer> stopProfitList, stopLossList;
-
     private List<String> quoteList;
 
     private QuotePopAdapter quotePopAdapter;
@@ -205,6 +203,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private double stopProfit = 3;
     private double stopLoss = -0.9;
     private boolean imgOne = false;
+    private boolean isOpenSure;
+    private boolean isCloseSure;
 
 
     public static void enter(Context context, String tradeType, String data) {
@@ -246,14 +246,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         QuoteItemManger.getInstance().addObserver(this);
 
-
         BalanceManger.getInstance().getBalance("USDT");
 
         TradeListManger.getInstance().addObserver(this);
 
         ChargeUnitManger.getInstance().addObserver(this);
         TagManger.getInstance().addObserver(this);
-
 
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.img_back_two).setOnClickListener(this);
@@ -270,7 +268,29 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         recyclerView_market.setAdapter(radioGroupAdapter);
         recyclerView_limit.setAdapter(radioGroupAdapter);
 
-        stopProfitList = new ArrayList<>();
+        isDefer = SPUtils.getBoolean(AppConfig.KEY_DEFER, false);
+        if (isDefer) {
+            img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
+        } else {
+            img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
+        }
+
+        isOpenSure = SPUtils.getBoolean(AppConfig.KEY_OPEN_SURE, true);
+        if (isOpenSure) {
+            img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
+        } else {
+            img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
+        }
+        isCloseSure = SPUtils.getBoolean(AppConfig.KEY_CLOSE_SURE, false);
+        if (isCloseSure) {
+            img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
+
+        } else {
+            img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
+
+        }
+
+        List<Integer> stopProfitList = new ArrayList<>();
         stopProfitList.add(300);
         stopProfitList.add(350);
         stopProfitList.add(400);
@@ -280,18 +300,17 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         recyclerView_profit.setAdapter(radioRateProfitAdapter);
         recyclerView_profit.setLayoutManager(new GridLayoutManager(this, stopProfitList.size()));
         radioRateProfitAdapter.setDatas(stopProfitList);
-        radioRateProfitAdapter.select(0);
-        radioRateProfitAdapter.setOnItemClick(new RadioRateAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(Integer position, Integer data) {
-                radioRateProfitAdapter.select(position);
-                recyclerView_profit.setAdapter(radioRateProfitAdapter);
-                stopProfit = TradeUtil.div(data, 100, 2);
+        int index_profit = SPUtils.getInt(AppConfig.INDEX_PROFIT,0);
+        radioRateProfitAdapter.select(index_profit);
+        radioRateProfitAdapter.setOnItemClick((position, data) -> {
+            radioRateProfitAdapter.select(position);
+            recyclerView_profit.setAdapter(radioRateProfitAdapter);
+            stopProfit = TradeUtil.div(data, 100, 2);
+            SPUtils.putInt(AppConfig.INDEX_PROFIT,position);
 
-            }
         });
 
-        stopLossList = new ArrayList<>();
+        List<Integer> stopLossList = new ArrayList<>();
         stopLossList.add(-10);
         stopLossList.add(-30);
         stopLossList.add(-50);
@@ -301,20 +320,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         recyclerView_loss.setAdapter(radioRateLossAdapter);
         recyclerView_loss.setLayoutManager(new GridLayoutManager(this, stopLossList.size()));
         radioRateLossAdapter.setDatas(stopLossList);
-        radioRateLossAdapter.select(4);
-        radioRateLossAdapter.setOnItemClick(new RadioRateAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(Integer position, Integer data) {
-                radioRateLossAdapter.select(position);
-                recyclerView_loss.setAdapter(radioRateLossAdapter);
-                stopLoss = TradeUtil.div(data, 100, 2);
+        int index_loss = SPUtils.getInt(AppConfig.INDEX_LOSS,4);
+        radioRateLossAdapter.select(index_loss);
+        radioRateLossAdapter.setOnItemClick((position, data) -> {
+            radioRateLossAdapter.select(position);
+            recyclerView_loss.setAdapter(radioRateLossAdapter);
+            stopLoss = TradeUtil.div(data, 100, 2);
+            SPUtils.putInt(AppConfig.INDEX_LOSS,position);
 
-            }
         });
 
-        img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
-        img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
-        img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
 
         findViewById(R.id.layout_one).setOnClickListener(this);
         findViewById(R.id.layout_two).setOnClickListener(this);
@@ -327,6 +342,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initData() {
         Bundle bundle = getIntent().getBundleExtra("bundle");
+        assert bundle != null;
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
 
@@ -361,26 +377,32 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         text_range.setText(TradeUtil.quoteRange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
 
 
-        if (listQuoteIsRange(itemData).equals("-1")) {
-            text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
-            text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
-            text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
+        switch (listQuoteIsRange(itemData)) {
+            case "-1":
+                text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
+                text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
+                text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
 
-            img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_down));
+                img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_down));
 
-        } else if (listQuoteIsRange(itemData).equals("1")) {
-            text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
-            text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
-            text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
+                break;
+            case "1":
+                text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
+                text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
+                text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
 
-            img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_up));
+                img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_up));
 
-        } else if (listQuoteIsRange(itemData).equals("0")) {
+                break;
+            case "0":
 
-            text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-            text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-            text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
 
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + listQuoteIsRange(itemData));
         }
 
 
@@ -395,31 +417,28 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    TradeListManger.getInstance().tradeList(new OnNetResult() {
-                        @Override
-                        public void onNetResult(String state, Object response) {
-                            if (state.equals(SUCCESS)) {
-                                cancelTimer();
-                            }
+                    TradeListManger.getInstance().tradeList((state, response) -> {
+                        if (state.equals(SUCCESS)) {
+                            cancelTimer();
                         }
                     });
                     break;
                 case 1:
-                    ChargeUnitManger.getInstance().chargeUnit(new OnNetResult() {
-                        @Override
-                        public void onNetResult(String state, Object response) {
-                            if (state.equals(SUCCESS)) {
-                                cancelTimer();
-                            }
+                    ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
+                        if (state.equals(SUCCESS)) {
+                            cancelTimer();
                         }
                     });
                     break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + msg.what);
             }
 
 
@@ -441,17 +460,14 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             radioGroupAdapter.select(0);
             lever = leverShowList.get(0);
 
-            radioGroupAdapter.setOnItemClick(new RadioGroupAdapter.OnItemClick() {
-                @Override
-                public void onSuccessListener(Integer position, Integer data) {
-                    lever = data;
-                    radioGroupAdapter.select(position);
-                    recyclerView_market.setAdapter(radioGroupAdapter);
-                    recyclerView_limit.setAdapter(radioGroupAdapter);
-                    radioGroupAdapter.notifyDataSetChanged();
+            radioGroupAdapter.setOnItemClick((position, data) -> {
+                lever = data;
+                radioGroupAdapter.select(position);
+                recyclerView_market.setAdapter(radioGroupAdapter);
+                recyclerView_limit.setAdapter(radioGroupAdapter);
+                radioGroupAdapter.notifyDataSetChanged();
 
 
-                }
             });
 
 
@@ -463,6 +479,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    @SuppressLint("RtlHardcoded")
     private void showDrawerLayout() {
         if (!drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
             drawerLayout.openDrawer(Gravity.RIGHT);
@@ -508,20 +525,37 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 break;
             case R.id.layout_one:
-                if (imgOne) {
-                    isDefer = false;
-                    imgOne = false;
+                if (isDefer) {
                     img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
-
+                    isDefer = false;
+                    SPUtils.putBoolean(AppConfig.KEY_DEFER, false);
                 } else {
-                    isDefer = true;
-                    imgOne = true;
                     img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
+                    isDefer = true;
+                    SPUtils.putBoolean(AppConfig.KEY_DEFER, true);
                 }
                 break;
             case R.id.layout_two:
+                if (isOpenSure) {
+                    img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
+                    isOpenSure = false;
+                    SPUtils.putBoolean(AppConfig.KEY_OPEN_SURE, false);
+                } else {
+                    img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
+                    isOpenSure = true;
+                    SPUtils.putBoolean(AppConfig.KEY_OPEN_SURE, true);
+                }
                 break;
             case R.id.layout_three:
+                if (isCloseSure) {
+                    img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
+                    isCloseSure = false;
+                    SPUtils.putBoolean(AppConfig.KEY_CLOSE_SURE, false);
+                } else {
+                    img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
+                    isCloseSure = true;
+                    SPUtils.putBoolean(AppConfig.KEY_CLOSE_SURE, true);
+                }
                 break;
 
         }
@@ -557,21 +591,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
                 tradeListEntity.getContractCode(), isBuy, margin, String.valueOf(lever), priceOrder, defer,
                 TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), String.valueOf(stopProfit), String.valueOf(stopLoss), serviceCharge,
-                "0", TradeUtil.volume(lever, margin, Double.parseDouble(priceMuchOrEmpty)), "0", "USDT", new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
-                            dismissProgressDialog();
-                            PositionRealManger.getInstance().getHold();
-                            PositionSimulationManger.getInstance().getHold();
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
-
-                        }
-                    }
+                "0", TradeUtil.volume(lever, margin, Double.parseDouble(priceMuchOrEmpty)), "0", "USDT", (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        dismissProgressDialog();
+                        PositionRealManger.getInstance().getHold();
+                        PositionSimulationManger.getInstance().getHold();
+                    } else if (state.equals(FAILURE)) dismissProgressDialog();
                 }
 
         );
@@ -595,25 +623,22 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         recyclerView.setAdapter(quotePopAdapter);
-        quotePopAdapter.setOnItemClick(new QuotePopAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(String data) {
-                text_name.setText(listQuoteName(data));
-                text_name_usdt.setText(listQuoteUSD(data));
-                QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
-                //相应选择
-                quotePopAdapter.select(itemQuoteContCode(data));
-                backgroundAlpha(1f);
-                img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
-                popupWindow.dismiss();
+        quotePopAdapter.setOnItemClick(data -> {
+            text_name.setText(listQuoteName(data));
+            text_name_usdt.setText(listQuoteUSD(data));
+            QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
+            //相应选择
+            quotePopAdapter.select(itemQuoteContCode(data));
+            backgroundAlpha(1f);
+            img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
+            popupWindow.dismiss();
 
 
-                TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
+            TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
 
-                setContent(tradeListEntity);
+            setContent(tradeListEntity);
 
 
-            }
         });
 
 
@@ -738,16 +763,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 }
 
-                text_max.setText(itemQuoteMaxPrice(quote));
-                text_min.setText(itemQuoteMinPrice(quote));
-                text_volume.setText(itemQuoteVolume(quote));
+                text_max.setText(TradeUtil.itemQuoteMaxPrice(quote));
+                text_min.setText(TradeUtil.itemQuoteMinPrice(quote));
+                text_volume.setText(TradeUtil.itemQuoteVolume(quote));
 
 
                 String spread = TradeUtil.spread(itemQuoteContCode(quote), tradeListEntityList);
 
                 if (spread != null) {
-                    text_buy_much.setText(TradeUtil.itemQuoteBuyMuchPrice(quote, Integer.valueOf(spread)));
-                    text_buy_empty.setText(TradeUtil.itemQuoteBuyEmptyPrice(quote, Integer.valueOf(spread)));
+                    text_buy_much.setText(TradeUtil.itemQuoteBuyMuchPrice(quote, Integer.parseInt(spread)));
+                    text_buy_empty.setText(TradeUtil.itemQuoteBuyEmptyPrice(quote, Integer.parseInt(spread)));
                 }
 
             }

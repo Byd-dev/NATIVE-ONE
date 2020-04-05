@@ -66,8 +66,8 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
     protected void initData() {
 
 
-        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE);
-        if (language.equals("")) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE,null);
+        if (language==null) {
 
         } else {
             if (language.equals("en")) {

@@ -253,9 +253,9 @@ public class AppUtil {
     }
 
     public static String getFirstInstallTime(){
-        String time = SPUtils.getString("time");
+        String time = SPUtils.getString("time",null);
 
-        if (time.equals("")){
+        if (time==null){
             SPUtils.putString("time", String.valueOf(System.currentTimeMillis()));
             time="第一次安装";
         }

@@ -998,7 +998,7 @@ public class DeviceUtil implements IIdentifierListener {
         StringBuilder sb = new StringBuilder();
         String phoneBrand = getBrand();//设备牌子
 
-        String OnIdsAvalid = SPUtils.getString(AppConfig.ONIDSAVALID);
+        String OnIdsAvalid = SPUtils.getString(AppConfig.ONIDSAVALID,null);
 
 
         //String deviceId = getDeviceId(context);//设备ID
@@ -1011,7 +1011,7 @@ public class DeviceUtil implements IIdentifierListener {
         String macAddress = getMACAddress();
         String phoneNumber = getPhoneNumber(context);
 
-        String location = SPUtils.getString(AppConfig.LOCATION);
+        String location = SPUtils.getString(AppConfig.LOCATION,null);
 
        /* LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         String location = judgeProvider(locationManager, context);*/

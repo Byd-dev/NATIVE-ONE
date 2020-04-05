@@ -133,8 +133,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initData() {
 
-        String text_email = SPUtils.getString(AppConfig.USER_EMAIL);
-        if (!text_email.equals("")) {
+        String text_email = SPUtils.getString(AppConfig.USER_EMAIL,null);
+        if (text_email!=null) {
             edit_account.setText(text_email);
         }
 
