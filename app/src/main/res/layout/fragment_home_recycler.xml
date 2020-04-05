@@ -41,7 +41,7 @@
                 android:layout_centerVertical="true"
                 android:paddingRight="@dimen/margin_15"
                 android:paddingLeft="@dimen/margin_15"
-                android:src="@mipmap/icon_head"
+                android:src="@mipmap/icon_service"
                 android:visibility="visible" />
 
 

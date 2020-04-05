@@ -6,13 +6,13 @@
 
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
-    <color name="background_maincolor">#1B262D</color>
-    <color name="home_line">#2C3940</color>
+    <color name="background_maincolor">#1A2435</color>
+    <color name="home_line">#202B3F</color>
     <color name="maincolor">#E2BE30</color>
     <color name="tab_color_normal">#848E9C</color>
     <color name="text_maincolor">#ffffff</color>
-    <color name="text_secondcolor">#DDDDDD</color>
-    <color name="edit_color">#1E2C37</color>
+    <color name="text_secondcolor">#ABBCD2</color>
+    <color name="edit_color">#243048</color>
     <color name="color_hint">#848E9C</color>
     <color name="color_err">#D55F58</color>
     <color name="color_btn_bg">#848E9C</color>
@@ -27,11 +27,10 @@
     <color name="text_second_color">#A0ACBC</color>
     <color name="text_main_color_black">#333333</color>
     <color name="text_red_position">#D55F58</color>
-    <color name="text_edit_pop">#2C3940</color>
+    <color name="text_edit_pop">#2F3D45</color>
     <color name="color_bg_green">#338AB152</color>
     <color name="color_bg_normal">#535352</color>
     <color name="color_bg_red">#338B2A2F</color>
-    <color name="color_bg_left">#1D2A34</color>
+    <color name="color_bg_left">#1F2A40</color>
     <color name="text_second_color_black">#222222</color>
-    <color name="color_trade_set">#1F2A40</color>
 </resources>

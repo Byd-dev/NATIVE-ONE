@@ -979,7 +979,7 @@
                 android:id="@+id/layout_one"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_40"
-                android:background="@color/color_trade_set"
+                android:background="@color/color_bg_left"
                 android:layout_height="@dimen/margin_40">
                 <TextView
                     android:layout_width="wrap_content"
@@ -1005,7 +1005,7 @@
             <RelativeLayout
                 android:id="@+id/layout_two"
                 android:layout_width="match_parent"
-                android:background="@color/color_trade_set"
+                android:background="@color/color_bg_left"
                 android:layout_height="@dimen/margin_40">
                 <TextView
                     android:layout_width="wrap_content"
@@ -1032,7 +1032,7 @@
             <RelativeLayout
                 android:id="@+id/layout_three"
                 android:layout_width="match_parent"
-                android:background="@color/color_trade_set"
+                android:background="@color/color_bg_left"
                 android:layout_height="@dimen/margin_40">
                 <TextView
                     android:layout_width="wrap_content"
