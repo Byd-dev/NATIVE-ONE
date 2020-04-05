@@ -632,7 +632,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.text_market_all:
-            case R.id.text_limit_all:
                 if (text_market_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
                     return;
                 } else {
@@ -641,7 +640,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                             }
                     );
                 }
-
+                break;
+            case R.id.text_limit_all:
+                if (text_limit_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
+                    return;
+                } else {
+                    PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
+                            new StringBuilder().append(getString(R.string.text_service_tip)).append(text_limit_all.getText().toString()).append("USDT").toString(), state -> {
+                            }
+                    );
+                }
                 break;
 
         }
