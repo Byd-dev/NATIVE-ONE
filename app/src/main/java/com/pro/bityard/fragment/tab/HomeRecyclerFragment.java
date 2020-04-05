@@ -1,5 +1,7 @@
 package com.pro.bityard.fragment.tab;
 
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -11,17 +13,19 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.QuoteDetailActivity;
-import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
+import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.stx.xhb.xbanner.XBanner;
@@ -58,6 +62,8 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
     private XBanner xBanner;
     private TextSwitcher textSwitcher;
 
+    private List<BannerEntity.NoticesBean> notices;
+    private int mNewsIndex;
 
     @Override
     public void onResume() {
@@ -102,13 +108,14 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
                 textView.setMaxLines(1);
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 textView.setLineSpacing(1.1f, 1.1f);
-                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.text_report_color));
-                textView.setTextSize(15);
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.text_maincolor));
+                textView.setTextSize(13);
                 textView.setSingleLine();
                 return textView;
             }
         });
 
+        startScheduleJob(mHandler, 3000, 3000);
 
         RecyclerView recyclerView_hot = home_view.findViewById(R.id.recyclerView_hot);
         //首页三个行情
@@ -144,7 +151,6 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
             @Override
             public void onRefresh() {
                 getBanner();
-                getReport();
             }
         });
 
@@ -173,45 +179,27 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
         //获取轮播图和banner
         getBanner();
-        getReport();
 
 
     }
 
-    /*跑马灯*/
-    private void getReport() {
-        ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("action", "notices");
-        NetManger.getInstance().getRequest("/api/index.htm", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    if (swipeRefreshLayout != null) {
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
 
-                        swipeRefreshLayout.setRefreshing(true);
-                    }
-                } else if (state.equals(SUCCESS)) {
-                    if (swipeRefreshLayout != null) {
+            updateNews();
 
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-                } else if (state.equals(FAILURE)) {
-                    if (swipeRefreshLayout != null) {
 
-                        swipeRefreshLayout.setRefreshing(false);
-                    }
-
-                }
-            }
-        });
-    }
-
+        }
+    };
 
     /*轮播图*/
     private void getBanner() {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("action", "carousel");
         NetManger.getInstance().getRequest("/api/index.htm", map, new OnNetResult() {
+
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -224,8 +212,11 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
                         swipeRefreshLayout.setRefreshing(false);
                     }
-                    // BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
-                    //  upBanner(bannerEntity.getCarousels());
+                    BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                    upBanner(bannerEntity.getCarousels());
+
+                    notices = bannerEntity.getNotices();
+
 
                 } else if (state.equals(FAILURE)) {
                     if (swipeRefreshLayout != null) {
@@ -238,6 +229,18 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
         });
     }
 
+
+    private void updateNews() {
+        if (notices != null) {
+            mNewsIndex++;
+            if (notices.size() > 0) {
+                if (mNewsIndex >= notices.size()) mNewsIndex = 0;
+                if (ListUtil.isNotEmpty(notices)) {
+                    textSwitcher.setText(notices.get(mNewsIndex).getTitle());
+                }
+            }
+        }
+    }
 
     private void upBanner(List<BannerEntity.CarouselsBean> data) {
         if (data == null) {

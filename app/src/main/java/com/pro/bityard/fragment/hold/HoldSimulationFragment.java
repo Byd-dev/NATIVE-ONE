@@ -179,7 +179,7 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                         // 1,2.5,5
                         String netIncome = split[1];
                         String margin = split[2];
-                        Log.d("print", "run:185:  " + netIncome + "   --  " + margin);
+                     //   Log.d("print", "run:185:  " + netIncome + "   --  " + margin);
 
 
                         if (balanceEntity != null) {
