@@ -131,7 +131,7 @@ public class SPUtils {
     }
 
     public static int getInt(String key, int defValue) {
-        return sharedPreferences.getInt(key, -defValue);
+        return sharedPreferences.getInt(key, defValue);
     }
 
     public static void putBoolean(String key, boolean data) {

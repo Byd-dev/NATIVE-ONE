@@ -387,9 +387,10 @@ public class NetManger {
 
         try {
             String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
-
+            Log.d("quoteItem", "getItemQuote:390:  "+urlList);
             String[] split = urlList.split(";");
             int length = split.length;
+            Log.d("quoteItem", "getItemQuote:393:  "+count +"  --   "+split[count]);
             if (count < length) {
                 getHostRequest(split[count], url, map, new OnNetResult() {
                     @Override
@@ -400,10 +401,11 @@ public class NetManger {
                             onNetResult.onNetResult(SUCCESS, response.toString());
                         } else if (state.equals(FAILURE)) {
                             if (length == 0) {
-
                             } else {
                                 count++;
                             }
+                            onNetResult.onNetResult(FAILURE, null);
+
                         }
                     }
                 });

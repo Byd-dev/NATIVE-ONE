@@ -717,7 +717,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == QuoteItemManger.getInstance()) {
             quote = (String) arg;
 
-
+            Log.d("print", "update:720: 单个行情:  "+quote);
             if (quote != null) {
                 //仓位实时更新 服务费
                 if (edit_market_margin.getText().length() != 0) {

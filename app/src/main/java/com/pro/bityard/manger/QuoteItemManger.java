@@ -1,5 +1,6 @@
 package com.pro.bityard.manger;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.util.ArrayMap;
@@ -61,12 +62,13 @@ public class QuoteItemManger extends Observable {
         }, delay, interval);
     }
 
+    @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST,null);
-            if (quote_host!=null) {
+            if (quote_host==null) {
                 NetManger.getInstance().initQuote();
                 return;
             } else {
@@ -87,7 +89,7 @@ public class QuoteItemManger extends Observable {
     public void quote(String quote_host, String quote_code) {
 
 
-        if (quote_host.equals("") && quote_code.equals("")) {
+        if (quote_host==null&& quote_code==null) {
             NetManger.getInstance().initQuote();
         } else {
             NetManger.getInstance().getItemQuote(quote_host, "/quote.jsp", quote_code, new OnNetResult() {
@@ -96,13 +98,13 @@ public class QuoteItemManger extends Observable {
                     if (state.equals(BUSY)) {
 
                     } else if (state.equals(SUCCESS)) {
+
                         String jsonReplace = Util.jsonReplace(response.toString());
                         QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
                         String data = quoteEntity.getData();
                         postQuote(data);
 
                     } else if (state.equals(FAILURE)) {
-
                     }
                 }
             });
