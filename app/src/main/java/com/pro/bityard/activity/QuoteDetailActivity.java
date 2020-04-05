@@ -1,4 +1,5 @@
 package com.pro.bityard.activity;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -40,6 +41,8 @@ import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
+import com.pro.bityard.utils.OnPopResult;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
@@ -77,7 +80,7 @@ import static com.pro.bityard.utils.TradeUtil.listQuoteUSD;
 import static com.pro.bityard.utils.TradeUtil.marginMax;
 import static com.pro.bityard.utils.TradeUtil.marginMin;
 import static com.pro.bityard.utils.TradeUtil.marginOrder;
-import static java.lang.Double.*;
+import static java.lang.Double.parseDouble;
 
 public class QuoteDetailActivity extends BaseActivity implements View.OnClickListener, Observer, RadioGroup.OnCheckedChangeListener {
     private static final String TYPE = "tradeType";
@@ -341,6 +344,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.layout_three).setOnClickListener(this);
         findViewById(R.id.btn_sure).setOnClickListener(this);
 
+        text_market_all.setOnClickListener(this);
+        text_limit_all.setOnClickListener(this);
+
 
     }
 
@@ -483,8 +489,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (0 == s.length()){
-                    }else {
+                    if (0 == s.length()) {
+                    } else {
                         if (!s.toString().startsWith(".")) {
                             if (parseDouble(s.toString()) > parseDouble(marginMax(tradeListEntity.getDepositList()))) {
                                 edit_market_margin.setText(marginMax(tradeListEntity.getDepositList()));
@@ -509,8 +515,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (0 == s.length()){
-                    }else {
+                    if (0 == s.length()) {
+                    } else {
                         if (!s.toString().startsWith(".")) {
                             if (parseDouble(s.toString()) > parseDouble(marginMax(tradeListEntity.getDepositList()))) {
                                 edit_limit_margin.setText(marginMax(tradeListEntity.getDepositList()));
@@ -573,12 +579,22 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.layout_much:
 
                 String priceMuch = text_buy_much.getText().toString();
-                setOpen("true", priceMuch);
+                if (isOpenSure) {
+                    slowOpen("true", priceMuch);
+                } else {
+                    fastOpen("true", priceMuch);
+                }
+
 
                 break;
             case R.id.layout_empty:
                 String priceEmpty = text_buy_empty.getText().toString();
-                setOpen("false", priceEmpty);
+                if (isOpenSure) {
+                    slowOpen("false", priceEmpty);
+                } else {
+                    fastOpen("false", priceEmpty);
+
+                }
 
                 break;
             case R.id.layout_one:
@@ -615,11 +631,92 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
 
+            case R.id.text_market_all:
+            case R.id.text_limit_all:
+                if (text_market_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
+                    return;
+                } else {
+                    PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
+                            new StringBuilder().append(getString(R.string.text_service_tip)).append(text_market_all.getText().toString()).append("USDT").toString(), state -> {
+                            }
+                    );
+                }
+
+                break;
+
         }
     }
 
+    private void showTip(String isBuy, String margin, String service) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_much_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        TextView text_margin = view.findViewById(R.id.text_margin_pop);
+        text_margin.setText(margin);
+        TextView text_service = view.findViewById(R.id.text_service_pop);
+        text_service.setText(service);
+        TextView text_all = view.findViewById(R.id.text_all_pop);
+        text_all.setText(String.valueOf(TradeUtil.add(Double.parseDouble(margin), Double.parseDouble(service))));
+
+        view.findViewById(R.id.text_sure).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String priceMuch = text_buy_much.getText().toString();
+                fastOpen(isBuy, priceMuch);
+                popupWindow.dismiss();
+                backgroundAlpha(1f);
+            }
+        });
+        view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                backgroundAlpha(1f);
+            }
+        });
+        WindowManager.LayoutParams params = getWindow().getAttributes();
+        params.alpha = 0.6f;
+        getWindow().setAttributes(params);
+
+        popupWindow.setFocusable(false);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setAnimationStyle(R.style.pop_anim_quote);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+
+    }
+
+
+    private void slowOpen(String isBuy, String priceMuchOrEmpty) {
+        if (priceMuchOrEmpty.equals(getResources().getString(R.string.text_default))) {
+            return;
+        }
+
+        String marginMarket = Objects.requireNonNull(edit_market_margin.getText()).toString();
+        String marginLimit = Objects.requireNonNull(edit_limit_margin.getText()).toString();
+
+        String margin = marginOrder(orderType, marginMarket, marginLimit);
+        String priceOrder = TradeUtil.priceOrder(orderType, Objects.requireNonNull(edit_limit_price.getText()).toString());
+
+        if (margin == null) {
+            Toast.makeText(QuoteDetailActivity.this, getResources().getText(R.string.text_margin_input), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (priceOrder == null) {
+            Toast.makeText(QuoteDetailActivity.this, getResources().getText(R.string.text_limit_price_input), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
+        String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
+        showTip(isBuy, margin, serviceCharge);
+
+    }
+
     /*下单*/
-    private void setOpen(String isBuy, String priceMuchOrEmpty) {
+    private void fastOpen(String isBuy, String priceMuchOrEmpty) {
         TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(quote), tradeListEntityList);
         if (priceMuchOrEmpty.equals(getResources().getString(R.string.text_default))) {
             return;
@@ -645,6 +742,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
         String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
+
+
         NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
                 tradeListEntity.getContractCode(), isBuy, margin, String.valueOf(lever), priceOrder, defer,
                 TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), String.valueOf(stopProfit), String.valueOf(stopLoss), serviceCharge,

@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.hold;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -20,10 +21,9 @@ import com.pro.bityard.R;
 import com.pro.bityard.adapter.PositionAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
-import com.pro.bityard.api.OnNetTwoResult;
-import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.BalanceManger;
@@ -32,12 +32,15 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.view.HeaderRecyclerView;
+import com.pro.switchlibrary.SPUtils;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -116,6 +119,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
 
+    @SuppressLint("InflateParams")
     @Override
     protected void initView(View view) {
         //行情的注册
@@ -133,36 +137,25 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         text_incomeAll = headView.findViewById(R.id.text_total_profit_loss);
         /*一键平仓*/
-        headView.findViewById(R.id.text_close_all).setOnClickListener(new View.OnClickListener() {
+        headView.findViewById(R.id.text_close_all).setOnClickListener(v -> NetManger.getInstance().closeAll(TradeUtil.positionIdList(positionEntity), tradeType, new OnNetResult() {
             @Override
-            public void onClick(View v) {
-
-                NetManger.getInstance().closeAll(TradeUtil.positionIdList(positionEntity), tradeType, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            dismissProgressDialog();
-                            TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
-                            Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                            initData();
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
-                        }
-                    }
-                });
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
+                    Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                    initData();
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
             }
-        });
+        }));
 
 
         headerRecyclerView.setAdapter(positionAdapter);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initData();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> initData());
 
         positionAdapter.setOnItemClick(new PositionAdapter.OnItemClick() {
             @Override
@@ -173,25 +166,16 @@ public class PositionFragment extends BaseFragment implements Observer {
             @Override
             public void onCloseListener(String id) {
 
-
-                /*平仓*/
-                NetManger.getInstance().close(id, tradeType, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            dismissProgressDialog();
-                            TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
-                            Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                            initData();
-
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
+                boolean isCloseSure = SPUtils.getBoolean(AppConfig.KEY_CLOSE_SURE, false);
+                if (isCloseSure) {
+                    PopUtil.getInstance().showTip(getActivity(), layout_view, true, getResources().getString(R.string.text_are_you_sure), state -> {
+                        if (state) {
+                            close(id);
                         }
-                    }
-                });
-
+                    });
+                } else {
+                    close(id);
+                }
 
             }
 
@@ -208,6 +192,24 @@ public class PositionFragment extends BaseFragment implements Observer {
 
 
     }
+
+    private void close(String id) {
+        /*平仓*/
+        NetManger.getInstance().close(id, tradeType, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
+                Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                initData();
+
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
+            }
+        });
+    }
+
 
     /*增加保证金*/
     private void showAddPopWindow(PositionEntity.DataBean data) {
@@ -264,41 +266,35 @@ public class PositionFragment extends BaseFragment implements Observer {
         DecimalEditText edit_margin = view.findViewById(R.id.edit_margin);
         edit_margin.setDecimalEndNumber(2);
         edit_margin.setHint(0 + "~" + TradeUtil.maxMargin(lever, data.getOpPrice(), data.getVolume()));
-        edit_margin.setSelection(0, edit_margin.getText().toString().length());
+        edit_margin.setSelection(0, Objects.requireNonNull(edit_margin.getText()).toString().length());
 
         //总计
         TextView text_all = view.findViewById(R.id.text_all);
 
 
         //加 监听
-        view.findViewById(R.id.text_add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_margin.getText().toString().length() == 0) {
-                    double a = TradeUtil.add(0, TradeUtil.scale(2));
-                    edit_margin.setText(String.valueOf(a));
+        view.findViewById(R.id.text_add).setOnClickListener(v -> {
+            if (edit_margin.getText().toString().length() == 0) {
+                double a = TradeUtil.add(0, TradeUtil.scale(2));
+                edit_margin.setText(String.valueOf(a));
 
-                } else {
-                    double a = TradeUtil.add(Double.parseDouble(edit_margin.getText().toString()), TradeUtil.scale(2));
-                    edit_margin.setText(String.valueOf(a));
-
-                }
+            } else {
+                double a = TradeUtil.add(Double.parseDouble(edit_margin.getText().toString()), TradeUtil.scale(2));
+                edit_margin.setText(String.valueOf(a));
 
             }
+
         });
 
         //减 监听
-        view.findViewById(R.id.text_sub).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_margin.getText().toString().length() == 0 || Double.parseDouble(edit_margin.getText().toString()) <= 0) {
-                    edit_margin.setText(String.valueOf(0));
-                } else {
-                    double a = TradeUtil.sub(Double.parseDouble(edit_margin.getText().toString()), TradeUtil.scale(2));
-                    edit_margin.setText(String.valueOf(a));
-                }
-
+        view.findViewById(R.id.text_sub).setOnClickListener(v -> {
+            if (edit_margin.getText().toString().length() == 0 || Double.parseDouble(edit_margin.getText().toString()) <= 0) {
+                edit_margin.setText(String.valueOf(0));
+            } else {
+                double a = TradeUtil.sub(Double.parseDouble(edit_margin.getText().toString()), TradeUtil.scale(2));
+                edit_margin.setText(String.valueOf(a));
             }
+
         });
         edit_margin.addTextChangedListener(new TextWatcher() {
             @Override
@@ -306,10 +302,10 @@ public class PositionFragment extends BaseFragment implements Observer {
 
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() == 0) {
-                    return;
                 } else {
                     String edit_result = edit_margin.getText().toString();
                     text_margin_after.setText(String.valueOf(TradeUtil.add(margin, Double.parseDouble(edit_result))));
@@ -340,39 +336,29 @@ public class PositionFragment extends BaseFragment implements Observer {
         });
 
 
-        view.findViewById(R.id.text_sure).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.text_sure).setOnClickListener(v -> NetManger.getInstance().submitMargin(data.getId(), text_margin_after.getText().toString(), new OnNetResult() {
             @Override
-            public void onClick(View v) {
-                NetManger.getInstance().submitMargin(data.getId(), text_margin_after.getText().toString(), new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            dismissProgressDialog();
-                            popupWindow.dismiss();
-                            backgroundAlpha(1f);
-                            Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    popupWindow.dismiss();
+                    backgroundAlpha(1f);
+                    Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
 
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
-                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                    Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
-                        }
-                    }
-                });
-
-
+                }
             }
-        });
+        }));
 
 
-        view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-                backgroundAlpha(1f);
-            }
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            popupWindow.dismiss();
+            backgroundAlpha(1f);
         });
 
         WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
@@ -388,6 +374,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
     /*修改止盈止损*/
+    @SuppressLint("SetTextI18n")
     private void showPopWindow(PositionEntity.DataBean data) {
         contractCode = data.getContractCode();
 
@@ -401,7 +388,6 @@ public class PositionFragment extends BaseFragment implements Observer {
         double stopLoss = data.getStopLoss();
 
 
-
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_spsl_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -413,36 +399,30 @@ public class PositionFragment extends BaseFragment implements Observer {
         //价格布局
         LinearLayout layout_price = view.findViewById(R.id.layout_price);
         RadioGroup radioGroup = view.findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.radio_0:
-                        layout_amount.setVisibility(View.VISIBLE);
-                        layout_price.setVisibility(View.GONE);
-                        isEdit_profit_amount = true;
-                        isEdit_profit_price = false;
-                        isEdit_loss_amount = true;
-                        isEdit_loss_price = false;
-                        break;
-                    case R.id.radio_1:
-                        layout_amount.setVisibility(View.GONE);
-                        layout_price.setVisibility(View.VISIBLE);
-                        isEdit_profit_amount = false;
-                        isEdit_profit_price = true;
-                        isEdit_loss_amount = false;
-                        isEdit_loss_price = true;
-                        break;
-                }
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.radio_0:
+                    layout_amount.setVisibility(View.VISIBLE);
+                    layout_price.setVisibility(View.GONE);
+                    isEdit_profit_amount = true;
+                    isEdit_profit_price = false;
+                    isEdit_loss_amount = true;
+                    isEdit_loss_price = false;
+                    break;
+                case R.id.radio_1:
+                    layout_amount.setVisibility(View.GONE);
+                    layout_price.setVisibility(View.VISIBLE);
+                    isEdit_profit_amount = false;
+                    isEdit_profit_price = true;
+                    isEdit_loss_amount = false;
+                    isEdit_loss_price = true;
+                    break;
             }
         });
-        view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-                backgroundAlpha(1f);
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            popupWindow.dismiss();
+            backgroundAlpha(1f);
 
-            }
         });
 
         //当前价格
@@ -450,7 +430,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         //量
         TextView text_volume = view.findViewById(R.id.text_volume);
-        text_volume.setText("×" + String.valueOf(data.getVolume()));
+        text_volume.setText("×" + data.getVolume());
         //名称
         TextView text_name = view.findViewById(R.id.text_name);
         String[] split = Util.quoteList(contractCode).split(",");
@@ -482,29 +462,23 @@ public class PositionFragment extends BaseFragment implements Observer {
         edit_profit_amount.setSelection(String.valueOf(stopProfit).length());//默认光标在最后面
         edit_profit_amount.setDecimalEndNumber(2);
         //金额 盈利 加号
-        view.findViewById(R.id.text_add_profit_amount).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_profit_amount.getText().toString().length() > 0 &&
-                        Double.parseDouble(edit_profit_amount.getText().toString()) < profit_max_amount) {
-                    double a = TradeUtil.add(Double.parseDouble(edit_profit_amount.getText().toString()), TradeUtil.scale(2));
-                    edit_profit_amount.setText(String.valueOf(a));
-                    edit_profit_amount.setSelection(String.valueOf(a).length());
-                }
-
+        view.findViewById(R.id.text_add_profit_amount).setOnClickListener(v -> {
+            if (Objects.requireNonNull(edit_profit_amount.getText()).toString().length() > 0 &&
+                    Double.parseDouble(edit_profit_amount.getText().toString()) < profit_max_amount) {
+                double a = TradeUtil.add(Double.parseDouble(edit_profit_amount.getText().toString()), TradeUtil.scale(2));
+                edit_profit_amount.setText(String.valueOf(a));
+                edit_profit_amount.setSelection(String.valueOf(a).length());
             }
+
         });
         //金额 盈利 减号
-        view.findViewById(R.id.text_sub_profit_amount).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_profit_amount.getText().toString().length() > 0 &&
-                        Double.parseDouble(edit_profit_amount.getText().toString()) > profit_min_amount) {
-                    double a = TradeUtil.sub(Double.parseDouble(edit_profit_amount.getText().toString()), TradeUtil.scale(2));
-                    edit_profit_amount.setText(String.valueOf(a));
-                    edit_profit_amount.setSelection(String.valueOf(a).length());
+        view.findViewById(R.id.text_sub_profit_amount).setOnClickListener(v -> {
+            if (Objects.requireNonNull(edit_profit_amount.getText()).toString().length() > 0 &&
+                    Double.parseDouble(edit_profit_amount.getText().toString()) > profit_min_amount) {
+                double a = TradeUtil.sub(Double.parseDouble(edit_profit_amount.getText().toString()), TradeUtil.scale(2));
+                edit_profit_amount.setText(String.valueOf(a));
+                edit_profit_amount.setSelection(String.valueOf(a).length());
 
-                }
             }
         });
         //金额 止盈价
@@ -519,32 +493,26 @@ public class PositionFragment extends BaseFragment implements Observer {
         edit_loss_amount.setSelection(String.valueOf(Math.abs(stopLoss)).length());//默认光标在最后面
         edit_loss_amount.setDecimalEndNumber(2);
         //金额 亏损 加号
-        view.findViewById(R.id.text_add_loss_amount).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //当前得小与初始亏损比例
-                if (edit_loss_amount.getText().toString().length() > 0 &&
-                        Double.parseDouble(edit_loss_amount.getText().toString()) < loss_max_amount
-                ) {
-                    double a = TradeUtil.add(Double.parseDouble(edit_loss_amount.getText().toString()), TradeUtil.scale(2));
-                    edit_loss_amount.setText(String.valueOf(a));
-                    edit_loss_amount.setSelection(String.valueOf(a).length());
+        view.findViewById(R.id.text_add_loss_amount).setOnClickListener(v -> {
+            //当前得小与初始亏损比例
+            if (edit_loss_amount.getText().toString().length() > 0 &&
+                    Double.parseDouble(edit_loss_amount.getText().toString()) < loss_max_amount
+            ) {
+                double a = TradeUtil.add(Double.parseDouble(edit_loss_amount.getText().toString()), TradeUtil.scale(2));
+                edit_loss_amount.setText(String.valueOf(a));
+                edit_loss_amount.setSelection(String.valueOf(a).length());
 
-                }
             }
         });
         //金额 亏损 减号
-        view.findViewById(R.id.text_sub_loss_amount).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_loss_amount.getText().toString().length() > 0 &&
-                        Double.parseDouble(edit_loss_amount.getText().toString()) > loss_min_amount) {
-                    double a = TradeUtil.sub(Double.parseDouble(edit_loss_amount.getText().toString()), TradeUtil.scale(2));
-                    edit_loss_amount.setText(String.valueOf(a));
-                    edit_loss_amount.setSelection(String.valueOf(a).length());
-                }
-
+        view.findViewById(R.id.text_sub_loss_amount).setOnClickListener(v -> {
+            if (edit_loss_amount.getText().toString().length() > 0 &&
+                    Double.parseDouble(edit_loss_amount.getText().toString()) > loss_min_amount) {
+                double a = TradeUtil.sub(Double.parseDouble(edit_loss_amount.getText().toString()), TradeUtil.scale(2));
+                edit_loss_amount.setText(String.valueOf(a));
+                edit_loss_amount.setSelection(String.valueOf(a).length());
             }
+
         });
         //金额 止损价
         TextView text_stop_loss_amount = view.findViewById(R.id.text_stop_loss_amount);
@@ -568,28 +536,22 @@ public class PositionFragment extends BaseFragment implements Observer {
         TextView text_profit_amount_price = view.findViewById(R.id.text_profit_amount_price);
         text_profit_amount_price.setText(String.valueOf(stopProfit));
         //价格 止盈价 加
-        view.findViewById(R.id.text_add_profit_price).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_stop_profit_price.getText().toString().length() > 0 /*&&
-                        Double.parseDouble(edit_stop_profit_price.getText().toString()) < small(profit_min_price,profit_max_price)*/) {
-                    double a = TradeUtil.add(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
-                    edit_stop_profit_price.setText(String.valueOf(a));
-                    edit_stop_profit_price.setSelection(String.valueOf(a).length());
-                }
+        view.findViewById(R.id.text_add_profit_price).setOnClickListener(v -> {
+            if (edit_stop_profit_price.getText().toString().length() > 0 /*&&
+                    Double.parseDouble(edit_stop_profit_price.getText().toString()) < small(profit_min_price,profit_max_price)*/) {
+                double a = TradeUtil.add(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
+                edit_stop_profit_price.setText(String.valueOf(a));
+                edit_stop_profit_price.setSelection(String.valueOf(a).length());
             }
         });
         //价格 止盈价 减
-        view.findViewById(R.id.text_sub_profit_price).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_stop_profit_price.getText().toString().length() > 0 /*&&
-                        Double.parseDouble(edit_stop_profit_price.getText().toString()) > big(profit_min_price,profit_max_price)*/) {
-                    double a = TradeUtil.sub(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
-                    edit_stop_profit_price.setText(String.valueOf(a));
-                    edit_stop_profit_price.setSelection(String.valueOf(a).length());
+        view.findViewById(R.id.text_sub_profit_price).setOnClickListener(v -> {
+            if (edit_stop_profit_price.getText().toString().length() > 0 /*&&
+                    Double.parseDouble(edit_stop_profit_price.getText().toString()) > big(profit_min_price,profit_max_price)*/) {
+                double a = TradeUtil.sub(Double.parseDouble(edit_stop_profit_price.getText().toString()), TradeUtil.scale(priceDigit));
+                edit_stop_profit_price.setText(String.valueOf(a));
+                edit_stop_profit_price.setSelection(String.valueOf(a).length());
 
-                }
             }
         });
         //价格 盈利百分比 默认
@@ -602,29 +564,23 @@ public class PositionFragment extends BaseFragment implements Observer {
         edit_stop_loss_price.setDecimalEndNumber(priceDigit);
 
         //价格 止损价 加
-        view.findViewById(R.id.text_add_loss_price).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_stop_loss_price.getText().toString().length() > 0 /*&&
-                        Double.parseDouble(edit_stop_loss_price.getText().toString()) < loss_max_price*/) {
-                    double a = TradeUtil.add(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
-                    edit_stop_loss_price.setText(String.valueOf(a));
-                    edit_stop_loss_price.setSelection(String.valueOf(a).length());
+        view.findViewById(R.id.text_add_loss_price).setOnClickListener(v -> {
+            if (edit_stop_loss_price.getText().toString().length() > 0 /*&&
+                    Double.parseDouble(edit_stop_loss_price.getText().toString()) < loss_max_price*/) {
+                double a = TradeUtil.add(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
+                edit_stop_loss_price.setText(String.valueOf(a));
+                edit_stop_loss_price.setSelection(String.valueOf(a).length());
 
-                }
             }
         });
         //价格 止损价 减
-        view.findViewById(R.id.text_sub_loss_price).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (edit_stop_loss_price.getText().toString().length() > 0/* &&
-                        Double.parseDouble(edit_stop_loss_price.getText().toString()) > loss_min_price*/) {
-                    double a = TradeUtil.sub(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
-                    edit_stop_loss_price.setText(String.valueOf(a));
-                    edit_stop_loss_price.setSelection(String.valueOf(a).length());
+        view.findViewById(R.id.text_sub_loss_price).setOnClickListener(v -> {
+            if (Objects.requireNonNull(edit_stop_loss_price.getText()).toString().length() > 0/* &&
+                    Double.parseDouble(edit_stop_loss_price.getText().toString()) > loss_min_price*/) {
+                double a = TradeUtil.sub(Double.parseDouble(edit_stop_loss_price.getText().toString()), TradeUtil.scale(priceDigit));
+                edit_stop_loss_price.setText(String.valueOf(a));
+                edit_stop_loss_price.setSelection(String.valueOf(a).length());
 
-                }
             }
         });
         //价格 亏损金额
@@ -989,36 +945,30 @@ public class PositionFragment extends BaseFragment implements Observer {
         });
 
 
-        view.findViewById(R.id.text_sure).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String rateProfit = numberHalfUp(TradeUtil.div(Double.parseDouble(edit_profit_amount.getText().toString()), margin, priceDigit), 2);
-                String rateLoss = numberHalfUp(TradeUtil.div(Double.parseDouble(edit_loss_amount.getText().toString()), margin, priceDigit), 2);
+        view.findViewById(R.id.text_sure).setOnClickListener(v -> {
+            String rateProfit = numberHalfUp(TradeUtil.div(Double.parseDouble(edit_profit_amount.getText().toString()), margin, priceDigit), 2);
+            String rateLoss = numberHalfUp(TradeUtil.div(Double.parseDouble(edit_loss_amount.getText().toString()), margin, priceDigit), 2);
 
-                NetManger.getInstance().submitSPSL(data.getId(),
-                        tradeType, rateProfit,
-                        "-" + rateLoss,
-                        new OnNetResult() {
-                            @Override
-                            public void onNetResult(String state, Object response) {
-                                if (state.equals(BUSY)) {
-                                    showProgressDialog();
-                                } else if (state.equals(SUCCESS)) {
-                                    dismissProgressDialog();
-                                    popupWindow.dismiss();
-                                    backgroundAlpha(1f);
-                                    initData();
+            NetManger.getInstance().submitSPSL(data.getId(),
+                    tradeType, rateProfit,
+                    "-" + rateLoss,
+                    (state, response) -> {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            popupWindow.dismiss();
+                            backgroundAlpha(1f);
+                            initData();
 
-                                    Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
 
-                                } else if (state.equals(FAILURE)) {
-                                    dismissProgressDialog();
-                                    Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
-                                }
-                            }
-                        });
-            }
+                        }
+                    });
         });
 
 
@@ -1049,52 +999,38 @@ public class PositionFragment extends BaseFragment implements Observer {
         if (positionEntity == null) {
             return;
         }
-        TradeUtil.getIncome(quoteList, positionEntity, new TradeResult() {
-            @Override
-            public void setResult(Object response) {
-                Double incomeAll = (Double) response;
-                if (incomeAll > 0) {
-                    text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_green));
-                } else {
-                    text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
-                }
-                text_incomeAll.setText(getNumberFormat(Double.parseDouble(response.toString()), 2));
-
+        TradeUtil.getIncome(quoteList, positionEntity, response -> {
+            Double incomeAll = (Double) response;
+            if (incomeAll > 0) {
+                text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_green));
+            } else {
+                text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
             }
+            text_incomeAll.setText(getNumberFormat(Double.parseDouble(response.toString()), 2));
+
         });
     }
 
 
     public void setNetIncome(String tradeType, List<String> quoteList, List<PositionEntity.DataBean> positionList) {
 
-        TradeUtil.getNetIncome(quoteList, positionList, new TradeResult() {
-            @Override
-            public void setResult(Object response1) {
-
-                TradeUtil.getMargin(positionList, new TradeResult() {
-                    @Override
-                    public void setResult(Object response2) {
-                        double margin;
-                        double income;
-                        if (positionEntity == null) {
-                            margin = 0.0;
-                            income = 0.0;
-                        } else {
-                            margin = Double.parseDouble(response2.toString());
-                            income = Double.parseDouble(response1.toString());
-                        }
-                        StringBuilder stringBuilder = new StringBuilder();
-
-                        StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
-                                .append(",").append(margin);
-                        //净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
-                        NetIncomeManger.getInstance().postNetIncome(append.toString());
-                    }
-                });
-
-
+        TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
+            double margin;
+            double income;
+            if (positionEntity == null) {
+                margin = 0.0;
+                income = 0.0;
+            } else {
+                margin = Double.parseDouble(response2.toString());
+                income = Double.parseDouble(response1.toString());
             }
-        });
+            StringBuilder stringBuilder = new StringBuilder();
+
+            StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
+                    .append(",").append(margin);
+            //净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+            NetIncomeManger.getInstance().postNetIncome(append.toString());
+        }));
 
 
     }
@@ -1115,35 +1051,29 @@ public class PositionFragment extends BaseFragment implements Observer {
         PositionSimulationManger.getInstance().getHold();
 
 
+        NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
+            if (state.equals(BUSY)) {
+                swipeRefreshLayout.setRefreshing(true);
+            } else if (state.equals(SUCCESS)) {
+                swipeRefreshLayout.setRefreshing(false);
+                positionEntity = (PositionEntity) response1;
+                positionAdapter.setDatas(positionEntity.getData(), quoteList);
 
-        NetManger.getInstance().getHold(tradeType, new OnNetTwoResult() {
-            @Override
-            public void setResult(String state, Object response1, Object response2) {
-                if (state.equals(BUSY)) {
-                    swipeRefreshLayout.setRefreshing(true);
-                } else if (state.equals(SUCCESS)) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    positionEntity = (PositionEntity) response1;
-                    positionAdapter.setDatas(positionEntity.getData(), quoteList);
-
-                    //这里根据持仓来是否显示头部视图
-                    if (positionEntity.getData().size() == 0) {
-                        text_incomeAll.setText("");
-                        headerRecyclerView.removeHeaderView(headView);
-                    } else {
-                        //防止刷新已经有头布局 继续添加出现的bug
-                        if (headerRecyclerView.getHeadersCount() == 0) {
-                            headerRecyclerView.addHeaderView(headView);
-                        }
+                //这里根据持仓来是否显示头部视图
+                if (positionEntity.getData().size() == 0) {
+                    text_incomeAll.setText("");
+                    headerRecyclerView.removeHeaderView(headView);
+                } else {
+                    //防止刷新已经有头布局 继续添加出现的bug
+                    if (headerRecyclerView.getHeadersCount() == 0) {
+                        headerRecyclerView.addHeaderView(headView);
                     }
-
-                } else if (state.equals(FAILURE)) {
-                    swipeRefreshLayout.setRefreshing(false);
-
                 }
+
+            } else if (state.equals(FAILURE)) {
+                swipeRefreshLayout.setRefreshing(false);
+
             }
-
-
         });
 
 
@@ -1164,24 +1094,16 @@ public class PositionFragment extends BaseFragment implements Observer {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("0");
             if (positionEntity != null && positionEntity.getData().size() > 0) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        //整体盈亏
-                        setIncome(quoteList, positionEntity);
-                        //整体净值
-                        setNetIncome(tradeType, quoteList, positionEntity.getData());
+                runOnUiThread(() -> {
+                    //整体盈亏
+                    setIncome(quoteList, positionEntity);
+                    //整体净值
+                    setNetIncome(tradeType, quoteList, positionEntity.getData());
 
-                        positionAdapter.setDatas(positionEntity.getData(), quoteList);
-                        //pop 实时价格也是同步刷新
-                        if (text_price != null) {
-                            price(quoteList, contractCode, new TradeResult() {
-                                @Override
-                                public void setResult(Object response) {
-                                    text_price.setText(response.toString());
-                                }
-                            });
-                        }
+                    positionAdapter.setDatas(positionEntity.getData(), quoteList);
+                    //pop 实时价格也是同步刷新
+                    if (text_price != null) {
+                        price(quoteList, contractCode, response -> text_price.setText(response.toString()));
                     }
                 });
             } else {

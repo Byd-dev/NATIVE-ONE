@@ -150,5 +150,9 @@
     <string name="text_close_sure">平仓确认</string>
     <string name="text_order_sure">下单确认</string>
     <string name="text_defer_sure">持仓过夜</string>
+    <string name="text_inall_pop">合计</string>
+    <string name="text_service_pop">手续费</string>
+    <string name="text_are_you_sure">是否确认平仓?</string>
+    <string name="text_service_tip">手续费=保证金(杠杆-1)×0.15%\n本次支付手续费是</string>
 
 </resources>
