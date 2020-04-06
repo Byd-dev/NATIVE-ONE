@@ -22,12 +22,15 @@ import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TipSPSLMarginEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -387,26 +390,23 @@ public class NetManger {
 
         try {
             String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
-            Log.d("quoteItem", "getItemQuote:390:  "+urlList);
+            Log.d("quoteItem", "getItemQuote:390:  " + urlList);
             String[] split = urlList.split(";");
             int length = split.length;
-            Log.d("quoteItem", "getItemQuote:393:  "+count +"  --   "+split[count]);
+            Log.d("quoteItem", "getItemQuote:393:  " + count + "  --   " + split[count]);
             if (count < length) {
-                getHostRequest(split[count], url, map, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
+                getHostRequest(split[count], url, map, (state, response) -> {
+                    if (state.equals(BUSY)) {
 
-                        } else if (state.equals(SUCCESS)) {
-                            onNetResult.onNetResult(SUCCESS, response.toString());
-                        } else if (state.equals(FAILURE)) {
-                            if (length == 0) {
-                            } else {
-                                count++;
-                            }
-                            onNetResult.onNetResult(FAILURE, null);
-
+                    } else if (state.equals(SUCCESS)) {
+                        onNetResult.onNetResult(SUCCESS, response.toString());
+                    } else if (state.equals(FAILURE)) {
+                        if (length == 0) {
+                        } else {
+                            count++;
                         }
+                        onNetResult.onNetResult(FAILURE, null);
+
                     }
                 });
             } else {
@@ -417,6 +417,82 @@ public class NetManger {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
+    }
+
+    /*获取单个行情图*/
+    public void getQuoteChart(String quoteDomain, String url, String contactCode, String resolution,OnNetResult onNetResult) {
+        Calendar nowBefore = Calendar.getInstance();
+        nowBefore.add(Calendar.MINUTE, -5);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("callback", "%3F");
+        map.put("symbol", contactCode);
+        map.put("resolution", resolution);
+        map.put("from", Util.dateToStamp(sdf.format(nowBefore.getTimeInMillis())));
+        map.put("to", String.valueOf(System.currentTimeMillis()));
+        map.put("_", String.valueOf(new Date().getTime()));
+
+        try {
+            String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
+            Log.d("quoteItem", "getItemQuote:390:  " + urlList);
+            String[] split = urlList.split(";");
+            int length = split.length;
+            Log.d("quoteItem", "getItemQuote:393:  " + count + "  --   " + split[count]);
+            if (count < length) {
+                getHostRequest(split[count], url, map, (state, response) -> {
+                    if (state.equals(BUSY)) {
+
+                    } else if (state.equals(SUCCESS)) {
+                        onNetResult.onNetResult(SUCCESS, response.toString());
+                    } else if (state.equals(FAILURE)) {
+                        if (length == 0) {
+                        } else {
+                            count++;
+                        }
+                        onNetResult.onNetResult(FAILURE, null);
+
+                    }
+                });
+            } else {
+                count = 0;//这里是重置
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    /*获取单个历史行情图*/
+    public void getQuoteHistory(String quoteDomain, String url, String contactCode, String resolution,OnNetResult onNetResult) {
+        Calendar nowBefore = Calendar.getInstance();
+        Calendar nowBefore2= Calendar.getInstance();
+
+        nowBefore.add(Calendar.MINUTE, -240);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        nowBefore2.add(Calendar.MINUTE, 0);
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("symbol", contactCode);
+        map.put("resolution", resolution);
+        map.put("from", Util.dateToStamp(sdf.format(nowBefore.getTimeInMillis())));
+        map.put("to", Util.dateToStamp(sdf.format(nowBefore2.getTimeInMillis())));
+
+        getHostRequest(quoteDomain, url, map, (state, response) -> {
+            if (state.equals(BUSY)) {
+
+            } else if (state.equals(SUCCESS)) {
+                onNetResult.onNetResult(SUCCESS, response.toString());
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
 
 
     }

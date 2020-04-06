@@ -276,7 +276,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
@@ -288,8 +289,23 @@
                     app:tabIndicatorHeight="2dp"
                     app:tabMode="fixed"
                     app:tabSelectedTextColor="@color/maincolor"
-                    app:tabTextAppearance="@style/MyTablayoutstyle"
+                    app:tabTextAppearance="@style/MyTablayoutStyleQuote"
                     app:tabTextColor="@color/text_second_color" />
+
+                <com.pro.bityard.chart.KLineView
+                    android:id="@+id/kline"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    app:klAbscissaTextCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMa10LineCol="@color/text_quote_green"
+                    app:klPriceMa30LineCol="@color/text_second_color"
+                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klTickMarkLineCol="@color/color_bg_left"
+
+                    />
 
 
             </LinearLayout>
@@ -932,9 +948,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_stop_profit_rate"
-                    android:layout_marginRight="@dimen/margin_15"
                     android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_stop_profit_rate"
                     android:textColor="@color/text_maincolor"
                     android:textSize="@dimen/size_normal_two" />
 
@@ -943,8 +959,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_30"
                     android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
-                    android:layout_marginTop="@dimen/margin_15" />
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginRight="6dp" />
 
 
             </LinearLayout>
@@ -958,9 +974,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_stop_loss_rate"
-                    android:layout_marginRight="@dimen/margin_15"
                     android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_stop_loss_rate"
                     android:textColor="@color/text_maincolor"
                     android:textSize="@dimen/size_normal_two" />
 
@@ -969,8 +985,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_30"
                     android:layout_marginLeft="6dp"
-                    android:layout_marginRight="6dp"
-                    android:layout_marginTop="@dimen/margin_15" />
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginRight="6dp" />
 
 
             </LinearLayout>
@@ -978,81 +994,80 @@
             <RelativeLayout
                 android:id="@+id/layout_one"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40"
                 android:layout_marginTop="@dimen/margin_40"
-                android:background="@color/color_bg_left"
-                android:layout_height="@dimen/margin_40">
+                android:background="@color/color_bg_left">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_defer_sure"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
-                    android:textSize="@dimen/size_normal"
-                    android:textColor="@color/text_maincolor"/>
+                    android:text="@string/text_defer_sure"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal" />
 
                 <ImageView
                     android:id="@+id/img_one"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_15"/>
-
-
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15" />
 
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/layout_two"
                 android:layout_width="match_parent"
-                android:background="@color/color_bg_left"
-                android:layout_height="@dimen/margin_40">
+                android:layout_height="@dimen/margin_40"
+                android:background="@color/color_bg_left">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_order_sure"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
-                    android:textSize="@dimen/size_normal"
-                    android:textColor="@color/text_maincolor"/>
+                    android:text="@string/text_order_sure"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal" />
 
                 <ImageView
                     android:id="@+id/img_two"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_15"/>
-
-
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15" />
 
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/layout_three"
                 android:layout_width="match_parent"
-                android:background="@color/color_bg_left"
-                android:layout_height="@dimen/margin_40">
+                android:layout_height="@dimen/margin_40"
+                android:background="@color/color_bg_left">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_close_sure"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
-                    android:textSize="@dimen/size_normal"
-                    android:textColor="@color/text_maincolor"/>
+                    android:text="@string/text_close_sure"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal" />
 
                 <ImageView
                     android:id="@+id/img_three"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_15"/>
 
-
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15" />
 
 
             </RelativeLayout>
@@ -1063,8 +1078,8 @@
                 android:layout_height="@dimen/dimen_btn"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_15"
                 android:layout_marginTop="60dp"
+                android:layout_marginRight="@dimen/margin_15"
                 android:background="@drawable/bg_shape_main_color"
                 android:padding="10dp"
                 android:text="@string/text_sure"

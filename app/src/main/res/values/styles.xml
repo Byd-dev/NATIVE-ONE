@@ -21,6 +21,7 @@
         <item name="android:windowContentOverlay">@null</item>
 
     </style>
+
     <declare-styleable name="StatusBarHeightView">
         <attr name="use_type" format="integer">
             <enum name="use_height" value="0" />
@@ -32,7 +33,9 @@
     <style name="MyTablayoutstyle" parent="Base.Widget.Design.TabLayout">
         <item name="android:textSize">15sp</item>
     </style>
-
+    <style name="MyTablayoutStyleQuote" parent="Base.Widget.Design.TabLayout">
+        <item name="android:textSize">@dimen/size_normal</item>
+    </style>
     <style name="ProgressDialog" parent="android:Theme.Dialog">
         <!--  <item name="android:indeterminateDrawable">@drawable/ic_circle_progress</item>  -->
         <item name="android:windowFrame">@null</item>
@@ -50,11 +53,11 @@
 
     <style name="pop_anim" parent="android:Animation">
 
-    <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
+        <item name="android:windowEnterAnimation">@anim/pop_enter_anim</item>
 
-    <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
+        <item name="android:windowExitAnimation">@anim/pop_exit_anim</item>
 
-</style>
+    </style>
 
     <style name="pop_anim_quote" parent="android:Animation">
 
@@ -65,14 +68,14 @@
     </style>
 
     <declare-styleable name="DecimalEditText">
-        <attr name="decimalStarNumber" format="integer"/>
-        <attr name="decimalEndNumber" format="integer"/>
-        <attr name="max" format="float"/>
-        <attr name="min" format="float"/>
+        <attr name="decimalStarNumber" format="integer" />
+        <attr name="decimalEndNumber" format="integer" />
+        <attr name="max" format="float" />
+        <attr name="min" format="float" />
     </declare-styleable>
 
     <declare-styleable name="CustomRangeNumberEditText">
-        <attr name="maxDouble" format="float"/>
-        <attr name="minDouble" format="float"/>
+        <attr name="maxDouble" format="float" />
+        <attr name="minDouble" format="float" />
     </declare-styleable>
 </resources>

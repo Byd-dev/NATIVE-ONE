@@ -154,5 +154,6 @@
     <string name="text_service_pop">手续费</string>
     <string name="text_are_you_sure">是否确认平仓?</string>
     <string name="text_service_tip">手续费=保证金(杠杆-1)×0.15%\n本次支付手续费是</string>
+    <string name="text_tip_login">请登录</string>
 
 </resources>

@@ -85,7 +85,7 @@ public class QuoteListManger extends Observable {
 
         ArrayMap<String, List<String>> arrayMap = new ArrayMap<>();
 
-        if (quote_host.equals("") && quote_code.equals("")) {
+        if (quote_host==null && quote_code==null) {
             NetManger.getInstance().initQuote();
         } else {
             NetManger.getInstance().getQuote(quote_host, "/quote.jsp", quote_code, new OnNetResult() {

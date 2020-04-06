@@ -24,24 +24,30 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
+import com.pro.bityard.chart.KData;
+import com.pro.bityard.chart.KLineView;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.ChargeUnitEntity;
+import com.pro.bityard.entity.QuoteChartEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.ChargeUnitManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
+import com.pro.bityard.manger.QuoteCurrentManger;
+import com.pro.bityard.manger.QuoteHistoryManger;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
-import com.pro.bityard.utils.OnPopResult;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -196,7 +202,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     ImageView img_two;
     @BindView(R.id.img_three)
     ImageView img_three;
+    @BindView(R.id.tabLayout)
+    TabLayout tabLayout;
 
+    @BindView(R.id.kline)
+    KLineView kLineView;
 
     private RadioGroupAdapter radioGroupAdapter;//杠杆适配器
     private RadioRateAdapter radioRateProfitAdapter, radioRateLossAdapter;
@@ -213,6 +223,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private double stopLoss = -0.9;
     private boolean isOpenSure;
     private boolean isCloseSure;
+    private String[] titles = new String[]{"分时", "1分", "5分", "15分", "30分", "1时", "1天"};
+    private List<KData> kDataHistory;
 
 
     public static void enter(Context context, String tradeType, String data) {
@@ -250,9 +262,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView(View view) {
 
+        QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), "1");
+
         QuoteListManger.getInstance().addObserver(this);
 
         QuoteItemManger.getInstance().addObserver(this);
+
+        QuoteCurrentManger.getInstance().addObserver(this);
+
+        QuoteHistoryManger.getInstance().addObserver(this);
 
         BalanceManger.getInstance().getBalance("USDT");
 
@@ -260,6 +278,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         ChargeUnitManger.getInstance().addObserver(this);
         TagManger.getInstance().addObserver(this);
+
 
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.img_back_two).setOnClickListener(this);
@@ -347,6 +366,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         text_market_all.setOnClickListener(this);
         text_limit_all.setOnClickListener(this);
 
+        for (int i = 0; i < titles.length; i++) {
+            tabLayout.addTab(tabLayout.newTab());
+        }
+        for (int i = 0; i < titles.length; i++) {
+            tabLayout.getTabAt(i).setText(titles[i]);
+        }
+
+
+        kLineView.setMainImgType(0);
 
     }
 
@@ -359,6 +387,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         //开启单个刷新
         QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        //开启单个行情图
+        QuoteCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData), "1");
+
+      //  QuoteHistoryManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData), "1");
+
         //合约号
         tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
         //手续费
@@ -718,6 +751,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
         ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
+        if (chargeUnitEntity == null) {
+            Toast.makeText(QuoteDetailActivity.this, R.string.text_tip_login, Toast.LENGTH_SHORT).show();
+            return;
+        }
         String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
         showTip(isBuy, margin, serviceCharge);
 
@@ -749,6 +786,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
         ChargeUnitEntity chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
+        if (chargeUnitEntity == null) {
+            Toast.makeText(QuoteDetailActivity.this, R.string.text_tip_login, Toast.LENGTH_SHORT).show();
+            return;
+        }
         String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
 
 
@@ -791,6 +832,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
             QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
+            QuoteCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data), "1");
+           // QuoteHistoryManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data), "1");
+
             //相应选择
             quotePopAdapter.select(itemQuoteContCode(data));
             backgroundAlpha(1f);
@@ -953,8 +997,26 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
 
             });
+        } else if (o == QuoteCurrentManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            List<KData> kData = ChartUtil.klineList(data);
+            Log.d("print", "update:978: " + kData);
+            if (kData != null) {
+                kLineView.initKDataList(kData);
+            }
+
+
+        } else if (o == QuoteHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            kDataHistory = ChartUtil.klineList(data);
+            Log.d("print", "update:1018: " + kDataHistory);
+            if (kDataHistory != null) {
+                kLineView.initKDataList(kDataHistory);
+            }
+
         }
     }
+
 
     public void backgroundAlpha(float bgAlpha) {
         WindowManager.LayoutParams lp = getWindow().getAttributes();
@@ -970,6 +1032,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         QuoteItemManger.getInstance().clear();
         QuoteItemManger.getInstance().cancelTimer();
+        QuoteHistoryManger.getInstance().clear();
+        QuoteHistoryManger.getInstance().cancelTimer();
     }
 
     @Override

@@ -30,6 +30,7 @@ import com.stx.xhb.xbanner.XBanner;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
@@ -190,6 +191,13 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                Iterator<BannerEntity.CarouselsBean> iterator = bannerEntity.getCarousels().iterator();
+                while (iterator.hasNext()) {
+                    BannerEntity.CarouselsBean value = iterator.next();
+                    if (value.getName().equals("kol")){
+                        iterator.remove();
+                    }
+                }
                 Log.d("print", "onNetResult:219: " + bannerEntity.getCarousels().size() + "  --  " + bannerEntity.getCarousels());
                 upBanner(bannerEntity.getCarousels());
 
@@ -234,9 +242,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
 
                 text_title.setText(data.get(position).getName());
 
-
                 Glide.with(Objects.requireNonNull(getActivity())).load(data.get(position).getXBannerUrl()).into(imageView);
-                Log.d("print", "loadBanner:242:  " + data.get(position).getXBannerUrl());
             });
 
             xBanner.setOnItemClickListener((banner, model, view, position) -> {
