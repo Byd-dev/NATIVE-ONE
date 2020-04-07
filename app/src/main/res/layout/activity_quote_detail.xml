@@ -282,7 +282,7 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/tab_height"
+                    android:layout_height="@dimen/margin_36"
                     android:background="@color/color_bg_left"
                     app:tabIndicatorColor="@color/maincolor"
                     app:tabIndicatorFullWidth="false"
@@ -293,21 +293,102 @@
                     app:tabTextColor="@color/text_second_color" />
 
                 <com.pro.bityard.chart.KLineView
-                    android:id="@+id/kline"
+                    android:id="@+id/kline_1min_time"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:visibility="visible"
                     app:klAbscissaTextCol="@color/text_second_color"
                     app:klPriceFallCol="@color/text_quote_red"
                     app:klPriceIncreaseCol="@color/text_quote_green"
                     app:klPriceMa10LineCol="@color/text_quote_green"
                     app:klPriceMa30LineCol="@color/text_second_color"
                     app:klPriceMa5LineCol="@color/maincolor"
-                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
 
-                    />
+                <com.pro.bityard.chart.KLineView
+                    android:id="@+id/kline_1min"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:klAbscissaTextCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMa10LineCol="@color/text_quote_green"
+                    app:klPriceMa30LineCol="@color/text_second_color"
+                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
 
+                <com.pro.bityard.chart.KLineView
+                    android:id="@+id/kline_5min"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:klAbscissaTextCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMa10LineCol="@color/text_quote_green"
+                    app:klPriceMa30LineCol="@color/text_second_color"
+                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
 
+                <com.pro.bityard.chart.KLineView
+                    android:id="@+id/kline_15min"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:klAbscissaTextCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMa10LineCol="@color/text_quote_green"
+                    app:klPriceMa30LineCol="@color/text_second_color"
+                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
+
+                <com.pro.bityard.chart.KLineView
+                    android:id="@+id/kline_30min"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:klAbscissaTextCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMa10LineCol="@color/text_quote_green"
+                    app:klPriceMa30LineCol="@color/text_second_color"
+                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
+
+                <com.pro.bityard.chart.KLineView
+                    android:id="@+id/kline_1h"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:klAbscissaTextCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMa10LineCol="@color/text_quote_green"
+                    app:klPriceMa30LineCol="@color/text_second_color"
+                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
+
+                <com.pro.bityard.chart.KLineView
+                    android:id="@+id/kline_1d"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    app:klAbscissaTextCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMa10LineCol="@color/text_quote_green"
+                    app:klPriceMa30LineCol="@color/text_second_color"
+                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
             </LinearLayout>
 
             <View

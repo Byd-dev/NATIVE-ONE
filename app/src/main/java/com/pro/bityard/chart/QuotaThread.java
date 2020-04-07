@@ -73,7 +73,9 @@ public class QuotaThread extends HandlerThread implements Handler.Callback {
         List<KData> dataList = (List<KData>) msg.obj;
         calculateKDataQuota(dataList, isEndData);
         Message message = Message.obtain(null, whatId);
-        uiHandler.sendMessage(message);
+        if (uiHandler!=null){
+            uiHandler.sendMessage(message);
+        }
     }
 
 

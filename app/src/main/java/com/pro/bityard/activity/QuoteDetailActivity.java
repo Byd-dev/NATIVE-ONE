@@ -204,10 +204,20 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     ImageView img_three;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-
-    @BindView(R.id.kline)
-    KLineView kLineView;
-
+    @BindView(R.id.kline_1min_time)
+    KLineView kline_1min_time;
+    @BindView(R.id.kline_1min)
+    KLineView kLineView_1min;
+    @BindView(R.id.kline_5min)
+    KLineView kLineView_5min;
+    @BindView(R.id.kline_15min)
+    KLineView kLineView_15min;
+    @BindView(R.id.kline_30min)
+    KLineView kLineView_30min;
+    @BindView(R.id.kline_1h)
+    KLineView kLineView_1h;
+    @BindView(R.id.kline_1d)
+    KLineView kLineView_1d;
     private RadioGroupAdapter radioGroupAdapter;//杠杆适配器
     private RadioRateAdapter radioRateProfitAdapter, radioRateLossAdapter;
 
@@ -225,6 +235,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private boolean isCloseSure;
     private String[] titles = new String[]{"分时", "1分", "5分", "15分", "30分", "1时", "1天"};
     private List<KData> kDataHistory;
+    private String resolution = "1";
 
 
     public static void enter(Context context, String tradeType, String data) {
@@ -374,7 +385,103 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
 
-        kLineView.setMainImgType(0);
+        tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        kline_1min_time.setVisibility(View.VISIBLE);
+                        kLineView_1min.setVisibility(View.GONE);
+                        kLineView_5min.setVisibility(View.GONE);
+                        kLineView_15min.setVisibility(View.GONE);
+                        kLineView_30min.setVisibility(View.GONE);
+                        kLineView_1h.setVisibility(View.GONE);
+                        kLineView_1d.setVisibility(View.GONE);
+                        resolution = "1";
+                        break;
+                    case 1:
+                        kline_1min_time.setVisibility(View.GONE);
+                        kLineView_1min.setVisibility(View.VISIBLE);
+                        kLineView_5min.setVisibility(View.GONE);
+                        kLineView_15min.setVisibility(View.GONE);
+                        kLineView_30min.setVisibility(View.GONE);
+                        kLineView_1h.setVisibility(View.GONE);
+                        kLineView_1d.setVisibility(View.GONE);
+                        resolution = "1";
+
+                        break;
+                    case 2:
+                        kline_1min_time.setVisibility(View.GONE);
+                        kLineView_1min.setVisibility(View.GONE);
+                        kLineView_5min.setVisibility(View.VISIBLE);
+                        kLineView_15min.setVisibility(View.GONE);
+                        kLineView_30min.setVisibility(View.GONE);
+                        kLineView_1h.setVisibility(View.GONE);
+                        kLineView_1d.setVisibility(View.GONE);
+                        resolution = "5";
+
+                        break;
+                    case 3:
+                        kline_1min_time.setVisibility(View.GONE);
+                        kLineView_1min.setVisibility(View.GONE);
+                        kLineView_5min.setVisibility(View.GONE);
+                        kLineView_15min.setVisibility(View.VISIBLE);
+                        kLineView_30min.setVisibility(View.GONE);
+                        kLineView_1h.setVisibility(View.GONE);
+                        kLineView_1d.setVisibility(View.GONE);
+                        resolution = "15";
+
+                        break;
+                    case 4:
+                        kline_1min_time.setVisibility(View.GONE);
+                        kLineView_1min.setVisibility(View.GONE);
+                        kLineView_5min.setVisibility(View.GONE);
+                        kLineView_15min.setVisibility(View.GONE);
+                        kLineView_30min.setVisibility(View.VISIBLE);
+                        kLineView_1h.setVisibility(View.GONE);
+                        kLineView_1d.setVisibility(View.GONE);
+                        resolution = "30";
+
+                        break;
+                    case 5:
+                        kline_1min_time.setVisibility(View.GONE);
+                        kLineView_1min.setVisibility(View.GONE);
+                        kLineView_5min.setVisibility(View.GONE);
+                        kLineView_15min.setVisibility(View.GONE);
+                        kLineView_30min.setVisibility(View.GONE);
+                        kLineView_1h.setVisibility(View.VISIBLE);
+                        kLineView_1d.setVisibility(View.GONE);
+                        resolution = "60";
+
+                        break;
+                    case 6:
+                        kline_1min_time.setVisibility(View.GONE);
+                        kLineView_1min.setVisibility(View.GONE);
+                        kLineView_5min.setVisibility(View.GONE);
+                        kLineView_15min.setVisibility(View.GONE);
+                        kLineView_30min.setVisibility(View.GONE);
+                        kLineView_1h.setVisibility(View.GONE);
+                        kLineView_1d.setVisibility(View.VISIBLE);
+                        resolution = "D";
+
+                        break;
+
+                }
+                QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), resolution);
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
 
     }
 
@@ -388,9 +495,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         //开启单个刷新
         QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         //开启单个行情图
-        QuoteCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData), "1");
+        QuoteCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData), resolution);
 
-      //  QuoteHistoryManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData), "1");
+        //QuoteHistoryManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData), "1");
 
         //合约号
         tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
@@ -832,8 +939,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
             QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
-            QuoteCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data), "1");
-           // QuoteHistoryManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data), "1");
+            QuoteCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data), resolution);
+            QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), resolution);
 
             //相应选择
             quotePopAdapter.select(itemQuoteContCode(data));
@@ -1000,18 +1107,24 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == QuoteCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            Log.d("print", "update:978: " + kData);
-            if (kData != null) {
-                kLineView.initKDataList(kData);
+            if (kDataHistory!=null){
+                kLineView_1min.refreshSingleData(kData.get(kData.size() - 1));
+            }else {
+                QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), resolution);
             }
-
-
         } else if (o == QuoteHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kDataHistory = ChartUtil.klineList(data);
-            Log.d("print", "update:1018: " + kDataHistory);
             if (kDataHistory != null) {
-                kLineView.initKDataList(kDataHistory);
+                kLineView_1min.initKDataList(kDataHistory);
+                kLineView_5min.initKDataList(kDataHistory);
+                kLineView_15min.initKDataList(kDataHistory);
+                kLineView_30min.initKDataList(kDataHistory);
+                kLineView_1h.initKDataList(kDataHistory);
+                kLineView_1d.initKDataList(kDataHistory);
+            } else {
+                QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), resolution);
+
             }
 
         }
@@ -1034,6 +1147,14 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         QuoteItemManger.getInstance().cancelTimer();
         QuoteHistoryManger.getInstance().clear();
         QuoteHistoryManger.getInstance().cancelTimer();
+        kLineView_1min.cancelQuotaThread();
+        kLineView_5min.cancelQuotaThread();
+        kLineView_15min.cancelQuotaThread();
+        kLineView_30min.cancelQuotaThread();
+        kLineView_1h.cancelQuotaThread();
+        kLineView_1d.cancelQuotaThread();
+
+
     }
 
     @Override

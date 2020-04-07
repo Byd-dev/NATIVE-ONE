@@ -81,23 +81,20 @@ public class QuoteHistoryManger extends Observable {
     public void quote(String quote_code, String resolution) {
 
 
-        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", "/api/tv/tradingView/history", quote_code, resolution, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
+        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", "/api/tv/tradingView/history", quote_code, resolution, (state, response) -> {
+            if (state.equals(BUSY)) {
 
-                } else if (state.equals(SUCCESS)) {
+            } else if (state.equals(SUCCESS)) {
 
-                    QuoteChartEntity quoteChartEntity = new Gson().fromJson(response.toString(), QuoteChartEntity.class);
-                    if (quoteChartEntity.getS().equals("ok")) {
+                QuoteChartEntity quoteChartEntity = new Gson().fromJson(response.toString(), QuoteChartEntity.class);
+                if (quoteChartEntity.getS().equals("ok")) {
 
-                        postQuote(quoteChartEntity);
+                    postQuote(quoteChartEntity);
 
 
-                    }
-
-                } else if (state.equals(FAILURE)) {
                 }
+
+            } else if (state.equals(FAILURE)) {
             }
         });
 

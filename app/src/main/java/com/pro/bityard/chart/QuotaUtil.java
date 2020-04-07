@@ -2,6 +2,9 @@ package com.pro.bityard.chart;
 
 import android.graphics.Path;
 
+import com.pro.bityard.utils.TradeUtil;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +66,8 @@ public class QuotaUtil {
         }
         double sum = 0;
         for (KData data : dataList) {
-            sum += data.getVolume();
+            sum = TradeUtil.add(sum, data.getVolume());
+            //sum += data.getVolume();
         }
         return sum / dataList.size();
     }
@@ -74,9 +78,12 @@ public class QuotaUtil {
         }
         double sum = 0;
         for (KData data : dataList) {
-            sum += data.getClosePrice();
+            sum = add(sum, data.getClosePrice());
+
+            //sum += data.getClosePrice();
         }
-        return sum / dataList.size();
+        return div(sum, dataList.size(), 10);
+        // return sum / dataList.size();
     }
 
     /**
@@ -437,7 +444,7 @@ public class QuotaUtil {
      * @param path
      */
     public static void setBezierPath(List<Pointer> pointList, Path path) {
-        if (path == null){
+        if (path == null) {
             return;
         }
         path.reset();
@@ -489,7 +496,7 @@ public class QuotaUtil {
     }
 
     public static void setLinePath(List<Pointer> pointerList, Path path) {
-        if (path == null){
+        if (path == null) {
             return;
         }
         if (pointerList == null || pointerList.size() <= 1) {
@@ -502,5 +509,32 @@ public class QuotaUtil {
 
     }
 
+    /*加法*/
+    public static double add(double v1, double v2) {
+        BigDecimal b1 = new BigDecimal(Double.toString(v1));
+        BigDecimal b2 = new BigDecimal(Double.toString(v2));
+        return b1.add(b2).doubleValue();
+    }
+
+    /*减法*/
+    public static double sub(double v1, double v2) {
+        BigDecimal b1 = new BigDecimal(Double.toString(v1));
+        BigDecimal b2 = new BigDecimal(Double.toString(v2));
+        return b1.subtract(b2).doubleValue();
+    }
+
+    /*乘法*/
+    public static double mul(double d1, double d2) {
+        BigDecimal b1 = new BigDecimal(d1);
+        BigDecimal b2 = new BigDecimal(d2);
+        return b1.multiply(b2).doubleValue();
+    }
+
+    /*除法*/
+    public static double div(double d1, double d2, int len) {
+        BigDecimal b1 = new BigDecimal(d1);
+        BigDecimal b2 = new BigDecimal(d2);
+        return b1.divide(b2, len, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
 
 }

@@ -191,14 +191,22 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                if (bannerEntity==null){
+                    return;
+                }
+                if (bannerEntity.getCarousels()==null){
+                    return;
+                }
                 Iterator<BannerEntity.CarouselsBean> iterator = bannerEntity.getCarousels().iterator();
                 while (iterator.hasNext()) {
                     BannerEntity.CarouselsBean value = iterator.next();
-                    if (value.getName().equals("kol")){
-                        iterator.remove();
+                    if (value.toString().contains("\\.")) {
+                        String[] split = value.getName().split("\\.");
+                        if (split[1].equals("false")) {
+                            iterator.remove();
+                        }
                     }
                 }
-                Log.d("print", "onNetResult:219: " + bannerEntity.getCarousels().size() + "  --  " + bannerEntity.getCarousels());
                 upBanner(bannerEntity.getCarousels());
 
                 notices = bannerEntity.getNotices();

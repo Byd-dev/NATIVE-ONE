@@ -102,6 +102,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
 
     private String[] detailLeftTitleArr;
     private List<KData> totalDataList = new ArrayList<>();
+    private List<KData> newDataList = new ArrayList<>();
     private List<KData> viewDataList = new ArrayList<>();
     private List<KData> endDataList = new ArrayList<>();
 
@@ -187,32 +188,9 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
         this.totalDataList.clear();
         this.totalDataList.addAll(dataList);
         startDataNum = totalDataList.size() - maxViewDataNum;
-        QuotaUtil.initMa(totalDataList, false);
+      //  QuotaUtil.initMa(totalDataList, false);//暂时屏蔽 会报错
         resetViewData();
     }
-    /**
-     * 添加最新的单条数据
-     */
-    public void addSingleData(KData data) {
-        if (data == null) {
-            return;
-        }
-        endDataList.clear();
-        int startIndex;
-        if (totalDataList.size() >= 30) {
-            startIndex = totalDataList.size() - 30;
-        } else {
-            startIndex = 0;
-        }
-
-        endDataList.addAll(totalDataList.subList(startIndex, totalDataList.size()));
-        endDataList.add(data);
-        if (quotaThread != null) {
-            quotaThread.quotaSingleCalculate(endDataList);
-        }
-
-    }
-
 
     /**
      * 添加最新的单条数据
@@ -231,14 +209,13 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
 
         endDataList.addAll(totalDataList.subList(startIndex, totalDataList.size()));
         endDataList.add(data);
-        Log.d("kline", "addSingleData:234:  "+endDataList.size());
         if (quotaThread != null) {
             quotaThread.quotaSingleCalculate(endDataList);
         }
 
-        resetViewData();
-
     }
+
+
 
 
     /**
@@ -584,7 +561,13 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
         if (msg.what == QuotaThread.HANDLER_QUOTA_LIST) {
             invalidate();
         } else if (msg.what == QuotaThread.HANDLER_QUOTA_SINGLE) {
-            totalDataList.add(endDataList.get(endDataList.size() - 1));
+            KData endLastData = endDataList.get(endDataList.size() - 1);
+            int totalSize = totalDataList.size();
+            KData totalLastData = totalDataList.get(totalSize - 1);
+            if (endLastData.getTime() == totalLastData.getTime()) {
+                totalDataList.remove(totalSize - 1);
+            }
+            totalDataList.add(endLastData);
             if (totalDataList.size() >= maxViewDataNum
                     && startDataNum == totalDataList.size() - maxViewDataNum - 1) {
                 startDataNum++;
