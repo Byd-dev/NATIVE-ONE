@@ -9,18 +9,14 @@ import java.io.Serializable;
 
 public class KData implements Serializable {
 
-
-    //时间戳
-    private long time;
+    private long time;//时间戳
     private double openPrice;
     private double closePrice;
     private double maxPrice;
     private double minPrice;
     private double volume;
-    //涨跌额
-    private double upDnAmount;
-    //涨跌幅
-    private double upDnRate;
+    private double upDnAmount;//涨跌额
+    private double upDnRate;//涨跌幅
     private double priceMa5;
     private double priceMa10;
     private double priceMa30;
@@ -379,6 +375,5 @@ public class KData implements Serializable {
                 ", initFinish=" + initFinish +
                 '}';
     }
-
 
 }

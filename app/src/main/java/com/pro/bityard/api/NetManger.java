@@ -422,7 +422,7 @@ public class NetManger {
     }
 
     /*获取单个行情图*/
-    public void getQuoteChart(String quoteDomain, String url, String contactCode, String resolution,OnNetResult onNetResult) {
+    public void getQuoteChart(String quoteDomain, String url, String contactCode, String resolution, OnNetResult onNetResult) {
         Calendar nowBefore = Calendar.getInstance();
         nowBefore.add(Calendar.MINUTE, -10);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -469,11 +469,11 @@ public class NetManger {
     }
 
     /*获取单个历史行情图*/
-    public void getQuoteHistory(String quoteDomain, String url, String contactCode, String resolution,OnNetResult onNetResult) {
-        Calendar nowBefore = Calendar.getInstance();
-        Calendar nowBefore2= Calendar.getInstance();
+    public void getQuoteHistory(String quoteDomain, int count, String url, String contactCode, String resolution, OnNetResult onNetResult) {
+        Calendar nowBefore2 = Calendar.getInstance();
 
-        nowBefore.add(Calendar.MINUTE, -300);
+        Calendar nowBefore = Calendar.getInstance();
+        nowBefore.add(Calendar.MINUTE, -300 * count);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         nowBefore2.add(Calendar.MINUTE, 0);
 

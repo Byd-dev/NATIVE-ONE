@@ -26,6 +26,7 @@ public class QuoteHistoryManger extends Observable {
 
     private String code;
     private String resolution;
+    private int count;
 
 
     public static QuoteHistoryManger getInstance() {
@@ -43,9 +44,10 @@ public class QuoteHistoryManger extends Observable {
 
     private Timer mTimer;
 
-    public void startScheduleJob(long delay, long interval, String code, String resolution) {
+    public void startScheduleJob(long delay, int count, long interval, String code, String resolution) {
         this.code = code;
         this.resolution = resolution;
+        this.count = count;
         if (mTimer != null) cancelTimer();
 
         mTimer = new Timer();
@@ -64,7 +66,7 @@ public class QuoteHistoryManger extends Observable {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            quote(code, resolution);
+            quote(code, count, resolution);
 
         }
     };
@@ -78,10 +80,10 @@ public class QuoteHistoryManger extends Observable {
     }
 
 
-    public void quote(String quote_code, String resolution) {
+    public void quote(String quote_code, int count, String resolution) {
 
 
-        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", "/api/tv/tradingView/history", quote_code, resolution, (state, response) -> {
+        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", count, "/api/tv/tradingView/history", quote_code, resolution, (state, response) -> {
             if (state.equals(BUSY)) {
 
             } else if (state.equals(SUCCESS)) {

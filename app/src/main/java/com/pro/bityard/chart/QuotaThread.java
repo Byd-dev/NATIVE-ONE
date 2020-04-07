@@ -15,7 +15,6 @@ import androidx.annotation.NonNull;
 
 public class QuotaThread extends HandlerThread implements Handler.Callback {
 
-
     public static final int HANDLER_QUOTA_LIST = 100;
     public static final int HANDLER_QUOTA_SINGLE = 101;
     private Handler uiHandler;
@@ -30,12 +29,18 @@ public class QuotaThread extends HandlerThread implements Handler.Callback {
     }
 
     public void quotaListCalculate(List<KData> dataList) {
+        if (workHandler == null) {
+            return;
+        }
         Message message = Message.obtain(null, HANDLER_QUOTA_LIST);
         message.obj = dataList;
         workHandler.sendMessage(message);
     }
 
     public void quotaSingleCalculate(List<KData> dataList){
+        if (workHandler == null) {
+            return;
+        }
         Message message = Message.obtain(null, HANDLER_QUOTA_SINGLE);
         message.obj = dataList;
         workHandler.sendMessage(message);
@@ -67,16 +72,17 @@ public class QuotaThread extends HandlerThread implements Handler.Callback {
     }
 
     private void handleData(Message msg, int whatId, boolean isEndData){
-        if (msg == null){
+        if (msg == null || uiHandler == null) {
             return;
         }
-        List<KData> dataList = (List<KData>) msg.obj;
-        calculateKDataQuota(dataList, isEndData);
-        Message message = Message.obtain(null, whatId);
-        if (uiHandler!=null){
+        try {
+            List<KData> dataList = (List<KData>) msg.obj;
+            calculateKDataQuota(dataList, isEndData);
+            Message message = Message.obtain(null, whatId);
             uiHandler.sendMessage(message);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
-
 
 }

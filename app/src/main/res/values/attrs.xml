@@ -19,10 +19,11 @@
         <attr name="klPriceIncreaseCol" format="color"/>
         <!--跌价方块颜色-->
         <attr name="klPriceFallCol" format="color"/>
-        <!--价格MA5,MA10,MA30颜色-->
-        <attr name="klPriceMa5LineCol" format="color"/>
-        <attr name="klPriceMa10LineCol" format="color"/>
-        <attr name="klPriceMa30LineCol" format="color"/>
+        <!--价格开,高,低,收 颜色-->
+        <attr name="klPriceOpenCol" format="color"/>
+        <attr name="klPriceMaxCol" format="color"/>
+        <attr name="klPriceMinCol" format="color"/>
+        <attr name="klPriceCloseCol" format="color"/>
         <!--最高价标签颜色-->
         <attr name="klPriceMaxLabelCol" format="color"/>
         <!--最高价标签字体颜色-->

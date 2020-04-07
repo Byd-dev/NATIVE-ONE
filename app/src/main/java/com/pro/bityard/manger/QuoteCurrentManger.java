@@ -43,9 +43,9 @@ public class QuoteCurrentManger extends Observable {
 
     private Timer mTimer;
 
-    public void startScheduleJob(long delay, long interval, String code,String resolution) {
+    public void startScheduleJob(long delay, long interval, String code, String resolution) {
         this.code = code;
-        this.resolution=resolution;
+        this.resolution = resolution;
         if (mTimer != null) cancelTimer();
 
         mTimer = new Timer();
@@ -69,7 +69,7 @@ public class QuoteCurrentManger extends Observable {
                 NetManger.getInstance().initQuote();
                 return;
             } else {
-                quote(quote_host, code,resolution);
+                quote(quote_host, code, resolution);
             }
         }
     };
@@ -83,13 +83,12 @@ public class QuoteCurrentManger extends Observable {
     }
 
 
-    public void quote(String quote_host, String quote_code,String resolution) {
-
+    public void quote(String quote_host, String quote_code, String resolution) {
 
         if (quote_host == null && quote_code == null) {
             NetManger.getInstance().initQuote();
         } else {
-            NetManger.getInstance().getQuoteChart(quote_host, "/quota.jsp", quote_code,resolution, new OnNetResult() {
+            NetManger.getInstance().getQuoteChart(quote_host, "/quota.jsp", quote_code, resolution, new OnNetResult() {
                 @Override
                 public void onNetResult(String state, Object response) {
                     if (state.equals(BUSY)) {

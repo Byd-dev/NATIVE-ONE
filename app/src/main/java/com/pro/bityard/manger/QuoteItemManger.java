@@ -92,20 +92,17 @@ public class QuoteItemManger extends Observable {
         if (quote_host==null&& quote_code==null) {
             NetManger.getInstance().initQuote();
         } else {
-            NetManger.getInstance().getItemQuote(quote_host, "/quote.jsp", quote_code, new OnNetResult() {
-                @Override
-                public void onNetResult(String state, Object response) {
-                    if (state.equals(BUSY)) {
+            NetManger.getInstance().getItemQuote(quote_host, "/quote.jsp", quote_code, (state, response) -> {
+                if (state.equals(BUSY)) {
 
-                    } else if (state.equals(SUCCESS)) {
+                } else if (state.equals(SUCCESS)) {
 
-                        String jsonReplace = Util.jsonReplace(response.toString());
-                        QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
-                        String data = quoteEntity.getData();
-                        postQuote(data);
+                    String jsonReplace = Util.jsonReplace(response.toString());
+                    QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
+                    String data = quoteEntity.getData();
+                    postQuote(data);
 
-                    } else if (state.equals(FAILURE)) {
-                    }
+                } else if (state.equals(FAILURE)) {
                 }
             });
 

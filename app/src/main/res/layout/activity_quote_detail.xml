@@ -301,9 +301,9 @@
                     app:klAbscissaTextCol="@color/text_second_color"
                     app:klPriceFallCol="@color/text_quote_red"
                     app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceMa10LineCol="@color/text_quote_green"
-                    app:klPriceMa30LineCol="@color/text_second_color"
-                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klPriceOpenCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
+                    app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.KLineView
@@ -315,9 +315,9 @@
                     app:klAbscissaTextCol="@color/text_second_color"
                     app:klPriceFallCol="@color/text_quote_red"
                     app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceMa10LineCol="@color/text_quote_green"
-                    app:klPriceMa30LineCol="@color/text_second_color"
-                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klPriceOpenCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
+                    app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.KLineView
@@ -329,9 +329,9 @@
                     app:klAbscissaTextCol="@color/text_second_color"
                     app:klPriceFallCol="@color/text_quote_red"
                     app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceMa10LineCol="@color/text_quote_green"
-                    app:klPriceMa30LineCol="@color/text_second_color"
-                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klPriceOpenCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
+                    app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.KLineView
@@ -343,9 +343,9 @@
                     app:klAbscissaTextCol="@color/text_second_color"
                     app:klPriceFallCol="@color/text_quote_red"
                     app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceMa10LineCol="@color/text_quote_green"
-                    app:klPriceMa30LineCol="@color/text_second_color"
-                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klPriceOpenCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
+                    app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.KLineView
@@ -357,9 +357,9 @@
                     app:klAbscissaTextCol="@color/text_second_color"
                     app:klPriceFallCol="@color/text_quote_red"
                     app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceMa10LineCol="@color/text_quote_green"
-                    app:klPriceMa30LineCol="@color/text_second_color"
-                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klPriceOpenCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
+                    app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.KLineView
@@ -371,9 +371,9 @@
                     app:klAbscissaTextCol="@color/text_second_color"
                     app:klPriceFallCol="@color/text_quote_red"
                     app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceMa10LineCol="@color/text_quote_green"
-                    app:klPriceMa30LineCol="@color/text_second_color"
-                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klPriceOpenCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
+                    app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.KLineView
@@ -385,9 +385,9 @@
                     app:klAbscissaTextCol="@color/text_second_color"
                     app:klPriceFallCol="@color/text_quote_red"
                     app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceMa10LineCol="@color/text_quote_green"
-                    app:klPriceMa30LineCol="@color/text_second_color"
-                    app:klPriceMa5LineCol="@color/maincolor"
+                    app:klPriceOpenCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
+                    app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
             </LinearLayout>
 
