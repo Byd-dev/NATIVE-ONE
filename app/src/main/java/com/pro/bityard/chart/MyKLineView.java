@@ -1463,26 +1463,26 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
     //volume MA曲线
     private void drawVolumeBezierCurve(@NonNull Canvas canvas) {
         QuotaUtil.setBezierPath(volumeMa5PointList, curvePath);
-        resetStrokePaint(priceOpen, 0);
+        resetStrokePaint(priceMa5Col, 0);
         canvas.drawPath(curvePath, strokePaint);
 
         QuotaUtil.setBezierPath(volumeMa10PointList, curvePath);
-        resetStrokePaint(priceMax, 0);
+        resetStrokePaint(priceMa10Col, 0);
         canvas.drawPath(curvePath, strokePaint);
     }
 
     //副图 曲线
     private void drawDeputyCurve(@NonNull Canvas canvas) {
         QuotaUtil.setLinePath(deputyMa5PointList, curvePath);
-        resetStrokePaint(priceOpen, 0);
+        resetStrokePaint(priceMa5Col, 0);
         canvas.drawPath(curvePath, strokePaint);
 
         QuotaUtil.setLinePath(deputyMa10PointList, curvePath);
-        resetStrokePaint(priceMax, 0);
+        resetStrokePaint(priceMa10Col, 0);
         canvas.drawPath(curvePath, strokePaint);
 
         QuotaUtil.setLinePath(deputyMa30PointList, curvePath);
-        resetStrokePaint(priceMin, 0);
+        resetStrokePaint(priceMa30Col, 0);
         canvas.drawPath(curvePath, strokePaint);
     }
 
