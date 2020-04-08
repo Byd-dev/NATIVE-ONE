@@ -32,7 +32,7 @@ import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
-import com.pro.bityard.chart.KLineView;
+import com.pro.bityard.chart.MyKLineView;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
@@ -215,19 +215,19 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.kline_1min_time)
-    KLineView kline_1min_time;
+    MyKLineView kline_1min_time;
     @BindView(R.id.kline_1min)
-    KLineView kLineView_1min;
+    MyKLineView myKLineView_1Min;
     @BindView(R.id.kline_5min)
-    KLineView kLineView_5min;
+    MyKLineView myKLineView_5Min;
     @BindView(R.id.kline_15min)
-    KLineView kLineView_15min;
+    MyKLineView myKLineView_15Min;
     @BindView(R.id.kline_30min)
-    KLineView kLineView_30min;
+    MyKLineView myKLineView_30Min;
     @BindView(R.id.kline_1h)
-    KLineView kLineView_1h;
+    MyKLineView myKLineView_1H;
     @BindView(R.id.kline_1d)
-    KLineView kLineView_1d;
+    MyKLineView myKLineView_1D;
     private RadioGroupAdapter radioGroupAdapter;//杠杆适配器
     private RadioRateAdapter radioRateProfitAdapter, radioRateLossAdapter;
 
@@ -409,68 +409,68 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 switch (tab.getPosition()) {
                     case 0:
                         kline_1min_time.setVisibility(View.VISIBLE);
-                        kLineView_1min.setVisibility(View.GONE);
-                        kLineView_5min.setVisibility(View.GONE);
-                        kLineView_15min.setVisibility(View.GONE);
-                        kLineView_30min.setVisibility(View.GONE);
-                        kLineView_1h.setVisibility(View.GONE);
-                        kLineView_1d.setVisibility(View.GONE);
+                        myKLineView_1Min.setVisibility(View.GONE);
+                        myKLineView_5Min.setVisibility(View.GONE);
+                        myKLineView_15Min.setVisibility(View.GONE);
+                        myKLineView_30Min.setVisibility(View.GONE);
+                        myKLineView_1H.setVisibility(View.GONE);
+                        myKLineView_1D.setVisibility(View.GONE);
                         break;
                     case 1:
                         kline_1min_time.setVisibility(View.GONE);
-                        kLineView_1min.setVisibility(View.VISIBLE);
-                        kLineView_5min.setVisibility(View.GONE);
-                        kLineView_15min.setVisibility(View.GONE);
-                        kLineView_30min.setVisibility(View.GONE);
-                        kLineView_1h.setVisibility(View.GONE);
-                        kLineView_1d.setVisibility(View.GONE);
+                        myKLineView_1Min.setVisibility(View.VISIBLE);
+                        myKLineView_5Min.setVisibility(View.GONE);
+                        myKLineView_15Min.setVisibility(View.GONE);
+                        myKLineView_30Min.setVisibility(View.GONE);
+                        myKLineView_1H.setVisibility(View.GONE);
+                        myKLineView_1D.setVisibility(View.GONE);
 
                         break;
                     case 2:
                         kline_1min_time.setVisibility(View.GONE);
-                        kLineView_1min.setVisibility(View.GONE);
-                        kLineView_5min.setVisibility(View.VISIBLE);
-                        kLineView_15min.setVisibility(View.GONE);
-                        kLineView_30min.setVisibility(View.GONE);
-                        kLineView_1h.setVisibility(View.GONE);
-                        kLineView_1d.setVisibility(View.GONE);
+                        myKLineView_1Min.setVisibility(View.GONE);
+                        myKLineView_5Min.setVisibility(View.VISIBLE);
+                        myKLineView_15Min.setVisibility(View.GONE);
+                        myKLineView_30Min.setVisibility(View.GONE);
+                        myKLineView_1H.setVisibility(View.GONE);
+                        myKLineView_1D.setVisibility(View.GONE);
 
                         break;
                     case 3:
                         kline_1min_time.setVisibility(View.GONE);
-                        kLineView_1min.setVisibility(View.GONE);
-                        kLineView_5min.setVisibility(View.GONE);
-                        kLineView_15min.setVisibility(View.VISIBLE);
-                        kLineView_30min.setVisibility(View.GONE);
-                        kLineView_1h.setVisibility(View.GONE);
-                        kLineView_1d.setVisibility(View.GONE);
+                        myKLineView_1Min.setVisibility(View.GONE);
+                        myKLineView_5Min.setVisibility(View.GONE);
+                        myKLineView_15Min.setVisibility(View.VISIBLE);
+                        myKLineView_30Min.setVisibility(View.GONE);
+                        myKLineView_1H.setVisibility(View.GONE);
+                        myKLineView_1D.setVisibility(View.GONE);
                         break;
                     case 4:
                         kline_1min_time.setVisibility(View.GONE);
-                        kLineView_1min.setVisibility(View.GONE);
-                        kLineView_5min.setVisibility(View.GONE);
-                        kLineView_15min.setVisibility(View.GONE);
-                        kLineView_30min.setVisibility(View.VISIBLE);
-                        kLineView_1h.setVisibility(View.GONE);
-                        kLineView_1d.setVisibility(View.GONE);
+                        myKLineView_1Min.setVisibility(View.GONE);
+                        myKLineView_5Min.setVisibility(View.GONE);
+                        myKLineView_15Min.setVisibility(View.GONE);
+                        myKLineView_30Min.setVisibility(View.VISIBLE);
+                        myKLineView_1H.setVisibility(View.GONE);
+                        myKLineView_1D.setVisibility(View.GONE);
                         break;
                     case 5:
                         kline_1min_time.setVisibility(View.GONE);
-                        kLineView_1min.setVisibility(View.GONE);
-                        kLineView_5min.setVisibility(View.GONE);
-                        kLineView_15min.setVisibility(View.GONE);
-                        kLineView_30min.setVisibility(View.GONE);
-                        kLineView_1h.setVisibility(View.VISIBLE);
-                        kLineView_1d.setVisibility(View.GONE);
+                        myKLineView_1Min.setVisibility(View.GONE);
+                        myKLineView_5Min.setVisibility(View.GONE);
+                        myKLineView_15Min.setVisibility(View.GONE);
+                        myKLineView_30Min.setVisibility(View.GONE);
+                        myKLineView_1H.setVisibility(View.VISIBLE);
+                        myKLineView_1D.setVisibility(View.GONE);
                         break;
                     case 6:
                         kline_1min_time.setVisibility(View.GONE);
-                        kLineView_1min.setVisibility(View.GONE);
-                        kLineView_5min.setVisibility(View.GONE);
-                        kLineView_15min.setVisibility(View.GONE);
-                        kLineView_30min.setVisibility(View.GONE);
-                        kLineView_1h.setVisibility(View.GONE);
-                        kLineView_1d.setVisibility(View.VISIBLE);
+                        myKLineView_1Min.setVisibility(View.GONE);
+                        myKLineView_5Min.setVisibility(View.GONE);
+                        myKLineView_15Min.setVisibility(View.GONE);
+                        myKLineView_30Min.setVisibility(View.GONE);
+                        myKLineView_1H.setVisibility(View.GONE);
+                        myKLineView_1D.setVisibility(View.VISIBLE);
                         break;
 
                 }
@@ -1135,8 +1135,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
             if (kData1MinHistory != null) {
-                //  Log.d("print", "update:1Min now " + kData.get(kData.size() - 1).getOpenPrice());
-                kLineView_1min.addSingleData(kData.get(kData.size() - 1));
+                myKLineView_1Min.addSingleData(kData.get(kData.size() - 1));
             } else {
                 Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 1);
             }
@@ -1144,8 +1143,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
             if (kData5MinHistory != null) {
-                //  Log.d("print", "update:5Min now " + kData.get(kData.size() - 1).getOpenPrice());
-                kLineView_5min.addSingleData(kData.get(kData.size() - 1));
+                myKLineView_5Min.addSingleData(kData.get(kData.size() - 1));
             } else {
                 Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 5);
 
@@ -1155,7 +1153,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             List<KData> kData = ChartUtil.klineList(data);
             if (kData15MinHistory != null) {
 
-                kLineView_15min.addSingleData(kData.get(kData.size() - 1));
+                myKLineView_15Min.addSingleData(kData.get(kData.size() - 1));
             } else {
                 Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 15);
 
@@ -1164,7 +1162,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
             if (kData30MinHistory != null) {
-                kLineView_30min.addSingleData(kData.get(kData.size() - 1));
+                myKLineView_30Min.addSingleData(kData.get(kData.size() - 1));
             } else {
                 Quote30MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 30);
 
@@ -1173,9 +1171,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
             if (kData60MinHistory != null) {
-                Log.d("print", "update:60Min now " + kData.get(kData.size() - 1).getOpenPrice());
 
-                kLineView_1h.addSingleData(kData.get(kData.size() - 1));
+                myKLineView_1H.addSingleData(kData.get(kData.size() - 1));
             } else {
                 Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 60);
 
@@ -1184,9 +1181,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
             if (kData1DayHistory != null) {
-                Log.d("print", "update:1Day now " + kData.get(kData.size() - 1).getOpenPrice());
 
-                kLineView_1d.addSingleData(kData.get(kData.size() - 1));
+                myKLineView_1D.addSingleData(kData.get(kData.size() - 1));
             } else {
                 Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 500);
 
@@ -1196,8 +1192,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             kData1MinHistory = ChartUtil.klineList(data);
 
             if (kData1MinHistory != null) {
-                Log.d("print", "update:1Min history " + kData1MinHistory.get(kData1MinHistory.size() - 1).getOpenPrice());
-                kLineView_1min.initKDataList(kData1MinHistory);
+                myKLineView_1Min.initKDataList(kData1MinHistory);
             } else {
                 Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 1);
 
@@ -1208,8 +1203,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             kData5MinHistory = ChartUtil.klineList(data);
 
             if (kData5MinHistory != null) {
-                Log.d("print", "update:5Min history " + kData5MinHistory.get(kData5MinHistory.size() - 1).getOpenPrice());
-                kLineView_5min.initKDataList(kData5MinHistory);
+                myKLineView_5Min.initKDataList(kData5MinHistory);
             } else {
                 Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 5);
 
@@ -1220,9 +1214,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             kData15MinHistory = ChartUtil.klineList(data);
 
             if (kData15MinHistory != null) {
-                Log.d("print", "update:15Min history " + kData15MinHistory.get(kData15MinHistory.size() - 1).getOpenPrice());
 
-                kLineView_15min.initKDataList(kData15MinHistory);
+                myKLineView_15Min.initKDataList(kData15MinHistory);
             } else {
                 Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 15);
 
@@ -1233,9 +1226,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             kData30MinHistory = ChartUtil.klineList(data);
 
             if (kData30MinHistory != null) {
-                Log.d("print", "update:30Min history " + kData30MinHistory.get(kData30MinHistory.size() - 1).getOpenPrice());
 
-                kLineView_30min.initKDataList(kData30MinHistory);
+                myKLineView_30Min.initKDataList(kData30MinHistory);
             } else {
                 Quote30MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 30);
 
@@ -1246,9 +1238,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             kData60MinHistory = ChartUtil.klineList(data);
 
             if (kData60MinHistory != null) {
-                Log.d("print", "update:60Min history " + kData60MinHistory.get(kData60MinHistory.size() - 1).getOpenPrice());
 
-                kLineView_1h.initKDataList(kData60MinHistory);
+                myKLineView_1H.initKDataList(kData60MinHistory);
             } else {
                 Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 60);
 
@@ -1259,9 +1250,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             kData1DayHistory = ChartUtil.klineList(data);
 
             if (kData1DayHistory != null) {
-                Log.d("print", "update:1Day history " + kData1DayHistory.get(kData1DayHistory.size() - 1).getOpenPrice());
 
-                kLineView_1d.initKDataList(kData1DayHistory);
+                myKLineView_1D.initKDataList(kData1DayHistory);
             } else {
                 Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 500);
 
@@ -1292,12 +1282,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote5MinHistoryManger.getInstance().cancelTimer();
 
 
-        kLineView_1min.cancelQuotaThread();
-        kLineView_5min.cancelQuotaThread();
-        kLineView_15min.cancelQuotaThread();
-        kLineView_30min.cancelQuotaThread();
-        kLineView_1h.cancelQuotaThread();
-        kLineView_1d.cancelQuotaThread();
+        myKLineView_1Min.cancelQuotaThread();
+        myKLineView_5Min.cancelQuotaThread();
+        myKLineView_15Min.cancelQuotaThread();
+        myKLineView_30Min.cancelQuotaThread();
+        myKLineView_1H.cancelQuotaThread();
+        myKLineView_1D.cancelQuotaThread();
 
 
     }

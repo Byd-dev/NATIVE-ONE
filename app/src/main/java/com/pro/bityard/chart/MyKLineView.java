@@ -27,7 +27,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-public class KLineView extends View implements View.OnTouchListener, Handler.Callback {
+
+public class MyKLineView extends View implements View.OnTouchListener, Handler.Callback {
 
     //view显示的第一条数据在总数据list中的position
     private int startDataNum = 0;
@@ -71,10 +72,15 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
     public static final int CROSS_HAIR_MOVE_FREE = 2;
     private int crossHairMoveMode = CROSS_HAIR_MOVE_CLOSE;
 
-    private final String STR_MA5 = "Ma5:";
-    private final String STR_MA10 = "Ma10:";
-    private final String STR_MA30 = "Ma30:";
+    private final String STR_OPEN = getContext().getString(R.string.kline_open);
+    private final String STR_MAX = getContext().getString(R.string.kline_max);
+    private final String STR_MIN = getContext().getString(R.string.kline_min);
+    private final String STR_CLOSE = getContext().getString(R.string.kline_close);
+
     private final String STR_VOL = "VOL:";
+    private final String STR_MA5 = "MA5:";
+    private final String STR_MA10 = "MA10:";
+
     private final String STR_MACD_TITLE = "MACD(12,26,9)";
     private final String STR_MACD = "MACD:";
     private final String STR_DIF = "DIF:";
@@ -93,9 +99,10 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
     private Paint strokePaint, fillPaint;
     private Path curvePath;
 
-    private Rect topMa5Rect = new Rect();
-    private Rect topMa10Rect = new Rect();
-    private Rect topMa30Rect = new Rect();
+    private Rect topOpenRect = new Rect();
+    private Rect topMaxRect = new Rect();
+    private Rect topMinRect = new Rect();
+    private Rect topCloseRect = new Rect();
     private Rect detailTextRect = new Rect();
 
     private String[] detailLeftTitleArr;
@@ -110,9 +117,16 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
     //垂直线横坐标
     private List<Float> verticalXList = new ArrayList<>();
 
+    private List<Pointer> mainOpenPointList = new ArrayList<>();
+    private List<Pointer> mainMaxPointList = new ArrayList<>();
+    private List<Pointer> mainMinPointList = new ArrayList<>();
+    private List<Pointer> mainClosePointList = new ArrayList<>();
+
+
     private List<Pointer> mainMa5PointList = new ArrayList<>();
     private List<Pointer> mainMa10PointList = new ArrayList<>();
     private List<Pointer> mainMa30PointList = new ArrayList<>();
+
 
     private List<Pointer> deputyMa5PointList = new ArrayList<>();
     private List<Pointer> deputyMa10PointList = new ArrayList<>();
@@ -128,8 +142,8 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
     private Runnable longPressRunnable;
     private GestureDetector gestureDetector;
 
-    private int priceIncreaseCol, priceFallCol, priceMa5Col, priceMa10Col, priceMa30Col,
-            priceMaxLabelCol, priceMinLabelCol, volumeTextCol, volumeMa5Col, volumeMa10Col, macdTextCol,
+    private int priceIncreaseCol, priceFallCol, priceOpen, priceMax, priceMin, priceClose,
+            priceMaxLabelCol, priceMinLabelCol, volumeTextCol, priceMa5Col, priceMa10Col,priceMa30Col, volumeMa5Col, volumeMa10Col, macdTextCol,
             macdPositiveCol, macdNegativeCol, difLineCol, deaLineCol, kLineCol, dLineCol,
             jLineCol, abscissaTextCol, ordinateTextCol, crossHairCol, crossHairRightLabelCol,
             crossHairBottomLabelCol, crossHairRightLabelTextCol, detailFrameCol, detailTextCol, tickMarkCol,
@@ -149,15 +163,15 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
             mMinPriceY, mMaxMacd, mMinMacd, mMaxK;
 
 
-    public KLineView(Context context) {
+    public MyKLineView(Context context) {
         this(context, null);
     }
 
-    public KLineView(Context context, @Nullable AttributeSet attrs) {
+    public MyKLineView(Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public KLineView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public MyKLineView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initAttrs(context, attrs);
         initData();
@@ -179,7 +193,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
      * 分页加载5000条数据时，如果正在滑动过程中，添加数据的那一瞬间会稍微有一下卡顿，影响不大。
      * 经测试，800块的华为荣耀6A 每次添加4000条以下数据不会有卡顿，很流畅。
      */
-    public void initKDataList(List<KData> dataList) {
+   /* public void initKDataList(List<KData> dataList) {
         if (dataList == null || dataList.isEmpty() || totalDataList == null
                 || totalDataList.size() > 0) {
             return;
@@ -189,18 +203,30 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
         QuotaUtil.initMa(totalDataList, false);
         resetViewData();
     }
+*/
+    /*修改后*/
+    public void initKDataList(List<KData> dataList) {
+        if (dataList == null || dataList.isEmpty()) {
+            return;
+        }
+        this.totalDataList.clear();
+        this.totalDataList.addAll(dataList);
+        startDataNum = totalDataList.size() - maxViewDataNum;
+        QuotaUtil.initMa(totalDataList, false);
+        resetViewData();
+    }
 
     /**
      * 获取总数据list
      */
-    public List<KData> getTotalDataList(){
+    public List<KData> getTotalDataList() {
         return totalDataList;
     }
 
     /**
      * 获取显示的数据list
      */
-    public List<KData> getViewDataList(){
+    public List<KData> getViewDataList() {
         return viewDataList;
     }
 
@@ -271,7 +297,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
      * 重置所有数据，默认不作定位
      */
     public void resetDataList(List<KData> dataList) {
-        if (dataList == null || dataList.isEmpty()){
+        if (dataList == null || dataList.isEmpty()) {
             return;
         }
         resetDataList(dataList, false);
@@ -464,12 +490,17 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
     private void initAttrs(Context context, AttributeSet attrs) {
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyKLineView);
+            priceOpen = typedArray.getColor(R.styleable.MyKLineView_klPriceOpenCol, 0xffFFA800);//开
+            priceMax = typedArray.getColor(R.styleable.MyKLineView_klPriceMaxCol, 0xff2668FF);//高
+            priceMin = typedArray.getColor(R.styleable.MyKLineView_klPriceMinCol, 0xffFF45A1);//低
+            priceClose = typedArray.getColor(R.styleable.MyKLineView_klPriceCloseCol, 0xffFF45A1);//收
+
             tickMarkCol = typedArray.getColor(R.styleable.MyKLineView_klTickMarkLineCol, 0xffF7F7FB);
             abscissaTextCol = typedArray.getColor(R.styleable.MyKLineView_klAbscissaTextCol, 0xff9BACBD);
             abscissaTextSize = typedArray.getInt(R.styleable.MyKLineView_klAbscissaTextSize, 8);
             ordinateTextCol = typedArray.getColor(R.styleable.MyKLineView_klOrdinateTextCol, abscissaTextCol);
             ordinateTextSize = typedArray.getInt(R.styleable.MyKLineView_klOrdinateTextSize, abscissaTextSize);
-            topMaTextSize = typedArray.getInt(R.styleable.MyKLineView_klTopMaTextSize, 10);
+            topMaTextSize = typedArray.getInt(R.styleable.MyKLineView_klTopMaTextSize, 9);
             priceIncreaseCol = typedArray.getColor(R.styleable.MyKLineView_klPriceIncreaseCol, 0xffFF5442);
             priceFallCol = typedArray.getColor(R.styleable.MyKLineView_klPriceFallCol, 0xff2BB8AB);
             priceMa5Col = typedArray.getColor(R.styleable.MyKLineView_klPriceMa5LineCol, 0xffFFA800);
@@ -477,12 +508,12 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
             priceMa30Col = typedArray.getColor(R.styleable.MyKLineView_klPriceMa30LineCol, 0xffFF45A1);
             priceMaxLabelCol = typedArray.getColor(R.styleable.MyKLineView_klPriceMaxLabelCol, 0xffC0C6C9);
             priceMaxLabelTextCol = typedArray.getColor(R.styleable.MyKLineView_klPriceMaxLabelTextCol, 0xffffffff);
-            priceMaxLabelTextSize = typedArray.getInt(R.styleable.MyKLineView_klPriceMaxLabelTextSize, 10);
+            priceMaxLabelTextSize = typedArray.getInt(R.styleable.MyKLineView_klPriceMaxLabelTextSize, 9);
             priceMinLabelCol = typedArray.getColor(R.styleable.MyKLineView_klPriceMinLabelCol, priceMaxLabelCol);
             priceMinLabelTextCol = typedArray.getColor(R.styleable.MyKLineView_klPriceMinLabelTextCol, priceMaxLabelTextCol);
-            priceMinLabelTextSize = typedArray.getInt(R.styleable.MyKLineView_klPriceMinLabelTextSize, 10);
+            priceMinLabelTextSize = typedArray.getInt(R.styleable.MyKLineView_klPriceMinLabelTextSize, 9);
             volumeTextCol = typedArray.getColor(R.styleable.MyKLineView_klVolumeTextCol, 0xff9BACBD);
-            volumeTextSize = typedArray.getInt(R.styleable.MyKLineView_klVolumeTextSize, 10);
+            volumeTextSize = typedArray.getInt(R.styleable.MyKLineView_klVolumeTextSize, 9);
             volumeMa5Col = typedArray.getColor(R.styleable.MyKLineView_klVolumeMa5LineCol, priceMa5Col);
             volumeMa10Col = typedArray.getColor(R.styleable.MyKLineView_klVolumeMa10LineCol, priceMa10Col);
             macdTextCol = typedArray.getColor(R.styleable.MyKLineView_klMacdTextCol, volumeTextCol);
@@ -496,13 +527,13 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
             crossHairCol = typedArray.getColor(R.styleable.MyKLineView_klCrossHairCol, 0xff828EA2);
             crossHairRightLabelCol = typedArray.getColor(R.styleable.MyKLineView_klCrossHairRightLabelCol, 0xff3193FF);
             crossHairRightLabelTextCol = typedArray.getColor(R.styleable.MyKLineView_klCrossHairRightLabelTextCol, 0xffffffff);
-            crossHairRightLabelTextSize = typedArray.getInt(R.styleable.MyKLineView_klCrossHairRightLabelTextSize, 10);
+            crossHairRightLabelTextSize = typedArray.getInt(R.styleable.MyKLineView_klCrossHairRightLabelTextSize, 9);
             crossHairBottomLabelCol = typedArray.getColor(R.styleable.MyKLineView_klCrossHairBottomLabelCol, priceMaxLabelCol);
             crossHairBottomLabelTextCol = typedArray.getColor(R.styleable.MyKLineView_klCrossHairBottomLabelTextCol, 0xffffffff);
-            crossHairBottomLabelTextSize = typedArray.getInt(R.styleable.MyKLineView_klCrossHairBottomLabelTextSize, 8);
+            crossHairBottomLabelTextSize = typedArray.getInt(R.styleable.MyKLineView_klCrossHairBottomLabelTextSize, 9);
             detailFrameCol = typedArray.getColor(R.styleable.MyKLineView_klDetailFrameCol, 0xffB5C0D0);
             detailTextCol = typedArray.getColor(R.styleable.MyKLineView_klDetailTextCol, 0xff808F9E);
-            detailTextSize = typedArray.getInt(R.styleable.MyKLineView_klDetailTextSize, 10);
+            detailTextSize = typedArray.getInt(R.styleable.MyKLineView_klDetailTextSize, 9);
             detailBgCol = typedArray.getColor(R.styleable.MyKLineView_klDetailBgCol, 0xe6ffffff);
             typedArray.recycle();
         }
@@ -517,7 +548,14 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
         detailRectWidth = dp2px(103);
         detailRectHeight = dp2px(120);
         detailTextVerticalSpace = (detailRectHeight - dp2px(4)) / 8;
-        detailLeftTitleArr = new String[]{"时间", "开", "高", "低", "收", "涨跌额", "涨跌幅", "成交量"};
+        detailLeftTitleArr = new String[]{getContext().getString(R.string.kline_time),
+                getContext().getString(R.string.kline_open_detail), 
+                getContext().getString(R.string.kline_max_detail), 
+                getContext().getString(R.string.kline_min_detail), 
+                getContext().getString(R.string.kline_close_detail), 
+                getContext().getString(R.string.kline_rate_detail),
+                getContext().getString(R.string.kline_change_detail), 
+                getContext().getString(R.string.kline_volume_detail)};
         initQuotaThread();
         initStopDelay();
 
@@ -806,11 +844,11 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            if (distanceX < 0){
+            if (distanceX < 0) {
                 isRightmost = false;
             }
             if ((startDataNum == 0 && distanceX < 0)
-                    || (totalDataList != null && startDataNum == totalDataList.size() - maxViewDataNum  && distanceX > 0)
+                    || (totalDataList != null && startDataNum == totalDataList.size() - maxViewDataNum && distanceX > 0)
                     || startDataNum < 0
                     || (viewDataList != null && viewDataList.size() < maxViewDataNum)) {
                 if (isShowDetail) {
@@ -908,7 +946,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
         if (startDataNum < 0) {
             startDataNum = 0;
         }
-        if (totalDataList != null){
+        if (totalDataList != null) {
             int size = totalDataList.size();
             if (startDataNum > size - maxViewDataNum) {
                 startDataNum = size - maxViewDataNum;
@@ -931,14 +969,14 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
     private void requestNewData() {
         if (totalDataList != null && startDataNum <= totalDataList.size() / 3 && isNeedRequestPreData) {
             isNeedRequestPreData = false;
-            if (requestListener != null){
+            if (requestListener != null) {
                 requestListener.requestData();
             }
         }
     }
 
     private void resetViewData() {
-        if (viewDataList == null || totalDataList == null){
+        if (viewDataList == null || totalDataList == null) {
             return;
         }
         viewDataList.clear();
@@ -964,7 +1002,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
 
     //刻度线
     private void drawTickMark(Canvas canvas) {
-        if (verticalXList == null || horizontalYList == null){
+        if (verticalXList == null || horizontalYList == null) {
             return;
         }
         //垂直刻度线
@@ -1015,7 +1053,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
 
     //主副图蜡烛图
     private void drawMainDeputyRect(Canvas canvas) {
-        if (verticalXList == null || horizontalYList == null || viewDataList == null){
+        if (verticalXList == null || horizontalYList == null || viewDataList == null) {
             return;
         }
         avgPriceRectWidth = (verticalXList.get(verticalXList.size() - 1)
@@ -1168,7 +1206,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
             //如果开盘价==收盘价，则给1px的高度
             float upPriceCoordinate = (float) (mMaxPriceY + (maxPrice - higherPrice) * avgHeightPerPrice);
             float downPriceCoordinate = (float) (mMaxPriceY + (maxPrice - lowerPrice) * avgHeightPerPrice);
-            if (upPriceCoordinate == downPriceCoordinate){
+            if (upPriceCoordinate == downPriceCoordinate) {
                 downPriceCoordinate = upPriceCoordinate + 1;
             }
 
@@ -1425,26 +1463,26 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
     //volume MA曲线
     private void drawVolumeBezierCurve(@NonNull Canvas canvas) {
         QuotaUtil.setBezierPath(volumeMa5PointList, curvePath);
-        resetStrokePaint(priceMa5Col, 0);
+        resetStrokePaint(priceOpen, 0);
         canvas.drawPath(curvePath, strokePaint);
 
         QuotaUtil.setBezierPath(volumeMa10PointList, curvePath);
-        resetStrokePaint(priceMa10Col, 0);
+        resetStrokePaint(priceMax, 0);
         canvas.drawPath(curvePath, strokePaint);
     }
 
     //副图 曲线
     private void drawDeputyCurve(@NonNull Canvas canvas) {
         QuotaUtil.setLinePath(deputyMa5PointList, curvePath);
-        resetStrokePaint(priceMa5Col, 0);
+        resetStrokePaint(priceOpen, 0);
         canvas.drawPath(curvePath, strokePaint);
 
         QuotaUtil.setLinePath(deputyMa10PointList, curvePath);
-        resetStrokePaint(priceMa10Col, 0);
+        resetStrokePaint(priceMax, 0);
         canvas.drawPath(curvePath, strokePaint);
 
         QuotaUtil.setLinePath(deputyMa30PointList, curvePath);
-        resetStrokePaint(priceMa30Col, 0);
+        resetStrokePaint(priceMin, 0);
         canvas.drawPath(curvePath, strokePaint);
     }
 
@@ -1807,34 +1845,51 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
         }
     }
 
+    /*判断当前有几位小数*/
+    public static int decimalPoint(String price) {
+        if (price.contains(".")) {
+            return price.length() - price.indexOf(".") - 1;
+        } else {
+            return 0;
+        }
+    }
+
     //顶部价格MA
     private void drawTopPriceMAData(Canvas canvas) {
         if (lastKData == null) {
             return;
         }
-        String ma5Str = STR_MA5 + setPrecision(lastKData.getPriceMa5(), 2);
-        String ma10Str = STR_MA10 + setPrecision(lastKData.getPriceMa10(), 2);
-        String ma30Str = STR_MA30 + setPrecision(lastKData.getPriceMa30(), 2);
+        String openStr = STR_OPEN + setPrecision(lastKData.getOpenPrice(), decimalPoint(String.valueOf(lastKData.getOpenPrice())));
+        String maxStr = STR_MAX + setPrecision(lastKData.getMaxPrice(), decimalPoint(String.valueOf(lastKData.getMaxPrice())));
+        String minStr = STR_MIN + setPrecision(lastKData.getMinPrice(), decimalPoint(String.valueOf(lastKData.getMinPrice())));
+        String closeStr = STR_CLOSE + setPrecision(lastKData.getClosePrice(), decimalPoint(String.valueOf(lastKData.getClosePrice())));
 
-        resetStrokePaint(priceMa5Col, topMaTextSize);
-        strokePaint.getTextBounds(ma5Str, 0, ma5Str.length(), topMa5Rect);
-        canvas.drawText(ma5Str,
+        resetStrokePaint(priceOpen, topMaTextSize);
+        strokePaint.getTextBounds(openStr, 0, openStr.length(), topOpenRect);
+        canvas.drawText(openStr,
                 leftStart + dp2px(6),
-                topStart + topMa5Rect.height() + dp2px(6),
+                topStart + topOpenRect.height() + dp2px(6),
                 strokePaint);
 
-        resetStrokePaint(priceMa10Col, topMaTextSize);
-        strokePaint.getTextBounds(ma10Str, 0, ma10Str.length(), topMa10Rect);
-        canvas.drawText(ma10Str,
-                leftStart + dp2px(6) + topMa5Rect.width() + dp2px(10),
-                topStart + topMa5Rect.height() + dp2px(6),
+        resetStrokePaint(priceMax, topMaTextSize);
+        strokePaint.getTextBounds(maxStr, 0, maxStr.length(), topMaxRect);
+        canvas.drawText(maxStr,
+                leftStart + dp2px(6) + topOpenRect.width() + dp2px(10),
+                topStart + topOpenRect.height() + dp2px(6),
                 strokePaint);
 
-        resetStrokePaint(priceMa30Col, topMaTextSize);
-        strokePaint.getTextBounds(ma30Str, 0, ma30Str.length(), topMa30Rect);
-        canvas.drawText(ma30Str,
-                leftStart + dp2px(6) + topMa5Rect.width() + topMa10Rect.width() + dp2px(10) * 2,
-                topStart + topMa5Rect.height() + dp2px(6),
+        resetStrokePaint(priceMin, topMaTextSize);
+        strokePaint.getTextBounds(minStr, 0, minStr.length(), topMinRect);
+        canvas.drawText(minStr,
+                leftStart + dp2px(6) + topOpenRect.width() + topMaxRect.width() + dp2px(10) * 2,
+                topStart + topOpenRect.height() + dp2px(6),
+                strokePaint);
+
+        resetStrokePaint(priceClose, topMaTextSize);
+        strokePaint.getTextBounds(closeStr, 0, closeStr.length(), topCloseRect);
+        canvas.drawText(closeStr,
+                leftStart + dp2px(6) + topOpenRect.width() + topMaxRect.width() + topMinRect.width() + dp2px(10) * 3,
+                topStart + topOpenRect.height() + dp2px(6),
                 strokePaint);
     }
 
@@ -1852,8 +1907,8 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
                 verticalXList.get(0),
                 priceImgBot + volRect.height() + dp2px(2),
                 strokePaint);
-
-        String ma5Str = STR_MA5 + setPrecision(lastKData.getVolumeMa5(), 2);
+        /*不需要 */
+        /*String ma5Str = STR_MA5 + setPrecision(lastKData.getVolumeMa5(), 2);
         Rect volMa5Rect = new Rect();
         resetStrokePaint(priceMa5Col, volumeTextSize);
         strokePaint.getTextBounds(ma5Str, 0, ma5Str.length(), volMa5Rect);
@@ -1867,7 +1922,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
         canvas.drawText(ma10Str,
                 verticalXList.get(0) + volMa5Rect.width() + volRect.width() + dp2px(10) * 2,
                 priceImgBot + volRect.height() + dp2px(2),
-                strokePaint);
+                strokePaint);*/
 
         String titleStr = "";
         String firstStr = "";
@@ -1900,21 +1955,21 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
                 horizontalYList.get(4) + titleRect.height(),
                 strokePaint);
 
-        resetStrokePaint(priceMa5Col, volumeTextSize);
+        resetStrokePaint(priceOpen, volumeTextSize);
         canvas.drawText(firstStr,
                 verticalXList.get(0) + titleRect.width() + dp2px(10),
                 horizontalYList.get(4) + titleRect.height(),
                 strokePaint);
         float firstWidth = strokePaint.measureText(firstStr);
 
-        resetStrokePaint(priceMa10Col, volumeTextSize);
+        resetStrokePaint(priceMax, volumeTextSize);
         canvas.drawText(secondStr,
                 verticalXList.get(0) + titleRect.width() + dp2px(20) + firstWidth,
                 horizontalYList.get(4) + titleRect.height(),
                 strokePaint);
         float secondWidth = strokePaint.measureText(secondStr);
 
-        resetStrokePaint(priceMa30Col, volumeTextSize);
+        resetStrokePaint(priceMin, volumeTextSize);
         canvas.drawText(thirdStr,
                 verticalXList.get(0) + titleRect.width() + dp2px(30) + firstWidth + secondWidth,
                 horizontalYList.get(4) + titleRect.height(),

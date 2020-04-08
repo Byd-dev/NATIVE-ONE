@@ -292,7 +292,7 @@
                     app:tabTextAppearance="@style/MyTablayoutStyleQuote"
                     app:tabTextColor="@color/text_second_color" />
 
-                <com.pro.bityard.chart.KLineView
+                <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1min_time"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -306,7 +306,7 @@
                     app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
-                <com.pro.bityard.chart.KLineView
+                <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1min"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -320,7 +320,7 @@
                     app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
-                <com.pro.bityard.chart.KLineView
+                <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_5min"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -334,7 +334,7 @@
                     app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
-                <com.pro.bityard.chart.KLineView
+                <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_15min"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -348,7 +348,7 @@
                     app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
-                <com.pro.bityard.chart.KLineView
+                <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_30min"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -362,7 +362,7 @@
                     app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
-                <com.pro.bityard.chart.KLineView
+                <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1h"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -376,7 +376,7 @@
                     app:klPriceMinCol="@color/maincolor"
                     app:klTickMarkLineCol="@color/color_bg_left" />
 
-                <com.pro.bityard.chart.KLineView
+                <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1d"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

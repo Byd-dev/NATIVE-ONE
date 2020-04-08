@@ -2,7 +2,7 @@
 <resources>
 
     <!--K线控件-->
-    <declare-styleable name="KLineView">
+    <declare-styleable name="MyKLineView">
         <!--刻度线颜色-->
         <attr name="klTickMarkLineCol" format="color"/>
         <!--横坐标字体颜色-->
@@ -19,6 +19,13 @@
         <attr name="klPriceIncreaseCol" format="color"/>
         <!--跌价方块颜色-->
         <attr name="klPriceFallCol" format="color"/>
+
+        <!--价格MA5,MA10,MA30颜色-->
+        <attr name="klPriceMa5LineCol" format="color"/>
+        <attr name="klPriceMa10LineCol" format="color"/>
+        <attr name="klPriceMa30LineCol" format="color"/>
+
+
         <!--价格开,高,低,收 颜色-->
         <attr name="klPriceOpenCol" format="color"/>
         <attr name="klPriceMaxCol" format="color"/>
@@ -38,6 +45,8 @@
         <attr name="klPriceMinLabelTextSize" format="integer"/>
         <!--数量字体,MA5,MA10颜色-->
         <attr name="klVolumeTextCol" format="color"/>
+        <attr name="klPriceMa5Col" format="color"/>
+        <attr name="klPriceMa10Col" format="color"/>
         <!--数量字体大小-->
         <attr name="klVolumeTextSize" format="integer"/>
         <attr name="klVolumeMa5LineCol" format="color"/>
@@ -137,4 +146,9 @@
         <!--文字颜色-->
         <attr name="textColor" format="reference|color"/>
     </declare-styleable>
+
+
+
+
+
 </resources>
