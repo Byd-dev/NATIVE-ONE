@@ -41,8 +41,11 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.ChargeUnitManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
+import com.pro.bityard.manger.Quote1MinCurrentManger;
+import com.pro.bityard.manger.Quote1MinHistoryManger;
+import com.pro.bityard.manger.Quote5MinCurrentManger;
+import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.QuoteCurrentManger;
-import com.pro.bityard.manger.QuoteHistoryManger;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
@@ -234,8 +237,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private boolean isOpenSure;
     private boolean isCloseSure;
     private String[] titles = new String[]{"分时", "1分", "5分", "15分", "30分", "1时", "1天"};
-    private List<KData> kDataHistory;
-    private String resolution = "1";
+    private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData30MinHistory, kData60MinHistory, kData1DayHistory;
     private int count = 1;
 
 
@@ -274,15 +276,18 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView(View view) {
 
-        QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 1, resolution);
 
         QuoteListManger.getInstance().addObserver(this);
 
         QuoteItemManger.getInstance().addObserver(this);
 
-        QuoteCurrentManger.getInstance().addObserver(this);
+        Quote1MinCurrentManger.getInstance().addObserver(this);//1min 实时
+        Quote5MinCurrentManger.getInstance().addObserver(this);//5min 实时
 
-        QuoteHistoryManger.getInstance().addObserver(this);
+        Quote1MinHistoryManger.getInstance().addObserver(this);
+
+        Quote5MinHistoryManger.getInstance().addObserver(this);
+
 
         BalanceManger.getInstance().getBalance("USDT");
 
@@ -398,7 +403,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        resolution = "1";
                         count = 1;
                         break;
                     case 1:
@@ -409,7 +413,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        resolution = "1";
                         count = 1;
 
                         break;
@@ -421,7 +424,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        resolution = "5";
                         count = 5;
 
                         break;
@@ -433,7 +435,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        resolution = "15";
                         count = 15;
                         break;
                     case 4:
@@ -444,7 +445,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.VISIBLE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        resolution = "30";
                         count = 30;
                         break;
                     case 5:
@@ -455,7 +455,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.VISIBLE);
                         kLineView_1d.setVisibility(View.GONE);
-                        resolution = "60";
                         count = 60;
                         break;
                     case 6:
@@ -466,12 +465,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.VISIBLE);
-                        resolution = "D";
                         count = 500;
                         break;
 
                 }
-                QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count, resolution);
 
             }
 
@@ -499,9 +496,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         //开启单个刷新
         QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         //开启单个行情图
-        QuoteCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData), resolution);
+        Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
 
-        //QuoteHistoryManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData), "1");
 
         //合约号
         tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
@@ -511,7 +508,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             startHandler(handler, 0, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
         } else {
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-            Log.d("print", "initData:258:合约号:  " + tradeListEntity);
+            // Log.d("print", "initData:258:合约号:  " + tradeListEntity);
             setContent(tradeListEntity);
         }
 
@@ -519,7 +516,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             startHandler(handler, 1, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
         } else {
             chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
-            Log.d("print", "initData:259:手续费: " + chargeUnitEntity);
+            // Log.d("print", "initData:259:手续费: " + chargeUnitEntity);
         }
 
 
@@ -943,8 +940,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
             QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
-            QuoteCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data), resolution);
-            QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), count, resolution);
+            
+            Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+
+            Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), count);
+            Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), count);
+
 
             //相应选择
             quotePopAdapter.select(itemQuoteContCode(data));
@@ -1107,30 +1109,42 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
 
             });
-        } else if (o == QuoteCurrentManger.getInstance()) {
+        } else if (o == Quote1MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataHistory != null) {
+            if (kData1MinHistory != null) {
                 kLineView_1min.addSingleData(kData.get(kData.size() - 1));
-               /* kLineView_5min.addSingleData(kData.get(kData.size() - 1));
-                kLineView_15min.addSingleData(kData.get(kData.size() - 1));
-                kLineView_30min.addSingleData(kData.get(kData.size() - 1));
-                kLineView_1h.addSingleData(kData.get(kData.size() - 1));*/
             } else {
-                QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count, resolution);
+                Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count);
             }
-        } else if (o == QuoteHistoryManger.getInstance()) {
+
+
+        } else if (o == Quote5MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
-            kDataHistory = ChartUtil.klineList(data);
-            if (kDataHistory != null) {
-                kLineView_1min.initKDataList(kDataHistory);
-                kLineView_5min.initKDataList(kDataHistory);
-                kLineView_15min.initKDataList(kDataHistory);
-                kLineView_30min.initKDataList(kDataHistory);
-                kLineView_1h.initKDataList(kDataHistory);
-                kLineView_1d.initKDataList(kDataHistory);
+            List<KData> kData = ChartUtil.klineList(data);
+            if (kData5MinHistory != null) {
+                kLineView_5min.addSingleData(kData.get(kData.size() - 1));
             } else {
-                QuoteHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count, resolution);
+                Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count);
+
+            }
+        } else if (o == Quote1MinHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            kData1MinHistory = ChartUtil.klineList(data);
+            if (kData1MinHistory != null) {
+                kLineView_1min.initKDataList(kData1MinHistory);
+            } else {
+                Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count);
+
+            }
+
+        } else if (o == Quote5MinHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            kData5MinHistory = ChartUtil.klineList(data);
+            if (kData5MinHistory != null) {
+                kLineView_5min.initKDataList(kData5MinHistory);
+            } else {
+                Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count);
 
             }
 
@@ -1152,8 +1166,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         QuoteItemManger.getInstance().clear();
         QuoteItemManger.getInstance().cancelTimer();
-        QuoteHistoryManger.getInstance().clear();
-        QuoteHistoryManger.getInstance().cancelTimer();
+
+        Quote1MinHistoryManger.getInstance().clear();
+        Quote1MinHistoryManger.getInstance().cancelTimer();
+        Quote5MinHistoryManger.getInstance().clear();
+        Quote5MinHistoryManger.getInstance().cancelTimer();
+
+
         kLineView_1min.cancelQuotaThread();
         kLineView_5min.cancelQuotaThread();
         kLineView_15min.cancelQuotaThread();

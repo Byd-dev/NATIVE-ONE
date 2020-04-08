@@ -184,7 +184,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
      * 分页加载5000条数据时，如果正在滑动过程中，添加数据的那一瞬间会稍微有一下卡顿，影响不大。
      * 经测试，800块的华为荣耀6A 每次添加4000条以下数据不会有卡顿，很流畅。
      */
-    /*public void initKDataList(List<KData> dataList) {
+   /* public void initKDataList(List<KData> dataList) {
         if (dataList == null || dataList.isEmpty() || totalDataList == null
                 || totalDataList.size() > 0) {
             return;
@@ -193,8 +193,8 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
         startDataNum = totalDataList.size() - maxViewDataNum;
         QuotaUtil.initMa(totalDataList, false);
         resetViewData();
-    }*/
-
+    }
+*/
     /*修改后*/
     public void initKDataList(List<KData> dataList) {
         if (dataList == null || dataList.isEmpty()) {

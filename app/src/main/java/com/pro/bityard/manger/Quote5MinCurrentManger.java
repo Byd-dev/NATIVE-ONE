@@ -6,7 +6,6 @@ import android.os.Message;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.QuoteChartEntity;
 import com.pro.switchlibrary.SPUtils;
@@ -19,33 +18,31 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class QuoteCurrentManger extends Observable {
+public class Quote5MinCurrentManger extends Observable {
 
 
-    private static QuoteCurrentManger quoteCurrentManger;
+    private static Quote5MinCurrentManger quote5MinCurrentManger;
 
     private String code;
-    private String resolution;
 
 
-    public static QuoteCurrentManger getInstance() {
-        if (quoteCurrentManger == null) {
-            synchronized (QuoteCurrentManger.class) {
-                if (quoteCurrentManger == null) {
-                    quoteCurrentManger = new QuoteCurrentManger();
+    public static Quote5MinCurrentManger getInstance() {
+        if (quote5MinCurrentManger == null) {
+            synchronized (Quote5MinCurrentManger.class) {
+                if (quote5MinCurrentManger == null) {
+                    quote5MinCurrentManger = new Quote5MinCurrentManger();
                 }
             }
 
         }
-        return quoteCurrentManger;
+        return quote5MinCurrentManger;
 
     }
 
     private Timer mTimer;
 
-    public void startScheduleJob(long delay, long interval, String code, String resolution) {
+    public void startScheduleJob(long delay, long interval, String code) {
         this.code = code;
-        this.resolution = resolution;
         if (mTimer != null) cancelTimer();
 
         mTimer = new Timer();
@@ -69,7 +66,7 @@ public class QuoteCurrentManger extends Observable {
                 NetManger.getInstance().initQuote();
                 return;
             } else {
-                quote(quote_host, code, resolution);
+                quote(quote_host, code);
             }
         }
     };
@@ -83,12 +80,12 @@ public class QuoteCurrentManger extends Observable {
     }
 
 
-    public void quote(String quote_host, String quote_code, String resolution) {
+    public void quote(String quote_host, String quote_code) {
 
         if (quote_host == null && quote_code == null) {
             NetManger.getInstance().initQuote();
         } else {
-            NetManger.getInstance().getQuoteChart(quote_host, "/quota.jsp", quote_code, resolution, (state, response) -> {
+            NetManger.getInstance().getQuoteChart(quote_host, "/quota.jsp", quote_code, "5", (state, response) -> {
                 if (state.equals(BUSY)) {
 
                 } else if (state.equals(SUCCESS)) {
@@ -118,7 +115,7 @@ public class QuoteCurrentManger extends Observable {
      */
     public void clear() {
         deleteObservers();
-        quoteCurrentManger = null;
+        quote5MinCurrentManger = null;
     }
 
 

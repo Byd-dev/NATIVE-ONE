@@ -468,12 +468,13 @@ public class NetManger {
 
     }
 
+    int countHistory=0;
     /*获取单个历史行情图*/
-    public void getQuoteHistory(String quoteDomain, int count, String url, String contactCode, String resolution, OnNetResult onNetResult) {
+    public void getQuoteHistory(String quoteDomain, int times, String url, String contactCode, String resolution, OnNetResult onNetResult) {
         Calendar nowBefore2 = Calendar.getInstance();
 
         Calendar nowBefore = Calendar.getInstance();
-        nowBefore.add(Calendar.MINUTE, -300 * count);
+        nowBefore.add(Calendar.MINUTE, -300 * times);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         nowBefore2.add(Calendar.MINUTE, 0);
 
@@ -482,6 +483,7 @@ public class NetManger {
         map.put("resolution", resolution);
         map.put("from", Util.dateToStamp(sdf.format(nowBefore.getTimeInMillis())));
         map.put("to", Util.dateToStamp(sdf.format(nowBefore2.getTimeInMillis())));
+
 
         getHostRequest(quoteDomain, url, map, (state, response) -> {
             if (state.equals(BUSY)) {
