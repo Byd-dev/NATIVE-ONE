@@ -96,7 +96,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
 
     private int initTotalListSize = 0;
 
-    private Paint strokePaint, fillPaint;
+    private Paint fillPaint,strokePaint;
     private Path curvePath;
 
     private Rect topOpenRect = new Rect();
@@ -116,12 +116,6 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
     private List<Float> horizontalYList = new ArrayList<>();
     //垂直线横坐标
     private List<Float> verticalXList = new ArrayList<>();
-
-    private List<Pointer> mainOpenPointList = new ArrayList<>();
-    private List<Pointer> mainMaxPointList = new ArrayList<>();
-    private List<Pointer> mainMinPointList = new ArrayList<>();
-    private List<Pointer> mainClosePointList = new ArrayList<>();
-
 
     private List<Pointer> mainMa5PointList = new ArrayList<>();
     private List<Pointer> mainMa10PointList = new ArrayList<>();
@@ -559,25 +553,25 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         initQuotaThread();
         initStopDelay();
 
+        fillPaint = new Paint();
+        fillPaint.setAntiAlias(true);
+        fillPaint.setTextSize(sp2px(abscissaTextSize));
+        fillPaint.setStyle(Paint.Style.FILL);
+
         strokePaint = new Paint();
         strokePaint.setAntiAlias(true);
         strokePaint.setTextSize(sp2px(abscissaTextSize));
         strokePaint.setStyle(Paint.Style.STROKE);
 
-        fillPaint = new Paint();
-        fillPaint.setAntiAlias(true);
-        fillPaint.setStyle(Paint.Style.FILL);
+
 
         curvePath = new Path();
 
-        longPressRunnable = new Runnable() {
-            @Override
-            public void run() {
-                isLongPress = true;
-                isShowDetail = true;
-                getClickKData(longPressDownX);
-                invalidate();
-            }
+        longPressRunnable = () -> {
+            isLongPress = true;
+            isShowDetail = true;
+            getClickKData(longPressDownX);
+            invalidate();
         };
     }
 
@@ -1008,13 +1002,13 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         //垂直刻度线
         float horizontalSpace = (rightEnd - leftStart - (dp2px(46))) / 4;
         verticalXList.clear();
-        resetStrokePaint(tickMarkCol, 0);
+        resetFillPaint(tickMarkCol, 0);
         for (int i = 0; i < 5; i++) {
             canvas.drawLine(leftStart + horizontalSpace * (i) + dp2px(6),
                     topStart + dp2px(18),
                     leftStart + horizontalSpace * (i) + dp2px(6),
                     bottomEnd - dp2px(20),
-                    strokePaint);
+                    fillPaint);
             verticalXList.add(leftStart + horizontalSpace * (i) + dp2px(6));
         }
         //水平刻度线
@@ -1031,7 +1025,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                     topStart + verticalSpace * i + dp2px(18),
                     horizontalRightEnd,
                     topStart + verticalSpace * i + dp2px(18),
-                    strokePaint);
+                    fillPaint);
             horizontalYList.add(topStart + verticalSpace * i + dp2px(18));
         }
         //副图顶线
@@ -1040,14 +1034,14 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                 horizontalYList.get(4) + verticalSpace / 2,
                 verticalXList.get(verticalXList.size() - 1),
                 horizontalYList.get(4) + verticalSpace / 2,
-                strokePaint);
+                fillPaint);
         //数量中线
         if (isShowDeputy) {
             canvas.drawLine(leftStart + dp2px(6),
                     horizontalYList.get(3) + verticalSpace / 2,
                     verticalXList.get(verticalXList.size() - 1),
                     horizontalYList.get(3) + verticalSpace / 2,
-                    strokePaint);
+                    fillPaint);
         }
     }
 
@@ -1191,13 +1185,13 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                 higherPrice = openPrice;
                 lowerPrice = closedPrice;
                 fillPaint.setColor(priceFallCol);
-                resetStrokePaint(priceFallCol, 0);
+                resetFillPaint(priceFallCol, 0);
 
             } else {
                 higherPrice = closedPrice;
                 lowerPrice = openPrice;
                 fillPaint.setColor(priceIncreaseCol);
-                resetStrokePaint(priceIncreaseCol, 0);
+                resetFillPaint(priceIncreaseCol, 0);
             }
 
             viewDataList.get(i).setCloseY((float) (horizontalYList.get(0) + (topPrice - closedPrice) * avgHeightPerPrice));
@@ -1222,7 +1216,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                     (float) (mMaxPriceY + (maxPrice - viewDataList.get(i).getMaxPrice()) * avgHeightPerPrice),
                     (float) (viewDataList.get(i).getLeftX() + avgPriceRectWidth / 2),
                     (float) (mMaxPriceY + (maxPrice - viewDataList.get(i).getMinPrice()) * avgHeightPerPrice),
-                    strokePaint);
+                    fillPaint);
 
             //volumeRect
             canvas.drawRect((float) (viewDataList.get(i).getLeftX() + dp2px(0.5f)),
@@ -1526,12 +1520,12 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
             return;
         }
         //垂直
-        resetStrokePaint(crossHairCol, 0);
+        resetFillPaint(crossHairCol, 0);
         canvas.drawLine((float) (lastKData.getLeftX() + avgPriceRectWidth / 2),
                 horizontalYList.get(0),
                 (float) (lastKData.getLeftX() + avgPriceRectWidth / 2),
                 horizontalYList.get(horizontalYList.size() - 1),
-                strokePaint);
+                fillPaint);
 
         //水平
         double moveY;
@@ -1555,12 +1549,12 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
             moveY = priceImgBot;
         }
 
-        resetStrokePaint(crossHairCol, 0);
+        resetFillPaint(crossHairCol, 0);
         canvas.drawLine(verticalXList.get(0),
                 (float) moveY,
                 verticalXList.get(verticalXList.size() - 1),
                 (float) moveY,
-                strokePaint);
+                fillPaint);
 
         //底部标签
         RectF grayRectF = new RectF((float) (lastKData.getLeftX() + avgPriceRectWidth / 2 - dp2px(25)),
@@ -1572,11 +1566,11 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
 
         //底部标签text
         String moveTime = formatDate(lastKData.getTime());
-        resetStrokePaint(crossHairBottomLabelTextCol, crossHairBottomLabelTextSize);
+        resetFillPaint(crossHairBottomLabelTextCol, crossHairBottomLabelTextSize);
         canvas.drawText(moveTime,
-                (float) (lastKData.getLeftX() + avgPriceRectWidth / 2 - strokePaint.measureText(moveTime) / 2),
+                (float) (lastKData.getLeftX() + avgPriceRectWidth / 2 - fillPaint.measureText(moveTime) / 2),
                 bottomEnd - dp2px(7),
-                strokePaint);
+                fillPaint);
 
         //右侧标签
         RectF blueRectF = new RectF(rightEnd - dp2px(38),
@@ -1605,12 +1599,12 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         String movePrice = formatKDataNum(topPrice
                 - avgPricePerHeight * ((float) moveY - horizontalYList.get(0)));
         Rect textRect = new Rect();
-        resetStrokePaint(crossHairRightLabelTextCol, crossHairRightLabelTextSize);
-        strokePaint.getTextBounds(movePrice, 0, movePrice.length(), textRect);
+        resetFillPaint(crossHairRightLabelTextCol, crossHairRightLabelTextSize);
+        fillPaint.getTextBounds(movePrice, 0, movePrice.length(), textRect);
         canvas.drawText(movePrice,
                 rightEnd - dp2px(38) + (blueRectF.width() - textRect.width()) / 2,
                 (float) moveY + dp2px(7) - (blueRectF.height() - textRect.height()) / 2,
-                strokePaint);
+                fillPaint);
     }
 
     //最高价、最低价标签
@@ -1618,8 +1612,8 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         //maxPrice
         Rect maxPriceRect = new Rect();
         String maxPriceStr = setPrecision(maxPrice, 2);
-        resetStrokePaint(priceMaxLabelTextCol, priceMaxLabelTextSize);
-        strokePaint.getTextBounds(maxPriceStr, 0, maxPriceStr.length(), maxPriceRect);
+        resetFillPaint(priceMaxLabelTextCol, priceMaxLabelTextSize);
+        fillPaint.getTextBounds(maxPriceStr, 0, maxPriceStr.length(), maxPriceRect);
 
         RectF maxRectF;
         float maxPriceTextX;
@@ -1656,17 +1650,17 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         canvas.drawRoundRect(maxRectF, 4, 4, fillPaint);
         canvas.drawPath(curvePath, fillPaint);
 
-        resetStrokePaint(priceMaxLabelTextCol, priceMaxLabelTextSize);
+        resetFillPaint(priceMaxLabelTextCol, priceMaxLabelTextSize);
         canvas.drawText(maxPriceStr,
                 maxPriceTextX,
                 (float) mMaxPriceY + maxPriceRect.height() / 2f,
-                strokePaint);
+                fillPaint);
 
         //minPrice
         Rect minPriceRect = new Rect();
         String minPriceStr = setPrecision(minPrice, 2);
-        resetStrokePaint(priceMinLabelTextCol, priceMinLabelTextSize);
-        strokePaint.getTextBounds(minPriceStr, 0, minPriceStr.length(), minPriceRect);
+        resetFillPaint(priceMinLabelTextCol, priceMinLabelTextSize);
+        fillPaint.getTextBounds(minPriceStr, 0, minPriceStr.length(), minPriceRect);
 
         RectF minRectF;
         float minPriceTextX;
@@ -1703,19 +1697,19 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         canvas.drawRoundRect(minRectF, 4, 4, fillPaint);
         canvas.drawPath(curvePath, fillPaint);
 
-        resetStrokePaint(priceMinLabelTextCol, priceMinLabelTextSize);
+        resetFillPaint(priceMinLabelTextCol, priceMinLabelTextSize);
         canvas.drawText(minPriceStr,
                 minPriceTextX,
                 (float) mMinPriceY + minPriceRect.height() / 2f,
-                strokePaint);
+                fillPaint);
     }
 
     private void drawDetailData(Canvas canvas) {
         if (lastKData == null || !isShowDetail) {
             return;
         }
-        resetStrokePaint(detailTextCol, detailTextSize);
-        strokePaint.getTextBounds(detailLeftTitleArr[0], 0, detailLeftTitleArr[0].length(), detailTextRect);
+        resetFillPaint(detailTextCol, detailTextSize);
+        fillPaint.getTextBounds(detailLeftTitleArr[0], 0, detailLeftTitleArr[0].length(), detailTextRect);
 
         if (lastKData.getLeftX() + avgPriceRectWidth / 2 <= getMeasuredWidth() / 2f) {
             //边框(右侧)
@@ -1726,58 +1720,58 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                     horizontalYList.get(0) + detailRectHeight,
                     fillPaint);
 
-            resetStrokePaint(detailFrameCol, 0);
+            resetFillPaint(detailFrameCol, 0);
             canvas.drawLine(verticalXList.get(verticalXList.size() - 1) - detailRectWidth,
                     horizontalYList.get(0),
                     verticalXList.get(verticalXList.size() - 1) - detailRectWidth,
                     horizontalYList.get(0) + detailRectHeight,
-                    strokePaint);
+                    fillPaint);
 
             canvas.drawLine(verticalXList.get(verticalXList.size() - 1) - detailRectWidth,
                     horizontalYList.get(0),
                     verticalXList.get(verticalXList.size() - 1),
                     horizontalYList.get(0),
-                    strokePaint);
+                    fillPaint);
 
             canvas.drawLine(verticalXList.get(verticalXList.size() - 1),
                     horizontalYList.get(0),
                     verticalXList.get(verticalXList.size() - 1),
                     horizontalYList.get(0) + detailRectHeight,
-                    strokePaint);
+                    fillPaint);
 
             canvas.drawLine(verticalXList.get(verticalXList.size() - 1) - detailRectWidth,
                     horizontalYList.get(0) + detailRectHeight,
                     verticalXList.get(verticalXList.size() - 1),
                     horizontalYList.get(0) + detailRectHeight,
-                    strokePaint);
+                    fillPaint);
 
             //详情字段
-            resetStrokePaint(detailTextCol, detailTextSize);
+            resetFillPaint(detailTextCol, detailTextSize);
             for (int i = 0; i < detailLeftTitleArr.length; i++) {
                 canvas.drawText(detailLeftTitleArr[i],
                         verticalXList.get(verticalXList.size() - 1) - detailRectWidth + dp2px(4),
                         horizontalYList.get(0) + detailTextVerticalSpace * i
                                 + detailTextRect.height() + (detailTextVerticalSpace - detailTextRect.height()) / 2,
-                        strokePaint);
+                        fillPaint);
             }
 
             //详情数据
             for (int i = 0; i < detailRightDataList.size(); i++) {
                 if (i == 5 || i == 6) {
                     if (lastKData.getUpDnAmount() > 0) {
-                        resetStrokePaint(priceIncreaseCol, detailTextSize);
+                        resetFillPaint(priceIncreaseCol, detailTextSize);
                     } else {
-                        resetStrokePaint(priceFallCol, detailTextSize);
+                        resetFillPaint(priceFallCol, detailTextSize);
                     }
                 } else {
-                    resetStrokePaint(detailTextCol, detailTextSize);
+                    resetFillPaint(detailTextCol, detailTextSize);
                 }
                 canvas.drawText(detailRightDataList.get(i),
                         verticalXList.get(verticalXList.size() - 1) - dp2px(4)
-                                - strokePaint.measureText(detailRightDataList.get(i)),
+                                - fillPaint.measureText(detailRightDataList.get(i)),
                         horizontalYList.get(0) + detailTextVerticalSpace * i
                                 + detailTextRect.height() + (detailTextVerticalSpace - detailTextRect.height()) / 2,
-                        strokePaint);
+                        fillPaint);
             }
 
         } else {
@@ -1789,58 +1783,58 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                     horizontalYList.get(0) + detailRectHeight,
                     fillPaint);
 
-            resetStrokePaint(detailFrameCol, 0);
+            resetFillPaint(detailFrameCol, 0);
             canvas.drawLine(verticalXList.get(0),
                     horizontalYList.get(0),
                     verticalXList.get(0),
                     horizontalYList.get(0) + detailRectHeight,
-                    strokePaint);
+                    fillPaint);
 
             canvas.drawLine(verticalXList.get(0),
                     horizontalYList.get(0),
                     verticalXList.get(0) + detailRectWidth,
                     horizontalYList.get(0),
-                    strokePaint);
+                    fillPaint);
 
             canvas.drawLine(verticalXList.get(0) + detailRectWidth,
                     horizontalYList.get(0),
                     verticalXList.get(0) + detailRectWidth,
                     horizontalYList.get(0) + detailRectHeight,
-                    strokePaint);
+                    fillPaint);
 
             canvas.drawLine(verticalXList.get(0),
                     horizontalYList.get(0) + detailRectHeight,
                     verticalXList.get(0) + detailRectWidth,
                     horizontalYList.get(0) + detailRectHeight,
-                    strokePaint);
+                    fillPaint);
 
             //文字详情
-            resetStrokePaint(detailTextCol, detailTextSize);
+            resetFillPaint(detailTextCol, detailTextSize);
             for (int i = 0; i < detailLeftTitleArr.length; i++) {
                 canvas.drawText(detailLeftTitleArr[i],
                         verticalXList.get(0) + dp2px(4),
                         horizontalYList.get(0) + detailTextVerticalSpace * i
                                 + detailTextRect.height() + (detailTextVerticalSpace - detailTextRect.height()) / 2,
-                        strokePaint);
+                        fillPaint);
             }
 
             //详情数据
             for (int i = 0; i < detailRightDataList.size(); i++) {
                 if (i == 5 || i == 6) {
                     if (lastKData.getUpDnAmount() > 0) {
-                        resetStrokePaint(priceIncreaseCol, detailTextSize);
+                        resetFillPaint(priceIncreaseCol, detailTextSize);
                     } else {
-                        resetStrokePaint(priceFallCol, detailTextSize);
+                        resetFillPaint(priceFallCol, detailTextSize);
                     }
                 } else {
-                    resetStrokePaint(detailTextCol, detailTextSize);
+                    resetFillPaint(detailTextCol, detailTextSize);
                 }
                 canvas.drawText(detailRightDataList.get(i),
                         verticalXList.get(0) + detailRectWidth - dp2px(4)
-                                - strokePaint.measureText(detailRightDataList.get(i)),
+                                - fillPaint.measureText(detailRightDataList.get(i)),
                         horizontalYList.get(0) + detailTextVerticalSpace * i
                                 + detailTextRect.height() + (detailTextVerticalSpace - detailTextRect.height()) / 2,
-                        strokePaint);
+                        fillPaint);
             }
         }
     }
@@ -1864,33 +1858,33 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         String minStr = STR_MIN + setPrecision(lastKData.getMinPrice(), decimalPoint(String.valueOf(lastKData.getMinPrice())));
         String closeStr = STR_CLOSE + setPrecision(lastKData.getClosePrice(), decimalPoint(String.valueOf(lastKData.getClosePrice())));
 
-        resetStrokePaint(priceOpen, topMaTextSize);
-        strokePaint.getTextBounds(openStr, 0, openStr.length(), topOpenRect);
+        resetFillPaint(priceOpen, topMaTextSize);
+        fillPaint.getTextBounds(openStr, 0, openStr.length(), topOpenRect);
         canvas.drawText(openStr,
                 leftStart + dp2px(6),
                 topStart + topOpenRect.height() + dp2px(6),
-                strokePaint);
+                fillPaint);
 
-        resetStrokePaint(priceMax, topMaTextSize);
-        strokePaint.getTextBounds(maxStr, 0, maxStr.length(), topMaxRect);
+        resetFillPaint(priceMax, topMaTextSize);
+        fillPaint.getTextBounds(maxStr, 0, maxStr.length(), topMaxRect);
         canvas.drawText(maxStr,
                 leftStart + dp2px(6) + topOpenRect.width() + dp2px(10),
                 topStart + topOpenRect.height() + dp2px(6),
-                strokePaint);
+                fillPaint);
 
-        resetStrokePaint(priceMin, topMaTextSize);
-        strokePaint.getTextBounds(minStr, 0, minStr.length(), topMinRect);
+        resetFillPaint(priceMin, topMaTextSize);
+        fillPaint.getTextBounds(minStr, 0, minStr.length(), topMinRect);
         canvas.drawText(minStr,
                 leftStart + dp2px(6) + topOpenRect.width() + topMaxRect.width() + dp2px(10) * 2,
                 topStart + topOpenRect.height() + dp2px(6),
-                strokePaint);
+                fillPaint);
 
-        resetStrokePaint(priceClose, topMaTextSize);
-        strokePaint.getTextBounds(closeStr, 0, closeStr.length(), topCloseRect);
+        resetFillPaint(priceClose, topMaTextSize);
+        fillPaint.getTextBounds(closeStr, 0, closeStr.length(), topCloseRect);
         canvas.drawText(closeStr,
                 leftStart + dp2px(6) + topOpenRect.width() + topMaxRect.width() + topMinRect.width() + dp2px(10) * 3,
                 topStart + topOpenRect.height() + dp2px(6),
-                strokePaint);
+                fillPaint);
     }
 
     //数量MA
@@ -1901,28 +1895,28 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         //VOL
         String volStr = STR_VOL + setPrecision(lastKData.getVolume(), 2);
         Rect volRect = new Rect();
-        resetStrokePaint(volumeTextCol, volumeTextSize);
-        strokePaint.getTextBounds(volStr, 0, volStr.length(), volRect);
+        resetFillPaint(volumeTextCol, volumeTextSize);
+        fillPaint.getTextBounds(volStr, 0, volStr.length(), volRect);
         canvas.drawText(volStr,
                 verticalXList.get(0),
                 priceImgBot + volRect.height() + dp2px(2),
-                strokePaint);
+                fillPaint);
         /*不需要 */
         /*String ma5Str = STR_MA5 + setPrecision(lastKData.getVolumeMa5(), 2);
         Rect volMa5Rect = new Rect();
-        resetStrokePaint(priceMa5Col, volumeTextSize);
-        strokePaint.getTextBounds(ma5Str, 0, ma5Str.length(), volMa5Rect);
+        resetFillPaint(priceMa5Col, volumeTextSize);
+        fillPaint2.getTextBounds(ma5Str, 0, ma5Str.length(), volMa5Rect);
         canvas.drawText(ma5Str,
                 verticalXList.get(0) + volRect.width() + dp2px(10),
                 priceImgBot + volRect.height() + dp2px(2),
-                strokePaint);
+                fillPaint2);
 
         String ma10Str = STR_MA10 + setPrecision(lastKData.getVolumeMa10(), 2);
-        resetStrokePaint(priceMa10Col, volumeTextSize);
+        resetFillPaint(priceMa10Col, volumeTextSize);
         canvas.drawText(ma10Str,
                 verticalXList.get(0) + volMa5Rect.width() + volRect.width() + dp2px(10) * 2,
                 priceImgBot + volRect.height() + dp2px(2),
-                strokePaint);*/
+                fillPaint2);*/
 
         String titleStr = "";
         String firstStr = "";
@@ -1948,59 +1942,59 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         }
 
         Rect titleRect = new Rect();
-        resetStrokePaint(volumeTextCol, volumeTextSize);
-        strokePaint.getTextBounds(titleStr, 0, titleStr.length(), titleRect);
+        resetFillPaint(volumeTextCol, volumeTextSize);
+        fillPaint.getTextBounds(titleStr, 0, titleStr.length(), titleRect);
         canvas.drawText(titleStr,
                 verticalXList.get(0),
                 horizontalYList.get(4) + titleRect.height(),
-                strokePaint);
+                fillPaint);
 
-        resetStrokePaint(priceOpen, volumeTextSize);
+        resetFillPaint(priceOpen, volumeTextSize);
         canvas.drawText(firstStr,
                 verticalXList.get(0) + titleRect.width() + dp2px(10),
                 horizontalYList.get(4) + titleRect.height(),
-                strokePaint);
-        float firstWidth = strokePaint.measureText(firstStr);
+                fillPaint);
+        float firstWidth = fillPaint.measureText(firstStr);
 
-        resetStrokePaint(priceMax, volumeTextSize);
+        resetFillPaint(priceMax, volumeTextSize);
         canvas.drawText(secondStr,
                 verticalXList.get(0) + titleRect.width() + dp2px(20) + firstWidth,
                 horizontalYList.get(4) + titleRect.height(),
-                strokePaint);
-        float secondWidth = strokePaint.measureText(secondStr);
+                fillPaint);
+        float secondWidth = fillPaint.measureText(secondStr);
 
-        resetStrokePaint(priceMin, volumeTextSize);
+        resetFillPaint(priceMin, volumeTextSize);
         canvas.drawText(thirdStr,
                 verticalXList.get(0) + titleRect.width() + dp2px(30) + firstWidth + secondWidth,
                 horizontalYList.get(4) + titleRect.height(),
-                strokePaint);
+                fillPaint);
     }
 
     //横坐标
     private void drawAbscissa(Canvas canvas) {
-        resetStrokePaint(abscissaTextCol, abscissaTextSize);
+        resetFillPaint(abscissaTextCol, abscissaTextSize);
         for (int i = 0; i < verticalXList.size(); i++) {
             if (i == 0 && viewDataList.get(0).getLeftX() <= verticalXList.get(0) + avgPriceRectWidth / 2
                     && viewDataList.get(0).getRightX() > verticalXList.get(0)) {
                 canvas.drawText(formatDate(viewDataList.get(0).getTime()),
                         leftStart + dp2px(6),
                         bottomEnd - dp2px(7),
-                        strokePaint);
+                        fillPaint);
 
             } else if (i == verticalXList.size() - 1) {
                 String dateStr = formatDate(viewDataList.get(viewDataList.size() - 1).getTime());
                 canvas.drawText(dateStr,
-                        rightEnd - dp2px(41) - strokePaint.measureText(dateStr),
+                        rightEnd - dp2px(41) - fillPaint.measureText(dateStr),
                         bottomEnd - dp2px(7),
-                        strokePaint);
+                        fillPaint);
             } else {
                 for (KData data : viewDataList) {
                     if (data.getLeftX() <= verticalXList.get(i) && data.getRightX() >= verticalXList.get(i)) {
                         String dateStr = formatDate(data.getTime());
                         canvas.drawText(dateStr,
-                                verticalXList.get(i) - strokePaint.measureText(dateStr) / 2,
+                                verticalXList.get(i) - fillPaint.measureText(dateStr) / 2,
                                 bottomEnd - dp2px(7),
-                                strokePaint);
+                                fillPaint);
                         break;
                     }
                 }
@@ -2011,20 +2005,20 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
     //纵坐标
     private void drawOrdinate(@NonNull Canvas canvas) {
         Rect rect = new Rect();
-        resetStrokePaint(ordinateTextCol, ordinateTextSize);
+        resetFillPaint(ordinateTextCol, ordinateTextSize);
         //最高价
-        strokePaint.getTextBounds(formatKDataNum(topPrice), 0, formatKDataNum(topPrice).length(), rect);
+        fillPaint.getTextBounds(formatKDataNum(topPrice), 0, formatKDataNum(topPrice).length(), rect);
         canvas.drawText(formatKDataNum(topPrice),
                 verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                 horizontalYList.get(0) + rect.height() + dp2px(2),
-                strokePaint);
+                fillPaint);
 
         //最低价
-        strokePaint.getTextBounds(formatKDataNum(botPrice), 0, formatKDataNum(botPrice).length(), rect);
+        fillPaint.getTextBounds(formatKDataNum(botPrice), 0, formatKDataNum(botPrice).length(), rect);
         canvas.drawText(formatKDataNum(botPrice),
                 verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                 priceImgBot - dp2px(2),
-                strokePaint);
+                fillPaint);
 
         if (!isShowDeputy) {
             double avgPrice = (topPrice - botPrice) / 4;
@@ -2032,7 +2026,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                 canvas.drawText(formatKDataNum(topPrice - avgPrice * (i + 1)),
                         verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                         horizontalYList.get(i + 1) + rect.height() / 2f,
-                        strokePaint);
+                        fillPaint);
             }
 
         } else {
@@ -2041,7 +2035,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                 canvas.drawText(formatKDataNum(topPrice - avgPrice * (i + 1)),
                         verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                         horizontalYList.get(i + 1) + rect.height() / 2f,
-                        strokePaint);
+                        fillPaint);
             }
 
             String topDeputy = "";
@@ -2076,37 +2070,37 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
             canvas.drawText(topDeputy,
                     verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                     horizontalYList.get(horizontalYList.size() - 2) + rect.height() + dp2px(2),
-                    strokePaint);
+                    fillPaint);
 
             canvas.drawText(centerDeputy,
                     verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                     horizontalYList.get(horizontalYList.size() - 1) - verticalSpace / 2 + rect.height() / 2f,
-                    strokePaint);
+                    fillPaint);
 
             canvas.drawText(botDeputy,
                     verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                     horizontalYList.get(horizontalYList.size() - 1) - dp2px(2),
-                    strokePaint);
+                    fillPaint);
         }
 
         //最高量
-        strokePaint.getTextBounds(formatVolNum(maxVolume), 0, formatVolNum(maxVolume).length(), rect);
+        fillPaint.getTextBounds(formatVolNum(maxVolume), 0, formatVolNum(maxVolume).length(), rect);
         canvas.drawText(formatVolNum(maxVolume),
                 verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                 priceImgBot + rect.height() + dp2px(2),
-                strokePaint);
+                fillPaint);
 
         //最高量/2
         canvas.drawText(formatVolNum(maxVolume / 2),
                 verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                 volumeImgBot - verticalSpace / 2 + rect.height() / 2f,
-                strokePaint);
+                fillPaint);
 
         //数量 0
         canvas.drawText("0",
                 verticalXList.get(verticalXList.size() - 1) + dp2px(4),
                 volumeImgBot - dp2px(2),
-                strokePaint);
+                fillPaint);
 
     }
 
@@ -2170,9 +2164,15 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         }
     }
 
+    private void resetFillPaint(int colorId, int textSize) {
+        fillPaint.setColor(colorId);
+        fillPaint.setTextSize(sp2px(textSize));
+    }
+
     private void resetStrokePaint(int colorId, int textSize) {
         strokePaint.setColor(colorId);
         strokePaint.setTextSize(sp2px(textSize));
     }
-
+    
+  
 }
