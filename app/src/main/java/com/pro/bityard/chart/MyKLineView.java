@@ -96,7 +96,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
 
     private int initTotalListSize = 0;
 
-    private Paint fillPaint,strokePaint;
+    private Paint fillPaint, strokePaint;
     private Path curvePath;
 
     private Rect topOpenRect = new Rect();
@@ -137,7 +137,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
     private GestureDetector gestureDetector;
 
     private int priceIncreaseCol, priceFallCol, priceOpen, priceMax, priceMin, priceClose,
-            priceMaxLabelCol, priceMinLabelCol, volumeTextCol, priceMa5Col, priceMa10Col,priceMa30Col, volumeMa5Col, volumeMa10Col, macdTextCol,
+            priceMaxLabelCol, priceMinLabelCol, volumeTextCol, priceMa5Col, priceMa10Col, priceMa30Col, volumeMa5Col, volumeMa10Col, macdTextCol,
             macdPositiveCol, macdNegativeCol, difLineCol, deaLineCol, kLineCol, dLineCol,
             jLineCol, abscissaTextCol, ordinateTextCol, crossHairCol, crossHairRightLabelCol,
             crossHairBottomLabelCol, crossHairRightLabelTextCol, detailFrameCol, detailTextCol, tickMarkCol,
@@ -187,17 +187,6 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
      * 分页加载5000条数据时，如果正在滑动过程中，添加数据的那一瞬间会稍微有一下卡顿，影响不大。
      * 经测试，800块的华为荣耀6A 每次添加4000条以下数据不会有卡顿，很流畅。
      */
-   /* public void initKDataList(List<KData> dataList) {
-        if (dataList == null || dataList.isEmpty() || totalDataList == null
-                || totalDataList.size() > 0) {
-            return;
-        }
-        this.totalDataList.addAll(dataList);
-        startDataNum = totalDataList.size() - maxViewDataNum;
-        QuotaUtil.initMa(totalDataList, false);
-        resetViewData();
-    }
-*/
     /*修改后*/
     public void initKDataList(List<KData> dataList) {
         if (dataList == null || dataList.isEmpty()) {
@@ -543,12 +532,12 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         detailRectHeight = dp2px(120);
         detailTextVerticalSpace = (detailRectHeight - dp2px(4)) / 8;
         detailLeftTitleArr = new String[]{getContext().getString(R.string.kline_time),
-                getContext().getString(R.string.kline_open_detail), 
-                getContext().getString(R.string.kline_max_detail), 
-                getContext().getString(R.string.kline_min_detail), 
-                getContext().getString(R.string.kline_close_detail), 
+                getContext().getString(R.string.kline_open_detail),
+                getContext().getString(R.string.kline_max_detail),
+                getContext().getString(R.string.kline_min_detail),
+                getContext().getString(R.string.kline_close_detail),
                 getContext().getString(R.string.kline_rate_detail),
-                getContext().getString(R.string.kline_change_detail), 
+                getContext().getString(R.string.kline_change_detail),
                 getContext().getString(R.string.kline_volume_detail)};
         initQuotaThread();
         initStopDelay();
@@ -562,7 +551,6 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         strokePaint.setAntiAlias(true);
         strokePaint.setTextSize(sp2px(abscissaTextSize));
         strokePaint.setStyle(Paint.Style.STROKE);
-
 
 
         curvePath = new Path();
@@ -623,16 +611,16 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         if (totalDataList.isEmpty() || viewDataList.isEmpty()) {
             return;
         }
-        drawTickMark(canvas);
-        drawMainDeputyRect(canvas);
-        drawBezierCurve(canvas);
-        drawTopPriceMAData(canvas);
-        drawBotMAData(canvas);
-        drawAbscissa(canvas);
-        drawOrdinate(canvas);
-        drawMaxMinPriceLabel(canvas);
-        drawCrossHairLine(canvas);
-        drawDetailData(canvas);
+        drawTickMark(canvas);//刻度线
+        drawMainDeputyRect(canvas);//主副图蜡烛图
+        drawBezierCurve(canvas);//贝塞尔曲线
+        drawTopPriceMAData(canvas);//顶部价格MA
+        drawBotMAData(canvas);//数量MA
+        drawAbscissa(canvas);//横坐标
+        drawOrdinate(canvas);//纵坐标
+        drawMaxMinPriceLabel(canvas);//最高最低价标签
+        drawCrossHairLine(canvas);//十字线
+        drawDetailData(canvas);//详情弹框
     }
 
     @Override
@@ -2173,6 +2161,6 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         strokePaint.setColor(colorId);
         strokePaint.setTextSize(sp2px(textSize));
     }
-    
-  
+
+
 }
