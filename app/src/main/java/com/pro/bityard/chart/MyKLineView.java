@@ -19,6 +19,7 @@ import android.view.ViewConfiguration;
 import com.pro.bityard.R;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -517,7 +518,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
             detailFrameCol = typedArray.getColor(R.styleable.MyKLineView_klDetailFrameCol, 0xffB5C0D0);
             detailTextCol = typedArray.getColor(R.styleable.MyKLineView_klDetailTextCol, 0xff808F9E);
             detailTextSize = typedArray.getInt(R.styleable.MyKLineView_klDetailTextSize, 9);
-            detailBgCol = typedArray.getColor(R.styleable.MyKLineView_klDetailBgCol, 0xe6ffffff);
+            detailBgCol = typedArray.getColor(R.styleable.MyKLineView_klDetailBgCol, 0x00000000);
             typedArray.recycle();
         }
     }
@@ -1477,19 +1478,19 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                         && viewDataList.get(i).getRightX() >= clickX) {
                     lastKData = viewDataList.get(i);
                     detailRightDataList.add(formatDate(lastKData.getTime()));
-                    detailRightDataList.add(setPrecision(lastKData.getOpenPrice(), 2));
-                    detailRightDataList.add(setPrecision(lastKData.getMaxPrice(), 2));
-                    detailRightDataList.add(setPrecision(lastKData.getMinPrice(), 2));
-                    detailRightDataList.add(setPrecision(lastKData.getClosePrice(), 2));
+                    detailRightDataList.add(setPrecision(lastKData.getOpenPrice(), decimalPoint(String.valueOf(lastKData.getOpenPrice()))));
+                    detailRightDataList.add(setPrecision(lastKData.getMaxPrice(), decimalPoint(String.valueOf(lastKData.getMaxPrice()))));
+                    detailRightDataList.add(setPrecision(lastKData.getMinPrice(), decimalPoint(String.valueOf(lastKData.getMinPrice()))));
+                    detailRightDataList.add(setPrecision(lastKData.getClosePrice(), decimalPoint(String.valueOf(lastKData.getClosePrice()))));
                     double upDnAmount = lastKData.getUpDnAmount();
                     if (upDnAmount > 0) {
-                        detailRightDataList.add("+" + setPrecision(upDnAmount, 2));
+                        detailRightDataList.add("+" + setPrecision(upDnAmount, decimalPoint(String.valueOf(lastKData.getOpenPrice()))));
                         detailRightDataList.add("+" + setPrecision(lastKData.getUpDnRate() * 100, 2) + "%");
                     } else {
-                        detailRightDataList.add(setPrecision(upDnAmount, 2));
+                        detailRightDataList.add(setPrecision(upDnAmount, decimalPoint(String.valueOf(lastKData.getOpenPrice()))));
                         detailRightDataList.add(setPrecision(lastKData.getUpDnRate() * 100, 2) + "%");
                     }
-                    detailRightDataList.add(setPrecision(lastKData.getVolume(), 2));
+                    detailRightDataList.add(setPrecision(lastKData.getVolume(), 0)); //成交量不保留小数
                     break;
 
                 } else {
@@ -1599,7 +1600,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
     private void drawMaxMinPriceLabel(Canvas canvas) {
         //maxPrice
         Rect maxPriceRect = new Rect();
-        String maxPriceStr = setPrecision(maxPrice, 2);
+        String maxPriceStr = setPrecision(maxPrice, decimalPoint(String.valueOf(maxPrice)));
         resetFillPaint(priceMaxLabelTextCol, priceMaxLabelTextSize);
         fillPaint.getTextBounds(maxPriceStr, 0, maxPriceStr.length(), maxPriceRect);
 
@@ -1646,7 +1647,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
 
         //minPrice
         Rect minPriceRect = new Rect();
-        String minPriceStr = setPrecision(minPrice, 2);
+        String minPriceStr = setPrecision(minPrice, decimalPoint(String.valueOf(minPrice)));
         resetFillPaint(priceMinLabelTextCol, priceMinLabelTextSize);
         fillPaint.getTextBounds(minPriceStr, 0, minPriceStr.length(), minPriceRect);
 
@@ -1881,13 +1882,13 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
             return;
         }
         //VOL
-        String volStr = STR_VOL + setPrecision(lastKData.getVolume(), 2);
+        String volStr = STR_VOL + setPrecision(lastKData.getVolume(), 0);//不保留小数
         Rect volRect = new Rect();
         resetFillPaint(volumeTextCol, volumeTextSize);
         fillPaint.getTextBounds(volStr, 0, volStr.length(), volRect);
         canvas.drawText(volStr,
                 verticalXList.get(0),
-                priceImgBot + volRect.height() + dp2px(2),
+                priceImgBot + volRect.height() + dp2px(decimalPoint(String.valueOf(lastKData.getVolume()))),
                 fillPaint);
         /*不需要 */
         /*String ma5Str = STR_MA5 + setPrecision(lastKData.getVolumeMa5(), 2);
@@ -1912,21 +1913,21 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         String thirdStr = "";
         if (isShowDeputy && deputyImgType == DEPUTY_IMG_MACD) {
             titleStr = STR_MACD_TITLE;
-            firstStr = STR_MACD + setPrecision(lastKData.getMacd(), 2);
-            secondStr = STR_DIF + setPrecision(lastKData.getDif(), 2);
-            thirdStr = STR_DEA + setPrecision(lastKData.getDea(), 2);
+            firstStr = STR_MACD + setPrecision(lastKData.getMacd(), decimalPoint(String.valueOf(lastKData.getMacd())));
+            secondStr = STR_DIF + setPrecision(lastKData.getDif(), decimalPoint(String.valueOf(lastKData.getDif())));
+            thirdStr = STR_DEA + setPrecision(lastKData.getDea(), decimalPoint(String.valueOf(lastKData.getDea())));
 
         } else if (isShowDeputy && deputyImgType == DEPUTY_IMG_KDJ) {
             titleStr = STR_KDJ_TITLE;
-            firstStr = STR_K + setPrecision(lastKData.getK(), 2);
-            secondStr = STR_D + setPrecision(lastKData.getD(), 2);
-            thirdStr = STR_J + setPrecision(lastKData.getJ(), 2);
+            firstStr = STR_K + setPrecision(lastKData.getK(), decimalPoint(String.valueOf(lastKData.getK())));
+            secondStr = STR_D + setPrecision(lastKData.getD(), decimalPoint(String.valueOf(lastKData.getD())));
+            thirdStr = STR_J + setPrecision(lastKData.getJ(), decimalPoint(String.valueOf(lastKData.getJ())));
 
         } else if (isShowDeputy && deputyImgType == DEPUTY_IMG_RSI) {
             titleStr = STR_RSI_TITLE;
-            firstStr = STR_RS1 + setPrecision(lastKData.getRs1(), 2);
-            secondStr = STR_RS2 + setPrecision(lastKData.getRs2(), 2);
-            thirdStr = STR_RS3 + setPrecision(lastKData.getRs3(), 2);
+            firstStr = STR_RS1 + setPrecision(lastKData.getRs1(), decimalPoint(String.valueOf(lastKData.getRs1())));
+            secondStr = STR_RS2 + setPrecision(lastKData.getRs2(), decimalPoint(String.valueOf(lastKData.getRs2())));
+            thirdStr = STR_RS3 + setPrecision(lastKData.getRs3(), decimalPoint(String.valueOf(lastKData.getRs3())));
         }
 
         Rect titleRect = new Rect();
@@ -2031,22 +2032,22 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
             String centerDeputy = "";
             if (deputyImgType == DEPUTY_IMG_MACD) {
                 if (mMaxMacd > 0 && mMinMacd < 0) {
-                    topDeputy = setPrecision(mMaxMacd, 2);
-                    botDeputy = setPrecision(mMinMacd, 2);
-                    centerDeputy = setPrecision((mMaxMacd - mMinMacd) / 2, 2);
+                    topDeputy = setPrecision(mMaxMacd, decimalPoint(String.valueOf(mMaxMacd)));
+                    botDeputy = setPrecision(mMinMacd, decimalPoint(String.valueOf(mMinMacd)));
+                    centerDeputy = setPrecision((mMaxMacd - mMinMacd) / 2, decimalPoint(String.valueOf(mMaxMacd)));
                 } else if (mMaxMacd <= 0) {
                     topDeputy = "0";
-                    botDeputy = setPrecision(mMinMacd, 2);
-                    centerDeputy = setPrecision((mMinMacd - mMaxMacd) / 2, 2);
+                    botDeputy = setPrecision(mMinMacd, decimalPoint(String.valueOf(mMinMacd)));
+                    centerDeputy = setPrecision((mMinMacd - mMaxMacd) / 2, decimalPoint(String.valueOf(mMinMacd)));
                 } else if (mMinMacd >= 0) {
-                    topDeputy = setPrecision(mMaxMacd, 2);
+                    topDeputy = setPrecision(mMaxMacd, decimalPoint(String.valueOf(mMaxMacd)));
                     botDeputy = "0";
-                    centerDeputy = setPrecision((mMaxMacd - mMinMacd) / 2, 2);
+                    centerDeputy = setPrecision((mMaxMacd - mMinMacd) / 2, decimalPoint(String.valueOf(mMaxMacd)));
                 }
 
             } else if (deputyImgType == DEPUTY_IMG_KDJ) {
-                topDeputy = setPrecision(mMaxK, 2);
-                centerDeputy = setPrecision(mMaxK / 2, 2);
+                topDeputy = setPrecision(mMaxK, decimalPoint(String.valueOf(mMaxK)));
+                centerDeputy = setPrecision(mMaxK / 2, decimalPoint(String.valueOf(mMaxK)));
                 botDeputy = "0";
 
             } else if (deputyImgType == DEPUTY_IMG_RSI) {
@@ -2110,6 +2111,13 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         return format.format(new Date(timeStamp));
     }
 
+    /*保留两位小数*/
+    public static String getNumberFormat(double value, int scale) {
+        BigDecimal bd = new BigDecimal(value);
+        String mon = bd.setScale(scale, RoundingMode.DOWN).toString();//保留两位数字，并且是截断不进行四舍五
+        return mon;
+    }
+
     /**
      * 设置小数位精度
      *
@@ -2117,7 +2125,9 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
      */
     private String setPrecision(Double num, int scale) {
         BigDecimal bigDecimal = new BigDecimal(num);
-        return bigDecimal.setScale(scale, BigDecimal.ROUND_DOWN).toPlainString();
+        return getNumberFormat(Double.parseDouble(bigDecimal.setScale(scale, BigDecimal.ROUND_DOWN).toPlainString()), scale);
+
+        //return bigDecimal.setScale(scale, BigDecimal.ROUND_DOWN).toPlainString();
     }
 
     /**

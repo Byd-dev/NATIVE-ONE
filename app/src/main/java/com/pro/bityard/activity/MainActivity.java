@@ -158,8 +158,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             QuoteListManger.getInstance().quote(quote_host, quote_code);
         }
 
+        if (quoteList!=null){
+            findViewById(R.id.radio_2).setOnClickListener(v -> QuoteDetailActivity.enter(MainActivity.this, "1", quoteList.get(0)));
+        }
 
-        findViewById(R.id.radio_2).setOnClickListener(v -> QuoteDetailActivity.enter(MainActivity.this, "1", quoteList.get(0)));
 
     }
 

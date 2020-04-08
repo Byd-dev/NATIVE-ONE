@@ -304,7 +304,12 @@
                     app:klPriceOpenCol="@color/text_quote_green"
                     app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMinCol="@color/maincolor"
-                    app:klTickMarkLineCol="@color/color_bg_left" />
+                    app:klDetailBgCol="@color/background_maincolor"
+                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klDetailFrameCol="@color/text_edit_pop"
+                    app:klPriceMaxLabelCol="@color/color_bg_left"
+                    app:klPriceMaxLabelTextCol="@color/text_second_color"
+                    />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1min"
@@ -318,7 +323,12 @@
                     app:klPriceOpenCol="@color/text_quote_green"
                     app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMinCol="@color/maincolor"
-                    app:klTickMarkLineCol="@color/color_bg_left" />
+                    app:klDetailBgCol="@color/background_maincolor"
+                    app:klDetailFrameCol="@color/text_edit_pop"
+                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceMaxLabelCol="@color/color_bg_left"
+                    app:klPriceMaxLabelTextCol="@color/text_second_color"
+                    />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_5min"
@@ -332,7 +342,12 @@
                     app:klPriceOpenCol="@color/text_quote_green"
                     app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMinCol="@color/maincolor"
-                    app:klTickMarkLineCol="@color/color_bg_left" />
+                    app:klDetailBgCol="@color/background_maincolor"
+                    app:klDetailFrameCol="@color/text_edit_pop"
+                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceMaxLabelCol="@color/color_bg_left"
+                    app:klPriceMaxLabelTextCol="@color/text_second_color"
+                    />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_15min"
@@ -346,7 +361,12 @@
                     app:klPriceOpenCol="@color/text_quote_green"
                     app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMinCol="@color/maincolor"
-                    app:klTickMarkLineCol="@color/color_bg_left" />
+                    app:klDetailBgCol="@color/background_maincolor"
+                    app:klDetailFrameCol="@color/text_edit_pop"
+                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceMaxLabelCol="@color/color_bg_left"
+                    app:klPriceMaxLabelTextCol="@color/text_second_color"
+                    />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_30min"
@@ -360,7 +380,12 @@
                     app:klPriceOpenCol="@color/text_quote_green"
                     app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMinCol="@color/maincolor"
-                    app:klTickMarkLineCol="@color/color_bg_left" />
+                    app:klDetailBgCol="@color/background_maincolor"
+                    app:klDetailFrameCol="@color/text_edit_pop"
+                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceMaxLabelCol="@color/color_bg_left"
+                    app:klPriceMaxLabelTextCol="@color/text_second_color"
+                    />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1h"
@@ -374,7 +399,12 @@
                     app:klPriceOpenCol="@color/text_quote_green"
                     app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMinCol="@color/maincolor"
-                    app:klTickMarkLineCol="@color/color_bg_left" />
+                    app:klDetailBgCol="@color/background_maincolor"
+                    app:klDetailFrameCol="@color/text_edit_pop"
+                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceMaxLabelCol="@color/color_bg_left"
+                    app:klPriceMaxLabelTextCol="@color/text_second_color"
+                    />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1d"
@@ -388,7 +418,12 @@
                     app:klPriceOpenCol="@color/text_quote_green"
                     app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMinCol="@color/maincolor"
-                    app:klTickMarkLineCol="@color/color_bg_left" />
+                    app:klDetailBgCol="@color/background_maincolor"
+                    app:klDetailFrameCol="@color/text_edit_pop"
+                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceMaxLabelCol="@color/color_bg_left"
+                    app:klPriceMaxLabelTextCol="@color/text_second_color"
+                    />
             </LinearLayout>
 
             <View
