@@ -41,11 +41,18 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.ChargeUnitManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
+import com.pro.bityard.manger.Quote15MinCurrentManger;
+import com.pro.bityard.manger.Quote15MinHistoryManger;
+import com.pro.bityard.manger.Quote1DayCurrentManger;
+import com.pro.bityard.manger.Quote1DayHistoryManger;
 import com.pro.bityard.manger.Quote1MinCurrentManger;
 import com.pro.bityard.manger.Quote1MinHistoryManger;
+import com.pro.bityard.manger.Quote30MinCurrentManger;
+import com.pro.bityard.manger.Quote30MinHistoryManger;
 import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
-import com.pro.bityard.manger.QuoteCurrentManger;
+import com.pro.bityard.manger.Quote60MinCurrentManger;
+import com.pro.bityard.manger.Quote60MinHistoryManger;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
@@ -238,7 +245,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private boolean isCloseSure;
     private String[] titles = new String[]{"分时", "1分", "5分", "15分", "30分", "1时", "1天"};
     private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData30MinHistory, kData60MinHistory, kData1DayHistory;
-    private int count = 1;
 
 
     public static void enter(Context context, String tradeType, String data) {
@@ -283,11 +289,17 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         Quote1MinCurrentManger.getInstance().addObserver(this);//1min 实时
         Quote5MinCurrentManger.getInstance().addObserver(this);//5min 实时
+        Quote15MinCurrentManger.getInstance().addObserver(this);//15min 实时
+        Quote30MinCurrentManger.getInstance().addObserver(this);//30min 实时
+        Quote60MinCurrentManger.getInstance().addObserver(this);//60min 实时
+        Quote1DayCurrentManger.getInstance().addObserver(this);//1day 实时
 
         Quote1MinHistoryManger.getInstance().addObserver(this);
-
         Quote5MinHistoryManger.getInstance().addObserver(this);
-
+        Quote15MinHistoryManger.getInstance().addObserver(this);
+        Quote30MinHistoryManger.getInstance().addObserver(this);
+        Quote60MinHistoryManger.getInstance().addObserver(this);
+        Quote1DayHistoryManger.getInstance().addObserver(this);
 
         BalanceManger.getInstance().getBalance("USDT");
 
@@ -403,7 +415,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        count = 1;
                         break;
                     case 1:
                         kline_1min_time.setVisibility(View.GONE);
@@ -413,7 +424,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        count = 1;
 
                         break;
                     case 2:
@@ -424,7 +434,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        count = 5;
 
                         break;
                     case 3:
@@ -435,7 +444,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        count = 15;
                         break;
                     case 4:
                         kline_1min_time.setVisibility(View.GONE);
@@ -445,7 +453,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.VISIBLE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.GONE);
-                        count = 30;
                         break;
                     case 5:
                         kline_1min_time.setVisibility(View.GONE);
@@ -455,7 +462,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.VISIBLE);
                         kLineView_1d.setVisibility(View.GONE);
-                        count = 60;
                         break;
                     case 6:
                         kline_1min_time.setVisibility(View.GONE);
@@ -465,7 +471,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         kLineView_30min.setVisibility(View.GONE);
                         kLineView_1h.setVisibility(View.GONE);
                         kLineView_1d.setVisibility(View.VISIBLE);
-                        count = 500;
                         break;
 
                 }
@@ -493,13 +498,22 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
 
+        Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 1);
+        Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 5);
+        Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 15);
+        Quote30MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 30);
+        Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 60);
+        Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 500);
+
         //开启单个刷新
         QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         //开启单个行情图
         Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-
-
+        Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        Quote30MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        Quote1DayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         //合约号
         tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
         //手续费
@@ -940,13 +954,21 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
             QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
-            
-            Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
 
-            Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), count);
-            Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), count);
+            Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            Quote30MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            Quote1DayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
 
+
+            Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), 1);
+            Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), 5);
+            Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), 15);
+            Quote30MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), 30);
+            Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), 60);
+            Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), 500);
 
             //相应选择
             quotePopAdapter.select(itemQuoteContCode(data));
@@ -1113,38 +1135,135 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
             if (kData1MinHistory != null) {
+                //  Log.d("print", "update:1Min now " + kData.get(kData.size() - 1).getOpenPrice());
                 kLineView_1min.addSingleData(kData.get(kData.size() - 1));
             } else {
-                Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count);
+                Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 1);
             }
-
-
         } else if (o == Quote5MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
             if (kData5MinHistory != null) {
+                //  Log.d("print", "update:5Min now " + kData.get(kData.size() - 1).getOpenPrice());
                 kLineView_5min.addSingleData(kData.get(kData.size() - 1));
             } else {
-                Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count);
+                Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 5);
+
+            }
+        } else if (o == Quote15MinCurrentManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            List<KData> kData = ChartUtil.klineList(data);
+            if (kData15MinHistory != null) {
+
+                kLineView_15min.addSingleData(kData.get(kData.size() - 1));
+            } else {
+                Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 15);
+
+            }
+        } else if (o == Quote30MinCurrentManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            List<KData> kData = ChartUtil.klineList(data);
+            if (kData30MinHistory != null) {
+                kLineView_30min.addSingleData(kData.get(kData.size() - 1));
+            } else {
+                Quote30MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 30);
+
+            }
+        } else if (o == Quote60MinCurrentManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            List<KData> kData = ChartUtil.klineList(data);
+            if (kData60MinHistory != null) {
+                Log.d("print", "update:60Min now " + kData.get(kData.size() - 1).getOpenPrice());
+
+                kLineView_1h.addSingleData(kData.get(kData.size() - 1));
+            } else {
+                Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 60);
+
+            }
+        } else if (o == Quote1DayCurrentManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            List<KData> kData = ChartUtil.klineList(data);
+            if (kData1DayHistory != null) {
+                Log.d("print", "update:1Day now " + kData.get(kData.size() - 1).getOpenPrice());
+
+                kLineView_1d.addSingleData(kData.get(kData.size() - 1));
+            } else {
+                Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 500);
 
             }
         } else if (o == Quote1MinHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kData1MinHistory = ChartUtil.klineList(data);
+
             if (kData1MinHistory != null) {
+                Log.d("print", "update:1Min history " + kData1MinHistory.get(kData1MinHistory.size() - 1).getOpenPrice());
                 kLineView_1min.initKDataList(kData1MinHistory);
             } else {
-                Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count);
+                Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 1);
 
             }
 
         } else if (o == Quote5MinHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kData5MinHistory = ChartUtil.klineList(data);
+
             if (kData5MinHistory != null) {
+                Log.d("print", "update:5Min history " + kData5MinHistory.get(kData5MinHistory.size() - 1).getOpenPrice());
                 kLineView_5min.initKDataList(kData5MinHistory);
             } else {
-                Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), count);
+                Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 5);
+
+            }
+
+        } else if (o == Quote15MinHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            kData15MinHistory = ChartUtil.klineList(data);
+
+            if (kData15MinHistory != null) {
+                Log.d("print", "update:15Min history " + kData15MinHistory.get(kData15MinHistory.size() - 1).getOpenPrice());
+
+                kLineView_15min.initKDataList(kData15MinHistory);
+            } else {
+                Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 15);
+
+            }
+
+        } else if (o == Quote30MinHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            kData30MinHistory = ChartUtil.klineList(data);
+
+            if (kData30MinHistory != null) {
+                Log.d("print", "update:30Min history " + kData30MinHistory.get(kData30MinHistory.size() - 1).getOpenPrice());
+
+                kLineView_30min.initKDataList(kData30MinHistory);
+            } else {
+                Quote30MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 30);
+
+            }
+
+        } else if (o == Quote60MinHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            kData60MinHistory = ChartUtil.klineList(data);
+
+            if (kData60MinHistory != null) {
+                Log.d("print", "update:60Min history " + kData60MinHistory.get(kData60MinHistory.size() - 1).getOpenPrice());
+
+                kLineView_1h.initKDataList(kData60MinHistory);
+            } else {
+                Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 60);
+
+            }
+
+        } else if (o == Quote1DayHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            kData1DayHistory = ChartUtil.klineList(data);
+
+            if (kData1DayHistory != null) {
+                Log.d("print", "update:1Day history " + kData1DayHistory.get(kData1DayHistory.size() - 1).getOpenPrice());
+
+                kLineView_1d.initKDataList(kData1DayHistory);
+            } else {
+                Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 500);
 
             }
 

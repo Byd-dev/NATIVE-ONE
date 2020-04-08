@@ -17,25 +17,25 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class QuoteDayHistoryManger extends Observable {
+public class Quote1DayHistoryManger extends Observable {
 
 
-    private static QuoteDayHistoryManger quoteHistoryManger;
+    private static Quote1DayHistoryManger quote1DayHistoryManger;
 
     private String code;
     private int count;
 
 
-    public static QuoteDayHistoryManger getInstance() {
-        if (quoteHistoryManger == null) {
-            synchronized (QuoteDayHistoryManger.class) {
-                if (quoteHistoryManger == null) {
-                    quoteHistoryManger = new QuoteDayHistoryManger();
+    public static Quote1DayHistoryManger getInstance() {
+        if (quote1DayHistoryManger == null) {
+            synchronized (Quote1DayHistoryManger.class) {
+                if (quote1DayHistoryManger == null) {
+                    quote1DayHistoryManger = new Quote1DayHistoryManger();
                 }
             }
 
         }
-        return quoteHistoryManger;
+        return quote1DayHistoryManger;
 
     }
 
@@ -85,7 +85,7 @@ public class QuoteDayHistoryManger extends Observable {
 
                 QuoteChartEntity quoteChartEntity = new Gson().fromJson(response.toString(), QuoteChartEntity.class);
                 if (quoteChartEntity.getS().equals("ok")) {
-                    Log.d("print", "quote:88 "+"1Day:"+getCount++);
+                    Log.d("print", "quote:88 "+"60Min:"+getCount++);
 
                     postQuote(quoteChartEntity);
                     cancelTimer();
@@ -110,7 +110,7 @@ public class QuoteDayHistoryManger extends Observable {
      */
     public void clear() {
         deleteObservers();
-        quoteHistoryManger = null;
+        quote1DayHistoryManger = null;
     }
 
 

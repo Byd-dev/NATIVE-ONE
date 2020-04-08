@@ -200,6 +200,7 @@ public class KLineView extends View implements View.OnTouchListener, Handler.Cal
         if (dataList == null || dataList.isEmpty()) {
             return;
         }
+        this.totalDataList.clear();
         this.totalDataList.addAll(dataList);
         startDataNum = totalDataList.size() - maxViewDataNum;
         QuotaUtil.initMa(totalDataList, false);
