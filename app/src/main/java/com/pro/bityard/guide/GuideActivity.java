@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainActivity;
+import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
@@ -51,10 +52,10 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initView(View view) {
 
-        String string = SPUtils.getString(AppConfig.FIRST_OPEN,null);
-        Log.d("print", "initView:58:  "+string);
-        if (string!=null) {
-            MainActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_HOME);
+        String string = SPUtils.getString(AppConfig.FIRST_OPEN, null);
+        Log.d("print", "initView:58:  " + string);
+        if (string != null) {
+            MainOneActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_POSITION);
             GuideActivity.this.finish();
 
         } else {
@@ -114,9 +115,9 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     protected void initData() {
         /*初始化获取行情 合约号 行情地址*/
         // TODO: 2020/3/13    这里到时候再判断是先有了行情再跳入主页还是另外判断 
-        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST,null);
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE,null);
-        if (quote_host==null && quote_code==null) {
+        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+        if (quote_host == null && quote_code == null) {
             NetManger.getInstance().initQuote();
         }
 

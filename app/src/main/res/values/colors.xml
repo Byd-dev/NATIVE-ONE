@@ -28,9 +28,9 @@
     <color name="text_main_color_black">#333333</color>
     <color name="text_red_position">#D55F58</color>
     <color name="text_edit_pop">#2F3D45</color>
-    <color name="color_bg_green">#338AB152</color>
+    <color name="color_bg_green">#332EBD85</color>
     <color name="color_bg_normal">#535352</color>
-    <color name="color_bg_red">#338B2A2F</color>
+    <color name="color_bg_red">#33DF294A</color>
     <color name="color_bg_left">#1F2A40</color>
     <color name="text_second_color_black">#222222</color>
 </resources>

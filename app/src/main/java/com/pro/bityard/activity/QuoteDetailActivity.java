@@ -55,6 +55,7 @@ import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -313,8 +314,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.img_back_two).setOnClickListener(this);
 
         findViewById(R.id.img_setting).setOnClickListener(this);
-
         findViewById(R.id.layout_more).setOnClickListener(this);
+
+        findViewById(R.id.text_position).setOnClickListener(this);
+        findViewById(R.id.text_charge).setOnClickListener(this);
 
         radioGroup.setOnCheckedChangeListener(this);
         findViewById(R.id.layout_much).setOnClickListener(this);
@@ -806,6 +809,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     );
                 }
                 break;
+            case R.id.text_position:
+                MainActivity.enter(this,MainActivity.TAB_TYPE.TAB_POSITION);
+                finish();
+                break;
+
 
         }
     }

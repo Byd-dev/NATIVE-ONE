@@ -117,7 +117,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line"
         android:background="@color/home_line"/>
-
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

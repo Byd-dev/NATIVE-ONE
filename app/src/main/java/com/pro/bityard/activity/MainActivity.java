@@ -3,7 +3,9 @@ package com.pro.bityard.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -21,6 +23,7 @@ import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
 import com.pro.bityard.manger.ChargeUnitManger;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
@@ -30,6 +33,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import androidx.annotation.Nullable;
+import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
@@ -45,8 +49,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         if (o == QuoteListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("1");
-
-
         }
     }
 
@@ -56,9 +58,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public static final class TAB_TYPE {
         public static final int COUNT = 4;
         public static final int TAB_HOME = 0;
-        static final int TAB_HALL = TAB_HOME + 1;
-        static final int TAB_POSITION = TAB_HALL + 1;
-        public static final int TAB_INFORMATION = TAB_POSITION + 1;
+        public static final int TAB_HALL = 1;
+        public static final int TAB_POSITION = 2;
+        public static final int TAB_MY = 3;
 
 
     }
@@ -82,6 +84,13 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         context.startActivity(intent);
     }
 
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+
+    }
+
     @Override
     protected int setContentLayout() {
         return R.layout.activity_main;
@@ -91,6 +100,21 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected void onResume() {
         super.onResume();
+        if (getIntent() != null) {
+            int position = getIntent().getIntExtra(IntentConfig.Keys.POSITION, 0);
+            Log.d("print", "onResume:105:  "+position);
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            if (position == 0) {
+                radioGroup.getChildAt(0).performClick();
+            } else if (position == 1) {
+                radioGroup.getChildAt(1).performClick();
+            } else if (position == 2) {
+
+            } else if (position == 3) {
+                radioGroup.getChildAt(3).performClick();
+            }
+
+        }
     }
 
     @Override
@@ -112,8 +136,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
 
         //初始化 交易设置
-
-
 
 
     }
@@ -158,7 +180,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             QuoteListManger.getInstance().quote(quote_host, quote_code);
         }
 
-        if (quoteList!=null){
+        if (quoteList != null) {
             findViewById(R.id.radio_2).setOnClickListener(v -> QuoteDetailActivity.enter(MainActivity.this, "1", quoteList.get(0)));
         }
 
