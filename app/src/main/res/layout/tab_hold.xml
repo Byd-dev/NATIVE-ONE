@@ -1,80 +1,326 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_hold"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/layout_hold"
+
+    <RelativeLayout
+
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/background_maincolor"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:layout_height="@dimen/bar_height"
+        android:orientation="horizontal">
 
-        <RelativeLayout
 
+        <RadioGroup
+            android:id="@+id/radioGroup_hold"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <RadioButton
+                android:id="@+id/radio_hold_0"
+                android:layout_width="63dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/sel_switcher_left"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/text_real"
+                android:textColor="@color/sel_switcher_hold"
+                android:textSize="14sp"
+
+                />
+
+
+            <RadioButton
+                android:id="@+id/radio_hold_1"
+                android:layout_width="63dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/sel_switcher_right"
+                android:button="@null"
+                android:checked="false"
+
+                android:gravity="center"
+                android:maxLines="1"
+                android:text="@string/text_simulation"
+                android:textColor="@color/sel_switcher_hold"
+                android:textSize="14sp"
+
+                />
+
+
+        </RadioGroup>
+
+
+    </RelativeLayout>
+    <!--实盘-->
+    <LinearLayout
+        android:id="@+id/layout_real"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <!--头部的 可用 冻结 净值-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/bar_height"
-            android:orientation="horizontal">
+            android:layout_height="80dp"
+            android:background="@color/maincolor"
+            android:orientation="horizontal"
+            android:visibility="visible">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
-            <RadioGroup
-                android:id="@+id/radioGroup_hold"
-                android:layout_width="wrap_content"
-                android:layout_height="26dp"
-                android:layout_centerInParent="true"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="visible">
-
-                <RadioButton
-                    android:id="@+id/radio_0"
-                    android:layout_width="63dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/sel_switcher_left"
-                    android:button="@null"
-                    android:checked="true"
+                <TextView
+                    android:id="@+id/text_available"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/text_real"
-                    android:textColor="@color/sel_switcher_hold"
-                    android:textSize="14sp"
+                    android:text="--.--"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_bigger" />
 
-                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:text="@string/text_available"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
 
 
+            </LinearLayout>
 
-                <RadioButton
-                    android:id="@+id/radio_1"
-                    android:layout_width="63dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@drawable/sel_switcher_right"
-                    android:button="@null"
-                    android:checked="false"
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/text_freeze"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:maxLines="1"
-                    android:text="@string/text_simulation"
-                    android:textColor="@color/sel_switcher_hold"
-                    android:textSize="14sp"
+                    android:text="--.--"
 
-                    />
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_bigger" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:text="@string/text_freeze"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
 
 
-            </RadioGroup>
+            </LinearLayout>
 
 
-        </RelativeLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_worth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="--.--"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_bigger" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:text="@string/text_worth"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
 
 
-        <FrameLayout
-            android:id="@+id/layout_content"
+            </LinearLayout>
+
+        </LinearLayout>
+        <!--持仓 挂单 历史-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical" />
+            android:layout_height="@dimen/tab_height"
+            app:tabIndicatorColor="@color/maincolor"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/maincolor"
+            app:tabTextAppearance="@style/MyTablayoutstyle"
+            app:tabTextColor="@color/text_second_color" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:background="@color/home_line" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+
+
+    </LinearLayout>
+    <!--模拟-->
+    <LinearLayout
+        android:id="@+id/layout_simulation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:visibility="gone">
+        <!--头部的 可用 冻结 净值-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@color/maincolor"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_available_simulation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="--.--"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_bigger" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:text="@string/text_available"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_freeze_simulation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="--.--"
+
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_bigger" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:text="@string/text_freeze"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_worth_simulation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="--.--"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_bigger" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_3"
+                    android:text="@string/text_worth"
+                    android:textColor="@color/text_main_color_black"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <!--持仓 挂单 历史-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout_simulation"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            app:tabIndicatorColor="@color/maincolor"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/maincolor"
+            app:tabTextAppearance="@style/MyTablayoutstyle"
+            app:tabTextColor="@color/text_second_color" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:background="@color/home_line" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager_simulation"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

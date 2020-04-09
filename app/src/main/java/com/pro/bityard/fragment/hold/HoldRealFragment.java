@@ -77,6 +77,8 @@ public class HoldRealFragment extends BaseFragment implements Observer {
         //净值注册
         NetIncomeManger.getInstance().addObserver(this);
 
+
+
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
