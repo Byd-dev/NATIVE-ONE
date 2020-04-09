@@ -25,7 +25,6 @@ import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -69,7 +68,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
-import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
@@ -729,6 +727,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+        Log.d("print", "onCheckedChanged:730:  "+checkedId);
         switch (checkedId) {
             case R.id.radio_0:
                 layout_home.setVisibility(View.VISIBLE);

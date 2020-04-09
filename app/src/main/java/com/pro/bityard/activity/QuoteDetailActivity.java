@@ -55,7 +55,6 @@ import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
-import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -110,10 +109,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.layout_bar)
     RelativeLayout layout_bar;
-    private String tradeType = "1";//实盘=1 模拟=2
     private String orderType = "0"; //市价=0 限价=1
     private boolean isDefer; //是否递延
 
+    private String tradeType = "1";//实盘=1 模拟=2
     private String itemData;
 
     @BindView(R.id.text_name)
@@ -285,7 +284,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         QuoteListManger.getInstance().addObserver(this);
-
         QuoteItemManger.getInstance().addObserver(this);
 
         Quote1MinCurrentManger.getInstance().addObserver(this);//1min 实时
@@ -810,7 +808,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.text_position:
-                MainActivity.enter(this,MainActivity.TAB_TYPE.TAB_POSITION);
+                MainActivity.enter(this, MainActivity.TAB_TYPE.TAB_POSITION);
                 finish();
                 break;
 

@@ -55,7 +55,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         String string = SPUtils.getString(AppConfig.FIRST_OPEN, null);
         Log.d("print", "initView:58:  " + string);
         if (string != null) {
-            MainOneActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_POSITION);
+            MainOneActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_HOME);
             GuideActivity.this.finish();
 
         } else {
