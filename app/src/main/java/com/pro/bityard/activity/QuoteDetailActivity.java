@@ -55,6 +55,7 @@ import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
 import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -808,7 +809,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.text_position:
-                MainActivity.enter(this, MainActivity.TAB_TYPE.TAB_POSITION);
+                TabManger.getInstance().jump(MainOneActivity.TAB_TYPE.TAB_POSITION);
                 finish();
                 break;
 

@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             if (position == 0) {
                 radioGroup.getChildAt(0).performClick();
             } else if (position == 1) {
-                radioGroup.getChildAt(1).performClick();
+
             } else if (position == 2) {
 
             } else if (position == 3) {

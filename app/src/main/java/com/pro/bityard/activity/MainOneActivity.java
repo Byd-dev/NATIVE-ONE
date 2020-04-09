@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -42,6 +43,7 @@ import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ListUtil;
@@ -85,6 +87,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     LinearLayout layout_my;
     @BindView(R.id.layout_status)
     StatusBarHeightView layout_status;
+
+    @BindView(R.id.radio_2)
+    RadioButton radioButton_2;
 
     /*Home-------------------------------------------------------------*/
     @BindView(R.id.recyclerView_list)
@@ -318,6 +323,21 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
                 }
             });
+        } else if (o == TabManger.getInstance()) {
+            Integer a = (Integer) arg;
+            if (a == TAB_TYPE.TAB_POSITION) {
+                layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.GONE);
+                layout_hold.setVisibility(View.VISIBLE);
+                layout_my.setVisibility(View.GONE);
+                layout_status.setVisibility(View.VISIBLE);
+                layout_real.setVisibility(View.VISIBLE);
+                layout_simulation.setVisibility(View.GONE);
+                runOnUiThread(() -> {
+                    Log.d("print", "update:337:  " + a+"  --   "+radioButton_2);
+                    radioButton_2.setChecked(true);
+                });
+            }
         }
     }
 
@@ -431,6 +451,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             text_uid.setText("--");
 
         }
+
+
     }
 
     @Override
@@ -446,6 +468,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         StatusBarUtil.setRootViewFitsSystemWindows(this, false);
         //行情初始化
         QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+        TabManger.getInstance().addObserver(this);
         //初始化 交易设置
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
@@ -670,12 +693,15 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                Log.d("print", "getBanner:696:  "+bannerEntity.getCarousels());
                 if (bannerEntity == null) {
                     return;
                 }
                 if (bannerEntity.getCarousels() == null) {
                     return;
                 }
+                Log.d("print", "getBanner:703:  "+bannerEntity.getCarousels().size());
+
                 Iterator<BannerEntity.CarouselsBean> iterator = bannerEntity.getCarousels().iterator();
                 while (iterator.hasNext()) {
                     BannerEntity.CarouselsBean value = iterator.next();
@@ -686,6 +712,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                         }
                     }
                 }
+                Log.d("print", "getBanner:713:  "+bannerEntity.getCarousels().size());
                 upBanner(bannerEntity.getCarousels());
 
                 notices = bannerEntity.getNotices();
@@ -727,7 +754,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        Log.d("print", "onCheckedChanged:730:  "+checkedId);
         switch (checkedId) {
             case R.id.radio_0:
                 layout_home.setVisibility(View.VISIBLE);
