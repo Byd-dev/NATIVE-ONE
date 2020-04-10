@@ -4,8 +4,8 @@
     android:id="@+id/layout_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/background_maincolor">
+    android:background="@color/background_maincolor"
+    android:orientation="vertical">
 
 
     <!--bar-->
@@ -167,13 +167,13 @@
                     android:background="@color/color_bg_left">
 
                     <ImageView
+                        android:id="@+id/img_ad"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:layout_marginTop="@dimen/margin_7"
                         android:layout_marginRight="@dimen/margin_15"
-                        android:scaleType="fitXY"
-                        android:src="@mipmap/home_banner" />
+                        android:scaleType="fitXY" />
 
                 </RelativeLayout>
                 <!--交易挖矿-->

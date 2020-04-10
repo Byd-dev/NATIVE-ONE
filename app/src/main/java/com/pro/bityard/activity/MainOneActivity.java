@@ -96,6 +96,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     RecyclerView recyclerView_list;
     @BindView(R.id.banner)
     XBanner xBanner;
+    @BindView(R.id.img_ad)
+    ImageView img_ad;
+
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     private QuoteHomeAdapter quoteHomeAdapter;
@@ -700,15 +703,16 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 if (bannerEntity.getCarousels() == null) {
                     return;
                 }
-                Log.d("print", "getBanner:703:  "+bannerEntity.getCarousels().size());
 
                 Iterator<BannerEntity.CarouselsBean> iterator = bannerEntity.getCarousels().iterator();
                 while (iterator.hasNext()) {
                     BannerEntity.CarouselsBean value = iterator.next();
-                    if (value.toString().contains("\\.")) {
+                    if (value.toString().contains(".")) {
                         String[] split = value.getName().split("\\.");
                         if (split[1].equals("false")) {
+                            Glide.with(Objects.requireNonNull(this)).load(value.getUrl()).into(img_ad);
                             iterator.remove();
+
                         }
                     }
                 }
