@@ -91,7 +91,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @BindView(R.id.radio_2)
     RadioButton radioButton_2;
 
-    /*Home-------------------------------------------------------------*/
+    /*首页-------------------------------------------------------------*/
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
     @BindView(R.id.banner)
@@ -128,7 +128,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @BindView(R.id.img_up_down)
     ImageView img_up_down;
-    private String type = "0";
+    private String type = "1";
     private ArrayMap<String, List<String>> arrayMap;
 
 
@@ -337,7 +337,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 layout_real.setVisibility(View.VISIBLE);
                 layout_simulation.setVisibility(View.GONE);
                 runOnUiThread(() -> {
-                    Log.d("print", "update:337:  " + a+"  --   "+radioButton_2);
+                    Log.d("print", "update:337:  " + a + "  --   " + radioButton_2);
                     radioButton_2.setChecked(true);
                 });
             }
@@ -348,6 +348,21 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     public void onClick(View v) {
         switch (v.getId()) {
 
+            case R.id.radio_2:
+                if (quoteList == null) {
+                    return;
+                }
+                QuoteDetailActivity.enter(MainOneActivity.this, "1", quoteList.get(0));
+                break;
+            /*首页 -----------------------------------------------------------------------------------*/
+            case R.id.layout_simulation_home:
+                if (quoteList == null) {
+                    return;
+                }
+                QuoteDetailActivity.enter(MainOneActivity.this, "2", quoteList.get(0));
+                break;
+
+            /*行情 -----------------------------------------------------------------------------------*/
             case R.id.layout_new_price:
                 if (arrayMap == null) {
                     return;
@@ -395,7 +410,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
 
                 break;
-
+            /*我的 -----------------------------------------------------------------------------------*/
             case R.id.layout_six:
                 if (isLogin()) {
                     UserActivity.enter(this, IntentConfig.Keys.KEY_SET_UP);
@@ -506,6 +521,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         swipeRefreshLayout.setOnRefreshListener(this::getBanner);
 
         quoteAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(this, "1", data));
+        findViewById(R.id.layout_simulation_home).setOnClickListener(this);
 
 
         /*行情 分割线-----------------------------------------------------------------------------*/
@@ -670,9 +686,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             QuoteListManger.getInstance().quote(quote_host, quote_code);
         }
 
-        if (quoteList != null) {
-            findViewById(R.id.radio_2).setOnClickListener(v -> QuoteDetailActivity.enter(MainOneActivity.this, "1", quoteList.get(0)));
-        }
+        radioButton_2.setOnClickListener(this);
 
 
         //首页 -------------------------------------------------------------------------------------
@@ -696,7 +710,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
-                Log.d("print", "getBanner:696:  "+bannerEntity.getCarousels());
                 if (bannerEntity == null) {
                     return;
                 }
@@ -716,7 +729,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                         }
                     }
                 }
-                Log.d("print", "getBanner:713:  "+bannerEntity.getCarousels().size());
                 upBanner(bannerEntity.getCarousels());
 
                 notices = bannerEntity.getNotices();

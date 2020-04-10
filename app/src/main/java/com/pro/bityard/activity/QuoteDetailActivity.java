@@ -541,6 +541,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         text_name_usdt.setText(split1[1]);
         text_lastPrice.setText(listQuotePrice(itemData));
         edit_limit_price.setText(listQuotePrice(itemData));
+        if (tradeType.equals("1")) {
+            text_switch.setText(getResources().getText(R.string.text_real_trade));
+        } else {
+            text_switch.setText(getResources().getText(R.string.text_simulation_trade));
+
+        }
         text_change.setText(TradeUtil.quoteChange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
         text_range.setText(TradeUtil.quoteRange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
 
