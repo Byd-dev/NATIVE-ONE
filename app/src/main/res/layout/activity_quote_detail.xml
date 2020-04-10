@@ -62,10 +62,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_5"
                         android:layout_toRightOf="@id/text_name"
                         android:gravity="center"
                         android:text="usdt"
-                        android:layout_marginLeft="@dimen/margin_5"
                         android:textColor="@color/text_second_color"
                         android:textSize="@dimen/size_normal" />
 
@@ -106,7 +106,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
+                android:layout_height="@dimen/size_line_big"
                 android:background="@color/home_line" />
             <!--头部-->
             <LinearLayout
@@ -137,6 +137,7 @@
                             android:text="--.--"
                             android:textColor="@color/text_maincolor"
                             android:textSize="26sp"
+                            android:textStyle="bold"
                             android:typeface="monospace" />
 
                         <ImageView
@@ -163,7 +164,7 @@
                             android:layout_centerVertical="true"
                             android:text="-.-"
                             android:textColor="@color/text_maincolor"
-                            android:textSize="@dimen/size_normal"
+                            android:textSize="@dimen/size_big"
                             android:typeface="monospace" />
 
                         <TextView
@@ -175,7 +176,7 @@
                             android:layout_toRightOf="@+id/text_change"
                             android:text="@string/text_default"
                             android:textColor="@color/text_maincolor"
-                            android:textSize="@dimen/size_normal"
+                            android:textSize="@dimen/size_big"
                             android:typeface="monospace" />
 
 
@@ -283,11 +284,11 @@
                 <com.google.android.material.tabs.TabLayout
                     android:id="@+id/tabLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_36"
+                    android:layout_height="@dimen/margin_30"
                     android:background="@color/color_bg_left"
                     app:tabIndicatorColor="@color/maincolor"
                     app:tabIndicatorFullWidth="false"
-                    app:tabIndicatorHeight="2dp"
+                    app:tabIndicatorHeight="1dp"
                     app:tabMode="fixed"
                     app:tabSelectedTextColor="@color/maincolor"
                     app:tabTextAppearance="@style/MyTablayoutStyleQuote"
@@ -300,18 +301,17 @@
                     android:layout_weight="1"
                     android:visibility="visible"
                     app:klAbscissaTextCol="@color/text_second_color"
+                    app:klDetailBgCol="@color/background_maincolor"
+                    app:klDetailFrameCol="@color/text_edit_pop"
+                    app:klPriceCloseCol="@color/text_second_color"
                     app:klPriceFallCol="@color/text_quote_red"
                     app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceOpenCol="@color/text_second_color"
                     app:klPriceMaxCol="@color/text_second_color"
-                    app:klPriceMinCol="@color/text_second_color"
-                    app:klPriceCloseCol="@color/text_second_color"
-                    app:klDetailBgCol="@color/background_maincolor"
-                    app:klTickMarkLineCol="@color/color_bg_left"
-                    app:klDetailFrameCol="@color/text_edit_pop"
                     app:klPriceMaxLabelCol="@color/color_bg_left"
                     app:klPriceMaxLabelTextCol="@color/text_second_color"
-                    />
+                    app:klPriceMinCol="@color/text_second_color"
+                    app:klPriceOpenCol="@color/text_second_color"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1min"
@@ -320,18 +320,17 @@
                     android:layout_weight="1"
                     android:visibility="gone"
                     app:klAbscissaTextCol="@color/text_second_color"
-                    app:klPriceFallCol="@color/text_quote_red"
-                    app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceOpenCol="@color/text_second_color"
-                    app:klPriceMaxCol="@color/text_second_color"
-                    app:klPriceMinCol="@color/text_second_color"
-                    app:klPriceCloseCol="@color/text_second_color"
                     app:klDetailBgCol="@color/background_maincolor"
                     app:klDetailFrameCol="@color/text_edit_pop"
-                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceCloseCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMaxLabelCol="@color/color_bg_left"
                     app:klPriceMaxLabelTextCol="@color/text_second_color"
-                    />
+                    app:klPriceMinCol="@color/text_second_color"
+                    app:klPriceOpenCol="@color/text_second_color"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_5min"
@@ -340,18 +339,17 @@
                     android:layout_weight="1"
                     android:visibility="gone"
                     app:klAbscissaTextCol="@color/text_second_color"
-                    app:klPriceFallCol="@color/text_quote_red"
-                    app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceOpenCol="@color/text_second_color"
-                    app:klPriceMaxCol="@color/text_second_color"
-                    app:klPriceMinCol="@color/text_second_color"
-                    app:klPriceCloseCol="@color/text_second_color"
                     app:klDetailBgCol="@color/background_maincolor"
                     app:klDetailFrameCol="@color/text_edit_pop"
-                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceCloseCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMaxLabelCol="@color/color_bg_left"
                     app:klPriceMaxLabelTextCol="@color/text_second_color"
-                    />
+                    app:klPriceMinCol="@color/text_second_color"
+                    app:klPriceOpenCol="@color/text_second_color"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_15min"
@@ -360,18 +358,17 @@
                     android:layout_weight="1"
                     android:visibility="gone"
                     app:klAbscissaTextCol="@color/text_second_color"
-                    app:klPriceFallCol="@color/text_quote_red"
-                    app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceOpenCol="@color/text_second_color"
-                    app:klPriceMaxCol="@color/text_second_color"
-                    app:klPriceMinCol="@color/text_second_color"
-                    app:klPriceCloseCol="@color/text_second_color"
                     app:klDetailBgCol="@color/background_maincolor"
                     app:klDetailFrameCol="@color/text_edit_pop"
-                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceCloseCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMaxLabelCol="@color/color_bg_left"
                     app:klPriceMaxLabelTextCol="@color/text_second_color"
-                    />
+                    app:klPriceMinCol="@color/text_second_color"
+                    app:klPriceOpenCol="@color/text_second_color"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_30min"
@@ -380,18 +377,17 @@
                     android:layout_weight="1"
                     android:visibility="gone"
                     app:klAbscissaTextCol="@color/text_second_color"
-                    app:klPriceFallCol="@color/text_quote_red"
-                    app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceOpenCol="@color/text_second_color"
-                    app:klPriceMaxCol="@color/text_second_color"
-                    app:klPriceMinCol="@color/text_second_color"
-                    app:klPriceCloseCol="@color/text_second_color"
                     app:klDetailBgCol="@color/background_maincolor"
                     app:klDetailFrameCol="@color/text_edit_pop"
-                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceCloseCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMaxLabelCol="@color/color_bg_left"
                     app:klPriceMaxLabelTextCol="@color/text_second_color"
-                    />
+                    app:klPriceMinCol="@color/text_second_color"
+                    app:klPriceOpenCol="@color/text_second_color"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1h"
@@ -400,18 +396,17 @@
                     android:layout_weight="1"
                     android:visibility="gone"
                     app:klAbscissaTextCol="@color/text_second_color"
-                    app:klPriceFallCol="@color/text_quote_red"
-                    app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceOpenCol="@color/text_second_color"
-                    app:klPriceMaxCol="@color/text_second_color"
-                    app:klPriceMinCol="@color/text_second_color"
-                    app:klPriceCloseCol="@color/text_second_color"
                     app:klDetailBgCol="@color/background_maincolor"
                     app:klDetailFrameCol="@color/text_edit_pop"
-                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceCloseCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMaxLabelCol="@color/color_bg_left"
                     app:klPriceMaxLabelTextCol="@color/text_second_color"
-                    />
+                    app:klPriceMinCol="@color/text_second_color"
+                    app:klPriceOpenCol="@color/text_second_color"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
 
                 <com.pro.bityard.chart.MyKLineView
                     android:id="@+id/kline_1d"
@@ -420,23 +415,22 @@
                     android:layout_weight="1"
                     android:visibility="gone"
                     app:klAbscissaTextCol="@color/text_second_color"
-                    app:klPriceFallCol="@color/text_quote_red"
-                    app:klPriceIncreaseCol="@color/text_quote_green"
-                    app:klPriceOpenCol="@color/text_second_color"
-                    app:klPriceMaxCol="@color/text_second_color"
-                    app:klPriceMinCol="@color/text_second_color"
-                    app:klPriceCloseCol="@color/text_second_color"
                     app:klDetailBgCol="@color/background_maincolor"
                     app:klDetailFrameCol="@color/text_edit_pop"
-                    app:klTickMarkLineCol="@color/color_bg_left"
+                    app:klPriceCloseCol="@color/text_second_color"
+                    app:klPriceFallCol="@color/text_quote_red"
+                    app:klPriceIncreaseCol="@color/text_quote_green"
+                    app:klPriceMaxCol="@color/text_second_color"
                     app:klPriceMaxLabelCol="@color/color_bg_left"
                     app:klPriceMaxLabelTextCol="@color/text_second_color"
-                    />
+                    app:klPriceMinCol="@color/text_second_color"
+                    app:klPriceOpenCol="@color/text_second_color"
+                    app:klTickMarkLineCol="@color/color_bg_left" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_3"
+                android:layout_height="@dimen/size_line_big"
                 android:background="@color/home_line" />
             <!--市价和限价-->
             <LinearLayout
@@ -447,7 +441,7 @@
                 <RelativeLayout
                     android:id="@+id/layout_radioGroup"
                     android:layout_width="match_parent"
-                    android:layout_height="35dp"
+                    android:layout_height="@dimen/margin_30"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/margin_10"
                     android:orientation="horizontal">
@@ -473,7 +467,7 @@
                             android:paddingLeft="@dimen/margin_15"
                             android:text="@string/text_market_price"
                             android:textColor="@color/sel_switcher_txt"
-                            android:textSize="@dimen/size_normal_two"
+                            android:textSize="14sp"
                             android:typeface="monospace"
 
                             />
@@ -515,7 +509,7 @@
                         android:layout_height="@dimen/margin_36"
                         android:layout_marginLeft="@dimen/margin_10"
                         android:layout_marginRight="@dimen/margin_10"
-                        android:background="@drawable/bg_kuang_second_color"
+                        android:background="@drawable/bg_kuang_market_color"
                         android:orientation="horizontal">
 
                         <TextView
@@ -534,7 +528,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_marginLeft="@dimen/margin_10"
-                            android:text="@string/text_default"
+                            android:text="@string/text_market_price_input_edit"
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal" />
 
@@ -740,7 +734,7 @@
                             android:layout_marginLeft="@dimen/margin_10"
                             android:layout_weight="1"
                             android:background="@null"
-                            android:hint="@string/text_market_price_input_edit"
+                            android:hint="@string/text_default"
                             android:inputType="numberDecimal"
                             android:textColor="@color/text_maincolor"
                             android:textColorHint="@color/text_maincolor"
@@ -923,13 +917,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
+                android:background="@color/color_bg_left"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/color_bg_left"
                     android:orientation="horizontal">
 
                     <TextView
@@ -966,28 +960,38 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/text_quote_green"
                     android:gravity="center"
+                    android:layout_marginLeft="@dimen/margin_10"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:background="@mipmap/icon_market_much"
                         android:gravity="center"
-                        android:text="@string/text_buy_much"
-                        android:textColor="@color/text_maincolor"
-                        android:textSize="@dimen/size_bigger" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/text_buy_much"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/text_default"
-                        android:textColor="@color/text_maincolor"
-                        android:textSize="@dimen/size_big" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/text_buy_much"
+                            android:textColor="@color/text_maincolor"
+                            android:textSize="@dimen/size_bigger" />
+
+                        <TextView
+                            android:id="@+id/text_buy_much"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/text_default"
+                            android:textColor="@color/text_maincolor"
+                            android:textSize="@dimen/size_normal" />
+                    </LinearLayout>
                 </LinearLayout>
 
 
@@ -996,30 +1000,40 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@color/text_quote_red"
+                    android:layout_marginRight="@dimen/margin_10"
                     android:gravity="center"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:background="@mipmap/icon_much_empty"
                         android:gravity="center"
-                        android:text="@string/text_buy_empty"
-                        android:textColor="@color/text_maincolor"
-                        android:textSize="@dimen/size_bigger" />
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/text_buy_empty"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@string/text_default"
-                        android:textColor="@color/text_maincolor"
-                        android:textSize="@dimen/size_big" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:text="@string/text_buy_empty"
+                            android:layout_marginLeft="@dimen/margin_5"
+                            android:textColor="@color/text_maincolor"
+                            android:textSize="@dimen/size_bigger" />
 
+                        <TextView
+                            android:id="@+id/text_buy_empty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/margin_5"
+                            android:gravity="center"
+                            android:text="@string/text_default"
+                            android:textColor="@color/text_maincolor"
+                            android:textSize="@dimen/size_normal" />
 
+                    </LinearLayout>
                 </LinearLayout>
 
 

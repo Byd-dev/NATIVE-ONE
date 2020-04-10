@@ -36,7 +36,7 @@ public class PopUtil {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         TextView text_tip = view.findViewById(R.id.text_content);
-        text_tip.setLineSpacing(1.1f, 1.1f);
+        text_tip.setLineSpacing(1.1f, 1.5f);
 
         text_tip.setText(content);
 

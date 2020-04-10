@@ -672,7 +672,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         }
 
 
-        //获取轮播图和banner
+        //首页 -------------------------------------------------------------------------------------
         getBanner();
 
     }

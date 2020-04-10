@@ -130,13 +130,10 @@ public class RadioGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             radioButton = itemView.findViewById(R.id.radio_lever);
 
 
-            radioButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClick != null) {
-                        onItemClick.onSuccessListener(getAdapterPosition(), datas.get(getPosition()));
+            radioButton.setOnClickListener(view -> {
+                if (onItemClick != null) {
+                    onItemClick.onSuccessListener(getAdapterPosition(), datas.get(getPosition()));
 
-                    }
                 }
             });
         }

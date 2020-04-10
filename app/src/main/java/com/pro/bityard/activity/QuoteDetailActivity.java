@@ -244,7 +244,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private double stopLoss = -0.9;
     private boolean isOpenSure;
     private boolean isCloseSure;
-    private String[] titles = new String[]{"分时", "1分", "5分", "15分", "30分", "1时", "1天"};
+    private String[] titles = new String[]{"分时", "1分", "5分", "15分", "30分", "1时", "日线"};
     private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData30MinHistory, kData60MinHistory, kData1DayHistory;
 
 
@@ -540,7 +540,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         text_name.setText(split1[0]);
         text_name_usdt.setText(split1[1]);
         text_lastPrice.setText(listQuotePrice(itemData));
-        text_market_price.setText(listQuotePrice(itemData));
+        edit_limit_price.setText(listQuotePrice(itemData));
         text_change.setText(TradeUtil.quoteChange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
         text_range.setText(TradeUtil.quoteRange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
 
@@ -1084,7 +1084,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
                 text_lastPrice.setText(itemQuotePrice(quote));
-                text_market_price.setText(itemQuotePrice(quote));
                 text_change.setText(TradeUtil.quoteChange(itemQuotePrice(quote), itemQuoteTodayPrice(quote)));
                 text_range.setText(TradeUtil.quoteRange(itemQuotePrice(quote), itemQuoteTodayPrice(quote)));
 
@@ -1307,6 +1306,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 layout_limit_price.setVisibility(View.GONE);
                 text_buy_much.setVisibility(View.VISIBLE);
                 text_buy_empty.setVisibility(View.VISIBLE);
+                radio_btn0.setTextSize(14);
+                radio_btn1.setTextSize(13);
                 orderType = "0";
 
                 break;
@@ -1315,6 +1316,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 layout_limit_price.setVisibility(View.VISIBLE);
                 text_buy_much.setVisibility(View.GONE);
                 text_buy_empty.setVisibility(View.GONE);
+                radio_btn0.setTextSize(13);
+                radio_btn1.setTextSize(14);
                 orderType = "1";
                 break;
 

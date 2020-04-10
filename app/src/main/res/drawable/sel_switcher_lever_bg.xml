@@ -9,7 +9,7 @@
 
     <item android:state_checked="false">
         <shape>
-            <solid android:color="@color/background_maincolor" />
+            <solid android:color="@color/color_bg_left" />
         </shape>
     </item>
 </selector>
