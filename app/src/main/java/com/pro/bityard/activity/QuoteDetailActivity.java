@@ -325,8 +325,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-
-
     @Override
     protected void initView(View view) {
 
@@ -470,6 +468,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 ((TextView) view.findViewById(R.id.text_title)).setTextColor(getResources().getColor(R.color.maincolor));//设置一下文字颜色
                 tab.setCustomView(view);
 
+                TabLayout.Tab tabAt = tabLayout.getTabAt(5);
+                View view2 = tabAt.getCustomView();
+                ((TextView) view2.findViewById(R.id.text_title)).setText(titles[5]);//设置一下文字
+                tabAt.setCustomView(view2);
                 switch (tab.getPosition()) {
                     case 0:
                         kline_1min_time.setVisibility(View.VISIBLE);
@@ -1340,7 +1342,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == Quote1WeekCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            Log.d("print", "update:一周:  "+kData.size());
             if (kData1WeekHistory != null) {
                 myKLineView_1_week.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1350,7 +1351,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == Quote1MonthCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            Log.d("print", "update:一月:  "+kData.size());
 
             if (kData1MonthHistory != null) {
                 myKLineView_1_month.addSingleData(kData.get(kData.size() - 1));
@@ -1429,7 +1429,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == Quote1WeekHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kData1WeekHistory = ChartUtil.klineList(data);
-            Log.d("print", "update:一周历史:  "+kData1WeekHistory.size());
+            Log.d("print", "update:一周历史:  " + kData1WeekHistory.get(0).getTime()+"  --   "+kData1WeekHistory.get(1).getTime());
+
+            boolean sameWeekWithToday = ChartUtil.isSameWeekWithToday(kData1WeekHistory.get(0).getTime(), kData1WeekHistory.get(1).getTime());
+            Log.d("print", "update:1435:  "+sameWeekWithToday);
 
             if (kData1WeekHistory != null) {
                 myKLineView_1_week.initKDataList(kData1WeekHistory);
@@ -1441,7 +1444,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == Quote1MonthHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kData1MonthHistory = ChartUtil.klineList(data);
-            Log.d("print", "update:一月历史:  "+kData1MonthHistory.size());
+            Log.d("print", "update:一月历史:  " + kData1MonthHistory.size());
 
             if (kData1MonthHistory != null) {
                 myKLineView_1_month.initKDataList(kData1MonthHistory);

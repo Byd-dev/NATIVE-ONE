@@ -75,7 +75,8 @@ public class Quote1WeekHistoryManger extends Observable {
         }
     }
 
-    int getCount=0;
+    int getCount = 0;
+
     public void quote(String quote_code, int count) {
 
         NetManger.getInstance().getQuoteHistory("http://app.bityard.com", count, "/api/tv/tradingView/history", quote_code, "D", (state, response) -> {
@@ -85,7 +86,7 @@ public class Quote1WeekHistoryManger extends Observable {
 
                 QuoteChartEntity quoteChartEntity = new Gson().fromJson(response.toString(), QuoteChartEntity.class);
                 if (quoteChartEntity.getS().equals("ok")) {
-                    Log.d("print", "quote:88 "+"1week:"+getCount++);
+                    Log.d("print", "quote:88 " + "1week:" + getCount++);
 
                     postQuote(quoteChartEntity);
                     cancelTimer();

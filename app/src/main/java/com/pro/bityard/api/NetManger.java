@@ -479,20 +479,12 @@ public class NetManger {
             case "1":
             case "5":
             case "15":
-                nowBefore.add(Calendar.MINUTE, -300 * times);
-                break;
             case "30":
             case "60":
-                nowBefore.add(Calendar.MINUTE, -1000 * times);
+                nowBefore.add(Calendar.DAY_OF_YEAR, -2);
                 break;
             case "D":
-                nowBefore.add(Calendar.DAY_OF_WEEK, -60 * times);
-                break;
-            case "W":
-                nowBefore.add(Calendar.MINUTE, -60 * 24 * 60 * times);
-                break;
-            case "M":
-                nowBefore.add(Calendar.MONTH, -60 * times);
+                nowBefore.add(Calendar.YEAR, -2);
                 break;
         }
 

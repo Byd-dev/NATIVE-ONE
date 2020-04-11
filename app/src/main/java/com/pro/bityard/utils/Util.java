@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
+import java.util.TimeZone;
 
 public class Util {
 
@@ -119,7 +120,6 @@ public class Util {
     }
 
 
-
     public static String getNumberFormat2(String value) {
         double v = Double.parseDouble(value);
         DecimalFormat mFormat = new DecimalFormat("#0.00");
@@ -208,7 +208,7 @@ public class Util {
     }
 
     public static Context updateLanguage(Context context) {
-        String curLanguage = SPUtils.getString(AppConfig.KEY_LANGUAGE,null);
+        String curLanguage = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
         if (null == curLanguage || TextUtils.isEmpty(curLanguage)) {
             curLanguage = AppConfig.KEY_LANGUAGE;
         }
@@ -220,6 +220,7 @@ public class Util {
         selectLanguage(context, value);
     }
 
+    /*日期转成时间戳*/
     public static String dateToStamp(String s) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = null;
@@ -232,4 +233,24 @@ public class Util {
         return String.valueOf(ts);
     }
 
+    /*时间戳转成日期*/
+    public static String stampToDate(long milSecond) {
+        SimpleDateFormat sdf;
+        sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
+        return sdf.format(milSecond);
+    }
+
+
+    /*日期*/
+    public static Date parseServerTime(String serverTime) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.CHINESE);
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+8:00"));
+        Date date = null;
+        try {
+            date = sdf.parse(serverTime);
+        } catch (Exception e) {
+
+        }
+        return date;
+    }
 }
