@@ -47,6 +47,10 @@ import com.pro.bityard.manger.Quote1DayCurrentManger;
 import com.pro.bityard.manger.Quote1DayHistoryManger;
 import com.pro.bityard.manger.Quote1MinCurrentManger;
 import com.pro.bityard.manger.Quote1MinHistoryManger;
+import com.pro.bityard.manger.Quote1MonthCurrentManger;
+import com.pro.bityard.manger.Quote1MonthHistoryManger;
+import com.pro.bityard.manger.Quote1WeekCurrentManger;
+import com.pro.bityard.manger.Quote1WeekHistoryManger;
 import com.pro.bityard.manger.Quote30MinCurrentManger;
 import com.pro.bityard.manger.Quote30MinHistoryManger;
 import com.pro.bityard.manger.Quote5MinCurrentManger;
@@ -229,6 +233,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     MyKLineView myKLineView_1H;
     @BindView(R.id.kline_1d)
     MyKLineView myKLineView_1D;
+    @BindView(R.id.kline_1week)
+    MyKLineView myKLineView_1_week;
+    @BindView(R.id.kline_1month)
+    MyKLineView myKLineView_1_month;
     private RadioGroupAdapter radioGroupAdapter;//杠杆适配器
     private RadioRateAdapter radioRateProfitAdapter, radioRateLossAdapter;
 
@@ -244,8 +252,18 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private double stopLoss = -0.9;
     private boolean isOpenSure;
     private boolean isCloseSure;
-    private String[] titles = new String[]{"分时", "1分", "5分", "15分", "30分", "1时", "日线"};
-    private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData30MinHistory, kData60MinHistory, kData1DayHistory;
+    @BindView(R.id.layout_more)
+    LinearLayout layout_more;
+    @BindView(R.id.text_one_hour)
+    TextView text_one_hour;
+    @BindView(R.id.text_one_day)
+    TextView text_one_day;
+    @BindView(R.id.text_one_week)
+    TextView text_one_week;
+    @BindView(R.id.text_one_month)
+    TextView text_one_month;
+    private String[] titles = new String[]{"分时", "1分", "5分", "15分", "30分", "更多"};
+    private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData30MinHistory, kData60MinHistory, kData1DayHistory, kData1WeekHistory, kData1MonthHistory;
 
 
     public static void enter(Context context, String tradeType, String data) {
@@ -280,6 +298,35 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+
+    private void setTabStyle() {
+        for (int i = 0; i < titles.length; i++) {//根据Tab数量循环来设置
+            TabLayout.Tab tab = tabLayout.getTabAt(i);
+            if (tab != null) {
+                View view = LayoutInflater.from(this).inflate(R.layout.tab_title_layout, null);
+                TextView text_title_one = view.findViewById(R.id.text_title);
+                text_title_one.setText(titles[i]);
+                ImageView img_subscript = view.findViewById(R.id.img_subscript);
+
+                if (i == 0) {
+                    text_title_one.setTextColor(getResources().getColor(R.color.maincolor));//设置一下文字颜色
+                } else {
+                    text_title_one.setTextColor(getResources().getColor(R.color.text_second_color));//设置一下文字颜色
+                }
+
+                if (i == 5) {
+                    img_subscript.setVisibility(View.VISIBLE);
+                } else {
+                    img_subscript.setVisibility(View.GONE);
+                }
+                tab.setCustomView(view);//最后添加view到Tab上面
+            }
+        }
+    }
+
+
+
+
     @Override
     protected void initView(View view) {
 
@@ -293,6 +340,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote30MinCurrentManger.getInstance().addObserver(this);//30min 实时
         Quote60MinCurrentManger.getInstance().addObserver(this);//60min 实时
         Quote1DayCurrentManger.getInstance().addObserver(this);//1day 实时
+        Quote1WeekCurrentManger.getInstance().addObserver(this);//1week 实时
+        Quote1MonthCurrentManger.getInstance().addObserver(this);//1month 实时
 
         Quote1MinHistoryManger.getInstance().addObserver(this);
         Quote5MinHistoryManger.getInstance().addObserver(this);
@@ -300,6 +349,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote30MinHistoryManger.getInstance().addObserver(this);
         Quote60MinHistoryManger.getInstance().addObserver(this);
         Quote1DayHistoryManger.getInstance().addObserver(this);
+        Quote1WeekHistoryManger.getInstance().addObserver(this);
+        Quote1MonthHistoryManger.getInstance().addObserver(this);
 
         BalanceManger.getInstance().getBalance("USDT");
 
@@ -313,7 +364,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.img_back_two).setOnClickListener(this);
 
         findViewById(R.id.img_setting).setOnClickListener(this);
-        findViewById(R.id.layout_more).setOnClickListener(this);
+        findViewById(R.id.layout_product).setOnClickListener(this);
 
         findViewById(R.id.text_position).setOnClickListener(this);
         findViewById(R.id.text_charge).setOnClickListener(this);
@@ -321,6 +372,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         radioGroup.setOnCheckedChangeListener(this);
         findViewById(R.id.layout_much).setOnClickListener(this);
         findViewById(R.id.layout_empty).setOnClickListener(this);
+
+        //更多的监听
+        findViewById(R.id.text_one_hour).setOnClickListener(this);
+        findViewById(R.id.text_one_day).setOnClickListener(this);
+        findViewById(R.id.text_one_week).setOnClickListener(this);
+        findViewById(R.id.text_one_month).setOnClickListener(this);
 
         radioGroupAdapter = new RadioGroupAdapter(this);
         recyclerView_market.setAdapter(radioGroupAdapter);
@@ -403,11 +460,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         for (int i = 0; i < titles.length; i++) {
             tabLayout.getTabAt(i).setText(titles[i]);
         }
-
+        setTabStyle();
 
         tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
+                View view = tab.getCustomView();
+                ((TextView) view.findViewById(R.id.text_title)).setTextColor(getResources().getColor(R.color.maincolor));//设置一下文字颜色
+                tab.setCustomView(view);
+
                 switch (tab.getPosition()) {
                     case 0:
                         kline_1min_time.setVisibility(View.VISIBLE);
@@ -417,6 +479,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         myKLineView_30Min.setVisibility(View.GONE);
                         myKLineView_1H.setVisibility(View.GONE);
                         myKLineView_1D.setVisibility(View.GONE);
+                        layout_more.setVisibility(View.GONE);
+                        myKLineView_1_week.setVisibility(View.GONE);
+                        myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 1:
                         kline_1min_time.setVisibility(View.GONE);
@@ -426,7 +491,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         myKLineView_30Min.setVisibility(View.GONE);
                         myKLineView_1H.setVisibility(View.GONE);
                         myKLineView_1D.setVisibility(View.GONE);
-
+                        layout_more.setVisibility(View.GONE);
+                        myKLineView_1_week.setVisibility(View.GONE);
+                        myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 2:
                         kline_1min_time.setVisibility(View.GONE);
@@ -436,9 +503,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         myKLineView_30Min.setVisibility(View.GONE);
                         myKLineView_1H.setVisibility(View.GONE);
                         myKLineView_1D.setVisibility(View.GONE);
-
+                        layout_more.setVisibility(View.GONE);
+                        myKLineView_1_week.setVisibility(View.GONE);
+                        myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 3:
+                        layout_more.setVisibility(View.GONE);
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.GONE);
                         myKLineView_5Min.setVisibility(View.GONE);
@@ -446,8 +516,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         myKLineView_30Min.setVisibility(View.GONE);
                         myKLineView_1H.setVisibility(View.GONE);
                         myKLineView_1D.setVisibility(View.GONE);
+                        myKLineView_1_week.setVisibility(View.GONE);
+                        myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 4:
+                        layout_more.setVisibility(View.GONE);
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.GONE);
                         myKLineView_5Min.setVisibility(View.GONE);
@@ -455,25 +528,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         myKLineView_30Min.setVisibility(View.VISIBLE);
                         myKLineView_1H.setVisibility(View.GONE);
                         myKLineView_1D.setVisibility(View.GONE);
+                        myKLineView_1_week.setVisibility(View.GONE);
+                        myKLineView_1_month.setVisibility(View.GONE);
+
                         break;
+
                     case 5:
-                        kline_1min_time.setVisibility(View.GONE);
-                        myKLineView_1Min.setVisibility(View.GONE);
-                        myKLineView_5Min.setVisibility(View.GONE);
-                        myKLineView_15Min.setVisibility(View.GONE);
-                        myKLineView_30Min.setVisibility(View.GONE);
-                        myKLineView_1H.setVisibility(View.VISIBLE);
-                        myKLineView_1D.setVisibility(View.GONE);
+                        layout_more.setVisibility(View.VISIBLE);
                         break;
-                    case 6:
-                        kline_1min_time.setVisibility(View.GONE);
-                        myKLineView_1Min.setVisibility(View.GONE);
-                        myKLineView_5Min.setVisibility(View.GONE);
-                        myKLineView_15Min.setVisibility(View.GONE);
-                        myKLineView_30Min.setVisibility(View.GONE);
-                        myKLineView_1H.setVisibility(View.GONE);
-                        myKLineView_1D.setVisibility(View.VISIBLE);
-                        break;
+
 
                 }
 
@@ -481,17 +544,25 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                View view = tab.getCustomView();
+                ((TextView) view.findViewById(R.id.text_title)).setTextColor(getResources().getColor(R.color.text_second_color));//设置一下文字颜色
+                tab.setCustomView(view);
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                if (tab.getPosition() == 5) {
+                    if (layout_more.isShown()) {
+                        layout_more.setVisibility(View.GONE);
+                    } else {
+                        layout_more.setVisibility(View.VISIBLE);
+                    }
+                }
             }
         });
 
-
     }
+
 
     @Override
     protected void initData() {
@@ -499,6 +570,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         assert bundle != null;
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
+        if (itemData.equals("")) {
+            return;
+        }
 
         Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 1);
         Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 5);
@@ -506,7 +580,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote30MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 30);
         Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 60);
         Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 500);
-
+        Quote1WeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 500);
+        Quote1MonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), 30);
         //开启单个刷新
         QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         //开启单个行情图
@@ -516,6 +591,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote30MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         Quote1DayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        Quote1WeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        Quote1MonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+
         //合约号
         tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
         //手续费
@@ -716,17 +794,20 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        TabLayout.Tab tabAt = tabLayout.getTabAt(5);
+        View view = tabAt.getCustomView();
+
         switch (v.getId()) {
             case R.id.img_back:
                 finish();
                 break;
-            case R.id.layout_more:
+            case R.id.layout_product:
                 if (popupWindow != null && popupWindow.isShowing()) {
                     popupWindow.dismiss();
                     img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
                     backgroundAlpha(1f);
                 } else {
-                    showMoreWindow(quoteList);
+                    showProductWindow(quoteList);
                     img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_open));
                 }
                 break;
@@ -818,7 +899,68 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 TabManger.getInstance().jump(MainOneActivity.TAB_TYPE.TAB_POSITION);
                 finish();
                 break;
+            case R.id.text_one_hour:
 
+                ((TextView) view.findViewById(R.id.text_title)).setText(text_one_hour.getText().toString());//设置一下文字颜色
+                tabAt.setCustomView(view);
+
+
+                layout_more.setVisibility(View.GONE);
+                kline_1min_time.setVisibility(View.GONE);
+                myKLineView_1Min.setVisibility(View.GONE);
+                myKLineView_5Min.setVisibility(View.GONE);
+                myKLineView_15Min.setVisibility(View.GONE);
+                myKLineView_30Min.setVisibility(View.GONE);
+                myKLineView_1H.setVisibility(View.VISIBLE);
+                myKLineView_1D.setVisibility(View.GONE);
+                myKLineView_1_week.setVisibility(View.GONE);
+                myKLineView_1_month.setVisibility(View.GONE);
+                break;
+            case R.id.text_one_day:
+                ((TextView) view.findViewById(R.id.text_title)).setText(text_one_day.getText().toString());//设置一下文字颜色
+                tabAt.setCustomView(view);
+
+                layout_more.setVisibility(View.GONE);
+                kline_1min_time.setVisibility(View.GONE);
+                myKLineView_1Min.setVisibility(View.GONE);
+                myKLineView_5Min.setVisibility(View.GONE);
+                myKLineView_15Min.setVisibility(View.GONE);
+                myKLineView_30Min.setVisibility(View.GONE);
+                myKLineView_1H.setVisibility(View.GONE);
+                myKLineView_1D.setVisibility(View.VISIBLE);
+                myKLineView_1_week.setVisibility(View.GONE);
+                myKLineView_1_month.setVisibility(View.GONE);
+                break;
+            case R.id.text_one_week:
+                ((TextView) view.findViewById(R.id.text_title)).setText(text_one_week.getText().toString());//设置一下文字颜色
+                tabAt.setCustomView(view);
+                layout_more.setVisibility(View.GONE);
+                kline_1min_time.setVisibility(View.GONE);
+                myKLineView_1Min.setVisibility(View.GONE);
+                myKLineView_5Min.setVisibility(View.GONE);
+                myKLineView_15Min.setVisibility(View.GONE);
+                myKLineView_30Min.setVisibility(View.GONE);
+                myKLineView_1H.setVisibility(View.GONE);
+                myKLineView_1D.setVisibility(View.GONE);
+                myKLineView_1_week.setVisibility(View.VISIBLE);
+                myKLineView_1_month.setVisibility(View.GONE);
+
+                break;
+            case R.id.text_one_month:
+                ((TextView) view.findViewById(R.id.text_title)).setText(text_one_month.getText().toString());//设置一下文字颜色
+                tabAt.setCustomView(view);
+                layout_more.setVisibility(View.GONE);
+                kline_1min_time.setVisibility(View.GONE);
+                myKLineView_1Min.setVisibility(View.GONE);
+                myKLineView_5Min.setVisibility(View.GONE);
+                myKLineView_15Min.setVisibility(View.GONE);
+                myKLineView_30Min.setVisibility(View.GONE);
+                myKLineView_1H.setVisibility(View.GONE);
+                myKLineView_1D.setVisibility(View.GONE);
+                myKLineView_1_week.setVisibility(View.GONE);
+                myKLineView_1_month.setVisibility(View.VISIBLE);
+
+                break;
 
         }
     }
@@ -945,24 +1087,21 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         );
     }
 
-    private void showMoreWindow(List<String> quoteList) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_more_layout, null);
+    private void showProductWindow(List<String> quoteList) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_product_layout, null);
         popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_pop);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         quotePopAdapter = new QuotePopAdapter(this);
-        if (quoteList != null) {
-            quotePopAdapter.setDatas(quoteList);
-        }
+        recyclerView.setAdapter(quotePopAdapter);
+        quotePopAdapter.setDatas(quoteList);
         if (quote != null) {
             quotePopAdapter.select(itemQuoteContCode(quote));
 
         }
 
-
-        recyclerView.setAdapter(quotePopAdapter);
         quotePopAdapter.setOnItemClick(data -> {
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
@@ -1193,10 +1332,30 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
             if (kData1DayHistory != null) {
-
                 myKLineView_1D.addSingleData(kData.get(kData.size() - 1));
             } else {
                 Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 500);
+
+            }
+        } else if (o == Quote1WeekCurrentManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            List<KData> kData = ChartUtil.klineList(data);
+            Log.d("print", "update:一周:  "+kData.size());
+            if (kData1WeekHistory != null) {
+                myKLineView_1_week.addSingleData(kData.get(kData.size() - 1));
+            } else {
+                Quote1WeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 500);
+
+            }
+        } else if (o == Quote1MonthCurrentManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            List<KData> kData = ChartUtil.klineList(data);
+            Log.d("print", "update:一月:  "+kData.size());
+
+            if (kData1MonthHistory != null) {
+                myKLineView_1_month.addSingleData(kData.get(kData.size() - 1));
+            } else {
+                Quote1MonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 500);
 
             }
         } else if (o == Quote1MinHistoryManger.getInstance()) {
@@ -1260,13 +1419,34 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == Quote1DayHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kData1DayHistory = ChartUtil.klineList(data);
-
             if (kData1DayHistory != null) {
-
                 myKLineView_1D.initKDataList(kData1DayHistory);
             } else {
-                Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 500);
+                Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 24);
 
+            }
+
+        } else if (o == Quote1WeekHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            kData1WeekHistory = ChartUtil.klineList(data);
+            Log.d("print", "update:一周历史:  "+kData1WeekHistory.size());
+
+            if (kData1WeekHistory != null) {
+                myKLineView_1_week.initKDataList(kData1WeekHistory);
+            } else {
+                Quote1WeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 7);
+
+            }
+
+        } else if (o == Quote1MonthHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            kData1MonthHistory = ChartUtil.klineList(data);
+            Log.d("print", "update:一月历史:  "+kData1MonthHistory.size());
+
+            if (kData1MonthHistory != null) {
+                myKLineView_1_month.initKDataList(kData1MonthHistory);
+            } else {
+                Quote1MonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), 12);
             }
 
         }
@@ -1292,7 +1472,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote1MinHistoryManger.getInstance().cancelTimer();
         Quote5MinHistoryManger.getInstance().clear();
         Quote5MinHistoryManger.getInstance().cancelTimer();
-
+        Quote15MinHistoryManger.getInstance().clear();
+        Quote15MinHistoryManger.getInstance().cancelTimer();
+        Quote30MinHistoryManger.getInstance().clear();
+        Quote30MinHistoryManger.getInstance().cancelTimer();
+        Quote60MinHistoryManger.getInstance().clear();
+        Quote60MinHistoryManger.getInstance().cancelTimer();
+        Quote1WeekCurrentManger.getInstance().clear();
+        Quote1WeekCurrentManger.getInstance().cancelTimer();
+        Quote1MonthCurrentManger.getInstance().clear();
+        Quote1MonthCurrentManger.getInstance().cancelTimer();
 
         myKLineView_1Min.cancelQuotaThread();
         myKLineView_5Min.cancelQuotaThread();
@@ -1300,6 +1489,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         myKLineView_30Min.cancelQuotaThread();
         myKLineView_1H.cancelQuotaThread();
         myKLineView_1D.cancelQuotaThread();
+        myKLineView_1_week.cancelQuotaThread();
+        myKLineView_1_month.cancelQuotaThread();
 
 
     }

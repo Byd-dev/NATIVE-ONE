@@ -193,10 +193,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             quoteList = arrayMap.get(type);
             runOnUiThread(() -> {
                 assert quoteList != null;
-                quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
-                quoteAdapter.setDatas(quoteList);
-                quoteAdapter_market.setDatas(quoteList);
-
+                if (quoteList.size() >= 3) {
+                    quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
+                    quoteAdapter.setDatas(quoteList);
+                    quoteAdapter_market.setDatas(quoteList);
+                }
             });
 
 

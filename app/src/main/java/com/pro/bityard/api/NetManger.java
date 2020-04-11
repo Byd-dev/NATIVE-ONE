@@ -468,13 +468,35 @@ public class NetManger {
 
     }
 
-    int countHistory=0;
+    int countHistory = 0;
+
     /*获取单个历史行情图*/
     public void getQuoteHistory(String quoteDomain, int times, String url, String contactCode, String resolution, OnNetResult onNetResult) {
         Calendar nowBefore2 = Calendar.getInstance();
 
         Calendar nowBefore = Calendar.getInstance();
-        nowBefore.add(Calendar.MINUTE, -300 * times);
+        switch (resolution) {
+            case "1":
+            case "5":
+            case "15":
+                nowBefore.add(Calendar.MINUTE, -300 * times);
+                break;
+            case "30":
+            case "60":
+                nowBefore.add(Calendar.MINUTE, -1000 * times);
+                break;
+            case "D":
+                nowBefore.add(Calendar.DAY_OF_WEEK, -60 * times);
+                break;
+            case "W":
+                nowBefore.add(Calendar.MINUTE, -60 * 24 * 60 * times);
+                break;
+            case "M":
+                nowBefore.add(Calendar.MONTH, -60 * times);
+                break;
+        }
+
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         nowBefore2.add(Calendar.MINUTE, 0);
 

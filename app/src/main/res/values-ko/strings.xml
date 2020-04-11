@@ -168,5 +168,10 @@
     <string name="kline_rate_detail">涨跌额</string>
     <string name="kline_change_detail">涨跌幅</string>
     <string name="kline_volume_detail">成交量</string>
+    <string name="text_rule">规则</string>
+    <string name="text_1h">1小时</string>
+    <string name="text_1day">1天</string>
+    <string name="text_1week">1周</string>
+    <string name="text_1month">1月</string>
 
 </resources>
