@@ -477,14 +477,25 @@ public class NetManger {
         Calendar nowBefore = Calendar.getInstance();
         switch (resolution) {
             case "1":
-            case "5":
-            case "15":
-            case "30":
-            case "60":
-                nowBefore.add(Calendar.DAY_OF_YEAR, -2);
+                nowBefore.add(Calendar.MINUTE, -300);
                 break;
+            case "5":
+                nowBefore.add(Calendar.MINUTE, -300 * 5);
+                break;
+            case "15":
+                nowBefore.add(Calendar.MINUTE, -300 * 15);
+                break;
+            case "30":
+                nowBefore.add(Calendar.MINUTE, -300 * 30);
+                break;
+            case "60":
+                nowBefore.add(Calendar.MINUTE, -300 * 60);
+                break;
+           /* case "60":
+                nowBefore.add(Calendar.DAY_OF_YEAR, times);
+                break;*/
             case "D":
-                nowBefore.add(Calendar.YEAR, -2);
+                nowBefore.add(Calendar.YEAR, times);
                 break;
         }
 

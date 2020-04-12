@@ -233,6 +233,18 @@ public class Util {
         return String.valueOf(ts);
     }
 
+    public static Long dateToStampLong(String s) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = simpleDateFormat.parse(s);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long ts = date.getTime();
+        return ts;
+    }
+
     /*时间戳转成日期*/
     public static String stampToDate(long milSecond) {
         SimpleDateFormat sdf;

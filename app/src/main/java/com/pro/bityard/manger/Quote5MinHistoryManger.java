@@ -76,9 +76,9 @@ public class Quote5MinHistoryManger extends Observable {
     }
 
     int getCount=0;
-    public void quote(String quote_code, int count) {
+    public void quote(String quote_code, int time) {
 
-        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", count, "/api/tv/tradingView/history", quote_code, "5", (state, response) -> {
+        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", time, "/api/tv/tradingView/history", quote_code, "5", (state, response) -> {
             if (state.equals(BUSY)) {
 
             } else if (state.equals(SUCCESS)) {
