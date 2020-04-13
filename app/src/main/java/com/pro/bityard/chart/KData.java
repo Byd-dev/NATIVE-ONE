@@ -55,7 +55,7 @@ public class KData implements Serializable {
         this.volume = volume;
     }
 
-    public KData(long time, double openPrice, double closePrice, double maxPrice, double minPrice, double volume){
+    public KData(long time, double openPrice, double closePrice, double maxPrice, double minPrice, double volume) {
         this.time = time;
         this.openPrice = openPrice;
         this.closePrice = closePrice;

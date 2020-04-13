@@ -2007,9 +2007,13 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                     (float) moveY - dp2px(7),
                     rightEnd - dp2px(1),
                     (float) moveY + dp2px(7));
-            fillPaint.setColor(crossHairRightLabelCol);
+            //根据涨跌设置标签颜色
+            if (lastKData.getUpDnAmount() > 0) {
+                fillPaint.setColor(priceIncreaseCol);
+            } else {
+                fillPaint.setColor(priceFallCol);
+            }
             canvas.drawRoundRect(blueRectF, 4, 4, fillPaint);
-
             curvePath.reset();
             curvePath.moveTo(verticalXList.get(verticalXList.size() - 1), (float) moveY);
             curvePath.lineTo(rightEnd - dp2px(37), (float) moveY - dp2px(3));
@@ -2152,7 +2156,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
     /*保留两位小数*/
     public static String getNumberFormat(double value, int scale) {
         BigDecimal bd = new BigDecimal(value);
-        String mon = bd.setScale(scale, RoundingMode.DOWN).toString();//保留两位数字，并且是截断不进行四舍五
+        String mon = bd.setScale(scale, RoundingMode.DOWN).toString();//保留 相应位数字，并且是截断不进行四舍五
         return mon;
     }
 
