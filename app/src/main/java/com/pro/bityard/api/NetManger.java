@@ -426,7 +426,6 @@ public class NetManger {
         Calendar nowBefore = Calendar.getInstance();
         nowBefore.add(Calendar.MINUTE, -10);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("callback", "%3F");
         map.put("symbol", contactCode);
@@ -434,7 +433,6 @@ public class NetManger {
         map.put("from", Util.dateToStamp(sdf.format(nowBefore.getTimeInMillis())));
         map.put("to", String.valueOf(System.currentTimeMillis()));
         map.put("_", String.valueOf(new Date().getTime()));
-
         try {
             String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
             Log.d("quoteItem", "getItemQuote:390:  " + urlList);

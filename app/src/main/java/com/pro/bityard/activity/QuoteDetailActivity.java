@@ -89,6 +89,7 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 import static com.pro.bityard.utils.ChartUtil.getTimeNow;
+import static com.pro.bityard.utils.ChartUtil.setTime;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteIsRange;
@@ -1305,10 +1306,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             List<KData> kData = ChartUtil.klineList(data);
 
             if (kData5MinHistory != null) {
-              /*  if (ChartUtil.isSameTime(kData, kData, 5)) {
-                    kData.get(kData.size() - 1).setTime(kData5MinHistory.get(kData5MinHistory.size() - 1).getTime());
-                }
-                Log.d("print", "update:1307:  "+kData.get(kData.size() - 1));*/
+                kData.get(kData.size() - 1).setTime(setTime(kData, 5));
+
+                Log.d("print", "update:1310:  "+ kData.get(kData.size() - 1));
                 myKLineView_5Min.addSingleData(kData.get(kData.size() - 1));
             } else {
                 Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);

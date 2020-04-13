@@ -1,13 +1,12 @@
 package com.pro.bityard.utils;
 
 
-import android.util.Log;
-
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.entity.KlineEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -90,17 +89,22 @@ public class ChartUtil {
 
     }
 
-    /*判断当前时间是在同一区间*/
-    public static long setTime(List<KData> historyList, List<KData> refreshList, int times) {
-        long oldTime = historyList.get(historyList.size() - 1).getTime();
-        long nowTime = refreshList.get(refreshList.size() - 1).getTime();
+    /*5分 获取当时时间戳的分钟 除5求余 比如7/5 余2 那就是把当前最新的数据设置成2分钟前的时间戳*/
+    public static long setTime(List<KData> refreshList, int times) {
         long time;
-        Log.d(TAG, "isSameTime: " + nowTime + "     " + oldTime);
-        // nowTime-oldTime<=times*60*1000;
-        if (nowTime - oldTime <= times * 60 * 1000) {
-            time = oldTime;
-        } else {
+        long nowTime = refreshList.get(refreshList.size() - 1).getTime();
+        Date date = parseServerTime(Util.stampToDate(nowTime));
+        Calendar todayCal = Calendar.getInstance();
+        todayCal.setFirstDayOfWeek(Calendar.MONDAY);
+        todayCal.setTime(date);
+        int a = todayCal.get(Calendar.MINUTE) % times;
+        if (a == 0) {
             time = nowTime;
+
+        } else {
+            todayCal.add(Calendar.MINUTE, -a);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            time = Util.dateToStampLong(sdf.format(todayCal.getTimeInMillis()));
         }
         return time;
     }
