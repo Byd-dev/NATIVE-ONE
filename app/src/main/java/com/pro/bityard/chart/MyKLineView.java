@@ -1850,7 +1850,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         String maxStr = STR_MAX + setPrecision(lastKData.getMaxPrice(), decimalPoint(String.valueOf(lastKData.getMaxPrice())));
         String minStr = STR_MIN + setPrecision(lastKData.getMinPrice(), decimalPoint(String.valueOf(lastKData.getMinPrice())));
         String closeStr = STR_CLOSE + setPrecision(lastKData.getClosePrice(), decimalPoint(String.valueOf(lastKData.getClosePrice())));*/
-
+        //直接获取后台的数据 不用保留小数
         String openStr = STR_OPEN + lastKData.getOpenPrice();
         String maxStr = STR_MAX + lastKData.getMaxPrice();
         String minStr = STR_MIN + lastKData.getMinPrice();
