@@ -18,24 +18,24 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class Quote30MinCurrentManger extends Observable {
+public class Quote3MinCurrentManger extends Observable {
 
 
-    private static Quote30MinCurrentManger quote30MinCurrentManger;
+    private static Quote3MinCurrentManger quote3MinCurrentManger;
 
     private String code;
 
 
-    public static Quote30MinCurrentManger getInstance() {
-        if (quote30MinCurrentManger == null) {
-            synchronized (Quote30MinCurrentManger.class) {
-                if (quote30MinCurrentManger == null) {
-                    quote30MinCurrentManger = new Quote30MinCurrentManger();
+    public static Quote3MinCurrentManger getInstance() {
+        if (quote3MinCurrentManger == null) {
+            synchronized (Quote3MinCurrentManger.class) {
+                if (quote3MinCurrentManger == null) {
+                    quote3MinCurrentManger = new Quote3MinCurrentManger();
                 }
             }
 
         }
-        return quote30MinCurrentManger;
+        return quote3MinCurrentManger;
 
     }
 
@@ -85,7 +85,7 @@ public class Quote30MinCurrentManger extends Observable {
         if (quote_host == null && quote_code == null) {
             NetManger.getInstance().initQuote();
         } else {
-            NetManger.getInstance().getQuoteChart(quote_host, "/quota.jsp", quote_code, "30", (state, response) -> {
+            NetManger.getInstance().getQuoteChart(quote_host, "/quota.jsp", quote_code, "3", (state, response) -> {
                 if (state.equals(BUSY)) {
 
                 } else if (state.equals(SUCCESS)) {
@@ -115,7 +115,7 @@ public class Quote30MinCurrentManger extends Observable {
      */
     public void clear() {
         deleteObservers();
-        quote30MinCurrentManger = null;
+        quote3MinCurrentManger = null;
     }
 
 

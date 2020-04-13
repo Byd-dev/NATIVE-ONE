@@ -399,7 +399,7 @@
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
                     <com.pro.bityard.chart.MyKLineView
-                        android:id="@+id/kline_30min"
+                        android:id="@+id/kline_3min"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:visibility="gone"

@@ -17,20 +17,20 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class Quote30MinHistoryManger extends Observable {
+public class Quote3MinHistoryManger extends Observable {
 
 
-    private static Quote30MinHistoryManger quoteHistoryManger;
+    private static Quote3MinHistoryManger quoteHistoryManger;
 
     private String code;
     private int count;
 
 
-    public static Quote30MinHistoryManger getInstance() {
+    public static Quote3MinHistoryManger getInstance() {
         if (quoteHistoryManger == null) {
-            synchronized (Quote30MinHistoryManger.class) {
+            synchronized (Quote3MinHistoryManger.class) {
                 if (quoteHistoryManger == null) {
-                    quoteHistoryManger = new Quote30MinHistoryManger();
+                    quoteHistoryManger = new Quote3MinHistoryManger();
                 }
             }
 
@@ -78,14 +78,14 @@ public class Quote30MinHistoryManger extends Observable {
     int getCount=0;
     public void quote(String quote_code, int count) {
 
-        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", count, "/api/tv/tradingView/history", quote_code, "30", (state, response) -> {
+        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", count, "/api/tv/tradingView/history", quote_code, "3", (state, response) -> {
             if (state.equals(BUSY)) {
 
             } else if (state.equals(SUCCESS)) {
 
                 QuoteChartEntity quoteChartEntity = new Gson().fromJson(response.toString(), QuoteChartEntity.class);
                 if (quoteChartEntity.getS().equals("ok")) {
-                    Log.d("print", "quote:88 "+"30Min:"+getCount++);
+                    Log.d("print", "quote:88 "+"3Min:"+getCount++);
 
                     postQuote(quoteChartEntity);
                     cancelTimer();

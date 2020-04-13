@@ -477,14 +477,14 @@ public class NetManger {
             case "1":
                 nowBefore.add(Calendar.MINUTE, -300);
                 break;
+            case "3":
+                nowBefore.add(Calendar.MINUTE, -300 * 3);
+                break;
             case "5":
                 nowBefore.add(Calendar.MINUTE, -300 * 5);
                 break;
             case "15":
                 nowBefore.add(Calendar.MINUTE, -300 * 15);
-                break;
-            case "30":
-                nowBefore.add(Calendar.MINUTE, -300 * 30);
                 break;
             case "60":
                 nowBefore.add(Calendar.MINUTE, -300 * 60);
