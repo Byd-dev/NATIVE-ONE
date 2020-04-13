@@ -1031,6 +1031,8 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                     verticalXList.get(verticalXList.size() - 1),
                     horizontalYList.get(3) + verticalSpace / 2,
                     fillPaint);
+
+
         }
     }
 
@@ -1106,7 +1108,9 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         }
 
         topPrice = maxPrice + (maxPrice - minPrice) * 0.1;
+        //topPrice= TradeUtil.sub(maxPrice,TradeUtil.mul(TradeUtil.sub(maxPrice,minPrice),0.1));
         botPrice = minPrice - (maxPrice - minPrice) * 0.1;
+        // botPrice = TradeUtil.sub(minPrice,TradeUtil.mul(TradeUtil.sub(maxPrice,minPrice),0.1));
 
         if (!isShowDeputy) {
             priceImgBot = horizontalYList.get(4);
@@ -1842,10 +1846,15 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
         if (lastKData == null) {
             return;
         }
-        String openStr = STR_OPEN + setPrecision(lastKData.getOpenPrice(), decimalPoint(String.valueOf(lastKData.getOpenPrice())));
+       /* String openStr = STR_OPEN + setPrecision(lastKData.getOpenPrice(), decimalPoint(String.valueOf(lastKData.getOpenPrice())));
         String maxStr = STR_MAX + setPrecision(lastKData.getMaxPrice(), decimalPoint(String.valueOf(lastKData.getMaxPrice())));
         String minStr = STR_MIN + setPrecision(lastKData.getMinPrice(), decimalPoint(String.valueOf(lastKData.getMinPrice())));
-        String closeStr = STR_CLOSE + setPrecision(lastKData.getClosePrice(), decimalPoint(String.valueOf(lastKData.getClosePrice())));
+        String closeStr = STR_CLOSE + setPrecision(lastKData.getClosePrice(), decimalPoint(String.valueOf(lastKData.getClosePrice())));*/
+
+        String openStr = STR_OPEN + lastKData.getOpenPrice();
+        String maxStr = STR_MAX + lastKData.getMaxPrice();
+        String minStr = STR_MIN + lastKData.getMinPrice();
+        String closeStr = STR_CLOSE + lastKData.getClosePrice();
 
         resetFillPaint(priceOpen, topMaTextSize);
         fillPaint.getTextBounds(openStr, 0, openStr.length(), topOpenRect);
@@ -1989,6 +1998,35 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
                 }
             }
         }
+
+
+        //实时价格的标签
+        if (lastKData != null) {
+            double moveY = lastKData.getCloseY();
+            RectF blueRectF = new RectF(rightEnd - dp2px(38),
+                    (float) moveY - dp2px(7),
+                    rightEnd - dp2px(1),
+                    (float) moveY + dp2px(7));
+            fillPaint.setColor(crossHairRightLabelCol);
+            canvas.drawRoundRect(blueRectF, 4, 4, fillPaint);
+
+            curvePath.reset();
+            curvePath.moveTo(verticalXList.get(verticalXList.size() - 1), (float) moveY);
+            curvePath.lineTo(rightEnd - dp2px(37), (float) moveY - dp2px(3));
+            curvePath.lineTo(rightEnd - dp2px(37), (float) moveY + dp2px(3));
+            curvePath.close();
+            canvas.drawPath(curvePath, fillPaint);
+            String movePrice = String.valueOf(lastKData.getClosePrice());//直接是收盘价
+            Rect textRect = new Rect();
+            resetFillPaint(crossHairRightLabelTextCol, crossHairRightLabelTextSize);
+            fillPaint.getTextBounds(movePrice, 0, movePrice.length(), textRect);
+            canvas.drawText(movePrice,
+                    rightEnd - dp2px(38) + (blueRectF.width() - textRect.width()) / 2,
+                    (float) moveY + dp2px(7) - (blueRectF.height() - textRect.height()) / 2,
+                    fillPaint);
+
+        }
+
     }
 
     //纵坐标
