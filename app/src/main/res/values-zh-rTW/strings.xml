@@ -9,18 +9,18 @@
     <string name="tab_five">我的</string>
     <string name="text_jump">跳過</string>
     <string name="text_register">立即注册</string>
-    <string name="text_mobile_login">手机号码登录</string>
-    <string name="text_email_login">邮箱登录</string>
+    <string name="text_mobile_login">手机号码登錄</string>
+    <string name="text_email_login">邮箱登錄</string>
     <string name="text_email">电子邮箱</string>
     <string name="text_email_input">请输入邮箱</string>
     <string name="text_input_pass">请输入密码</string>
-    <string name="text_pass">登录密码</string>
+    <string name="text_pass">登錄密码</string>
     <string name="text_pass_err">您输入的密码有误</string>
     <string name="text_forget_pass">忘记密码?</string>
     <string name="text_number">手机号码</string>
     <string name="text_input_number">请输入手机号</string>
     <string name="text_select">选择国家</string>
-    <string name="text_login">立即登录</string>
+    <string name="text_login">立即登錄</string>
     <string name="text_register_title">注册Bityard</string>
     <string name="text_mobile_register"><![CDATA[手机号码注册->]]></string>
     <string name="text_email_code">邮箱验证码</string>
@@ -57,9 +57,9 @@
     <string name="text_coin_turn">币币闪兑</string>
     <string name="text_withdrawal">提币</string>
     <string name="text_recharge">充币</string>
-    <string name="text_unlogin">未登录</string>
+    <string name="text_unlogin">未登錄</string>
     <string name="text_setup">系统设置</string>
-    <string name="text_logout">退出登录</string>
+    <string name="text_logout">退出登錄</string>
     <string name="text_theme">主题切换</string>
     <string name="text_rate">汇率</string>
     <string name="text_language">选择语言</string>
@@ -155,7 +155,7 @@
     <string name="text_service_pop">手续费</string>
     <string name="text_are_you_sure">是否确认平仓?</string>
     <string name="text_service_tip">手续费=保证金(杠杆-1)×0.15%\n本次支付手续费是</string>
-    <string name="text_tip_login">请登录</string>
+    <string name="text_tip_login">请登錄</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
     <string name="kline_min">低:</string>

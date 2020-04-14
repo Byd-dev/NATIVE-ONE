@@ -367,7 +367,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
-        popupWindow.setAnimationStyle(R.style.pop_anim);
+       // popupWindow.setAnimationStyle(R.style.pop_anim);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 
@@ -969,7 +969,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
-        popupWindow.setAnimationStyle(R.style.pop_anim);
+       // popupWindow.setAnimationStyle(R.style.pop_anim);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 

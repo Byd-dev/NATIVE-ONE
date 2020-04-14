@@ -64,7 +64,7 @@ public class PopUtil {
         activity.getWindow().setAttributes(params);
         popupWindow.setFocusable(false);
         popupWindow.setOutsideTouchable(false);
-        popupWindow.setAnimationStyle(R.style.pop_anim_quote);
+       // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 

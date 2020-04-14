@@ -441,7 +441,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         });
 
         popupWindow.setFocusable(true);
-        popupWindow.setAnimationStyle(R.style.pop_anim);
+        //popupWindow.setAnimationStyle(R.style.pop_anim);
         popupWindow.setContentView(view);
         popupWindow.setOutsideTouchable(false);
         popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
