@@ -690,7 +690,7 @@
                             android:id="@+id/layout_market_lever_select"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/margin_15"
+                            android:layout_marginLeft="@dimen/margin_10"
                             android:layout_weight="1"
                             android:background="@drawable/bg_kuang_second_color"
 
@@ -956,7 +956,7 @@
                             android:id="@+id/layout_limit_lever_select"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/margin_15"
+                            android:layout_marginLeft="@dimen/margin_10"
                             android:layout_weight="1"
                             android:background="@drawable/bg_kuang_second_color"
 
