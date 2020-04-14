@@ -265,6 +265,20 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData3MinHistory, kData60MinHistory, kData1DayHistory, kData1WeekHistory, kData1MonthHistory;
 
 
+    @BindView(R.id.layout_lever_market)
+    LinearLayout layout_lever_market;
+    @BindView(R.id.layout_market)
+    LinearLayout layout_market;
+    @BindView(R.id.text_lever_market)
+    TextView text_lever_market;
+
+    @BindView(R.id.layout_lever_limit)
+    LinearLayout layout_lever_limit;
+    @BindView(R.id.layout_limit)
+    LinearLayout layout_limit;
+    @BindView(R.id.text_lever_limit)
+    TextView text_lever_limit;
+
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, QuoteDetailActivity.class);
         Bundle bundle = new Bundle();
@@ -566,6 +580,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
+        //杠杆选择
+        findViewById(R.id.layout_market_lever_select).setOnClickListener(this);
+        findViewById(R.id.layout_limit_lever_select).setOnClickListener(this);
+
     }
 
 
@@ -710,8 +728,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
 
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
-            recyclerView_market.setLayoutManager(new GridLayoutManager(this, leverShowList.size()));
-            recyclerView_limit.setLayoutManager(new GridLayoutManager(this, leverShowList.size()));
+            recyclerView_market.setLayoutManager(new GridLayoutManager(this, 3));
+            recyclerView_limit.setLayoutManager(new GridLayoutManager(this, 3));
 
             radioGroupAdapter.setDatas(leverShowList);
             radioGroupAdapter.select(0);
@@ -723,7 +741,23 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 recyclerView_market.setAdapter(radioGroupAdapter);
                 recyclerView_limit.setAdapter(radioGroupAdapter);
                 radioGroupAdapter.notifyDataSetChanged();
+                text_lever_market.setText(lever + "X");
+                text_lever_limit.setText(lever + "X");
+                if (layout_market.isShown()) {
+                    layout_market.setVisibility(View.GONE);
+                    layout_lever_market.setVisibility(View.VISIBLE);
+                } else {
+                    layout_market.setVisibility(View.VISIBLE);
+                    layout_lever_market.setVisibility(View.GONE);
+                }
 
+                if (layout_limit.isShown()) {
+                    layout_limit.setVisibility(View.GONE);
+                    layout_lever_limit.setVisibility(View.VISIBLE);
+                } else {
+                    layout_limit.setVisibility(View.VISIBLE);
+                    layout_lever_limit.setVisibility(View.GONE);
+                }
 
             });
 
@@ -967,6 +1001,24 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 break;
 
+            case R.id.layout_market_lever_select:
+                if (layout_market.isShown()) {
+                    layout_market.setVisibility(View.GONE);
+                    layout_lever_market.setVisibility(View.VISIBLE);
+                } else {
+                    layout_market.setVisibility(View.VISIBLE);
+                    layout_lever_market.setVisibility(View.GONE);
+                }
+                break;
+            case R.id.layout_limit_lever_select:
+                if (layout_limit.isShown()) {
+                    layout_limit.setVisibility(View.GONE);
+                    layout_lever_limit.setVisibility(View.VISIBLE);
+                } else {
+                    layout_limit.setVisibility(View.VISIBLE);
+                    layout_lever_limit.setVisibility(View.GONE);
+                }
+                break;
         }
     }
 
@@ -1372,7 +1424,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             }
         } else if (o == Quote5MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
-            Log.d("print", "update: " + data.getQuote());
             List<KData> kData = ChartUtil.klineList(data);
 
             if (kData5MinHistory != null) {

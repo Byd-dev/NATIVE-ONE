@@ -578,7 +578,7 @@
             <!--市价和限价-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="210dp"
+                android:layout_height="165dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -638,6 +638,8 @@
 
 
                 </RelativeLayout>
+
+
                 <!--市价-->
                 <LinearLayout
                     android:id="@+id/layout_market_price"
@@ -646,74 +648,51 @@
                     android:layout_below="@+id/layout_radioGroup"
                     android:orientation="vertical"
                     android:visibility="visible">
-
+                    <!--市价下单和杠杆选择-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_36"
                         android:layout_marginLeft="@dimen/margin_10"
                         android:layout_marginRight="@dimen/margin_10"
-                        android:background="@drawable/bg_kuang_market_color"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:text="@string/text_market_price_edit"
-                            android:textColor="@color/text_second_color"
-                            android:textSize="@dimen/size_normal" />
-
-
-                        <TextView
-                            android:id="@+id/text_market_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:text="@string/text_market_price_input_edit"
-                            android:textColor="@color/text_maincolor"
-                            android:textSize="@dimen/size_normal" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/margin_36"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_marginTop="@dimen/margin_15"
-                        android:layout_marginRight="@dimen/margin_10"
-                        android:background="@drawable/bg_kuang_second_color"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:text="@string/text_margin_edit"
-                            android:textColor="@color/text_second_color"
-                            android:textSize="@dimen/size_normal" />
-
-
-                        <com.pro.bityard.view.DecimalEditText
-                            android:id="@+id/edit_market_margin"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/margin_10"
                             android:layout_weight="1"
-                            android:background="@null"
-                            android:inputType="numberDecimal"
-                            android:textColor="@color/text_maincolor"
-                            android:textColorHint="@color/text_second_color"
-                            android:textCursorDrawable="@null"
-                            android:textSize="@dimen/size_normal" />
+                            android:background="@drawable/bg_kuang_second_color"
+                            android:orientation="horizontal">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:text="@string/text_market_price_edit"
+                                android:textColor="@color/text_second_color"
+                                android:textSize="@dimen/size_normal" />
+
+
+                            <TextView
+                                android:id="@+id/text_market_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:text="@string/text_market_price_input_edit"
+                                android:textColor="@color/text_maincolor"
+                                android:textSize="@dimen/size_normal" />
+
+
+                        </LinearLayout>
 
                         <RelativeLayout
-                            android:layout_width="150dp"
+                            android:id="@+id/layout_market_lever_select"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_kuang_second_color"
 
                             >
 
@@ -721,46 +700,193 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/margin_10"
-                                android:layout_toLeftOf="@id/text_market_volume"
-                                android:text="@string/text_volume_edit"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:text="@string/text_lever_edit"
                                 android:textColor="@color/text_second_color"
                                 android:textSize="@dimen/size_normal" />
 
 
                             <TextView
-                                android:id="@+id/text_market_volume"
+                                android:id="@+id/text_lever_market"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/margin_10"
-                                android:text="@string/text_default"
-                                android:textColor="@color/text_second_color"
+                                android:drawableRight="@mipmap/icon_trade_triangle"
+                                android:drawablePadding="@dimen/margin_5"
+                                android:text="@string/text_20x"
+                                android:textColor="@color/text_maincolor"
                                 android:textSize="@dimen/size_normal" />
 
 
                         </RelativeLayout>
+                    </LinearLayout>
 
+
+                    <!--保证金和总计支付-->
+                    <LinearLayout
+                        android:id="@+id/layout_market"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_36"
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginTop="@dimen/margin_15"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:background="@drawable/bg_kuang_second_color"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:text="@string/text_margin_edit"
+                                android:textColor="@color/text_second_color"
+                                android:textSize="@dimen/size_normal" />
+
+
+                            <com.pro.bityard.view.DecimalEditText
+                                android:id="@+id/edit_market_margin"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:inputType="numberDecimal"
+                                android:textColor="@color/text_maincolor"
+                                android:textColorHint="@color/text_second_color"
+                                android:textCursorDrawable="@null"
+                                android:textSize="@dimen/size_normal" />
+
+
+                            <RelativeLayout
+                                android:layout_width="150dp"
+                                android:layout_height="match_parent"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/margin_10"
+                                    android:layout_toLeftOf="@id/text_market_volume"
+                                    android:text="@string/text_volume_edit"
+                                    android:textColor="@color/text_second_color"
+                                    android:textSize="@dimen/size_normal" />
+
+
+                                <TextView
+                                    android:id="@+id/text_market_volume"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/margin_10"
+                                    android:text="@string/text_default"
+                                    android:textColor="@color/text_second_color"
+                                    android:textSize="@dimen/size_normal" />
+
+
+                            </RelativeLayout>
+
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            >
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="@string/text_market_all"
+                                    android:textColor="@color/text_second_color"
+                                    android:textSize="@dimen/size_normal" />
+
+                                <TextView
+                                    android:id="@+id/text_market_all"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="@dimen/margin_10"
+                                    android:drawableRight="@mipmap/icon_mark"
+                                    android:drawablePadding="@dimen/margin_8"
+                                    android:gravity="center"
+                                    android:text="@string/text_default"
+                                    android:textColor="@color/text_maincolor"
+                                    android:textSize="@dimen/size_normal" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="120dp"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/margin_10"
+                                    android:text="@string/text_available_add"
+                                    android:textColor="@color/text_second_color"
+                                    android:textSize="@dimen/size_normal" />
+
+
+                                <TextView
+                                    android:id="@+id/text_market_balance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/margin_10"
+                                    android:text="@string/text_default"
+                                    android:textColor="@color/text_maincolor"
+                                    android:textSize="@dimen/size_normal" />
+
+
+                            </RelativeLayout>
+
+                        </RelativeLayout>
 
                     </LinearLayout>
 
+
                     <LinearLayout
+                        android:id="@+id/layout_lever_market"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/margin_40"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_marginTop="@dimen/margin_15"
+                        android:layout_marginTop="@dimen/margin_8"
                         android:layout_marginRight="@dimen/margin_10"
                         android:background="@drawable/bg_kuang_second_color"
-                        android:orientation="horizontal">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center"
                             android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_marginRight="@dimen/margin_20"
-                            android:text="@string/text_lever_edit"
+                            android:layout_marginTop="@dimen/margin_5"
+                            android:text="@string/text_lever_select"
                             android:textColor="@color/text_second_color"
                             android:textSize="@dimen/size_normal" />
 
@@ -768,81 +894,11 @@
                             android:id="@+id/recyclerView_market"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="1dp"
-                            android:layout_marginRight="1dp"
-                            android:layout_marginBottom="1dp" />
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="@dimen/margin_5" />
 
 
                     </LinearLayout>
-
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-
-                        >
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:text="@string/text_market_all"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-
-                            <TextView
-                                android:id="@+id/text_market_all"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/margin_10"
-                                android:drawableRight="@mipmap/icon_mark"
-                                android:drawablePadding="@dimen/margin_8"
-                                android:gravity="center"
-                                android:text="@string/text_default"
-                                android:textColor="@color/text_maincolor"
-                                android:textSize="@dimen/size_normal" />
-
-                        </LinearLayout>
-
-                        <RelativeLayout
-                            android:layout_width="120dp"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/margin_10"
-                                android:text="@string/text_available_add"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
-
-
-                            <TextView
-                                android:id="@+id/text_market_balance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/margin_10"
-                                android:text="@string/text_default"
-                                android:textColor="@color/text_maincolor"
-                                android:textSize="@dimen/size_normal" />
-
-
-                        </RelativeLayout>
-
-                    </RelativeLayout>
 
 
                 </LinearLayout>
@@ -854,76 +910,54 @@
                     android:layout_below="@+id/layout_radioGroup"
                     android:orientation="vertical"
                     android:visibility="gone">
-
+                    <!--限价下单和杠杆选择-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_36"
                         android:layout_marginLeft="@dimen/margin_10"
                         android:layout_marginRight="@dimen/margin_10"
-                        android:background="@drawable/bg_kuang_second_color"
                         android:orientation="horizontal">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:text="@string/text_limit_price_edit"
-                            android:textColor="@color/text_second_color"
-                            android:textSize="@dimen/size_normal" />
 
-
-                        <com.pro.bityard.view.DecimalEditText
-                            android:id="@+id/edit_limit_price"
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/margin_10"
                             android:layout_weight="1"
-                            android:background="@null"
-                            android:inputType="numberDecimal"
-                            android:textColor="@color/text_maincolor"
-                            android:textCursorDrawable="@null"
-                            android:textSize="@dimen/size_normal" />
+                            android:background="@drawable/bg_kuang_second_color"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:text="@string/text_limit_price_edit"
+                                android:textColor="@color/text_second_color"
+                                android:textSize="@dimen/size_normal" />
 
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/margin_36"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_marginTop="@dimen/margin_15"
-                        android:layout_marginRight="@dimen/margin_10"
-                        android:background="@drawable/bg_kuang_second_color"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:text="@string/text_margin_edit"
-                            android:textColor="@color/text_second_color"
-                            android:textSize="@dimen/size_normal" />
+                            <com.pro.bityard.view.DecimalEditText
+                                android:id="@+id/edit_limit_price"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:inputType="numberDecimal"
+                                android:textColor="@color/text_maincolor"
+                                android:textCursorDrawable="@null"
+                                android:textSize="@dimen/size_normal" />
 
 
-                        <com.pro.bityard.view.DecimalEditText
-                            android:id="@+id/edit_limit_margin"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:inputType="numberDecimal"
-                            android:textColor="@color/text_maincolor"
-                            android:textColorHint="@color/text_second_color"
-                            android:textCursorDrawable="@null"
-                            android:textSize="@dimen/size_normal" />
-
+                        </LinearLayout>
 
                         <RelativeLayout
-                            android:layout_width="150dp"
+                            android:id="@+id/layout_limit_lever_select"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:layout_weight="1"
+                            android:background="@drawable/bg_kuang_second_color"
 
                             >
 
@@ -931,126 +965,202 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/margin_10"
-                                android:layout_toLeftOf="@+id/text_limit_volume"
-                                android:text="@string/text_volume_edit"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:text="@string/text_lever_edit"
                                 android:textColor="@color/text_second_color"
                                 android:textSize="@dimen/size_normal" />
 
 
                             <TextView
-                                android:id="@+id/text_limit_volume"
+                                android:id="@+id/text_lever_limit"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentRight="true"
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/margin_10"
-                                android:text="@string/text_default"
-                                android:textColor="@color/text_second_color"
+                                android:drawableRight="@mipmap/icon_trade_triangle"
+                                android:drawablePadding="@dimen/margin_5"
+                                android:text="@string/text_20x"
+                                android:textColor="@color/text_maincolor"
                                 android:textSize="@dimen/size_normal" />
 
 
                         </RelativeLayout>
 
-
                     </LinearLayout>
 
+                    <!--保证金和总计支付-->
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/margin_40"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_marginTop="@dimen/margin_15"
-                        android:layout_marginRight="@dimen/margin_10"
-                        android:background="@drawable/bg_kuang_second_color"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_marginRight="@dimen/margin_20"
-                            android:text="@string/text_lever_edit"
-                            android:textColor="@color/text_second_color"
-                            android:textSize="@dimen/size_normal" />
-
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recyclerView_limit"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="1dp"
-                            android:layout_marginRight="1dp"
-                            android:layout_marginBottom="1dp" />
-
-
-                    </LinearLayout>
-
-
-                    <RelativeLayout
+                        android:id="@+id/layout_limit"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-
-                        >
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/margin_36"
                             android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginTop="@dimen/margin_15"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:background="@drawable/bg_kuang_second_color"
                             android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="@string/text_market_all"
+                                android:layout_marginLeft="@dimen/margin_10"
+                                android:text="@string/text_margin_edit"
                                 android:textColor="@color/text_second_color"
                                 android:textSize="@dimen/size_normal" />
 
-                            <TextView
-                                android:id="@+id/text_limit_all"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
+
+                            <com.pro.bityard.view.DecimalEditText
+                                android:id="@+id/edit_limit_margin"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
                                 android:layout_marginLeft="@dimen/margin_10"
-                                android:text="@string/text_default"
+                                android:layout_weight="1"
+                                android:background="@null"
+                                android:inputType="numberDecimal"
                                 android:textColor="@color/text_maincolor"
+                                android:textColorHint="@color/text_second_color"
+                                android:textCursorDrawable="@null"
                                 android:textSize="@dimen/size_normal" />
+
+
+                            <RelativeLayout
+                                android:layout_width="150dp"
+                                android:layout_height="match_parent"
+
+                                >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/margin_10"
+                                    android:layout_toLeftOf="@+id/text_limit_volume"
+                                    android:text="@string/text_volume_edit"
+                                    android:textColor="@color/text_second_color"
+                                    android:textSize="@dimen/size_normal" />
+
+
+                                <TextView
+                                    android:id="@+id/text_limit_volume"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/margin_10"
+                                    android:text="@string/text_default"
+                                    android:textColor="@color/text_second_color"
+                                    android:textSize="@dimen/size_normal" />
+
+
+                            </RelativeLayout>
+
 
                         </LinearLayout>
 
                         <RelativeLayout
-                            android:layout_width="120dp"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true">
 
-                            <TextView
+                            >
+
+                            <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="@dimen/margin_10"
-                                android:text="@string/text_available_add"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal" />
+                                android:orientation="horizontal">
 
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="@string/text_market_all"
+                                    android:textColor="@color/text_second_color"
+                                    android:textSize="@dimen/size_normal" />
 
-                            <TextView
-                                android:id="@+id/text_limit_balance"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                <TextView
+                                    android:id="@+id/text_limit_all"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="@dimen/margin_10"
+                                    android:text="@string/text_default"
+                                    android:drawableRight="@mipmap/icon_mark"
+                                    android:drawablePadding="@dimen/margin_8"
+                                    android:textColor="@color/text_maincolor"
+                                    android:textSize="@dimen/size_normal" />
+
+                            </LinearLayout>
+
+                            <RelativeLayout
+                                android:layout_width="120dp"
+                                android:layout_height="match_parent"
                                 android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/margin_10"
-                                android:text="@string/text_default"
-                                android:textColor="@color/text_maincolor"
-                                android:textSize="@dimen/size_normal" />
+                                android:layout_centerVertical="true">
 
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/margin_10"
+                                    android:text="@string/text_available_add"
+                                    android:textColor="@color/text_second_color"
+                                    android:textSize="@dimen/size_normal" />
+
+
+                                <TextView
+                                    android:id="@+id/text_limit_balance"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/margin_10"
+                                    android:text="@string/text_default"
+                                    android:textColor="@color/text_maincolor"
+                                    android:textSize="@dimen/size_normal" />
+
+
+                            </RelativeLayout>
 
                         </RelativeLayout>
+                    </LinearLayout>
 
-                    </RelativeLayout>
+                    <LinearLayout
+                        android:id="@+id/layout_lever_limit"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/margin_8"
+                        android:layout_marginRight="@dimen/margin_10"
+                        android:background="@drawable/bg_kuang_second_color"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginTop="@dimen/margin_5"
+                            android:text="@string/text_lever_select"
+                            android:textColor="@color/text_second_color"
+                            android:textSize="@dimen/size_normal" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_limit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginBottom="@dimen/margin_5" />
+
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
