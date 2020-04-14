@@ -32,7 +32,7 @@ import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
-import com.pro.bityard.chart.MyKLineView;
+import com.pro.bityard.chart.NoVolumeView;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
@@ -219,23 +219,23 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.kline_1min_time)
-    MyKLineView kline_1min_time;
+    NoVolumeView kline_1min_time;
     @BindView(R.id.kline_1min)
-    MyKLineView myKLineView_1Min;
+    NoVolumeView myKLineView_1Min;
     @BindView(R.id.kline_5min)
-    MyKLineView myKLineView_5Min;
+    NoVolumeView myKLineView_5Min;
     @BindView(R.id.kline_15min)
-    MyKLineView myKLineView_15Min;
+    NoVolumeView myKLineView_15Min;
     @BindView(R.id.kline_3min)
-    MyKLineView myKLineView_3Min;
+    NoVolumeView myKLineView_3Min;
     @BindView(R.id.kline_1h)
-    MyKLineView myKLineView_1H;
+    NoVolumeView myKLineView_1H;
     @BindView(R.id.kline_1d)
-    MyKLineView myKLineView_1D;
+    NoVolumeView myKLineView_1D;
     @BindView(R.id.kline_1week)
-    MyKLineView myKLineView_1_week;
+    NoVolumeView myKLineView_1_week;
     @BindView(R.id.kline_1month)
-    MyKLineView myKLineView_1_month;
+    NoVolumeView myKLineView_1_month;
     private RadioGroupAdapter radioGroupAdapter;//杠杆适配器
     private RadioRateAdapter radioRateProfitAdapter, radioRateLossAdapter;
 

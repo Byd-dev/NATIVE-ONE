@@ -331,7 +331,7 @@
                     >
 
 
-                    <com.pro.bityard.chart.MyKLineView
+                    <com.pro.bityard.chart.NoVolumeView
                         android:id="@+id/kline_1min_time"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -349,7 +349,7 @@
                         app:klPriceOpenCol="@color/text_second_color"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
-                    <com.pro.bityard.chart.MyKLineView
+                    <com.pro.bityard.chart.NoVolumeView
                         android:id="@+id/kline_1min"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -367,7 +367,7 @@
                         app:klPriceOpenCol="@color/text_second_color"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
-                    <com.pro.bityard.chart.MyKLineView
+                    <com.pro.bityard.chart.NoVolumeView
                         android:id="@+id/kline_5min"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -385,7 +385,7 @@
                         app:klPriceOpenCol="@color/text_second_color"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
-                    <com.pro.bityard.chart.MyKLineView
+                    <com.pro.bityard.chart.NoVolumeView
                         android:id="@+id/kline_15min"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -403,7 +403,7 @@
                         app:klPriceOpenCol="@color/text_second_color"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
-                    <com.pro.bityard.chart.MyKLineView
+                    <com.pro.bityard.chart.NoVolumeView
                         android:id="@+id/kline_3min"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -421,7 +421,7 @@
                         app:klPriceOpenCol="@color/text_second_color"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
-                    <com.pro.bityard.chart.MyKLineView
+                    <com.pro.bityard.chart.NoVolumeView
                         android:id="@+id/kline_1h"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -439,7 +439,7 @@
                         app:klPriceOpenCol="@color/text_second_color"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
-                    <com.pro.bityard.chart.MyKLineView
+                    <com.pro.bityard.chart.NoVolumeView
                         android:id="@+id/kline_1d"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -457,7 +457,7 @@
                         app:klPriceOpenCol="@color/text_second_color"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
-                    <com.pro.bityard.chart.MyKLineView
+                    <com.pro.bityard.chart.NoVolumeView
                         android:id="@+id/kline_1week"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -475,7 +475,7 @@
                         app:klPriceOpenCol="@color/text_second_color"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
-                    <com.pro.bityard.chart.MyKLineView
+                    <com.pro.bityard.chart.NoVolumeView
                         android:id="@+id/kline_1month"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
