@@ -111,21 +111,21 @@
             <!--头部-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="85dp"
-                android:orientation="horizontal">
+                android:layout_height="65dp"
+                android:orientation="vertical">
 
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_weight="3"
-                    android:orientation="vertical">
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_height="match_parent"
 
                         >
 
@@ -133,7 +133,7 @@
                             android:id="@+id/text_lastPrice"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
+                            android:layout_centerVertical="true"
                             android:text="--.--"
                             android:textColor="@color/text_maincolor"
                             android:textSize="26sp"
@@ -144,17 +144,16 @@
                             android:id="@+id/img_up_down"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
+                            android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_marginBottom="@dimen/margin_5"
                             android:layout_toRightOf="@+id/text_lastPrice" />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
                         android:orientation="horizontal">
 
                         <TextView
@@ -181,21 +180,24 @@
 
 
                     </RelativeLayout>
-                </LinearLayout>
+                </RelativeLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1.5"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/text_max_stay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -207,9 +209,9 @@
                             android:id="@+id/text_max"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/margin_10"
+                            android:layout_marginLeft="@dimen/margin_5"
+                            android:layout_toRightOf="@id/text_max_stay"
                             android:text="@string/text_default"
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal" />
@@ -220,11 +222,11 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_5"
-                        android:layout_marginBottom="@dimen/margin_5"
+                        android:layout_centerInParent="true"
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/text_min_stay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -236,9 +238,9 @@
                             android:id="@+id/text_min"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/margin_10"
+                            android:layout_marginLeft="@dimen/margin_5"
+                            android:layout_toRightOf="@id/text_min_stay"
                             android:text="@string/text_default"
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal" />
@@ -249,9 +251,12 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/text_volume_stay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -263,16 +268,16 @@
                             android:id="@+id/text_volume"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/margin_10"
+                            android:layout_marginLeft="@dimen/margin_5"
+                            android:layout_toRightOf="@id/text_volume_stay"
                             android:text="@string/text_default"
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal" />
 
 
                     </RelativeLayout>
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
             <!--中间-->
             <LinearLayout
@@ -578,7 +583,7 @@
             <!--市价和限价-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="165dp"
+                android:layout_height="148dp"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -650,6 +655,7 @@
                     android:visibility="visible">
                     <!--市价下单和杠杆选择-->
                     <LinearLayout
+                        android:id="@+id/layout_pop_market"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_36"
                         android:layout_marginLeft="@dimen/margin_10"
@@ -736,7 +742,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/margin_36"
                             android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_marginTop="@dimen/margin_15"
+                            android:layout_marginTop="@dimen/margin_12"
                             android:layout_marginRight="@dimen/margin_10"
                             android:background="@drawable/bg_kuang_second_color"
                             android:orientation="horizontal">
@@ -1002,7 +1008,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/margin_36"
                             android:layout_marginLeft="@dimen/margin_10"
-                            android:layout_marginTop="@dimen/margin_15"
+                            android:layout_marginTop="@dimen/margin_12"
                             android:layout_marginRight="@dimen/margin_10"
                             android:background="@drawable/bg_kuang_second_color"
                             android:orientation="horizontal">

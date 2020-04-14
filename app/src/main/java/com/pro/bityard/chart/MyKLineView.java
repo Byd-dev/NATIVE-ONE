@@ -34,7 +34,7 @@ public class MyKLineView extends View implements View.OnTouchListener, Handler.C
     //view显示的第一条数据在总数据list中的position
     private int startDataNum = 0;
     //首次加载显示的数据条数，可自行修改
-    private final int VIEW_DATA_NUM_INIT = 34;
+    private final int VIEW_DATA_NUM_INIT = 48;
     //放大时最少显示的数据条数，可自行修改
     private final int VIEW_DATA_NUM_MIN = 18;
     //缩小时最多显示的数据条数，可自行修改

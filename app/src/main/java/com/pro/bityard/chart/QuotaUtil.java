@@ -65,7 +65,9 @@ public class QuotaUtil {
         }
         double sum = 0;
         for (KData data : dataList) {
-            sum += data.getVolume();
+            if (data.getVolume()!=0){
+                sum += data.getVolume();
+            }
         }
         return sum / dataList.size();
     }

@@ -1,31 +1,17 @@
 package com.pro.bityard.manger;
 
-import android.os.Handler;
-import android.os.Message;
 import android.util.ArrayMap;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
-import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
-import com.pro.bityard.entity.InitEntity;
-import com.pro.bityard.entity.QuoteEntity;
-import com.pro.bityard.entity.TipEntity;
-import com.pro.bityard.entity.TradeListEntity;
-import com.pro.bityard.utils.TradeUtil;
-import com.pro.bityard.utils.Util;
-import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
@@ -51,19 +37,13 @@ public class ChargeUnitManger extends Observable {
     }
 
     public void chargeUnit(OnNetResult onNetResult) {
-        NetManger.getInstance().codeList(new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(SUCCESS)) {
-                    chargeUnit(response.toString(), new OnNetResult() {
-                        @Override
-                        public void onNetResult(String state, Object response) {
-                            if (state.equals(SUCCESS)) {
-                                onNetResult.onNetResult(SUCCESS, response.toString());
-                            }
-                        }
-                    });
-                }
+        NetManger.getInstance().codeList((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                chargeUnit(response.toString(), (state1, response1) -> {
+                    if (state1.equals(SUCCESS)) {
+                        onNetResult.onNetResult(SUCCESS, response1.toString());
+                    }
+                });
             }
         });
     }
@@ -80,8 +60,6 @@ public class ChargeUnitManger extends Observable {
     }
 
     public void chargeUnit(String codeList, OnNetResult onNetResult) {
-
-
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("code", codeList);
         String[] codeSplitList = codeList.split(";");

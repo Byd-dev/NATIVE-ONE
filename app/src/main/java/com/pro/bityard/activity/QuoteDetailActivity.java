@@ -181,11 +181,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     DecimalEditText edit_limit_margin;
 
 
-    @BindView(R.id.recyclerView_market)
+  /*  @BindView(R.id.recyclerView_market)
     RecyclerView recyclerView_market;
 
     @BindView(R.id.recyclerView_limit)
-    RecyclerView recyclerView_limit;
+    RecyclerView recyclerView_limit;*/
 
     @BindView(R.id.recyclerView_profit)
     RecyclerView recyclerView_profit;
@@ -278,6 +278,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     LinearLayout layout_limit;
     @BindView(R.id.text_lever_limit)
     TextView text_lever_limit;
+
+    @BindView(R.id.layout_pop_market)
+    LinearLayout layout_pop_market;
+
+    private TradeListEntity tradeListEntity;
 
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, QuoteDetailActivity.class);
@@ -391,8 +396,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.text_one_month).setOnClickListener(this);
 
         radioGroupAdapter = new RadioGroupAdapter(this);
-        recyclerView_market.setAdapter(radioGroupAdapter);
-        recyclerView_limit.setAdapter(radioGroupAdapter);
+        /*recyclerView_market.setAdapter(radioGroupAdapter);
+        recyclerView_limit.setAdapter(radioGroupAdapter);*/
 
         isDefer = SPUtils.getBoolean(AppConfig.KEY_DEFER, false);
         if (isDefer) {
@@ -624,7 +629,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         if (tradeListEntityList == null) {
             startHandler(handler, 0, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
         } else {
-            TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
             // Log.d("print", "initData:258:合约号:  " + tradeListEntity);
             setContent(tradeListEntity);
         }
@@ -728,7 +733,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
 
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
-            recyclerView_market.setLayoutManager(new GridLayoutManager(this, 3));
+           /* recyclerView_market.setLayoutManager(new GridLayoutManager(this, 3));
             recyclerView_limit.setLayoutManager(new GridLayoutManager(this, 3));
 
             radioGroupAdapter.setDatas(leverShowList);
@@ -759,7 +764,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     layout_lever_limit.setVisibility(View.GONE);
                 }
 
-            });
+            });*/
 
             edit_market_margin.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -1002,24 +1007,53 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.layout_market_lever_select:
-                if (layout_market.isShown()) {
-                    layout_market.setVisibility(View.GONE);
-                    layout_lever_market.setVisibility(View.VISIBLE);
-                } else {
-                    layout_market.setVisibility(View.VISIBLE);
-                    layout_lever_market.setVisibility(View.GONE);
-                }
-                break;
             case R.id.layout_limit_lever_select:
-                if (layout_limit.isShown()) {
-                    layout_limit.setVisibility(View.GONE);
-                    layout_lever_limit.setVisibility(View.VISIBLE);
-                } else {
-                    layout_limit.setVisibility(View.VISIBLE);
-                    layout_lever_limit.setVisibility(View.GONE);
-                }
+
+                showLeverWindow(tradeListEntity);
+
+
                 break;
         }
+    }
+
+
+    private int oldSelect = 0;
+
+    //选择杠杆
+    private void showLeverWindow(TradeListEntity tradeListEntity) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_lever_pop_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_market);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView.setAdapter(radioGroupAdapter);
+        if (tradeListEntity != null) {
+            List<Integer> leverShowList = tradeListEntity.getLeverShowList();
+            radioGroupAdapter.setDatas(leverShowList);
+
+            radioGroupAdapter.select(oldSelect);
+            lever = leverShowList.get(oldSelect);
+
+            radioGroupAdapter.setOnItemClick((position, data) -> {
+                lever = data;
+                oldSelect = position;
+                radioGroupAdapter.select(position);
+                recyclerView.setAdapter(radioGroupAdapter);
+                radioGroupAdapter.notifyDataSetChanged();
+                text_lever_market.setText(lever + "X");
+                text_lever_limit.setText(lever + "X");
+                popupWindow.dismiss();
+
+
+            });
+        }
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setContentView(view);
+        popupWindow.showAsDropDown(layout_pop_market, Gravity.CENTER, 0, 0);
     }
 
     private void showTip(String isBuy, String margin, String service) {
@@ -1056,7 +1090,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         popupWindow.setFocusable(false);
         popupWindow.setOutsideTouchable(false);
-        popupWindow.setAnimationStyle(R.style.pop_anim_quote);
+        // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 
@@ -1189,7 +1223,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             popupWindow.dismiss();
 
 
-            TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
+            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
 
             setContent(tradeListEntity);
 
@@ -1252,7 +1286,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         popupWindow.setFocusable(false);
         popupWindow.setOutsideTouchable(false);
-        popupWindow.setAnimationStyle(R.style.pop_anim_quote);
+        // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_bar);
     }
