@@ -258,7 +258,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.text_one_month)
     TextView text_one_month;
     private String[] titles = new String[]{"分时", "1分", "3分", "5分", "15分", "更多"};
-    private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData3MinHistory, kData60MinHistory, kData1DayHistory, kData1WeekHistory, kData1MonthHistory;
+    private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData3MinHistory, kData60MinHistory, kDataDayHistory;
 
 
     @BindView(R.id.layout_lever_market)
@@ -1480,11 +1480,34 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == QuoteDayCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData1DayHistory != null) {
+            if (kDataDayHistory != null) {
                 myKLineView_1D.addSingleData(kData.get(kData.size() - 1));
+
+
+            } else {
+                QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
+
+            }
+        } else if (o == QuoteDayCurrentManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            List<KData> kData = ChartUtil.klineList(data);
+            if (kDataDayHistory != null) {
+
 
                 kData.get(kData.size() - 1).setTime(ChartUtil.setWeekTime(kData));
                 myKLineView_1_week.addSingleData(kData.get(kData.size() - 1));
+
+
+            } else {
+                QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
+
+            }
+        } else if (o == QuoteDayCurrentManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            List<KData> kData = ChartUtil.klineList(data);
+            if (kDataDayHistory != null) {
+                myKLineView_1D.addSingleData(kData.get(kData.size() - 1));
+
 
                 kData.get(kData.size() - 1).setTime(ChartUtil.setMonthTime(kData));
                 myKLineView_1_month.addSingleData(kData.get(kData.size() - 1));
@@ -1554,15 +1577,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         } else if (o == QuoteDayHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
-            kData1DayHistory = ChartUtil.klineList(data);
-            if (kData1DayHistory != null) {
-                myKLineView_1D.initKDataList(kData1DayHistory);
+            kDataDayHistory = ChartUtil.klineList(data);
+            if (kDataDayHistory != null) {
+                myKLineView_1D.initKDataList(kDataDayHistory);
 
 
-                List<KData> weekList = ChartUtil.KlineWeekData(ChartUtil.getWeekKDataList(kData1DayHistory));
+                List<KData> weekList = ChartUtil.KlineWeekData(ChartUtil.getWeekKDataList(kDataDayHistory));
                 myKLineView_1_week.initKDataList(weekList);
 
-                List<KData> monthList = ChartUtil.KlineMonthData(ChartUtil.getMonthKDataList(kData1DayHistory));
+                List<KData> monthList = ChartUtil.KlineMonthData(ChartUtil.getMonthKDataList(kDataDayHistory));
                 myKLineView_1_month.initKDataList(monthList);
 
             } else {

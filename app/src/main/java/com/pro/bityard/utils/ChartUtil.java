@@ -68,35 +68,6 @@ public class ChartUtil {
         }
     }
 
-    /*判断当前时间是在同一区间*/
-    public static boolean isSameTime(List<KData> historyList, List<KData> refreshList, int times) {
-
-
-        long oldTime = historyList.get(historyList.size() - 1).getTime();
-        long nowTime = refreshList.get(refreshList.size() - 1).getTime();
-        String s = Util.stampToDate(oldTime);
-        Date date = parseServerTime(s);
-        String s1 = Util.stampToDate(nowTime);
-        Date date1 = parseServerTime(s1);
-        if (date == null) {
-            return false;
-        }
-        // 0.先把Date类型的对象转换Calendar类型的对象
-        Calendar todayCal = Calendar.getInstance();
-        todayCal.setFirstDayOfWeek(Calendar.MONDAY);
-        Calendar dateCal = Calendar.getInstance();
-        dateCal.setFirstDayOfWeek(Calendar.MONDAY);
-        todayCal.setTime(date1);
-        dateCal.setTime(date);
-        // nowTime-oldTime<=times*60*1000;
-        if (todayCal.get(Calendar.MINUTE) == dateCal.get(Calendar.MINUTE)
-                && todayCal.get(Calendar.YEAR) == dateCal.get(Calendar.YEAR)) {
-            return true;
-        } else {
-            return false;
-        }
-
-    }
 
     /*5分 获取当时时间戳的分钟 除5求余 比如7/5 余2 那就是把当前最新的数据设置成2分钟前的时间戳*/
     public static long setMinTime(List<KData> refreshList, int times) {
@@ -154,7 +125,6 @@ public class ChartUtil {
 
         int a = Integer.parseInt(split[2]) % dayOfMonth;
 
-        Log.d(TAG, "setMonthTime: " + split[2] + "     " + a);
         if (a == 0) {
             time = nowTime;
         } else {
