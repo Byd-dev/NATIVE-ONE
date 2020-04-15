@@ -600,7 +600,7 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
             }
             KData endLastData = endDataList.get(endDataList.size() - 1);
             int totalSize = totalDataList.size();
-            if (totalSize>=1){
+            if (totalSize >= 1) {
                 KData totalLastData = totalDataList.get(totalSize - 1);
                 if (endLastData.getTime() == totalLastData.getTime()) {
                     totalDataList.remove(totalSize - 1);
