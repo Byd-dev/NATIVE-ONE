@@ -451,7 +451,6 @@ public class NetManger {
                             count++;
                         }
                         onNetResult.onNetResult(FAILURE, null);
-
                     }
                 });
             } else {

@@ -600,17 +600,19 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
             }
             KData endLastData = endDataList.get(endDataList.size() - 1);
             int totalSize = totalDataList.size();
-            KData totalLastData = totalDataList.get(totalSize - 1);
-            if (endLastData.getTime() == totalLastData.getTime()) {
-                totalDataList.remove(totalSize - 1);
-            }
-            totalDataList.add(endLastData);
-            if (totalSize >= maxViewDataNum
-                    && startDataNum == totalSize - maxViewDataNum - 1) {
-                startDataNum++;
-                resetViewData();
-            } else {
-                resetViewData();
+            if (totalSize>=1){
+                KData totalLastData = totalDataList.get(totalSize - 1);
+                if (endLastData.getTime() == totalLastData.getTime()) {
+                    totalDataList.remove(totalSize - 1);
+                }
+                totalDataList.add(endLastData);
+                if (totalSize >= maxViewDataNum
+                        && startDataNum == totalSize - maxViewDataNum - 1) {
+                    startDataNum++;
+                    resetViewData();
+                } else {
+                    resetViewData();
+                }
             }
         }
         return false;
