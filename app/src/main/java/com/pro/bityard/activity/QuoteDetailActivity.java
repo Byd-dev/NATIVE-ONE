@@ -43,20 +43,16 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.Quote15MinCurrentManger;
 import com.pro.bityard.manger.Quote15MinHistoryManger;
-import com.pro.bityard.manger.Quote1DayCurrentManger;
-import com.pro.bityard.manger.Quote1DayHistoryManger;
 import com.pro.bityard.manger.Quote1MinCurrentManger;
 import com.pro.bityard.manger.Quote1MinHistoryManger;
-import com.pro.bityard.manger.Quote1MonthCurrentManger;
-import com.pro.bityard.manger.Quote1MonthHistoryManger;
-import com.pro.bityard.manger.Quote1WeekCurrentManger;
-import com.pro.bityard.manger.Quote1WeekHistoryManger;
 import com.pro.bityard.manger.Quote3MinCurrentManger;
 import com.pro.bityard.manger.Quote3MinHistoryManger;
 import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
+import com.pro.bityard.manger.QuoteDayCurrentManger;
+import com.pro.bityard.manger.QuoteDayHistoryManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.TagManger;
@@ -355,18 +351,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote15MinCurrentManger.getInstance().addObserver(this);//15min 实时
         Quote3MinCurrentManger.getInstance().addObserver(this);//30min 实时
         Quote60MinCurrentManger.getInstance().addObserver(this);//60min 实时
-        Quote1DayCurrentManger.getInstance().addObserver(this);//1day 实时
-        Quote1WeekCurrentManger.getInstance().addObserver(this);//1week 实时
-        Quote1MonthCurrentManger.getInstance().addObserver(this);//1month 实时
+        QuoteDayCurrentManger.getInstance().addObserver(this);//1day 实时
+
 
         Quote1MinHistoryManger.getInstance().addObserver(this);
         Quote5MinHistoryManger.getInstance().addObserver(this);
         Quote15MinHistoryManger.getInstance().addObserver(this);
         Quote3MinHistoryManger.getInstance().addObserver(this);
         Quote60MinHistoryManger.getInstance().addObserver(this);
-        Quote1DayHistoryManger.getInstance().addObserver(this);
-        Quote1WeekHistoryManger.getInstance().addObserver(this);
-        Quote1MonthHistoryManger.getInstance().addObserver(this);
+        QuoteDayHistoryManger.getInstance().addObserver(this);
+
 
         BalanceManger.getInstance().getBalance("USDT");
 
@@ -607,9 +601,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
         Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
         Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        Quote1WeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        Quote1MonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+        QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+
         //开启单个刷新
         //  QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         //开启单个行情图
@@ -618,9 +611,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        Quote1DayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        Quote1WeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        Quote1MonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
 
         //合约号
         tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
@@ -1205,18 +1196,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
             Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
             Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote1DayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote1WeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote1MonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
 
             Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -1);
             Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
             Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
             Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
             Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote1WeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote1MonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
+            QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
+
 
             //相应选择
             quotePopAdapter.select(itemQuoteContCode(data));
@@ -1489,35 +1477,20 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
 
             }
-        } else if (o == Quote1DayCurrentManger.getInstance()) {
+        } else if (o == QuoteDayCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
             if (kData1DayHistory != null) {
                 myKLineView_1D.addSingleData(kData.get(kData.size() - 1));
-            } else {
-                Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
 
-            }
-        } else if (o == Quote1WeekCurrentManger.getInstance()) {
-            QuoteChartEntity data = (QuoteChartEntity) arg;
-            List<KData> kData = ChartUtil.klineList(data);
-
-            if (kData1WeekHistory != null) {
                 kData.get(kData.size() - 1).setTime(ChartUtil.setWeekTime(kData));
                 myKLineView_1_week.addSingleData(kData.get(kData.size() - 1));
-            } else {
-                Quote1WeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
 
-            }
-        } else if (o == Quote1MonthCurrentManger.getInstance()) {
-            QuoteChartEntity data = (QuoteChartEntity) arg;
-            List<KData> kData = ChartUtil.klineList(data);
-
-            if (kData1MonthHistory != null) {
                 kData.get(kData.size() - 1).setTime(ChartUtil.setMonthTime(kData));
                 myKLineView_1_month.addSingleData(kData.get(kData.size() - 1));
+
             } else {
-                Quote1MonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
+                QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
 
             }
         }
@@ -1579,35 +1552,22 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             }
 
-        } else if (o == Quote1DayHistoryManger.getInstance()) {
+        } else if (o == QuoteDayHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kData1DayHistory = ChartUtil.klineList(data);
             if (kData1DayHistory != null) {
                 myKLineView_1D.initKDataList(kData1DayHistory);
+
+
+                List<KData> weekList = ChartUtil.KlineWeekData(ChartUtil.getWeekKDataList(kData1DayHistory));
+                myKLineView_1_week.initKDataList(weekList);
+
+                List<KData> monthList = ChartUtil.KlineMonthData(ChartUtil.getMonthKDataList(kData1DayHistory));
+                myKLineView_1_month.initKDataList(monthList);
+
             } else {
-                Quote1DayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
+                QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
 
-            }
-
-        } else if (o == Quote1WeekHistoryManger.getInstance()) {
-            QuoteChartEntity data = (QuoteChartEntity) arg;
-            kData1WeekHistory = ChartUtil.klineList(data);
-            if (kData1WeekHistory != null) {
-                List<KData> list2 = ChartUtil.KlineWeekData(ChartUtil.getWeekKDataList(kData1WeekHistory));
-                myKLineView_1_week.initKDataList(list2);
-            } else {
-                Quote1WeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
-
-            }
-
-        } else if (o == Quote1MonthHistoryManger.getInstance()) {
-            QuoteChartEntity data = (QuoteChartEntity) arg;
-            kData1MonthHistory = ChartUtil.klineList(data);
-            if (kData1MonthHistory != null) {
-                List<KData> list2 = ChartUtil.KlineMonthData(ChartUtil.getMonthKDataList(kData1MonthHistory));
-                myKLineView_1_month.initKDataList(list2);
-            } else {
-                Quote1MonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
             }
 
         }
@@ -1639,10 +1599,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         Quote3MinHistoryManger.getInstance().cancelTimer();
         Quote60MinHistoryManger.getInstance().clear();
         Quote60MinHistoryManger.getInstance().cancelTimer();
-        Quote1WeekCurrentManger.getInstance().clear();
-        Quote1WeekCurrentManger.getInstance().cancelTimer();
-        Quote1MonthCurrentManger.getInstance().clear();
-        Quote1MonthCurrentManger.getInstance().cancelTimer();
+
 
         myKLineView_1Min.cancelQuotaThread();
         myKLineView_5Min.cancelQuotaThread();

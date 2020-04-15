@@ -17,25 +17,25 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class Quote1WeekHistoryManger extends Observable {
+public class QuoteDayHistoryManger extends Observable {
 
 
-    private static Quote1WeekHistoryManger quote1WeekHistoryManger;
+    private static QuoteDayHistoryManger quoteDayHistoryManger;
 
     private String code;
     private int count;
 
 
-    public static Quote1WeekHistoryManger getInstance() {
-        if (quote1WeekHistoryManger == null) {
-            synchronized (Quote1WeekHistoryManger.class) {
-                if (quote1WeekHistoryManger == null) {
-                    quote1WeekHistoryManger = new Quote1WeekHistoryManger();
+    public static QuoteDayHistoryManger getInstance() {
+        if (quoteDayHistoryManger == null) {
+            synchronized (QuoteDayHistoryManger.class) {
+                if (quoteDayHistoryManger == null) {
+                    quoteDayHistoryManger = new QuoteDayHistoryManger();
                 }
             }
 
         }
-        return quote1WeekHistoryManger;
+        return quoteDayHistoryManger;
 
     }
 
@@ -75,8 +75,7 @@ public class Quote1WeekHistoryManger extends Observable {
         }
     }
 
-    int getCount = 0;
-
+    int getCount=0;
     public void quote(String quote_code, int count) {
 
         NetManger.getInstance().getQuoteHistory("http://app.bityard.com", count, "/api/tv/tradingView/history", quote_code, "D", (state, response) -> {
@@ -86,7 +85,7 @@ public class Quote1WeekHistoryManger extends Observable {
 
                 QuoteChartEntity quoteChartEntity = new Gson().fromJson(response.toString(), QuoteChartEntity.class);
                 if (quoteChartEntity.getS().equals("ok")) {
-                    Log.d("print", "quote:88 " + "1week:" + getCount++);
+                    Log.d("print", "quote:88 "+"60Min:"+getCount++);
 
                     postQuote(quoteChartEntity);
                     cancelTimer();
@@ -111,7 +110,7 @@ public class Quote1WeekHistoryManger extends Observable {
      */
     public void clear() {
         deleteObservers();
-        quote1WeekHistoryManger = null;
+        quoteDayHistoryManger = null;
     }
 
 

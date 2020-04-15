@@ -18,24 +18,24 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class Quote1MonthCurrentManger extends Observable {
+public class QuoteDayCurrentManger extends Observable {
 
 
-    private static Quote1MonthCurrentManger quote1MonthCurrentManger;
+    private static QuoteDayCurrentManger quoteDayCurrentManger;
 
     private String code;
 
 
-    public static Quote1MonthCurrentManger getInstance() {
-        if (quote1MonthCurrentManger == null) {
-            synchronized (Quote1MonthCurrentManger.class) {
-                if (quote1MonthCurrentManger == null) {
-                    quote1MonthCurrentManger = new Quote1MonthCurrentManger();
+    public static QuoteDayCurrentManger getInstance() {
+        if (quoteDayCurrentManger == null) {
+            synchronized (QuoteDayCurrentManger.class) {
+                if (quoteDayCurrentManger == null) {
+                    quoteDayCurrentManger = new QuoteDayCurrentManger();
                 }
             }
 
         }
-        return quote1MonthCurrentManger;
+        return quoteDayCurrentManger;
 
     }
 
@@ -115,7 +115,7 @@ public class Quote1MonthCurrentManger extends Observable {
      */
     public void clear() {
         deleteObservers();
-        quote1MonthCurrentManger = null;
+        quoteDayCurrentManger = null;
     }
 
 
