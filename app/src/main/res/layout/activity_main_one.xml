@@ -52,7 +52,6 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_gravity="center"
-            android:background="@mipmap/tab_bg"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 

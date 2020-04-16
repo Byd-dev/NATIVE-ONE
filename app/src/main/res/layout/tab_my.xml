@@ -338,7 +338,7 @@
                             android:gravity="center"
                             android:text="安全中心"
                             android:textColor="@color/text_maincolor"
-                            android:textSize="@dimen/size_normal"
+                            android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
 
                         <ImageView
@@ -373,7 +373,7 @@
                             android:text="资金明细"
                             android:textColor="@color/text_maincolor"
 
-                            android:textSize="@dimen/size_normal"
+                            android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
 
                         <ImageView
@@ -408,7 +408,42 @@
                             android:text="代理记录"
                             android:textColor="@color/text_maincolor"
 
-                            android:textSize="@dimen/size_normal"
+                            android:textSize="@dimen/size_normal_two"
+                            android:typeface="monospace" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/margin_15"
+                            android:src="@mipmap/icon_right_gray" />
+
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_line"
+                        android:background="@color/home_line" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_trade_record"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:drawableLeft="@mipmap/icon_my_record"
+                            android:drawablePadding="@dimen/margin_16"
+                            android:gravity="center"
+                            android:text="代理记录"
+                            android:textColor="@color/text_maincolor"
+
+                            android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
 
                         <ImageView
@@ -443,7 +478,7 @@
                             android:text="交易设置"
                             android:textColor="@color/text_maincolor"
 
-                            android:textSize="@dimen/size_normal"
+                            android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
 
                         <ImageView
@@ -478,7 +513,42 @@
                             android:text="提币地址管理"
 
                             android:textColor="@color/text_maincolor"
-                            android:textSize="@dimen/size_normal"
+                            android:textSize="@dimen/size_normal_two"
+                            android:typeface="monospace" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/margin_15"
+                            android:src="@mipmap/icon_right_gray" />
+
+
+                    </RelativeLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_line"
+                        android:background="@color/home_line" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_service"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:drawableLeft="@mipmap/icon_my_service"
+                            android:drawablePadding="@dimen/margin_16"
+                            android:gravity="center"
+                            android:text="@string/text_my_service"
+                            android:textColor="@color/text_maincolor"
+
+                            android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
 
                         <ImageView
@@ -513,7 +583,7 @@
                             android:text="系统设置"
                             android:textColor="@color/text_maincolor"
 
-                            android:textSize="@dimen/size_normal"
+                            android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
 
                         <ImageView
@@ -548,7 +618,7 @@
                             android:text="最新公告"
                             android:textColor="@color/text_maincolor"
 
-                            android:textSize="@dimen/size_normal"
+                            android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
 
                         <ImageView

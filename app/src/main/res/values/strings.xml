@@ -74,8 +74,8 @@
     <string name="text_japan_second">Japanese</string>
     <string name="text_korean">한국어</string>
     <string name="text_korean_second">Korean</string>
-    <string name="text_real">实盘</string>
-    <string name="text_simulation">模拟</string>
+    <string name="text_real">实盘持仓</string>
+    <string name="text_simulation">模拟持仓</string>
     <string name="text_available">可用(USDT)</string>
     <string name="text_freeze">冻结(USDT)</string>
     <string name="text_worth">净值(USDT)</string>
@@ -173,5 +173,6 @@
     <string name="text_1week">1周</string>
     <string name="text_1month">1月</string>
     <string name="text_lever_select">选择杠杆</string>
+    <string name="text_my_service">在线客服</string>
 
 </resources>
