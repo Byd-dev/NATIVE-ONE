@@ -9,6 +9,7 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -48,6 +49,7 @@ import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.view.StatusBarHeightView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
@@ -91,6 +93,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @BindView(R.id.radio_2)
     RadioButton radioButton_2;
 
+
     /*首页-------------------------------------------------------------*/
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
@@ -116,7 +119,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     SwipeRefreshLayout swipeRefreshLayout_market;
 
     @BindView(R.id.recyclerView_market)
-    RecyclerView recyclerView_market;
+    HeaderRecyclerView recyclerView_market;
 
     private QuoteAdapter quoteAdapter_market;
 
@@ -517,6 +520,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         quoteAdapter = new QuoteAdapter(this);
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_list.setAdapter(quoteAdapter);
+
+
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::getBanner);
@@ -529,6 +534,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         quoteAdapter_market = new QuoteAdapter(this);
         recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_market.setAdapter(quoteAdapter_market);
+        View footView = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null);
+
+        recyclerView_market.addFooterView(footView);
 
 
         findViewById(R.id.layout_new_price).setOnClickListener(this);
@@ -585,7 +593,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         initViewPager(viewPager, "1");
 
         /*持仓 模拟 分割线-----------------------------------------------------------------------------*/
-        //持仓注册
         PositionSimulationManger.getInstance().addObserver(this);
         viewPager_simulation.setOffscreenPageLimit(3);
         tabLayout_simulation.setupWithViewPager(viewPager_simulation);

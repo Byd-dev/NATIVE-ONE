@@ -123,7 +123,6 @@ dependencies {
     // skin-support-constraint-layout ConstraintLayout 控件支持[可选]
     //人机验证
     api 'com.tencent.tbs.tbssdk:sdk:43697'
-    implementation 'com.squareup.okhttp3:okhttp:4.4.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.5.0'
     implementation(name: 'geetest_sensebot_android_v4.1.8_20191218', ext: 'aar')
-
 }

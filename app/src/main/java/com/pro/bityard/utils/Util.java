@@ -9,6 +9,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 
 import com.pro.bityard.api.Constant;
 import com.pro.bityard.config.AppConfig;
@@ -231,6 +232,11 @@ public class Util {
         }
         long ts = date.getTime() / 1000;
         return String.valueOf(ts);
+    }
+
+    public static void changeViewVisibilityGone(View view) {
+        if (view != null && view.getVisibility() == View.VISIBLE)
+            view.setVisibility(View.GONE);
     }
 
     public static Long dateToStampLong(String s) {

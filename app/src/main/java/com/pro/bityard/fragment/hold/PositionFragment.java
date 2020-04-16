@@ -135,6 +135,10 @@ public class PositionFragment extends BaseFragment implements Observer {
         headerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         headView = LayoutInflater.from(getContext()).inflate(R.layout.item_position_head_layout, null);
 
+        View footView = LayoutInflater.from(getContext()).inflate(R.layout.tab_foot_view, null);
+
+        headerRecyclerView.addFooterView(footView);
+
         text_incomeAll = headView.findViewById(R.id.text_total_profit_loss);
         /*一键平仓*/
         headView.findViewById(R.id.text_close_all).setOnClickListener(v -> NetManger.getInstance().closeAll(TradeUtil.positionIdList(positionEntity), tradeType, new OnNetResult() {
@@ -367,7 +371,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
-       // popupWindow.setAnimationStyle(R.style.pop_anim);
+        // popupWindow.setAnimationStyle(R.style.pop_anim);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 
@@ -969,7 +973,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
-       // popupWindow.setAnimationStyle(R.style.pop_anim);
+        // popupWindow.setAnimationStyle(R.style.pop_anim);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 

@@ -121,7 +121,20 @@
 
 
 
-
+    <declare-styleable name="One_StyleBottomLayout">
+        <attr name="oneItemPadding" format="dimension"></attr>
+        <attr name="oneItemIconTint" format="reference"></attr>
+        <attr name="oneItemIconWidth" format="dimension"></attr>
+        <attr name="oneItemIconHeight" format="dimension"></attr>
+        <attr name="oneItemTextColor" format="reference"></attr>
+        <attr name="oneItemTopLineColor" format="reference"></attr>
+        <attr name="oneItemTextSize" format="dimension"></attr>
+        <attr name="oneItemTextTopMargin" format="dimension"></attr>
+        <attr name="oneFloatingEnable" format="boolean"></attr>
+        <attr name="oneFloatingPadding" format="dimension"></attr>
+        <attr name="oneFloatingUp" format="dimension"></attr>
+        <attr name="oneMenu" format="reference"></attr>
+    </declare-styleable>
 
 
 

@@ -2,6 +2,7 @@ package com.pro.bityard.fragment.hold;
 
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -79,7 +80,9 @@ public class PendingFragment extends BaseFragment implements Observer {
         pendingAdapter = new PendingAdapter(getContext());
 
         headerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        View footView = LayoutInflater.from(getContext()).inflate(R.layout.tab_foot_view, null);
 
+        headerRecyclerView.addFooterView(footView);
         headerRecyclerView.setAdapter(pendingAdapter);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

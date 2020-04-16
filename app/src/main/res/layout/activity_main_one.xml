@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:context=".activity.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/layout_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,8 +17,7 @@
         <com.pro.bityard.view.StatusBarHeightView
             android:id="@+id/layout_status"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             app:use_type="use_padding_top">
 
@@ -38,8 +37,7 @@
         <LinearLayout
             android:id="@+id/layout_my"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:visibility="gone">
 
@@ -47,17 +45,32 @@
 
         </LinearLayout>
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="70dp"
-            android:orientation="vertical">
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+
+            <com.pro.bityard.view.TabView
+                android:id="@+id/tabView"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@null"
+                app:outViewDistance="60dp"
+                app:outViewLineColor="@color/color_bg_left"
+                app:outViewLineHeight="0.5dp"
+                app:outViewOffsetAngle="30" />
 
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_50"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/margin_8"
+                android:layout_marginBottom="@dimen/margin_10"
+                android:background="@color/color_bg_left"
                 android:orientation="horizontal">
 
                 <RadioButton
@@ -148,18 +161,15 @@
 
             </RadioGroup>
 
-            <com.pro.bityard.view.TabView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
-                android:background="@null"
-                app:outViewDistance="60dp"
-                app:outViewLineColor="@color/home_line"
-                app:outViewLineHeight="0.5dp"
-                app:outViewOffsetAngle="30" />
+                android:layout_height="@dimen/margin_10"
+                android:layout_alignParentBottom="true"
+                android:background="@color/color_bg_left" />
 
 
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

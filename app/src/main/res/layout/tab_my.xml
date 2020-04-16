@@ -637,6 +637,10 @@
                         android:layout_height="@dimen/size_line"
                         android:background="@color/home_line" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"/>
+
                 </LinearLayout>
 
                 <!-- </LinearLayout>-->

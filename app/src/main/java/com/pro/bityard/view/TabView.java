@@ -86,8 +86,9 @@ public class TabView extends View {
         int stopX = (getWidth() - mDistance) / 2;
         canvas.drawLine(0, y, stopX, y, mPaint);
         // 画圆
-        mPaint.setStyle(Paint.Style.STROKE);
-        canvas.drawCircle(getWidth() / 2, getHeight() +mOffsetY, mRadius, mPaint);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(mLineColor);
+        canvas.drawCircle(getWidth() / 2, getHeight() + mOffsetY, mRadius, mPaint);
         // 画线
         mPaint.setStyle(Paint.Style.FILL);
         canvas.drawLine(stopX + mDistance, y, getWidth(), y, mPaint);

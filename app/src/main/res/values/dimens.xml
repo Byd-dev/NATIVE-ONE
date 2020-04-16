@@ -37,4 +37,6 @@
     <dimen name="size_radius">2dp</dimen>
     <dimen name="size_frame">0.5dp</dimen>
     <dimen name="margin_12">12dp</dimen>
+
+
 </resources>

@@ -2,6 +2,7 @@ package com.pro.bityard.fragment.hold;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 
 import com.pro.bityard.R;
@@ -64,7 +65,9 @@ public class HistoryFragment extends BaseFragment {
     protected void initView(View view) {
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        View footView = LayoutInflater.from(getContext()).inflate(R.layout.tab_foot_view, null);
 
+        headerRecyclerView.addFooterView(footView);
         historyAdapter = new HistoryAdapter(getContext());
 
         headerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -102,7 +105,7 @@ public class HistoryFragment extends BaseFragment {
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
                     HistoryEntity historyEntity = (HistoryEntity) response;
-                    Log.d("print", "onNetResult:105:  "+historyEntity.getData().get(0));
+                    Log.d("print", "onNetResult:105:  " + historyEntity.getData().get(0));
                     historyAdapter.setDatas(historyEntity.getData());
 
 
