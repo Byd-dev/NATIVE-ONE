@@ -78,4 +78,16 @@
         <attr name="maxDouble" format="float" />
         <attr name="minDouble" format="float" />
     </declare-styleable>
+
+
+    <declare-styleable name="TabView">
+        <!--线的颜色-->
+        <attr name="outViewLineColor" format="color" />
+        <!--线的高度-->
+        <attr name="outViewLineHeight" format="dimension" />
+        <!--圆中间的距离-->
+        <attr name="outViewDistance" format="dimension" />
+        <!--偏移的角度-->
+        <attr name="outViewOffsetAngle" format="float" />
+    </declare-styleable>
 </resources>
