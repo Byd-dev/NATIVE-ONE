@@ -133,8 +133,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initData() {
 
-        String text_email = SPUtils.getString(AppConfig.USER_EMAIL,null);
-        if (text_email!=null) {
+        String text_email = SPUtils.getString(AppConfig.USER_EMAIL, null);
+        if (text_email != null) {
             edit_account.setText(text_email);
         }
 
@@ -194,8 +194,9 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                         map.put("username", account_value);
                         map.put("password", pass_value);
                         map.put("geetestToken", geetestToken);
+                        map.put("terminal", "Android");
 
-                        NetManger.getInstance().postRequest("/api/sso/user_login_check",map, new OnNetResult() {
+                        NetManger.getInstance().postRequest("/api/sso/user_login_check", map, new OnNetResult() {
                             @Override
                             public void onNetResult(String state, Object response) {
                                 if (state.equals(BUSY)) {
@@ -212,7 +213,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
 
                                         //登录成功 初始化
-                                      TagManger.getInstance().tag();
+                                        TagManger.getInstance().tag();
 
 
                                     } else if (loginEntity.getCode() == 401) {
@@ -244,7 +245,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.text_forget_pass:
-                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET,0);
+                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET, 0);
                 break;
 
         }

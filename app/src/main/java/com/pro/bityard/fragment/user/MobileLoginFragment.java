@@ -260,6 +260,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                         map.put("password", pass_value);
                         map.put("contryCode", code_value);
                         map.put("geetestToken", geetestToken);
+                        map.put("terminal", "Android");
 
                         NetManger.getInstance().postRequest("/api/sso/user_login_check", map, new OnNetResult() {
                             @Override
