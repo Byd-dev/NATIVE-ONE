@@ -829,39 +829,114 @@ public class NetManger {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("src", src);
         map.put("des", des);
-        getRequest("/api/home/currency/rate", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.onNetResult(BUSY, null);
-                } else if (state.equals(SUCCESS)) {
+        getRequest("/api/home/currency/rate", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
 
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 401) {
-                        onNetResult.onNetResult(FAILURE, null);
-                    } else if (tipEntity.getCode() == 200) {
-                        RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else if (tipEntity.getCode() == 200) {
+                    RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
 
-                        if (moneyType.equals("1")) {
-                            double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
-                            // Log.d("print", "onNetResult:595实盘:  "+mul);
-                            onNetResult.onNetResult(SUCCESS, mul);
-                        } else {
-                            double mul = TradeUtil.mul(dataBean.getGame(), rateEntity.getRate());
-                            // Log.d("print", "onNetResult:595虚拟:  "+mul);
-                            onNetResult.onNetResult(SUCCESS, mul);
-                        }
-
-
+                    if (moneyType.equals("1")) {
+                        double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
+                        // Log.d("print", "onNetResult:595实盘:  "+mul);
+                        onNetResult.onNetResult(SUCCESS, mul);
+                    } else {
+                        double mul = TradeUtil.mul(dataBean.getGame(), rateEntity.getRate());
+                        // Log.d("print", "onNetResult:595虚拟:  "+mul);
+                        onNetResult.onNetResult(SUCCESS, mul);
                     }
 
-                } else if (state.equals(FAILURE)) {
-                    onNetResult.onNetResult(FAILURE, null);
 
                 }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
             }
         });
     }
 
+    /*获得汇率*/
+    public void getItemRate(String moneyType, String des, OnResult onResult) {
+
+        NetManger.getInstance().ItemRate(moneyType, "USDT", des, (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                onResult.setResult(response);
+            }
+        });
+    }
+
+    /*获得币种列表*/
+    /*public void getRateList(String moneyType, String des, OnNetResult onNetResult) {
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("src", src);
+        map.put("des", des);
+        getRequest("/api/home/currency/list", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else if (tipEntity.getCode() == 200) {
+                    RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
+
+                    if (moneyType.equals("1")) {
+
+                        onNetResult.onNetResult(SUCCESS, rateEntity.getRate());
+                    } else {
+                        onNetResult.onNetResult(SUCCESS, rateEntity.getRate());
+                    }
+
+
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }*/
+
+    public void ItemRate(String moneyType, String src, String des, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("src", src);
+        map.put("des", des);
+        getRequest("/api/home/currency/rate", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else if (tipEntity.getCode() == 200) {
+                    RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
+
+                    if (moneyType.equals("1")) {
+                        // double mul = TradeUtil.mul(money, rateEntity.getRate());
+                        // Log.d("print", "onNetResult:595实盘:  "+mul);
+                        onNetResult.onNetResult(SUCCESS, rateEntity.getRate());
+                    } else {
+                        // double mul = TradeUtil.mul(money, rateEntity.getRate());
+                        // Log.d("print", "onNetResult:595虚拟:  "+mul);
+                        onNetResult.onNetResult(SUCCESS, rateEntity.getRate());
+                    }
+
+
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
 
 }

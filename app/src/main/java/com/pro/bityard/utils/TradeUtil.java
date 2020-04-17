@@ -229,13 +229,10 @@ public class TradeUtil {
             double opPrice = dataBean.getOpPrice();
             double volume = dataBean.getVolume();
             double serviceCharge = dataBean.getServiceCharge();
-            TradeUtil.price(quoteList, dataBean.getContractCode(), new TradeResult() {
-                @Override
-                public void setResult(Object response) {
-                    String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume);
-                    String s = netIncome(Double.parseDouble(income1), serviceCharge);
-                    incomeList.add(Double.parseDouble(s));
-                }
+            TradeUtil.price(quoteList, dataBean.getContractCode(), response -> {
+                String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume);
+                String s = netIncome(Double.parseDouble(income1), serviceCharge);
+                incomeList.add(Double.parseDouble(s));
             });
         }
         if (incomeList.size() > 0) {
@@ -495,20 +492,19 @@ public class TradeUtil {
 
     }
 
+
+
     /*价格从小到大*/
     public static List<String> priceLowToHigh(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
-        Collections.sort(quoteList, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                String[] split1 = o1.split(",");
-                String[] split2 = o2.split(",");
-                double sub = TradeUtil.sub(Double.parseDouble(split1[2]), Double.parseDouble(split2[2]));
-                if (sub == 0) {
-                    return (int) TradeUtil.sub(Double.parseDouble(split2[2]), Double.parseDouble(split1[2]));
-                }
-                return (int) sub;
+        Collections.sort(quoteList, (o1, o2) -> {
+            String[] split1 = o1.split(",");
+            String[] split2 = o2.split(",");
+            double sub = TradeUtil.sub(Double.parseDouble(split1[2]), Double.parseDouble(split2[2]));
+            if (sub == 0) {
+                return (int) TradeUtil.sub(Double.parseDouble(split2[2]), Double.parseDouble(split1[2]));
             }
+            return (int) sub;
         });
         for (String quote : quoteList) {
             quoteList2.add(quote);

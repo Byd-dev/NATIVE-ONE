@@ -136,14 +136,11 @@ public class HoldRealFragment extends BaseFragment implements Observer {
                 }
             });
 
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (tradeType.equals("1") && text_balance != null) {
-                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                            if (data.getCurrency().equals("USDT")) {
-                                text_balance.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
-                            }
+            runOnUiThread(() -> {
+                if (tradeType.equals("1") && text_balance != null) {
+                    for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                        if (data.getCurrency().equals("USDT")) {
+                            text_balance.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
                         }
                     }
                 }
@@ -151,23 +148,20 @@ public class HoldRealFragment extends BaseFragment implements Observer {
         } else if (o == PositionRealManger.getInstance()) {
             List<PositionEntity.DataBean> positionList= (List<PositionEntity.DataBean>) arg;
          //   PositionEntity positionEntity = (PositionEntity) arg;
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    if (text_freeze != null) {
-                        TradeUtil.getMargin(positionList, new TradeResult() {
-                            @Override
-                            public void setResult(Object response) {
-                                if (response == null) {
-                                    text_freeze.setText("--.--");
-                                } else {
-                                    text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
-
-                                }
+            runOnUiThread(() -> {
+                if (text_freeze != null) {
+                    TradeUtil.getMargin(positionList, new TradeResult() {
+                        @Override
+                        public void setResult(Object response) {
+                            if (response == null) {
+                                text_freeze.setText("--.--");
+                            } else {
+                                text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
 
                             }
-                        });
-                    }
+
+                        }
+                    });
                 }
             });
         } else if (o == NetIncomeManger.getInstance()) {

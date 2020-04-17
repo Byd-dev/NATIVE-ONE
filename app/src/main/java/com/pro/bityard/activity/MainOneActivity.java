@@ -17,7 +17,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
@@ -32,21 +31,19 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BannerEntity;
-import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
 import com.pro.bityard.fragment.hold.PositionFragment;
 import com.pro.bityard.manger.BalanceManger;
-import com.pro.bityard.manger.ChargeUnitManger;
+import com.pro.bityard.manger.InitManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.TagManger;
-import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -179,6 +176,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @BindView(R.id.text_balance)
     TextView text_balance;
+    @BindView(R.id.text_balance_currency)
+    TextView text_balance_currency;
 
     @BindView(R.id.img_eye_switch)
     ImageView img_eye_switch;
@@ -588,7 +587,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         QuoteListManger.getInstance().addObserver(this);
 
-        //获取国家code
+       /* //获取国家code
         NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
             if (state.equals(SUCCESS)) {
                 CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
@@ -596,6 +595,13 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
             }
         });
+
+        //获取USDT兑换CNY汇率
+        NetManger.getItemRate("1", response -> {
+            Log.d("print", "initData:603:  "+response);
+        });
+
+
         //合约号初始化
         TradeListManger.getInstance().tradeList((state, response) -> {
             if (state.equals(SUCCESS)) {
@@ -604,11 +610,10 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         });
 
 
-        /*手续费*/
+        *//*手续费*//*
         ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
             if (state.equals(SUCCESS)) {
                 Toast.makeText(MainOneActivity.this, "手续费获取成功", Toast.LENGTH_SHORT).show();
-
             }
         });
         //行情
@@ -620,13 +625,26 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         } else {
             assert quote_host != null;
             QuoteListManger.getInstance().quote(quote_host, quote_code);
-        }
+        }*/
+
+        InitManger.getInstance().init();
 
         radioButton_2.setOnClickListener(this);
 
 
         //首页 -------------------------------------------------------------------------------------
         getBanner();
+        if (balanceEntity != null) {
+            for (BalanceEntity.DataBean data1 : balanceEntity.getData()) {
+                if (data1.getCurrency().equals("USDT")) {
+                    String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                    text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data1.getMoney(), Double.parseDouble(string)), 2));
+
+
+                }
+            }
+        }
+        //我的
 
     }
 
@@ -754,6 +772,16 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 layout_real.setVisibility(View.GONE);
                 layout_simulation.setVisibility(View.GONE);
 
+
+                if (balanceEntity != null) {
+                    for (BalanceEntity.DataBean data1 : balanceEntity.getData()) {
+                        if (data1.getCurrency().equals("USDT")) {
+                            String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                            text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data1.getMoney(), Double.parseDouble(string)), 2));
+                        }
+                    }
+                }
+
                 break;
         }
     }
@@ -845,6 +873,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 if (isEyeOpen) {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     text_balance.setText("***");
+                    text_balance_currency.setText("**");
                     isEyeOpen = false;
                 } else {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
@@ -853,10 +882,18 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                         for (BalanceEntity.DataBean data1 : balanceEntity.getData()) {
                             if (data1.getCurrency().equals("USDT")) {
                                 text_balance.setText(TradeUtil.getNumberFormat(data1.getMoney(), 2));
+
+                                String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                                text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data1.getMoney(), Double.parseDouble(string)), 2));
                             }
                         }
 
+
+                    } else {
+                        text_balance.setText("0.00");
+                        text_balance_currency.setText("0.0");
                     }
+
 
                 }
 

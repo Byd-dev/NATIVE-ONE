@@ -41,6 +41,9 @@ public class AppConfig {
     public static final String INDEX_PROFIT = "INDEX_PROFIT";
     /*止损比例的默认值*/
     public static final String INDEX_LOSS = "INDEX_LOSS";
+    /*汇率*/
+    public static final String USD_RATE = "USD_RATE";
+
 
 
 }
