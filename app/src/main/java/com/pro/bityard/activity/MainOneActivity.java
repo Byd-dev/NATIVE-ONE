@@ -735,8 +735,13 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 layout_hold.setVisibility(View.VISIBLE);
                 layout_my.setVisibility(View.GONE);
                 layout_status.setVisibility(View.VISIBLE);
-                layout_real.setVisibility(View.VISIBLE);
-                layout_simulation.setVisibility(View.GONE);
+                if (tradeType.equals("1")) {
+                    layout_real.setVisibility(View.VISIBLE);
+                    layout_simulation.setVisibility(View.GONE);
+                } else {
+                    layout_real.setVisibility(View.GONE);
+                    layout_simulation.setVisibility(View.VISIBLE);
+                }
 
 
                 break;

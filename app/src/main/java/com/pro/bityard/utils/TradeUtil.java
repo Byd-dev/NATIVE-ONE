@@ -3,7 +3,6 @@ package com.pro.bityard.utils;
 import android.util.Log;
 
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
@@ -357,7 +356,7 @@ public class TradeUtil {
 
     /* 仓位 =  杠杆 * 保证金 / 开仓价格*/
     public static String volume(double lever, String margin, double opPrice) {
-        if (margin==null){
+        if (margin == null) {
             return null;
         }
         double mul = mul(lever, Double.parseDouble(margin));
@@ -403,7 +402,7 @@ public class TradeUtil {
         if (chargeUnitEntity == null) {
             return null;
         }
-        if (margin==null){
+        if (margin == null) {
             return null;
         }
         double div = div(chargeUnitEntity.getChargeCoinList().get(1), 1000, 10);
@@ -461,7 +460,7 @@ public class TradeUtil {
 
     /*计算递延费*/
     public static String deferFee(String defer, double deferBase, String margin, double lever) {
-        if (margin==null){
+        if (margin == null) {
             return null;
         }
         String deferFee;
@@ -480,18 +479,15 @@ public class TradeUtil {
         List<Double> balanceList = new ArrayList<>();
         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
             String currency = data.getCurrency();
-            NetManger.getInstance().rate(data, moneyType, currency, "USDT", new OnNetResult() {
-                @Override
-                public void onNetResult(String state, Object response) {
-                    if (state.equals(SUCCESS)) {
-                        balanceList.add(Double.parseDouble(response.toString()));
-                        double balance = 0.0;
-                        for (double a : balanceList) {
-                            balance = TradeUtil.add(balance, a);
-                        }
-                        if (balanceList.size() == balanceEntity.getData().size()) {
-                            tradeResult.setResult(balance);
-                        }
+            NetManger.getInstance().rate(data, moneyType, currency, "USDT", (state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    balanceList.add(Double.parseDouble(response.toString()));
+                    double balance = 0.0;
+                    for (double a : balanceList) {
+                        balance = TradeUtil.add(balance, a);
+                    }
+                    if (balanceList.size() == balanceEntity.getData().size()) {
+                        tradeResult.setResult(balance);
                     }
                 }
             });
@@ -714,6 +710,7 @@ public class TradeUtil {
         }
         return deposit;
     }
+
     public static String marginMax(List<Integer> depositList) {
         String deposit = null;
         if (depositList.size() == 0) {
@@ -722,6 +719,7 @@ public class TradeUtil {
         }
         return deposit;
     }
+
     /*获取做多价格*/
     public static String itemQuoteBuyMuchPrice(String quote, int spread) {
         String[] split = quote.split(",");
