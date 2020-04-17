@@ -279,19 +279,24 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     // 1,2.5,5  类型 整体净盈亏  整体  保证金
                     String netIncome = split[1];
                     String margin = split[2];
+
+
                     if (balanceEntity != null) {
                         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+
+
                             if (data.getCurrency().equals("USDT")) {
+                                double money1 = data.getMoney();//可用余额
+                                double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
+                                double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
+                                text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
                                 //汇率是实时的
                                 TradeUtil.getRate(balanceEntity, "1", response -> {
                                     //账户净值=可用余额+占用保证金+浮动盈亏
                                     double money = Double.parseDouble(response.toString());//所有钱包的和
                                     double add1 = TradeUtil.add(money, Double.parseDouble(margin));//+保证金
                                     double add = TradeUtil.add(add1, Double.parseDouble(netIncome));//+浮动盈亏
-                                    double money1 = data.getMoney();//可用余额
-                                    double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
-                                    double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
-                                    text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
+
                                     if (isEyeOpen) {
                                         text_balance.setText(TradeUtil.getNumberFormat(add, 2));
                                         String string = SPUtils.getString(AppConfig.USD_RATE, null);
@@ -318,14 +323,17 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     if (balanceEntity != null) {
                         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                             if (data.getCurrency().equals("USDT")) {
-
-                                TradeUtil.getRate(balanceEntity, "2", response -> {
-                                   // double money = Double.parseDouble(response.toString());
+                                double game = data.getGame();
+                                double add1 = TradeUtil.add(game, Double.parseDouble(margin));
+                                double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
+                                text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
+                               /* TradeUtil.getRate(balanceEntity, "2", response -> {
+                                    // double money = Double.parseDouble(response.toString());
                                     double game = data.getGame();
                                     double add1 = TradeUtil.add(game, Double.parseDouble(margin));
                                     double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
                                     text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
-                                });
+                                });*/
 
                             }
                         }
