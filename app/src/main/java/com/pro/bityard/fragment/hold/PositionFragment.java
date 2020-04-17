@@ -1023,7 +1023,8 @@ public class PositionFragment extends BaseFragment implements Observer {
 
             StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
                     .append(",").append(margin);
-            //净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+            //账户净值=可用余额+占用保证金+浮动盈亏
             NetIncomeManger.getInstance().postNetIncome(append.toString());
         }));
 

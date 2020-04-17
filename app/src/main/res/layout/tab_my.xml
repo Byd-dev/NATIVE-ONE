@@ -102,8 +102,8 @@
                             android:id="@+id/layout_balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_20"
-                            android:layout_marginTop="@dimen/margin_21"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:layout_marginTop="@dimen/margin_20"
                             android:orientation="horizontal"
                             android:paddingBottom="@dimen/margin_10">
 
@@ -130,7 +130,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/layout_balance"
-                            android:layout_marginLeft="@dimen/margin_20"
+                            android:layout_marginLeft="@dimen/margin_15"
                             android:orientation="horizontal">
 
 
@@ -141,7 +141,7 @@
                                 android:layout_gravity="center"
                                 android:text="0.00"
                                 android:textColor="@color/text_maincolor"
-                                android:textSize="24sp"
+                                android:textSize="20sp"
                                 android:typeface="monospace" />
 
                             <TextView
@@ -187,7 +187,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:layout_margin="@dimen/margin_20"
+                            android:layout_margin="@dimen/margin_15"
                             android:drawableLeft="@mipmap/icon_card"
                             android:drawableRight="@mipmap/icon_right"
                             android:drawablePadding="@dimen/margin_9"
@@ -201,7 +201,7 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentBottom="true"
-                            android:layout_margin="@dimen/margin_20"
+                            android:layout_margin="@dimen/margin_15"
                             android:gravity="center"
                             android:text="佣金比例: 60%"
                             android:textColor="@color/maincolor"

@@ -50,7 +50,7 @@
     <string name="text_new_price">最新价</string>
     <string name="text_up_down">涨跌幅</string>
     <string name="text_name">名称</string>
-    <string name="text_all_balance">总资金(USDT)</string>
+    <string name="text_all_balance">总净资产(USDT)</string>
     <string name="text_mining">立即挖矿</string>
     <string name="text_fabi_trade">法币交易</string>
     <string name="text_coin_turn">币币闪兑</string>

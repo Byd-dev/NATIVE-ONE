@@ -212,17 +212,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
             balanceEntity = (BalanceEntity) arg;
 
-            runOnUiThread(() -> {
-                if (text_balance != null) {
-                    for (BalanceEntity.DataBean data1 : balanceEntity.getData()) {
-                        if (data1.getCurrency().equals("USDT")) {
-                            text_balance.setText(TradeUtil.getNumberFormat(data1.getMoney(), 2));
-                        }
-                    }
-
-                }
-            });
-
 
             TradeUtil.getRate(balanceEntity, "1", response -> Log.d("print", "setResult:137实盘:  " + response.toString()));
 
@@ -231,6 +220,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                         if (data.getCurrency().equals("USDT")) {
                             text_available.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
+
+
                         }
                     }
                 }
@@ -288,17 +279,24 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     // 1,2.5,5  类型 整体净盈亏  整体  保证金
                     String netIncome = split[1];
                     String margin = split[2];
-
-
                     if (balanceEntity != null) {
                         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                             if (data.getCurrency().equals("USDT")) {
                                 //汇率是实时的
                                 TradeUtil.getRate(balanceEntity, "1", response -> {
-                                    double money = Double.parseDouble(response.toString());
-                                    double add1 = TradeUtil.add(money, Double.parseDouble(margin));
-                                    double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
-                                    text_worth.setText(TradeUtil.getNumberFormat(add, 2));
+                                    //账户净值=可用余额+占用保证金+浮动盈亏
+                                    double money = Double.parseDouble(response.toString());//所有钱包的和
+                                    double add1 = TradeUtil.add(money, Double.parseDouble(margin));//+保证金
+                                    double add = TradeUtil.add(add1, Double.parseDouble(netIncome));//+浮动盈亏
+                                    double money1 = data.getMoney();//可用余额
+                                    double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
+                                    double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
+                                    text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
+                                    if (isEyeOpen) {
+                                        text_balance.setText(TradeUtil.getNumberFormat(add, 2));
+                                        String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                                        text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(add, Double.parseDouble(string)), 2));
+                                    }
                                 });
 
                             }
@@ -322,8 +320,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                             if (data.getCurrency().equals("USDT")) {
 
                                 TradeUtil.getRate(balanceEntity, "2", response -> {
-                                    double money = Double.parseDouble(response.toString());
-                                    double add1 = TradeUtil.add(money, Double.parseDouble(margin));
+                                   // double money = Double.parseDouble(response.toString());
+                                    double game = data.getGame();
+                                    double add1 = TradeUtil.add(game, Double.parseDouble(margin));
                                     double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
                                     text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
                                 });
@@ -879,15 +878,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
                     isEyeOpen = true;
                     if (balanceEntity != null) {
-                        for (BalanceEntity.DataBean data1 : balanceEntity.getData()) {
-                            if (data1.getCurrency().equals("USDT")) {
-                                text_balance.setText(TradeUtil.getNumberFormat(data1.getMoney(), 2));
-
-                                String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                                text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data1.getMoney(), Double.parseDouble(string)), 2));
-                            }
-                        }
-
 
                     } else {
                         text_balance.setText("0.00");
