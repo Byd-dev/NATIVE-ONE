@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.switchlibrary.SPUtils;
@@ -45,6 +46,16 @@ public class InitManger extends Observable {
 
 
     public void init() {
+
+        NetManger.getInstance().isLogin(response -> {
+            boolean isLogin = (boolean) response;
+            if (isLogin == true) {
+
+            } else {
+                SPUtils.remove(AppConfig.LOGIN);
+            }
+        });
+
         //获取国家code
         NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
             if (state.equals(SUCCESS)) {
@@ -55,7 +66,7 @@ public class InitManger extends Observable {
         });
 
         //获取USDT兑换CNY汇率
-        NetManger.getInstance().getItemRate("1", "CNY",response -> {
+        NetManger.getInstance().getItemRate("1", "CNY", response -> {
             SPUtils.putString(AppConfig.USD_RATE, response.toString());
         });
 

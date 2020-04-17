@@ -14,6 +14,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.IsLoginEntity;
 import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.RateEntity;
@@ -866,6 +867,17 @@ public class NetManger {
         NetManger.getInstance().ItemRate(moneyType, "USDT", des, (state, response) -> {
             if (state.equals(SUCCESS)) {
                 onResult.setResult(response);
+            }
+        });
+    }
+
+    public void isLogin(OnResult onResult) {
+        postRequest("/api/user/isLogin", null, (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                Log.d("print", "isLogin: " + response.toString());
+                IsLoginEntity isLoginEntity = new Gson().fromJson(response.toString(), IsLoginEntity.class);
+                onResult.setResult(isLoginEntity.getContent().isIsLogin());
+
             }
         });
     }

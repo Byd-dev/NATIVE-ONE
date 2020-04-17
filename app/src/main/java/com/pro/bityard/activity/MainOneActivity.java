@@ -183,6 +183,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     ImageView img_eye_switch;
 
     private boolean isEyeOpen = true;
+    private String netIncomeResult;
 
 
     @Override
@@ -220,8 +221,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                         if (data.getCurrency().equals("USDT")) {
                             text_available.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
-
-
                         }
                     }
                 }
@@ -272,49 +271,62 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             });
         } else if (o == NetIncomeManger.getInstance()) {
 
-            String result = (String) arg;
-            String[] split = result.split(",");
+            netIncomeResult = (String) arg;
+            String[] NetIncome = netIncomeResult.split(",");
             runOnUiThread(() -> {
-                if (text_worth != null && split[0].equals("1") && tradeType.equals("1")) {
+                if (text_worth != null && NetIncome[0].equals("1") && tradeType.equals("1")) {
                     // 1,2.5,5  类型 整体净盈亏  整体  保证金
-                    String netIncome = split[1];
-                    String margin = split[2];
+                    String netIncome = NetIncome[1];
+                    String margin = NetIncome[2];
+                    if (isLogin()) {
+                        Log.d("print", "update:283:  " + netIncome + "    --    " + margin + "    " + balanceEntity);
+                        if (balanceEntity != null) {
+                            for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                                if (data.getCurrency().equals("USDT")) {
+                                    double money1 = data.getMoney();//可用余额
+                                    double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
+                                    double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
+                                    text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
+                                    //汇率是实时的
+                                    TradeUtil.getRate(balanceEntity, "1", response -> {
+                                        //账户净值=可用余额+占用保证金+浮动盈亏
+                                        double money = Double.parseDouble(response.toString());//所有钱包的和
+                                        double add1 = TradeUtil.add(money, Double.parseDouble(margin));//+保证金
+                                        double add = TradeUtil.add(add1, Double.parseDouble(netIncome));//+浮动盈亏
 
-                    Log.d("print", "update:283:  "+netIncome+"    --    "+margin+"    "+balanceEntity);
-                    if (balanceEntity != null) {
-                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                            if (data.getCurrency().equals("USDT")) {
-                                double money1 = data.getMoney();//可用余额
-                                double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
-                                double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
-                                text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
-                                //汇率是实时的
-                                TradeUtil.getRate(balanceEntity, "1", response -> {
-                                    //账户净值=可用余额+占用保证金+浮动盈亏
-                                    double money = Double.parseDouble(response.toString());//所有钱包的和
-                                    double add1 = TradeUtil.add(money, Double.parseDouble(margin));//+保证金
-                                    double add = TradeUtil.add(add1, Double.parseDouble(netIncome));//+浮动盈亏
+                                        if (isEyeOpen) {
+                                            text_balance.setText(TradeUtil.getNumberFormat(add, 2));
+                                            String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                                            text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(add, Double.parseDouble(string)), 2));
+                                        }
+                                    });
 
-                                    if (isEyeOpen) {
-                                        text_balance.setText(TradeUtil.getNumberFormat(add, 2));
-                                        String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                                        text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(add, Double.parseDouble(string)), 2));
-                                    }
-                                });
-
+                                }
                             }
                         }
+                    } else {
+                        text_worth.setText(getResources().getString(R.string.text_default));
+                        text_worth_simulation.setText(getResources().getString(R.string.text_default));
+                        text_balance.setText(getResources().getString(R.string.text_default));
+                        text_available.setText(getResources().getString(R.string.text_default));
+                        text_available_simulation.setText(getResources().getString(R.string.text_default));
+                        text_balance_currency.setText(getResources().getString(R.string.text_default));
+                        text_freeze.setText(getResources().getString(R.string.text_default));
+                        text_freeze_simulation.setText(getResources().getString(R.string.text_default));
+
+
                     }
+
 
                 }
             });
 
 
             runOnUiThread(() -> {
-                if (text_worth_simulation != null && split[0].equals("2") && tradeType.equals("2")) {
+                if (text_worth_simulation != null && NetIncome[0].equals("2") && tradeType.equals("2")) {
                     // 1,2.5,5
-                    String netIncome = split[1];
-                    String margin = split[2];
+                    String netIncome = NetIncome[1];
+                    String margin = NetIncome[2];
                     //   Log.d("print", "run:185:  " + netIncome + "   --  " + margin);
 
 
@@ -649,7 +661,30 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
             }
         }
+        //持仓
+
+
+        if (balanceEntity != null) {
+            for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                if (data.getCurrency().equals("USDT")) {
+                    text_available.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
+                    double money1 = data.getMoney();//可用余额
+                    if (netIncomeResult != null) {
+                        String[] netIncome = netIncomeResult.split(",");
+                        double add2 = TradeUtil.add(money1, Double.parseDouble(netIncome[1]));//+保证金
+                        double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome[2]));//+浮动盈亏
+                        text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
+                    }
+
+
+                }
+            }
+
+        }
+
+
         //我的
+
 
     }
 

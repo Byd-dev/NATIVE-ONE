@@ -1089,7 +1089,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         if (o == QuoteListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("0");
-            Log.d("print", "update:1092:   "+positionEntity);
+            //OpenPositionEntity{code=200, message='', data=[]}    或者是null
             if (positionEntity != null && positionEntity.getData().size() > 0) {
                 runOnUiThread(() -> {
                     //整体盈亏

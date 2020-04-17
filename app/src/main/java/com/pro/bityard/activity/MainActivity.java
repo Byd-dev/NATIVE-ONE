@@ -102,7 +102,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         super.onResume();
         if (getIntent() != null) {
             int position = getIntent().getIntExtra(IntentConfig.Keys.POSITION, 0);
-            Log.d("print", "onResume:105:  "+position);
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             if (position == 0) {
                 radioGroup.getChildAt(0).performClick();

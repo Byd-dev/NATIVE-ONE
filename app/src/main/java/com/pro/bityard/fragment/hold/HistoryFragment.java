@@ -97,25 +97,19 @@ public class HistoryFragment extends BaseFragment {
     @Override
     protected void initData() {
 
-        NetManger.getInstance().getHistory(tradeType, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    swipeRefreshLayout.setRefreshing(true);
-                } else if (state.equals(SUCCESS)) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    HistoryEntity historyEntity = (HistoryEntity) response;
-                    Log.d("print", "onNetResult:105:  " + historyEntity.getData().get(0));
-                    historyAdapter.setDatas(historyEntity.getData());
+        NetManger.getInstance().getHistory(tradeType, (state, response) -> {
+            if (state.equals(BUSY)) {
+                swipeRefreshLayout.setRefreshing(true);
+            } else if (state.equals(SUCCESS)) {
+                swipeRefreshLayout.setRefreshing(false);
+                HistoryEntity historyEntity = (HistoryEntity) response;
+                historyAdapter.setDatas(historyEntity.getData());
 
 
-                } else if (state.equals(FAILURE)) {
-                    swipeRefreshLayout.setRefreshing(false);
+            } else if (state.equals(FAILURE)) {
+                swipeRefreshLayout.setRefreshing(false);
 
-                }
             }
-
-
         });
 
     }
