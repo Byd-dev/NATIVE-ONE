@@ -317,6 +317,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     }
 
 
+                    
                 }
             });
 
@@ -327,8 +328,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     String netIncome = NetIncome[1];
                     String margin = NetIncome[2];
                     //   Log.d("print", "run:185:  " + netIncome + "   --  " + margin);
-
-
                     if (balanceEntity != null) {
                         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                             if (data.getCurrency().equals("USDT")) {
