@@ -180,6 +180,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @BindView(R.id.text_balance)
     TextView text_balance;
 
+    @BindView(R.id.img_eye_switch)
+    ImageView img_eye_switch;
+
+    private boolean isEyeOpen = true;
+
 
     @Override
     protected int setContentLayout() {
@@ -348,84 +353,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.radio_2:
-                if (quoteList == null) {
-                    return;
-                }
-                QuoteDetailActivity.enter(MainOneActivity.this, "1", quoteList.get(0));
-                break;
-            /*首页 -----------------------------------------------------------------------------------*/
-            case R.id.layout_simulation_home:
-                if (quoteList == null) {
-                    return;
-                }
-                QuoteDetailActivity.enter(MainOneActivity.this, "2", quoteList.get(0));
-                break;
-
-            /*行情 -----------------------------------------------------------------------------------*/
-            case R.id.layout_new_price:
-                if (arrayMap == null) {
-                    return;
-                }
-
-                if (flag_new_price == 0) {
-                    img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
-                    flag_new_price = 1;
-                    type = "1";
-                    List<String> quoteList = arrayMap.get(type);
-                    quoteAdapter_market.setDatas(quoteList);
-
-
-                } else if (flag_new_price == 1) {
-
-                    img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
-                    flag_new_price = 0;
-                    type = "2";
-                    List<String> quoteList = arrayMap.get(type);
-                    quoteAdapter_market.setDatas(quoteList);
-
-                }
-                img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-
-                break;
-            case R.id.layout_up_down:
-                if (arrayMap == null) {
-                    return;
-                }
-                if (flag_up_down == 0) {
-                    img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
-                    flag_up_down = 1;
-                    type = "3";
-                    List<String> quoteList = arrayMap.get(type);
-                    quoteAdapter_market.setDatas(quoteList);
-
-                } else if (flag_up_down == 1) {
-                    img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
-                    flag_up_down = 0;
-                    type = "4";
-                    List<String> quoteList = arrayMap.get(type);
-                    quoteAdapter_market.setDatas(quoteList);
-
-                }
-                img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-
-                break;
-            /*我的 -----------------------------------------------------------------------------------*/
-            case R.id.layout_six:
-                if (isLogin()) {
-                    UserActivity.enter(this, IntentConfig.Keys.KEY_SET_UP);
-                } else {
-                    LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
-                }
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + v.getId());
-        }
-    }
 
     /**
      * 首页Tab索引
@@ -600,8 +527,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         /*我的 分割线-----------------------------------------------------------------------------*/
         findViewById(R.id.layout_six).setOnClickListener(this);
-
         TagManger.getInstance().addObserver(this);
+        findViewById(R.id.layout_balance).setOnClickListener(this);
+        img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
 
     }
 
@@ -831,5 +759,105 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         super.onDestroy();
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.radio_2:
+                if (quoteList == null) {
+                    return;
+                }
+                QuoteDetailActivity.enter(MainOneActivity.this, "1", quoteList.get(0));
+                break;
+            /*首页 -----------------------------------------------------------------------------------*/
+            case R.id.layout_simulation_home:
+                if (quoteList == null) {
+                    return;
+                }
+                QuoteDetailActivity.enter(MainOneActivity.this, "2", quoteList.get(0));
+                break;
+
+            /*行情 -----------------------------------------------------------------------------------*/
+            case R.id.layout_new_price:
+                if (arrayMap == null) {
+                    return;
+                }
+
+                if (flag_new_price == 0) {
+                    img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
+                    flag_new_price = 1;
+                    type = "1";
+                    List<String> quoteList = arrayMap.get(type);
+                    quoteAdapter_market.setDatas(quoteList);
+
+
+                } else if (flag_new_price == 1) {
+
+                    img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
+                    flag_new_price = 0;
+                    type = "2";
+                    List<String> quoteList = arrayMap.get(type);
+                    quoteAdapter_market.setDatas(quoteList);
+
+                }
+                img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+
+                break;
+            case R.id.layout_up_down:
+                if (arrayMap == null) {
+                    return;
+                }
+                if (flag_up_down == 0) {
+                    img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
+                    flag_up_down = 1;
+                    type = "3";
+                    List<String> quoteList = arrayMap.get(type);
+                    quoteAdapter_market.setDatas(quoteList);
+
+                } else if (flag_up_down == 1) {
+                    img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
+                    flag_up_down = 0;
+                    type = "4";
+                    List<String> quoteList = arrayMap.get(type);
+                    quoteAdapter_market.setDatas(quoteList);
+
+                }
+                img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+
+                break;
+            /*我的 -----------------------------------------------------------------------------------*/
+            case R.id.layout_six:
+                if (isLogin()) {
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_SET_UP);
+                } else {
+                    LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+            case R.id.layout_balance:
+                if (isEyeOpen) {
+                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
+                    text_balance.setText("***");
+                    isEyeOpen = false;
+                } else {
+                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
+                    isEyeOpen = true;
+                    if (balanceEntity != null) {
+                        for (BalanceEntity.DataBean data1 : balanceEntity.getData()) {
+                            if (data1.getCurrency().equals("USDT")) {
+                                text_balance.setText(TradeUtil.getNumberFormat(data1.getMoney(), 2));
+                            }
+                        }
+
+                    }
+
+                }
+
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + v.getId());
+        }
     }
 }

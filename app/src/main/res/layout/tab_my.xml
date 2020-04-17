@@ -36,7 +36,7 @@
                 <!--头部视图-->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="260dp"
+                    android:layout_height="240dp"
                     android:orientation="vertical">
 
                     <RelativeLayout
@@ -86,23 +86,6 @@
                         </LinearLayout>
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/margin_15"
-                            android:background="@drawable/bg_shape_no_background"
-                            android:gravity="center"
-                            android:paddingLeft="@dimen/margin_8"
-                            android:paddingTop="@dimen/margin_8"
-                            android:paddingRight="@dimen/margin_8"
-                            android:paddingBottom="@dimen/margin_8"
-                            android:text="佣金比例: 60%"
-                            android:textColor="@color/maincolor"
-                            android:textSize="@dimen/size_normal" />
-
-
                     </RelativeLayout>
 
 
@@ -111,46 +94,45 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentBottom="true"
                         android:layout_marginLeft="@dimen/margin_15"
-
                         android:layout_marginRight="@dimen/margin_15"
                         android:background="@drawable/bg_shape_background">
 
                         <!--余额名称-->
-                        <LinearLayout
+                        <RelativeLayout
                             android:id="@+id/layout_balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/margin_20"
                             android:layout_marginTop="@dimen/margin_21"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:paddingBottom="@dimen/margin_10">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="@string/text_all_balance"
-                                android:textColor="@color/text_maincolor"
-
+                                android:textColor="@color/text_second_color"
                                 android:textSize="@dimen/size_big"
                                 android:typeface="monospace" />
 
                             <ImageView
+                                android:id="@+id/img_eye_switch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/margin_10"
-                                android:src="@mipmap/icon_eye"
-
-                                />
-                        </LinearLayout>
+                                android:paddingRight="@dimen/margin_20"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_gravity="center" />
+                        </RelativeLayout>
                         <!--余额-->
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/layout_balance"
                             android:layout_marginLeft="@dimen/margin_20"
-                            android:layout_marginTop="@dimen/margin_10"
                             android:orientation="horizontal">
+
 
                             <TextView
                                 android:id="@+id/text_balance"
@@ -159,22 +141,44 @@
                                 android:layout_gravity="center"
                                 android:text="0.00"
                                 android:textColor="@color/text_maincolor"
-
                                 android:textSize="24sp"
                                 android:typeface="monospace" />
-
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="≈ 0.0(CNY)"
-                                android:textColor="@color/text_maincolor"
+                                android:text="(USDT)"
+                                android:textColor="@color/text_second_color"
+                                android:textSize="@dimen/size_normal_two"
+                                android:typeface="monospace" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="≈"
+                                android:textColor="@color/text_maincolor"
                                 android:textSize="@dimen/size_big"
                                 android:typeface="monospace" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="0.0"
+                                android:textColor="@color/text_maincolor"
+                                android:textSize="@dimen/size_big"
+                                android:typeface="monospace" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="(CNY)"
+                                android:textColor="@color/text_second_color"
+                                android:textSize="@dimen/size_normal"
+                                android:typeface="monospace" />
                         </LinearLayout>
 
 
@@ -191,7 +195,16 @@
                             android:textColor="@color/maincolor"
                             android:textSize="@dimen/size_normal" />
 
-
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_margin="@dimen/margin_20"
+                            android:gravity="center"
+                            android:text="佣金比例: 60%"
+                            android:textColor="@color/maincolor"
+                            android:textSize="@dimen/size_normal" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -639,7 +652,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"/>
+                        android:layout_height="70dp" />
 
                 </LinearLayout>
 
