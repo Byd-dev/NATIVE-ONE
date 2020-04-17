@@ -280,11 +280,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     String netIncome = split[1];
                     String margin = split[2];
 
-
+                    Log.d("print", "update:283:  "+netIncome+"    --    "+margin+"    "+balanceEntity);
                     if (balanceEntity != null) {
                         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-
-
                             if (data.getCurrency().equals("USDT")) {
                                 double money1 = data.getMoney();//可用余额
                                 double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
