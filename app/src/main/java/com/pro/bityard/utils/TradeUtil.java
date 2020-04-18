@@ -3,11 +3,13 @@ package com.pro.bityard.utils;
 import android.util.Log;
 
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TradeListEntity;
+import com.pro.bityard.manger.NetIncomeManger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -244,6 +246,30 @@ public class TradeUtil {
         }
     }
 
+    public static void myNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList, OnResult onResult) {
+
+        TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
+            double margin;
+            double income;
+            if (positionList == null) {
+                margin = 0.0;
+                income = 0.0;
+            } else {
+                margin = Double.parseDouble(response2.toString());
+                income = Double.parseDouble(response1.toString());
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+
+            StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
+                    .append(",").append(margin);
+            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+            //账户净值=可用余额+占用保证金+浮动盈亏
+            onResult.setResult(append.toString());
+        }));
+
+
+    }
+
 
     /*全部浮动盈亏*/
     public static void getIncome(List<String> quoteList, PositionEntity positionEntity, TradeResult tradeResult) {
@@ -476,6 +502,8 @@ public class TradeUtil {
         List<Double> balanceList = new ArrayList<>();
         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
             String currency = data.getCurrency();
+            Log.d(TAG, "getRate:505:  "+currency);
+
             NetManger.getInstance().rate(data, moneyType, currency, "USDT", (state, response) -> {
                 if (state.equals(SUCCESS)) {
                     balanceList.add(Double.parseDouble(response.toString()));

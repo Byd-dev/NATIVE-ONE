@@ -43,6 +43,14 @@ public class AppConfig {
     public static final String INDEX_LOSS = "INDEX_LOSS";
     /*汇率*/
     public static final String USD_RATE = "USD_RATE";
+    /*汇率*/
+    public static final String USDT = "USDT";
+    public static final String BTC = "BTC";
+    public static final String ETH = "ETH";
+    public static final String XRP = "XRP";
+    public static final String HT = "HT";
+    public static final String TRX = "TRX";
+    public static final String LINK = "LINK";
 
 
 

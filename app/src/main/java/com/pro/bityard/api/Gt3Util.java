@@ -81,7 +81,7 @@ public class Gt3Util {
              */
             @Override
             public void onApi1Result(String result) {
-                if (!result.equals("")) {
+                if (null != result) {
                     Map<String, Object> stringObjectMap = Util.jsonToMap(result);
                     String geetestToken = (String) stringObjectMap.get("geetestToken");
                     onGtUtilResult.onApi1Result(geetestToken);

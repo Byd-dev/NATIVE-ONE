@@ -43,7 +43,6 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
-import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -270,7 +269,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
             });
         } else if (o == NetIncomeManger.getInstance()) {
-
+            Log.d("print", "update:273: " + isLogin());
             netIncomeResult = (String) arg;
             String[] NetIncome = netIncomeResult.split(",");
             runOnUiThread(() -> {
@@ -306,17 +305,15 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     } else {
                         text_worth.setText(getResources().getString(R.string.text_default));
                         text_worth_simulation.setText(getResources().getString(R.string.text_default));
-                        text_balance.setText(getResources().getString(R.string.text_default));
+                        if (isEyeOpen) {
+                            text_balance.setText(getResources().getString(R.string.text_default));
+                            text_balance_currency.setText(getResources().getString(R.string.text_default));
+                        }
                         text_available.setText(getResources().getString(R.string.text_default));
                         text_available_simulation.setText(getResources().getString(R.string.text_default));
-                        text_balance_currency.setText(getResources().getString(R.string.text_default));
                         text_freeze.setText(getResources().getString(R.string.text_default));
                         text_freeze_simulation.setText(getResources().getString(R.string.text_default));
-
-
                     }
-
-
                 }
             });
 
@@ -326,7 +323,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     // 1,2.5,5
                     String netIncome = NetIncome[1];
                     String margin = NetIncome[2];
-                    //   Log.d("print", "run:185:  " + netIncome + "   --  " + margin);
                     if (isLogin()) {
                         if (balanceEntity != null) {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
@@ -349,10 +345,12 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     } else {
                         text_worth.setText(getResources().getString(R.string.text_default));
                         text_worth_simulation.setText(getResources().getString(R.string.text_default));
-                        text_balance.setText(getResources().getString(R.string.text_default));
+                        if (isEyeOpen) {
+                            text_balance.setText(getResources().getString(R.string.text_default));
+                            text_balance_currency.setText(getResources().getString(R.string.text_default));
+                        }
                         text_available.setText(getResources().getString(R.string.text_default));
                         text_available_simulation.setText(getResources().getString(R.string.text_default));
-                        text_balance_currency.setText(getResources().getString(R.string.text_default));
                         text_freeze.setText(getResources().getString(R.string.text_default));
                         text_freeze_simulation.setText(getResources().getString(R.string.text_default));
                     }
@@ -375,21 +373,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     radioButton_2.setChecked(true);
                 });
             }
-        } else if (o == TagManger.getInstance()) {
-            if (isLogin()) {
-
-            } else {
-                text_worth.setText(getResources().getString(R.string.text_default));
-                text_worth_simulation.setText(getResources().getString(R.string.text_default));
-                text_balance.setText(getResources().getString(R.string.text_default));
-                text_available.setText(getResources().getString(R.string.text_default));
-                text_available_simulation.setText(getResources().getString(R.string.text_default));
-                text_balance_currency.setText(getResources().getString(R.string.text_default));
-                text_freeze.setText(getResources().getString(R.string.text_default));
-                text_freeze_simulation.setText(getResources().getString(R.string.text_default));
-            }
-            //initData();
         }
+    }
+
+    private void onSuccessListener(String data) {
+        QuoteDetailActivity.enter(this, "1", data);
     }
 
 
@@ -500,7 +488,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         quoteAdapter_market = new QuoteAdapter(this);
         recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_market.setAdapter(quoteAdapter_market);
-        View footView = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null);
+        @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null);
 
         recyclerView_market.addFooterView(footView);
 
@@ -523,11 +511,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         });
 
 
-        quoteAdapter_market.setOnItemClick(data -> {
-            QuoteDetailActivity.enter(this, "1", data);
-
-
-        });
+        quoteAdapter_market.setOnItemClick(this::onSuccessListener);
 
         /*持仓 分割线-----------------------------------------------------------------------------*/
         //余额注册
@@ -566,7 +550,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         /*我的 分割线-----------------------------------------------------------------------------*/
         findViewById(R.id.layout_six).setOnClickListener(this);
-        TagManger.getInstance().addObserver(this);
         findViewById(R.id.layout_balance).setOnClickListener(this);
         img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
 
@@ -645,6 +628,41 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             }
         }
         //持仓
+        //hhh
+       /* NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
+            if (state.equals(BUSY)) {
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            } else if (state.equals(SUCCESS)) {
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+                PositionEntity positionEntity = (PositionEntity) response1;
+                TradeUtil.myNetIncome("1", positionEntity.getData(), quoteList, response -> {
+
+                    String[] NetIncome = response.toString().split(",");
+
+                    //账户净值=可用余额+占用保证金+浮动盈亏
+                    double money = Double.parseDouble(response.toString());//所有钱包的和
+                    double add1 = TradeUtil.add(money, Double.parseDouble(NetIncome[1]));//+保证金
+                    double add = TradeUtil.add(add1, Double.parseDouble(NetIncome[2]));//+浮动盈亏
+
+                    if (isEyeOpen) {
+                        text_balance.setText(TradeUtil.getNumberFormat(add, 2));
+                        String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                        text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(add, Double.parseDouble(string)), 2));
+                    }
+                });
+
+
+            } else if (state.equals(FAILURE)) {
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
+
+            }
+        });*/
 
 
         if (balanceEntity != null) {
@@ -662,6 +680,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
                 }
             }
+
 
         }
 
@@ -806,6 +825,15 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         super.onDestroy();
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
+
+        SPUtils.remove(AppConfig.USDT);
+        SPUtils.remove(AppConfig.BTC);
+        SPUtils.remove(AppConfig.ETH);
+        SPUtils.remove(AppConfig.TRX);
+        SPUtils.remove(AppConfig.XRP);
+        SPUtils.remove(AppConfig.HT);
+        SPUtils.remove(AppConfig.LINK);
+
     }
 
 
@@ -892,11 +920,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 } else {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
                     isEyeOpen = true;
-                    if (balanceEntity != null) {
+                    if (isLogin()) {
 
                     } else {
-                        text_balance.setText("0.00");
-                        text_balance_currency.setText("0.0");
+                        text_balance.setText(getResources().getString(R.string.text_default));
+                        text_balance_currency.setText(getResources().getString(R.string.text_default));
                     }
 
 
@@ -907,4 +935,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 throw new IllegalStateException("Unexpected value: " + v.getId());
         }
     }
+
+
 }

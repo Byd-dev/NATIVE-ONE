@@ -42,7 +42,6 @@ import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
@@ -1054,6 +1053,8 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
 
+
+
     @Override
     protected void intPresenter() {
 
@@ -1122,16 +1123,13 @@ public class PositionFragment extends BaseFragment implements Observer {
             //OpenPositionEntity{code=200, message='', data=[]}    或者是null
             if (positionEntity != null && positionEntity.getData().size() > 0) {
                 runOnUiThread(() -> {
-                    //整体盈亏
-                    setIncome(quoteList, positionEntity);
-                    //整体净值
-                    setNetIncome(tradeType, positionEntity.getData(), quoteList);
-
-
                     if (isLogin()) {
+                        //整体盈亏
+                        setIncome(quoteList, positionEntity);
+                        //整体净值
+                        setNetIncome(tradeType, positionEntity.getData(), quoteList);
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
                     } else {
-                        List<PositionEntity.DataBean> data = new ArrayList<>();
                         positionEntity.getData().clear();
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
                         headerRecyclerView.removeHeaderView(headView);
@@ -1145,7 +1143,6 @@ public class PositionFragment extends BaseFragment implements Observer {
                 });
             } else {
                 StringBuilder stringBuilder = new StringBuilder();
-
                 StringBuilder append = stringBuilder.append(tradeType).append(",").append("0.0")
                         .append(",").append("0.0");
                 NetIncomeManger.getInstance().postNetIncome(append.toString());

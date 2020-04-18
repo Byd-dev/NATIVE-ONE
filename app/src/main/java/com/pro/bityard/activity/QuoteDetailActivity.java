@@ -1190,7 +1190,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         quotePopAdapter = new QuotePopAdapter(this);
         recyclerView.setAdapter(quotePopAdapter);
-        quotePopAdapter.setDatas(quoteList);
+        if (quoteList!=null){
+            quotePopAdapter.setDatas(quoteList);
+        }
         if (quote != null) {
             quotePopAdapter.select(itemQuoteContCode(quote));
 

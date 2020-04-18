@@ -178,7 +178,6 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
                         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                             if (data.getCurrency().equals("USDT")) {
 
-
                                 TradeUtil.getRate(balanceEntity, "2", new TradeResult() {
                                     @Override
                                     public void setResult(Object response) {

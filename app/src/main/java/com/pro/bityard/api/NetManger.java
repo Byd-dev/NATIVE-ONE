@@ -825,40 +825,138 @@ public class NetManger {
         });
     }
 
+    private boolean isEmpty = false;
+
     /*汇率*/
     public void rate(BalanceEntity.DataBean dataBean, String moneyType, String src, String des, OnNetResult onNetResult) {
-        ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("src", src);
-        map.put("des", des);
-        getRequest("/api/home/currency/rate", map, (state, response) -> {
-            if (state.equals(BUSY)) {
-                onNetResult.onNetResult(BUSY, null);
-            } else if (state.equals(SUCCESS)) {
+        Log.d("print", "rate:832:  " + isEmpty + "---" + src);
+        if (src.equals(AppConfig.USDT)) {
+            String rate = SPUtils.getString(AppConfig.USDT, null);
+            if (rate != null) {
+                double mul = TradeUtil.mul(dataBean.getMoney(), Double.parseDouble(rate));
+                isEmpty = true;
+                onNetResult.onNetResult(SUCCESS, mul);
+            } else {
+                isEmpty = false;
+            }
+        } else if (src.equals(AppConfig.BTC)) {
+            String rate = SPUtils.getString(AppConfig.BTC, null);
+            if (rate != null) {
+                double mul = TradeUtil.mul(dataBean.getMoney(), Double.parseDouble(rate));
+                isEmpty = true;
+                onNetResult.onNetResult(SUCCESS, mul);
+            } else {
+                isEmpty = false;
+            }
+        } else if (src.equals(AppConfig.ETH)) {
+            String rate = SPUtils.getString(AppConfig.ETH, null);
+            if (rate != null) {
+                double mul = TradeUtil.mul(dataBean.getMoney(), Double.parseDouble(rate));
+                isEmpty = true;
+                onNetResult.onNetResult(SUCCESS, mul);
+            } else {
+                isEmpty = false;
+            }
+        } else if (src.equals(AppConfig.XRP)) {
+            String rate = SPUtils.getString(AppConfig.XRP, null);
+            if (rate != null) {
+                double mul = TradeUtil.mul(dataBean.getMoney(), Double.parseDouble(rate));
+                isEmpty = true;
+                onNetResult.onNetResult(SUCCESS, mul);
+            } else {
+                isEmpty = false;
+            }
+        } else if (src.equals(AppConfig.HT)) {
+            String rate = SPUtils.getString(AppConfig.HT, null);
+            if (rate != null) {
+                double mul = TradeUtil.mul(dataBean.getMoney(), Double.parseDouble(rate));
+                isEmpty = true;
+                onNetResult.onNetResult(SUCCESS, mul);
+            } else {
+                isEmpty = false;
+            }
+        } else if (src.equals(AppConfig.TRX)) {
+            String rate = SPUtils.getString(AppConfig.TRX, null);
+            if (rate != null) {
+                double mul = TradeUtil.mul(dataBean.getMoney(), Double.parseDouble(rate));
+                isEmpty = true;
+                onNetResult.onNetResult(SUCCESS, mul);
+            } else {
+                isEmpty = false;
+            }
+        } else if (src.equals(AppConfig.LINK)) {
+            String rate = SPUtils.getString(AppConfig.LINK, null);
+            if (rate != null) {
+                double mul = TradeUtil.mul(dataBean.getMoney(), Double.parseDouble(rate));
+                isEmpty = true;
+                onNetResult.onNetResult(SUCCESS, mul);
+            } else {
+                isEmpty = false;
+            }
+        }
 
-                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode() == 401) {
-                    onNetResult.onNetResult(FAILURE, null);
-                } else if (tipEntity.getCode() == 200) {
-                    RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
 
-                    if (moneyType.equals("1")) {
-                        double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
-                        // Log.d("print", "onNetResult:595实盘:  "+mul);
-                        onNetResult.onNetResult(SUCCESS, mul);
-                    } else {
-                        double mul = TradeUtil.mul(dataBean.getGame(), rateEntity.getRate());
-                        // Log.d("print", "onNetResult:595虚拟:  "+mul);
-                        onNetResult.onNetResult(SUCCESS, mul);
+        if (isEmpty == false) {
+            ArrayMap<String, String> map = new ArrayMap<>();
+            map.put("src", src);
+            map.put("des", des);
+            getRequest("/api/home/currency/rate", map, (state, response) -> {
+                if (state.equals(BUSY)) {
+                    onNetResult.onNetResult(BUSY, null);
+                } else if (state.equals(SUCCESS)) {
+
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 401) {
+                        onNetResult.onNetResult(FAILURE, null);
+                    } else if (tipEntity.getCode() == 200) {
+                        isEmpty = true;
+                        RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
+                        Log.d("print", "rate: 第一次: 843: " + rateEntity);
+                        if (moneyType.equals("1")) {
+                            if (src.equals(AppConfig.USDT)) {
+                                SPUtils.putString(AppConfig.USDT, String.valueOf(rateEntity.getRate()));
+                                double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
+                                onNetResult.onNetResult(SUCCESS, mul);
+                            } else if (src.equals(AppConfig.BTC)) {
+                                SPUtils.putString(AppConfig.BTC, String.valueOf(rateEntity.getRate()));
+                                double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
+                                onNetResult.onNetResult(SUCCESS, mul);
+                            } else if (src.equals(AppConfig.ETH)) {
+                                SPUtils.putString(AppConfig.ETH, String.valueOf(rateEntity.getRate()));
+                                double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
+                                onNetResult.onNetResult(SUCCESS, mul);
+                            } else if (src.equals(AppConfig.XRP)) {
+                                SPUtils.putString(AppConfig.XRP, String.valueOf(rateEntity.getRate()));
+                                double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
+                                onNetResult.onNetResult(SUCCESS, mul);
+                            } else if (src.equals(AppConfig.HT)) {
+                                SPUtils.putString(AppConfig.HT, String.valueOf(rateEntity.getRate()));
+                                double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
+                                onNetResult.onNetResult(SUCCESS, mul);
+                            } else if (src.equals(AppConfig.TRX)) {
+                                SPUtils.putString(AppConfig.TRX, String.valueOf(rateEntity.getRate()));
+                                double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
+                                onNetResult.onNetResult(SUCCESS, mul);
+                            } else if (src.equals(AppConfig.LINK)) {
+                                SPUtils.putString(AppConfig.LINK, String.valueOf(rateEntity.getRate()));
+                                double mul = TradeUtil.mul(dataBean.getMoney(), rateEntity.getRate());
+                                onNetResult.onNetResult(SUCCESS, mul);
+                            }
+
+                        } else {
+                            double mul = TradeUtil.mul(dataBean.getGame(), rateEntity.getRate());
+                            onNetResult.onNetResult(SUCCESS, mul);
+                        }
+
+
                     }
 
+                } else if (state.equals(FAILURE)) {
+                    onNetResult.onNetResult(FAILURE, null);
 
                 }
-
-            } else if (state.equals(FAILURE)) {
-                onNetResult.onNetResult(FAILURE, null);
-
-            }
-        });
+            });
+        }
     }
 
     /*获得汇率*/
