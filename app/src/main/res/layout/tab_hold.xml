@@ -92,7 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="--.--"
+                    android:text="@string/text_default"
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 
@@ -120,7 +120,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="--.--"
+                    android:text="@string/text_default"
 
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
@@ -150,7 +150,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="--.--"
+                    android:text="@string/text_default"
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 
@@ -222,7 +222,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="--.--"
+                    android:text="@string/text_default"
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 
@@ -250,7 +250,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="--.--"
+                    android:text="@string/text_default"
 
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
@@ -280,7 +280,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="--.--"
+                    android:text="@string/text_default"
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 

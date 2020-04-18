@@ -1,20 +1,23 @@
 package com.pro.bityard.fragment.hold;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.HistoryAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
-import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.HistoryEntity;
+import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.view.HeaderRecyclerView;
 
-import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,17 +28,19 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class HistoryFragment extends BaseFragment {
+public class HistoryFragment extends BaseFragment implements Observer {
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
 
-
+    @BindView(R.id.btn_login)
+    Button btn_login;
     private HistoryAdapter historyAdapter;
 
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     private String tradeType;
+    private HistoryEntity historyEntity;
 
 
     public HistoryFragment newInstance(String type) {
@@ -57,6 +62,18 @@ public class HistoryFragment extends BaseFragment {
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (isLogin()) {
+            headerRecyclerView.setVisibility(View.VISIBLE);
+            btn_login.setVisibility(View.GONE);
+        } else {
+            headerRecyclerView.setVisibility(View.GONE);
+            btn_login.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
     protected void onLazyLoad() {
 
     }
@@ -64,8 +81,10 @@ public class HistoryFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
 
+        TagManger.getInstance().addObserver(this);
+
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
-        View footView = LayoutInflater.from(getContext()).inflate(R.layout.tab_foot_view, null);
+        @SuppressLint("InflateParams") View footView = LayoutInflater.from(getContext()).inflate(R.layout.tab_foot_view, null);
 
         headerRecyclerView.addFooterView(footView);
         historyAdapter = new HistoryAdapter(getContext());
@@ -74,11 +93,10 @@ public class HistoryFragment extends BaseFragment {
 
         headerRecyclerView.setAdapter(historyAdapter);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initData();
-            }
+        swipeRefreshLayout.setOnRefreshListener(this::initData);
+        btn_login.setOnClickListener(v -> {
+            LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
+
         });
 
 
@@ -97,20 +115,57 @@ public class HistoryFragment extends BaseFragment {
     @Override
     protected void initData() {
 
-        NetManger.getInstance().getHistory(tradeType, (state, response) -> {
-            if (state.equals(BUSY)) {
-                swipeRefreshLayout.setRefreshing(true);
-            } else if (state.equals(SUCCESS)) {
-                swipeRefreshLayout.setRefreshing(false);
-                HistoryEntity historyEntity = (HistoryEntity) response;
+        if (isLogin()) {
+            NetManger.getInstance().getHistory(tradeType, (state, response) -> {
+                if (state.equals(BUSY)) {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(true);
+                    }
+                } else if (state.equals(SUCCESS)) {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                    historyEntity = (HistoryEntity) response;
+                    historyAdapter.setDatas(historyEntity.getData());
+                } else if (state.equals(FAILURE)) {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                }
+            });
+        } else {
+            if (historyEntity != null) {
+                historyEntity.getData().clear();
                 historyAdapter.setDatas(historyEntity.getData());
-
-
-            } else if (state.equals(FAILURE)) {
-                swipeRefreshLayout.setRefreshing(false);
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
 
             }
-        });
 
+        }
+
+
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == TagManger.getInstance()) {
+            if (isLogin()) {
+                headerRecyclerView.setVisibility(View.VISIBLE);
+                btn_login.setVisibility(View.GONE);
+            } else {
+                headerRecyclerView.setVisibility(View.GONE);
+                btn_login.setVisibility(View.VISIBLE);
+            }
+            initData();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        TagManger.getInstance().clear();
     }
 }

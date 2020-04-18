@@ -196,6 +196,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     public void update(Observable o, Object arg) {
+
         if (o == QuoteListManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
@@ -213,9 +214,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
             balanceEntity = (BalanceEntity) arg;
 
-
-            TradeUtil.getRate(balanceEntity, "1", response -> Log.d("print", "setResult:137实盘:  " + response.toString()));
-
+            // TradeUtil.getRate(balanceEntity, "1", response -> Log.d("print", "setResult:137实盘:  " + response.toString()));
+            Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_available != null) {
                     for (BalanceEntity.DataBean data : balanceEntity.getData()) {
@@ -237,15 +237,15 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             });
 
         } else if (o == PositionRealManger.getInstance()) {
+
             List<PositionEntity.DataBean> positionList = (List<PositionEntity.DataBean>) arg;
             runOnUiThread(() -> {
                 if (text_freeze != null) {
                     TradeUtil.getMargin(positionList, response -> {
                         if (response == null) {
-                            text_freeze.setText("--.--");
+                            text_freeze.setText(getResources().getString(R.string.text_default));
                         } else {
                             text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
-
                         }
 
                     });
@@ -260,7 +260,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 if (text_freeze_simulation != null) {
                     TradeUtil.getMargin(positionList, response -> {
                         if (response == null) {
-                            text_freeze_simulation.setText("--.--");
+                            text_freeze_simulation.setText(getResources().getString(R.string.text_default));
                         } else {
                             text_freeze_simulation.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
 
@@ -317,7 +317,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     }
 
 
-                    
                 }
             });
 
@@ -328,13 +327,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     String netIncome = NetIncome[1];
                     String margin = NetIncome[2];
                     //   Log.d("print", "run:185:  " + netIncome + "   --  " + margin);
-                    if (balanceEntity != null) {
-                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                            if (data.getCurrency().equals("USDT")) {
-                                double game = data.getGame();
-                                double add1 = TradeUtil.add(game, Double.parseDouble(margin));
-                                double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
-                                text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
+                    if (isLogin()) {
+                        if (balanceEntity != null) {
+                            for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                                if (data.getCurrency().equals("USDT")) {
+                                    double game = data.getGame();
+                                    double add1 = TradeUtil.add(game, Double.parseDouble(margin));
+                                    double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
+                                    text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
                                /* TradeUtil.getRate(balanceEntity, "2", response -> {
                                     // double money = Double.parseDouble(response.toString());
                                     double game = data.getGame();
@@ -343,9 +343,20 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                                     text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
                                 });*/
 
+                                }
                             }
                         }
+                    } else {
+                        text_worth.setText(getResources().getString(R.string.text_default));
+                        text_worth_simulation.setText(getResources().getString(R.string.text_default));
+                        text_balance.setText(getResources().getString(R.string.text_default));
+                        text_available.setText(getResources().getString(R.string.text_default));
+                        text_available_simulation.setText(getResources().getString(R.string.text_default));
+                        text_balance_currency.setText(getResources().getString(R.string.text_default));
+                        text_freeze.setText(getResources().getString(R.string.text_default));
+                        text_freeze_simulation.setText(getResources().getString(R.string.text_default));
                     }
+
 
                 }
             });
@@ -364,6 +375,20 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     radioButton_2.setChecked(true);
                 });
             }
+        } else if (o == TagManger.getInstance()) {
+            if (isLogin()) {
+
+            } else {
+                text_worth.setText(getResources().getString(R.string.text_default));
+                text_worth_simulation.setText(getResources().getString(R.string.text_default));
+                text_balance.setText(getResources().getString(R.string.text_default));
+                text_available.setText(getResources().getString(R.string.text_default));
+                text_available_simulation.setText(getResources().getString(R.string.text_default));
+                text_balance_currency.setText(getResources().getString(R.string.text_default));
+                text_freeze.setText(getResources().getString(R.string.text_default));
+                text_freeze_simulation.setText(getResources().getString(R.string.text_default));
+            }
+            //initData();
         }
     }
 
@@ -602,46 +627,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         QuoteListManger.getInstance().addObserver(this);
 
-       /* //获取国家code
-        NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
-            if (state.equals(SUCCESS)) {
-                CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-
-            }
-        });
-
-        //获取USDT兑换CNY汇率
-        NetManger.getItemRate("1", response -> {
-            Log.d("print", "initData:603:  "+response);
-        });
-
-
-        //合约号初始化
-        TradeListManger.getInstance().tradeList((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                Toast.makeText(MainOneActivity.this, "合约号获取成功", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        *//*手续费*//*
-        ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                Toast.makeText(MainOneActivity.this, "手续费获取成功", Toast.LENGTH_SHORT).show();
-            }
-        });
-        //行情
-        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        if (quote_host == null && quote_code == null) {
-            Toast.makeText(MainOneActivity.this, getResources().getString(R.string.text_err_init), Toast.LENGTH_SHORT).show();
-            NetManger.getInstance().initQuote();
-        } else {
-            assert quote_host != null;
-            QuoteListManger.getInstance().quote(quote_host, quote_code);
-        }*/
-
         InitManger.getInstance().init();
 
         radioButton_2.setOnClickListener(this);
@@ -810,15 +795,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 layout_real.setVisibility(View.GONE);
                 layout_simulation.setVisibility(View.GONE);
 
-
-                if (balanceEntity != null) {
-                    for (BalanceEntity.DataBean data1 : balanceEntity.getData()) {
-                        if (data1.getCurrency().equals("USDT")) {
-                            String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                            text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data1.getMoney(), Double.parseDouble(string)), 2));
-                        }
-                    }
-                }
 
                 break;
         }

@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_2"
                 android:layout_marginBottom="@dimen/margin_5"
-                android:text="--.--"
+                android:text="@string/text_default"
                 android:layout_marginLeft="@dimen/margin_5"
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal"

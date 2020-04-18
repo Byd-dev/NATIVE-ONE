@@ -41,7 +41,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginTop="@dimen/margin_5"
                 android:layout_marginBottom="@dimen/margin_2"
-                android:text="--.--"
+                android:text="@string/text_default"
                 android:typeface="monospace"
                 android:textColor="@color/text_quote_red"
                 android:textSize="19sp"

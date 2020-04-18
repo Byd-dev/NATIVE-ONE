@@ -42,10 +42,6 @@ public class TagManger extends Observable {
      * 清理消息监听
      */
     public void clear() {
-        BalanceManger.getInstance().clear();
-        //持仓初始化
-        PositionRealManger.getInstance().clear();
-        PositionSimulationManger.getInstance().clear();
         deleteObservers();
         balanceManger = null;
     }

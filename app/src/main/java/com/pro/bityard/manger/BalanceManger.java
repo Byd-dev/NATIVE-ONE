@@ -6,12 +6,8 @@ import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.entity.BalanceEntity;
-import com.pro.bityard.entity.RateEntity;
 import com.pro.bityard.entity.TipEntity;
-import com.pro.bityard.utils.TradeUtil;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -80,7 +76,7 @@ public class BalanceManger extends Observable {
 
                     } else if (tipEntity.getCode() == 200) {
                         BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
-                        Log.d("print", "onNetResult:59:  "+balanceEntity);
+                        Log.d("print", "onNetResult:59:  " + balanceEntity);
 
                         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                             if (data.getCurrency().equals(moneyType)) {
@@ -92,8 +88,6 @@ public class BalanceManger extends Observable {
                         postBalance(balanceEntity);
 
 
-
-
                     }
 
                 } else if (state.equals(FAILURE)) {
@@ -102,6 +96,7 @@ public class BalanceManger extends Observable {
             }
         });
     }
+
     /**
      * 清理消息监听
      */

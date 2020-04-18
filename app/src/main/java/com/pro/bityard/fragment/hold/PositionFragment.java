@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
@@ -18,12 +19,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PositionAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.BalanceManger;
@@ -39,6 +42,7 @@ import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
@@ -66,6 +70,9 @@ import static com.pro.bityard.utils.TradeUtil.small;
 public class PositionFragment extends BaseFragment implements Observer {
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
+
+    @BindView(R.id.btn_login)
+    Button btn_login;
 
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
@@ -118,6 +125,17 @@ public class PositionFragment extends BaseFragment implements Observer {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isLogin()) {
+            headerRecyclerView.setVisibility(View.VISIBLE);
+            btn_login.setVisibility(View.GONE);
+        } else {
+            headerRecyclerView.setVisibility(View.GONE);
+            btn_login.setVisibility(View.VISIBLE);
+        }
+    }
 
     @SuppressLint("InflateParams")
     @Override
@@ -191,6 +209,10 @@ public class PositionFragment extends BaseFragment implements Observer {
 
             }
 
+
+        });
+        btn_login.setOnClickListener(v -> {
+            LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
 
         });
 
@@ -1049,9 +1071,13 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
             if (state.equals(BUSY)) {
-                swipeRefreshLayout.setRefreshing(true);
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
             } else if (state.equals(SUCCESS)) {
-                swipeRefreshLayout.setRefreshing(false);
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
                 positionEntity = (PositionEntity) response1;
                 positionAdapter.setDatas(positionEntity.getData(), quoteList);
 
@@ -1061,13 +1087,17 @@ public class PositionFragment extends BaseFragment implements Observer {
                     headerRecyclerView.removeHeaderView(headView);
                 } else {
                     //防止刷新已经有头布局 继续添加出现的bug
-                    if (headerRecyclerView.getHeadersCount() == 0) {
-                        headerRecyclerView.addHeaderView(headView);
+                    if (headerRecyclerView != null) {
+                        if (headerRecyclerView.getHeadersCount() == 0) {
+                            headerRecyclerView.addHeaderView(headView);
+                        }
                     }
                 }
 
             } else if (state.equals(FAILURE)) {
-                swipeRefreshLayout.setRefreshing(false);
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
 
             }
         });
@@ -1097,7 +1127,17 @@ public class PositionFragment extends BaseFragment implements Observer {
                     //整体净值
                     setNetIncome(tradeType, positionEntity.getData(), quoteList);
 
-                    positionAdapter.setDatas(positionEntity.getData(), quoteList);
+
+                    if (isLogin()) {
+                        positionAdapter.setDatas(positionEntity.getData(), quoteList);
+                    } else {
+                        List<PositionEntity.DataBean> data = new ArrayList<>();
+                        positionEntity.getData().clear();
+                        positionAdapter.setDatas(positionEntity.getData(), quoteList);
+                        headerRecyclerView.removeHeaderView(headView);
+
+                    }
+
                     //pop 实时价格也是同步刷新
                     if (text_price != null) {
                         price(quoteList, contractCode, response -> text_price.setText(response.toString()));
@@ -1114,6 +1154,14 @@ public class PositionFragment extends BaseFragment implements Observer {
 
 
         } else if (o == TagManger.getInstance()) {
+
+            if (isLogin()) {
+                headerRecyclerView.setVisibility(View.VISIBLE);
+                btn_login.setVisibility(View.GONE);
+            } else {
+                headerRecyclerView.setVisibility(View.GONE);
+                btn_login.setVisibility(View.VISIBLE);
+            }
             initData();
         }
     }

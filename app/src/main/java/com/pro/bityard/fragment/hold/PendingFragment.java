@@ -4,18 +4,22 @@ import android.os.Bundle;
 import android.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PendingAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import java.util.List;
@@ -43,7 +47,8 @@ public class PendingFragment extends BaseFragment implements Observer {
     SwipeRefreshLayout swipeRefreshLayout;
     private String tradeType;
     private PositionEntity positionEntity;
-
+    @BindView(R.id.btn_login)
+    Button btn_login;
 
     public PendingFragment newInstance(String type) {
         PendingFragment fragment = new PendingFragment();
@@ -57,11 +62,22 @@ public class PendingFragment extends BaseFragment implements Observer {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments()!=null){
+        if (getArguments() != null) {
             tradeType = getArguments().getString("tradeType");
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isLogin()) {
+            headerRecyclerView.setVisibility(View.VISIBLE);
+            btn_login.setVisibility(View.GONE);
+        } else {
+            headerRecyclerView.setVisibility(View.GONE);
+            btn_login.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     protected void onLazyLoad() {
@@ -71,10 +87,10 @@ public class PendingFragment extends BaseFragment implements Observer {
     @Override
     protected void initView(View view) {
         QuoteListManger.getInstance().addObserver(this);
+        TagManger.getInstance().addObserver(this);
 
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
-
 
 
         pendingAdapter = new PendingAdapter(getContext());
@@ -85,12 +101,7 @@ public class PendingFragment extends BaseFragment implements Observer {
         headerRecyclerView.addFooterView(footView);
         headerRecyclerView.setAdapter(pendingAdapter);
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                initData();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> initData());
 
         pendingAdapter.setOnItemClick(new PendingAdapter.OnItemClick() {
             @Override
@@ -101,22 +112,19 @@ public class PendingFragment extends BaseFragment implements Observer {
             @Override
             public void onCancelListener(String id) {
                 /*平仓*/
-                NetManger.getInstance().cancel(id, tradeType, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            dismissProgressDialog();
-                            TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
-                            Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                            //更新下持仓页面的数据
-                            PositionRealManger.getInstance().getHold();
-                            initData();
+                NetManger.getInstance().cancel(id, tradeType, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
+                        Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                        //更新下持仓页面的数据
+                        PositionRealManger.getInstance().getHold();
+                        initData();
 
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
-                        }
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
                     }
                 });
             }
@@ -127,7 +135,10 @@ public class PendingFragment extends BaseFragment implements Observer {
             }
         });
 
+        btn_login.setOnClickListener(v -> {
+            LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
 
+        });
 
 
     }
@@ -166,15 +177,37 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
-        List<String> quoteList = arrayMap.get("0");
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (positionEntity!=null){
-                    pendingAdapter.setDatas(positionEntity.getData(),quoteList);
+        if (o == QuoteListManger.getInstance()) {
+            ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
+            List<String> quoteList = arrayMap.get("0");
+            runOnUiThread(() -> {
+
+                if (positionEntity != null) {
+                    if (isLogin()) {
+                        pendingAdapter.setDatas(positionEntity.getData(), quoteList);
+                    } else {
+                        positionEntity.getData().clear();
+                        ;
+                        pendingAdapter.setDatas(positionEntity.getData(), quoteList);
+                    }
                 }
+
+            });
+        } else if (o == TagManger.getInstance()) {
+            if (isLogin()) {
+                headerRecyclerView.setVisibility(View.VISIBLE);
+                btn_login.setVisibility(View.GONE);
+            } else {
+                headerRecyclerView.setVisibility(View.GONE);
+                btn_login.setVisibility(View.VISIBLE);
             }
-        });
+            initData();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        TagManger.getInstance().clear();
     }
 }
