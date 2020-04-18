@@ -623,11 +623,11 @@ public class NetManger {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("type", "0");//0是货币 1是法币
         getRequest("/api/home/currency/list", map, (state, response) -> {
-            Log.d("print", "assetList:625:  "+response);
-                if (state.equals(SUCCESS)){
-                    CurrencyListEntity currencyListEntity = new Gson().fromJson(response.toString(), CurrencyListEntity.class);
-                    onNetResult.onNetResult(SUCCESS,currencyListEntity);
-                }
+            Log.d("print", "assetList:625:  " + response);
+            if (state.equals(SUCCESS)) {
+                CurrencyListEntity currencyListEntity = new Gson().fromJson(response.toString(), CurrencyListEntity.class);
+                onNetResult.onNetResult(SUCCESS, currencyListEntity);
+            }
         });
 
     }
@@ -1067,12 +1067,8 @@ public class NetManger {
                     RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
 
                     if (moneyType.equals("1")) {
-                        // double mul = TradeUtil.mul(money, rateEntity.getRate());
-                        // Log.d("print", "onNetResult:595实盘:  "+mul);
                         onNetResult.onNetResult(SUCCESS, rateEntity.getRate());
                     } else {
-                        // double mul = TradeUtil.mul(money, rateEntity.getRate());
-                        // Log.d("print", "onNetResult:595虚拟:  "+mul);
                         onNetResult.onNetResult(SUCCESS, rateEntity.getRate());
                     }
 

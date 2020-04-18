@@ -249,7 +249,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                         } else {
                             text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
                         }
-
                     });
                 }
             });
