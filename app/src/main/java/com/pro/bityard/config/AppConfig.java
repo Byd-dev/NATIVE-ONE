@@ -51,6 +51,12 @@ public class AppConfig {
     public static final String HT = "HT";
     public static final String TRX = "TRX";
     public static final String LINK = "LINK";
+    //货币
+    public static final String CURRENCY = "CURRENCY";
+    public static final String CURRENCY_LIST = "CURRENCY_LIST";
+
+    public static final String CURRENCY_INDEX = "CURRENCY_INDEX";
+
 
 
 

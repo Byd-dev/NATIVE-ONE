@@ -12,6 +12,7 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.CurrencyListEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.IsLoginEntity;
@@ -617,6 +618,20 @@ public class NetManger {
         });
     }
 
+    public void assetList(OnNetResult onNetResult) {
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("type", "0");//0是货币 1是法币
+        getRequest("/api/home/currency/list", map, (state, response) -> {
+            Log.d("print", "assetList:625:  "+response);
+                if (state.equals(SUCCESS)){
+                    CurrencyListEntity currencyListEntity = new Gson().fromJson(response.toString(), CurrencyListEntity.class);
+                    onNetResult.onNetResult(SUCCESS,currencyListEntity);
+                }
+        });
+
+    }
+
     /*挂单列表*/
     public void getPending(String tradeType, OnNetTwoResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -624,30 +639,27 @@ public class NetManger {
         map.put("tradeType", tradeType);
         map.put("beginTime", "");
         map.put("_", String.valueOf(new Date().getTime()));
-        getRequest("/api/trade/scheme/limit", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.setResult(BUSY, null, null);
-                } else if (state.equals(SUCCESS)) {
+        getRequest("/api/trade/scheme/limit", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.setResult(BUSY, null, null);
+            } else if (state.equals(SUCCESS)) {
 
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 401) {
-                        onNetResult.setResult(FAILURE, null, null);
-
-                    } else if (tipEntity.getCode() == 200) {
-                        PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
-
-
-                        onNetResult.setResult(SUCCESS, positionEntity, null);
-
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
                     onNetResult.setResult(FAILURE, null, null);
 
+                } else if (tipEntity.getCode() == 200) {
+                    PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
+
+
+                    onNetResult.setResult(SUCCESS, positionEntity, null);
+
+
                 }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.setResult(FAILURE, null, null);
+
             }
         });
     }
@@ -958,6 +970,31 @@ public class NetManger {
             });
         }
     }
+
+
+    public void rateList(String src, String des, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("src", src);
+        map.put("des", des);
+        getRequest("/api/home/currency/rates", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else if (tipEntity.getCode() == 200) {
+
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
 
     /*获得汇率*/
     public void getItemRate(String moneyType, String des, OnResult onResult) {

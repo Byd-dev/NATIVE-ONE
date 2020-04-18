@@ -97,7 +97,7 @@ public class SPUtils {
      */
     public static <T> T getData(String key, Class<T> clz) {
         checkInit();
-        String json = sharedPreferences.getString(key, "");
+        String json = sharedPreferences.getString(key, null);
         return gson.fromJson(json, clz);
     }
 
@@ -107,7 +107,7 @@ public class SPUtils {
      */
     public static <T> List<T> getData(Class<List> clz, Class<T> gClz) {
         checkInit();
-        String json = sharedPreferences.getString(gClz.getName() + LIST_TAG, "");
+        String json = sharedPreferences.getString(gClz.getName() + LIST_TAG, null);
         return gson.fromJson(json, new TypeToken<List>() {
         }.getType());
     }

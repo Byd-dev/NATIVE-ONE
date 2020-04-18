@@ -12,7 +12,8 @@ public class IntentConfig {
 
         public static final String KEY_SET_UP = "SETUP";
         public static final String KEY_LANGUAGE = "LANGUAGE";
-        public static final String KEY_RATE = "RATE";
+        public static final String KEY_ASSET = "ASSET";
+
 
         public static final String KEY_THEME = "THEME";
 

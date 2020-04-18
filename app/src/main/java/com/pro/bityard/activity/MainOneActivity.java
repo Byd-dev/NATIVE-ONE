@@ -173,6 +173,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @BindView(R.id.text_uid)
     TextView text_uid;
 
+    @BindView(R.id.text_currency)
+    TextView text_currency;
+
     @BindView(R.id.text_balance)
     TextView text_balance;
     @BindView(R.id.text_balance_currency)
@@ -428,6 +431,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         }
 
+        String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
+        text_currency.setText("(" + cny + ")");
+
 
     }
 
@@ -620,7 +626,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         if (balanceEntity != null) {
             for (BalanceEntity.DataBean data1 : balanceEntity.getData()) {
                 if (data1.getCurrency().equals("USDT")) {
-                    String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                    String string = SPUtils.getString(AppConfig.CURRENCY, null);
                     text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data1.getMoney(), Double.parseDouble(string)), 2));
 
 
@@ -826,13 +832,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
 
-        SPUtils.remove(AppConfig.USDT);
-        SPUtils.remove(AppConfig.BTC);
-        SPUtils.remove(AppConfig.ETH);
-        SPUtils.remove(AppConfig.TRX);
-        SPUtils.remove(AppConfig.XRP);
-        SPUtils.remove(AppConfig.HT);
-        SPUtils.remove(AppConfig.LINK);
 
     }
 
@@ -905,13 +904,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 break;
             /*我的 -----------------------------------------------------------------------------------*/
             case R.id.layout_six:
-                if (isLogin()) {
-                    UserActivity.enter(this, IntentConfig.Keys.KEY_SET_UP);
-                } else {
-                    LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
-                }
+                UserActivity.enter(this, IntentConfig.Keys.KEY_SET_UP);
+
                 break;
             case R.id.layout_balance:
+
                 if (isEyeOpen) {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     text_balance.setText("***");
@@ -937,4 +934,15 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     }
 
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        SPUtils.remove(AppConfig.USDT);
+        SPUtils.remove(AppConfig.BTC);
+        SPUtils.remove(AppConfig.ETH);
+        SPUtils.remove(AppConfig.TRX);
+        SPUtils.remove(AppConfig.XRP);
+        SPUtils.remove(AppConfig.HT);
+        SPUtils.remove(AppConfig.LINK);
+    }
 }

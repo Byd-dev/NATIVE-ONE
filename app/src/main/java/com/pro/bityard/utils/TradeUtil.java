@@ -496,9 +496,8 @@ public class TradeUtil {
 
     }
 
-    /*计算汇率*/
+    /*计算单个汇率*/
     public static void getRate(BalanceEntity balanceEntity, String moneyType, TradeResult tradeResult) {
-
         List<Double> balanceList = new ArrayList<>();
         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
             String currency = data.getCurrency();
@@ -520,7 +519,28 @@ public class TradeUtil {
 
     }
 
+    /*计算单个汇率*/
+    public static void getRateList(BalanceEntity balanceEntity, String moneyType, TradeResult tradeResult) {
+        List<Double> balanceList = new ArrayList<>();
+        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+            String currency = data.getCurrency();
+            Log.d(TAG, "getRate:505:  "+currency);
 
+            NetManger.getInstance().rate(data, moneyType, currency, "USDT", (state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    balanceList.add(Double.parseDouble(response.toString()));
+                    double balance = 0.0;
+                    for (double a : balanceList) {
+                        balance = TradeUtil.add(balance, a);
+                    }
+                    if (balanceList.size() == balanceEntity.getData().size()) {
+                        tradeResult.setResult(balance);
+                    }
+                }
+            });
+        }
+
+    }
 
     /*价格从小到大*/
     public static List<String> priceLowToHigh(List<String> quoteList) {

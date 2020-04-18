@@ -65,34 +65,31 @@ public class BalanceManger extends Observable {
     public void getBalance(String moneyType) {
 
 
-        NetManger.getInstance().getRequest("/api/user/asset/list", null, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                } else if (state.equals(SUCCESS)) {
-                    //Log.d("print", "onNetResult:52: "+response.toString());
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 401) {
+        NetManger.getInstance().getRequest("/api/user/asset/list", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+            } else if (state.equals(SUCCESS)) {
+                //Log.d("print", "onNetResult:52: "+response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
 
-                    } else if (tipEntity.getCode() == 200) {
-                        BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
-                        Log.d("print", "onNetResult:59:  " + balanceEntity);
+                } else if (tipEntity.getCode() == 200) {
+                    BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
+                    Log.d("print", "onNetResult:59:  " + balanceEntity);
 
-                        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                            if (data.getCurrency().equals(moneyType)) {
-                                setBalanceReal(data.getMoney());
-                                setBalanceSim(data.getGame());
+                    for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                        if (data.getCurrency().equals(moneyType)) {
+                            setBalanceReal(data.getMoney());
+                            setBalanceSim(data.getGame());
 
-                            }
                         }
-                        postBalance(balanceEntity);
-
-
                     }
+                    postBalance(balanceEntity);
 
-                } else if (state.equals(FAILURE)) {
 
                 }
+
+            } else if (state.equals(FAILURE)) {
+
             }
         });
     }

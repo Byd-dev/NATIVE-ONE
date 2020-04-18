@@ -1,13 +1,7 @@
 package com.pro.bityard.manger;
 
-import android.util.Log;
-import android.widget.Toast;
-
 import com.google.gson.Gson;
-import com.pro.bityard.R;
-import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.switchlibrary.SPUtils;
@@ -65,8 +59,9 @@ public class InitManger extends Observable {
             }
         });
 
+        String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         //获取USDT兑换CNY汇率
-        NetManger.getInstance().getItemRate("1", "CNY", response -> {
+        NetManger.getInstance().getItemRate("1", cny, response -> {
             SPUtils.putString(AppConfig.USD_RATE, response.toString());
         });
 

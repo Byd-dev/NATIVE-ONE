@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.my;
 
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -37,6 +38,9 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
     @BindView(R.id.text_rate)
     TextView text_rate;
 
+    @BindView(R.id.btn_logout)
+    Button btn_logout;
+
 
     @Override
     public void onResume() {
@@ -48,8 +52,8 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
             text_theme.setText(getResources().getText(R.string.text_day));
         }
 
-        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE,null);
-        if (language==null) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        if (language == null) {
 
         } else {
             if (language.equals("en")) {
@@ -68,6 +72,8 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
 
             }
         }
+        String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
+        text_rate.setText(cny);
 
 
     }
@@ -88,8 +94,14 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
         view.findViewById(R.id.layout_two).setOnClickListener(this);
         view.findViewById(R.id.layout_three).setOnClickListener(this);
 
+        if (isLogin()) {
+            btn_logout.setVisibility(View.VISIBLE);
+        } else {
+            btn_logout.setVisibility(View.GONE);
 
+        }
     }
+
 
     @Override
     protected int setLayoutResourceID() {
@@ -122,7 +134,7 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
 
                 break;
             case R.id.layout_three:
-                UserActivity.enter(getContext(), IntentConfig.Keys.KEY_RATE);
+                UserActivity.enter(getContext(), IntentConfig.Keys.KEY_ASSET);
 
                 break;
 

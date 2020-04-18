@@ -8,11 +8,10 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.fragment.my.CurrencyRateFragment;
 import com.pro.bityard.fragment.my.LanguageFragment;
 import com.pro.bityard.fragment.my.SetUpFragment;
 import com.pro.bityard.fragment.my.ThemeFragment;
-import com.pro.bityard.fragment.user.LoginFragment;
-import com.pro.bityard.fragment.user.RegisterFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import androidx.annotation.Nullable;
@@ -29,6 +28,8 @@ public class UserActivity extends BaseActivity {
     private ThemeFragment themeFragment;
     //语言设置
     private LanguageFragment languageFragment;
+    //汇率
+    private CurrencyRateFragment currencyRateFragment;
 
 
 
@@ -59,9 +60,20 @@ public class UserActivity extends BaseActivity {
             addThemeFragment();
         }else if (type.equals(IntentConfig.Keys.KEY_LANGUAGE)){
             addLanguageFragment();
+        }else if (type.equals(IntentConfig.Keys.KEY_ASSET)){
+            addAssetFragment();
         }
 
 
+    }
+
+    private void addAssetFragment() {
+        String name = CurrencyRateFragment.class.getSimpleName();
+        currencyRateFragment = new CurrencyRateFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, currencyRateFragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addLanguageFragment() {

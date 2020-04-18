@@ -4,45 +4,52 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.api.TradeResult;
+import com.pro.bityard.entity.CurrencyListEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class RadioRateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CurrencyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<Integer> datas;
+    private List<CurrencyListEntity.DataBean> datas;
+
+    private List<String> quoteList;
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
+    private boolean isHigh = false;
+
     public boolean isLoadMore = false;
     private Integer index = 0;
 
-    public RadioRateAdapter(Context context) {
+
+    public CurrencyListAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<Integer> datas) {
+    public void setDatas(List<CurrencyListEntity.DataBean> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
     }
 
-    public void select(Integer index) {
-        this.index = index;
-        this.notifyDataSetChanged();
-
-    }
-
-    public void addDatas(List<Integer> datas) {
+    public void addDatas(List<CurrencyListEntity.DataBean> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
+        this.notifyDataSetChanged();
+    }
+
+    public void sortPrice(boolean isHigh) {
+        this.isHigh = isHigh;
         this.notifyDataSetChanged();
     }
 
@@ -56,6 +63,12 @@ public class RadioRateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.notifyDataSetChanged();
     }
 
+    public void select(Integer index) {
+        this.index = index;
+        this.notifyDataSetChanged();
+
+    }
+
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,7 +77,7 @@ public class RadioRateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         if (viewType == TYPE_ITEM) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.item_radio_rate_layout, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_currency_layout, parent, false);
             holder = new MyViewHolder(view);
             return holder;
         }
@@ -80,12 +93,13 @@ public class RadioRateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
+            ((MyViewHolder) holder).text_name.setText(datas.get(position).getCode());
 
-            ((MyViewHolder) holder).radioButton.setText(Math.abs(datas.get(position)) + "%");
             if (index == position) {
-                ((MyViewHolder) holder).radioButton.setChecked(true);
+                ((MyViewHolder) holder).img_switch.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_check_true));
             } else {
-                ((MyViewHolder) holder).radioButton.setChecked(false);
+                ((MyViewHolder) holder).img_switch.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_check_false));
+
             }
 
         }
@@ -118,20 +132,22 @@ public class RadioRateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        RadioButton radioButton;
-
+        TextView text_name;
+        ImageView img_switch;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            radioButton = itemView.findViewById(R.id.radio_lever);
+            text_name = itemView.findViewById(R.id.text_name);
+            img_switch = itemView.findViewById(R.id.img_switch);
 
 
-            radioButton.setOnClickListener(view -> {
+            itemView.setOnClickListener(view -> {
                 if (onItemClick != null) {
-                    onItemClick.onSuccessListener(getAdapterPosition(), datas.get(getPosition()));
-
+                    onItemClick.onClickListener(datas.get(getPosition()), getAdapterPosition());
                 }
             });
+
+
         }
     }
 
@@ -142,7 +158,8 @@ public class RadioRateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public interface OnItemClick {
-        void onSuccessListener(Integer position, Integer data);
+        void onClickListener(CurrencyListEntity.DataBean data, int position);
+
 
     }
 }
