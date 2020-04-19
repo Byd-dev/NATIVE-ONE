@@ -209,7 +209,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteAdapter.setDatas(quoteList);
                     quoteAdapter_market.setDatas(quoteList);
 
-                  //  NetManger.getInstance().setNetIncome(tradeType, positionEntity.getData(), quoteList);
 
                 }
             });
