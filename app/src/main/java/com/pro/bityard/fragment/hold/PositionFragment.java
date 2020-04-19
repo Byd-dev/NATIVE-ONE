@@ -1028,7 +1028,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
 
-    private void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
+    public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
 
         TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
             double margin;
@@ -1041,14 +1041,12 @@ public class PositionFragment extends BaseFragment implements Observer {
                 income = Double.parseDouble(response1.toString());
             }
             StringBuilder stringBuilder = new StringBuilder();
-
             StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
                     .append(",").append(margin);
             //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
             //账户净值=可用余额+占用保证金+浮动盈亏
             NetIncomeManger.getInstance().postNetIncome(append.toString());
         }));
-
 
     }
 

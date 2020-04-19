@@ -208,6 +208,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
                     quoteAdapter.setDatas(quoteList);
                     quoteAdapter_market.setDatas(quoteList);
+
+                  //  NetManger.getInstance().setNetIncome(tradeType, positionEntity.getData(), quoteList);
+
                 }
             });
 
@@ -216,7 +219,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
             balanceEntity = (BalanceEntity) arg;
 
-            // TradeUtil.getRate(balanceEntity, "1", response -> Log.d("print", "setResult:137实盘:  " + response.toString()));
             Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_available != null) {
@@ -281,27 +283,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     String margin = NetIncome[2];
                     if (isLogin()) {
                         if (balanceEntity != null) {
-                            for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                                if (data.getCurrency().equals("USDT")) {
-                                    double money1 = data.getMoney();//可用余额
-                                    double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
-                                    double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
-                                    text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
-                                    //汇率是实时的
-                                    TradeUtil.getRateList(balanceEntity, "1", response -> {
-                                        //账户净值=可用余额+占用保证金+浮动盈亏
-                                        double money = Double.parseDouble(response.toString());//所有钱包的和
-                                        double add1 = TradeUtil.add(money, Double.parseDouble(margin));//+保证金
-                                        double add = TradeUtil.add(add1, Double.parseDouble(netIncome));//+浮动盈亏
-                                        if (isEyeOpen) {
-                                            text_balance.setText(TradeUtil.getNumberFormat(add, 2));
-                                            String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                                            text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(add, Double.parseDouble(string)), 2));
-                                        }
-                                    });
-
-                                }
-                            }
+                            setMyNetIncome(balanceEntity, netIncome, margin);
                         }
                     } else {
                         text_worth.setText(getResources().getString(R.string.text_default));
@@ -332,14 +314,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                                     double add1 = TradeUtil.add(game, Double.parseDouble(margin));
                                     double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
                                     text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
-                               /* TradeUtil.getRate(balanceEntity, "2", response -> {
-                                    // double money = Double.parseDouble(response.toString());
-                                    double game = data.getGame();
-                                    double add1 = TradeUtil.add(game, Double.parseDouble(margin));
-                                    double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
-                                    text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
-                                });*/
-
                                 }
                             }
                         }
@@ -613,82 +587,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     protected void initData() {
 
         QuoteListManger.getInstance().addObserver(this);
-
         InitManger.getInstance().init();
-
         radioButton_2.setOnClickListener(this);
-
 
         //首页 -------------------------------------------------------------------------------------
         getBanner();
-        if (balanceEntity != null) {
-            for (BalanceEntity.DataBean data1 : balanceEntity.getData()) {
-                if (data1.getCurrency().equals("USDT")) {
-                    String string = SPUtils.getString(AppConfig.CURRENCY, null);
-                    text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data1.getMoney(), Double.parseDouble(string)), 2));
-
-
-                }
-            }
-        }
-        //持仓
-        //hhh
-       /* NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
-            if (state.equals(BUSY)) {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(true);
-                }
-            } else if (state.equals(SUCCESS)) {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-                PositionEntity positionEntity = (PositionEntity) response1;
-                TradeUtil.myNetIncome("1", positionEntity.getData(), quoteList, response -> {
-
-                    String[] NetIncome = response.toString().split(",");
-
-                    //账户净值=可用余额+占用保证金+浮动盈亏
-                    double money = Double.parseDouble(response.toString());//所有钱包的和
-                    double add1 = TradeUtil.add(money, Double.parseDouble(NetIncome[1]));//+保证金
-                    double add = TradeUtil.add(add1, Double.parseDouble(NetIncome[2]));//+浮动盈亏
-
-                    if (isEyeOpen) {
-                        text_balance.setText(TradeUtil.getNumberFormat(add, 2));
-                        String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                        text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(add, Double.parseDouble(string)), 2));
-                    }
-                });
-
-
-            } else if (state.equals(FAILURE)) {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-
-            }
-        });*/
-
-
-        if (balanceEntity != null) {
-            for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                if (data.getCurrency().equals("USDT")) {
-                    text_available.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
-                    double money1 = data.getMoney();//可用余额
-                    if (netIncomeResult != null) {
-                        String[] netIncome = netIncomeResult.split(",");
-                        double add2 = TradeUtil.add(money1, Double.parseDouble(netIncome[1]));//+保证金
-                        double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome[2]));//+浮动盈亏
-                        text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
-                    }
-
-
-                }
-            }
-
-
-        }
-
-
         //我的
 
 
@@ -911,13 +814,20 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 if (isEyeOpen) {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     text_balance.setText("***");
-                    text_balance_currency.setText("**");
+                    text_balance_currency.setText("***");
                     isEyeOpen = false;
                 } else {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
                     isEyeOpen = true;
                     if (isLogin()) {
-
+                        String[] NetIncome = netIncomeResult.split(",");
+                        if (NetIncome[0].equals("1")) {
+                            if (balanceEntity != null) {
+                                String netIncome = NetIncome[1];
+                                String margin = NetIncome[2];
+                                setMyNetIncome(balanceEntity, netIncome, margin);
+                            }
+                        }
                     } else {
                         text_balance.setText(getResources().getString(R.string.text_default));
                         text_balance_currency.setText(getResources().getString(R.string.text_default));
@@ -932,6 +842,30 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         }
     }
 
+    /*设置我的页面的总净资产*/
+    private void setMyNetIncome(BalanceEntity balanceEntity, String netIncome, String margin) {
+        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+            if (data.getCurrency().equals("USDT")) {
+                //汇率是实时的
+                TradeUtil.getRateList(balanceEntity, "1", response -> {
+                    double money1 = data.getMoney();//可用余额
+                    double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
+                    double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
+                    text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
+                    //账户净值=可用余额+占用保证金+浮动盈亏
+                    double money = Double.parseDouble(response.toString());//所有钱包的和
+                    double add1 = TradeUtil.add(money, Double.parseDouble(margin));//+保证金
+                    double add = TradeUtil.add(add1, Double.parseDouble(netIncome));//+浮动盈亏
+                    if (isEyeOpen) {
+                        text_balance.setText(TradeUtil.getNumberFormat(add, 2));
+                        String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                        text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(add, Double.parseDouble(string)), 2));
+                    }
+                });
+
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {
