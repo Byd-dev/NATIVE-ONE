@@ -63,8 +63,7 @@ public class ChartUtil {
 
             }
 
-
-            return dataList;
+            return agoToNow(dataList);
         }
     }
 
@@ -128,7 +127,7 @@ public class ChartUtil {
         if (a == 0) {
             time = nowTime;
         } else {
-            calendar.add(Calendar.DAY_OF_MONTH, -(a-1));
+            calendar.add(Calendar.DAY_OF_MONTH, -(a - 1));
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             time = Util.dateToStampLong(sdf.format(calendar.getTimeInMillis()));
         }

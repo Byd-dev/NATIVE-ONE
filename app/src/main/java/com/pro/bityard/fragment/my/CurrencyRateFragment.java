@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.my;
 
+import android.util.Log;
 import android.view.View;
 
 import com.pro.bityard.R;
@@ -79,10 +80,11 @@ public class CurrencyRateFragment extends BaseFragment {
     protected void initData() {
 
         CurrencyListEntity data = SPUtils.getData(AppConfig.CURRENCY_LIST, CurrencyListEntity.class);
+        Log.d("print", "initData:83:  "+data);
         if (data != null) {
             currencyListAdapter.setDatas(data.getData());
         } else {
-            NetManger.getInstance().assetList((state, response) -> {
+            NetManger.getInstance().currencyList((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     CurrencyListEntity currencyListEntity = (CurrencyListEntity) response;
                     SPUtils.putData(AppConfig.CURRENCY_LIST, currencyListEntity);

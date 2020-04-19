@@ -288,12 +288,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                                     double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
                                     text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
                                     //汇率是实时的
-                                    TradeUtil.getRate(balanceEntity, "1", response -> {
+                                    TradeUtil.getRateList(balanceEntity, "1", response -> {
                                         //账户净值=可用余额+占用保证金+浮动盈亏
                                         double money = Double.parseDouble(response.toString());//所有钱包的和
                                         double add1 = TradeUtil.add(money, Double.parseDouble(margin));//+保证金
                                         double add = TradeUtil.add(add1, Double.parseDouble(netIncome));//+浮动盈亏
-
                                         if (isEyeOpen) {
                                             text_balance.setText(TradeUtil.getNumberFormat(add, 2));
                                             String string = SPUtils.getString(AppConfig.USD_RATE, null);
@@ -830,6 +829,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         super.onDestroy();
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
+        SPUtils.remove(AppConfig.RATE_LIST);
 
 
     }
@@ -936,12 +936,5 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        SPUtils.remove(AppConfig.USDT);
-        SPUtils.remove(AppConfig.BTC);
-        SPUtils.remove(AppConfig.ETH);
-        SPUtils.remove(AppConfig.TRX);
-        SPUtils.remove(AppConfig.XRP);
-        SPUtils.remove(AppConfig.HT);
-        SPUtils.remove(AppConfig.LINK);
     }
 }

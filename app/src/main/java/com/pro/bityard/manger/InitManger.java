@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.bityard.entity.RateListEntity;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.Observable;
@@ -41,10 +42,10 @@ public class InitManger extends Observable {
 
     public void init() {
 
+        //判断是否登录
         NetManger.getInstance().isLogin(response -> {
             boolean isLogin = (boolean) response;
             if (isLogin == true) {
-
             } else {
                 SPUtils.remove(AppConfig.LOGIN);
             }
@@ -59,6 +60,16 @@ public class InitManger extends Observable {
             }
         });
 
+
+        /*获得多币种汇率*/
+        NetManger.getInstance().getRateList("USDT,BTC,ETH,XRP,HT,TRX,LINK", "USDT", (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                RateListEntity rateListEntity = (RateListEntity) response;
+                SPUtils.putData(AppConfig.RATE_LIST, rateListEntity);
+            }
+        });
+
+        /*获取原先配置的货币单位汇率*/
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         //获取USDT兑换CNY汇率
         NetManger.getInstance().getItemRate("1", cny, response -> {

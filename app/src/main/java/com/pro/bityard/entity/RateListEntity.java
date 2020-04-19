@@ -1,8 +1,9 @@
 package com.pro.bityard.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class RateListEntity {
+public class RateListEntity implements Serializable {
 
 
     /**
@@ -15,6 +16,8 @@ public class RateListEntity {
     private DataBean data;
     private String message;
     private List<ListBean> list;
+
+
 
     @Override
     public String toString() {
@@ -58,7 +61,7 @@ public class RateListEntity {
         this.list = list;
     }
 
-    public static class DataBean {
+    public static class DataBean implements  Serializable{
         /**
          * BTC : 6500.1234
          * ETH : 215.59
@@ -68,6 +71,15 @@ public class RateListEntity {
         private double BTC;
         private double ETH;
         private double BCH;
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "BTC=" + BTC +
+                    ", ETH=" + ETH +
+                    ", BCH=" + BCH +
+                    '}';
+        }
 
         public double getBTC() {
             return BTC;
@@ -94,7 +106,7 @@ public class RateListEntity {
         }
     }
 
-    public static class ListBean {
+    public static class ListBean implements Serializable {
         /**
          * name : BTC
          * value : 6500.1234

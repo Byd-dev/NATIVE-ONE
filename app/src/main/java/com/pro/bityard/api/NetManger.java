@@ -19,6 +19,7 @@ import com.pro.bityard.entity.IsLoginEntity;
 import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.RateEntity;
+import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TipSPSLMarginEntity;
@@ -40,6 +41,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class NetManger {
+    private String TAG = "NetManger";
 
     public static NetManger instance;
 
@@ -433,8 +435,8 @@ public class NetManger {
         map.put("symbol", contactCode);
         map.put("resolution", resolution);
         map.put("from", Util.dateToStamp(sdf.format(nowBefore.getTimeInMillis())));
-        map.put("to", String.valueOf(System.currentTimeMillis()));
-        map.put("_", String.valueOf(new Date().getTime()));
+        map.put("to", Util.dateToStamp(sdf.format(System.currentTimeMillis())));
+        map.put("_", Util.dateToStamp(sdf.format(System.currentTimeMillis())));
         try {
             String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
             Log.d("quoteItem", "getItemQuote:390:  " + urlList);
@@ -618,8 +620,7 @@ public class NetManger {
         });
     }
 
-    public void assetList(OnNetResult onNetResult) {
-
+    public void currencyList(OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("type", "0");//0是货币 1是法币
         getRequest("/api/home/currency/list", map, (state, response) -> {
@@ -972,27 +973,48 @@ public class NetManger {
     }
 
 
-    public void rateList(String src, String des, OnNetResult onNetResult) {
-        ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("src", src);
-        map.put("des", des);
-        getRequest("/api/home/currency/rates", map, (state, response) -> {
-            if (state.equals(BUSY)) {
-                onNetResult.onNetResult(BUSY, null);
-            } else if (state.equals(SUCCESS)) {
+    public void rateList(BalanceEntity.DataBean dataBean, String moneyType, String src, String des, OnNetResult onNetResult) {
+        RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
+        if (rateListEntity != null) {
+            List<RateListEntity.ListBean> list = rateListEntity.getList();
+            Log.d("print", "rateList:缓存: " + list);
+            for (RateListEntity.ListBean rateList : list) {
+                if (src.equals(rateList.getName())) {
+                    if (moneyType.equals("1")) {
+                        double mul = TradeUtil.mul(dataBean.getMoney(), rateList.getValue());
+                        onNetResult.onNetResult(SUCCESS, mul);
 
-                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode() == 401) {
-                    onNetResult.onNetResult(FAILURE, null);
-                } else if (tipEntity.getCode() == 200) {
+                    } else {
+                        double mul = TradeUtil.mul(dataBean.getGame(), rateList.getValue());
+                        onNetResult.onNetResult(SUCCESS, mul);
+                    }
 
                 }
-
-            } else if (state.equals(FAILURE)) {
-                onNetResult.onNetResult(FAILURE, null);
-
             }
-        });
+
+        } else {
+            /*获得多币种汇率*/
+            NetManger.getInstance().getRateList("USDT,BTC,ETH,XRP,HT,TRX,LINK", "USDT", (state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    RateListEntity rateListEntity2 = (RateListEntity) response;
+                    Log.d("print", "rateList:最新:  " + rateListEntity2);
+                    SPUtils.putData(AppConfig.RATE_LIST, rateListEntity2);
+                    for (RateListEntity.ListBean rateList : rateListEntity2.getList()) {
+                        if (src.equals(rateList.getName())) {
+                            if (moneyType.equals("1")) {
+                                double mul = TradeUtil.mul(dataBean.getMoney(), rateList.getValue());
+                                onNetResult.onNetResult(SUCCESS, mul);
+
+                            } else {
+                                double mul = TradeUtil.mul(dataBean.getGame(), rateList.getValue());
+                                onNetResult.onNetResult(SUCCESS, mul);
+                            }
+
+                        }
+                    }
+                }
+            });
+        }
     }
 
 
@@ -1017,31 +1039,23 @@ public class NetManger {
         });
     }
 
-    /*获得币种列表*/
-    /*public void getRateList(String moneyType, String des, OnNetResult onNetResult) {
+
+    /*多币种汇率查询*/
+    public void getRateList(String src, String des, OnNetResult onNetResult) {
 
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("src", src);
         map.put("des", des);
-        getRequest("/api/home/currency/list", map, (state, response) -> {
+        getRequest("/api/home/currency/rates", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.onNetResult(FAILURE, null);
                 } else if (tipEntity.getCode() == 200) {
-                    RateEntity rateEntity = new Gson().fromJson(response.toString(), RateEntity.class);
-
-                    if (moneyType.equals("1")) {
-
-                        onNetResult.onNetResult(SUCCESS, rateEntity.getRate());
-                    } else {
-                        onNetResult.onNetResult(SUCCESS, rateEntity.getRate());
-                    }
-
-
+                    RateListEntity rateListEntity = new Gson().fromJson(response.toString(), RateListEntity.class);
+                    onNetResult.onNetResult(SUCCESS, rateListEntity);
                 }
 
             } else if (state.equals(FAILURE)) {
@@ -1049,7 +1063,7 @@ public class NetManger {
 
             }
         });
-    }*/
+    }
 
     public void ItemRate(String moneyType, String src, String des, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -1081,5 +1095,6 @@ public class NetManger {
             }
         });
     }
+
 
 }

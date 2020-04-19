@@ -54,8 +54,10 @@ public class AppConfig {
     //货币
     public static final String CURRENCY = "CURRENCY";
     public static final String CURRENCY_LIST = "CURRENCY_LIST";
-
     public static final String CURRENCY_INDEX = "CURRENCY_INDEX";
+
+    //
+    public static final String RATE_LIST = "RATE_LIST";
 
 
 

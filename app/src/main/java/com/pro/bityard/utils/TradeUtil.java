@@ -5,11 +5,13 @@ import android.util.Log;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.api.TradeResult;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.PositionEntity;
+import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.entity.TradeListEntity;
-import com.pro.bityard.manger.NetIncomeManger;
+import com.pro.switchlibrary.SPUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -501,8 +503,7 @@ public class TradeUtil {
         List<Double> balanceList = new ArrayList<>();
         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
             String currency = data.getCurrency();
-            Log.d(TAG, "getRate:505:  "+currency);
-
+            Log.d(TAG, "getRate:505:  " + currency);
             NetManger.getInstance().rate(data, moneyType, currency, "USDT", (state, response) -> {
                 if (state.equals(SUCCESS)) {
                     balanceList.add(Double.parseDouble(response.toString()));
@@ -519,14 +520,13 @@ public class TradeUtil {
 
     }
 
-    /*计算单个汇率*/
+
+    /*列表汇率*/
     public static void getRateList(BalanceEntity balanceEntity, String moneyType, TradeResult tradeResult) {
         List<Double> balanceList = new ArrayList<>();
         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
             String currency = data.getCurrency();
-            Log.d(TAG, "getRate:505:  "+currency);
-
-            NetManger.getInstance().rate(data, moneyType, currency, "USDT", (state, response) -> {
+            NetManger.getInstance().rateList(data, moneyType, currency, "USDT", (state, response) -> {
                 if (state.equals(SUCCESS)) {
                     balanceList.add(Double.parseDouble(response.toString()));
                     double balance = 0.0;
@@ -538,6 +538,8 @@ public class TradeUtil {
                     }
                 }
             });
+
+
         }
 
     }
