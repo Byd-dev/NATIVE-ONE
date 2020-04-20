@@ -141,7 +141,7 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
     private Runnable longPressRunnable;
     private GestureDetector gestureDetector;
 
-    private int priceIncreaseCol, priceFallCol, priceOpen, priceMax, priceMin, priceClose,
+    private int priceIncreaseCol, priceFallCol, priceOpen, priceMax, priceMin, priceClose,minuteColor,minuteShadowColorAbove,minuteShadowColorBelow,
             priceMaxLabelCol, priceMinLabelCol, volumeTextCol, priceMa5Col, priceMa10Col, priceMa30Col, volumeMa5Col, volumeMa10Col, macdTextCol,
             macdPositiveCol, macdNegativeCol, difLineCol, deaLineCol, kLineCol, dLineCol,
             jLineCol, abscissaTextCol, ordinateTextCol, crossHairCol, crossHairRightLabelCol,
@@ -215,12 +215,13 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
         resetData();
 
         drawTickMark(canvas);//刻度线
-        drawAbscissa(canvas);//横坐标
         drawOrdinate(canvas);//纵坐标
         drawCrossHairLine(canvas);//十字线
         //drawVolume(canvas);//修改了这里 需要把柱状图数量设置为5
         drawTopPriceMAData(canvas);//顶部价格 开高低收
+        drawAbscissa(canvas);//横坐标
         if (isShowInstant) {
+
             crossHairMoveMode = CROSS_HAIR_MOVE_CLOSE;
             drawInstant(canvas);
         } else {
@@ -721,7 +722,9 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
             priceMax = typedArray.getColor(R.styleable.MyKLineView_klPriceMaxCol, 0xff2668FF);//高
             priceMin = typedArray.getColor(R.styleable.MyKLineView_klPriceMinCol, 0xffFF45A1);//低
             priceClose = typedArray.getColor(R.styleable.MyKLineView_klPriceCloseCol, 0xffFF45A1);//收
-
+            minuteColor=typedArray.getColor(R.styleable.MyKLineView_klMinuteColor,0xff2296D7);//分时图的线颜色
+            minuteShadowColorAbove=typedArray.getColor(R.styleable.MyKLineView_klMinuteShadowColorAbove,0x801aa3f0);//分时图阴影上层颜色
+            minuteShadowColorBelow=typedArray.getColor(R.styleable.MyKLineView_klMinuteShadowColorBelow,0x801aa3f0);//分时图阴影上层颜色
             tickMarkCol = typedArray.getColor(R.styleable.MyKLineView_klTickMarkLineCol, 0xffF7F7FB);
             abscissaTextCol = typedArray.getColor(R.styleable.MyKLineView_klAbscissaTextCol, 0xff9BACBD);
             abscissaTextSize = typedArray.getInt(R.styleable.MyKLineView_klAbscissaTextSize, 8);
@@ -2389,14 +2392,14 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
                 instantPath.lineTo(verticalXList.get(verticalXList.size() - 1), (float) viewData.getCloseY());
             }
         }
-        resetStrokePaint(0xff2296D7, 0);
+        resetStrokePaint(minuteColor, 0);
         canvas.drawPath(curvePath, strokePaint);
 
         instantPath.lineTo(verticalXList.get(verticalXList.size() - 1), horizontalYList.get(horizontalYList.size() - 2));
         instantPath.lineTo(startX, horizontalYList.get(horizontalYList.size() - 2));
         instantPath.close();
         LinearGradient gradient = new LinearGradient(0, (int) mMaxPriceY, 0,
-                horizontalYList.get(horizontalYList.size() - 2), 0x801aa3f0, 0x0d1aa3f0, Shader.TileMode.CLAMP);
+                horizontalYList.get(horizontalYList.size() - 2), minuteShadowColorAbove, minuteShadowColorBelow, Shader.TileMode.CLAMP);
         instantFillPaint.setShader(gradient);
         canvas.drawPath(instantPath, instantFillPaint);
     }

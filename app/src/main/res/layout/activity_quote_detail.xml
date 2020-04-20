@@ -347,6 +347,9 @@
                         app:klPriceMaxLabelTextCol="@color/text_second_color"
                         app:klPriceMinCol="@color/text_second_color"
                         app:klPriceOpenCol="@color/text_second_color"
+                        app:klMinuteColor="@color/color_minute"
+                        app:klMinuteShadowColorAbove="@color/color_shadow_above"
+                        app:klMinuteShadowColorBelow="@color/color_shadow_below"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
                     <com.pro.bityard.chart.NoVolumeView
