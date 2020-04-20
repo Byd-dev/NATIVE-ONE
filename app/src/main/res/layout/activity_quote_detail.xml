@@ -339,6 +339,11 @@
                         app:klAbscissaTextCol="@color/text_second_color"
                         app:klDetailBgCol="@color/background_maincolor"
                         app:klDetailFrameCol="@color/text_edit_pop"
+                        app:klMinuteColor="@color/color_minute"
+                        app:klMinuteRadiusSize="5"
+                        app:klMinuteStrokeWidthSize="3"
+                        app:klMinuteShadowColorAbove="@color/color_shadow_above"
+                        app:klMinuteShadowColorBelow="@color/color_shadow_below"
                         app:klPriceCloseCol="@color/text_second_color"
                         app:klPriceFallCol="@color/text_quote_red"
                         app:klPriceIncreaseCol="@color/text_quote_green"
@@ -347,9 +352,6 @@
                         app:klPriceMaxLabelTextCol="@color/text_second_color"
                         app:klPriceMinCol="@color/text_second_color"
                         app:klPriceOpenCol="@color/text_second_color"
-                        app:klMinuteColor="@color/color_minute"
-                        app:klMinuteShadowColorAbove="@color/color_shadow_above"
-                        app:klMinuteShadowColorBelow="@color/color_shadow_below"
                         app:klTickMarkLineCol="@color/color_bg_left" />
 
                     <com.pro.bityard.chart.NoVolumeView

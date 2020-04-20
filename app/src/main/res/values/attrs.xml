@@ -35,6 +35,10 @@
         <attr name="klMinuteColor" format="color" />
         <attr name="klMinuteShadowColorAbove" format="color"/>
         <attr name="klMinuteShadowColorBelow" format="color"/>
+        <!--分时图的圆角度-->
+        <attr name="klMinuteRadiusSize" format="integer" />
+        <!--分时图的线的粗度-->
+        <attr name="klMinuteStrokeWidthSize" format="float" />
         <!--最高价标签颜色-->
         <attr name="klPriceMaxLabelCol" format="color" />
         <!--最高价标签字体颜色-->
