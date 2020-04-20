@@ -208,16 +208,12 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
                     quoteAdapter.setDatas(quoteList);
                     quoteAdapter_market.setDatas(quoteList);
-
-
                 }
             });
 
 
         } else if (o == BalanceManger.getInstance()) {
-
             balanceEntity = (BalanceEntity) arg;
-
             Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_available != null) {
@@ -237,9 +233,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     }
                 }
             });
-
         } else if (o == PositionRealManger.getInstance()) {
-
             List<PositionEntity.DataBean> positionList = (List<PositionEntity.DataBean>) arg;
             runOnUiThread(() -> {
                 if (text_freeze != null) {
@@ -252,11 +246,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     });
                 }
             });
-
-
         } else if (o == PositionSimulationManger.getInstance()) {
             List<PositionEntity.DataBean> positionList = (List<PositionEntity.DataBean>) arg;
-
             runOnUiThread(() -> {
                 if (text_freeze_simulation != null) {
                     TradeUtil.getMargin(positionList, response -> {
@@ -264,9 +255,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                             text_freeze_simulation.setText(getResources().getString(R.string.text_default));
                         } else {
                             text_freeze_simulation.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
-
                         }
-
                     });
                 }
             });
@@ -400,7 +389,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             text_uid.setText("--");
 
         }
-
+        //我的页面 火币结算单位
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         text_currency.setText("(" + cny + ")");
 

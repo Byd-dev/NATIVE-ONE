@@ -1060,13 +1060,11 @@ public class PositionFragment extends BaseFragment implements Observer {
 
     @Override
     protected void initData() {
-
         //余额初始化
         BalanceManger.getInstance().getBalance("USDT");
         //持仓初始化
         PositionRealManger.getInstance().getHold();
         PositionSimulationManger.getInstance().getHold();
-
 
         NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
             if (state.equals(BUSY)) {
@@ -1079,7 +1077,6 @@ public class PositionFragment extends BaseFragment implements Observer {
                 }
                 positionEntity = (PositionEntity) response1;
                 positionAdapter.setDatas(positionEntity.getData(), quoteList);
-
                 //这里根据持仓来是否显示头部视图
                 if (positionEntity.getData().size() == 0) {
                     text_incomeAll.setText("");
@@ -1092,7 +1089,6 @@ public class PositionFragment extends BaseFragment implements Observer {
                         }
                     }
                 }
-
             } else if (state.equals(FAILURE)) {
                 if (swipeRefreshLayout != null) {
                     swipeRefreshLayout.setRefreshing(false);
@@ -1149,7 +1145,6 @@ public class PositionFragment extends BaseFragment implements Observer {
 
 
         } else if (o == TagManger.getInstance()) {
-
             if (isLogin()) {
                 headerRecyclerView.setVisibility(View.VISIBLE);
                 btn_login.setVisibility(View.GONE);
