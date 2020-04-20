@@ -156,7 +156,7 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
     private float leftStart, topStart, rightEnd, bottomEnd, mulFirstDownX, mulFirstDownY, lastDiffMoveX,
             lastDiffMoveY, singleClickDownX, detailTextVerticalSpace, longPressMoveY, dispatchDownY,
             volumeImgBot, verticalSpace, flingVelocityX, priceImgBot, deputyTopY, deputyCenterY,
-            singleClickDownY, mulSecondDownX, longPressDownX, longPressDownY, dispatchDownX,minuteStokeWidth;
+            singleClickDownY, mulSecondDownX, longPressDownX, longPressDownY, dispatchDownX, minuteStokeWidth;
 
     private double maxPrice, topPrice, maxPriceX, minPrice, botPrice, minPriceX, maxVolume, avgHeightPerPrice,
             avgPriceRectWidth, avgHeightPerVolume, avgHeightMacd, avgHeightDea, avgHeightDif,
@@ -725,7 +725,7 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
             priceClose = typedArray.getColor(R.styleable.MyKLineView_klPriceCloseCol, 0xffFF45A1);//收
             minuteColor = typedArray.getColor(R.styleable.MyKLineView_klMinuteColor, 0xff2296D7);//分时图的线颜色
             minuteRadius = typedArray.getInt(R.styleable.MyKLineView_klMinuteRadiusSize, 0);//分时图的线的曲率
-            minuteStokeWidth=typedArray.getFloat(R.styleable.MyKLineView_klMinuteStrokeWidthSize,2);
+            minuteStokeWidth = typedArray.getFloat(R.styleable.MyKLineView_klMinuteStrokeWidthSize, 2);
             minuteShadowColorAbove = typedArray.getColor(R.styleable.MyKLineView_klMinuteShadowColorAbove, 0x801aa3f0);//分时图阴影上层颜色
             minuteShadowColorBelow = typedArray.getColor(R.styleable.MyKLineView_klMinuteShadowColorBelow, 0x801aa3f0);//分时图阴影上层颜色
             tickMarkCol = typedArray.getColor(R.styleable.MyKLineView_klTickMarkLineCol, 0xffF7F7FB);
@@ -2396,7 +2396,7 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
                 instantPath.lineTo(verticalXList.get(verticalXList.size() - 1), (float) viewData.getCloseY());
             }
         }
-        resetStrokePaint(minuteColor, 0, minuteRadius,minuteStokeWidth);
+        resetStrokePaint(minuteColor, 0, minuteRadius, minuteStokeWidth);
         canvas.drawPath(curvePath, strokePaint);
 
         instantPath.lineTo(verticalXList.get(verticalXList.size() - 1), horizontalYList.get(horizontalYList.size() - 2));
@@ -2493,7 +2493,7 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
         strokePaint.setTextSize(sp2px(textSize));
     }
 
-    private void resetStrokePaint(int colorId, int textSize, int radius,float strokeWidth) {
+    private void resetStrokePaint(int colorId, int textSize, int radius, float strokeWidth) {
         strokePaint.setColor(colorId);
         strokePaint.setPathEffect(new CornerPathEffect(radius));
         strokePaint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.BOLD));

@@ -235,7 +235,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                             text_available_simulation.setText(TradeUtil.getNumberFormat(data.getGame(), 2));
                         }
                     }
-
                 }
             });
 
