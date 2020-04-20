@@ -34,6 +34,7 @@ import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.chart.NoVolumeView;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 import com.pro.bityard.entity.TradeListEntity;
@@ -261,6 +262,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     TextView text_one_week;
     @BindView(R.id.text_one_month)
     TextView text_one_month;
+
+    @BindView(R.id.layout_trade)
+    LinearLayout layout_trade;
+
+    @BindView(R.id.stay_view)
+    View stay_view;
     private String[] titles = new String[]{"分时", "1分", "3分", "5分", "15分", "更多"};
     private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData3MinHistory, kData60MinHistory, kDataDayHistory, kDataWeekHistory, kDataMonthHistory;
 
@@ -296,6 +303,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
+        if (isLogin()){
+            layout_trade.setVisibility(View.VISIBLE);
+            stay_view.setVisibility(View.VISIBLE);
+
+        }else {
+            layout_trade.setVisibility(View.GONE);
+            stay_view.setVisibility(View.GONE);
+
+        }
 
     }
 
@@ -871,21 +887,32 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.layout_much:
 
-                String priceMuch = text_buy_much.getText().toString();
-                if (isOpenSure) {
-                    slowOpen("true", priceMuch);
-                } else {
-                    fastOpen("true", priceMuch);
+                if (isLogin()){
+                    String priceMuch = text_buy_much.getText().toString();
+                    if (isOpenSure) {
+                        slowOpen("true", priceMuch);
+                    } else {
+                        fastOpen("true", priceMuch);
+                    }
+                }else {
+                    LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
+
                 }
+
 
 
                 break;
             case R.id.layout_empty:
-                String priceEmpty = text_buy_empty.getText().toString();
-                if (isOpenSure) {
-                    slowOpen("false", priceEmpty);
-                } else {
-                    fastOpen("false", priceEmpty);
+                if (isLogin()){
+                    String priceEmpty = text_buy_empty.getText().toString();
+                    if (isOpenSure) {
+                        slowOpen("false", priceEmpty);
+                    } else {
+                        fastOpen("false", priceEmpty);
+
+                    }
+                }else {
+                    LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
                 }
 

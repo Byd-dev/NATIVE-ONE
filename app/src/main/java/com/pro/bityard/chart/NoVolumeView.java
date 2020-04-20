@@ -220,7 +220,8 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
         drawAbscissa(canvas);//横坐标
         drawOrdinate(canvas);//纵坐标
         drawCrossHairLine(canvas);//十字线
-        //drawVolume(canvas);
+        //drawVolume(canvas);//修改了这里 需要把柱状图数量设置为5
+        drawTopPriceMAData(canvas);//顶部价格 开高低收
 
         if (isShowInstant){
             crossHairMoveMode = CROSS_HAIR_MOVE_CLOSE;
@@ -228,7 +229,6 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
         }else {
             drawMainDeputyRect(canvas);//主副图蜡烛图
             drawBezierCurve(canvas);//贝塞尔曲线
-            drawTopPriceMAData(canvas);//顶部价格MA
             //drawBotMAData(canvas);//数量MA
             drawDetailData(canvas);//详情弹框
             drawMaxMinPriceLabel(canvas);//最高最低价标签

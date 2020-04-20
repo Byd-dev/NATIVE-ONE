@@ -577,11 +577,13 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/stay_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_line_big"
                 android:background="@color/home_line" />
             <!--市价和限价-->
             <LinearLayout
+                android:id="@+id/layout_trade"
                 android:layout_width="match_parent"
                 android:layout_height="148dp"
                 android:orientation="vertical">
