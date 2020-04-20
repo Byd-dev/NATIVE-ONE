@@ -303,11 +303,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
-        if (isLogin()){
+        if (isLogin()) {
             layout_trade.setVisibility(View.VISIBLE);
             stay_view.setVisibility(View.VISIBLE);
 
-        }else {
+        } else {
             layout_trade.setVisibility(View.GONE);
             stay_view.setVisibility(View.GONE);
 
@@ -887,35 +887,30 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.layout_much:
 
-                if (isLogin()){
+                if (isLogin()) {
                     String priceMuch = text_buy_much.getText().toString();
                     if (isOpenSure) {
                         slowOpen("true", priceMuch);
                     } else {
                         fastOpen("true", priceMuch);
                     }
-                }else {
+                } else {
                     LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
                 }
 
-
-
                 break;
             case R.id.layout_empty:
-                if (isLogin()){
+                if (isLogin()) {
                     String priceEmpty = text_buy_empty.getText().toString();
                     if (isOpenSure) {
                         slowOpen("false", priceEmpty);
                     } else {
                         fastOpen("false", priceEmpty);
-
                     }
-                }else {
+                } else {
                     LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
-
                 }
-
                 break;
             case R.id.layout_one:
                 if (isDefer) {
