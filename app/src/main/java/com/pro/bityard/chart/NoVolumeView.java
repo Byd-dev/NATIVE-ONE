@@ -3,10 +3,12 @@ package com.pro.bityard.chart;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Shader;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
@@ -55,6 +57,8 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
     private boolean isNeedRequestPreData = true;
     //是否双指触控
     private boolean isDoubleFinger = false;
+    //是否显示分时图
+    private boolean isShowInstant = false;
     //是否已经滑动到最右边
     private boolean isRightmost = false;
     //主图数据类型 0:MA, 1:EMA 2:BOLL
@@ -97,8 +101,8 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
 
     private int initTotalListSize = 0;
 
-    private Paint fillPaint, strokePaint;
-    private Path curvePath;
+    private Paint fillPaint, strokePaint,instantFillPaint;
+    private Path curvePath,instantPath;
 
     private Rect topOpenRect = new Rect();
     private Rect topMaxRect = new Rect();
@@ -201,22 +205,35 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
     }
 
 
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (totalDataList.isEmpty() || viewDataList.isEmpty()) {
             return;
         }
+
+        resetData();
+
         drawTickMark(canvas);//刻度线
-        drawMainDeputyRect(canvas);//主副图蜡烛图
-        drawBezierCurve(canvas);//贝塞尔曲线
-        drawTopPriceMAData(canvas);//顶部价格MA
-        //drawBotMAData(canvas);//数量MA
         drawAbscissa(canvas);//横坐标
         drawOrdinate(canvas);//纵坐标
-        drawMaxMinPriceLabel(canvas);//最高最低价标签
         drawCrossHairLine(canvas);//十字线
-        drawDetailData(canvas);//详情弹框
+        //drawVolume(canvas);
+
+        if (isShowInstant){
+            crossHairMoveMode = CROSS_HAIR_MOVE_CLOSE;
+            drawInstant(canvas);
+        }else {
+            drawMainDeputyRect(canvas);//主副图蜡烛图
+            drawBezierCurve(canvas);//贝塞尔曲线
+            drawTopPriceMAData(canvas);//顶部价格MA
+            //drawBotMAData(canvas);//数量MA
+            drawDetailData(canvas);//详情弹框
+            drawMaxMinPriceLabel(canvas);//最高最低价标签
+        }
+
     }
 
     /**
@@ -231,6 +248,200 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
      */
     public List<KData> getViewDataList() {
         return viewDataList;
+    }
+
+
+    private void resetData() {
+        if (verticalXList == null || horizontalYList == null || rightEnd == 0) {
+            return;
+        }
+        //垂直刻度线
+        float horizontalSpace = (rightEnd - leftStart - (dp2px(46))) / 4;
+        verticalXList.clear();
+        for (int i = 0; i < 5; i++) {
+            verticalXList.add(leftStart + horizontalSpace * (i) + dp2px(6));
+        }
+        //水平刻度线
+        verticalSpace = (bottomEnd - topStart - dp2px(38)) / 4;//由原来的5变成4  无柱状图
+        horizontalYList.clear();
+        for (int i = 0; i < 6; i++) {
+            horizontalYList.add(topStart + verticalSpace * i + dp2px(18));
+        }
+        //副图顶线
+        deputyTopY = horizontalYList.get(4) + dp2px(12);
+
+        if (verticalXList == null || horizontalYList == null || viewDataList == null) {
+            return;
+        }
+        avgPriceRectWidth = (verticalXList.get(verticalXList.size() - 1)
+                - verticalXList.get(0)) / maxViewDataNum;
+        maxPrice = viewDataList.get(0).getMaxPrice();
+        minPrice = viewDataList.get(0).getMinPrice();
+        maxVolume = viewDataList.get(0).getVolume();
+        mMaxMacd = viewDataList.get(0).getMacd();
+        mMinMacd = viewDataList.get(0).getMacd();
+        double maxDea = viewDataList.get(0).getDea();
+        double minDea = viewDataList.get(0).getDea();
+        double maxDif = viewDataList.get(0).getDif();
+        double minDif = viewDataList.get(0).getDif();
+        mMaxK = viewDataList.get(0).getK();
+        double maxD = viewDataList.get(0).getD();
+        double maxJ = viewDataList.get(0).getJ();
+
+        int viewDataSize = viewDataList.size();
+        for (int i = 0; i < viewDataSize; i++) {
+            KData viewKData = viewDataList.get(i);
+            double rightX = verticalXList.get(verticalXList.size() - 1)
+                    - (viewDataList.size() - i - 1) * avgPriceRectWidth;
+            double leftX = rightX - avgPriceRectWidth;
+            double centerX = rightX - avgPriceRectWidth / 2;
+            viewKData.setLeftX(leftX);
+            viewKData.setRightX(rightX);
+            viewKData.setCenterX(centerX);
+
+            if (viewKData.getMaxPrice() >= maxPrice) {
+                maxPrice = viewKData.getMaxPrice();
+                maxPriceX = viewKData.getLeftX() + avgPriceRectWidth / 2;
+            }
+            if (viewKData.getMinPrice() <= minPrice) {
+                minPrice = viewKData.getMinPrice();
+                minPriceX = viewKData.getLeftX() + avgPriceRectWidth / 2;
+            }
+            if (viewKData.getVolume() >= maxVolume) {
+                maxVolume = viewKData.getVolume();
+            }
+
+            if (!isShowDeputy || isShowInstant) {
+                continue;
+            }
+            if (deputyImgType == DEPUTY_IMG_MACD) {
+                if (viewKData.getMacd() >= mMaxMacd) {
+                    mMaxMacd = viewKData.getMacd();
+                }
+                if (viewKData.getMacd() <= mMinMacd) {
+                    mMinMacd = viewKData.getMacd();
+                }
+                if (viewKData.getDea() >= maxDea) {
+                    maxDea = viewKData.getDea();
+                }
+                if (viewKData.getDea() <= minDea) {
+                    minDea = viewKData.getDea();
+                }
+                if (viewKData.getDif() >= maxDif) {
+                    maxDif = viewKData.getDif();
+                }
+                if (viewKData.getDif() <= minDif) {
+                    minDif = viewKData.getDif();
+                }
+
+            } else if (deputyImgType == DEPUTY_IMG_KDJ) {
+                if (viewKData.getK() >= mMaxK) {
+                    mMaxK = viewKData.getK();
+                }
+                if (viewKData.getD() >= maxD) {
+                    maxD = viewKData.getD();
+                }
+                if (viewKData.getJ() >= maxJ) {
+                    maxJ = viewKData.getJ();
+                }
+            }
+        }
+
+        topPrice = maxPrice + (maxPrice - minPrice) * 0.1;
+        botPrice = minPrice - (maxPrice - minPrice) * 0.1;
+
+        if (!isShowDeputy) {
+            priceImgBot = horizontalYList.get(4);
+            volumeImgBot = horizontalYList.get(5);
+        } else {
+            priceImgBot = horizontalYList.get(3);
+            volumeImgBot = horizontalYList.get(4);
+        }
+        //priceData
+        avgHeightPerPrice = (priceImgBot - horizontalYList.get(0)) / (topPrice - botPrice);
+        mMaxPriceY = (horizontalYList.get(0) + (topPrice - maxPrice) * avgHeightPerPrice);
+        mMinPriceY = (horizontalYList.get(0) + (topPrice - minPrice) * avgHeightPerPrice);
+
+        //volumeData
+        avgHeightPerVolume = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY) / maxVolume;
+
+        for (KData kData : viewDataList) {
+            double openPrice = kData.getOpenPrice();
+            double closedPrice = kData.getClosePrice();
+            kData.setCloseY((float) (horizontalYList.get(0) + (topPrice - closedPrice) * avgHeightPerPrice));
+            kData.setOpenY((float) (horizontalYList.get(0) + (topPrice - openPrice) * avgHeightPerPrice));
+        }
+
+        if (!isShowDeputy) {
+            return;
+        }
+        switch (deputyImgType) {
+            case DEPUTY_IMG_MACD:
+                //MACD
+                if (mMaxMacd > 0 && mMinMacd < 0) {
+                    avgHeightMacd = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY) / Math.abs(mMaxMacd - mMinMacd);
+                    deputyCenterY = (float) (deputyTopY + mMaxMacd * avgHeightMacd);
+                } else if (mMaxMacd <= 0) {
+                    avgHeightMacd = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY) / Math.abs(mMinMacd);
+                    deputyCenterY = deputyTopY;
+                } else if (mMinMacd >= 0) {
+                    avgHeightMacd = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY) / Math.abs(mMaxMacd);
+                    deputyCenterY = horizontalYList.get(horizontalYList.size() - 1);
+                }
+                //DEA
+                if (maxDea > 0 && minDea < 0) {
+                    avgHeightDea = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY - dp2px(24)) / (maxDea - minDea);
+                } else if (maxDea <= 0) {
+                    avgHeightDea = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY - dp2px(24)) / Math.abs(minDea);
+                } else if (minDea >= 0) {
+                    avgHeightDea = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY - dp2px(24)) / Math.abs(maxDea);
+                }
+                //DIF
+                if (maxDif > 0 && minDif < 0) {
+                    avgHeightDif = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY - dp2px(24)) / (maxDif - minDif);
+                } else if (maxDif <= 0) {
+                    avgHeightDif = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY - dp2px(24)) / Math.abs(minDif);
+                } else if (minDif >= 0) {
+                    avgHeightDif = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY - dp2px(24)) / Math.abs(maxDif);
+                }
+                break;
+
+            case DEPUTY_IMG_KDJ:
+                //K
+                avgHeightK = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY - dp2px(12)) / mMaxK;
+                //D
+                avgHeightD = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY - dp2px(12)) / maxD;
+                //J
+                avgHeightJ = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY - dp2px(12)) / maxJ;
+                break;
+
+            case DEPUTY_IMG_RSI:
+                avgHeightRSI = (horizontalYList.get(horizontalYList.size() - 1) - deputyTopY) / 100;
+                break;
+        }
+    }
+
+
+    private void drawVolume(Canvas canvas) {
+        for (KData kData : viewDataList) {
+            //volumeRect
+            if (!isShowInstant) {
+                double openPrice = kData.getOpenPrice();
+                double closedPrice = kData.getClosePrice();
+                if (openPrice >= closedPrice) {
+                    fillPaint.setColor(priceFallCol);
+                } else {
+                    fillPaint.setColor(priceIncreaseCol);
+                }
+            } else {
+                fillPaint.setColor(0xff4db7f3);
+            }
+            canvas.drawRect((float) (kData.getLeftX() + dp2px(0.5f)),
+                    (float) (volumeImgBot - kData.getVolume() * avgHeightPerVolume),
+                    (float) kData.getRightX() - dp2px(0.5f),
+                    volumeImgBot,
+                    fillPaint);
+        }
     }
 
     /**
@@ -490,6 +701,22 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
         removeCallbacks(longPressRunnable);
     }
 
+
+    /**
+     * 是否显示分时图
+     */
+    public void setShowInstant(boolean state) {
+        this.isShowInstant = state;
+        invalidate();
+    }
+
+    /**
+     * 获取分时图是否显示
+     */
+    public boolean isShowInstant() {
+        return this.isShowInstant;
+    }
+
     private void initAttrs(Context context, AttributeSet attrs) {
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.MyKLineView);
@@ -572,8 +799,12 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
         strokePaint.setTextSize(sp2px(abscissaTextSize));
         strokePaint.setStyle(Paint.Style.STROKE);
 
+        instantFillPaint = new Paint();
+        instantFillPaint.setAntiAlias(true);
+        instantFillPaint.setStyle(Paint.Style.FILL);
 
         curvePath = new Path();
+        instantPath = new Path();
 
         longPressRunnable = () -> {
             isLongPress = true;
@@ -1005,7 +1236,7 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
             verticalXList.add(leftStart + horizontalSpace * (i) + dp2px(6));
         }
         //水平刻度线
-        verticalSpace = (bottomEnd - topStart - dp2px(38)) / 4;//由原来的5变成4
+        verticalSpace = (bottomEnd - topStart - dp2px(38)) / 4;//由原来的5变成4  无柱状图
         horizontalYList.clear();
         float horizontalRightEnd;
         for (int i = 0; i < 6; i++) {
@@ -2138,6 +2369,39 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
                 volumeImgBot - dp2px(2),
                 fillPaint);*/
 
+    }
+
+
+    //分时图
+    private void drawInstant(Canvas canvas) {
+        if (canvas == null || curvePath == null || viewDataList == null || strokePaint == null) {
+            return;
+        }
+        curvePath.reset();
+        instantPath.reset();
+        float startX = (float) viewDataList.get(0).getCenterX();
+        float startY = (float) viewDataList.get(0).getCloseY();
+        curvePath.moveTo(startX, startY);
+        instantPath.moveTo(startX, startY);
+        int viewDataSize = viewDataList.size();
+        for (int i = 1; i < viewDataSize; i++) {
+            KData viewData = viewDataList.get(i);
+            curvePath.lineTo((float) viewData.getCenterX(), (float) viewData.getCloseY());
+            instantPath.lineTo((float) viewData.getCenterX(), (float) viewData.getCloseY());
+            if (i == viewDataSize - 1) {
+                instantPath.lineTo(verticalXList.get(verticalXList.size() - 1), (float) viewData.getCloseY());
+            }
+        }
+        resetStrokePaint(0xff1aa3f0, 0);
+        canvas.drawPath(curvePath, strokePaint);
+
+        instantPath.lineTo(verticalXList.get(verticalXList.size() - 1), horizontalYList.get(horizontalYList.size() - 2));
+        instantPath.lineTo(startX, horizontalYList.get(horizontalYList.size() - 2));
+        instantPath.close();
+        LinearGradient gradient = new LinearGradient(0, (int) mMaxPriceY, 0,
+                horizontalYList.get(horizontalYList.size() - 2), 0x801aa3f0, 0x0d1aa3f0, Shader.TileMode.CLAMP);
+        instantFillPaint.setShader(gradient);
+        canvas.drawPath(instantPath, instantFillPaint);
     }
 
     private int dp2px(float dpValue) {

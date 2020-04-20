@@ -479,6 +479,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
         setTabStyle();
 
+        kline_1min_time.setShowInstant(true);
+
         tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -1190,7 +1192,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
         quotePopAdapter = new QuotePopAdapter(this);
         recyclerView.setAdapter(quotePopAdapter);
-        if (quoteList!=null){
+        if (quoteList != null) {
             quotePopAdapter.setDatas(quoteList);
         }
         if (quote != null) {
@@ -1370,12 +1372,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }*/ else if (o == TradeListManger.getInstance()) {
             tradeListEntityList = (List<TradeListEntity>) arg;
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-          //  Log.d("print", "initData:510:  " + tradeListEntity);
+            //  Log.d("print", "initData:510:  " + tradeListEntity);
             setContent(tradeListEntity);
         } else if (o == ChargeUnitManger.getInstance()) {
             chargeUnitEntityList = (List<ChargeUnitEntity>) arg;
             chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
-         //   Log.d("print", "update:596: " + chargeUnitEntity);
+            //   Log.d("print", "update:596: " + chargeUnitEntity);
 
 
         } else if (o == TagManger.getInstance()) {
@@ -1445,13 +1447,14 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 List<KData> kData = ChartUtil.klineList(data);
                 if (kData1MinHistory != null) {
 
-                   // List<KData> list = ChartUtil.agoToNow(kData);
+                    // List<KData> list = ChartUtil.agoToNow(kData);
 
-                 //   long time = list.get(list.size() - 1).getTime();
-                  //  Log.d("print", "update:1448:  "+time);
-                  //  list.get(list.size()-1).setClosePrice(Double.parseDouble(itemQuotePrice(quote)));
-                    Log.d("print", "update:1453: "+kData.get(kData.size()-2).getTime());
+                    //   long time = list.get(list.size() - 1).getTime();
+                    //  Log.d("print", "update:1448:  "+time);
+                    //  list.get(list.size()-1).setClosePrice(Double.parseDouble(itemQuotePrice(quote)));
+                    Log.d("print", "update:1453: " + kData.get(kData.size() - 2).getTime());
                     myKLineView_1Min.addSingleData(kData.get(kData.size() - 1));
+                    kline_1min_time.addSingleData(kData.get(kData.size() - 1));
                 } else {
                     Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(this.quote), -1);
                 }
@@ -1542,6 +1545,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             if (kData1MinHistory != null) {
                 myKLineView_1Min.initKDataList(kData1MinHistory);
+                kline_1min_time.initKDataList(kData1MinHistory);
             } else {
                 Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -1);
 

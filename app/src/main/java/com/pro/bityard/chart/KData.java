@@ -40,6 +40,7 @@ public class KData implements Serializable {
     private double rs3;
     private double leftX;
     private double rightX;
+    private double centerX;
     private double closeY;
     private double openY;
     private boolean initFinish;
@@ -55,13 +56,21 @@ public class KData implements Serializable {
         this.volume = volume;
     }
 
-    public KData(long time, double openPrice, double closePrice, double maxPrice, double minPrice, double volume) {
+    public KData(long time, double openPrice, double closePrice, double maxPrice, double minPrice, double volume){
         this.time = time;
         this.openPrice = openPrice;
         this.closePrice = closePrice;
         this.maxPrice = maxPrice;
         this.minPrice = minPrice;
         this.volume = volume;
+    }
+
+    public double getCenterX() {
+        return centerX;
+    }
+
+    public void setCenterX(double centerX) {
+        this.centerX = centerX;
     }
 
     public double getEma() {
