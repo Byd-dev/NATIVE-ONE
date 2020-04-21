@@ -134,6 +134,7 @@ public class PositionFragment extends BaseFragment implements Observer {
             headerRecyclerView.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
         }
+        initData();
     }
 
     @SuppressLint("InflateParams")
