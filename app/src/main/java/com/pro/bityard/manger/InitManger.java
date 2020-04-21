@@ -46,6 +46,10 @@ public class InitManger extends Observable {
         NetManger.getInstance().isLogin(response -> {
             boolean isLogin = (boolean) response;
             if (isLogin == true) {
+
+                PositionRealManger.getInstance().getHold();
+                PositionSimulationManger.getInstance().getHold();
+
             } else {
                 SPUtils.remove(AppConfig.LOGIN);
             }

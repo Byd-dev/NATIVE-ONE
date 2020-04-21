@@ -1,7 +1,6 @@
 package com.pro.bityard.manger;
 
 import android.util.ArrayMap;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
@@ -51,7 +50,7 @@ public class PositionRealManger extends Observable {
     /*持仓列表*/
     public void getHold() {
 
-        List<PositionEntity.DataBean> dataBeanList=new ArrayList<>();
+        List<PositionEntity.DataBean> dataBeanList = new ArrayList<>();
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("tradeType", "1");
         map.put("_", String.valueOf(new Date().getTime()));
@@ -72,8 +71,8 @@ public class PositionRealManger extends Observable {
                         NetManger.getInstance().getPending("1", new OnNetTwoResult() {
                             @Override
                             public void setResult(String state, Object response1, Object response2) {
-                                if (state.equals(SUCCESS)){
-                                    PositionEntity positionEntity= (PositionEntity) response1;
+                                if (state.equals(SUCCESS)) {
+                                    PositionEntity positionEntity = (PositionEntity) response1;
                                     dataBeanList.addAll(positionEntity.getData());
                                     postPosition(dataBeanList);
 

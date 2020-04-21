@@ -1052,8 +1052,6 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
 
-
-
     @Override
     protected void intPresenter() {
 

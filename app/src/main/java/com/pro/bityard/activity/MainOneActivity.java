@@ -186,6 +186,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     private boolean isEyeOpen = true;
     private String netIncomeResult;
+    private List<PositionEntity.DataBean> positionList;
 
 
     @Override
@@ -195,6 +196,29 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     }
 
     private List<String> quoteList;
+
+
+    public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
+
+        TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
+            double margin;
+            double income;
+            if (positionList == null) {
+                margin = 0.0;
+                income = 0.0;
+            } else {
+                margin = Double.parseDouble(response2.toString());
+                income = Double.parseDouble(response1.toString());
+            }
+            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
+                    .append(",").append(margin);
+            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+            //账户净值=可用余额+占用保证金+浮动盈亏
+            NetIncomeManger.getInstance().postNetIncome(append.toString());
+        }));
+
+    }
 
     @Override
     public void update(Observable o, Object arg) {
@@ -208,6 +232,12 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
                     quoteAdapter.setDatas(quoteList);
                     quoteAdapter_market.setDatas(quoteList);
+                    if (positionList != null) {
+                        if (isLogin()) {
+                            setNetIncome(tradeType, positionList, quoteList);
+                        }
+                    }
+
                 }
             });
 
@@ -234,7 +264,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
             });
         } else if (o == PositionRealManger.getInstance()) {
-            List<PositionEntity.DataBean> positionList = (List<PositionEntity.DataBean>) arg;
+            positionList = (List<PositionEntity.DataBean>) arg;
+            Log.d("print", "update:持仓列表实盘:  " + positionList);
             runOnUiThread(() -> {
                 if (text_freeze != null) {
                     TradeUtil.getMargin(positionList, response -> {
@@ -248,6 +279,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             });
         } else if (o == PositionSimulationManger.getInstance()) {
             List<PositionEntity.DataBean> positionList = (List<PositionEntity.DataBean>) arg;
+
+
             runOnUiThread(() -> {
                 if (text_freeze_simulation != null) {
                     TradeUtil.getMargin(positionList, response -> {
@@ -576,6 +609,12 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         QuoteListManger.getInstance().addObserver(this);
         InitManger.getInstance().init();
         radioButton_2.setOnClickListener(this);
+
+        //余额初始化
+        BalanceManger.getInstance().getBalance("USDT");
+        //持仓初始化
+        PositionRealManger.getInstance().getHold();
+        PositionSimulationManger.getInstance().getHold();
 
         //首页 -------------------------------------------------------------------------------------
         getBanner();
