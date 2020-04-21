@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.my;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -53,7 +54,9 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
         }
 
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-        if (language == null) {
+        Log.d("print", "onResume:57设置页面: "+language);
+        if (language.equals(AppConfig.KEY_LANGUAGE)) {
+            text_language.setText(getResources().getText(R.string.text_chinese));
 
         } else {
             if (language.equals("en")) {

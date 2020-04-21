@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -66,8 +67,8 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
     protected void initData() {
 
 
-        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE,null);
-        if (language==null) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE,"null");
+        if (language.equals(AppConfig.KEY_LANGUAGE)) {
             img_one.setBackgroundResource(R.mipmap.icon_check_false);
             img_two.setBackgroundResource(R.mipmap.icon_check_true);
             img_three.setBackgroundResource(R.mipmap.icon_check_false);
@@ -128,7 +129,7 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
 
                 Util.switchLanguage(getContext(), "en");
-                getActivity().finish();
+                finish();
 
 
                 break;
@@ -142,7 +143,7 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
 
                 Util.switchLanguage(getContext(), "zh_simple");
-                getActivity().finish();
+                finish();
 
 
                 break;
@@ -156,7 +157,7 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
 
                 Util.switchLanguage(getContext(), "zh_traditional");
-                getActivity().finish();
+               finish();
 
 
                 break;
@@ -170,7 +171,7 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
 
                 Util.switchLanguage(getContext(), "ja");
-                getActivity().finish();
+              finish();
 
 
                 break;
@@ -185,7 +186,7 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
 
                 Util.switchLanguage(getContext(), "ko");
 
-                getActivity().finish();
+               finish();
 
 
                 break;
@@ -196,12 +197,6 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
     private void finish() {
         getActivity().finish();
 
-        Intent it = new Intent(getActivity(), MainActivity.class);
 
-        //清空任务栈确保当前打开activit为前台任务栈栈顶
-
-        it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-        startActivity(it);
     }
 }
