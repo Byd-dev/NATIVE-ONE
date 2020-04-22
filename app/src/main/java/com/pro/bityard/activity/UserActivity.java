@@ -10,6 +10,7 @@ import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
 import com.pro.bityard.fragment.my.LanguageFragment;
+import com.pro.bityard.fragment.my.SafeCenterFragment;
 import com.pro.bityard.fragment.my.SetUpFragment;
 import com.pro.bityard.fragment.my.ThemeFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -19,18 +20,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class UserActivity extends BaseActivity {
     private static final String TYPE = "USER_TYPE";
-    private String type;
 
     private FragmentTransaction ft;
-    //系统设置
-    private SetUpFragment setUpFragment;
-    //主题设置
-    private ThemeFragment themeFragment;
-    //语言设置
-    private LanguageFragment languageFragment;
-    //汇率
-    private CurrencyRateFragment currencyRateFragment;
-
 
 
     @Override
@@ -45,31 +36,50 @@ public class UserActivity extends BaseActivity {
     }
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.setStatusBarDarkTheme(this, false);
         Intent intent = getIntent();
-        type = intent.getStringExtra(TYPE);
+        String type = intent.getStringExtra(TYPE);
 
 
-        if (type.equals(IntentConfig.Keys.KEY_SET_UP)) {
-            addSetUpFragment();
-        }else if (type.equals(IntentConfig.Keys.KEY_THEME)){
-            addThemeFragment();
-        }else if (type.equals(IntentConfig.Keys.KEY_LANGUAGE)){
-            addLanguageFragment();
-        }else if (type.equals(IntentConfig.Keys.KEY_ASSET)){
-            addAssetFragment();
+        assert type != null;
+        switch (type) {
+            case IntentConfig.Keys.KEY_SET_UP:
+                addSetUpFragment();
+                break;
+            case IntentConfig.Keys.KEY_THEME:
+                addThemeFragment();
+                break;
+            case IntentConfig.Keys.KEY_LANGUAGE:
+                addLanguageFragment();
+                break;
+            case IntentConfig.Keys.KEY_ASSET:
+                addAssetFragment();
+                break;
+            case IntentConfig.Keys.KEY_SAFE_CENTER:
+                addSafeCenterFragment();
+                break;
         }
 
 
     }
 
+    private void addSafeCenterFragment() {
+        String name = SafeCenterFragment.class.getSimpleName();
+        //安全中心
+        SafeCenterFragment safeCenterFragment = new SafeCenterFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, safeCenterFragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
+    }
+
     private void addAssetFragment() {
         String name = CurrencyRateFragment.class.getSimpleName();
-        currencyRateFragment = new CurrencyRateFragment();
+        //汇率
+        CurrencyRateFragment currencyRateFragment = new CurrencyRateFragment();
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, currencyRateFragment, name);
         ft.addToBackStack(name);
@@ -78,7 +88,8 @@ public class UserActivity extends BaseActivity {
 
     private void addLanguageFragment() {
         String name = LanguageFragment.class.getSimpleName();
-        languageFragment = new LanguageFragment();
+        //语言设置
+        LanguageFragment languageFragment = new LanguageFragment();
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, languageFragment, name);
         ft.addToBackStack(name);
@@ -87,7 +98,8 @@ public class UserActivity extends BaseActivity {
 
     private void addThemeFragment() {
         String name = ThemeFragment.class.getSimpleName();
-        themeFragment = new ThemeFragment();
+        //主题设置
+        ThemeFragment themeFragment = new ThemeFragment();
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, themeFragment, name);
         ft.addToBackStack(name);
@@ -97,7 +109,8 @@ public class UserActivity extends BaseActivity {
 
     private void addSetUpFragment() {
         String name = SetUpFragment.class.getSimpleName();
-        setUpFragment = new SetUpFragment();
+        //系统设置
+        SetUpFragment setUpFragment = new SetUpFragment();
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, setUpFragment, name);
         ft.addToBackStack(name);
@@ -130,7 +143,6 @@ public class UserActivity extends BaseActivity {
         super.onBackPressed();
         this.finish();
     }
-
 
 
 }

@@ -175,5 +175,13 @@
     <string name="text_lever_select">选择杠杆</string>
     <string name="text_my_service">在线客服</string>
     <string name="text_asset_rate">币种选择</string>
+    <string name="text_safe_center">安全中心</string>
+    <string name="text_change">修改</string>
+    <string name="text_pin">资金密码</string>
+    <string name="text_not_set">未设置</string>
+    <string name="text_mobile_set_up">手机号验证</string>
+    <string name="text_unbond">未绑定</string>
+    <string name="text_email_verification">邮箱验证</string>
+    <string name="text_security_level">安全等级</string>
 
 </resources>

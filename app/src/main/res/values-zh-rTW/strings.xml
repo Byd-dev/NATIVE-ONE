@@ -14,7 +14,7 @@
     <string name="text_email">电子邮箱</string>
     <string name="text_email_input">请输入邮箱</string>
     <string name="text_input_pass">请输入密码</string>
-    <string name="text_pass">登錄密码</string>
+    <string name="text_pass">登錄密碼</string>
     <string name="text_pass_err">您输入的密码有误</string>
     <string name="text_forget_pass">忘记密码?</string>
     <string name="text_number">手机号码</string>
@@ -176,5 +176,13 @@
     <string name="text_lever_select">选择杠杆</string>
     <string name="text_my_service">在线客服</string>
     <string name="text_asset_rate">币种选择</string>
+    <string name="text_safe_center">安全中心</string>
+    <string name="text_change">修改</string>
+    <string name="text_pin">資金密碼</string>
+    <string name="text_not_set">未設置</string>
+    <string name="text_mobile_set_up">手機號碼驗證</string>
+    <string name="text_unbond">未綁定</string>
+    <string name="text_email_verification">郵箱驗證</string>
+    <string name="text_security_level">安全等級</string>
 
 </resources>

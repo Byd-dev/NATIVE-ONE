@@ -559,6 +559,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         findViewById(R.id.layout_six).setOnClickListener(this);
         findViewById(R.id.layout_balance).setOnClickListener(this);
         img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
+        findViewById(R.id.layout_one).setOnClickListener(this);//安全中心监听
 
     }
 
@@ -873,6 +874,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
                 }
 
+                break;
+            //安全中心
+            case R.id.layout_one:
+                if (isLogin()){
+                    UserActivity.enter(MainOneActivity.this,IntentConfig.Keys.KEY_SAFE_CENTER);
+                }else {
+                    LoginActivity.enter(MainOneActivity.this,IntentConfig.Keys.KEY_LOGIN);
+                }
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + v.getId());

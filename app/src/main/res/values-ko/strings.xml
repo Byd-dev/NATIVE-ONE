@@ -14,7 +14,7 @@
     <string name="text_email">电子邮箱</string>
     <string name="text_email_input">请输入邮箱</string>
     <string name="text_input_pass">请输入密码</string>
-    <string name="text_pass">登录密码</string>
+    <string name="text_pass">로그인 비밀번호</string>
     <string name="text_pass_err">您输入的密码有误</string>
     <string name="text_forget_pass">忘记密码?</string>
     <string name="text_number">手机号码</string>
@@ -176,5 +176,13 @@
     <string name="text_lever_select">选择杠杆</string>
     <string name="text_my_service">在线客服</string>
     <string name="text_asset_rate">币种选择</string>
+    <string name="text_safe_center">보안 센터</string>
+    <string name="text_change">변경</string>
+    <string name="text_pin">PIN 코드</string>
+    <string name="text_not_set">미설치</string>
+    <string name="text_mobile_set_up"> SMS 인증</string>
+    <string name="text_unbond">연동되지 않음</string>
+    <string name="text_email_verification">이메일 인증</string>
+    <string name="text_security_level">보안 레벨</string>
 
 </resources>
