@@ -30,7 +30,6 @@ import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.chart.NoVolumeView;
@@ -1051,9 +1050,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                     } else {
                         NetManger.getInstance().addScore((state, response) -> {
-                            if (state.equals(SUCCESS)){
-                                AddScoreEntity addScoreEntity= (AddScoreEntity) response;
-                                Toast.makeText(QuoteDetailActivity.this,addScoreEntity.getMessage(),Toast.LENGTH_SHORT).show();
+                            if (state.equals(SUCCESS)) {
+                                AddScoreEntity addScoreEntity = (AddScoreEntity) response;
+                                Toast.makeText(QuoteDetailActivity.this, addScoreEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }

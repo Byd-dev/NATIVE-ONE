@@ -17,7 +17,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
@@ -188,7 +187,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     private boolean isEyeOpen = true;
     private String netIncomeResult;
-    private List<PositionEntity.DataBean> positionList;
+    private List<PositionEntity.DataBean> positionRealList;
+    private List<PositionEntity.DataBean> positionSimulationList;
 
 
     @Override
@@ -234,9 +234,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
                     quoteAdapter.setDatas(quoteList);
                     quoteAdapter_market.setDatas(quoteList);
-                    if (positionList != null) {
+                    if (positionRealList != null) {
                         if (isLogin()) {
-                            setNetIncome(tradeType, positionList, quoteList);
+                            if (tradeType.equals("1")) {
+                                setNetIncome(tradeType, positionRealList, quoteList);
+                            } else {
+                                setNetIncome(tradeType, positionSimulationList, quoteList);
+
+                            }
                         }
                     }
 
@@ -266,11 +271,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
             });
         } else if (o == PositionRealManger.getInstance()) {
-            positionList = (List<PositionEntity.DataBean>) arg;
-            Log.d("print", "update:持仓列表实盘:  " + positionList);
+            positionRealList = (List<PositionEntity.DataBean>) arg;
+            Log.d("print", "update:持仓列表实盘:  " + positionRealList);
             runOnUiThread(() -> {
                 if (text_freeze != null) {
-                    TradeUtil.getMargin(positionList, response -> {
+                    TradeUtil.getMargin(positionRealList, response -> {
                         if (response == null) {
                             text_freeze.setText(getResources().getString(R.string.text_default));
                         } else {
@@ -280,12 +285,12 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
             });
         } else if (o == PositionSimulationManger.getInstance()) {
-            List<PositionEntity.DataBean> positionList = (List<PositionEntity.DataBean>) arg;
+            positionSimulationList = (List<PositionEntity.DataBean>) arg;
 
 
             runOnUiThread(() -> {
                 if (text_freeze_simulation != null) {
-                    TradeUtil.getMargin(positionList, response -> {
+                    TradeUtil.getMargin(positionSimulationList, response -> {
                         if (response == null) {
                             text_freeze_simulation.setText(getResources().getString(R.string.text_default));
                         } else {
@@ -328,11 +333,13 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     // 1,2.5,5
                     String netIncome = NetIncome[1];
                     String margin = NetIncome[2];
+                    Log.d("print", "update:模拟: " + netIncome + "  --  " + margin);
                     if (isLogin()) {
                         if (balanceEntity != null) {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
                                     double game = data.getGame();
+                                    Log.d("print", "update:337:模拟:  " + game);
                                     double add1 = TradeUtil.add(game, Double.parseDouble(margin));
                                     double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
                                     text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
