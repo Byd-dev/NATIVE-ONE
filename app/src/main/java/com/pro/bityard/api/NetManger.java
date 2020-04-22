@@ -1032,7 +1032,7 @@ public class NetManger {
     public void isLogin(OnResult onResult) {
         postRequest("/api/user/isLogin", null, (state, response) -> {
             if (state.equals(SUCCESS)) {
-                Log.d("print", "isLogin: " + response.toString());
+                Log.d("print", "isLogin:是否登录: " + response.toString());
                 IsLoginEntity isLoginEntity = new Gson().fromJson(response.toString(), IsLoginEntity.class);
                 onResult.setResult(isLoginEntity.getContent().isIsLogin());
 

@@ -66,21 +66,18 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             data.add(new GuideEntity("五重防护", "资金更安全", "资金 隐私 项目 合法 银行级别风控", getResources().getDrawable(R.mipmap.guide_4)));
 
             banner.setBannerData(R.layout.banner_guide_layout, data);
-            banner.loadImage(new XBanner.XBannerAdapter() {
-                @Override
-                public void loadBanner(XBanner banner, Object model, View view, int position) {
-                    ImageView imageView = view.findViewById(R.id.img_banner);
+            banner.loadImage((banner, model, view1, position) -> {
+                ImageView imageView = view1.findViewById(R.id.img_banner);
 
-                    imageView.setImageDrawable(data.get(position).getDrawable());
+                imageView.setImageDrawable(data.get(position).getDrawable());
 
-                    TextView text_left = view.findViewById(R.id.text_left);
-                    TextView text_right = view.findViewById(R.id.text_right);
-                    TextView text_bottom = view.findViewById(R.id.text_bottom);
+                TextView text_left = view1.findViewById(R.id.text_left);
+                TextView text_right = view1.findViewById(R.id.text_right);
+                TextView text_bottom = view1.findViewById(R.id.text_bottom);
 
-                    text_left.setText(data.get(position).getTextLeft());
-                    text_right.setText(data.get(position).getTextRight());
-                    text_bottom.setText(data.get(position).getTextBottom());
-                }
+                text_left.setText(data.get(position).getTextLeft());
+                text_right.setText(data.get(position).getTextRight());
+                text_bottom.setText(data.get(position).getTextBottom());
             });
 
             banner.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -133,7 +130,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.text_jump:
             case R.id.btn_sure:
-                MainActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_HOME);
+                MainOneActivity.enter(GuideActivity.this, MainOneActivity.TAB_TYPE.TAB_HOME);
                 GuideActivity.this.finish();
                 break;
         }

@@ -112,6 +112,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
 
     /*market---------------------------------------------------*/
+
     @BindView(R.id.swipeRefreshLayout_market)
     SwipeRefreshLayout swipeRefreshLayout_market;
 
@@ -609,6 +610,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         QuoteListManger.getInstance().addObserver(this);
         InitManger.getInstance().init();
+
         radioButton_2.setOnClickListener(this);
 
         //余额初始化
