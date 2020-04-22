@@ -677,6 +677,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     protected void initEvent() {
         //test
+        //test2
     }
 
 
