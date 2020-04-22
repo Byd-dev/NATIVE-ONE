@@ -11,6 +11,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.CurrencyListEntity;
 import com.pro.bityard.entity.HistoryEntity;
@@ -1116,6 +1117,24 @@ public class NetManger {
             //账户净值=可用余额+占用保证金+浮动盈亏
             NetIncomeManger.getInstance().postNetIncome(append.toString());
         }));
+
+    }
+
+    /*模拟加币*/
+    public void addScore(OnNetResult onNetResult) {
+
+        getRequest("/api/trade/addScore.htm", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY,null);
+            } else if (state.equals(SUCCESS)) {
+                AddScoreEntity addScoreEntity = new Gson().fromJson(response.toString(), AddScoreEntity.class);
+                Log.d("print", "addScore:1129:  "+response);
+                onNetResult.onNetResult(SUCCESS, addScoreEntity);
+            }else if (state.equals(FAILURE)){
+                onNetResult.onNetResult(FAILURE,null);
+            }
+        });
+
 
     }
 

@@ -30,11 +30,13 @@ import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.chart.NoVolumeView;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 import com.pro.bityard.entity.TradeListEntity;
@@ -398,11 +400,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         findViewById(R.id.img_setting).setOnClickListener(this);
         findViewById(R.id.layout_product).setOnClickListener(this);
-
+        //加币 持仓
         findViewById(R.id.text_position).setOnClickListener(this);
         findViewById(R.id.text_charge).setOnClickListener(this);
 
         radioGroup.setOnCheckedChangeListener(this);
+
         findViewById(R.id.layout_much).setOnClickListener(this);
         findViewById(R.id.layout_empty).setOnClickListener(this);
 
@@ -411,6 +414,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.text_one_day).setOnClickListener(this);
         findViewById(R.id.text_one_week).setOnClickListener(this);
         findViewById(R.id.text_one_month).setOnClickListener(this);
+
 
         radioGroupAdapter = new RadioGroupAdapter(this);
         /*recyclerView_market.setAdapter(radioGroupAdapter);
@@ -1039,6 +1043,24 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 showLeverWindow(tradeListEntity);
 
 
+                break;
+
+            case R.id.text_charge:
+                if (isLogin()) {
+                    if (tradeType.equals("1")) {
+
+                    } else {
+                        NetManger.getInstance().addScore((state, response) -> {
+                            if (state.equals(SUCCESS)){
+                                AddScoreEntity addScoreEntity= (AddScoreEntity) response;
+                                Toast.makeText(QuoteDetailActivity.this,addScoreEntity.getMessage(),Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                } else {
+                    LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
                 break;
         }
     }
