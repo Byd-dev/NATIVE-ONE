@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.user;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -520,6 +521,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
 
 
     /*获取倒计时*/
+    @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
 
         @Override

@@ -103,37 +103,35 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private int isHide = 0;
-    private int isHideNew = 0;
+    private boolean eye = true;
+    private boolean eyeNew = true;
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_eye:
-                if (isHide == 0) {
+                if (eye) {
                     edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    isHide = 1;
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                } else if (isHide == 1) {
-                    edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    isHide = 0;
                     img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-
-
+                    eye = false;
+                } else  {
+                    edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
+                    eye = true;
                 }
                 break;
             case R.id.img_eye_new:
-                if (isHideNew == 0) {
+                if (eyeNew) {
                     edit_password_new.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    isHideNew = 1;
-                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                } else if (isHide == 1) {
-                    edit_password_new.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    isHideNew = 0;
                     img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-
+                    eyeNew = false;
+                } else  {
+                    edit_password_new.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
+                    eyeNew = true;
                 }
                 break;
+
 
 
             case R.id.btn_submit:

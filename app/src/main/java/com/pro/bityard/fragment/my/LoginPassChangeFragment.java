@@ -1,10 +1,14 @@
 package com.pro.bityard.fragment.my;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +51,13 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     @BindView(R.id.text_email_mobile)
     TextView text_email_mobile;
 
+    @BindView(R.id.img_eye_old)
+    ImageView img_eye_old;
+    @BindView(R.id.img_eye_new)
+    ImageView img_eye_new;
+    @BindView(R.id.img_eye_sure)
+    ImageView img_eye_sure;
+
     @Override
     protected void onLazyLoad() {
 
@@ -66,6 +77,10 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
 
         text_getCode.setOnClickListener(this);
+
+        img_eye_old.setOnClickListener(this);
+        img_eye_new.setOnClickListener(this);
+        img_eye_sure.setOnClickListener(this);
 
 
     }
@@ -100,7 +115,8 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     }
 
     /*获取倒计时*/
-    Handler mHandler = new Handler() {
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -117,11 +133,48 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
 
     };
 
+    private boolean eyeOld=true;
+    private boolean eyeNew=true;
+    private boolean eyeSure=true;
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:
                 getActivity().finish();
+                break;
+            case R.id.img_eye_old:
+                if (eyeOld) {
+                    edit_pass_old.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    img_eye_old.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    eyeOld = false;
+                } else  {
+                    edit_pass_old.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    img_eye_old.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
+                    eyeOld = true;
+                }
+                break;
+            case R.id.img_eye_new:
+                if (eyeNew) {
+                    edit_pass_new.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    eyeNew = false;
+                } else  {
+                    edit_pass_new.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
+                    eyeNew = true;
+                }
+                break;
+            case R.id.img_eye_sure:
+                if (eyeSure) {
+                    edit_pass_sure.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                    img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    eyeSure = false;
+                } else  {
+                    edit_pass_sure.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
+                    eyeSure = true;
+                }
                 break;
             case R.id.text_getCode:
 
@@ -250,8 +303,6 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     SPUtils.remove(AppConfig.LOGIN);
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                     getActivity().finish();
-                } else {
-
                 }
                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 

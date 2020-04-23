@@ -142,7 +142,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     }
 
 
-    private int isHide = 0;
+    private boolean eye = true;
 
     @Override
     public void onClick(View v) {
@@ -152,16 +152,14 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.img_eye:
-                if (isHide == 0) {
+                if (eye) {
                     edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    isHide = 1;
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                } else if (isHide == 1) {
-                    edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    isHide = 0;
                     img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-
-
+                    eye = false;
+                } else  {
+                    edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
+                    eye = true;
                 }
                 break;
             case R.id.btn_login:

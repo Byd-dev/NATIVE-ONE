@@ -65,7 +65,7 @@
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_15"
                 android:paddingRight="@dimen/margin_15"
-                android:src="@mipmap/icon_eye_open" />
+                android:src="@mipmap/icon_eye_close" />
 
 
         </LinearLayout>
@@ -123,7 +123,7 @@
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_15"
                 android:paddingRight="@dimen/margin_15"
-                android:src="@mipmap/icon_eye_open" />
+                android:src="@mipmap/icon_eye_close" />
 
 
         </LinearLayout>
