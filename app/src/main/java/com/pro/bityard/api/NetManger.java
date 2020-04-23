@@ -1,10 +1,13 @@
 package com.pro.bityard.api;
 
 
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
@@ -56,6 +59,7 @@ public class NetManger {
     //  public static String BASE_URL = "https://www.bityard.com";    //正式
 
     public static NetManger getInstance() {
+
         if (instance == null) {
             instance = new NetManger();
         }
@@ -1124,18 +1128,126 @@ public class NetManger {
 
         getRequest("/api/trade/addScore.htm", null, (state, response) -> {
             if (state.equals(BUSY)) {
-                onNetResult.onNetResult(BUSY,null);
+                onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 AddScoreEntity addScoreEntity = new Gson().fromJson(response.toString(), AddScoreEntity.class);
-                Log.d("print", "addScore:1129:  "+response);
+                Log.d("print", "addScore:1129:  " + response);
                 onNetResult.onNetResult(SUCCESS, addScoreEntity);
-            }else if (state.equals(FAILURE)){
-                onNetResult.onNetResult(FAILURE,null);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
             }
         });
 
 
     }
 
+    /*修改登录密码*/
+    public void passwordChange(String account, String oldPass, String newPass, String googleToken, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("account", account);
+        map.put("oldPassword", oldPass);
+        map.put("newPassword", newPass);
+        map.put("googleToken", googleToken);
+
+        getRequest("/api/user/update-password", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipEntity);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+
+
+    }
+
+
+    private String geetestToken = null;
+
+    /*获取邮箱验证码*/
+    public void getEmailCode(String account, String sendType, OnNetTwoResult onNetTwoResult) {
+
+        Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
+            @Override
+            public void onApi1Result(String result) {
+                geetestToken = result;
+
+            }
+
+            @Override
+            public void onSuccessResult(String result) {
+                ArrayMap<String, String> map = new ArrayMap<>();
+
+                map.put("account", account);
+                map.put("type", sendType);
+                map.put("geetestToken", geetestToken);
+                NetManger.getInstance().postRequest("/api/system/sendEmail", map, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        onNetTwoResult.setResult(BUSY, null, null);
+                    } else if (state.equals(SUCCESS)) {
+                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        onNetTwoResult.setResult(SUCCESS, geetestToken, tipEntity);
+
+                    } else if (state.equals(FAILURE)) {
+                        onNetTwoResult.setResult(FAILURE, null, null);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
+                onNetTwoResult.setResult(FAILURE, null, null);
+
+
+            }
+        });
+
+
+    }
+
+    /*获取手机验证码*/
+    public void getMobileCode(String account, String sendType, OnNetTwoResult onNetTwoResult) {
+
+        Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
+            @Override
+            public void onApi1Result(String result) {
+                geetestToken = result;
+
+            }
+
+            @Override
+            public void onSuccessResult(String result) {
+                ArrayMap<String, String> map = new ArrayMap<>();
+
+                map.put("account", account);
+                map.put("type", sendType);
+                map.put("geetestToken", geetestToken);
+                NetManger.getInstance().postRequest("/api/system/sendSMS", map, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        onNetTwoResult.setResult(BUSY, null, null);
+                    } else if (state.equals(SUCCESS)) {
+                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        onNetTwoResult.setResult(SUCCESS, geetestToken, tipEntity);
+
+                    } else if (state.equals(FAILURE)) {
+                        onNetTwoResult.setResult(FAILURE, null, null);
+
+                    }
+                });
+            }
+
+            @Override
+            public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
+                onNetTwoResult.setResult(FAILURE, null, null);
+
+
+            }
+        });
+
+
+    }
 
 }

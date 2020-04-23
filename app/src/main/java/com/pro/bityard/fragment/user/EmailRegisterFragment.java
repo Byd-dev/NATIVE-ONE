@@ -20,6 +20,7 @@ import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
 import com.pro.bityard.api.OnNetResult;
+import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
@@ -128,7 +129,23 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                     return;
                 }
 
-                getCode( account_value);
+             //   getCode( account_value);
+
+                NetManger.getInstance().getEmailCode(account_value, "REGISTER", (state, response1, response2) -> {
+                    if (state.equals(BUSY)){
+                        showProgressDialog();
+                    }else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = (TipEntity) response2;
+                        if (tipEntity.getCode() == 200) {
+                            mHandler.sendEmptyMessage(0);
+                            Message msg = new Message();
+                            mHandler.sendMessage(msg);
+                        }
+                    }else if (state.equals(FAILURE)){
+                        dismissProgressDialog();
+                    }
+                });
 
 
                 break;

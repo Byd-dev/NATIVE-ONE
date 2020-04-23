@@ -14,6 +14,9 @@ public class IntentConfig {
         public static final String KEY_LANGUAGE = "LANGUAGE";
         public static final String KEY_ASSET = "ASSET";
         public static final String KEY_SAFE_CENTER = "SAFE_CENTER";
+        //修改登录密码
+        public static final String KEY_SAFE_CENTER_LOGIN_PASS = "SAFE_CENTER_LOGIN_PASS";
+
 
 
 

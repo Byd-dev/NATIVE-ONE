@@ -23,8 +23,8 @@
     <string name="text_login">立即登錄</string>
     <string name="text_register_title">注册Bityard</string>
     <string name="text_mobile_register"><![CDATA[手机号码注册->]]></string>
-    <string name="text_email_code">邮箱验证码</string>
-    <string name="text_email_code_input">请输入邮箱验证码</string>
+    <string name="text_email_code">郵箱驗證碼</string>
+    <string name="text_email_code_input">請輸入郵箱驗證碼</string>
     <string name="text_register_btn">注册</string>
     <string name="text_mobile_code">手机验证码</string>
     <string name="text_mobile_code_input">请输入手机验证码</string>
@@ -37,10 +37,10 @@
     <string name="text_mobile_forget"><![CDATA[手机号找回->]]></string>
     <string name="text_next">下一步</string>
     <string name="text_pass_new">新密码</string>
-    <string name="text_edit_pass_new">请输入新密码</string>
+    <string name="text_edit_pass_new">確認密碼</string>
     <string name="text_pass_new_sure">确认新密码</string>
     <string name="text_edit_pass_new_sure">请确认新密码</string>
-    <string name="text_sure">确定</string>
+    <string name="text_sure">確認</string>
     <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
     <string name="text_recommend">推荐榜单</string>
     <string name="text_trade_bonus">交易赠金</string>
@@ -184,5 +184,10 @@
     <string name="text_unbond">未綁定</string>
     <string name="text_email_verification">郵箱驗證</string>
     <string name="text_security_level">安全等級</string>
+    <string name="text_change_login_pass">修改登錄密碼</string>
+    <string name="text_old_pass">舊密碼</string>
+    <string name="text_old_pass_input">請輸入舊密碼</string>
+    <string name="text_get_code">獲取驗證碼</string>
+    <string name="text_pass_different">兩次輸入密碼不一致</string>
 
 </resources>

@@ -184,6 +184,11 @@
     <string name="text_unbond">未绑定</string>
     <string name="text_email_verification">邮箱验证</string>
     <string name="text_security_level">安全等级</string>
+    <string name="text_change_login_pass">修改登录密码</string>
+    <string name="text_old_pass">旧密码</string>
+    <string name="text_old_pass_input">请输入旧密码</string>
+    <string name="text_get_code">获取验证码</string>
+    <string name="text_pass_different">两次输入的密码不一致</string>
 
 
 </resources>

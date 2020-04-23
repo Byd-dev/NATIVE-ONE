@@ -126,7 +126,24 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
-                getCode(account_value);
+               // getCode(account_value);
+
+                NetManger.getInstance().getEmailCode(account_value, "FORGOT_PASSWORD", (state, response1, response2) -> {
+                    if (state.equals(BUSY)){
+                        showProgressDialog();
+                    }else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = (TipEntity) response2;
+                        if (tipEntity.getCode() == 200) {
+                            mHandler.sendEmptyMessage(0);
+                            Message msg = new Message();
+                            mHandler.sendMessage(msg);
+                        }
+                    }else if (state.equals(FAILURE)){
+                        dismissProgressDialog();
+                    }
+                });
+
 
 
                 break;

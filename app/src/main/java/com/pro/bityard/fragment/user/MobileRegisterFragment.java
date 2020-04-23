@@ -201,7 +201,26 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                     return;
                 }
                 //获取验证码
-                getCode(country_code, account_value);
+             //   getCode(country_code, account_value);
+
+                NetManger.getInstance().getMobileCode(country_code+account_value, "REGISTER", (state, response1, response2) -> {
+                    if (state.equals(BUSY)){
+                        showProgressDialog();
+                    }else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = (TipEntity) response2;
+                        if (tipEntity.getCode() == 200) {
+                            mHandler.sendEmptyMessage(0);
+                            Message msg = new Message();
+                            mHandler.sendMessage(msg);
+                        }else if (tipEntity.getCode()==500){
+                            Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }else if (state.equals(FAILURE)){
+                        dismissProgressDialog();
+                    }
+                });
 
 
                 break;
