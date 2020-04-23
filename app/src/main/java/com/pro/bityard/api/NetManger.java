@@ -1149,7 +1149,7 @@ public class NetManger {
         map.put("oldPassword", oldPass);
         map.put("newPassword", newPass);
         map.put("googleToken", googleToken);
-        postRequest("/api/user/update-password", null, (state, response) -> {
+        postRequest("/api/user/update-password", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
