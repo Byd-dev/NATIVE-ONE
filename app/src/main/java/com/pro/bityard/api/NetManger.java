@@ -480,19 +480,19 @@ public class NetManger {
         Calendar nowBefore = Calendar.getInstance();
         switch (resolution) {
             case "1":
-                nowBefore.add(Calendar.MINUTE, -300);
+                nowBefore.add(Calendar.MINUTE, -1200);
                 break;
             case "3":
-                nowBefore.add(Calendar.MINUTE, -300 * 3);
+                nowBefore.add(Calendar.MINUTE, -1200 * 3);
                 break;
             case "5":
-                nowBefore.add(Calendar.MINUTE, -300 * 5);
+                nowBefore.add(Calendar.MINUTE, -1200 * 5);
                 break;
             case "15":
-                nowBefore.add(Calendar.MINUTE, -300 * 15);
+                nowBefore.add(Calendar.MINUTE, -1200 * 15);
                 break;
             case "60":
-                nowBefore.add(Calendar.MINUTE, -300 * 60);
+                nowBefore.add(Calendar.MINUTE, -1200 * 60);
                 break;
            /* case "60":
                 nowBefore.add(Calendar.DAY_OF_YEAR, times);
@@ -520,7 +520,6 @@ public class NetManger {
                 onNetResult.onNetResult(SUCCESS, response.toString());
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
-
             }
         });
 

@@ -1258,7 +1258,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
 
 
-            Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -1);
+            Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
             Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
             Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
             Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
@@ -1489,17 +1489,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 List<KData> kData = ChartUtil.klineList(data);
                 if (kData1MinHistory != null) {
-
-                    // List<KData> list = ChartUtil.agoToNow(kData);
-
-                    //   long time = list.get(list.size() - 1).getTime();
-                    //  Log.d("print", "update:1448:  "+time);
-                    //  list.get(list.size()-1).setClosePrice(Double.parseDouble(itemQuotePrice(quote)));
                     Log.d("print", "update:1453: " + kData.get(kData.size() - 2).getTime());
                     myKLineView_1Min.addSingleData(kData.get(kData.size() - 1));
                     kline_1min_time.addSingleData(kData.get(kData.size() - 1));
+
+
+
+
                 } else {
-                    Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(this.quote), -1);
+                    Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(this.quote), -2);
                 }
 
             }
@@ -1588,9 +1586,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             if (kData1MinHistory != null) {
                 myKLineView_1Min.initKDataList(kData1MinHistory);
+
                 kline_1min_time.initKDataList(kData1MinHistory);
+
+
+
             } else {
-                Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -1);
+                Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote), -2);
 
             }
 

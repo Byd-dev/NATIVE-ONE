@@ -119,7 +119,6 @@ public class SafeCenterFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.layout_one:
                 UserActivity.enter(getContext(), IntentConfig.Keys.KEY_LANGUAGE);
-
                 break;
             case R.id.layout_two:
                 UserActivity.enter(getContext(), IntentConfig.Keys.KEY_THEME);
