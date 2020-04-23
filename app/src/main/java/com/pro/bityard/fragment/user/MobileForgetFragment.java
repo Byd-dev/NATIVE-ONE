@@ -226,7 +226,27 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                     return;
                 }
                 //1验证验证码
-                checkCode(country_code, account_value, code_value);
+              //  checkCode(country_code, account_value, code_value);
+
+                NetManger.getInstance().checkMobileCode(country_code + account_value, "FORGOT_PASSWORD", code_value, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
+                            //2 验证账号
+                            checkAccount(country_code, account_value);
+
+                        } else {
+                            Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
 
 
                 break;

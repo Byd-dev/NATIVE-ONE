@@ -174,7 +174,26 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 map.put("password", pass_value);
 
 
-                checkCode(account_value, code_value, map);
+              //  checkCode(account_value, code_value, map);
+
+                NetManger.getInstance().checkEmailCode(account_value, "REGISTER", code_value, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
+                            //成功了再注册
+                            register(map);
+                        } else {
+                            Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
 
 
 

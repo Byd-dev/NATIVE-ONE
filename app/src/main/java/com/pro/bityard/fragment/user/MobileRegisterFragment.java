@@ -249,9 +249,28 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 map.put("phone", country_code + account_value);
                 map.put("password", pass_value);
                 //校验验证码
-                checkCode(account_value, code_value, map);
+               // checkCode(account_value, code_value, map);
 
 
+                NetManger.getInstance().checkMobileCode(country_code + account_value, "REGISTER", code_value, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
+                            //成功了再注册
+                            Log.d("print", "onNetResult: 238: " + tipEntity);
+                            register(map);
+                        } else {
+                            Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
+
+                        }
+
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
                 break;
         }
     }

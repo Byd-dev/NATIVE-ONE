@@ -3,17 +3,18 @@ package com.pro.bityard.fragment.my;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
@@ -87,10 +88,12 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
             email = data.getUser().getEmail();
             phone = data.getUser().getPhone();
         }
-        if (account.contains("@")){
+        if (account.contains("@")) {
             text_email_mobile.setText(getResources().getString(R.string.text_email_code));
-        }else {
+            edit_code.setHint(getResources().getString(R.string.text_email_code_input));
+        } else {
             text_email_mobile.setText(getResources().getString(R.string.text_mobile_code));
+            edit_code.setHint(getResources().getString(R.string.text_mobile_code_input));
 
         }
 
@@ -122,7 +125,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.text_getCode:
 
-                if (account.contains("@")){
+                if (account.contains("@")) {
                     NetManger.getInstance().getEmailCode(email, "CHANGE_PASSWORD", (state, response1, response2) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
@@ -134,7 +137,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                                 mHandler.sendEmptyMessage(0);
                                 Message msg = new Message();
                                 mHandler.sendMessage(msg);
-                            }else if (tipEntity.getCode()==500){
+                            } else if (tipEntity.getCode() == 500) {
                                 Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                             }
@@ -142,8 +145,8 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             dismissProgressDialog();
                         }
                     });
-                }else {
-                    NetManger.getInstance().getMobileCode(email, "CHANGE_PASSWORD", (state, response1, response2) -> {
+                } else {
+                    NetManger.getInstance().getMobileCode(phone, "CHANGE_PASSWORD", (state, response1, response2) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
                         } else if (state.equals(SUCCESS)) {
@@ -154,7 +157,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                                 mHandler.sendEmptyMessage(0);
                                 Message msg = new Message();
                                 mHandler.sendMessage(msg);
-                            }else if (tipEntity.getCode()==500){
+                            } else if (tipEntity.getCode() == 500) {
                                 Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                             }
@@ -163,8 +166,6 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                         }
                     });
                 }
-
-
 
 
                 break;
@@ -197,22 +198,68 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     Toast.makeText(getActivity(), R.string.text_pass_different, Toast.LENGTH_SHORT).show();
                     return;
                 }
-                Log.d("print", "onClick:162:  " + googleToken);
-                NetManger.getInstance().passwordChange(account, value_pass_old, value_pass_new, googleToken, (state, response) -> {
-                    if (state.equals(BUSY)) {
-                        showProgressDialog();
-                    } else if (state.equals(SUCCESS)) {
-                        dismissProgressDialog();
-                    } else if (state.equals(FAILURE)) {
-                        dismissProgressDialog();
-                    }
-                });
 
+
+                if (account.equals("@")) {
+                    NetManger.getInstance().checkEmailCode(account, "CHANGE_PASSWORD", value_code, (state, response) -> {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            TipEntity tipEntity = (TipEntity) response;
+                            if (tipEntity.getCode() == 200) {
+                                changePass(account, value_pass_old, value_pass_new);
+                            } else {
+                                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                        }
+                    });
+                } else {
+                    NetManger.getInstance().checkMobileCode(account, "CHANGE_PASSWORD", value_code, (state, response) -> {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            TipEntity tipEntity = (TipEntity) response;
+                            if (tipEntity.getCode() == 200) {
+                                changePass(account, value_pass_old, value_pass_new);
+                            } else {
+                                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                        }
+                    });
+                }
 
                 break;
 
 
         }
+    }
+
+    private void changePass(String account, String value_pass_old, String value_pass_new) {
+        NetManger.getInstance().passwordChange(account, value_pass_old, value_pass_new, googleToken, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = (TipEntity) response;
+                if (tipEntity.getCode() == 200) {
+                    SPUtils.remove(AppConfig.LOGIN);
+                    LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
+                    getActivity().finish();
+                } else {
+
+                }
+                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                dismissProgressDialog();
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
+            }
+        });
     }
 
     @Override

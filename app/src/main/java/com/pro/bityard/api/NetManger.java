@@ -13,6 +13,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.pro.bityard.R;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.BalanceEntity;
@@ -1148,11 +1149,11 @@ public class NetManger {
         map.put("oldPassword", oldPass);
         map.put("newPassword", newPass);
         map.put("googleToken", googleToken);
-
-        getRequest("/api/user/update-password", null, (state, response) -> {
+        postRequest("/api/user/update-password", null, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("print", "passwordChange:修改密码:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
             } else if (state.equals(FAILURE)) {
@@ -1247,6 +1248,50 @@ public class NetManger {
             }
         });
 
+
+    }
+
+    /*验证邮箱验证码*/
+    public void checkEmailCode(String account, String sendType, String code_value, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("account", account);
+        map.put("type", sendType);
+        map.put("code", code_value);
+        NetManger.getInstance().postRequest("/api/system/checkEmail", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipEntity);
+
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+
+    }
+
+    /*验证手机验证码*/
+    public void checkMobileCode(String account, String sendType, String code_value, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("account", account);
+        map.put("type", sendType);
+        map.put("code", code_value);
+        NetManger.getInstance().postRequest("/api/system/checkSMS", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipEntity);
+
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
 
     }
 

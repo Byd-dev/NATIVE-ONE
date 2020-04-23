@@ -161,9 +161,26 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
                 //1验证验证码
-                checkCode(account_value, code_value);
+              //  checkCode(account_value, code_value);
 
+                NetManger.getInstance().checkEmailCode(account_value, "REGISTER", code_value, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
+                            //2 验证账号
+                            checkAccount(account_value);
+                        } else {
+                            Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
+                        }
+
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
                 break;
 
 
