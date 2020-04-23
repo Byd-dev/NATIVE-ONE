@@ -31,7 +31,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class LoginPassChangeFragment extends BaseFragment implements View.OnClickListener {
+public class FundsPassChangeFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.edit_pass_old)
     EditText edit_pass_old;
     @BindView(R.id.edit_pass_new)
@@ -87,7 +87,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_change_login_pass;
+        return R.layout.fragment_change_funds_pass;
     }
 
     @Override
@@ -99,7 +99,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     protected void initData() {
         LoginEntity data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (data != null) {
-            account = data.getUser().getPrincipal();
+            account = data.getUser().getAccount();
             email = data.getUser().getEmail();
             phone = data.getUser().getPhone();
         }
@@ -133,9 +133,9 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
 
     };
 
-    private boolean eyeOld=true;
-    private boolean eyeNew=true;
-    private boolean eyeSure=true;
+    private boolean eyeOld = true;
+    private boolean eyeNew = true;
+    private boolean eyeSure = true;
 
     @Override
     public void onClick(View v) {
@@ -148,7 +148,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     edit_pass_old.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     img_eye_old.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     eyeOld = false;
-                } else  {
+                } else {
                     edit_pass_old.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     img_eye_old.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     eyeOld = true;
@@ -159,7 +159,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     edit_pass_new.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     eyeNew = false;
-                } else  {
+                } else {
                     edit_pass_new.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     eyeNew = true;
@@ -170,7 +170,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     edit_pass_sure.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     eyeSure = false;
-                } else  {
+                } else {
                     edit_pass_sure.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     eyeSure = true;

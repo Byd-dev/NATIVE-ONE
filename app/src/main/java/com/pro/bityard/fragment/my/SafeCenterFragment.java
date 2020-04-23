@@ -69,6 +69,7 @@ public class SafeCenterFragment extends BaseFragment implements View.OnClickList
 
                 break;
             case R.id.layout_two:
+                UserActivity.enter(getActivity(),IntentConfig.Keys.KEY_SAFE_CENTER_FUNDS_PASS);
 
                 break;
             case R.id.layout_three:

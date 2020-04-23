@@ -189,5 +189,8 @@
     <string name="text_old_pass_input">Старый пароль</string>
     <string name="text_get_code">Отправить</string>
     <string name="text_pass_different">Подтверждение пароля не совпадает</string>
+    <string name="text_pin_set">Настройки PIN-код</string>
+    <string name="text_pin_pass">PIN-код</string>
+    <string name="text_login_pass_input">Пароль</string>
 
 </resources>

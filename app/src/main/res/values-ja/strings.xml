@@ -189,6 +189,9 @@
     <string name="text_old_pass_input">请输入旧密码</string>
     <string name="text_get_code">获取验证码</string>
     <string name="text_pass_different">两次输入的密码不一致</string>
+    <string name="text_pin_set">设置资金密码</string>
+    <string name="text_pin_pass">资金密码</string>
+    <string name="text_login_pass_input">请输入登录密码</string>
 
 
 </resources>

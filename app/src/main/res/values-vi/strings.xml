@@ -189,5 +189,8 @@
     <string name="text_old_pass_input">Nhập mật khẩu hiện tại</string>
     <string name="text_get_code">Lấy mã</string>
     <string name="text_pass_different">Nhập lại mật khẩu không đúng</string>
+    <string name="text_pin_set">Đặt mật khẩu tài sản</string>
+    <string name="text_pin_pass">Mật mã tài sản</string>
+    <string name="text_login_pass_input">Nhập mật khẩu đăng nhập</string>
 
 </resources>

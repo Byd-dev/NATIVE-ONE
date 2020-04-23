@@ -16,6 +16,8 @@ public class IntentConfig {
         public static final String KEY_SAFE_CENTER = "SAFE_CENTER";
         //修改登录密码
         public static final String KEY_SAFE_CENTER_LOGIN_PASS = "SAFE_CENTER_LOGIN_PASS";
+        //设置资金密码和修改资金密码
+        public static final String KEY_SAFE_CENTER_FUNDS_PASS = "SAFE_CENTER_FUNDS_PASS";
 
 
 

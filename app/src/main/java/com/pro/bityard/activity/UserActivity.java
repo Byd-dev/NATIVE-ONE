@@ -9,6 +9,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
+import com.pro.bityard.fragment.my.FundsPassChangeFragment;
 import com.pro.bityard.fragment.my.LanguageFragment;
 import com.pro.bityard.fragment.my.LoginPassChangeFragment;
 import com.pro.bityard.fragment.my.SafeCenterFragment;
@@ -65,9 +66,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_SAFE_CENTER_LOGIN_PASS:
                 addLoginPassChangeFragment();
                 break;
+            case IntentConfig.Keys.KEY_SAFE_CENTER_FUNDS_PASS:
+                addFundsPassChangeFragment();
+                break;
         }
 
 
+    }
+
+    private void addFundsPassChangeFragment() {
+        String name = FundsPassChangeFragment.class.getSimpleName();
+        //安全中心
+        FundsPassChangeFragment fragment = new FundsPassChangeFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addLoginPassChangeFragment() {

@@ -189,5 +189,8 @@
     <string name="text_old_pass_input">이전 비밀번호를 입력해 주세요.</string>
     <string name="text_get_code">인증요청</string>
     <string name="text_pass_different">비밀번호와 비밀번호 확인이 일치하지 않습니다.</string>
+    <string name="text_pin_set">PIN 코드를 설정하기</string>
+    <string name="text_pin_pass">PIN 코드</string>
+    <string name="text_login_pass_input">비밀번호를 입력해 주세요.</string>
 
 </resources>
