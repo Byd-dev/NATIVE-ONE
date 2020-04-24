@@ -161,6 +161,7 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
                                 getActivity().finish();
 
 
+
                             }
                         } else if (state.equals(FAILURE)) {
                             dismissProgressDialog();

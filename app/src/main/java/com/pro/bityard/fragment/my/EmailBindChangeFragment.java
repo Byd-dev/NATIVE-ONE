@@ -352,8 +352,7 @@ public class EmailBindChangeFragment extends BaseFragment implements View.OnClic
                 Log.d("print", "bindMobile:397:修改手机号:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
-                    loginEntity.getUser().setMobile(account);
-                    loginEntity.getUser().setPhone(account);
+                    loginEntity.getUser().setEmail(account);
                     SPUtils.putData(AppConfig.LOGIN, loginEntity);
                     getActivity().finish();
 

@@ -1,5 +1,8 @@
 package com.pro.bityard.manger;
 
+import com.pro.bityard.config.AppConfig;
+import com.pro.switchlibrary.SPUtils;
+
 import java.util.Observable;
 
 public class TagManger extends Observable {
@@ -44,6 +47,9 @@ public class TagManger extends Observable {
     public void clear() {
         deleteObservers();
         balanceManger = null;
+        SPUtils.remove(AppConfig.CHANGE_MOBILE);
+        SPUtils.remove(AppConfig.CHANGE_EMAIL);
+
     }
 
 }
