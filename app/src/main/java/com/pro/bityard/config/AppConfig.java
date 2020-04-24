@@ -60,6 +60,7 @@ public class AppConfig {
     public static final String RATE_LIST = "RATE_LIST";
     //用户修改手机
     public static final String CHANGE_MOBILE = "CHANGE_MOBILE";
+    public static final String CHANGE_EMAIL = "CHANGE_EMAIL";
 
 
 

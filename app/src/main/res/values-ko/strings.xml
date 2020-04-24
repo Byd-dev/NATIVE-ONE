@@ -11,8 +11,8 @@
     <string name="text_register">立即注册</string>
     <string name="text_mobile_login">手机号码登录</string>
     <string name="text_email_login">邮箱登录</string>
-    <string name="text_email">电子邮箱</string>
-    <string name="text_email_input">请输入邮箱</string>
+    <string name="text_email">이메일</string>
+    <string name="text_email_input">이메일을 입력해 주세요.</string>
     <string name="text_input_pass">请输入密码</string>
     <string name="text_pass">로그인 비밀번호</string>
     <string name="text_pass_err">您输入的密码有误</string>
@@ -196,5 +196,9 @@
     <string name="text_bind_mobile">핸드폰 번호를 연동하기</string>
     <string name="text_mobile_change">핸드폰 번호 변경</string>
     <string name="text_success_bind">연동이 완료되었습니다</string>
+    <string name="text_correct_mobile_code">올바른 SMS 인증번호를 입력하십시오.</string>
+    <string name="text_change_success">변경이 완료되었습니다</string>
+    <string name="text_bind_email">이메일 연동</string>
+    <string name="text_change_email">이메일 변경</string>
 
 </resources>

@@ -196,6 +196,10 @@
     <string name="text_bind_mobile">绑定手机号</string>
     <string name="text_mobile_change">修改手机号</string>
     <string name="text_success_bind">绑定成功</string>
+    <string name="text_correct_mobile_code">请输入正确短信验证码</string>
+    <string name="text_change_success">修改成功</string>
+    <string name="text_bind_email">绑定邮箱</string>
+    <string name="text_change_email">修改邮箱</string>
 
 
 </resources>

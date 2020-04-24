@@ -10,8 +10,8 @@
     <string name="text_register">Get Started</string>
     <string name="text_mobile_login">手机号码登录</string>
     <string name="text_email_login">邮箱登录</string>
-    <string name="text_email">电子邮箱</string>
-    <string name="text_email_input">请输入邮箱</string>
+    <string name="text_email">Email</string>
+    <string name="text_email_input">Email</string>
     <string name="text_input_pass">请输入密码</string>
     <string name="text_pass">Login Password</string>
     <string name="text_pass_err">您输入的密码有误</string>
@@ -195,5 +195,9 @@
     <string name="text_bind_mobile">Bind Mobile</string>
     <string name="text_mobile_change">Change Mobile</string>
     <string name="text_success_bind">Successfully Bound</string>
+    <string name="text_correct_mobile_code">The verification code is incorrect</string>
+    <string name="text_change_success">Success</string>
+    <string name="text_bind_email">Bind Email</string>
+    <string name="text_change_email">Change Email</string>
 
 </resources>

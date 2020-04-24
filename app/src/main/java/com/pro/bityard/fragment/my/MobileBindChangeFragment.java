@@ -228,7 +228,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                 /*1首先判断是否绑定手机 没有的话就绑定手机
                  * 2再判断当前是设置手机号码 还是修改手机号码
                  * 3 设置手机号码就直接设置 修改是下一步*/
-
+                // 旧手机验证的用CHANGE_PHONE，新手机验证是用BIND_PHONE
                 if (loginEntity.getUser().getMobile().equals("")) {
                     sendType = "BIND_PHONE";
                     account = country_code + account_value;
@@ -237,10 +237,13 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                         return;
                     }
                 } else {
-                    sendType = "CHANGE_PHONE";
                     if (mobile == true) {
                         account = loginEntity.getUser().getMobile();
+                        sendType = "CHANGE_PHONE";
+
                     } else {
+                        sendType = "BIND_PHONE";
+
                         if (account_value.equals("")) {
                             Toast.makeText(getContext(), getResources().getString(R.string.text_input_number), Toast.LENGTH_SHORT).show();
                             return;
@@ -249,7 +252,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                     }
                 }
 
-                Log.d("print", "onClick:245: " +mobile+"----"+ account);
+                Log.d("print", "onClick:245: " + mobile + "----" + account);
                 NetManger.getInstance().getMobileCode(account, sendType, (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
@@ -283,10 +286,11 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                         return;
                     }
                 } else {
-                    sendType = "CHANGE_PHONE";
                     if (mobile == true) {
+                        sendType = "CHANGE_PHONE";
                         account = loginEntity.getUser().getMobile();
                     } else {
+                        sendType = "BIND_PHONE";
                         account = country_code + account_value;
 
                     }
@@ -307,7 +311,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                     }
                 }
 
-                Log.d("print", "onClick:310: " +mobile+"----"+ account);
+                Log.d("print", "onClick:310: " + mobile + "----" + account);
 
                 NetManger.getInstance().checkMobileCode(account, sendType, code_value, (state, response) -> {
                     if (state.equals(BUSY)) {
@@ -316,11 +320,11 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response;
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
-                            Log.d("print", "onClick:319:验证验证码:  "+tipEntity);
-                            if (tipEntity.getMessage().equals("")){
+                            Log.d("print", "onClick:319:验证验证码:  " + tipEntity);
+                            if (tipEntity.getMessage().equals("")) {
 
-                            }else {
-                                Toast.makeText(getActivity(),tipEntity.getMessage(),Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                             }
 
@@ -341,18 +345,18 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                                     SPUtils.putBoolean(AppConfig.CHANGE_MOBILE, true);
                                     ArrayMap<String, String> map = new ArrayMap<>();
                                     map.put("oldPhone", loginEntity.getUser().getMobile());
-                                    map.put("newPhone",country_code + account_value);
+                                    map.put("newPhone", country_code + account_value);
                                     map.put("countryId", countryID);
                                     map.put("googleToken", googleToken);
                                     updateMobile(map);
                                 }
                             }
-                        }else {
-                            if (tipEntity.getMessage().equals("")){
-                                Toast.makeText(getActivity(),tipEntity.getMessage(),Toast.LENGTH_SHORT).show();
+                        } else {
+                            if (tipEntity.getMessage().equals("")) {
+                                Toast.makeText(getActivity(), R.string.text_correct_mobile_code, Toast.LENGTH_SHORT).show();
 
-                            }else {
-                                Toast.makeText(getActivity(),tipEntity.getMessage(),Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                             }
                         }
@@ -405,13 +409,14 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     loginEntity.getUser().setMobile(account);
+                    loginEntity.getUser().setPhone(account);
                     SPUtils.putData(AppConfig.LOGIN, loginEntity);
                     getActivity().finish();
 
 
                 }
                 if (tipEntity.getMessage().equals("")) {
-                    Toast.makeText(getContext(), R.string.text_success_bind, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.text_change_success, Toast.LENGTH_SHORT).show();
 
                 } else {
                     Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();

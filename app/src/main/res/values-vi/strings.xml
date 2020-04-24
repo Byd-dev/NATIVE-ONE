@@ -11,8 +11,8 @@
     <string name="text_register">立即注册</string>
     <string name="text_mobile_login">手机号码登录</string>
     <string name="text_email_login">邮箱登录</string>
-    <string name="text_email">电子邮箱</string>
-    <string name="text_email_input">请输入邮箱</string>
+    <string name="text_email">Email</string>
+    <string name="text_email_input">Email</string>
     <string name="text_input_pass">请输入密码</string>
     <string name="text_pass">Mật khẩu đăng nhập</string>
     <string name="text_pass_err">您输入的密码有误</string>
@@ -196,5 +196,9 @@
     <string name="text_bind_mobile">Liên kết SĐT</string>
     <string name="text_mobile_change">Đổi số điện thoại</string>
     <string name="text_success_bind">Đã liên kết</string>
+    <string name="text_correct_mobile_code">Nhập mã xác minh SMS</string>
+    <string name="text_change_success">Đã đổi</string>
+    <string name="text_bind_email">Liên kết Email</string>
+    <string name="text_change_email">Sửa đổi Email</string>
 
 </resources>
