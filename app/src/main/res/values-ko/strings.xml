@@ -35,7 +35,7 @@
     <string name="text_code_lose">验证码已失效,请重新输入</string>
     <string name="text_forget">找回密码</string>
     <string name="text_mobile_forget"><![CDATA[手机号找回->]]></string>
-    <string name="text_next">下一步</string>
+    <string name="text_next">다음</string>
     <string name="text_pass_new">新密码</string>
     <string name="text_edit_pass_new">새 비밀번호를 입력해 주세요.</string>
     <string name="text_pass_new_sure">비밀번호 확인</string>
@@ -110,7 +110,7 @@
     <string name="text_loss_amount">亏损金额</string>
     <string name="text_profit_forward">预计盈利</string>
     <string name="text_loss_forward">预计亏损</string>
-    <string name="text_success">订单设置成功</string>
+    <string name="text_success">변경이 완료되었습니다</string>
     <string name="text_add_margin">追加保证金</string>
     <string name="text_available_add">可用:</string>
     <string name="text_margin">保证金</string>
@@ -192,5 +192,9 @@
     <string name="text_pin_set">PIN 코드를 설정하기</string>
     <string name="text_pin_pass">PIN 코드</string>
     <string name="text_login_pass_input">비밀번호를 입력해 주세요.</string>
+    <string name="text_pin_change">PIN 코드 변경</string>
+    <string name="text_bind_mobile">핸드폰 번호를 연동하기</string>
+    <string name="text_mobile_change">핸드폰 번호 변경</string>
+    <string name="text_success_bind">연동이 완료되었습니다</string>
 
 </resources>

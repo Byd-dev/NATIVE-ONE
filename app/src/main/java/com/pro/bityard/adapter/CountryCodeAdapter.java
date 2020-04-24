@@ -40,7 +40,7 @@ public class CountryCodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
-            ((MyViewHolder) holder).text_name.setText(datas.get(position).getNameCn());
+            ((MyViewHolder) holder).text_name.setText(datas.get(position).getNameCn()+"("+datas.get(position).getNameEn()+")");
 
             // TODO: 2020/3/7   英文切换
             ((MyViewHolder) holder).text_code.setText("+"+datas.get(position).getCountryCode());

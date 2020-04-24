@@ -192,6 +192,10 @@
     <string name="text_pin_set">设置资金密码</string>
     <string name="text_pin_pass">资金密码</string>
     <string name="text_login_pass_input">请输入登录密码</string>
+    <string name="text_pin_change">修改资金密码</string>
+    <string name="text_bind_mobile">绑定手机号</string>
+    <string name="text_mobile_change">修改手机号</string>
+    <string name="text_success_bind">绑定成功</string>
 
 
 </resources>

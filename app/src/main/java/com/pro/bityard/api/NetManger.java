@@ -1,11 +1,9 @@
 package com.pro.bityard.api;
 
 
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
@@ -13,7 +11,6 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
-import com.pro.bityard.R;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.BalanceEntity;
@@ -1222,7 +1219,6 @@ public class NetManger {
             @Override
             public void onSuccessResult(String result) {
                 ArrayMap<String, String> map = new ArrayMap<>();
-
                 map.put("account", account);
                 map.put("type", sendType);
                 map.put("geetestToken", geetestToken);
@@ -1283,6 +1279,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("print", "checkMobileCode:验证手机验证码: "+response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
 
@@ -1295,4 +1292,46 @@ public class NetManger {
 
     }
 
+
+    /*设置资金密码*/
+    public void widthDrawPasswordSet(String loginPass, String newPass, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("password", loginPass);
+        map.put("withdrawPw", newPass);
+        postRequest("/api/user/init-withdrawPw", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "widthDrawPasswordSet:1305设置资金密码: " + response);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipEntity);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+
+
+    }
+
+    /*修改资金密码*/
+    public void widthDrawPasswordChange(String account, String oldPass, String newPass, String googleToken, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("account", account);
+        map.put("password", oldPass);
+        map.put("withdrawPw", newPass);
+        map.put("googleToken", googleToken);
+        postRequest("/api/user/update-withdrawPw", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "passwordChange:修改资金密码:  " + response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipEntity);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+
+
+    }
 }

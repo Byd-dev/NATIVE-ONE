@@ -42,11 +42,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_40"
+        android:layout_marginTop="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_15"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/text_pin_old"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_pin_pass"
@@ -208,11 +209,13 @@
     </LinearLayout>
     <!--邮箱验证码-->
     <LinearLayout
+        android:id="@+id/layout_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_15"
+        android:visibility="gone"
         android:orientation="vertical">
 
         <TextView

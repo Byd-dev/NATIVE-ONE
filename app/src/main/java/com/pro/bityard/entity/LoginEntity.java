@@ -69,7 +69,7 @@ public class LoginEntity implements Serializable {
         this.user = user;
     }
 
-    public static class UserBean implements Serializable{
+    public static class UserBean implements Serializable {
         /**
          * principal : wilde.tomoya@gmail.com
          * pw_l : 1
@@ -143,7 +143,9 @@ public class LoginEntity implements Serializable {
         }
 
         public String getMobile() {
+
             return mobile;
+
         }
 
         public void setMobile(String mobile) {
@@ -167,7 +169,9 @@ public class LoginEntity implements Serializable {
         }
 
         public String getEmail() {
+
             return email;
+
         }
 
         public void setEmail(String email) {

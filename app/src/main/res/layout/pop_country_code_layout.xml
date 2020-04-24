@@ -51,7 +51,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="@dimen/bar_height"
-        android:background="@color/color_country_code"
+        android:background="@color/color_bg_left"
         android:gravity="left|center_vertical"
         android:paddingLeft="@dimen/margin_15"
         android:text="常用国家"

@@ -133,9 +133,9 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
 
     };
 
-    private boolean eyeOld=true;
-    private boolean eyeNew=true;
-    private boolean eyeSure=true;
+    private boolean eyeOld = true;
+    private boolean eyeNew = true;
+    private boolean eyeSure = true;
 
     @Override
     public void onClick(View v) {
@@ -148,7 +148,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     edit_pass_old.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     img_eye_old.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     eyeOld = false;
-                } else  {
+                } else {
                     edit_pass_old.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     img_eye_old.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     eyeOld = true;
@@ -159,7 +159,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     edit_pass_new.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     eyeNew = false;
-                } else  {
+                } else {
                     edit_pass_new.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     eyeNew = true;
@@ -170,7 +170,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     edit_pass_sure.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     eyeSure = false;
-                } else  {
+                } else {
                     edit_pass_sure.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     eyeSure = true;
@@ -304,7 +304,11 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                     getActivity().finish();
                 }
-                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                if (tipEntity.getMessage().equals("")) {
+                    Toast.makeText(getActivity(), getResources().getString(R.string.text_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
                 dismissProgressDialog();
             } else if (state.equals(FAILURE)) {
