@@ -26,8 +26,8 @@
     <string name="text_email_code">郵箱驗證碼</string>
     <string name="text_email_code_input">請輸入郵箱驗證碼</string>
     <string name="text_register_btn">注册</string>
-    <string name="text_mobile_code">手机验证码</string>
-    <string name="text_mobile_code_input">请输入手机验证码</string>
+    <string name="text_mobile_code">短信驗證碼</string>
+    <string name="text_mobile_code_input">請輸入短信驗證碼</string>
     <string name="text_email_register">邮箱注册-?</string>
     <string name="text_try">点击重试</string>
     <string name="text_register_success">注册成功!</string>
@@ -39,7 +39,7 @@
     <string name="text_pass_new">新密码</string>
     <string name="text_edit_pass_new">確認密碼</string>
     <string name="text_pass_new_sure">确认新密码</string>
-    <string name="text_edit_pass_new_sure">请确认新密码</string>
+    <string name="text_edit_pass_new_sure">請再次輸入新密碼</string>
     <string name="text_sure">確認</string>
     <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
     <string name="text_recommend">推荐榜单</string>
@@ -200,5 +200,6 @@
     <string name="text_change_success">修改成功</string>
     <string name="text_bind_email">綁定郵箱</string>
     <string name="text_change_email">修改郵箱</string>
+    <string name="text_correct_email_code">請輸入正確郵箱驗證碼</string>
 
 </resources>

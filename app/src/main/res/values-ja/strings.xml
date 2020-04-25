@@ -200,6 +200,7 @@
     <string name="text_change_success">修改成功</string>
     <string name="text_bind_email">绑定邮箱</string>
     <string name="text_change_email">修改邮箱</string>
+    <string name="text_correct_email_code">请输入正确邮箱验证码</string>
 
 
 </resources>

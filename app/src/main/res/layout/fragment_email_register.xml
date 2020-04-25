@@ -107,7 +107,7 @@
                 android:id="@+id/text_getCode"
                 android:layout_width="89dp"
                 android:layout_height="match_parent"
-                android:text="获取验证码"
+                android:text="@string/text_get_code"
                 android:background="@drawable/bg_shape_code"
                 android:gravity="center"
                 android:textColor="@color/color_code"

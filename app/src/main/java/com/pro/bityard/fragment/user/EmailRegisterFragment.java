@@ -21,14 +21,12 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.Util;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.HashMap;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
@@ -126,6 +124,8 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 }
                 break;
             case R.id.text_getCode:
+
+
                 if (account_value.equals("")) {
                     Toast.makeText(getContext(), getResources().getString(R.string.text_email_input), Toast.LENGTH_SHORT).show();
                     return;
@@ -142,7 +142,10 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                             mHandler.sendEmptyMessage(0);
                             Message msg = new Message();
                             mHandler.sendMessage(msg);
+                        } else {
+                            Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                         }
+
                     } else if (state.equals(FAILURE)) {
                         dismissProgressDialog();
                     }
@@ -169,11 +172,14 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                     return;
                 }
 
-                SortedMap<String,String> map1 = new TreeMap<>();
-                map1.put("email", account_value);
-                map1.put("password", pass_value);
-                Log.d("print", "onClick:加密前:  " + map1);
-                String value_sign = Util.md5Decode32(map1.toString());
+
+                HashMap<String, String> map2 = new HashMap<>();
+                map2.put("email", account_value);
+                map2.put("password", pass_value);
+
+                String value_sign = Util.getSign(map2, AppConfig.SIGN_KEY);
+
+
                 Log.d("print", "onClick:加密后:  " + value_sign);
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("email", account_value);
@@ -191,9 +197,9 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                             //成功了再注册
                             register(map);
                         } else {
-                            if (tipEntity.getMessage().equals("")){
-                                Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
-                            }else {
+                            if (tipEntity.getMessage().equals("")) {
+                                Toast.makeText(getContext(), R.string.text_correct_email_code, Toast.LENGTH_SHORT).show();
+                            } else {
                                 Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
 

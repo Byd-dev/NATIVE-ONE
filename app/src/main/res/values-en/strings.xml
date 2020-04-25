@@ -25,8 +25,8 @@
     <string name="text_email_code">Captcha</string>
     <string name="text_email_code_input">Verification Code</string>
     <string name="text_register_btn">Get Started</string>
-    <string name="text_mobile_code">手机验证码</string>
-    <string name="text_mobile_code_input">请输入手机验证码</string>
+    <string name="text_mobile_code">Captcha</string>
+    <string name="text_mobile_code_input">Verification Code</string>
     <string name="text_email_register">邮箱注册-?</string>
     <string name="text_try">点击重试</string>
     <string name="text_register_success">注册成功!</string>
@@ -199,5 +199,6 @@
     <string name="text_change_success">Success</string>
     <string name="text_bind_email">Bind Email</string>
     <string name="text_change_email">Change Email</string>
+    <string name="text_correct_email_code">The verification code is incorrect</string>
 
 </resources>

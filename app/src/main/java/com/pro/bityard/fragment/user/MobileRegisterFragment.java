@@ -36,6 +36,7 @@ import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -251,11 +252,16 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                         countryID = dataBean.getId();
                     }
                 }
-                Map map1 = new LinkedHashMap();
+
+
+
+                HashMap<String, String> map1 = new HashMap<>();
                 map1.put("contryId", countryID);
                 map1.put("password", pass_value);
                 map1.put("phone", country_code + account_value);
-                String value_sign = Util.md5Decode32(map1.toString());
+
+                String value_sign = Util.getSign(map1, AppConfig.SIGN_KEY);
+
 
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("contryId", countryID);
@@ -273,10 +279,15 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
                             //成功了再注册
                             Log.d("print", "onNetResult: 238: " + tipEntity);
-
                             register(map);
+
+
                         } else {
-                            Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
+                            if (tipEntity.getMessage().equals("")) {
+                                Toast.makeText(getContext(), getResources().getString(R.string.text_correct_mobile_code), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
 
                         }
 

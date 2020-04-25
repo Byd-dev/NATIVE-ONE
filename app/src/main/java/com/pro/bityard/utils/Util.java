@@ -35,6 +35,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 public class Util {
 
@@ -277,42 +278,54 @@ public class Util {
     }
 
 
-    public static String md5Decode32(String content) {
-        byte[] hash;
+    public static String md5(String string) {
+        if (TextUtils.isEmpty(string)) {
+            return "";
+        }
+        MessageDigest md5 ;
         try {
-            hash = MessageDigest.getInstance("MD5").digest(content.getBytes("UTF-8"));
+            md5 = MessageDigest.getInstance("MD5");
+            byte[] bytes = md5.digest(string.getBytes());
+            String result = "";
+            for (byte b : bytes) {
+                String temp = Integer.toHexString(b & 0xff);
+                if (temp.length() == 1) {
+                    temp = "0" + temp;
+                }
+                result += temp;
+            }
+            return result;
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("NoSuchAlgorithmException",e);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException("UnsupportedEncodingException", e);
+            e.printStackTrace();
         }
-        //对生成的16字节数组进行补零操作
-        StringBuilder hex = new StringBuilder(hash.length * 2);
-        for (byte b : hash) {
-            if ((b & 0xFF) < 0x10){
-                hex.append("0");
-            }
-            hex.append(Integer.toHexString(b & 0xFF));
-        }
-        return hex.toString().toLowerCase();
+        return "";
     }
 
 
-    public static String ASCIISort(String str) {
-        char[] test = new char[str.length()];
+    public static String getSign(Map<String, String> params, String security) {
+        Map<String, String> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+        sortedMap.putAll(params);
+
+        // 不参与签名
+        sortedMap.remove("sign");
+        // 特殊：登录情况下会有access_token参数
+        sortedMap.remove("access_token");
+
         StringBuilder sb = new StringBuilder();
-        while (true) {
-            String a = str;//直接读取这行当中的字符串。
-            for (int i = 0; i < str.length(); i++) {
-                test[i] = a.charAt(i);//字符串处理每次读取一位。
+        for (Map.Entry<String, String> entry : sortedMap.entrySet()) {
+            String key = entry.getKey();
+            String val = entry.getValue();
+            // 空值不参与签名
+            if (TextUtils.isEmpty(val)) {
+                continue;
             }
-            Arrays.sort(test);
-            for (int i = 0; i < test.length; i++) {
-                sb.append(test[i]);
-            }
-            String trim = sb.toString().trim();
-            return trim;
+            sb.append(key).append("=").append(val).append("&");
         }
-    }
+        // 拼接key
+        sb.append("key").append("=").append(security);
 
+        // MD5加密转小写
+        String sign = md5(sb.toString());
+        return sign.toLowerCase();
+    }
 }
