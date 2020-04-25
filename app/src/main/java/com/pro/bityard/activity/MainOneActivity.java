@@ -558,7 +558,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         /*我的 分割线-----------------------------------------------------------------------------*/
         findViewById(R.id.layout_six).setOnClickListener(this);
         findViewById(R.id.layout_balance).setOnClickListener(this);
-        img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
+        img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
         findViewById(R.id.layout_one).setOnClickListener(this);//安全中心监听
 
     }
@@ -855,16 +855,21 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     text_balance_currency.setText("***");
                     isEyeOpen = false;
                 } else {
-                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye));
+                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     isEyeOpen = true;
                     if (isLogin()) {
-                        String[] NetIncome = netIncomeResult.split(",");
-                        if (NetIncome[0].equals("1")) {
-                            if (balanceEntity != null) {
-                                String netIncome = NetIncome[1];
-                                String margin = NetIncome[2];
-                                setMyNetIncome(balanceEntity, netIncome, margin);
+                        if (netIncomeResult != null) {
+                            String[] NetIncome = netIncomeResult.split(",");
+                            if (NetIncome[0].equals("1")) {
+                                if (balanceEntity != null) {
+                                    String netIncome = NetIncome[1];
+                                    String margin = NetIncome[2];
+                                    setMyNetIncome(balanceEntity, netIncome, margin);
+                                }
                             }
+                        } else {
+                            text_balance.setText(getResources().getString(R.string.text_default));
+                            text_balance_currency.setText(getResources().getString(R.string.text_default));
                         }
                     } else {
                         text_balance.setText(getResources().getString(R.string.text_default));
@@ -877,10 +882,10 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 break;
             //安全中心
             case R.id.layout_one:
-                if (isLogin()){
-                    UserActivity.enter(MainOneActivity.this,IntentConfig.Keys.KEY_SAFE_CENTER);
-                }else {
-                    LoginActivity.enter(MainOneActivity.this,IntentConfig.Keys.KEY_LOGIN);
+                if (isLogin()) {
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_SAFE_CENTER);
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             default:
