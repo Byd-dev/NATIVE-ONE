@@ -20,10 +20,15 @@ import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
 import com.pro.bityard.api.OnNetResult;
-import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
+import com.pro.bityard.utils.Util;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
@@ -97,7 +102,6 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     }
 
 
-
     private String geetestToken = null;
 
     private boolean eye = true;
@@ -115,7 +119,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                     edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     eye = false;
-                } else  {
+                } else {
                     edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     eye = true;
@@ -127,12 +131,11 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                     return;
                 }
 
-             //   getCode( account_value);
 
                 NetManger.getInstance().getEmailCode(account_value, "REGISTER", (state, response1, response2) -> {
-                    if (state.equals(BUSY)){
+                    if (state.equals(BUSY)) {
                         showProgressDialog();
-                    }else if (state.equals(SUCCESS)) {
+                    } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
@@ -140,7 +143,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                             Message msg = new Message();
                             mHandler.sendMessage(msg);
                         }
-                    }else if (state.equals(FAILURE)){
+                    } else if (state.equals(FAILURE)) {
                         dismissProgressDialog();
                     }
                 });
@@ -166,25 +169,33 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                     return;
                 }
 
+                SortedMap<String,String> map1 = new TreeMap<>();
+                map1.put("email", account_value);
+                map1.put("password", pass_value);
+                Log.d("print", "onClick:加密前:  " + map1);
+                String value_sign = Util.md5Decode32(map1.toString());
+                Log.d("print", "onClick:加密后:  " + value_sign);
                 ArrayMap<String, String> map = new ArrayMap<>();
-
                 map.put("email", account_value);
                 map.put("password", pass_value);
-
-
-              //  checkCode(account_value, code_value, map);
+                map.put("sign", value_sign);
 
                 NetManger.getInstance().checkEmailCode(account_value, "REGISTER", code_value, (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
-                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        TipEntity tipEntity = (TipEntity) response;
+                        Log.d("print", "onClick:验证验证码: " + tipEntity);
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
                             //成功了再注册
                             register(map);
                         } else {
-                            Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (tipEntity.getMessage().equals("")){
+                                Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
+                            }else {
+                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
 
                         }
 
@@ -194,58 +205,31 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 });
 
 
-
                 break;
 
         }
     }
 
-    /*校验验证码*/
-    private void checkCode(String account_value, String code_value, ArrayMap<String, String> register_map) {
-        ArrayMap<String, String> map = new ArrayMap<>();
-
-        map.put("account", account_value);
-        map.put("type", "REGISTER");
-        map.put("code", code_value);
-
-        NetManger.getInstance().postRequest("/api/system/checkEmail", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
-                        //成功了再注册
-                        Log.d("print", "onNetResult: 238: " + tipEntity);
-                        register(register_map);
-                    } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
-                }
-            }
-        });
-
-    }
 
     private void register(ArrayMap<String, String> map) {
 
-        NetManger.getInstance().postRequest("/api/register/submit",map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/register/submit", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
                     showProgressDialog();
                 } else if (state.equals(SUCCESS)) {
-                    Log.d("print", "onNetResult:176: "+response.toString());
+                    Log.d("print", "onNetResult:176: " + response.toString());
                     dismissProgressDialog();
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 200) {
+                        getActivity().finish();
+                    }
+
+                    if (tipEntity.getMessage().equals("")) {
                         Toast.makeText(getContext(), getResources().getString(R.string.text_register_success), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else if (state.equals(FAILURE)) {
@@ -275,7 +259,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 map.put("account", account_value);
                 map.put("type", "REGISTER");
                 map.put("geetestToken", geetestToken);
-                NetManger.getInstance().postRequest("/api/system/sendEmail",map, new OnNetResult() {
+                NetManger.getInstance().postRequest("/api/system/sendEmail", map, new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
                         if (state.equals(BUSY)) {
@@ -300,7 +284,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
 
             @Override
             public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
-                Toast.makeText(getContext(),gt3ErrorBean.errorDesc,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
 
             }
         });

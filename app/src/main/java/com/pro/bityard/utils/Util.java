@@ -19,10 +19,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -271,4 +275,44 @@ public class Util {
         }
         return date;
     }
+
+
+    public static String md5Decode32(String content) {
+        byte[] hash;
+        try {
+            hash = MessageDigest.getInstance("MD5").digest(content.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("NoSuchAlgorithmException",e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("UnsupportedEncodingException", e);
+        }
+        //对生成的16字节数组进行补零操作
+        StringBuilder hex = new StringBuilder(hash.length * 2);
+        for (byte b : hash) {
+            if ((b & 0xFF) < 0x10){
+                hex.append("0");
+            }
+            hex.append(Integer.toHexString(b & 0xFF));
+        }
+        return hex.toString().toLowerCase();
+    }
+
+
+    public static String ASCIISort(String str) {
+        char[] test = new char[str.length()];
+        StringBuilder sb = new StringBuilder();
+        while (true) {
+            String a = str;//直接读取这行当中的字符串。
+            for (int i = 0; i < str.length(); i++) {
+                test[i] = a.charAt(i);//字符串处理每次读取一位。
+            }
+            Arrays.sort(test);
+            for (int i = 0; i < test.length; i++) {
+                sb.append(test[i]);
+            }
+            String trim = sb.toString().trim();
+            return trim;
+        }
+    }
+
 }

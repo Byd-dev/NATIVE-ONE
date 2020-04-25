@@ -32,11 +32,13 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
-import java.time.temporal.ValueRange;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -75,6 +77,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
     @BindView(R.id.text_getCode)
     TextView text_getCode;
+    private String countryID;
 
     public MobileRegisterFragment() {
 
@@ -125,7 +128,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     @Override
     protected void initData() {
         //获取默认的国家区号 如果没有地理位置 就默认中国
-        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME,"中国");
+        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME, "中国");
 
         text_countryName.setText(country_name);
 
@@ -133,7 +136,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         //获取国家code
         countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
         if (countryCodeEntity == null) {
-            NetManger.getInstance().getRequest("/api/home/country/list",null,new OnNetResult() {
+            NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
                 @Override
                 public void onNetResult(String state, Object response) {
                     if (state.equals(BUSY)) {
@@ -182,7 +185,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                     edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     eye = false;
-                } else  {
+                } else {
                     edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     eye = true;
@@ -200,23 +203,23 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                     return;
                 }
                 //获取验证码
-             //   getCode(country_code, account_value);
+                //   getCode(country_code, account_value);
 
-                NetManger.getInstance().getMobileCode(country_code+account_value, "REGISTER", (state, response1, response2) -> {
-                    if (state.equals(BUSY)){
+                NetManger.getInstance().getMobileCode(country_code + account_value, "REGISTER", (state, response1, response2) -> {
+                    if (state.equals(BUSY)) {
                         showProgressDialog();
-                    }else if (state.equals(SUCCESS)) {
+                    } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
                             mHandler.sendEmptyMessage(0);
                             Message msg = new Message();
                             mHandler.sendMessage(msg);
-                        }else if (tipEntity.getCode()==500){
+                        } else if (tipEntity.getCode() == 500) {
                             Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
-                    }else if (state.equals(FAILURE)){
+                    } else if (state.equals(FAILURE)) {
                         dismissProgressDialog();
                     }
                 });
@@ -242,24 +245,35 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                     return;
                 }
 
-                ArrayMap<String, String> map = new ArrayMap<>();
 
-                map.put("contryCode", country_code);
+                for (CountryCodeEntity.DataBean dataBean : countryCodeEntity.getData()) {
+                    if (dataBean.getCountryCode().equals(country_code)) {
+                        countryID = dataBean.getId();
+                    }
+                }
+                Map map1 = new LinkedHashMap();
+                map1.put("contryId", countryID);
+                map1.put("password", pass_value);
+                map1.put("phone", country_code + account_value);
+                String value_sign = Util.md5Decode32(map1.toString());
+
+                ArrayMap<String, String> map = new ArrayMap<>();
+                map.put("contryId", countryID);
                 map.put("phone", country_code + account_value);
                 map.put("password", pass_value);
+                map.put("sign", value_sign);
                 //校验验证码
-               // checkCode(account_value, code_value, map);
-
 
                 NetManger.getInstance().checkMobileCode(country_code + account_value, "REGISTER", code_value, (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
-                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        TipEntity tipEntity = (TipEntity) response;
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
                             //成功了再注册
                             Log.d("print", "onNetResult: 238: " + tipEntity);
+
                             register(map);
                         } else {
                             Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
@@ -274,42 +288,10 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         }
     }
 
-    /*校验验证码*/
-    private void checkCode(String account_value, String code_value, ArrayMap<String, String> register_map) {
-        ArrayMap<String, String> map = new ArrayMap<>();
-
-        map.put("account", text_countryCode.getText().toString() + account_value);
-        map.put("type", "REGISTER");
-        map.put("code", code_value);
-
-        NetManger.getInstance().postRequest("/api/system/checkSMS", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
-                        //成功了再注册
-                        Log.d("print", "onNetResult: 238: " + tipEntity);
-                        register(register_map);
-                    } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
-                }
-            }
-        });
-
-    }
 
     private void register(ArrayMap<String, String> map) {
 
-        NetManger.getInstance().postRequest("/api/register/submit",map, new OnNetResult() {
+        NetManger.getInstance().postRequest("/api/register/submit", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
                 if (state.equals(BUSY)) {
@@ -318,10 +300,13 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                     dismissProgressDialog();
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 200) {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_register_success), Toast.LENGTH_SHORT).show();
+                        getActivity().finish();
+                    }
 
-                    } else if (tipEntity.getCode() == 500) {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                    if (tipEntity.getMessage().equals("")) {
+                        Toast.makeText(getContext(), getResources().getString(R.string.text_register_success), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else if (state.equals(FAILURE)) {
@@ -377,7 +362,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
             @Override
             public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
-                Toast.makeText(getContext(),gt3ErrorBean.errorDesc,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -432,7 +417,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
             text_try.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NetManger.getInstance().getRequest("/api/home/country/list",null,new OnNetResult() {
+                    NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
                         @Override
                         public void onNetResult(String state, Object response) {
                             if (state.equals(BUSY)) {
