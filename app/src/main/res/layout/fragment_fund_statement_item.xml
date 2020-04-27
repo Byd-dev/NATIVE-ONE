@@ -53,68 +53,62 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
+        <RadioGroup
             android:layout_width="0dp"
             android:layout_height="@dimen/margin_26"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_weight="1"
-            android:background="@drawable/bg_kuang_second_color"
-
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:orientation="horizontal"
             >
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+            <RadioButton
+                android:id="@+id/radio_today"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:background="@drawable/sel_switcher_lever_bg"
+                android:button="@null"
+                android:gravity="center"
+                android:checked="true"
+                android:maxLines="1"
                 android:text="@string/text_today"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal" />
+                android:textColor="@color/text_maincolor"
+                android:textSize="@dimen/size_normal_two"
+                android:typeface="monospace" />
 
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="@dimen/margin_26"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_weight="1"
-            android:background="@drawable/bg_kuang_second_color"
-
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+            <RadioButton
+                android:id="@+id/radio_week"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_weight="1"
+                android:background="@drawable/sel_switcher_lever_bg"
+                android:button="@null"
+                android:gravity="center"
+                android:maxLines="1"
                 android:text="@string/text_week"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal" />
+                android:textColor="@color/text_maincolor"
+                android:textSize="@dimen/size_normal_two"
+                android:typeface="monospace" />
 
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="@dimen/margin_26"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_weight="1"
-            android:background="@drawable/bg_kuang_second_color"
-
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+            <RadioButton
+                android:id="@+id/radio_month"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/sel_switcher_lever_bg"
+                android:button="@null"
+                android:gravity="center"
+                android:maxLines="1"
                 android:text="@string/text_month"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal" />
+                android:textColor="@color/text_maincolor"
+                android:textSize="@dimen/size_normal_two"
+                android:typeface="monospace" />
+        </RadioGroup>
 
 
-        </RelativeLayout>
     </LinearLayout>
 
     <View
@@ -122,6 +116,26 @@
         android:layout_height="@dimen/size_line"
         android:background="@color/home_line" />
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--列表-->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

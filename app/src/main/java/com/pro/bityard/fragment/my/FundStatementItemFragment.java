@@ -72,10 +72,8 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
         NetManger.getInstance().currencyList("1", (state, response) -> {
             if (state.equals(SUCCESS)) {
                 fundItemEntity = new Gson().fromJson(response.toString(), FundItemEntity.class);
-                Log.d("print", "initData: " + fundItemEntity);
                 fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));
-
-
+                Log.d("print", "initData: " + fundItemEntity);
             }
         });
 
