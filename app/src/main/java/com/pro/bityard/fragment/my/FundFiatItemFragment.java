@@ -224,9 +224,6 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initData() {
-        if (getArguments() != null) {
-            transfer = getArguments().getString("transfer", "false");
-        }
 
         NetManger.getInstance().currencyList("1", (state, response) -> {
             if (state.equals(BUSY)) {
