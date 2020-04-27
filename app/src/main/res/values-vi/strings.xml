@@ -220,5 +220,12 @@
     <string name="text_today">Hôm nay</string>
     <string name="text_month">Tháng này</string>
     <string name="text_week">Tuần này</string>
+    <string name="text_pending">Chờ xử lý</string>
+    <string name="text_tip_success">Thành công</string>
+    <string name="text_failure">Thất bại</string>
+    <string name="text_tip_cancel">Hủy bỏ</string>
+    <string name="text_processing">Đang xử lý</string>
+    <string name="text_in_progress">Đang tiến hành</string>
+    <string name="text_refunded">Đã hoàn tiền</string>
 
 </resources>

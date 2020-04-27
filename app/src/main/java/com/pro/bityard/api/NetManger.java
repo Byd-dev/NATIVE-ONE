@@ -14,7 +14,7 @@ import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.BalanceEntity;
-import com.pro.bityard.entity.CurrencyListEntity;
+import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.IsLoginEntity;
@@ -620,7 +620,7 @@ public class NetManger {
         });
     }
 
-    public void currencyList(String type,OnNetResult onNetResult) {
+    public void currencyList(String type, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("type", type);//0是货币 1是法币
         getRequest("/api/home/currency/list", map, (state, response) -> {
@@ -974,7 +974,7 @@ public class NetManger {
         RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
         if (rateListEntity != null) {
             List<RateListEntity.ListBean> list = rateListEntity.getList();
-           // Log.d("print", "rateList:缓存: " + list);
+            // Log.d("print", "rateList:缓存: " + list);
             for (RateListEntity.ListBean rateList : list) {
                 if (src.equals(rateList.getName())) {
                     if (moneyType.equals("1")) {
@@ -1273,7 +1273,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "checkMobileCode:验证手机验证码: "+response);
+                Log.d("print", "checkMobileCode:验证手机验证码: " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
 
@@ -1328,4 +1328,54 @@ public class NetManger {
 
 
     }
+
+
+    public void depositWithdraw(String type, String transfer, String currencyType, String srcCurrency, String currency, String createTimeGe,
+                                String createTimeLe, String page, String rows, OnNetResult onNetResult) {
+
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        if (type != null) {
+            map.put("type", type);
+        }
+        if (transfer != null) {
+            map.put("transfer", transfer);
+        }
+        if (currencyType != null) {
+            map.put("currencyType", currencyType);
+        }
+        if (srcCurrency != null) {
+            map.put("srcCurrency", srcCurrency);
+        }
+        if (currency != null) {
+            map.put("currency", currency);
+        }
+        if (createTimeGe != null) {
+            map.put("createTimeGe", createTimeGe);
+        }
+        if (createTimeLe != null) {
+            map.put("createTimeLe", createTimeLe);
+        }
+        if (page != null) {
+            map.put("page", page);
+        }
+        if (rows != null) {
+            map.put("rows", rows);
+        }
+
+        getRequest("/api/mine/funds/deposit-withdraw", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                DepositWithdrawEntity depositWithdrawEntity = new Gson().fromJson(response.toString(), DepositWithdrawEntity.class);
+                onNetResult.onNetResult(SUCCESS, depositWithdrawEntity);
+            }else if (state.equals(FAILURE)){
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+
+
+    }
+
 }

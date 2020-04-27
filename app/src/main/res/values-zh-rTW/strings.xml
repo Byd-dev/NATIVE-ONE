@@ -220,5 +220,12 @@
     <string name="text_today">本日</string>
     <string name="text_month">本月</string>
     <string name="text_week">本周</string>
+    <string name="text_pending">待處理</string>
+    <string name="text_tip_success">成功</string>
+    <string name="text_failure">失敗</string>
+    <string name="text_tip_cancel">取消</string>
+    <string name="text_processing">處理中</string>
+    <string name="text_in_progress">匯款中</string>
+    <string name="text_refunded">已退款</string>
 
 </resources>

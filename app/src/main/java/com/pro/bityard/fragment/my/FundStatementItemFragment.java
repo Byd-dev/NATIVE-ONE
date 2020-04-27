@@ -1,7 +1,6 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,18 +12,24 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.DepositWithdrawAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.FundItemEntity;
 
 import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
+import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class FundStatementItemFragment extends BaseFragment implements View.OnClickListener {
@@ -42,7 +47,24 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
     @BindView(R.id.img_bg)
     ImageView img_bg;
+
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    private int lastVisibleItem;
+    private LinearLayoutManager linearLayoutManager;
+
     private FundItemEntity fundItemEntity;
+
+    private DepositWithdrawAdapter depositWithdrawAdapter;
+
+    private String FIRST = "first";
+    private String REFRESH = "refresh";
+    private String LOAD = "load";
+
+    private int page = 0;
 
 
     @Override
@@ -55,6 +77,40 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
         layout_select.setOnClickListener(this);
         fundSelectAdapter = new FundSelectAdapter(getActivity());
+
+
+        depositWithdrawAdapter = new DepositWithdrawAdapter(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(depositWithdrawAdapter);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        /*刷新监听*/
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            initData();
+        });
+
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (swipeRefreshLayout.isRefreshing()) return;
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == depositWithdrawAdapter.getItemCount() - 1) {
+                    depositWithdrawAdapter.startLoad();
+                    page = page + 1;
+                    getWithdrawal(LOAD, null, null, "1", null, "", null,
+                            null, String.valueOf(page), "10");
+                }
+
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+            }
+        });
+
     }
 
     @Override
@@ -70,14 +126,70 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
     @Override
     protected void initData() {
         NetManger.getInstance().currencyList("1", (state, response) -> {
-            if (state.equals(SUCCESS)) {
+            if (state.equals(BUSY)) {
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(true);
+                }
+            } else if (state.equals(SUCCESS)) {
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
                 fundItemEntity = new Gson().fromJson(response.toString(), FundItemEntity.class);
-                fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));
-                Log.d("print", "initData: " + fundItemEntity);
+                if (!fundItemEntity.getData().get(0).getName().equals("ALL")) {
+                    fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));
+                }
+
+            } else if (state.equals(FAILURE)) {
+                if (swipeRefreshLayout != null) {
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
 
 
+        /*NetManger.getInstance().depositWithdraw("100", "false", "1", null, "", ChartUtil.getDate(ChartUtil.getTodayZero()),
+                ChartUtil.getDate(ChartUtil.getTimeNow()), String.valueOf(page), "10", (state, response) -> {
+
+                });*/
+
+        page = 0;
+
+        getWithdrawal(FIRST, null, null, "1", null, "", null,
+                null, String.valueOf(page), "10");
+
+
+    }
+
+    private void getWithdrawal(String loadType, String type, String transfer, String currencyType, String srcCurrency, String currency, String createTimeGe,
+                               String createTimeLe, String page, String rows) {
+        NetManger.getInstance().depositWithdraw(type, transfer, currencyType, srcCurrency, currency, createTimeGe,
+                createTimeLe, page, rows, (state, response) -> {
+                    if (state.equals(BUSY)) {
+
+                        if (swipeRefreshLayout != null) {
+                            if (loadType.equals(LOAD)) {
+                                swipeRefreshLayout.setRefreshing(false);
+                            } else {
+                                swipeRefreshLayout.setRefreshing(true);
+                            }
+                        }
+                    } else if (state.equals(SUCCESS)) {
+                        if (swipeRefreshLayout != null) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                        DepositWithdrawEntity depositWithdrawEntity = (DepositWithdrawEntity) response;
+                        if (loadType.equals(LOAD)) {
+                            depositWithdrawAdapter.addDatas(depositWithdrawEntity.getData());
+                        } else {
+                            depositWithdrawAdapter.setDatas(depositWithdrawEntity.getData());
+
+                        }
+                    } else if (state.equals(FAILURE)) {
+                        if (swipeRefreshLayout != null) {
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                });
     }
 
     @Override

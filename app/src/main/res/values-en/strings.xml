@@ -219,5 +219,12 @@
     <string name="text_today">Today</string>
     <string name="text_month">Month</string>
     <string name="text_week">Week</string>
+    <string name="text_pending">Pending</string>
+    <string name="text_tip_success">Success</string>
+    <string name="text_failure">Failed</string>
+    <string name="text_tip_cancel">Cancel</string>
+    <string name="text_processing">Processing</string>
+    <string name="text_in_progress">In Progress</string>
+    <string name="text_refunded">Refunded</string>
 
 </resources>

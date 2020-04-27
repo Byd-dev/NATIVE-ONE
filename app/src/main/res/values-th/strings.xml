@@ -220,5 +220,12 @@
     <string name="text_today">Сегодня</string>
     <string name="text_month">В этом месяце</string>
     <string name="text_week">На этой неделе</string>
+    <string name="text_pending">Рассматривается</string>
+    <string name="text_tip_success">Успешно</string>
+    <string name="text_failure">Не удалось</string>
+    <string name="text_tip_cancel">Отмена</string>
+    <string name="text_processing">Обработка</string>
+    <string name="text_in_progress">В ходе выполнения</string>
+    <string name="text_refunded">Возвращено</string>
 
 </resources>

@@ -220,5 +220,12 @@
     <string name="text_today">당일</string>
     <string name="text_month">이달</string>
     <string name="text_week">금주</string>
+    <string name="text_pending">처리 대기</string>
+    <string name="text_tip_success">성공</string>
+    <string name="text_failure">실폐</string>
+    <string name="text_tip_cancel">취소</string>
+    <string name="text_processing">처리 중</string>
+    <string name="text_in_progress">진행 중</string>
+    <string name="text_refunded">환불되었습니다</string>
 
 </resources>
