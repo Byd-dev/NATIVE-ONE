@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,7 +74,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
     private String LOAD = "load";
 
     private int page = 0;
-    private String currency="";
+    private String currency = "";
 
 
     @Override
@@ -158,12 +159,15 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
 
         page = 0;
-        currency = "";
-        getWithdrawal(FIRST, null, null, "1", null, currency, null,
-                null, String.valueOf(page), "10");
-
+        Log.d("print", "initData:162:  "+currency+createTimeGe+createTimeLe);
+        getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+                createTimeLe, String.valueOf(page), "10");
 
     }
+
+
+
+
 
     private void getWithdrawal(String loadType, String type, String transfer, String currencyType, String srcCurrency, String currency, String createTimeGe,
                                String createTimeLe, String page, String rows) {
@@ -187,7 +191,6 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                             depositWithdrawAdapter.addDatas(depositWithdrawEntity.getData());
                         } else {
                             depositWithdrawAdapter.setDatas(depositWithdrawEntity.getData());
-
                         }
                     } else if (state.equals(FAILURE)) {
                         if (swipeRefreshLayout != null) {
@@ -288,8 +291,6 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
 
                 page = 0;
-                createTimeGe = ChartUtil.getTodayZero();
-                createTimeLe = ChartUtil.getTodayLastTime();
                 currency = data.getCode();
                 getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
                         createTimeLe, String.valueOf(page), "10");
