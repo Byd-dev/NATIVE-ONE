@@ -51,8 +51,8 @@
     <string name="text_up_down">涨跌幅</string>
     <string name="text_name">名称</string>
     <string name="text_all_balance">总净资产(USDT)</string>
-    <string name="text_mining">立即挖矿</string>
-    <string name="text_fabi_trade">法币交易</string>
+    <string name="text_mining">前往挖矿</string>
+    <string name="text_fabi_trade">法币充值</string>
     <string name="text_coin_turn">币币闪兑</string>
     <string name="text_withdrawal">提币</string>
     <string name="text_recharge">充币</string>
@@ -200,5 +200,17 @@
     <string name="text_bind_email">绑定邮箱</string>
     <string name="text_change_email">修改邮箱</string>
     <string name="text_correct_email_code">请输入正确邮箱验证码</string>
+    <string name="text_mid">中</string>
+    <string name="text_low">低</string>
+    <string name="text_high">高</string>
+    <string name="text_account">资金账户</string>
+    <string name="text_commission_rate">佣金比例</string>
+    <string name="text_fund_statement">资金记录</string>
+    <string name="text_orders">交易记录</string>
+    <string name="text_affiliate_stats">邀请记录</string>
+    <string name="text_trade_settings">交易设置</string>
+    <string name="text_withdrawal_address">提币地址管理</string>
+    <string name="text_system_settings">系统设置</string>
+    <string name="text_announcements">最新公告</string>
 
 </resources>

@@ -219,28 +219,27 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
 
     private void register(ArrayMap<String, String> map) {
 
-        NetManger.getInstance().postRequest("/api/register/submit", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    Log.d("print", "onNetResult:176: " + response.toString());
-                    dismissProgressDialog();
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 200) {
-                        getActivity().finish();
-                    }
-
-                    if (tipEntity.getMessage().equals("")) {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_register_success), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
+        NetManger.getInstance().postRequest("/api/register/submit", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "onNetResult:176: " + response.toString());
+                dismissProgressDialog();
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    getActivity().finish();
                 }
+
+
+
+                if (tipEntity.getMessage().equals("")) {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_register_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
             }
         });
 

@@ -36,21 +36,32 @@
         android:layout_height="45dp">
 
         <TextView
+            android:id="@+id/text_lever_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_15"
-            android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
             android:textStyle="bold"
             android:text="@string/text_security_level"
             android:textColor="@color/text_maincolor"
             android:textSize="15sp" />
-
-        <TextView
+        <ImageView
+            android:id="@+id/img_lever"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="等级: 低"
+            android:layout_toRightOf="@+id/text_lever_title"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:src="@mipmap/icon_star_one"/>
+
+
+
+        <TextView
+            android:id="@+id/text_lever"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_low"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textSize="14sp"

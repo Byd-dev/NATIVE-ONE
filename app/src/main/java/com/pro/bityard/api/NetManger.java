@@ -980,7 +980,7 @@ public class NetManger {
         RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
         if (rateListEntity != null) {
             List<RateListEntity.ListBean> list = rateListEntity.getList();
-            Log.d("print", "rateList:缓存: " + list);
+           // Log.d("print", "rateList:缓存: " + list);
             for (RateListEntity.ListBean rateList : list) {
                 if (src.equals(rateList.getName())) {
                     if (moneyType.equals("1")) {

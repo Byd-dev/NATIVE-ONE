@@ -2,6 +2,7 @@ package com.pro.bityard.fragment.my;
 
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
@@ -26,6 +27,13 @@ public class SafeCenterFragment extends BaseFragment implements View.OnClickList
     @BindView(R.id.text_email_tip)
     TextView text_email_tip;
 
+    @BindView(R.id.img_lever)
+    ImageView img_lever;
+    @BindView(R.id.text_lever)
+    TextView text_lever;
+
+    private int lever=0;
+
     @Override
     public void onResume() {
         super.onResume();
@@ -36,21 +44,47 @@ public class SafeCenterFragment extends BaseFragment implements View.OnClickList
             int pw_w = user.getPw_w();
             if (pw_w == 0) {
                 text_pin_tip.setText(getResources().getString(R.string.text_not_set));
+                lever=1;
             } else {
                 text_pin_tip.setText(getResources().getString(R.string.text_change));
+                lever=2;
+
             }
             Log.d("print", "onResume:42:  " + user.getMobile() + " --    " + user.getEmail());
             if (user.getMobile().equals("")) {
                 text_mobile_tip.setText(R.string.text_unbond);
+                lever=2;
             } else {
                 text_mobile_tip.setText(R.string.text_change);
+                lever=3;
+
             }
 
             if (user.getEmail().equals("")) {
                 text_email_tip.setText(getResources().getString(R.string.text_not_set));
+                lever=2;
             } else {
                 text_email_tip.setText(R.string.text_change);
+                lever=3;
+            }
 
+            if (!user.getEmail().equals("")&&!user.getMobile().equals("")){
+                lever=4;
+            }
+            switch (lever){
+                case 1:
+                    img_lever.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_one));
+                    text_lever.setText(R.string.text_low);
+                    break;
+                case 2:
+                case 3:
+                    img_lever.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_three));
+                    text_lever.setText(R.string.text_mid);
+                    break;
+                case 4:
+                    img_lever.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_four));
+                    text_lever.setText(R.string.text_high);
+                    break;
             }
 
         }

@@ -51,12 +51,12 @@
     <string name="text_new_price">最新价</string>
     <string name="text_up_down">涨跌幅</string>
     <string name="text_name">名称</string>
-    <string name="text_all_balance">总资金(USDT)</string>
-    <string name="text_mining">立即挖矿</string>
-    <string name="text_fabi_trade">法币交易</string>
-    <string name="text_coin_turn">币币闪兑</string>
-    <string name="text_withdrawal">提币</string>
-    <string name="text_recharge">充币</string>
+    <string name="text_all_balance">Мои активы(USDT)</string>
+    <string name="text_mining">Майнинг сейчас</string>
+    <string name="text_fabi_trade">Фиат</string>
+    <string name="text_coin_turn">Быстрый обмен</string>
+    <string name="text_withdrawal">Снятия</string>
+    <string name="text_recharge">Депозит</string>
     <string name="text_unlogin">未登录</string>
     <string name="text_setup">系统设置</string>
     <string name="text_logout">退出登录</string>
@@ -174,7 +174,7 @@
     <string name="text_1week">1周</string>
     <string name="text_1month">1月</string>
     <string name="text_lever_select">选择杠杆</string>
-    <string name="text_my_service">在线客服</string>
+    <string name="text_my_service">Онлайн-чат</string>
     <string name="text_asset_rate">币种选择</string>
     <string name="text_safe_center">Безопасность</string>
     <string name="text_change">Изменить</string>
@@ -201,5 +201,17 @@
     <string name="text_bind_email">Привязать электронную почту</string>
     <string name="text_change_email">Изменить электронную почту</string>
     <string name="text_correct_email_code">Код подтверждения неверен</string>
+    <string name="text_mid">Средний</string>
+    <string name="text_low">Низкий</string>
+    <string name="text_high">Высокий</string>
+    <string name="text_account">Аккуант</string>
+    <string name="text_commission_rate">Ставка комиссии</string>
+    <string name="text_fund_statement">История активов</string>
+    <string name="text_orders">История ордеров</string>
+    <string name="text_affiliate_stats">История комиссии</string>
+    <string name="text_trade_settings">Настройки торговли</string>
+    <string name="text_withdrawal_address">Управление адресом вывода</string>
+    <string name="text_system_settings">Системные настройки</string>
+    <string name="text_announcements">Уведомление</string>
 
 </resources>

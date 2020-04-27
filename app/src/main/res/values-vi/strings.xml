@@ -51,12 +51,12 @@
     <string name="text_new_price">最新价</string>
     <string name="text_up_down">涨跌幅</string>
     <string name="text_name">名称</string>
-    <string name="text_all_balance">总资金(USDT)</string>
-    <string name="text_mining">立即挖矿</string>
-    <string name="text_fabi_trade">法币交易</string>
-    <string name="text_coin_turn">币币闪兑</string>
-    <string name="text_withdrawal">提币</string>
-    <string name="text_recharge">充币</string>
+    <string name="text_all_balance">Tổng giá trị ước tính(USDT)</string>
+    <string name="text_mining">Đến khai thác</string>
+    <string name="text_fabi_trade">Nạp tiền pháp định</string>
+    <string name="text_coin_turn">Trao đổi nhanh</string>
+    <string name="text_withdrawal">Rút tiền</string>
+    <string name="text_recharge">Nạp tiền</string>
     <string name="text_unlogin">未登录</string>
     <string name="text_setup">系统设置</string>
     <string name="text_logout">退出登录</string>
@@ -174,7 +174,7 @@
     <string name="text_1week">1周</string>
     <string name="text_1month">1月</string>
     <string name="text_lever_select">选择杠杆</string>
-    <string name="text_my_service">在线客服</string>
+    <string name="text_my_service">Dịch vụ khách hàng</string>
     <string name="text_asset_rate">币种选择</string>
     <string name="text_safe_center">Trung tâm bảo mật</string>
     <string name="text_change">Sửa đổi</string>
@@ -201,5 +201,17 @@
     <string name="text_bind_email">Liên kết Email</string>
     <string name="text_change_email">Sửa đổi Email</string>
     <string name="text_correct_email_code">Nhập mã xác minh Email</string>
+    <string name="text_mid">Trung bình</string>
+    <string name="text_low">Thấp</string>
+    <string name="text_high">Cao</string>
+    <string name="text_account">Tài khoản</string>
+    <string name="text_commission_rate">Tỷ lệ hoa hồng</string>
+    <string name="text_fund_statement">Lịch sử tài sản</string>
+    <string name="text_orders">Lịch sử giao dịch</string>
+    <string name="text_affiliate_stats">Hồ sơ cộng tác viên</string>
+    <string name="text_trade_settings">Cài đặt</string>
+    <string name="text_withdrawal_address">Quản lý địa chỉ rút tiền</string>
+    <string name="text_system_settings">Cài đặt hệ thống</string>
+    <string name="text_announcements">Thông cáo mới</string>
 
 </resources>

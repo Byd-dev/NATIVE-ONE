@@ -120,11 +120,11 @@
                                 android:id="@+id/img_eye_switch"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:paddingRight="@dimen/margin_20"
                                 android:layout_alignParentRight="true"
-                                android:src="@mipmap/icon_eye_open"
                                 android:layout_centerVertical="true"
-                                android:layout_gravity="center" />
+                                android:layout_gravity="center"
+                                android:paddingRight="@dimen/margin_20"
+                                android:src="@mipmap/icon_eye_open" />
                         </RelativeLayout>
                         <!--余额-->
                         <LinearLayout
@@ -153,8 +153,8 @@
                                 android:text="(USDT)"
                                 android:textColor="@color/text_second_color"
                                 android:textSize="@dimen/size_normal_two"
-                                android:visibility="gone"
-                                android:typeface="monospace" />
+                                android:typeface="monospace"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -196,18 +196,30 @@
                             android:drawableRight="@mipmap/icon_right"
                             android:drawablePadding="@dimen/margin_9"
                             android:gravity="center"
-                            android:text="资金账户"
+                            android:text="@string/text_account"
                             android:textColor="@color/maincolor"
                             android:textSize="@dimen/size_normal" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="@dimen/margin_15"
+                            android:layout_toLeftOf="@+id/text_commissionRate"
+                            android:gravity="center"
+                            android:text="@string/text_commission_rate"
+                            android:textColor="@color/maincolor"
+                            android:textSize="@dimen/size_normal" />
+
+                        <TextView
+                            android:id="@+id/text_commissionRate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_alignParentBottom="true"
                             android:layout_margin="@dimen/margin_15"
                             android:gravity="center"
-                            android:text="佣金比例: 60%"
+                            android:text="60%"
                             android:textColor="@color/maincolor"
                             android:textSize="@dimen/size_normal" />
                     </RelativeLayout>
@@ -354,7 +366,7 @@
                             android:drawableLeft="@mipmap/icon_my_one"
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
-                            android:text="安全中心"
+                            android:text="@string/text_safe_center"
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
@@ -388,7 +400,43 @@
                             android:drawableLeft="@mipmap/icon_my_two"
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
-                            android:text="资金明细"
+                            android:text="@string/text_fund_statement"
+                            android:textColor="@color/text_maincolor"
+
+                            android:textSize="@dimen/size_normal_two"
+                            android:typeface="monospace" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/margin_15"
+                            android:src="@mipmap/icon_right_gray" />
+
+
+                    </RelativeLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_line"
+                        android:background="@color/home_line" />
+
+                    <RelativeLayout
+                        android:id="@+id/layout_trade_record"
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:drawableLeft="@mipmap/icon_my_record"
+                            android:drawablePadding="@dimen/margin_16"
+                            android:gravity="center"
+                            android:text="@string/text_orders"
                             android:textColor="@color/text_maincolor"
 
                             android:textSize="@dimen/size_normal_two"
@@ -423,42 +471,7 @@
                             android:drawableLeft="@mipmap/icon_my_three"
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
-                            android:text="代理记录"
-                            android:textColor="@color/text_maincolor"
-
-                            android:textSize="@dimen/size_normal_two"
-                            android:typeface="monospace" />
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/margin_15"
-                            android:src="@mipmap/icon_right_gray" />
-
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/size_line"
-                        android:background="@color/home_line" />
-
-                    <RelativeLayout
-                        android:id="@+id/layout_trade_record"
-                        android:layout_width="match_parent"
-                        android:layout_height="55dp">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/margin_15"
-                            android:drawableLeft="@mipmap/icon_my_record"
-                            android:drawablePadding="@dimen/margin_16"
-                            android:gravity="center"
-                            android:text="代理记录"
+                            android:text="@string/text_affiliate_stats"
                             android:textColor="@color/text_maincolor"
 
                             android:textSize="@dimen/size_normal_two"
@@ -493,7 +506,7 @@
                             android:drawableLeft="@mipmap/icon_my_four"
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
-                            android:text="交易设置"
+                            android:text="@string/text_trade_settings"
                             android:textColor="@color/text_maincolor"
 
                             android:textSize="@dimen/size_normal_two"
@@ -528,7 +541,7 @@
                             android:drawableLeft="@mipmap/icon_my_five"
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
-                            android:text="提币地址管理"
+                            android:text="@string/text_withdrawal_address"
 
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal_two"
@@ -598,7 +611,7 @@
                             android:drawableLeft="@mipmap/icon_my_six"
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
-                            android:text="系统设置"
+                            android:text="@string/text_system_settings"
                             android:textColor="@color/text_maincolor"
 
                             android:textSize="@dimen/size_normal_two"
@@ -633,7 +646,7 @@
                             android:drawableLeft="@mipmap/icon_my_seven"
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
-                            android:text="最新公告"
+                            android:text="@string/text_announcements"
                             android:textColor="@color/text_maincolor"
 
                             android:textSize="@dimen/size_normal_two"

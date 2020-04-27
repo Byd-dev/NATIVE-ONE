@@ -128,7 +128,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @BindView(R.id.img_up_down)
     ImageView img_up_down;
-    private String type = "1";
+    private String type = "0";
     private ArrayMap<String, List<String>> arrayMap;
 
 

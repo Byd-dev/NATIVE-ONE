@@ -50,12 +50,12 @@
     <string name="text_new_price">最新价</string>
     <string name="text_up_down">涨跌幅</string>
     <string name="text_name">名称</string>
-    <string name="text_all_balance">总资金(USDT)</string>
-    <string name="text_mining">立即挖矿</string>
-    <string name="text_fabi_trade">法币交易</string>
-    <string name="text_coin_turn">币币闪兑</string>
-    <string name="text_withdrawal">提币</string>
-    <string name="text_recharge">充币</string>
+    <string name="text_all_balance">Total Assets(USDT)</string>
+    <string name="text_mining">Mine Now</string>
+    <string name="text_fabi_trade">Fiat</string>
+    <string name="text_coin_turn">Exchange</string>
+    <string name="text_withdrawal">Withdraw</string>
+    <string name="text_recharge">Deposit</string>
     <string name="text_unlogin">未登录</string>
     <string name="text_setup">系统设置</string>
     <string name="text_logout">退出登录</string>
@@ -173,7 +173,7 @@
     <string name="text_1week">1周</string>
     <string name="text_1month">1月</string>
     <string name="text_lever_select">选择杠杆</string>
-    <string name="text_my_service">在线客服</string>
+    <string name="text_my_service">Support</string>
     <string name="text_asset_rate">币种选择</string>
     <string name="text_safe_center">Security</string>
     <string name="text_change">Change</string>
@@ -200,5 +200,17 @@
     <string name="text_bind_email">Bind Email</string>
     <string name="text_change_email">Change Email</string>
     <string name="text_correct_email_code">The verification code is incorrect</string>
+    <string name="text_mid">Mid</string>
+    <string name="text_low">Low</string>
+    <string name="text_high">High</string>
+    <string name="text_account">Account</string>
+    <string name="text_commission_rate">Commission Rate</string>
+    <string name="text_fund_statement">Fund Statement</string>
+    <string name="text_orders">Orders</string>
+    <string name="text_affiliate_stats">Affiliate Stats</string>
+    <string name="text_trade_settings">Settings</string>
+    <string name="text_withdrawal_address">Withdrawal Address </string>
+    <string name="text_system_settings">System Settings</string>
+    <string name="text_announcements">Announcements</string>
 
 </resources>

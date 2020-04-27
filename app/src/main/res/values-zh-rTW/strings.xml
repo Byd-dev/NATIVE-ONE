@@ -51,12 +51,12 @@
     <string name="text_new_price">最新价</string>
     <string name="text_up_down">涨跌幅</string>
     <string name="text_name">名称</string>
-    <string name="text_all_balance">总资金(USDT)</string>
-    <string name="text_mining">立即挖矿</string>
-    <string name="text_fabi_trade">法币交易</string>
-    <string name="text_coin_turn">币币闪兑</string>
-    <string name="text_withdrawal">提币</string>
-    <string name="text_recharge">充币</string>
+    <string name="text_all_balance">總淨資產(USDT)</string>
+    <string name="text_mining">前往挖礦</string>
+    <string name="text_fabi_trade">法幣充值</string>
+    <string name="text_coin_turn">幣幣閃兌</string>
+    <string name="text_withdrawal">提幣</string>
+    <string name="text_recharge">充幣</string>
     <string name="text_unlogin">未登錄</string>
     <string name="text_setup">系统设置</string>
     <string name="text_logout">退出登錄</string>
@@ -174,7 +174,7 @@
     <string name="text_1week">1周</string>
     <string name="text_1month">1月</string>
     <string name="text_lever_select">选择杠杆</string>
-    <string name="text_my_service">在线客服</string>
+    <string name="text_my_service">在線客服</string>
     <string name="text_asset_rate">币种选择</string>
     <string name="text_safe_center">安全中心</string>
     <string name="text_change">修改</string>
@@ -201,5 +201,17 @@
     <string name="text_bind_email">綁定郵箱</string>
     <string name="text_change_email">修改郵箱</string>
     <string name="text_correct_email_code">請輸入正確郵箱驗證碼</string>
+    <string name="text_mid">中</string>
+    <string name="text_low">低</string>
+    <string name="text_high">高</string>
+    <string name="text_account">資金帳戶</string>
+    <string name="text_commission_rate">佣金比例</string>
+    <string name="text_fund_statement">資金紀錄</string>
+    <string name="text_orders">交易紀錄</string>
+    <string name="text_affiliate_stats">邀請記錄</string>
+    <string name="text_trade_settings">交易設置</string>
+    <string name="text_withdrawal_address">提幣地址管理</string>
+    <string name="text_system_settings">系統設置</string>
+    <string name="text_announcements">最新公告</string>
 
 </resources>
