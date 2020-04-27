@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.FundItemEntity;
+import com.pro.bityard.utils.ChartUtil;
 
 import java.util.List;
 
@@ -32,7 +34,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class FundStatementItemFragment extends BaseFragment implements View.OnClickListener {
+public class FundStatementItemFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     private FundSelectAdapter fundSelectAdapter;
 
@@ -60,11 +62,18 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
     private DepositWithdrawAdapter depositWithdrawAdapter;
 
+    @BindView(R.id.radioGroup)
+    RadioGroup radioGroup;
+
+    private String createTimeGe = "";
+    private String createTimeLe = "";
+
     private String FIRST = "first";
     private String REFRESH = "refresh";
     private String LOAD = "load";
 
     private int page = 0;
+    private String currency="";
 
 
     @Override
@@ -78,6 +87,8 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
         layout_select.setOnClickListener(this);
         fundSelectAdapter = new FundSelectAdapter(getActivity());
 
+
+        radioGroup.setOnCheckedChangeListener(this);
 
         depositWithdrawAdapter = new DepositWithdrawAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -98,10 +109,9 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == depositWithdrawAdapter.getItemCount() - 1) {
                     depositWithdrawAdapter.startLoad();
                     page = page + 1;
-                    getWithdrawal(LOAD, null, null, "1", null, "", null,
+                    getWithdrawal(LOAD, null, null, "1", null, currency, null,
                             null, String.valueOf(page), "10");
                 }
-
             }
 
             @Override
@@ -147,14 +157,9 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
         });
 
 
-        /*NetManger.getInstance().depositWithdraw("100", "false", "1", null, "", ChartUtil.getDate(ChartUtil.getTodayZero()),
-                ChartUtil.getDate(ChartUtil.getTimeNow()), String.valueOf(page), "10", (state, response) -> {
-
-                });*/
-
         page = 0;
-
-        getWithdrawal(FIRST, null, null, "1", null, "", null,
+        currency = "";
+        getWithdrawal(FIRST, null, null, "1", null, currency, null,
                 null, String.valueOf(page), "10");
 
 
@@ -218,7 +223,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
             fundSelectAdapter.setDatas(fundItemEntityData);
 
             fundSelectAdapter.select(oldSelect);
-
+            /*监听*/
             fundSelectAdapter.setOnItemClick((position, data) -> {
                 oldSelect = position;
                 fundSelectAdapter.select(position);
@@ -280,6 +285,14 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                         img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link));
                         break;
                 }
+
+
+                page = 0;
+                createTimeGe = ChartUtil.getTodayZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+                currency = data.getCode();
+                getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+                        createTimeLe, String.valueOf(page), "10");
                 popupWindow.dismiss();
 
 
@@ -290,5 +303,29 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
         popupWindow.setOutsideTouchable(false);
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_select, Gravity.CENTER, 0, 0);
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.radio_today:
+                createTimeGe = ChartUtil.getTodayZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+
+                break;
+            case R.id.radio_week:
+                createTimeGe = ChartUtil.getWeekZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+                break;
+            case R.id.radio_month:
+                createTimeGe = ChartUtil.getMonthZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+                break;
+
+        }
+
+        getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+                createTimeLe, String.valueOf(page), "10");
+
     }
 }

@@ -54,6 +54,7 @@
         </RelativeLayout>
 
         <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="0dp"
             android:layout_height="@dimen/margin_26"
             android:layout_gravity="center"

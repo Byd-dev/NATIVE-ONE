@@ -9,6 +9,8 @@ import com.pro.bityard.entity.KlineEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import static com.pro.bityard.utils.Util.parseServerTime;
 
@@ -179,17 +182,50 @@ public class ChartUtil {
         return Week;
     }
 
-    public static long getTodayZero() {
+    /*当天0点时间*/
+    public static String getTodayZero() {
         Date date = new Date();
-        long l = 24*60*60*1000; //每天的毫秒数
-        //date.getTime()是现在的毫秒数，它 减去 当天零点到现在的毫秒数（ 现在的毫秒数%一天总的毫秒数，取余。），理论上等于零点的毫秒数，不过这个毫秒数是UTC+0时区的。
-        //减8个小时的毫秒值是为了解决时区的问题。
-        return (date.getTime() - (date.getTime()%l) - 8* 60 * 60 *1000);
+        long l = 24 * 60 * 60 * 1000; //每天的毫秒数
+        long zeroT = (date.getTime() - (date.getTime() % l) - 8 * 60 * 60 * 1000);  //今天零点零分零秒的毫秒数
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(zeroT);
     }
 
-    public static String getDate(Long time){
-        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date d1=new Date(time);
+    /*当天最后一秒*/
+    public static String getTodayLastTime() {
+        Date date = new Date();
+        long l = 24 * 60 * 60 * 1000; //每天的毫秒数
+        long zeroT = (date.getTime() - (date.getTime() % l) - 8 * 60 * 60 * 1000);  //今天零点零分零秒的毫秒数
+        long endT = zeroT + 24 * 60 * 60 * 1000 - 1;  //今天23点59分59秒的毫秒数
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endT);
+    }
+
+    /*本周的零点*/
+    public static String getWeekZero() {
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.clear(Calendar.MINUTE);
+        ca.clear(Calendar.SECOND);
+        ca.clear(Calendar.MILLISECOND);
+        ca.set(Calendar.DAY_OF_WEEK, ca.getFirstDayOfWeek());
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ca.getTimeInMillis());
+
+    }
+
+    /*本月的零点*/
+    public static String getMonthZero() {
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.clear(Calendar.MINUTE);
+        ca.clear(Calendar.SECOND);
+        ca.clear(Calendar.MILLISECOND);
+        ca.set(Calendar.DAY_OF_MONTH, 1);
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ca.getTimeInMillis());
+
+    }
+
+    public static String getDate(Long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date d1 = new Date(time);
         return format.format(d1);
 
     }
