@@ -226,5 +226,14 @@
     <string name="text_processing">Processing</string>
     <string name="text_in_progress">In Progress</string>
     <string name="text_refunded">Refunded</string>
+    <string name="text_no_data">No data</string>
+    <string name="text_d_w_detail">D/W History</string>
+    <string name="text_coin">Coin</string>
+    <string name="text_type">Type</string>
+    <string name="text_amount">Amount</string>
+    <string name="text_time">Time</string>
+    <string name="text_status">Status</string>
+    <string name="text_trade_id">Transaction ID</string>
+    <string name="text_address">Address</string>
 
 </resources>

@@ -227,5 +227,14 @@
     <string name="text_processing">Обработка</string>
     <string name="text_in_progress">В ходе выполнения</string>
     <string name="text_refunded">Возвращено</string>
+    <string name="text_no_data">Нет данных</string>
+    <string name="text_d_w_detail">История депозита и снятия</string>
+    <string name="text_coin">Монета</string>
+    <string name="text_type">Тип</string>
+    <string name="text_amount">Количество</string>
+    <string name="text_time">Время</string>
+    <string name="text_status">Статус</string>
+    <string name="text_trade_id">Номер транзакции</string>
+    <string name="text_address">Адрес</string>
 
 </resources>

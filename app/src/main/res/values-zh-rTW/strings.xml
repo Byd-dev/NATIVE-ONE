@@ -227,5 +227,14 @@
     <string name="text_processing">處理中</string>
     <string name="text_in_progress">匯款中</string>
     <string name="text_refunded">已退款</string>
+    <string name="text_no_data">暫無數據</string>
+    <string name="text_d_w_detail">充提明細</string>
+    <string name="text_coin">幣種</string>
+    <string name="text_type">類型</string>
+    <string name="text_amount">充/提數量</string>
+    <string name="text_time">充/提時間</string>
+    <string name="text_status">狀態</string>
+    <string name="text_trade_id">交易ID</string>
+    <string name="text_address">充/提地址</string>
 
 </resources>

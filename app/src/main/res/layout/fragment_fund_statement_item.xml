@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_view"
     android:background="@color/background_maincolor"
     android:orientation="vertical">
 
@@ -59,19 +60,18 @@
             android:layout_height="@dimen/margin_26"
             android:layout_gravity="center"
             android:layout_weight="3"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/radio_today"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:layout_marginLeft="@dimen/margin_10"
+                android:layout_weight="1"
                 android:background="@drawable/sel_switcher_lever_bg"
                 android:button="@null"
-                android:gravity="center"
                 android:checked="false"
+                android:gravity="center"
                 android:maxLines="1"
                 android:text="@string/text_today"
                 android:textColor="@color/text_maincolor"
@@ -124,10 +124,9 @@
 
         >
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
             <!--列表-->
 
             <androidx.recyclerview.widget.RecyclerView
@@ -135,7 +134,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </LinearLayout>
+            <include layout="@layout/layout_null" />
+
+
+        </RelativeLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

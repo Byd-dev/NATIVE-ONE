@@ -227,5 +227,14 @@
     <string name="text_processing">처리 중</string>
     <string name="text_in_progress">진행 중</string>
     <string name="text_refunded">환불되었습니다</string>
+    <string name="text_no_data">데이터 없음</string>
+    <string name="text_d_w_detail">출/입금 내역</string>
+    <string name="text_coin">코인</string>
+    <string name="text_type">유형</string>
+    <string name="text_amount">출/입금 수량</string>
+    <string name="text_time">출/입금 시간</string>
+    <string name="text_status">상태</string>
+    <string name="text_trade_id">거래 아이디</string>
+    <string name="text_address">출/입금 주소</string>
 
 </resources>

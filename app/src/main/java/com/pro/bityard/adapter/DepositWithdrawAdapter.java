@@ -179,7 +179,7 @@ public class DepositWithdrawAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             itemView.setOnClickListener(view -> {
                 if (onItemClick != null) {
-                    onItemClick.onClickListener(datas.get(getPosition() - 1));
+                    onItemClick.onClickListener(datas.get(getPosition()));
                 }
             });
 

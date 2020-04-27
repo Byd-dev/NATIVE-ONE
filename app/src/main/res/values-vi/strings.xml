@@ -227,5 +227,14 @@
     <string name="text_processing">Đang xử lý</string>
     <string name="text_in_progress">Đang tiến hành</string>
     <string name="text_refunded">Đã hoàn tiền</string>
+    <string name="text_no_data">Hiện không có dữ liệu</string>
+    <string name="text_d_w_detail">Chi tiết nạp rút</string>
+    <string name="text_coin">Loại tiền</string>
+    <string name="text_type">Loại hình</string>
+    <string name="text_amount">Số lượng</string>
+    <string name="text_time">Thời gian</string>
+    <string name="text_status">Trạng thái</string>
+    <string name="text_trade_id">ID giao dịch</string>
+    <string name="text_address">Địa chỉ</string>
 
 </resources>

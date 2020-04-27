@@ -1,7 +1,6 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +38,9 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
     private FundSelectAdapter fundSelectAdapter;
 
+    @BindView(R.id.layout_view)
+    LinearLayout layout_view;
+
     @BindView(R.id.layout_select)
     RelativeLayout layout_select;
 
@@ -66,6 +68,9 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
 
+    @BindView(R.id.layout_null)
+    LinearLayout layout_null;
+
     private String createTimeGe = "";
     private String createTimeLe = "";
 
@@ -76,6 +81,10 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
     private int page = 0;
     private String currency = "";
 
+    @Override
+    protected int setLayoutResourceID() {
+        return R.layout.fragment_fund_statement_item;
+    }
 
     @Override
     protected void onLazyLoad() {
@@ -122,12 +131,88 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
             }
         });
 
+        //监听
+        depositWithdrawAdapter.setOnItemClick(data -> {
+            showDetailPopWindow(data);
+        });
+
     }
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_fund_statement_item;
+    /*显示详情*/
+    private void showDetailPopWindow(DepositWithdrawEntity.DataBean dataBean) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_fund_detail_pop, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        TextView text_title = view.findViewById(R.id.text_title);
+        text_title.setText(R.string.text_d_w_detail);
+
+        TextView text_name = view.findViewById(R.id.text_name);
+        text_name.setText(dataBean.getCurrency());
+        TextView text_type = view.findViewById(R.id.text_type);
+
+
+        String explain = dataBean.getExplain();
+        switch (explain) {
+            case "提款取出":
+                text_type.setText(R.string.text_withdrawal);
+                break;
+            case "充值存入":
+                text_type.setText(R.string.text_recharge);
+                break;
+        }
+
+        TextView text_status = view.findViewById(R.id.text_status);
+        int status = dataBean.getStatus();
+        switch (status) {
+            case 0:
+            case -1:
+                text_status.setText(R.string.text_pending);
+                break;
+            case 1:
+                text_status.setText(R.string.text_tip_success);
+                break;
+            case 2:
+                text_status.setText(R.string.text_failure);
+                break;
+            case 3:
+                text_status.setText(R.string.text_tip_cancel);
+                break;
+            case 4:
+                text_status.setText(R.string.text_processing);
+                break;
+            case 5:
+                text_status.setText(R.string.text_in_progress);
+                break;
+            case 6:
+                text_status.setText(R.string.text_refunded);
+                break;
+        }
+
+
+        TextView text_time = view.findViewById(R.id.text_time);
+        text_time.setText(ChartUtil.getDate(dataBean.getCreateTime()));
+
+        TextView text_amount = view.findViewById(R.id.text_amount);
+        text_amount.setText(dataBean.getMoney() + dataBean.getCurrency());
+
+        TextView text_id = view.findViewById(R.id.text_id);
+        text_id.setText(dataBean.getId());
+        TextView text_address = view.findViewById(R.id.text_address);
+        text_address.setText(dataBean.getAddress());
+
+
+        view.findViewById(R.id.img_back).setOnClickListener(v -> {
+            popupWindow.dismiss();
+
+        });
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
     }
+
 
     @Override
     protected void intPresenter() {
@@ -159,14 +244,10 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
 
         page = 0;
-        Log.d("print", "initData:162:  "+currency+createTimeGe+createTimeLe);
         getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
     }
-
-
-
 
 
     private void getWithdrawal(String loadType, String type, String transfer, String currencyType, String srcCurrency, String currency, String createTimeGe,
@@ -187,6 +268,14 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         DepositWithdrawEntity depositWithdrawEntity = (DepositWithdrawEntity) response;
+                        if (depositWithdrawEntity.getData().size() == 0) {
+                            layout_null.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        } else {
+                            layout_null.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
+
                         if (loadType.equals(LOAD)) {
                             depositWithdrawAdapter.addDatas(depositWithdrawEntity.getData());
                         } else {
