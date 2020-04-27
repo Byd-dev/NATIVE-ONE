@@ -73,8 +73,6 @@
     </RelativeLayout>
 
 
-
-
     <RelativeLayout
         android:id="@+id/layout_one"
         android:layout_width="match_parent"

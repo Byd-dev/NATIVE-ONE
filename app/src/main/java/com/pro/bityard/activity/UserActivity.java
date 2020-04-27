@@ -10,6 +10,7 @@ import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;
+import com.pro.bityard.fragment.my.FundStatementFragment;
 import com.pro.bityard.fragment.my.FundsPassChangeFragment;
 import com.pro.bityard.fragment.my.LanguageFragment;
 import com.pro.bityard.fragment.my.LoginPassChangeFragment;
@@ -77,9 +78,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_EMAIL:
                 addBindChangeEmailFragment();
                 break;
+            case IntentConfig.Keys.KEY_FUND_STATEMENT:
+                addFundStatementFragment();
+                break;
         }
 
 
+    }
+
+    private void addFundStatementFragment() {
+        String name = FundStatementFragment.class.getSimpleName();
+        //安全中心
+        FundStatementFragment fragment = new FundStatementFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addBindChangeEmailFragment() {

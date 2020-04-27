@@ -7,37 +7,7 @@
 
 
     >
-    <!--bar-->
-    <RelativeLayout
-        android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bar_height"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/img_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/margin_15"
-            android:src="@mipmap/img_back" />
-
-        <TextView
-            android:id="@+id/text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/text_bind_mobile"
-            android:textColor="@color/text_maincolor"
-            android:textSize="@dimen/title_size" />
-
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line_big"
-        android:background="@color/home_line" />
+   <include layout="@layout/layout_bar"/>
 
     <ScrollView
         android:layout_width="match_parent"

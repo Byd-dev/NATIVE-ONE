@@ -3,6 +3,7 @@ package com.pro.bityard.fragment.my;
 import android.util.Log;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.CurrencyListAdapter;
 import com.pro.bityard.api.NetManger;
@@ -80,13 +81,12 @@ public class CurrencyRateFragment extends BaseFragment {
     protected void initData() {
 
         CurrencyListEntity data = SPUtils.getData(AppConfig.CURRENCY_LIST, CurrencyListEntity.class);
-        Log.d("print", "initData:83:  "+data);
         if (data != null) {
             currencyListAdapter.setDatas(data.getData());
         } else {
-            NetManger.getInstance().currencyList((state, response) -> {
+            NetManger.getInstance().currencyList("0",(state, response) -> {
                 if (state.equals(SUCCESS)) {
-                    CurrencyListEntity currencyListEntity = (CurrencyListEntity) response;
+                    CurrencyListEntity currencyListEntity = new Gson().fromJson(response.toString(), CurrencyListEntity.class);
                     SPUtils.putData(AppConfig.CURRENCY_LIST, currencyListEntity);
                     currencyListAdapter.setDatas(currencyListEntity.getData());
                 }

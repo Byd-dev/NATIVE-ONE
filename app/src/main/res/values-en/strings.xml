@@ -212,5 +212,12 @@
     <string name="text_withdrawal_address">Withdrawal Address </string>
     <string name="text_system_settings">System Settings</string>
     <string name="text_announcements">Announcements</string>
+    <string name="text_d_w">D/W </string>
+    <string name="text_transfer">Transfer</string>
+    <string name="text_exchange">Exchange</string>
+    <string name="text_fiat">Fiat</string>
+    <string name="text_today">Today</string>
+    <string name="text_month">Month</string>
+    <string name="text_week">Week</string>
 
 </resources>

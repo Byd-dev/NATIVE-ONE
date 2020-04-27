@@ -213,5 +213,12 @@
     <string name="text_withdrawal_address">Управление адресом вывода</string>
     <string name="text_system_settings">Системные настройки</string>
     <string name="text_announcements">Уведомление</string>
+    <string name="text_d_w">История депозита и снятия</string>
+    <string name="text_transfer">История трансфертов</string>
+    <string name="text_exchange">История обмена</string>
+    <string name="text_fiat">История транзакций фиат</string>
+    <string name="text_today">Сегодня</string>
+    <string name="text_month">В этом месяце</string>
+    <string name="text_week">На этой неделе</string>
 
 </resources>

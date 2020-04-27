@@ -556,10 +556,12 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         initSimulationViewPager(viewPager_simulation, "2");
 
         /*我的 分割线-----------------------------------------------------------------------------*/
-        findViewById(R.id.layout_six).setOnClickListener(this);
+        findViewById(R.id.layout_eight).setOnClickListener(this);//系统设置
         findViewById(R.id.layout_balance).setOnClickListener(this);
         img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
         findViewById(R.id.layout_one).setOnClickListener(this);//安全中心监听
+        findViewById(R.id.layout_two).setOnClickListener(this);
+
 
     }
 
@@ -843,7 +845,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
                 break;
             /*我的 -----------------------------------------------------------------------------------*/
-            case R.id.layout_six:
+            case R.id.layout_eight:
                 UserActivity.enter(this, IntentConfig.Keys.KEY_SET_UP);
 
                 break;
@@ -884,6 +886,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             case R.id.layout_one:
                 if (isLogin()) {
                     UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_SAFE_CENTER);
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+            //资金记录
+            case R.id.layout_two:
+                if (isLogin()) {
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_FUND_STATEMENT);
                 } else {
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }

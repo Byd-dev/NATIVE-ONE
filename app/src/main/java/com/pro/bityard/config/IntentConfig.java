@@ -13,7 +13,11 @@ public class IntentConfig {
         public static final String KEY_SET_UP = "SETUP";
         public static final String KEY_LANGUAGE = "LANGUAGE";
         public static final String KEY_ASSET = "ASSET";
+        //安全中心
         public static final String KEY_SAFE_CENTER = "SAFE_CENTER";
+        //资金记录
+        public static final String KEY_FUND_STATEMENT = "FUND_STATEMENT";
+
         //修改登录密码
         public static final String KEY_SAFE_CENTER_LOGIN_PASS = "SAFE_CENTER_LOGIN_PASS";
         //设置资金密码和修改资金密码

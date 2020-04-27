@@ -213,5 +213,12 @@
     <string name="text_withdrawal_address">Quản lý địa chỉ rút tiền</string>
     <string name="text_system_settings">Cài đặt hệ thống</string>
     <string name="text_announcements">Thông cáo mới</string>
+    <string name="text_d_w">Nạp rút</string>
+    <string name="text_transfer">Chuyển tiền</string>
+    <string name="text_exchange">Thu đổi</string>
+    <string name="text_fiat">Fiat</string>
+    <string name="text_today">Hôm nay</string>
+    <string name="text_month">Tháng này</string>
+    <string name="text_week">Tuần này</string>
 
 </resources>

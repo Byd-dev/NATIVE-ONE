@@ -424,7 +424,7 @@
                         android:background="@color/home_line" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_trade_record"
+                        android:id="@+id/layout_three"
                         android:layout_width="match_parent"
                         android:layout_height="55dp">
 
@@ -459,7 +459,7 @@
                         android:background="@color/home_line" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_three"
+                        android:id="@+id/layout_four"
                         android:layout_width="match_parent"
                         android:layout_height="55dp">
 
@@ -494,7 +494,7 @@
                         android:background="@color/home_line" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_four"
+                        android:id="@+id/layout_five"
                         android:layout_width="match_parent"
                         android:layout_height="55dp">
 
@@ -529,7 +529,7 @@
                         android:background="@color/home_line" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_five"
+                        android:id="@+id/layout_six"
                         android:layout_width="match_parent"
                         android:layout_height="55dp">
 
@@ -564,7 +564,7 @@
                         android:background="@color/home_line" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_service"
+                        android:id="@+id/layout_seven"
                         android:layout_width="match_parent"
                         android:layout_height="55dp">
 
@@ -599,7 +599,7 @@
                         android:background="@color/home_line" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_six"
+                        android:id="@+id/layout_eight"
                         android:layout_width="match_parent"
                         android:layout_height="55dp">
 

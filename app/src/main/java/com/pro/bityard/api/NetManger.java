@@ -230,25 +230,22 @@ public class NetManger {
     /*获取codelist*/
     public void codeList(OnNetResult onNetResult) {
         /*获取行情的host*/
-        NetManger.getInstance().getRequest("/api/trade/commodity/initial", null, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.onNetResult(BUSY, null);
-                } else if (state.equals(SUCCESS)) {
-                    InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
-                    List<InitEntity.GroupBean> group = initEntity.getGroup();
-                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                    for (InitEntity.GroupBean data : group) {
-                        if (data.getName().equals("数字货币")) {
-                            String list = data.getList();
-                            onNetResult.onNetResult(SUCCESS, list);
-                        }
+        NetManger.getInstance().getRequest("/api/trade/commodity/initial", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
+                List<InitEntity.GroupBean> group = initEntity.getGroup();
+                // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
+                for (InitEntity.GroupBean data : group) {
+                    if (data.getName().equals("数字货币")) {
+                        String list = data.getList();
+                        onNetResult.onNetResult(SUCCESS, list);
                     }
-                } else if (state.equals(FAILURE)) {
-                    onNetResult.onNetResult(FAILURE, null);
-
                 }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
             }
         });
     }
@@ -623,17 +620,14 @@ public class NetManger {
         });
     }
 
-    public void currencyList(OnNetResult onNetResult) {
+    public void currencyList(String type,OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("type", "0");//0是货币 1是法币
+        map.put("type", type);//0是货币 1是法币
         getRequest("/api/home/currency/list", map, (state, response) -> {
-            Log.d("print", "assetList:625:  " + response);
             if (state.equals(SUCCESS)) {
-                CurrencyListEntity currencyListEntity = new Gson().fromJson(response.toString(), CurrencyListEntity.class);
-                onNetResult.onNetResult(SUCCESS, currencyListEntity);
+                onNetResult.onNetResult(SUCCESS, response.toString());
             }
         });
-
     }
 
     /*挂单列表*/

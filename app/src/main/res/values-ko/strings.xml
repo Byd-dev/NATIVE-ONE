@@ -213,5 +213,12 @@
     <string name="text_withdrawal_address">출금 주소 관리</string>
     <string name="text_system_settings">시스템 설정</string>
     <string name="text_announcements">최신 공고</string>
+    <string name="text_d_w">출/입금 내역</string>
+    <string name="text_transfer">대체 내역</string>
+    <string name="text_exchange">스왑 내역</string>
+    <string name="text_fiat">법화 내역</string>
+    <string name="text_today">당일</string>
+    <string name="text_month">이달</string>
+    <string name="text_week">금주</string>
 
 </resources>

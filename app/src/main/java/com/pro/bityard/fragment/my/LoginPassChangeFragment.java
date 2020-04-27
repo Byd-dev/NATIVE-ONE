@@ -32,6 +32,8 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class LoginPassChangeFragment extends BaseFragment implements View.OnClickListener {
+    @BindView(R.id.text_title)
+    TextView text_title;
     @BindView(R.id.edit_pass_old)
     EditText edit_pass_old;
     @BindView(R.id.edit_pass_new)
@@ -72,6 +74,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
 
     @Override
     protected void initView(View view) {
+        text_title.setText(getResources().getString(R.string.text_change_login_pass));
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         view.findViewById(R.id.btn_submit).setOnClickListener(this);

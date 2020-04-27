@@ -80,12 +80,7 @@ public class HoldRealFragment extends BaseFragment implements Observer {
 
 
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                initContent();
-            }
-        }, 50);
+        handler.postDelayed(() -> initContent(), 50);
 
 
     }

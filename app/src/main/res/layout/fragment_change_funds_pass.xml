@@ -6,36 +6,9 @@
     android:background="@color/background_maincolor"
     android:orientation="vertical">
     <!--bar-->
-    <RelativeLayout
-        android:id="@+id/bar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bar_height"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/img_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:padding="@dimen/margin_15"
-            android:src="@mipmap/img_back" />
-
-        <TextView
-            android:id="@+id/text_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/text_pin_set"
-            android:textColor="@color/text_maincolor"
-            android:textSize="@dimen/title_size" />
+    <include layout="@layout/layout_bar" />
 
 
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line_big"
-        android:background="@color/home_line" />
 
     <!--新密码-->
     <LinearLayout
@@ -215,8 +188,8 @@
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_15"
-        android:visibility="gone"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/text_email_mobile"

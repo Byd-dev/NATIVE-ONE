@@ -212,5 +212,12 @@
     <string name="text_withdrawal_address">提币地址管理</string>
     <string name="text_system_settings">系统设置</string>
     <string name="text_announcements">最新公告</string>
+    <string name="text_d_w">充提记录</string>
+    <string name="text_transfer">转账记录</string>
+    <string name="text_exchange">兑换记录</string>
+    <string name="text_fiat">法币记录</string>
+    <string name="text_today">本日</string>
+    <string name="text_month">本月</string>
+    <string name="text_week">本周</string>
 
 </resources>
