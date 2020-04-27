@@ -34,7 +34,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class FundStatementItemFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class FundFiatItemFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     private FundSelectAdapter fundSelectAdapter;
 
@@ -78,14 +78,14 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
     private String REFRESH = "refresh";
     private String LOAD = "load";
 
-    private int page = 0;
-    private String currency = "";
-    private String transfer;
+    private int page = 1;
+    private String currency = "USDT";
+    private String transfer = null;
 
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_fund_statement_item;
+        return R.layout.fragment_transfer_item;
     }
 
     @Override
@@ -121,8 +121,9 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == depositWithdrawAdapter.getItemCount() - 1) {
                     depositWithdrawAdapter.startLoad();
                     page = page + 1;
-                    getWithdrawal(LOAD, null, transfer, "1", null, currency, null,
-                            null, String.valueOf(page), "10");
+                    getWithdrawal(LOAD, null, transfer, "0", null, currency, createTimeGe,
+                            createTimeLe, String.valueOf(page), "10");
+
                 }
             }
 
@@ -223,6 +224,10 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
     @Override
     protected void initData() {
+        if (getArguments() != null) {
+            transfer = getArguments().getString("transfer", "false");
+        }
+
         NetManger.getInstance().currencyList("1", (state, response) -> {
             if (state.equals(BUSY)) {
                 if (swipeRefreshLayout != null) {
@@ -245,10 +250,9 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
         });
 
 
-        page = 0;
-        getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+        page = 1;
+        getWithdrawal(FIRST, null, transfer, "0", null, currency, createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
-
     }
 
 
@@ -381,9 +385,9 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                 }
 
 
-                page = 0;
+                page = 1;
                 currency = data.getCode();
-                getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+                getWithdrawal(FIRST, null, transfer, "0", null, currency, createTimeGe,
                         createTimeLe, String.valueOf(page), "10");
                 popupWindow.dismiss();
 
@@ -415,8 +419,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                 break;
 
         }
-
-        getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+        getWithdrawal(FIRST, null, transfer, "0", null, currency, createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
     }

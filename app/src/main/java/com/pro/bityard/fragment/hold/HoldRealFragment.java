@@ -51,7 +51,6 @@ public class HoldRealFragment extends BaseFragment implements Observer {
         args.putString("tradeType", type);
         fragment.setArguments(args);
         return fragment;
-
     }
 
     @Override

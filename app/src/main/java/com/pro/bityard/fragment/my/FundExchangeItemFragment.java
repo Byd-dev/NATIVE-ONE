@@ -34,7 +34,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class FundStatementItemFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class FundExchangeItemFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
     private FundSelectAdapter fundSelectAdapter;
 
@@ -79,7 +79,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
     private String LOAD = "load";
 
     private int page = 0;
-    private String currency = "";
+    private String srcCurrency = "";
     private String transfer;
 
 
@@ -121,7 +121,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == depositWithdrawAdapter.getItemCount() - 1) {
                     depositWithdrawAdapter.startLoad();
                     page = page + 1;
-                    getWithdrawal(LOAD, null, transfer, "1", null, currency, null,
+                    getWithdrawal(LOAD, null, transfer, "1", srcCurrency, "USDT", null,
                             null, String.valueOf(page), "10");
                 }
             }
@@ -246,15 +246,15 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
 
         page = 0;
-        getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+        getWithdrawal(FIRST, null, null, "1", srcCurrency, "USDT", createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
     }
 
 
-    private void getWithdrawal(String loadType, String type, String transfer, String currencyType, String srcCurrency, String currency, String createTimeGe,
+    private void getWithdrawal(String loadType, String type, String transfer, String currencyType, String srcCurrency, String desCurrency, String createTimeGe,
                                String createTimeLe, String page, String rows) {
-        NetManger.getInstance().depositWithdraw(type, transfer, currencyType, srcCurrency, currency, createTimeGe,
+        NetManger.getInstance().exchangeRecord(type, transfer, currencyType, srcCurrency, desCurrency, createTimeGe,
                 createTimeLe, page, rows, (state, response) -> {
                     if (state.equals(BUSY)) {
 
@@ -382,8 +382,8 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
 
                 page = 0;
-                currency = data.getCode();
-                getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+                srcCurrency = data.getCode();
+                getWithdrawal(FIRST, null, null, "1", srcCurrency, "USDT", createTimeGe,
                         createTimeLe, String.valueOf(page), "10");
                 popupWindow.dismiss();
 
@@ -416,7 +416,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
         }
 
-        getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+        getWithdrawal(FIRST, null, null, "1", srcCurrency, "USDT", createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
     }

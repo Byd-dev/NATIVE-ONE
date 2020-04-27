@@ -1,7 +1,6 @@
 package com.pro.bityard.fragment.my;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,9 +8,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.fragment.hold.HistoryFragment;
-import com.pro.bityard.fragment.hold.PendingFragment;
-import com.pro.bityard.fragment.hold.PositionFragment;
 
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -45,15 +41,17 @@ public class FundStatementFragment extends BaseFragment implements View.OnClickL
         tabLayout.setupWithViewPager(viewPager);
         initViewPager(viewPager);
     }
+
     private void initViewPager(ViewPager viewPager) {
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         myPagerAdapter.addFragment(new FundStatementItemFragment(), getString(R.string.text_d_w));
-        myPagerAdapter.addFragment(new FundStatementItemFragment(), getString(R.string.text_transfer));
-        myPagerAdapter.addFragment(new FundStatementItemFragment(), getString(R.string.text_exchange));
-        myPagerAdapter.addFragment(new FundStatementItemFragment(), getString(R.string.text_fiat));
+        myPagerAdapter.addFragment(new FundTransferFragment(), getString(R.string.text_transfer));
+        myPagerAdapter.addFragment(new FundExchangeItemFragment(), getString(R.string.text_exchange));
+        myPagerAdapter.addFragment(new FundFiatItemFragment(), getString(R.string.text_fiat));
 
         viewPager.setAdapter(myPagerAdapter);
     }
+
     @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_fund_statement;

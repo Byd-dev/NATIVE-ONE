@@ -1369,7 +1369,57 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 DepositWithdrawEntity depositWithdrawEntity = new Gson().fromJson(response.toString(), DepositWithdrawEntity.class);
                 onNetResult.onNetResult(SUCCESS, depositWithdrawEntity);
-            }else if (state.equals(FAILURE)){
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+
+
+    }
+
+
+    public void exchangeRecord(String type, String transfer, String currencyType, String srcCurrency, String desCurrency, String createTimeGe,
+                               String createTimeLe, String page, String rows, OnNetResult onNetResult) {
+
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        if (type != null) {
+            map.put("type", type);
+        }
+        if (transfer != null) {
+            map.put("transfer", transfer);
+        }
+        if (currencyType != null) {
+            map.put("currencyType", currencyType);
+        }
+        if (srcCurrency != null) {
+            map.put("srcCurrency", srcCurrency);
+        }
+        if (desCurrency != null) {
+            map.put("desCurrency", desCurrency);
+        }
+        if (createTimeGe != null) {
+            map.put("createTimeGe", createTimeGe);
+        }
+        if (createTimeLe != null) {
+            map.put("createTimeLe", createTimeLe);
+        }
+        if (page != null) {
+            map.put("page", page);
+        }
+        if (rows != null) {
+            map.put("rows", rows);
+        }
+
+        postRequest("/api/user/asset/exchangeHistory", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "exchangeRecord:1419:  "+response);
+                DepositWithdrawEntity depositWithdrawEntity = new Gson().fromJson(response.toString(), DepositWithdrawEntity.class);
+                onNetResult.onNetResult(SUCCESS, depositWithdrawEntity);
+            } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
 
             }
