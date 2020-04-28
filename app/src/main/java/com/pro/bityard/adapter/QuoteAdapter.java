@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
@@ -91,37 +92,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             String name = TradeUtil.listQuoteName(datas.get(position));
 
-            Drawable drawable;
 
-            if (name.equals("BTC")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_btc);
-            } else if (name.equals("ETC")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_etc);
-            } else if (name.equals("BCH")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_bch);
-            } else if (name.equals("ETH")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_eth);
-            } else if (name.equals("DASH")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_dash);
-            } else if (name.equals("LTC")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_ltc);
-            } else if (name.equals("ETC")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_etc);
-            } else if (name.equals("BNB")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_bnb);
-            } else if (name.equals("EOS")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_eos);
-            } else if (name.equals("TRX")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_trx);
-            } else if (name.equals("XRP")) {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_xrp);
-            } else {
-                drawable = context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_usdt);
-            }
-
-
-            ((MyViewHolder) holder).img_icon.setImageDrawable(drawable);
-
+            ChartUtil.setIcon(name,((MyViewHolder) holder).img_icon);
 
             ((MyViewHolder) holder).text_name.setText(name);
             ((MyViewHolder) holder).text_name_usdt.setText("/" + TradeUtil.listQuoteUSD(datas.get(position)));

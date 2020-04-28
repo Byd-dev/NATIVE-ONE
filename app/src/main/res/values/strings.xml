@@ -244,7 +244,18 @@
     <string name="text_transfer_amount">转账数量</string>
     <string name="text_transfer_to">划转用户</string>
     <string name="text_transfer_time">转账时间</string>
-    <string name="text_close_time">平仓时间:</string>
+    <string name="text_close_time">平仓时间</string>
     <string name="text_p_l">盈亏</string>
+    <string name="text_pairs">交易商品</string>
+    <string name="text_p_l_detail">订单盈亏</string>
+    <string name="text_profit">利润</string>
+    <string name="text_side">多/空</string>
+    <string name="text_order_id">订单号</string>
+    <string name="text_order_tip">委托</string>
+    <string name="text_o_n">过夜天数</string>
+    <string name="text_o_n_fee">过夜费</string>
+    <string name="text_currency_type">货币单位</string>
+    <string name="text_open_time">开仓时间</string>
+    <string name="text_order_detail">交易明细</string>
 
 </resources>

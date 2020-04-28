@@ -570,6 +570,10 @@ public class ChartUtil {
 
                 img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bch));
                 break;
+            case "ETC":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_etc));
+                break;
             case "USDT":
                 img_bg.setVisibility(View.VISIBLE);
 
@@ -604,6 +608,11 @@ public class ChartUtil {
                 img_bg.setVisibility(View.VISIBLE);
 
                 img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link));
+                break;
+            case "DASH":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dash));
                 break;
         }
     }

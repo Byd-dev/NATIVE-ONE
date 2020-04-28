@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.entity.FundItemEntity;
+import com.pro.bityard.utils.ChartUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,38 +88,8 @@ public class FundSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             ((MyViewHolder) holder).text_name.setText(datas.get(position).getName());
             String code = datas.get(position).getCode();
-            switch (code){
-                case "EOS":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_eos));
-                    break;
-                case "LTC":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_ltc));
-                    break;
-                case "BCH":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_bch));
-                    break;
-                case "USDT":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_usdt));
-                    break;
-                case "BTC":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_btc));
-                    break;
-                case "ETH":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_eth));
-                    break;
-                case "XRP":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_xrp));
-                    break;
-                case "TRX":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_trx));
-                    break;
-                case "HT":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_ht));
-                    break;
-                case "LINK":
-                    ((MyViewHolder) holder).img_bg.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_link));
-                    break;
-            }
+
+            ChartUtil.setIcon(code,((MyViewHolder) holder).img_bg);
 
 
             if (index == position) {

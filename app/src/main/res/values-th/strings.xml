@@ -84,7 +84,7 @@
     <string name="text_order">挂单</string>
     <string name="text_history">历史</string>
     <string name="text_detail">查看详情</string>
-    <string name="text_buy_price">买价</string>
+    <string name="text_buy_price">Открытие</string>
     <string name="text_stoploss_price">止损价</string>
     <string name="text_close_out_color">平仓</string>
     <string name="text_profit_loss">止盈止损</string>
@@ -96,7 +96,7 @@
     <string name="text_pending_text">挂单价</string>
     <string name="text_cancel">撤单</string>
     <string name="text_o_price">开仓价</string>
-    <string name="text_close_price">平仓价</string>
+    <string name="text_close_price">Закрытие</string>
     <string name="text_now_price">当前价</string>
     <string name="text_price_tab">价格</string>
     <string name="text_amount_tab">金额</string>
@@ -113,8 +113,8 @@
     <string name="text_success">Успешно</string>
     <string name="text_add_margin">追加保证金</string>
     <string name="text_available_add">可用:</string>
-    <string name="text_margin">保证金</string>
-    <string name="text_lever">杠杆</string>
+    <string name="text_margin">Маржа</string>
+    <string name="text_lever">Рычаг</string>
     <string name="text_hand_fee">追加手续费</string>
     <string name="text_all">合计</string>
     <string name="text_add_coin">加币</string>
@@ -152,7 +152,7 @@
     <string name="text_order_sure">下单确认</string>
     <string name="text_defer_sure">持仓过夜</string>
     <string name="text_inall_pop">合计</string>
-    <string name="text_service_pop">手续费</string>
+    <string name="text_service_pop">Комиссия</string>
     <string name="text_are_you_sure">是否确认平仓?</string>
     <string name="text_service_tip">手续费=保证金(杠杆-1)×0.15%\n本次支付手续费是</string>
     <string name="text_tip_login">请登录</string>
@@ -245,7 +245,18 @@
     <string name="text_transfer_amount">Объем</string>
     <string name="text_transfer_to">Перевести в</string>
     <string name="text_transfer_time">Время</string>
-    <string name="text_close_time">Время закрытия:</string>
+    <string name="text_close_time">Время закрытия</string>
     <string name="text_p_l">P&amp;L</string>
+    <string name="text_pairs">Пара</string>
+    <string name="text_p_l_detail">P&amp;L</string>
+    <string name="text_profit">Прыбиль</string>
+    <string name="text_side">Направление</string>
+    <string name="text_order_id">Номер заказа</string>
+    <string name="text_order_tip">Заказ</string>
+    <string name="text_o_n">Количество ночных дней</string>
+    <string name="text_o_n_fee">Оплата за ночь</string>
+    <string name="text_currency_type">Тип валюты</string>
+    <string name="text_open_time">Время открытия</string>
+    <string name="text_order_detail">История ордеров</string>
 
 </resources>

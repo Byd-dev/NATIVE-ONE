@@ -20,6 +20,7 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.TradeUtil;
 
 import java.util.List;
 
@@ -116,8 +117,6 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
 
-
-
         //监听
         tradeRecordAdapter.setOnItemClick(this::showDetailPopWindow);
 
@@ -125,19 +124,68 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
     /*显示详情*/
     private void showDetailPopWindow(TradeHistoryEntity.DataBean dataBean) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_fund_detail_pop, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_trade_detail_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
         TextView text_title = view.findViewById(R.id.text_title);
-        text_title.setText(R.string.text_d_w_detail);
+        text_title.setText(R.string.text_order_detail);
 
         TextView text_name = view.findViewById(R.id.text_name);
-        text_name.setText(dataBean.getCurrency());
+        text_name.setText(dataBean.getCommodityCode());
 
         ImageView img_bg = view.findViewById(R.id.img_bg);
-        ChartUtil.setIcon(dataBean.getCurrency(), img_bg);
+        ChartUtil.setIcon(dataBean.getCommodityCode().substring(0, dataBean.getCommodityCode().length() - dataBean.getCurrency().length()), img_bg);
 
+        TextView text_income = view.findViewById(R.id.text_p_l);
+        double income = dataBean.getIncome();
+
+        double serviceCharge = dataBean.getServiceCharge();
+        TextView text_profit = view.findViewById(R.id.text_profit);
+
+        text_profit.setText(TradeUtil.getNumberFormat(TradeUtil.sub(income, serviceCharge), 2));
+
+        if (income > 0) {
+            text_income.setTextColor(getResources().getColor(R.color.text_quote_green));
+        } else {
+            text_income.setTextColor(getResources().getColor(R.color.text_quote_red));
+
+        }
+        text_income.setText(TradeUtil.getNumberFormat(income, 2));
+
+        TextView text_side=view.findViewById(R.id.text_side);
+        boolean isBuy = dataBean.isIsBuy();
+        if (isBuy){
+            text_side.setText(R.string.text_buy_much);
+        }else {
+            text_side.setText(R.string.text_buy_empty);
+        }
+
+        TextView text_margin=view.findViewById(R.id.text_margin);
+        text_margin.setText(String.valueOf(dataBean.getMargin()));
+
+        TextView text_lever=view.findViewById(R.id.text_lever);
+        text_lever.setText(String.valueOf(dataBean.getLever()));
+        TextView text_orders=view.findViewById(R.id.text_order);
+        text_orders.setText(String.valueOf(dataBean.getCpVolume()));
+        TextView text_opPrice=view.findViewById(R.id.text_open_price);
+        text_opPrice.setText(String.valueOf(dataBean.getOpPrice()));
+        TextView text_clPrice=view.findViewById(R.id.text_close_price);
+        text_clPrice.setText(String.valueOf(dataBean.getCpPrice()));
+        TextView text_fee=view.findViewById(R.id.text_fee);
+        text_fee.setText(String.valueOf(serviceCharge));
+        TextView text_o_n=view.findViewById(R.id.text_o_n);
+        text_o_n.setText(String.valueOf(dataBean.getDeferDays()));
+        TextView text_o_n_fee=view.findViewById(R.id.text_o_n_fee);
+        text_o_n_fee.setText(String.valueOf(dataBean.getDeferFee()));
+        TextView text_currency=view.findViewById(R.id.text_currency_type);
+        text_currency.setText(dataBean.getCurrency());
+        TextView text_open_time=view.findViewById(R.id.text_open_time);
+        text_open_time.setText(ChartUtil.getDate(dataBean.getTime()));
+        TextView text_close_time=view.findViewById(R.id.text_close_time);
+        text_close_time.setText(ChartUtil.getDate(dataBean.getTradeTime()));
+        TextView text_order_id=view.findViewById(R.id.text_order_id);
+        text_order_id.setText(dataBean.getId());
 
 
 
@@ -206,7 +254,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         TradeHistoryEntity tradeHistoryEntity = (TradeHistoryEntity) response;
-                        if (tradeHistoryEntity==null){
+                        if (tradeHistoryEntity == null) {
                             return;
                         }
                         if (tradeHistoryEntity.getData().size() == 0) {
@@ -270,12 +318,10 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                 ChartUtil.setIcon(code, img_bg);
 
 
-
-
-                if (position==0){
+                if (position == 0) {
                     commodity = null;
-                }else {
-                    commodity = data.getCode()+"USDT";
+                } else {
+                    commodity = data.getCode() + "USDT";
 
                 }
                 getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe);

@@ -84,7 +84,7 @@
     <string name="text_order">挂单</string>
     <string name="text_history">历史</string>
     <string name="text_detail">查看详情</string>
-    <string name="text_buy_price">买价</string>
+    <string name="text_buy_price">開倉價</string>
     <string name="text_stoploss_price">止损价</string>
     <string name="text_close_out_color">平仓</string>
     <string name="text_profit_loss">止盈止损</string>
@@ -96,7 +96,7 @@
     <string name="text_pending_text">挂单价</string>
     <string name="text_cancel">撤单</string>
     <string name="text_o_price">开仓价</string>
-    <string name="text_close_price">平仓价</string>
+    <string name="text_close_price">平倉價</string>
     <string name="text_now_price">当前价</string>
     <string name="text_price_tab">价格</string>
     <string name="text_amount_tab">金额</string>
@@ -113,8 +113,8 @@
     <string name="text_success">设置成功</string>
     <string name="text_add_margin">追加保证金</string>
     <string name="text_available_add">可用:</string>
-    <string name="text_margin">保证金</string>
-    <string name="text_lever">杠杆</string>
+    <string name="text_margin">保證金</string>
+    <string name="text_lever">杠桿</string>
     <string name="text_hand_fee">追加手续费</string>
     <string name="text_all">合计</string>
     <string name="text_add_coin">加币</string>
@@ -152,7 +152,7 @@
     <string name="text_order_sure">下单确认</string>
     <string name="text_defer_sure">持仓过夜</string>
     <string name="text_inall_pop">合计</string>
-    <string name="text_service_pop">手续费</string>
+    <string name="text_service_pop">手續費</string>
     <string name="text_are_you_sure">是否确认平仓?</string>
     <string name="text_service_tip">手续费=保证金(杠杆-1)×0.15%\n本次支付手续费是</string>
     <string name="text_tip_login">请登錄</string>
@@ -245,7 +245,18 @@
     <string name="text_transfer_amount">轉帳數量</string>
     <string name="text_transfer_to">劃轉用戶</string>
     <string name="text_transfer_time">轉帳時間</string>
-    <string name="text_close_time">平倉時間:</string>
+    <string name="text_close_time">平倉時間</string>
     <string name="text_p_l">盈虧</string>
+    <string name="text_pairs">交易商品</string>
+    <string name="text_p_l_detail">訂單盈虧</string>
+    <string name="text_profit">利潤</string>
+    <string name="text_side">多/空</string>
+    <string name="text_order_id">訂單號</string>
+    <string name="text_order_tip">委托</string>
+    <string name="text_o_n">過夜天數</string>
+    <string name="text_o_n_fee">過夜費</string>
+    <string name="text_currency_type">貨幣單位</string>
+    <string name="text_open_time">開倉時間</string>
+    <string name="text_order_detail">交易明細</string>
 
 </resources>
