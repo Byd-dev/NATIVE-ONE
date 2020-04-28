@@ -1,7 +1,6 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +13,10 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.DepositWithdrawAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
 import com.pro.bityard.adapter.TradeRecordAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.utils.ChartUtil;
@@ -116,17 +113,13 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         recyclerView.setAdapter(tradeRecordAdapter);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            initData();
-        });
+        swipeRefreshLayout.setOnRefreshListener(this::initData);
 
 
 
 
         //监听
-        tradeRecordAdapter.setOnItemClick(data -> {
-            showDetailPopWindow(data);
-        });
+        tradeRecordAdapter.setOnItemClick(this::showDetailPopWindow);
 
     }
 
@@ -190,14 +183,14 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
 
         page = 0;
-        getTradeHistory(FIRST, "1", String.valueOf(ChartUtil.getTimeNow()), "2", commodity, createTimeGe, createTimeLe);
+        getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe);
 
     }
 
 
-    private void getTradeHistory(String loadType, String tradeType, String nowTime, String schemeSort, String commodity, String createTimeGe,
+    private void getTradeHistory(String loadType, String nowTime, String commodity, String createTimeGe,
                                  String createTimeLe) {
-        NetManger.getInstance().tradeHistory(tradeType, nowTime, schemeSort, commodity, createTimeGe,
+        NetManger.getInstance().tradeHistory("1", nowTime, "2", commodity, createTimeGe,
                 createTimeLe, (state, response) -> {
                     if (state.equals(BUSY)) {
 
@@ -213,6 +206,9 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         TradeHistoryEntity tradeHistoryEntity = (TradeHistoryEntity) response;
+                        if (tradeHistoryEntity==null){
+                            return;
+                        }
                         if (tradeHistoryEntity.getData().size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);
@@ -248,7 +244,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
     private int oldSelect = 0;
 
-    //
+    //选择
     private void showFundWindow(FundItemEntity fundItemEntity) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_fund_pop_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
@@ -282,7 +278,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                     commodity = data.getCode()+"USDT";
 
                 }
-                getTradeHistory(FIRST, "1", String.valueOf(ChartUtil.getTimeNow()), "2", commodity, createTimeGe, createTimeLe);
+                getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe);
 
                 popupWindow.dismiss();
 
@@ -315,7 +311,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
         }
 
-        getTradeHistory(FIRST, "1", String.valueOf(ChartUtil.getTimeNow()), "2", commodity, createTimeGe, createTimeLe);
+        getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe);
 
 
     }
