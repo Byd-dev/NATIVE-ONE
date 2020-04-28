@@ -235,5 +235,14 @@
     <string name="text_status">Status</string>
     <string name="text_trade_id">Transaction ID</string>
     <string name="text_address">Address</string>
+    <string name="text_buy_amount">Amount</string>
+    <string name="text_payment">Payment</string>
+    <string name="text_price_rate">Price</string>
+    <string name="text_buy_time">Time</string>
+    <string name="text_out">Out</string>
+    <string name="text_in">In</string>
+    <string name="text_transfer_amount">Amount</string>
+    <string name="text_transfer_to">Transfer To</string>
+    <string name="text_transfer_time">Time</string>
 
 </resources>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@color/background_maincolor"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:gravity="left|center_vertical"
+            android:layout_marginLeft="@dimen/margin_15"
+            >
+            <TextView
+                android:id="@+id/text_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_default"
+                android:textSize="@dimen/size_normal_two"
+                android:textColor="@color/text_maincolor"/>
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="提币"
+                android:textSize="@dimen/size_normal"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textColor="@color/text_second_color"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toLeftOf="@+id/img_right"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/margin_15"
+            >
+            <TextView
+                android:id="@+id/text_explain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textSize="@dimen/size_bigger"
+                android:textColor="@color/text_maincolor"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50"
+                    android:textSize="@dimen/size_normal"
+                    android:textColor="@color/text_maincolor"/>
+                <TextView
+                    android:id="@+id/text_currency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="USDT"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:textSize="@dimen/size_normal"
+                    android:textColor="@color/text_second_color"/>
+
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/img_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_right_gray"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:layout_alignParentRight="true"
+
+            />
+
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_line"
+        android:background="@color/home_line"/>
+
+
+</LinearLayout>

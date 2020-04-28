@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.DepositWithdrawAdapter;
 import com.pro.bityard.adapter.FiatAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
 import com.pro.bityard.api.NetManger;
@@ -144,27 +143,21 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
 
     /*显示详情*/
     private void showDetailPopWindow(DepositWithdrawEntity.DataBean dataBean) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_fund_detail_pop, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_fiat_detail_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
         TextView text_title = view.findViewById(R.id.text_title);
-        text_title.setText(R.string.text_d_w_detail);
+        text_title.setText(R.string.text_fiat);
 
-        TextView text_name = view.findViewById(R.id.text_name);
-        text_name.setText(dataBean.getCurrency());
-        TextView text_type = view.findViewById(R.id.text_type);
+        TextView text_amount = view.findViewById(R.id.text_amount);
+        text_amount.setText(dataBean.getMoney() + dataBean.getCurrency());
+        TextView text_payment = view.findViewById(R.id.text_payment);
+
+        text_payment.setText(dataBean.getSrcMoney() + dataBean.getSrcCurrency());
 
 
-        String explain = dataBean.getExplain();
-        switch (explain) {
-            case "提款取出":
-                text_type.setText(R.string.text_withdrawal);
-                break;
-            case "充值存入":
-                text_type.setText(R.string.text_recharge);
-                break;
-        }
+
 
         TextView text_status = view.findViewById(R.id.text_status);
         int status = dataBean.getStatus();
@@ -197,13 +190,11 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
         TextView text_time = view.findViewById(R.id.text_time);
         text_time.setText(ChartUtil.getDate(dataBean.getCreateTime()));
 
-        TextView text_amount = view.findViewById(R.id.text_amount);
-        text_amount.setText(dataBean.getMoney() + dataBean.getCurrency());
 
         TextView text_id = view.findViewById(R.id.text_id);
         text_id.setText(dataBean.getId());
-        TextView text_address = view.findViewById(R.id.text_address);
-        text_address.setText(dataBean.getAddress());
+        TextView text_buy_rate = view.findViewById(R.id.text_buy_rate);
+        text_buy_rate.setText(String.valueOf(dataBean.getExrate()));
 
 
         view.findViewById(R.id.img_back).setOnClickListener(v -> {
@@ -327,60 +318,8 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
                 fundSelectAdapter.notifyDataSetChanged();
                 text_select.setText(data.getName());
                 String code = data.getCode();
-                switch (code) {
-                    case "":
-                        img_bg.setVisibility(View.GONE);
-                        break;
-                    case "EOS":
-                        img_bg.setVisibility(View.VISIBLE);
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eos));
-                        break;
-                    case "LTC":
-                        img_bg.setVisibility(View.VISIBLE);
+                ChartUtil.setIcon(code,img_bg);
 
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ltc));
-                        break;
-                    case "BCH":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bch));
-                        break;
-                    case "USDT":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt));
-                        break;
-                    case "BTC":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btc));
-                        break;
-                    case "ETH":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eth));
-                        break;
-                    case "XRP":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xrp));
-                        break;
-                    case "TRX":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_trx));
-                        break;
-                    case "HT":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ht));
-                        break;
-                    case "LINK":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link));
-                        break;
-                }
 
 
                 page = 1;

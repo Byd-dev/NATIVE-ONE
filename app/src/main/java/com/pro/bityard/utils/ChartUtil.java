@@ -3,7 +3,11 @@ package com.pro.bityard.utils;
 
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.pro.bityard.R;
+import com.pro.bityard.base.AppContext;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.entity.KlineEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
@@ -545,6 +549,63 @@ public class ChartUtil {
         BigDecimal b1 = new BigDecimal(d1);
         BigDecimal b2 = new BigDecimal(d2);
         return b1.divide(b2, len, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
+    public static void setIcon(String code, ImageView img_bg){
+        switch (code) {
+            case "":
+                img_bg.setVisibility(View.GONE);
+                break;
+            case "EOS":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eos));
+                break;
+            case "LTC":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ltc));
+                break;
+            case "BCH":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bch));
+                break;
+            case "USDT":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt));
+                break;
+            case "BTC":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btc));
+                break;
+            case "ETH":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eth));
+                break;
+            case "XRP":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xrp));
+                break;
+            case "TRX":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_trx));
+                break;
+            case "HT":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ht));
+                break;
+            case "LINK":
+                img_bg.setVisibility(View.VISIBLE);
+
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link));
+                break;
+        }
     }
 
 }

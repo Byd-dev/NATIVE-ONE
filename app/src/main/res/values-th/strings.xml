@@ -236,5 +236,14 @@
     <string name="text_status">Статус</string>
     <string name="text_trade_id">Номер транзакции</string>
     <string name="text_address">Адрес</string>
+    <string name="text_buy_amount">Количество</string>
+    <string name="text_payment">Сумма</string>
+    <string name="text_price_rate">Цена</string>
+    <string name="text_buy_time">Время</string>
+    <string name="text_out">Из</string>
+    <string name="text_in">В</string>
+    <string name="text_transfer_amount">Объем</string>
+    <string name="text_transfer_to">Перевести в</string>
+    <string name="text_transfer_time">Время</string>
 
 </resources>

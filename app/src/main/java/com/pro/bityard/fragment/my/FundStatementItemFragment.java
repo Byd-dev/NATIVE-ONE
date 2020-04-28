@@ -152,7 +152,8 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
         TextView text_name = view.findViewById(R.id.text_name);
         text_name.setText(dataBean.getCurrency());
         TextView text_type = view.findViewById(R.id.text_type);
-
+        ImageView img_bg=view.findViewById(R.id.img_bg);
+        ChartUtil.setIcon(dataBean.getCurrency(),img_bg);
 
         String explain = dataBean.getExplain();
         switch (explain) {
@@ -325,60 +326,8 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                 fundSelectAdapter.notifyDataSetChanged();
                 text_select.setText(data.getName());
                 String code = data.getCode();
-                switch (code) {
-                    case "":
-                        img_bg.setVisibility(View.GONE);
-                        break;
-                    case "EOS":
-                        img_bg.setVisibility(View.VISIBLE);
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eos));
-                        break;
-                    case "LTC":
-                        img_bg.setVisibility(View.VISIBLE);
+                ChartUtil.setIcon(code,img_bg);
 
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ltc));
-                        break;
-                    case "BCH":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bch));
-                        break;
-                    case "USDT":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt));
-                        break;
-                    case "BTC":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btc));
-                        break;
-                    case "ETH":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eth));
-                        break;
-                    case "XRP":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xrp));
-                        break;
-                    case "TRX":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_trx));
-                        break;
-                    case "HT":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ht));
-                        break;
-                    case "LINK":
-                        img_bg.setVisibility(View.VISIBLE);
-
-                        img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link));
-                        break;
-                }
 
 
                 page = 0;

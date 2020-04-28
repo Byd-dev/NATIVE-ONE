@@ -236,5 +236,14 @@
     <string name="text_status">狀態</string>
     <string name="text_trade_id">交易ID</string>
     <string name="text_address">充/提地址</string>
+    <string name="text_buy_amount">購買數量</string>
+    <string name="text_payment">支付金額</string>
+    <string name="text_price_rate">購買匯率</string>
+    <string name="text_buy_time">購買時間</string>
+    <string name="text_out">轉出</string>
+    <string name="text_in">轉入</string>
+    <string name="text_transfer_amount">轉帳數量</string>
+    <string name="text_transfer_to">劃轉用戶</string>
+    <string name="text_transfer_time">轉帳時間</string>
 
 </resources>

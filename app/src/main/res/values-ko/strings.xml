@@ -236,5 +236,14 @@
     <string name="text_status">상태</string>
     <string name="text_trade_id">거래 아이디</string>
     <string name="text_address">출/입금 주소</string>
+    <string name="text_buy_amount">구매 수량</string>
+    <string name="text_payment">금액</string>
+    <string name="text_price_rate">환율</string>
+    <string name="text_buy_time">구매 시간</string>
+    <string name="text_out">전출</string>
+    <string name="text_in">전입</string>
+    <string name="text_transfer_amount">이체 수량</string>
+    <string name="text_transfer_to">전송 대상</string>
+    <string name="text_transfer_time">이체 시간</string>
 
 </resources>

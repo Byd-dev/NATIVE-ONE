@@ -236,5 +236,14 @@
     <string name="text_status">Trạng thái</string>
     <string name="text_trade_id">ID giao dịch</string>
     <string name="text_address">Địa chỉ</string>
+    <string name="text_buy_amount">Số lượng mua</string>
+    <string name="text_payment">Số tiền</string>
+    <string name="text_price_rate">Giá mua</string>
+    <string name="text_buy_time">Thời gian mua</string>
+    <string name="text_out">Chuyển đi</string>
+    <string name="text_in">Chuyển vào</string>
+    <string name="text_transfer_amount">Số lượng</string>
+    <string name="text_transfer_to">Tài khoản đích</string>
+    <string name="text_transfer_time">Thời gian</string>
 
 </resources>

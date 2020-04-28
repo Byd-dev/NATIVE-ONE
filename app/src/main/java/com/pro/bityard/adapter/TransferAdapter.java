@@ -17,7 +17,7 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class FiatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class TransferAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<DepositWithdrawEntity.DataBean> datas;
 
@@ -33,7 +33,7 @@ public class FiatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Double> incomeList;
 
 
-    public FiatAdapter(Context context) {
+    public TransferAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
     }
@@ -77,7 +77,7 @@ public class FiatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (viewType == TYPE_ITEM) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.item_fiat_layout, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_transfer_layout, parent, false);
             holder = new MyViewHolder(view);
             return holder;
         }
@@ -94,45 +94,20 @@ public class FiatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
             String explain = datas.get(position).getExplain();
-            switch (explain){
-                case "提款取出":
-                    ((MyViewHolder) holder).text_explain.setText(R.string.text_withdrawal);
-                    break;
-                case "充值存入":
-                    ((MyViewHolder) holder).text_explain.setText(R.string.text_recharge);
-                    break;
+
+            if (explain.contains("取出")){
+                ((MyViewHolder) holder).text_explain.setText(R.string.text_out);
+            }else if (explain.contains("入")){
+                ((MyViewHolder) holder).text_explain.setText(R.string.text_in);
             }
 
-            int status = datas.get(position).getStatus();
-            switch (status) {
-                case 0:
-                case -1:
-                    ((MyViewHolder) holder).text_state.setText(R.string.text_pending);
-                    break;
-                case 1:
-                    ((MyViewHolder) holder).text_state.setText(R.string.text_tip_success);
-                    break;
-                case 2:
-                    ((MyViewHolder) holder).text_state.setText(R.string.text_failure);
-                    break;
-                case 3:
-                    ((MyViewHolder) holder).text_state.setText(R.string.text_tip_cancel);
-                    break;
-                case 4:
-                    ((MyViewHolder) holder).text_state.setText(R.string.text_processing);
-                    break;
-                case 5:
-                    ((MyViewHolder) holder).text_state.setText(R.string.text_in_progress);
-                    break;
-                case 6:
-                    ((MyViewHolder) holder).text_state.setText(R.string.text_refunded);
-                    break;
-            }
+
+
 
             ((MyViewHolder) holder).text_time.setText(ChartUtil.getDate(datas.get(position).getCreateTime()));
-            ((MyViewHolder) holder).text_money.setText(String.valueOf(datas.get(position).getSrcMoney()));
-            ((MyViewHolder) holder).text_src_currency.setText(datas.get(position).getSrcCurrency());
+            ((MyViewHolder) holder).text_money.setText(String.valueOf(datas.get(position).getMoney()));
             ((MyViewHolder) holder).text_currency.setText(datas.get(position).getCurrency());
+            ((MyViewHolder) holder).text_address.setText(datas.get(position).getBankCard());
 
 
         }
@@ -165,18 +140,17 @@ public class FiatAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_explain, text_time, text_state,
-                text_money, text_currency,text_src_currency;
+        TextView text_explain, text_time, text_address,
+                text_money, text_currency;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
             text_explain = itemView.findViewById(R.id.text_explain);
-            text_state = itemView.findViewById(R.id.text_state);
+            text_address = itemView.findViewById(R.id.text_address);
             text_time = itemView.findViewById(R.id.text_time);
             text_money = itemView.findViewById(R.id.text_money);
             text_currency = itemView.findViewById(R.id.text_currency);
-            text_src_currency = itemView.findViewById(R.id.text_src_currency);
 
 
             itemView.setOnClickListener(view -> {
