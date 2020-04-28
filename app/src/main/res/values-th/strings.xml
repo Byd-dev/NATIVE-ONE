@@ -118,8 +118,8 @@
     <string name="text_hand_fee">追加手续费</string>
     <string name="text_all">合计</string>
     <string name="text_add_coin">加币</string>
-    <string name="text_buy_much">做多</string>
-    <string name="text_buy_empty">做空</string>
+    <string name="text_buy_much">Купить</string>
+    <string name="text_buy_empty">Продать</string>
     <string name="text_max">24H最高</string>
     <string name="text_default">0.00</string>
     <string name="text_min">24H最低</string>
@@ -245,5 +245,7 @@
     <string name="text_transfer_amount">Объем</string>
     <string name="text_transfer_to">Перевести в</string>
     <string name="text_transfer_time">Время</string>
+    <string name="text_close_time">Время закрытия:</string>
+    <string name="text_p_l">P&amp;L</string>
 
 </resources>

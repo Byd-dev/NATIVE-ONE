@@ -245,5 +245,7 @@
     <string name="text_transfer_amount">轉帳數量</string>
     <string name="text_transfer_to">劃轉用戶</string>
     <string name="text_transfer_time">轉帳時間</string>
+    <string name="text_close_time">平倉時間:</string>
+    <string name="text_p_l">盈虧</string>
 
 </resources>

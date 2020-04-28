@@ -39,6 +39,7 @@
     <dimen name="margin_12">12dp</dimen>
     <dimen name="margin_26">26dp</dimen>
     <dimen name="margin_42">42dp</dimen>
+    <dimen name="item_funds_height">84dp</dimen>
 
 
 </resources>

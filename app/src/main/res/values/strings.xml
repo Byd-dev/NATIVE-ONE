@@ -244,5 +244,7 @@
     <string name="text_transfer_amount">转账数量</string>
     <string name="text_transfer_to">划转用户</string>
     <string name="text_transfer_time">转账时间</string>
+    <string name="text_close_time">平仓时间:</string>
+    <string name="text_p_l">盈亏</string>
 
 </resources>

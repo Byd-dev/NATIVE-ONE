@@ -18,6 +18,7 @@ import com.pro.bityard.fragment.my.MobileBindChangeFragment;
 import com.pro.bityard.fragment.my.SafeCenterFragment;
 import com.pro.bityard.fragment.my.SetUpFragment;
 import com.pro.bityard.fragment.my.ThemeFragment;
+import com.pro.bityard.fragment.my.TradeRecordFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import androidx.annotation.Nullable;
@@ -81,9 +82,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_FUND_STATEMENT:
                 addFundStatementFragment();
                 break;
+            case IntentConfig.Keys.KEY_TRADE_HISTORY:
+                addTradeHistoryFragment();
+                break;
         }
 
 
+    }
+
+    private void addTradeHistoryFragment() {
+        String name = TradeRecordFragment.class.getSimpleName();
+        //安全中心
+        TradeRecordFragment fragment = new TradeRecordFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addFundStatementFragment() {

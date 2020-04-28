@@ -561,6 +561,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
         findViewById(R.id.layout_one).setOnClickListener(this);//安全中心监听
         findViewById(R.id.layout_two).setOnClickListener(this);
+        findViewById(R.id.layout_three).setOnClickListener(this);
 
 
     }
@@ -894,6 +895,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             case R.id.layout_two:
                 if (isLogin()) {
                     UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_FUND_STATEMENT);
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+                /*交易记录*/
+            case R.id.layout_three:
+                if (isLogin()) {
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_HISTORY);
                 } else {
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }

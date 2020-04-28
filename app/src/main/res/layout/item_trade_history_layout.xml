@@ -8,111 +8,108 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_funds_height"
-        android:background="@color/background_maincolor"
-        >
+        android:background="@color/background_maincolor">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_centerVertical="true"
-            android:gravity="left|center_vertical"
             android:layout_marginLeft="@dimen/margin_15"
-            >
+            android:gravity="left|center_vertical"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
-                    android:id="@+id/text_explain"
+                    android:id="@+id/text_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="提币"
                     android:layout_gravity="center"
-                    android:textSize="@dimen/size_normal_two"
-                    android:textColor="@color/text_maincolor"/>
+                    android:text="BTC"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
                 <TextView
                     android:id="@+id/text_currency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_default"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/margin_10"
-                    android:textSize="@dimen/size_normal"
-                    android:textColor="@color/text_second_color"/>
-            </LinearLayout>
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal" />
 
+                <TextView
+                    android:id="@+id/text_buy_tip"
+                    android:layout_width="46dp"
+                    android:layout_height="@dimen/margin_20"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:background="@drawable/bg_shape_green_record"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/margin_10"
+                    android:paddingRight="@dimen/margin_10"
+                    android:text="@string/text_default"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+
+
+            </LinearLayout>
 
 
             <TextView
                 android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="提币"
-                android:textSize="@dimen/size_normal"
                 android:layout_marginTop="@dimen/margin_5"
-                android:textColor="@color/text_second_color"/>
+                android:text="@string/text_default"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_toLeftOf="@+id/img_right"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
             android:layout_marginRight="@dimen/margin_15"
             android:gravity="center"
-            android:layout_marginLeft="@dimen/margin_15"
-            >
+            android:orientation="vertical">
+
             <TextView
-                android:id="@+id/text_state"
+                android:id="@+id/text_income"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="--"
-                android:textSize="@dimen/size_bigger"
-                android:textColor="@color/text_maincolor"/>
+                android:text="@string/text_default"
+                android:layout_gravity="end"
+                android:textColor="@color/text_maincolor"
+                android:textSize="@dimen/size_normal_two" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_5"
+                android:layout_gravity="end"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_money"
+                    android:id="@+id/text_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="50"
-                    android:textSize="@dimen/size_normal"
-                    android:textColor="@color/text_maincolor"/>
-                <TextView
-                    android:id="@+id/text_src_currency"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_default"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:textSize="@dimen/size_normal"
-                    android:textColor="@color/text_second_color"/>
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal" />
+
 
             </LinearLayout>
 
 
-
-
         </LinearLayout>
-
-        <ImageView
-            android:id="@+id/img_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_right_gray"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_15"
-            android:layout_alignParentRight="true"
-
-            />
-
 
 
     </RelativeLayout>
@@ -120,7 +117,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line"
-        android:background="@color/home_line"/>
+        android:background="@color/home_line" />
 
 
 </LinearLayout>

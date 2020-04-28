@@ -26,6 +26,7 @@ import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TipSPSLMarginEntity;
 import com.pro.bityard.entity.TradeListEntity;
+import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -1329,7 +1330,7 @@ public class NetManger {
 
     }
 
-
+    /*资金记录*/
     public void depositWithdraw(String type, String transfer, String currencyType, String srcCurrency, String currency, String createTimeGe,
                                 String createTimeLe, String page, String rows, OnNetResult onNetResult) {
 
@@ -1378,7 +1379,7 @@ public class NetManger {
 
     }
 
-
+    /*兑换记录*/
     public void exchangeRecord(String type, String transfer, String currencyType, String srcCurrency, String desCurrency, String createTimeGe,
                                String createTimeLe, String page, String rows, OnNetResult onNetResult) {
 
@@ -1427,5 +1428,45 @@ public class NetManger {
 
 
     }
+    /*交易记录*/
+    public void tradeHistory(String tradeType, String nowTime, String schemeSort, String commodity, String createTimeGe,
+                                String createTimeLe, OnNetResult onNetResult) {
 
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        if (tradeType != null) {
+            map.put("tradeType", tradeType);
+        }
+        if ( nowTime!= null) {
+            map.put("_", nowTime);
+        }
+        if (schemeSort != null) {
+            map.put("schemeSort", schemeSort);
+        }
+
+        if (commodity != null) {
+            map.put("commodity", commodity);
+        }
+        if (createTimeGe != null) {
+            map.put("createTimeGe", createTimeGe);
+        }
+        if (createTimeLe != null) {
+            map.put("createTimeLe", createTimeLe);
+        }
+
+
+        getRequest("/api/trade/scheme/history", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TradeHistoryEntity tradeHistoryEntity = new Gson().fromJson(response.toString(), TradeHistoryEntity.class);
+                onNetResult.onNetResult(SUCCESS, tradeHistoryEntity);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+
+
+    }
 }
