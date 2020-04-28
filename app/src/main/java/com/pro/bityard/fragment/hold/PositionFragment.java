@@ -67,6 +67,9 @@ import static com.pro.bityard.utils.TradeUtil.profitRate;
 import static com.pro.bityard.utils.TradeUtil.small;
 
 public class PositionFragment extends BaseFragment implements Observer {
+    @BindView(R.id.layout_null)
+    LinearLayout layout_null;
+
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
 
@@ -130,9 +133,11 @@ public class PositionFragment extends BaseFragment implements Observer {
         if (isLogin()) {
             headerRecyclerView.setVisibility(View.VISIBLE);
             btn_login.setVisibility(View.GONE);
+
         } else {
             headerRecyclerView.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
+            layout_null.setVisibility(View.GONE);
         }
         initData();
     }
@@ -1080,6 +1085,9 @@ public class PositionFragment extends BaseFragment implements Observer {
                 if (positionEntity.getData().size() == 0) {
                     text_incomeAll.setText("");
                     headerRecyclerView.removeHeaderView(headView);
+                    layout_null.setVisibility(View.VISIBLE);
+                    headerRecyclerView.setVisibility(View.GONE);
+
                 } else {
                     //防止刷新已经有头布局 继续添加出现的bug
                     if (headerRecyclerView != null) {
@@ -1087,6 +1095,10 @@ public class PositionFragment extends BaseFragment implements Observer {
                             headerRecyclerView.addHeaderView(headView);
                         }
                     }
+                    headerRecyclerView.setVisibility(View.VISIBLE);
+
+                    layout_null.setVisibility(View.GONE);
+
                 }
             } else if (state.equals(FAILURE)) {
                 if (swipeRefreshLayout != null) {

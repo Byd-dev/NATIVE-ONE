@@ -22,6 +22,7 @@
                 android:overScrollMode="never" />
 
 
+            <include layout="@layout/layout_null"/>
             <!--退出登录button-->
             <Button
                 android:id="@+id/btn_login"

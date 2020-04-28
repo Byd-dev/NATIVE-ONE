@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
@@ -29,6 +30,8 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class HistoryFragment extends BaseFragment implements Observer {
+    @BindView(R.id.layout_null)
+    LinearLayout layout_null;
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
 
@@ -67,9 +70,11 @@ public class HistoryFragment extends BaseFragment implements Observer {
         if (isLogin()) {
             headerRecyclerView.setVisibility(View.VISIBLE);
             btn_login.setVisibility(View.GONE);
+
         } else {
             headerRecyclerView.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
+            layout_null.setVisibility(View.GONE);
         }
     }
 
@@ -126,6 +131,13 @@ public class HistoryFragment extends BaseFragment implements Observer {
                         swipeRefreshLayout.setRefreshing(false);
                     }
                     historyEntity = (HistoryEntity) response;
+                    if (historyEntity.getData().size()==0){
+                        layout_null.setVisibility(View.VISIBLE);
+                        headerRecyclerView.setVisibility(View.GONE);
+                    }else {
+                        layout_null.setVisibility(View.GONE);
+                        headerRecyclerView.setVisibility(View.VISIBLE);
+                    }
                     historyAdapter.setDatas(historyEntity.getData());
                 } else if (state.equals(FAILURE)) {
                     if (swipeRefreshLayout != null) {

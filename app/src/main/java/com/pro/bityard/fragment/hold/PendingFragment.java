@@ -2,17 +2,17 @@ package com.pro.bityard.fragment.hold;
 
 import android.os.Bundle;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PendingAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
-import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.PositionEntity;
@@ -37,6 +37,8 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class PendingFragment extends BaseFragment implements Observer {
+    @BindView(R.id.layout_null)
+    LinearLayout layout_null;
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
 
@@ -73,9 +75,11 @@ public class PendingFragment extends BaseFragment implements Observer {
         if (isLogin()) {
             headerRecyclerView.setVisibility(View.VISIBLE);
             btn_login.setVisibility(View.GONE);
+
         } else {
             headerRecyclerView.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
+            layout_null.setVisibility(View.GONE);
         }
     }
 
@@ -155,23 +159,27 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     protected void initData() {
-        NetManger.getInstance().getPending(tradeType, new OnNetTwoResult() {
-            @Override
-            public void setResult(String state, Object response1, Object response2) {
-                if (state.equals(BUSY)) {
-                    swipeRefreshLayout.setRefreshing(true);
-                } else if (state.equals(SUCCESS)) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    positionEntity = (PositionEntity) response1;
+        NetManger.getInstance().getPending(tradeType, (state, response1, response2) -> {
+            if (state.equals(BUSY)) {
+                swipeRefreshLayout.setRefreshing(true);
+            } else if (state.equals(SUCCESS)) {
+                swipeRefreshLayout.setRefreshing(false);
+                positionEntity = (PositionEntity) response1;
+                Log.d("print", "initData:挂单:  " + positionEntity);
+                if (positionEntity.getData().size() == 0) {
+                    layout_null.setVisibility(View.VISIBLE);
+                    headerRecyclerView.setVisibility(View.GONE);
 
-
-                } else if (state.equals(FAILURE)) {
-                    swipeRefreshLayout.setRefreshing(false);
-
+                } else {
+                    layout_null.setVisibility(View.GONE);
+                    headerRecyclerView.setVisibility(View.VISIBLE);
                 }
+
+
+            } else if (state.equals(FAILURE)) {
+                swipeRefreshLayout.setRefreshing(false);
+
             }
-
-
         });
     }
 
@@ -190,12 +198,14 @@ public class PendingFragment extends BaseFragment implements Observer {
                         ;
                         pendingAdapter.setDatas(positionEntity.getData(), quoteList);
                     }
+
                 }
 
             });
         } else if (o == TagManger.getInstance()) {
             if (isLogin()) {
                 headerRecyclerView.setVisibility(View.VISIBLE);
+
                 btn_login.setVisibility(View.GONE);
             } else {
                 headerRecyclerView.setVisibility(View.GONE);
