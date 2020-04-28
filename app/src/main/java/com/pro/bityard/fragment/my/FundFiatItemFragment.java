@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.DepositWithdrawAdapter;
+import com.pro.bityard.adapter.FiatAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
@@ -63,7 +64,7 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
 
     private FundItemEntity fundItemEntity;
 
-    private DepositWithdrawAdapter depositWithdrawAdapter;
+    private FiatAdapter fiatAdapter;
 
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
@@ -102,10 +103,10 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
 
         radioGroup.setOnCheckedChangeListener(this);
 
-        depositWithdrawAdapter = new DepositWithdrawAdapter(getActivity());
+        fiatAdapter = new FiatAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(depositWithdrawAdapter);
+        recyclerView.setAdapter(fiatAdapter);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -118,8 +119,8 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (swipeRefreshLayout.isRefreshing()) return;
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == depositWithdrawAdapter.getItemCount() - 1) {
-                    depositWithdrawAdapter.startLoad();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == fiatAdapter.getItemCount() - 1) {
+                    fiatAdapter.startLoad();
                     page = page + 1;
                     getWithdrawal(LOAD, null, transfer, "0", null, currency, createTimeGe,
                             createTimeLe, String.valueOf(page), "10");
@@ -135,7 +136,7 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
         });
 
         //监听
-        depositWithdrawAdapter.setOnItemClick(data -> {
+        fiatAdapter.setOnItemClick(data -> {
             showDetailPopWindow(data);
         });
 
@@ -280,9 +281,9 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
                         }
 
                         if (loadType.equals(LOAD)) {
-                            depositWithdrawAdapter.addDatas(depositWithdrawEntity.getData());
+                            fiatAdapter.addDatas(depositWithdrawEntity.getData());
                         } else {
-                            depositWithdrawAdapter.setDatas(depositWithdrawEntity.getData());
+                            fiatAdapter.setDatas(depositWithdrawEntity.getData());
                         }
                     } else if (state.equals(FAILURE)) {
                         if (swipeRefreshLayout != null) {
