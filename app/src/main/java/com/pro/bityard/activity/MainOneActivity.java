@@ -272,32 +272,42 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
             Log.d("print", "update:持仓列表实盘:  " + positionRealList);
-            runOnUiThread(() -> {
-                if (text_freeze != null) {
-                    TradeUtil.getMargin(positionRealList, response -> {
-                        if (response == null) {
-                            text_freeze.setText(getResources().getString(R.string.text_default));
-                        } else {
-                            text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
-                        }
-                    });
-                }
-            });
+            if (positionRealList.size()==0){
+                text_freeze.setText(getResources().getString(R.string.text_default));
+            }else {
+                runOnUiThread(() -> {
+                    if (text_freeze != null) {
+                        TradeUtil.getMargin(positionRealList, response -> {
+                            if (response == null) {
+                                text_freeze.setText(getResources().getString(R.string.text_default));
+                            } else {
+                                text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
+                            }
+                        });
+                    }
+                });
+            }
+
         } else if (o == PositionSimulationManger.getInstance()) {
             positionSimulationList = (List<PositionEntity.DataBean>) arg;
+            Log.d("print", "update:持仓列表模拟:  " + positionSimulationList);
+            if (positionSimulationList.size()==0){
+                text_freeze_simulation.setText(getResources().getString(R.string.text_default));
 
+            }else {
+                runOnUiThread(() -> {
+                    if (text_freeze_simulation != null) {
+                        TradeUtil.getMargin(positionSimulationList, response -> {
+                            if (response == null) {
+                                text_freeze_simulation.setText(getResources().getString(R.string.text_default));
+                            } else {
+                                text_freeze_simulation.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
+                            }
+                        });
+                    }
+                });
+            }
 
-            runOnUiThread(() -> {
-                if (text_freeze_simulation != null) {
-                    TradeUtil.getMargin(positionSimulationList, response -> {
-                        if (response == null) {
-                            text_freeze_simulation.setText(getResources().getString(R.string.text_default));
-                        } else {
-                            text_freeze_simulation.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
-                        }
-                    });
-                }
-            });
         } else if (o == NetIncomeManger.getInstance()) {
             netIncomeResult = (String) arg;
             Log.d("print", "update:273: " + isLogin() + "  --   " + netIncomeResult);

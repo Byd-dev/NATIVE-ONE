@@ -305,7 +305,6 @@ public class TradeUtil {
         if (positionList==null) {
             tradeResult.setResult(null);
             return;
-
         }
         List<Double> marginList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionList) {
