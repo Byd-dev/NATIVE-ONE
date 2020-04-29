@@ -45,6 +45,20 @@
 
         </activity>
         <activity android:name=".activity.MainOneActivity" />
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.1" /><!--适配全面屏-->
+
+        <receiver
+            android:name="com.adjust.sdk.AdjustReferrerReceiver"
+            android:permission="android.permission.INSTALL_PACKAGES"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

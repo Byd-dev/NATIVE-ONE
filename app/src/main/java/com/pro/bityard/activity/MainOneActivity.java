@@ -217,6 +217,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     .append(",").append(margin);
             //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
             //账户净值=可用余额+占用保证金+浮动盈亏
+            Log.d("print", "setNetIncome:发送的数据 220:  " + append.toString());
             NetIncomeManger.getInstance().postNetIncome(append.toString());
         }));
 
@@ -234,14 +235,12 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
                     quoteAdapter.setDatas(quoteList);
                     quoteAdapter_market.setDatas(quoteList);
-                    if (positionRealList != null) {
-                        if (isLogin()) {
-                            if (tradeType.equals("1")) {
-                                setNetIncome(tradeType, positionRealList, quoteList);
-                            } else {
-                                setNetIncome(tradeType, positionSimulationList, quoteList);
+                    if (isLogin()) {
+                        if (tradeType.equals("1")) {
+                            setNetIncome(tradeType, positionRealList, quoteList);
+                        } else {
+                            setNetIncome(tradeType, positionSimulationList, quoteList);
 
-                            }
                         }
                     }
 
@@ -300,20 +299,24 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
             });
         } else if (o == NetIncomeManger.getInstance()) {
-            Log.d("print", "update:273: " + isLogin());
             netIncomeResult = (String) arg;
+            Log.d("print", "update:273: " + isLogin() + "  --   " + netIncomeResult);
             String[] NetIncome = netIncomeResult.split(",");
             runOnUiThread(() -> {
-                if (text_worth != null && NetIncome[0].equals("1") && tradeType.equals("1")) {
-                    // 1,2.5,5  类型 整体净盈亏  整体  保证金
-                    String netIncome = NetIncome[1];
-                    String margin = NetIncome[2];
+                // 1,2.5,5  类型 整体净盈亏  整体  保证金
+                String netIncome = NetIncome[1];
+                String margin = NetIncome[2];
+
+
+                if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
                         if (balanceEntity != null) {
                             setMyNetIncome(balanceEntity, netIncome, margin);
                         }
                     } else {
-                        text_worth.setText(getResources().getString(R.string.text_default));
+                        if (text_worth != null) {
+                            text_worth.setText(getResources().getString(R.string.text_default));
+                        }
                         text_worth_simulation.setText(getResources().getString(R.string.text_default));
                         if (isEyeOpen) {
                             text_balance.setText(getResources().getString(R.string.text_default));
@@ -903,7 +906,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
-                /*交易记录*/
+            /*交易记录*/
             case R.id.layout_three:
                 if (isLogin()) {
                     UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_HISTORY);
@@ -911,7 +914,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
-                /*邀请记录*/
+            /*邀请记录*/
             case R.id.layout_four:
                 if (isLogin()) {
                     UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_INVITE_HISTORY);
@@ -919,8 +922,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + v.getId());
+
         }
     }
 

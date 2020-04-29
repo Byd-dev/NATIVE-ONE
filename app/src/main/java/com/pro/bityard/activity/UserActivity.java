@@ -12,6 +12,7 @@ import com.pro.bityard.fragment.my.CurrencyRateFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;
 import com.pro.bityard.fragment.my.FundStatementFragment;
 import com.pro.bityard.fragment.my.FundsPassChangeFragment;
+import com.pro.bityard.fragment.my.InviteFragment;
 import com.pro.bityard.fragment.my.LanguageFragment;
 import com.pro.bityard.fragment.my.LoginPassChangeFragment;
 import com.pro.bityard.fragment.my.MobileBindChangeFragment;
@@ -94,9 +95,9 @@ public class UserActivity extends BaseActivity {
     }
 
     private void addInviteFragment() {
-        String name = TradeRecordFragment.class.getSimpleName();
+        String name = InviteFragment.class.getSimpleName();
         //安全中心
-        TradeRecordFragment fragment = new TradeRecordFragment();
+        InviteFragment fragment = new InviteFragment();
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, fragment, name);
         ft.addToBackStack(name);

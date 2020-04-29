@@ -227,6 +227,10 @@ public class TradeUtil {
 
     /*净盈亏所有*/
     public static void getNetIncome(List<String> quoteList, List<PositionEntity.DataBean> positionList, TradeResult tradeResult) {
+        if (positionList==null){
+            tradeResult.setResult(null);
+            return;
+        }
         List<Double> incomeList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionList) {
             boolean isBuy = dataBean.isIsBuy();
@@ -298,24 +302,21 @@ public class TradeUtil {
 
     /*冻结资金  所有的保证金和*/
     public static void getMargin(List<PositionEntity.DataBean> positionList, TradeResult tradeResult) {
-        if (positionList.size() == 0) {
+        if (positionList==null) {
             tradeResult.setResult(null);
+            return;
+
         }
         List<Double> marginList = new ArrayList<>();
-
-
         for (PositionEntity.DataBean dataBean : positionList) {
             double margin = dataBean.getMargin();
             marginList.add(margin);
         }
-
-
         if (marginList.size() > 0) {
             double margin = 0.0;
             for (int i = 0; i < marginList.size(); i++) {
                 margin = TradeUtil.add(margin, marginList.get(i));
             }
-
             tradeResult.setResult(margin);
         } else {
 

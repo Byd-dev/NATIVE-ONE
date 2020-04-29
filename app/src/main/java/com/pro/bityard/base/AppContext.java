@@ -2,10 +2,13 @@ package com.pro.bityard.base;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.os.Build;
 import android.os.StrictMode;
 import android.util.Log;
 
+import com.adjust.sdk.Adjust;
+import com.adjust.sdk.AdjustConfig;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -38,6 +41,7 @@ import skin.support.design.app.SkinMaterialViewInflater;
 public class AppContext extends Application {
 
     private static AppContext appContext;
+    private String environment;
 
     public static AppContext getInstance() {
         return appContext;
@@ -57,6 +61,16 @@ public class AppContext extends Application {
         super.onCreate();
 
         SPUtils.init(this);
+        //数据分析统计初始化
+        String appToken = "uhjn88ox4su8";
+        if (isApkInDebug(this)) {
+            environment = AdjustConfig.ENVIRONMENT_SANDBOX;
+        } else {
+            environment = AdjustConfig.ENVIRONMENT_PRODUCTION;
+        }
+        AdjustConfig config = new AdjustConfig(this, appToken, environment);
+        Adjust.onCreate(config);
+
 
         //换肤的初始化
         SkinCompatManager.withoutActivity(this)
@@ -220,5 +234,12 @@ public class AppContext extends Application {
         }
     }
 
-
+    public static boolean isApkInDebug(Context context) {
+        try {
+            ApplicationInfo info = context.getApplicationInfo();
+            return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }
