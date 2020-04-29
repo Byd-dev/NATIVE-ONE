@@ -85,9 +85,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_TRADE_HISTORY:
                 addTradeHistoryFragment();
                 break;
+            case IntentConfig.Keys.KEY_INVITE_HISTORY:
+                addInviteFragment();
+                break;
         }
 
 
+    }
+
+    private void addInviteFragment() {
+        String name = TradeRecordFragment.class.getSimpleName();
+        //安全中心
+        TradeRecordFragment fragment = new TradeRecordFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addTradeHistoryFragment() {
