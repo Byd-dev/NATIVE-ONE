@@ -1,14 +1,17 @@
 package com.pro.bityard.base;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 
 import com.adjust.sdk.Adjust;
 import com.adjust.sdk.AdjustConfig;
+import com.adjust.sdk.LogLevel;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.cache.CacheEntity;
 import com.lzy.okgo.cache.CacheMode;
@@ -62,14 +65,7 @@ public class AppContext extends Application {
 
         SPUtils.init(this);
         //数据分析统计初始化
-        String appToken = "uhjn88ox4su8";
-        if (isApkInDebug(this)) {
-            environment = AdjustConfig.ENVIRONMENT_SANDBOX;
-        } else {
-            environment = AdjustConfig.ENVIRONMENT_PRODUCTION;
-        }
-        AdjustConfig config = new AdjustConfig(this, appToken, environment);
-        Adjust.onCreate(config);
+        initAdjust();
 
 
         //换肤的初始化
@@ -240,6 +236,126 @@ public class AppContext extends Application {
             return (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    private void initAdjust() {
+        //数据分析统计初始化
+        String appToken = "d6ntw4cgii2o";
+        if (isApkInDebug(this)) {
+            environment = AdjustConfig.ENVIRONMENT_SANDBOX;
+        } else {
+            environment = AdjustConfig.ENVIRONMENT_PRODUCTION;
+        }
+        AdjustConfig config = new AdjustConfig(this, appToken, environment);
+        config.setLogLevel(LogLevel.VERBOSE);
+        Log.d("Adjust", "onCreate: " + config);
+        mContext = this;
+        // Set attribution delegate.
+        config.setOnAttributionChangedListener(attribution -> {
+            Log.d("example", "Attribution callback called!");
+            Log.d("example", "Attribution: " + attribution.toString());
+        });
+
+        // Set event success tracking delegate.
+        config.setOnEventTrackingSucceededListener(eventSuccessResponseData -> {
+            Log.d("example", "Event success callback called!");
+            Log.d("example", "Event success data: " + eventSuccessResponseData.toString());
+        });
+
+        // Set event failure tracking delegate.
+        config.setOnEventTrackingFailedListener(eventFailureResponseData -> {
+            Log.d("example", "Event failure callback called!");
+            Log.d("example", "Event failure data: " + eventFailureResponseData.toString());
+        });
+
+        // Set session success tracking delegate.
+        config.setOnSessionTrackingSucceededListener(sessionSuccessResponseData -> {
+            Log.d("example", "Session success callback called!");
+            Log.d("example", "Session success data: " + sessionSuccessResponseData.toString());
+        });
+
+        // Set session failure tracking delegate.
+        config.setOnSessionTrackingFailedListener(sessionFailureResponseData -> {
+            Log.d("example", "Session failure callback called!");
+            Log.d("example", "Session failure data: " + sessionFailureResponseData.toString());
+        });
+
+        // Evaluate deferred deep link to be launched.
+        config.setOnDeeplinkResponseListener(deeplink -> {
+            Log.d("example", "Deferred deep link callback called!");
+            Log.d("example", "Deep link URL: " + deeplink);
+
+            return true;
+        });
+        config.setSendInBackground(true);
+
+
+     /*   Adjust.addSessionCallbackParameter("sc_foo", "sc_bar");
+        Adjust.addSessionCallbackParameter("sc_key", "sc_value");
+
+        // Add session partner parameters.
+        Adjust.addSessionPartnerParameter("sp_foo", "sp_bar");
+        Adjust.addSessionPartnerParameter("sp_key", "sp_value");
+
+        // Remove session callback parameters.
+        Adjust.removeSessionCallbackParameter("sc_foo");
+
+        // Remove session partner parameters.
+        Adjust.removeSessionPartnerParameter("sp_key");
+
+        // Remove all session callback parameters.
+        Adjust.resetSessionCallbackParameters();
+
+        // Remove all session partner parameters.
+        Adjust.resetSessionPartnerParameters();*/
+
+        // Enable IMEI reading ONLY IF:
+        // - IMEI plugin is added to your app.
+        // - Your app is NOT distributed in Google Play Store.
+        // AdjustImei.readImei();
+
+        // Enable OAID reading ONLY IF:
+        // - OAID plugin is added to your app.
+        // - Your app is NOT distributed in Google Play Store & supports OAID.
+        // AdjustOaid.readOaid();
+
+        // Initialise the adjust SDK.
+        Adjust.onCreate(config);
+
+
+        registerActivityLifecycleCallbacks(new AdjustLifecycleCallbacks());
+    }
+
+    private static final class AdjustLifecycleCallbacks implements ActivityLifecycleCallbacks {
+        @Override
+        public void onActivityResumed(Activity activity) {
+            Adjust.onResume();
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+            Adjust.onPause();
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+        }
+
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
         }
     }
 }
