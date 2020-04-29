@@ -556,13 +556,17 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         initSimulationViewPager(viewPager_simulation, "2");
 
         /*我的 分割线-----------------------------------------------------------------------------*/
-        findViewById(R.id.layout_eight).setOnClickListener(this);//系统设置
         findViewById(R.id.layout_balance).setOnClickListener(this);
         img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
         findViewById(R.id.layout_one).setOnClickListener(this);//安全中心监听
         findViewById(R.id.layout_two).setOnClickListener(this);
         findViewById(R.id.layout_three).setOnClickListener(this);
-
+        findViewById(R.id.layout_four).setOnClickListener(this);
+        findViewById(R.id.layout_five).setOnClickListener(this);
+        findViewById(R.id.layout_six).setOnClickListener(this);
+        findViewById(R.id.layout_seven).setOnClickListener(this);
+        findViewById(R.id.layout_eight).setOnClickListener(this);//系统设置
+        findViewById(R.id.layout_nine).setOnClickListener(this);
 
     }
 
@@ -903,6 +907,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             case R.id.layout_three:
                 if (isLogin()) {
                     UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_HISTORY);
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+                /*邀请记录*/
+            case R.id.layout_four:
+                if (isLogin()) {
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_INVITE_HISTORY);
                 } else {
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }

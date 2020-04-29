@@ -634,7 +634,7 @@
                         android:background="@color/home_line" />
 
                     <RelativeLayout
-                        android:id="@+id/layout_seven"
+                        android:id="@+id/layout_nine"
                         android:layout_width="match_parent"
                         android:layout_height="55dp">
 
