@@ -29,6 +29,7 @@ import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TipSPSLMarginEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
+import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -1507,6 +1508,22 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 InviteListEntity inviteListEntity = new Gson().fromJson(response.toString(), InviteListEntity.class);
                 onNetResult.onNetResult(SUCCESS, inviteListEntity);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+
+
+    public void unionRate(OnNetResult onNetResult){
+        getRequest("/api/mine/union.htm", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                UnionRateEntity unionRateEntity = new Gson().fromJson(response.toString(), UnionRateEntity.class);
+                onNetResult.onNetResult(SUCCESS, unionRateEntity);
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
 

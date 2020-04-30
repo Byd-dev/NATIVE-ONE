@@ -1132,7 +1132,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                         //整体盈亏
                         setIncome(quoteList, positionEntity);
                         //整体净值
-                        setNetIncome(tradeType, positionEntity.getData(), quoteList);
+                      //  setNetIncome(tradeType, positionEntity.getData(), quoteList);
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
                     } else {
                         positionEntity.getData().clear();

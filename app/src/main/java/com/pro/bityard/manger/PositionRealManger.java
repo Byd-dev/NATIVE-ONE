@@ -1,6 +1,7 @@
 package com.pro.bityard.manger;
 
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
@@ -67,16 +68,12 @@ public class PositionRealManger extends Observable {
                         PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
                         List<PositionEntity.DataBean> data = positionEntity.getData();
                         dataBeanList.addAll(data);
+                        NetManger.getInstance().getPending("1", (state1, response1, response2) -> {
+                            if (state1.equals(SUCCESS)) {
+                                PositionEntity positionEntity1 = (PositionEntity) response1;
 
-                        NetManger.getInstance().getPending("1", new OnNetTwoResult() {
-                            @Override
-                            public void setResult(String state, Object response1, Object response2) {
-                                if (state.equals(SUCCESS)) {
-                                    PositionEntity positionEntity = (PositionEntity) response1;
-                                    dataBeanList.addAll(positionEntity.getData());
-                                    postPosition(dataBeanList);
-
-                                }
+                                dataBeanList.addAll(positionEntity1.getData());
+                                postPosition(dataBeanList);
                             }
                         });
 

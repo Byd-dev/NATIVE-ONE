@@ -201,28 +201,28 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
 
     public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
-        Log.d("print", "setNetIncome204: "+positionList);
-        if (positionList==null){
+        Log.d("hold", "setNetIncome:204:  " + positionList);
+        if (positionList == null) {
             StringBuilder stringBuilder = new StringBuilder();
             StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
                     .append(",").append(0.0);
             //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
             //账户净值=可用余额+占用保证金+浮动盈亏
-            Log.d("print", "setNetIncome:发送的数据 210:  " + append.toString());
+            Log.d("hold", "setNetIncome:发送的数据 210:  " + append.toString());
             NetIncomeManger.getInstance().postNetIncome(append.toString());
-        }else if (positionList.size()==0){
+        } else if (positionList.size() == 0) {
             StringBuilder stringBuilder = new StringBuilder();
             StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
                     .append(",").append(0.0);
             //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
             //账户净值=可用余额+占用保证金+浮动盈亏
-            Log.d("print", "setNetIncome:发送的数据 219:  " + append.toString());
+            Log.d("hold", "setNetIncome:发送的数据 219:  " + append.toString());
             NetIncomeManger.getInstance().postNetIncome(append.toString());
-        }else {
+        } else {
             TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
                 double margin;
                 double income;
-                Log.d("print", "setNetIncome: 207: "+positionList+"    "+response1+"    "+response2);
+                //    Log.d("print", "setNetIncome: 207: "+positionList+"    "+response1+"    "+response2);
                 if (positionList == null) {
                     margin = 0.0;
                     income = 0.0;
@@ -235,16 +235,17 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                         .append(",").append(margin);
                 //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
                 //账户净值=可用余额+占用保证金+浮动盈亏
-                Log.d("print", "setNetIncome:发送的数据 220:  " + append.toString());
+                Log.d("hold", "setNetIncome:发送的数据 220:  " + append.toString());
                 NetIncomeManger.getInstance().postNetIncome(append.toString());
             }));
         }
 
 
-
     }
 
-    private int count=0;
+
+    private int count = 0;
+
     @Override
     public void update(Observable o, Object arg) {
 
@@ -259,7 +260,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteAdapter_market.setDatas(quoteList);
                     if (isLogin()) {
                         if (tradeType.equals("1")) {
-                            Log.d("print", "update:更新几次:  "+positionRealList+"      "+count++);
                             setNetIncome(tradeType, positionRealList, quoteList);
                         } else {
                             setNetIncome(tradeType, positionSimulationList, quoteList);
@@ -294,7 +294,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             });
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
-            Log.d("print", "update:持仓列表实盘:  " + positionRealList);
+            Log.d("print", "update:持仓列表实盘:  " + positionRealList.size());
             if (positionRealList.size() == 0) {
                 text_freeze.setText(getResources().getString(R.string.text_default));
             } else {
@@ -313,7 +313,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         } else if (o == PositionSimulationManger.getInstance()) {
             positionSimulationList = (List<PositionEntity.DataBean>) arg;
-            Log.d("print", "update:持仓列表模拟:  " + positionSimulationList);
+            Log.d("print", "update:持仓列表模拟:  " + positionSimulationList.size());
             if (positionSimulationList.size() == 0) {
                 text_freeze_simulation.setText(getResources().getString(R.string.text_default));
 
@@ -340,7 +340,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 String netIncome = NetIncome[1];
                 String margin = NetIncome[2];
 
-                Log.d("print", "update:余额:  " + balanceEntity);
                 if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
                         if (balanceEntity != null) {

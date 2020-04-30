@@ -233,21 +233,27 @@ public class TradeUtil {
         }
         List<Double> incomeList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionList) {
-            boolean isBuy = dataBean.isIsBuy();
-            double opPrice = dataBean.getOpPrice();
-            double volume = dataBean.getVolume();
-            double serviceCharge = dataBean.getServiceCharge();
-            TradeUtil.price(quoteList, dataBean.getContractCode(), response -> {
-                String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume);
-                String s = netIncome(Double.parseDouble(income1), serviceCharge);
-                incomeList.add(Double.parseDouble(s));
-            });
+            if (dataBean.getServiceCharge() != 0.0) {
+                boolean isBuy = dataBean.isIsBuy();
+                double opPrice = dataBean.getOpPrice();
+                double volume = dataBean.getVolume();
+                double serviceCharge = dataBean.getServiceCharge();
+                TradeUtil.price(quoteList, dataBean.getContractCode(), response -> {
+                    String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume);
+                    String s = netIncome(Double.parseDouble(income1), serviceCharge);
+                    incomeList.add(Double.parseDouble(s));
+                });
+            }else {
+                incomeList.add(0.0);
+            }
+
         }
         if (incomeList.size() > 0) {
             double income = 0.0;
             for (int i = 0; i < incomeList.size(); i++) {
                 income = TradeUtil.add(income, incomeList.get(i));
             }
+            Log.d("hold", "getNetIncome:收入: "+income);
             tradeResult.setResult(income);
         }
     }
@@ -308,8 +314,10 @@ public class TradeUtil {
         }
         List<Double> marginList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionList) {
-            double margin = dataBean.getMargin();
-            marginList.add(margin);
+                double margin = dataBean.getMargin();
+                marginList.add(margin);
+
+
         }
         if (marginList.size() > 0) {
             double margin = 0.0;

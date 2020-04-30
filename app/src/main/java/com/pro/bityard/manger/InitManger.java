@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.RateListEntity;
@@ -55,6 +56,11 @@ public class InitManger extends Observable {
             } else {
                 SPUtils.remove(AppConfig.LOGIN);
             }
+        });
+
+        //获取佣金比例
+        NetManger.getInstance().unionRate((state, response) -> {
+
         });
 
         //获取国家code
