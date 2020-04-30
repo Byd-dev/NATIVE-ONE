@@ -83,7 +83,7 @@
     <string name="text_open">持仓</string>
     <string name="text_order">挂单</string>
     <string name="text_history">历史</string>
-    <string name="text_detail">查看详情</string>
+    <string name="text_detail">Xem thêm</string>
     <string name="text_buy_price">Mở</string>
     <string name="text_stoploss_price">止损价</string>
     <string name="text_close_out_color">平仓</string>
@@ -258,5 +258,15 @@
     <string name="text_currency_type">Đơn vị tiền tệ</string>
     <string name="text_open_time">Thời gian mở</string>
     <string name="text_order_detail">Lịch sử giao dịch</string>
+    <string name="text_total_commissions">Tổng hoa hồng</string>
+    <string name="text_all_referrals">Tổng người mời</string>
+    <string name="text_number_of_traders">Số người giao dịch</string>
+    <string name="text_today_sub">Đã thêm hôm nay</string>
+    <string name="text_total_volume">Tổng lượng giao dịch</string>
+    <string name="text_total_orders">Số lần giao dịch</string>
+    <string name="text_referrals_nickname">Bạn được mời</string>
+    <string name="text_referrals">Bạn được mời</string>
+    <string name="text_copied">Đã sao chép</string>
+    <string name="text_last_login">Đăng nhập gần nhất</string>
 
 </resources>

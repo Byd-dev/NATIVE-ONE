@@ -1,8 +1,9 @@
 package com.pro.bityard.utils;
 
 import android.annotation.TargetApi;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -10,8 +11,8 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
-import com.pro.bityard.api.Constant;
 import com.pro.bityard.config.AppConfig;
 import com.pro.switchlibrary.SPUtils;
 
@@ -19,21 +20,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 import java.util.TimeZone;
 import java.util.TreeMap;
 
@@ -282,7 +280,7 @@ public class Util {
         if (TextUtils.isEmpty(string)) {
             return "";
         }
-        MessageDigest md5 ;
+        MessageDigest md5;
         try {
             md5 = MessageDigest.getInstance("MD5");
             byte[] bytes = md5.digest(string.getBytes());
@@ -328,4 +326,38 @@ public class Util {
         String sign = md5(sb.toString());
         return sign.toLowerCase();
     }
+
+    //复制
+    public static void copy(Context context, String data) {
+        // 获取系统剪贴板
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        // 创建一个剪贴数据集，包含一个普通文本数据条目（需要复制的数据）,其他的还有
+        // newHtmlText、
+        // newIntent、
+        // newUri、
+        // newRawUri
+        ClipData clipData = ClipData.newPlainText(null, data);
+
+        // 把数据集设置（复制）到剪贴板
+        clipboard.setPrimaryClip(clipData);
+    }
+
+    //粘贴
+    public static void paste(Context context, TextView textView) {
+        // 获取系统剪贴板
+        ClipboardManager clipboard = (ClipboardManager)context. getSystemService(Context.CLIPBOARD_SERVICE);
+
+        // 获取剪贴板的剪贴数据集
+        ClipData clipData = clipboard.getPrimaryClip();
+
+        if (clipData != null && clipData.getItemCount() > 0) {
+            // 从数据集中获取（粘贴）第一条文本数据
+            CharSequence text = clipData.getItemAt(0).getText();
+
+            textView.setText(text);
+        }
+
+    }
+
+
 }

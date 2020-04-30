@@ -82,7 +82,7 @@
     <string name="text_open">open</string>
     <string name="text_order">order</string>
     <string name="text_history">history</string>
-    <string name="text_detail">查看详情</string>
+    <string name="text_detail">View More</string>
     <string name="text_buy_price">Open</string>
     <string name="text_stoploss_price">止损价</string>
     <string name="text_close_out_color">平仓</string>
@@ -257,5 +257,15 @@
     <string name="text_currency_type">Currency Type</string>
     <string name="text_open_time">Open Time</string>
     <string name="text_order_detail">Orders</string>
+    <string name="text_total_commissions">Total Commissions</string>
+    <string name="text_all_referrals">All Referrals</string>
+    <string name="text_number_of_traders">Number of traders</string>
+    <string name="text_today_sub">New Invited</string>
+    <string name="text_total_volume">Total Volume</string>
+    <string name="text_total_orders">Total Orders</string>
+    <string name="text_referrals_nickname">Referrals</string>
+    <string name="text_referrals">Referrals</string>
+    <string name="text_copied">Copied</string>
+    <string name="text_last_login">Last Login</string>
 
 </resources>

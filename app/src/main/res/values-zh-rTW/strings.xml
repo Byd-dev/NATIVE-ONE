@@ -83,7 +83,7 @@
     <string name="text_open">持仓</string>
     <string name="text_order">挂单</string>
     <string name="text_history">历史</string>
-    <string name="text_detail">查看详情</string>
+    <string name="text_detail">查看詳情</string>
     <string name="text_buy_price">開倉價</string>
     <string name="text_stoploss_price">止损价</string>
     <string name="text_close_out_color">平仓</string>
@@ -258,5 +258,15 @@
     <string name="text_currency_type">貨幣單位</string>
     <string name="text_open_time">開倉時間</string>
     <string name="text_order_detail">交易明細</string>
+    <string name="text_total_commissions">累計傭金收入</string>
+    <string name="text_all_referrals">邀請人數</string>
+    <string name="text_number_of_traders">交易人數</string>
+    <string name="text_today_sub">今日新增</string>
+    <string name="text_total_volume">累計交易量</string>
+    <string name="text_total_orders">累計交易次數</string>
+    <string name="text_referrals_nickname">被邀请人昵称</string>
+    <string name="text_referrals">被邀请人</string>
+    <string name="text_copied">複製成功</string>
+    <string name="text_last_login">最後登錄</string>
 
 </resources>

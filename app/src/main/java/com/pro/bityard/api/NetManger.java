@@ -17,6 +17,8 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.InviteEntity;
+import com.pro.bityard.entity.InviteListEntity;
 import com.pro.bityard.entity.IsLoginEntity;
 import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
@@ -1417,7 +1419,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "exchangeRecord:1419:  "+response);
+                Log.d("print", "exchangeRecord:1419:  " + response);
                 DepositWithdrawEntity depositWithdrawEntity = new Gson().fromJson(response.toString(), DepositWithdrawEntity.class);
                 onNetResult.onNetResult(SUCCESS, depositWithdrawEntity);
             } else if (state.equals(FAILURE)) {
@@ -1428,16 +1430,17 @@ public class NetManger {
 
 
     }
+
     /*交易记录*/
     public void tradeHistory(String tradeType, String nowTime, String schemeSort, String commodity, String createTimeGe,
-                                String createTimeLe, OnNetResult onNetResult) {
+                             String createTimeLe, OnNetResult onNetResult) {
 
 
         ArrayMap<String, String> map = new ArrayMap<>();
         if (tradeType != null) {
             map.put("tradeType", tradeType);
         }
-        if ( nowTime!= null) {
+        if (nowTime != null) {
             map.put("_", nowTime);
         }
         if (schemeSort != null) {
@@ -1468,5 +1471,46 @@ public class NetManger {
         });
 
 
+    }
+
+    /*邀请记录头部*/
+    public void inviteTopHistory(String currency, OnNetResult onNetResult) {
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("currency", currency);
+
+        getRequest("/api/mine/agent/sub-stat", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                InviteEntity inviteEntity = new Gson().fromJson(response.toString(), InviteEntity.class);
+                onNetResult.onNetResult(SUCCESS, inviteEntity);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    /*邀请记录列表*/
+    public void inviteListHistory(String page,String subName, OnNetResult onNetResult) {
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("page", page);
+        map.put("rows", "10");
+        if (subName!=null){
+            map.put("subName",subName);
+        }
+        getRequest("/api/mine/agent/sub-list", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                InviteListEntity inviteListEntity = new Gson().fromJson(response.toString(), InviteListEntity.class);
+                onNetResult.onNetResult(SUCCESS, inviteListEntity);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
     }
 }

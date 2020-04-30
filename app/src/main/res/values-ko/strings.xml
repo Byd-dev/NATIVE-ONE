@@ -83,7 +83,7 @@
     <string name="text_open">持仓</string>
     <string name="text_order">挂单</string>
     <string name="text_history">历史</string>
-    <string name="text_detail">查看详情</string>
+    <string name="text_detail">더 보기</string>
     <string name="text_buy_price">주문 가격</string>
     <string name="text_stoploss_price">止损价</string>
     <string name="text_close_out_color">平仓</string>
@@ -258,5 +258,15 @@
     <string name="text_currency_type">화폐 단위</string>
     <string name="text_open_time">주문 시간</string>
     <string name="text_order_detail">거래 내역</string>
+    <string name="text_total_commissions">총 커미션</string>
+    <string name="text_all_referrals">친구 수</string>
+    <string name="text_number_of_traders">거래자 수</string>
+    <string name="text_today_sub">오늘 새로운 추가</string>
+    <string name="text_total_volume">총 거래량</string>
+    <string name="text_total_orders">총 거래건수</string>
+    <string name="text_referrals_nickname">친구 아이디</string>
+    <string name="text_referrals">친구 아이디</string>
+    <string name="text_copied">복사 성공</string>
+    <string name="text_last_login">마지막 로그인 시간</string>
 
 </resources>

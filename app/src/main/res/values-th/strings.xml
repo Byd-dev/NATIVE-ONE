@@ -83,7 +83,7 @@
     <string name="text_open">持仓</string>
     <string name="text_order">挂单</string>
     <string name="text_history">历史</string>
-    <string name="text_detail">查看详情</string>
+    <string name="text_detail">Посмотреть больше</string>
     <string name="text_buy_price">Открытие</string>
     <string name="text_stoploss_price">止损价</string>
     <string name="text_close_out_color">平仓</string>
@@ -258,5 +258,15 @@
     <string name="text_currency_type">Тип валюты</string>
     <string name="text_open_time">Время открытия</string>
     <string name="text_order_detail">История ордеров</string>
+    <string name="text_total_commissions">Всего комиссий</string>
+    <string name="text_all_referrals">Друзья</string>
+    <string name="text_number_of_traders">К-во трейдеров</string>
+    <string name="text_today_sub">Новые приглашены</string>
+    <string name="text_total_volume">Полный объем</string>
+    <string name="text_total_orders">Всего заказов</string>
+    <string name="text_referrals_nickname">Приглашенные</string>
+    <string name="text_referrals">Приглашенные</string>
+    <string name="text_copied">Успешно cкопировано </string>
+    <string name="text_last_login">Время последнего входа</string>
 
 </resources>
