@@ -60,7 +60,7 @@ public class InitManger extends Observable {
 
         //获取佣金比例
         NetManger.getInstance().unionRate((state, response) -> {
-
+            Log.d("print", "init: 63: "+response);
         });
 
         //获取国家code
