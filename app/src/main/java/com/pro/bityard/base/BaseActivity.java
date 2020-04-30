@@ -3,6 +3,8 @@ package com.pro.bityard.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,12 +49,22 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
 
+    @Override
+    public Resources getResources() {
+        // 字体大小不跟随系统
+        Resources res = super.getResources();
+        Configuration config = new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config, res.getDisplayMetrics());
+        return res;
+    }
 
     /*多语言的设置*/
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(Util.updateLanguage(newBase));
     }
+
     /*皮肤初始化*/
     @NonNull
     @Override
@@ -112,7 +124,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected void startHandler(final Handler handler,int what, long delay, long interval) {
+    protected void startHandler(final Handler handler, int what, long delay, long interval) {
         if (mTimer != null) cancelTimer();
 
         mTimer = new Timer();
@@ -125,7 +137,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }, delay, interval);
     }
-
 
 
     protected void cancelTimer() {

@@ -227,7 +227,7 @@ public class TradeUtil {
 
     /*净盈亏所有*/
     public static void getNetIncome(List<String> quoteList, List<PositionEntity.DataBean> positionList, TradeResult tradeResult) {
-        if (positionList==null){
+        if (positionList == null) {
             tradeResult.setResult(null);
             return;
         }
@@ -302,7 +302,7 @@ public class TradeUtil {
 
     /*冻结资金  所有的保证金和*/
     public static void getMargin(List<PositionEntity.DataBean> positionList, TradeResult tradeResult) {
-        if (positionList==null) {
+        if (positionList == null) {
             tradeResult.setResult(null);
             return;
         }
