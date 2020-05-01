@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class InviteRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<InviteListEntity.DataBean> datas;
+    private double rate;
 
 
     private static final int TYPE_ITEM = 0;
@@ -41,12 +42,14 @@ public class InviteRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<InviteListEntity.DataBean> datas) {
+    public void setDatas(List<InviteListEntity.DataBean> datas, double rate) {
         this.datas = datas;
+        this.rate = rate;
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<InviteListEntity.DataBean> datas) {
+    public void addDatas(List<InviteListEntity.DataBean> datas,double rate) {
+        this.rate = rate;
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -112,9 +115,15 @@ public class InviteRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             }*/
 
+            if (rate >= 5) {
+                ((MyViewHolder) holder).text_buy_tip.setText(R.string.text_trransfer);
+            } else {
+                ((MyViewHolder) holder).text_buy_tip.setVisibility(View.GONE);
+            }
+
 
             ((MyViewHolder) holder).text_time.setText(context.getString(R.string.text_last_login) + ChartUtil.getDate(datas.get(position).getLoginTime()));
-            ((MyViewHolder) holder).text_income.setText(TradeUtil.getNumberFormat(datas.get(position).getCommission(),2));
+            ((MyViewHolder) holder).text_income.setText(TradeUtil.getNumberFormat(datas.get(position).getCommission(), 2));
 
 
         }

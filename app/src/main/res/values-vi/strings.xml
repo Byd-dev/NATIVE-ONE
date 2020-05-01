@@ -268,5 +268,11 @@
     <string name="text_referrals">Bạn được mời</string>
     <string name="text_copied">Đã sao chép</string>
     <string name="text_last_login">Đăng nhập gần nhất</string>
+    <string name="text_trransfer">Chuyển tiền</string>
+    <string name="text_referrals_detail">Chi tiết bạn bè</string>
+    <string name="text_commission">Hoa hồng</string>
+    <string name="text_today_volume">Today Volume</string>
+    <string name="text_today_fee">Phí giao dịch hôm nay</string>
+    <string name="text_registration_time">Thời gian đăng ký</string>
 
 </resources>

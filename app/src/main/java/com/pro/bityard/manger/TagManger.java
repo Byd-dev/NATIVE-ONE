@@ -49,6 +49,7 @@ public class TagManger extends Observable {
         balanceManger = null;
         SPUtils.remove(AppConfig.CHANGE_MOBILE);
         SPUtils.remove(AppConfig.CHANGE_EMAIL);
+        SPUtils.remove(AppConfig.KEY_UNION);
 
     }
 

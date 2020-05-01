@@ -1,10 +1,16 @@
 package com.pro.bityard.fragment.my;
 
+import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +22,8 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.InviteEntity;
 import com.pro.bityard.entity.InviteListEntity;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.entity.UnionRateEntity;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
@@ -30,6 +38,9 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class InviteFragment extends BaseFragment implements View.OnClickListener {
+    @BindView(R.id.layout_view)
+    LinearLayout layout_view;
+
     @BindView(R.id.text_title)
     TextView text_title;
 
@@ -72,6 +83,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     private String FIRST = "first";
     private String REFRESH = "refresh";
     private String LOAD = "load";
+    private UnionRateEntity unionRateEntity;
 
     @Override
     protected void onLazyLoad() {
@@ -122,7 +134,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         });
 
         inviteRecordAdapter.setOnItemClick(data -> {
-
+            showDetailPopWindow(data);
         });
 
 
@@ -148,6 +160,55 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         });
 
     }
+
+
+    /*显示详情*/
+    private void showDetailPopWindow(InviteListEntity.DataBean dataBean) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_invite_detail_pop, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        TextView text_title = view.findViewById(R.id.text_title);
+        text_title.setText(R.string.text_referrals_detail);
+
+        TextView text_name = view.findViewById(R.id.text_name);
+        text_name.setText(dataBean.getUsername());
+        TextView text_commission = view.findViewById(R.id.text_commission);
+        text_commission.setText(String.valueOf(dataBean.getCommission()));
+        TextView text_today_volume = view.findViewById(R.id.text_today_volume);
+        text_today_volume.setText(String.valueOf(dataBean.getTradeVolumeDay()));
+        TextView text_today_fee = view.findViewById(R.id.text_today_fee);
+        text_today_fee.setText(String.valueOf(dataBean.getTradeChargeDay()));
+        TextView text_total_volume = view.findViewById(R.id.text_total_volume);
+        text_total_volume.setText(String.valueOf(dataBean.getTradeAmount()));
+        TextView text_total_orders = view.findViewById(R.id.text_total_orders);
+        text_total_orders.setText(String.valueOf(dataBean.getTradeCount()));
+
+
+        TextView text_register_time = view.findViewById(R.id.text_register_time);
+        text_register_time.setText(ChartUtil.getDate(dataBean.getRegisterTime()));
+        TextView text_last_time = view.findViewById(R.id.text_last_time);
+        text_last_time.setText(ChartUtil.getDate(dataBean.getLoginTime()));
+
+        view.findViewById(R.id.img_back).setOnClickListener(v -> {
+            popupWindow.dismiss();
+
+        });
+
+        Button btn_submit = view.findViewById(R.id.btn_submit);
+
+        if (TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) > 5) {
+            btn_submit.setVisibility(View.VISIBLE);
+        } else {
+            btn_submit.setVisibility(View.GONE);
+
+        }
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+    }
+
 
     @Override
     protected int setLayoutResourceID() {
@@ -194,6 +255,26 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
+        unionRateEntity = SPUtils.getData(AppConfig.KEY_UNION, UnionRateEntity.class);
+        Log.d("print", "initData:677:  " + unionRateEntity);
+        if (unionRateEntity == null) {
+            //获取佣金比例
+            NetManger.getInstance().unionRate((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    unionRateEntity = (UnionRateEntity) response;
+                    //退出需要清除
+                    SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+                    text_commission_rate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
+
+                }
+            });
+        } else {
+            if (unionRateEntity.getUnion() != null) {
+                text_commission_rate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
+
+            }
+        }
+
         page = 1;
         getInviteList(FIRST, page, null);
 
@@ -219,9 +300,11 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     recyclerView.setVisibility(View.VISIBLE);
                 }
                 if (type.equals(LOAD)) {
-                    inviteRecordAdapter.addDatas(inviteListEntity.getData());
+                    inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
+
                 } else {
-                    inviteRecordAdapter.setDatas(inviteListEntity.getData());
+                    inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
+
                 }
 
 

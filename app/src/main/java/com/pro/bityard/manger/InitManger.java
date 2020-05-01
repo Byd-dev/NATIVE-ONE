@@ -8,6 +8,7 @@ import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.RateListEntity;
+import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.Observable;
@@ -60,7 +61,11 @@ public class InitManger extends Observable {
 
         //获取佣金比例
         NetManger.getInstance().unionRate((state, response) -> {
-            Log.d("print", "init: 63: "+response);
+            if (state.equals(SUCCESS)) {
+                UnionRateEntity unionRateEntity = (UnionRateEntity) response;
+                //退出需要清除
+                SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+            }
         });
 
         //获取国家code

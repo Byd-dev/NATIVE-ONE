@@ -219,7 +219,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_margin="@dimen/margin_15"
                             android:gravity="center"
-                            android:text="60%"
+                            android:text="@string/text_default"
                             android:textColor="@color/maincolor"
                             android:textSize="@dimen/size_normal" />
                     </RelativeLayout>
@@ -489,6 +489,7 @@
                     </RelativeLayout>
 
                     <View
+                        android:id="@+id/view_four"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_line"
                         android:background="@color/home_line" />

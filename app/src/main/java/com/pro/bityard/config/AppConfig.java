@@ -16,6 +16,8 @@ public class AppConfig {
 
     /*用户登录*/
     public static final String LOGIN = "login";
+    /*佣金比例*/
+    public static final  String KEY_UNION="KEY_UNION";
     /*用户区号*/
     public static final String USER_COUNTRY_CODE = "user_country_code";
     /*用户国家*/

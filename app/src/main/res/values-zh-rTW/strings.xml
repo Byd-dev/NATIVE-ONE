@@ -268,5 +268,11 @@
     <string name="text_referrals">被邀请人</string>
     <string name="text_copied">複製成功</string>
     <string name="text_last_login">最後登錄</string>
+    <string name="text_trransfer">轉帳</string>
+    <string name="text_referrals_detail">用戶明細</string>
+    <string name="text_commission">傭金收入</string>
+    <string name="text_today_volume">今日交易量</string>
+    <string name="text_today_fee">今日手續費</string>
+    <string name="text_registration_time">註冊時間</string>
 
 </resources>

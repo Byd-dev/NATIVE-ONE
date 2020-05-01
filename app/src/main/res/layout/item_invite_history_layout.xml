@@ -44,6 +44,7 @@
                     android:paddingLeft="@dimen/margin_10"
                     android:paddingRight="@dimen/margin_10"
                     android:text="@string/text_default"
+                    android:visibility="gone"
                     android:textColor="@color/white"
                     android:textSize="11sp" />
 
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/text_default"
                 android:layout_gravity="end"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/maincolor"
                 android:textSize="@dimen/size_normal_two" />
 
             <LinearLayout

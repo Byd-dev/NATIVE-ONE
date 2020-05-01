@@ -267,5 +267,11 @@
     <string name="text_referrals">Referrals</string>
     <string name="text_copied">Copied</string>
     <string name="text_last_login">Last Login</string>
+    <string name="text_trransfer">Transfer</string>
+    <string name="text_referrals_detail">Referrals</string>
+    <string name="text_commission">Commission</string>
+    <string name="text_today_volume">Today Volume</string>
+    <string name="text_today_fee">Today Fee</string>
+    <string name="text_registration_time">Registration Time</string>
 
 </resources>

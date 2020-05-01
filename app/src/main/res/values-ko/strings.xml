@@ -268,5 +268,11 @@
     <string name="text_referrals">친구 아이디</string>
     <string name="text_copied">복사 성공</string>
     <string name="text_last_login">마지막 로그인 시간</string>
+    <string name="text_trransfer">이체</string>
+    <string name="text_referrals_detail">유저 내역</string>
+    <string name="text_commission">커미션</string>
+    <string name="text_today_volume">금일 거래량</string>
+    <string name="text_today_fee">금일 수수료</string>
+    <string name="text_registration_time">등록 시간</string>
 
 </resources>

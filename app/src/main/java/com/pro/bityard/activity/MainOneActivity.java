@@ -33,6 +33,7 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
+import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
 import com.pro.bityard.fragment.hold.PositionFragment;
@@ -184,6 +185,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @BindView(R.id.img_eye_switch)
     ImageView img_eye_switch;
+    @BindView(R.id.text_commissionRate)
+    TextView text_commissionRate;
+
+    @BindView(R.id.view_four)
+    View view_four;
 
     private boolean isEyeOpen = true;
     private String netIncomeResult;
@@ -461,11 +467,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             Log.d("print", "onResume:30:  " + data);
             text_userName.setText(data.getUser().getAccount());
             text_uid.setText(data.getUser().getUserId());
+
+
         } else {
             text_userName.setText(getResources().getText(R.string.text_unlogin));
             text_uid.setText("--");
-
         }
+
+
         //我的页面 火币结算单位
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         text_currency.setText("(" + cny + ")");
@@ -490,6 +499,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         //初始化 交易设置
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
+        radioButton_2.setOnClickListener(this);
 
 
         /*首页 分割线-----------------------------------------------------------------------------*/
@@ -520,7 +530,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
-        swipeRefreshLayout.setOnRefreshListener(this::getBanner);
+        swipeRefreshLayout.setOnRefreshListener(this::initData);
 
         quoteAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(this, "1", data));
         findViewById(R.id.layout_simulation_home).setOnClickListener(this);
@@ -658,20 +668,26 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     protected void initData() {
 
-        QuoteListManger.getInstance().addObserver(this);
-        InitManger.getInstance().init();
-
-        radioButton_2.setOnClickListener(this);
-
-        //余额初始化
-        BalanceManger.getInstance().getBalance("USDT");
-        //持仓初始化
-        PositionRealManger.getInstance().getHold();
-        PositionSimulationManger.getInstance().getHold();
-
         //首页 -------------------------------------------------------------------------------------
         getBanner();
         //我的
+        UnionRateEntity data = SPUtils.getData(AppConfig.KEY_UNION, UnionRateEntity.class);
+        Log.d("print", "initData:677:  " + data);
+        if (data == null) {
+            //获取佣金比例
+            NetManger.getInstance().unionRate((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    UnionRateEntity unionRateEntity = (UnionRateEntity) response;
+                    //退出需要清除
+                    SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+                    text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
+                }
+            });
+        } else {
+            if (data.getUnion() != null) {
+                text_commissionRate.setText(TradeUtil.mul(data.getUnion().getCommRatio(), 100) + "%");
+            }
+        }
 
 
     }
@@ -728,13 +744,17 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     protected void initEvent() {
-        //test
-        //test2
+        QuoteListManger.getInstance().addObserver(this);
+        InitManger.getInstance().init();
+        //余额初始化
+        BalanceManger.getInstance().getBalance("USDT");
+        //持仓初始化
+        PositionRealManger.getInstance().getHold();
+        PositionSimulationManger.getInstance().getHold();
     }
 
 
     private void initViewPager(ViewPager viewPager, String tradeType) {
-        Log.d("print", "initViewPager:HoldRealFragment: " + tradeType);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open));
         myPagerAdapter.addFragment(new PendingFragment().newInstance(tradeType), getString(R.string.text_order));
@@ -948,6 +968,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 break;
             /*邀请记录*/
             case R.id.layout_four:
+
                 if (isLogin()) {
                     UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_INVITE_HISTORY);
                 } else {

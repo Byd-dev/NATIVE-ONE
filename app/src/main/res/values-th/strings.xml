@@ -268,5 +268,11 @@
     <string name="text_referrals">Приглашенные</string>
     <string name="text_copied">Успешно cкопировано </string>
     <string name="text_last_login">Время последнего входа</string>
+    <string name="text_trransfer">Трансферт</string>
+    <string name="text_referrals_detail">Приглашенные</string>
+    <string name="text_commission">Комиссия</string>
+    <string name="text_today_volume">Объем сегодня</string>
+    <string name="text_today_fee">Комиссия за сегодня</string>
+    <string name="text_registration_time">Время регистрации</string>
 
 </resources>
