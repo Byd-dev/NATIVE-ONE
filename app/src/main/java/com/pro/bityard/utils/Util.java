@@ -7,12 +7,15 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -42,7 +45,7 @@ import java.util.TreeMap;
 
 public class Util {
 
-    private static boolean eye=true;
+    private static boolean eye = true;
 
     public static Map<String, Object> jsonToMap(String content) {
         content = content.trim();
@@ -378,4 +381,102 @@ public class Util {
         }
     }
 
+    public static void setOneUnClick(EditText edit_account, Button btn_submit) {
+        edit_account.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    public static void setTwoUnClick(EditText edit_account, EditText edit_pass, Button btn_submit) {
+        edit_account.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String value_pass = edit_pass.getText().toString();
+                if (s.length() != 0 && value_pass.length() != 0) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+
+    public static void setThreeUnClick(EditText edit_amount, EditText edit_pass, EditText edit_code, Button btn_submit) {
+        edit_amount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String value_pass = edit_pass.getText().toString();
+                String value_code = edit_code.getText().toString();
+                if (s.length() != 0 && value_pass.length() != 0 && value_code.length() != 0) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    public static void setFourUnClick(EditText edit_amount, EditText edit_pass, EditText edit_pass_sure, EditText edit_code, Button btn_submit) {
+        edit_amount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String value_pass = edit_pass.getText().toString();
+                String value_code = edit_code.getText().toString();
+                String value_sure = edit_pass_sure.getText().toString();
+                if (s.length() != 0 && value_pass.length() != 0 && value_code.length() != 0 && value_sure.length() != 0) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
 }

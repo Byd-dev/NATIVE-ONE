@@ -280,7 +280,8 @@
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_40"
         android:layout_marginRight="@dimen/margin_15"
-        android:background="@drawable/bg_shape_button"
+        android:background="@drawable/sel_switcher_enabled_bg"
+        android:enabled="false"
         android:padding="10dp"
         android:text="@string/text_sure"
         android:textColor="@color/white"
@@ -308,8 +309,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_5"
             android:text="@string/text_sure_info"
-            android:textSize="@dimen/size_normal"
-            android:textColor="@color/text_second_color" />
+            android:textColor="@color/text_second_color"
+            android:textSize="@dimen/size_normal" />
 
     </LinearLayout>
 

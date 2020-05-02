@@ -4,11 +4,10 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,9 +25,6 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LoginEntity;
-import com.pro.bityard.manger.BalanceManger;
-import com.pro.bityard.manger.PositionRealManger;
-import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
@@ -52,6 +48,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     EditText edit_account;
     @BindView(R.id.edit_pass)
     EditText edit_password;
+    @BindView(R.id.btn_login)
+    Button btn_submit;
 
     @BindView(R.id.text_err)
     TextView text_err;
@@ -89,7 +87,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         view.findViewById(R.id.text_forget_pass).setOnClickListener(this);
 
         img_eye.setOnClickListener(this);
-        view.findViewById(R.id.btn_login).setOnClickListener(this);
+        btn_submit.setOnClickListener(this);
 
 
         //检测错误提示是否显示
@@ -139,10 +137,12 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         }
 
 
+        Util.setTwoUnClick(edit_account, edit_password, btn_submit);
+        Util.setTwoUnClick(edit_password, edit_account, btn_submit);
+
+
     }
 
-
-    private boolean eye = true;
 
     @Override
     public void onClick(View v) {
@@ -152,15 +152,9 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.img_eye:
-                if (eye) {
-                    edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-                    eye = false;
-                } else  {
-                    edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                    eye = true;
-                }
+
+                Util.setEye(getActivity(), edit_password, img_eye);
+
                 break;
             case R.id.btn_login:
 
@@ -248,6 +242,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
         }
     }
+
 
 
     @Override

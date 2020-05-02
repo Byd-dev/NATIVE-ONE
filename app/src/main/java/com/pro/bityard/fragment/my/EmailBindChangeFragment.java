@@ -32,6 +32,7 @@ import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -103,7 +104,7 @@ public class EmailBindChangeFragment extends BaseFragment implements View.OnClic
     protected void initView(View view) {
 
 
-        view.findViewById(R.id.btn_submit).setOnClickListener(this);
+        btn_submit.setOnClickListener(this);
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         text_getCode.setOnClickListener(this);
@@ -132,16 +133,22 @@ public class EmailBindChangeFragment extends BaseFragment implements View.OnClic
                 text_title.setText(R.string.text_bind_email);
                 layout_email.setVisibility(View.VISIBLE);
                 btn_submit.setText(R.string.text_sure);
+                Util.setTwoUnClick(edit_account,edit_code,btn_submit);
+                Util.setTwoUnClick(edit_code,edit_account,btn_submit);
             } else {
                 email = SPUtils.getBoolean(AppConfig.CHANGE_EMAIL, true);
                 if (email == true) {
                     text_title.setText(R.string.text_change_email);
                     layout_email.setVisibility(View.GONE);
                     btn_submit.setText(R.string.text_next);
+                    Util.setOneUnClick(edit_code,btn_submit);
+
                 } else {
                     text_title.setText(R.string.text_change_email);
                     layout_email.setVisibility(View.VISIBLE);
                     btn_submit.setText(R.string.text_sure);
+                    Util.setTwoUnClick(edit_account,edit_code,btn_submit);
+                    Util.setTwoUnClick(edit_code,edit_account,btn_submit);
                 }
 
 

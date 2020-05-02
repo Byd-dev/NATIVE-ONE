@@ -335,9 +335,9 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         });
 
 
-        setUnClick(edit_amount, edit_pass, edit_code, btn_submit);
-        setUnClick(edit_pass, edit_amount, edit_code, btn_submit);
-        setUnClick(edit_code, edit_pass, edit_amount, btn_submit);
+        Util.setThreeUnClick(edit_amount, edit_pass, edit_code, btn_submit);
+        Util.setThreeUnClick(edit_pass, edit_amount, edit_code, btn_submit);
+        Util.setThreeUnClick(edit_code, edit_pass, edit_amount, btn_submit);
 
 
         /*转账监听*/
@@ -352,7 +352,8 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response;
-                        if (tipEntity.getCode() == 200) {
+                        Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
+                        if (tipEntity.isCheck() == true) {
                             transfer(userDetailEntity.getUser().getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getAccount());
                         } else {
                             Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -370,7 +371,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response;
-                        if (tipEntity.getCode() == 200) {
+                        if (tipEntity.isCheck() == true) {
                             transfer(userDetailEntity.getUser().getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getAccount());
 
                         } else {
@@ -393,8 +394,8 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         NetManger.getInstance().transfer(currency, money, pass, subName, account, (state, response) -> {
             if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = (TipEntity) response;
-                Log.d("print", "transfer:转账结果:  "+response);
-                if (tipEntity.getCode()==200){
+                Log.d("print", "transfer:转账结果:  " + response);
+                if (tipEntity.getCode() == 200) {
                     popupWindow.dismiss();
                 }
                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -420,6 +421,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         }
 
     };
+
 
     private void setUnClick(EditText edit_amount, EditText edit_pass, EditText edit_code, Button btn_submit) {
         edit_amount.addTextChangedListener(new TextWatcher() {
@@ -535,7 +537,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     dismissProgressDialog();
                 }
                 InviteListEntity inviteListEntity = (InviteListEntity) response;
-                if (inviteListEntity==null){
+                if (inviteListEntity == null) {
                     return;
                 }
                 if (inviteListEntity.getData().size() == 0) {
@@ -545,13 +547,17 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     layout_null.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
+                if (unionRateEntity == null) {
+                    return;
+                }
+
                 if (type.equals(LOAD)) {
-                    if (unionRateEntity.getUnion()!=null){
+                    if (unionRateEntity.getUnion() != null) {
                         inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                     }
 
                 } else {
-                    if (unionRateEntity.getUnion()!=null){
+                    if (unionRateEntity.getUnion() != null) {
                         inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                     }
 

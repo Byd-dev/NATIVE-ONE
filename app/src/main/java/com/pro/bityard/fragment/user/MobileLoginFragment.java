@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -66,6 +67,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
     private ViewPager viewPager;
     private CountryCodeEntity countryCodeEntity;
+    @BindView(R.id.btn_login)
+    Button btn_submit;
 
 
     @BindView(R.id.text_err)
@@ -197,6 +200,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             text_countryName.setText(SPUtils.getString(AppConfig.USER_COUNTRY_NAME, null));
             edit_account.setText(SPUtils.getString(AppConfig.USER_MOBILE, null));
         }
+        Util.setTwoUnClick(edit_account, edit_password, btn_submit);
+        Util.setTwoUnClick(edit_password, edit_account, btn_submit);
 
 
     }
@@ -212,7 +217,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                     edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
                     img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     eye = false;
-                } else  {
+                } else {
                     edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
                     img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     eye = true;
@@ -388,7 +393,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
         });
 
         popupWindow.setFocusable(true);
-       // popupWindow.setAnimationStyle(R.style.pop_anim);
+        // popupWindow.setAnimationStyle(R.style.pop_anim);
         popupWindow.setContentView(view);
         popupWindow.setOutsideTouchable(false);
         popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);

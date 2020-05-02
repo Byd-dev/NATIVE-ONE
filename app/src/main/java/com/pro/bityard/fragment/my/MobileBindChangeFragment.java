@@ -32,6 +32,7 @@ import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -54,6 +55,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
     TextView text_countryName;
     @BindView(R.id.edit_account)
     EditText edit_account;
+
 
     @BindView(R.id.edit_code)
     EditText edit_code;
@@ -112,7 +114,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
 
 
         view.findViewById(R.id.layout_country).setOnClickListener(this);
-        view.findViewById(R.id.btn_submit).setOnClickListener(this);
+        btn_submit.setOnClickListener(this);
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         text_getCode.setOnClickListener(this);
@@ -142,6 +144,8 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                 layout_country_code.setVisibility(View.VISIBLE);
                 layout_mobile.setVisibility(View.VISIBLE);
                 btn_submit.setText(R.string.text_sure);
+                Util.setTwoUnClick(edit_account,edit_code,btn_submit);
+                Util.setTwoUnClick(edit_code,edit_account,btn_submit);
             } else {
                 mobile = SPUtils.getBoolean(AppConfig.CHANGE_MOBILE, true);
                 if (mobile == true) {
@@ -149,11 +153,16 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                     layout_country_code.setVisibility(View.GONE);
                     layout_mobile.setVisibility(View.GONE);
                     btn_submit.setText(R.string.text_next);
+                    Util.setOneUnClick(edit_code,btn_submit);
+
                 } else {
                     text_title.setText(R.string.text_mobile_change);
                     layout_country_code.setVisibility(View.VISIBLE);
                     layout_mobile.setVisibility(View.VISIBLE);
                     btn_submit.setText(R.string.text_sure);
+                    Util.setTwoUnClick(edit_account,edit_code,btn_submit);
+                    Util.setTwoUnClick(edit_code,edit_account,btn_submit);
+
                 }
 
 

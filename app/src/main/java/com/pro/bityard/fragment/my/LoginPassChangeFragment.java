@@ -7,6 +7,7 @@ import android.os.Message;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import androidx.annotation.Nullable;
@@ -42,6 +44,9 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     EditText edit_pass_sure;
     @BindView(R.id.edit_code)
     EditText edit_code;
+
+    @BindView(R.id.btn_submit)
+    Button btn_submit;
     private String email;
     private String phone;
     private String googleToken;
@@ -114,6 +119,11 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
             edit_code.setHint(getResources().getString(R.string.text_mobile_code_input));
 
         }
+
+        Util.setFourUnClick(edit_pass_old,edit_pass_new,edit_pass_sure,edit_code,btn_submit);
+        Util.setFourUnClick(edit_pass_new,edit_pass_old,edit_pass_sure,edit_code,btn_submit);
+        Util.setFourUnClick(edit_pass_sure,edit_pass_new,edit_pass_old,edit_code,btn_submit);
+        Util.setFourUnClick(edit_code,edit_pass_new,edit_pass_sure,edit_pass_old,btn_submit);
 
     }
 
