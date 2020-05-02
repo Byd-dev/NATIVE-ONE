@@ -49,7 +49,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
 
-    @Override
+   /* @Override
     public Resources getResources() {
         // 字体大小不跟随系统
         Resources res = super.getResources();
@@ -57,7 +57,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         config.setToDefaults();
         res.updateConfiguration(config, res.getDisplayMetrics());
         return res;
-    }
+    }*/
 
     /*多语言的设置*/
     @Override

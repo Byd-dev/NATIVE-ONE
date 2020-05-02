@@ -274,5 +274,11 @@
     <string name="text_today_volume">Today Volume</string>
     <string name="text_today_fee">Phí giao dịch hôm nay</string>
     <string name="text_registration_time">Thời gian đăng ký</string>
+    <string name="text_internal_funds_transfer">Chuyển quỹ nội bộ</string>
+    <string name="text_referrals_user">Bạn được mời</string>
+    <string name="text_free">Miễn phí</string>
+    <string name="text_important">Lưu ý</string>
+    <string name="text_sure_info">Vui lòng xác nhận chính xác thông tin tài khoản</string>
+    <string name="text_available_money">Khả dụng</string>
 
 </resources>

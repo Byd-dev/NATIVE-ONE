@@ -274,5 +274,11 @@
     <string name="text_today_volume">Объем сегодня</string>
     <string name="text_today_fee">Комиссия за сегодня</string>
     <string name="text_registration_time">Время регистрации</string>
+    <string name="text_internal_funds_transfer">Внутренний перевод средств</string>
+    <string name="text_referrals_user">Приглашенные</string>
+    <string name="text_free">Нет сборов</string>
+    <string name="text_important">Примечания</string>
+    <string name="text_sure_info">Пожалуйста, подтвердите информацию перед трансфертом</string>
+    <string name="text_available_money">Доступно</string>
 
 </resources>

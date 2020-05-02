@@ -273,5 +273,11 @@
     <string name="text_today_volume">Today Volume</string>
     <string name="text_today_fee">Today Fee</string>
     <string name="text_registration_time">Registration Time</string>
+    <string name="text_internal_funds_transfer">Internal Funds Transfer</string>
+    <string name="text_referrals_user">Referrals</string>
+    <string name="text_free">Fee-Free</string>
+    <string name="text_important">Important</string>
+    <string name="text_sure_info">Please confirm the information before transfer</string>
+    <string name="text_available_money">Available</string>
 
 </resources>

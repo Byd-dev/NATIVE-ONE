@@ -30,6 +30,7 @@ import com.pro.bityard.entity.TipSPSLMarginEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.entity.UnionRateEntity;
+import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -1494,13 +1495,13 @@ public class NetManger {
     }
 
     /*邀请记录列表*/
-    public void inviteListHistory(String page,String subName, OnNetResult onNetResult) {
+    public void inviteListHistory(String page, String subName, OnNetResult onNetResult) {
 
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("page", page);
         map.put("rows", "10");
-        if (subName!=null){
-            map.put("subName",subName);
+        if (subName != null) {
+            map.put("subName", subName);
         }
         getRequest("/api/mine/agent/sub-list", map, (state, response) -> {
             if (state.equals(BUSY)) {
@@ -1516,8 +1517,7 @@ public class NetManger {
     }
 
 
-
-    public void unionRate(OnNetResult onNetResult){
+    public void unionRate(OnNetResult onNetResult) {
         getRequest("/api/mine/union.htm", null, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
@@ -1530,4 +1530,36 @@ public class NetManger {
             }
         });
     }
+
+    /*获取个人详情*/
+    public void userDetail(OnNetResult onNetResult) {
+        getRequest("/api/user/detail", null, (state, response) -> {
+
+            if (state.equals(SUCCESS)) {
+                UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
+                onNetResult.onNetResult(SUCCESS, userDetailEntity);
+            }
+        });
+    }
+
+    /*转账*/
+    public void transfer(String currency, String money, String pass, String subName, String account, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("currency", currency);
+        map.put("money", money);
+        map.put("password", pass);
+        map.put("subName", subName);
+        if (account.contains("@")) {
+            map.put("email", account);
+        } else {
+            map.put("mobile", account);
+        }
+        postRequest("/api/pay/withdraw/transfer", map, (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipEntity);
+            }
+        });
+    }
+
 }

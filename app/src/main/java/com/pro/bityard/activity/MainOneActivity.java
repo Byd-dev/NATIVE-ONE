@@ -44,6 +44,7 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
+import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -833,6 +834,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);
+        UserDetailManger.getInstance().clear();
+        UserDetailManger.getInstance().cancelTimer();
 
 
     }

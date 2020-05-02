@@ -53,6 +53,7 @@ public class InitManger extends Observable {
 
                 PositionRealManger.getInstance().getHold();
                 PositionSimulationManger.getInstance().getHold();
+                UserDetailManger.getInstance().startScheduleJob(AppConfig.QUOTE_SECOND, AppConfig.ITEM_QUOTE_SECOND);
 
             } else {
                 SPUtils.remove(AppConfig.LOGIN);

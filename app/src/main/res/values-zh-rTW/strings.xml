@@ -274,5 +274,11 @@
     <string name="text_today_volume">今日交易量</string>
     <string name="text_today_fee">今日手續費</string>
     <string name="text_registration_time">註冊時間</string>
+    <string name="text_internal_funds_transfer">內部轉帳</string>
+    <string name="text_referrals_user">下級用戶</string>
+    <string name="text_free">免費</string>
+    <string name="text_important">溫馨提示</string>
+    <string name="text_sure_info">轉帳時，請務必確認好用戶信息</string>
+    <string name="text_available_money">可用額度</string>
 
 </resources>

@@ -274,6 +274,12 @@
     <string name="text_today_volume">今日交易量</string>
     <string name="text_today_fee">今日手续费</string>
     <string name="text_registration_time">注册时间</string>
+    <string name="text_internal_funds_transfer">内部转账</string>
+    <string name="text_referrals_user">下级用户</string>
+    <string name="text_free">免费</string>
+    <string name="text_important">温馨提示</string>
+    <string name="text_sure_info">转账时，请务必确认好用户信息</string>
+    <string name="text_available_money">可用额度</string>
 
 
 </resources>

@@ -274,5 +274,11 @@
     <string name="text_today_volume">금일 거래량</string>
     <string name="text_today_fee">금일 수수료</string>
     <string name="text_registration_time">등록 시간</string>
+    <string name="text_internal_funds_transfer">내부대체</string>
+    <string name="text_referrals_user">초대한 친구</string>
+    <string name="text_free">무료</string>
+    <string name="text_important">제시</string>
+    <string name="text_sure_info">이체 시 정보를 반드시 확인하셔야 합니다.</string>
+    <string name="text_available_money">가용한도</string>
 
 </resources>

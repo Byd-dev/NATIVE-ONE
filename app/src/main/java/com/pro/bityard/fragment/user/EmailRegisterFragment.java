@@ -245,56 +245,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
 
     }
 
-    /*获取验证码*/
-    private void getCode(String account_value) {
 
-
-        Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
-
-            @Override
-            public void onApi1Result(String result) {
-                geetestToken = result;
-
-            }
-
-            @Override
-            public void onSuccessResult(String result) {
-                ArrayMap<String, String> map = new ArrayMap<>();
-
-                map.put("account", account_value);
-                map.put("type", "REGISTER");
-                map.put("geetestToken", geetestToken);
-                NetManger.getInstance().postRequest("/api/system/sendEmail", map, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            dismissProgressDialog();
-                            TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                            if (tipEntity.getCode() == 200) {
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
-                            } else if (tipEntity.getCode() == 500) {
-                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
-                Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
 
     /*获取倒计时*/
     Handler mHandler = new Handler() {

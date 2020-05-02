@@ -136,7 +136,7 @@ public class InviteListEntity {
 
         private double commission;
         private double commissionDay;
-        private Object currency;
+        private String currency;
         private long loginTime;
         private String registerRegion;
         private long registerTime;
@@ -170,11 +170,11 @@ public class InviteListEntity {
             this.commissionDay = commissionDay;
         }
 
-        public Object getCurrency() {
+        public String getCurrency() {
             return currency;
         }
 
-        public void setCurrency(Object currency) {
+        public void setCurrency(String currency) {
             this.currency = currency;
         }
 

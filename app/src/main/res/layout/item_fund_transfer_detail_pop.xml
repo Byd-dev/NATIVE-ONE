@@ -18,8 +18,8 @@
             android:layout_marginLeft="@dimen/margin_15"
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
-            android:text="@string/text_referrals_user"
-            android:textColor="@color/text_maincolor"
+            android:text="@string/text_coin"
+            android:textColor="@color/text_second_color"
             android:textSize="@dimen/size_normal_two" />
 
 
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginRight="@dimen/margin_15"
-                android:text="@string/text_default"
+                android:text="USDT"
                 android:textColor="@color/text_maincolor"
                 android:textSize="@dimen/size_big" />
 
@@ -66,25 +66,23 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_15"
-            android:drawableLeft="@mipmap/icon_usdt"
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
-            android:text="USDT"
-            android:textColor="@color/text_maincolor"
+            android:text="@string/text_type"
+            android:textColor="@color/text_second_color"
             android:textSize="@dimen/size_normal_two" />
 
 
         <TextView
-            android:id="@+id/text_commission"
+            android:id="@+id/text_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
-            android:text="@string/text_default"
+            android:text="@string/text_withdrawal"
             android:textColor="@color/text_maincolor"
-            android:textSize="@dimen/size_big"
-            android:visibility="gone" />
+            android:textSize="@dimen/size_big" />
 
 
     </RelativeLayout>
@@ -94,118 +92,39 @@
         android:layout_height="@dimen/size_line"
         android:background="@color/home_line" />
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_setup"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edit_amount"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="@string/text_transfer_amount"
-            android:inputType="number"
-            android:maxLines="1"
-            android:textColor="@color/text_maincolor"
-            android:textColorHint="@color/color_hint"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/hint_size" />
-
+        android:layout_height="@dimen/margin_setup">
 
         <TextView
-            android:id="@+id/text_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="@dimen/margin_15"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
-            android:text="@string/text_default"
+            android:text="@string/text_transfer_to"
             android:textColor="@color/text_second_color"
+            android:textSize="@dimen/size_normal_two" />
+
+
+        <TextView
+            android:id="@+id/text_transfer_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:text="@string/text_default"
+            android:textColor="@color/text_maincolor"
             android:textSize="@dimen/size_big" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <include layout="@layout/layout_line" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_setup"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edit_pass_withdraw"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="@string/text_pin"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:textColor="@color/text_maincolor"
-            android:textColorHint="@color/color_hint"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/hint_size" />
-
-
-        <ImageView
-            android:id="@+id/img_eye"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:paddingLeft="@dimen/margin_15"
-            android:paddingRight="@dimen/margin_15"
-            android:src="@mipmap/icon_eye_close" />
-
-
-    </LinearLayout>
-
-    <include layout="@layout/layout_line" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_setup"
-        android:orientation="horizontal"
-
-        >
-
-        <EditText
-            android:id="@+id/edit_code"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginRight="@dimen/margin_10"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="@string/text_email_code"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textColor="@color/text_maincolor"
-            android:textColorHint="@color/color_hint"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/hint_size" />
-
-        <TextView
-            android:id="@+id/text_getCode"
-            android:layout_width="89dp"
-            android:layout_height="@dimen/margin_30"
-            android:layout_marginRight="@dimen/margin_15"
-            android:background="@drawable/bg_circle_main_color"
-            android:gravity="center"
-            android:text="@string/text_get_code"
-            android:textColor="@color/color_code"
-            android:textSize="@dimen/size_normal" />
-
-
-    </LinearLayout>
-
-    <include layout="@layout/layout_line" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -218,19 +137,19 @@
             android:layout_marginLeft="@dimen/margin_15"
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
-            android:text="转账限额"
-            android:textColor="@color/text_maincolor"
+            android:text="@string/text_transfer_amount"
+            android:textColor="@color/text_second_color"
             android:textSize="@dimen/size_normal_two" />
 
 
         <TextView
-            android:id="@+id/text_today_fee"
+            android:id="@+id/text_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
-            android:text="50-100000 USDT"
+            android:text="@string/text_default"
             android:textColor="@color/text_maincolor"
             android:textSize="@dimen/size_big" />
 
@@ -250,19 +169,19 @@
             android:layout_marginLeft="@dimen/margin_15"
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
-            android:text="@string/text_service_pop"
-            android:textColor="@color/text_maincolor"
+            android:text="@string/text_status"
+            android:textColor="@color/text_second_color"
             android:textSize="@dimen/size_normal_two" />
 
 
         <TextView
-            android:id="@+id/text_total_volume"
+            android:id="@+id/text_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
-            android:text="@string/text_free"
+            android:text="@string/text_default"
             android:textColor="@color/text_maincolor"
             android:textSize="@dimen/size_big" />
 
@@ -271,47 +190,68 @@
 
     <include layout="@layout/layout_line" />
 
-
-    <!--登录button-->
-    <Button
-        android:id="@+id/btn_submit"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_btn"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_40"
-        android:layout_marginRight="@dimen/margin_15"
-        android:background="@drawable/bg_shape_button"
-        android:padding="10dp"
-        android:text="@string/text_sure"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-
-        />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_10"
-        android:layout_marginRight="@dimen/margin_15"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/margin_setup">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_important"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:drawablePadding="@dimen/margin_16"
+            android:gravity="center"
+            android:text="@string/text_transfer_time"
+            android:textColor="@color/text_second_color"
+            android:textSize="@dimen/size_normal_two" />
+
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:text="@string/text_default"
             android:textColor="@color/text_maincolor"
-            android:textSize="@dimen/size_normal" />
+            android:textSize="@dimen/size_big" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_setup">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_5"
-            android:text="@string/text_sure_info"
-            android:textSize="@dimen/size_normal"
-            android:textColor="@color/text_second_color" />
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:drawablePadding="@dimen/margin_16"
+            android:gravity="center"
+            android:text="@string/text_trade_id"
+            android:textColor="@color/text_second_color"
+            android:textSize="@dimen/size_normal_two" />
 
-    </LinearLayout>
 
+        <TextView
+            android:id="@+id/text_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:text="@string/text_default"
+            android:textColor="@color/text_maincolor"
+            android:textSize="@dimen/size_big" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
 
 </LinearLayout>

@@ -13,11 +13,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.DepositWithdrawAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
 import com.pro.bityard.adapter.TransferAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.FundItemEntity;
@@ -144,7 +142,7 @@ public class FundTransferFragment extends BaseFragment implements View.OnClickLi
 
     /*显示详情*/
     private void showDetailPopWindow(DepositWithdrawEntity.DataBean dataBean) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_transfer_detail_pop, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_fund_transfer_detail_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
@@ -327,7 +325,7 @@ public class FundTransferFragment extends BaseFragment implements View.OnClickLi
                 fundSelectAdapter.notifyDataSetChanged();
                 text_select.setText(data.getName());
                 String code = data.getCode();
-                ChartUtil.setIcon(code,img_bg);
+                ChartUtil.setIcon(code, img_bg);
 
                 page = 0;
                 currency = data.getCode();

@@ -8,11 +8,16 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.pro.bityard.R;
 import com.pro.bityard.config.AppConfig;
 import com.pro.switchlibrary.SPUtils;
 
@@ -36,6 +41,8 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 
 public class Util {
+
+    private static boolean eye=true;
 
     public static Map<String, Object> jsonToMap(String content) {
         content = content.trim();
@@ -345,7 +352,7 @@ public class Util {
     //粘贴
     public static void paste(Context context, TextView textView) {
         // 获取系统剪贴板
-        ClipboardManager clipboard = (ClipboardManager)context. getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipboardManager clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
 
         // 获取剪贴板的剪贴数据集
         ClipData clipData = clipboard.getPrimaryClip();
@@ -359,5 +366,16 @@ public class Util {
 
     }
 
+    public static void setEye(Context context, EditText edit_password, ImageView img_eye) {
+        if (eye) {
+            edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+            img_eye.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_eye_open));
+            eye = false;
+        } else {
+            edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+            img_eye.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_eye_close));
+            eye = true;
+        }
+    }
 
 }
