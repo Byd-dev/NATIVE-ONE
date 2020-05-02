@@ -27,8 +27,8 @@ import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TipSPSLMarginEntity;
-import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
+import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.NetIncomeManger;
@@ -39,6 +39,8 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -177,6 +179,35 @@ public class NetManger {
             Log.d("NetManger", "getURL:请求地址:  " + url_result);
 
             return url_result;
+        }
+
+
+    }
+
+    public void getURL2(String url, ArrayMap map, OnNetResult onNetResult) {
+
+        String substring_url = null;
+        if (map == null) {
+            onNetResult.onNetResult(SUCCESS, (BASE_URL + url));
+        } else {
+            Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+            StringBuilder stringBuilder = new StringBuilder();
+            while (iterator.hasNext()) {
+                Map.Entry<String, String> next = iterator.next();
+                String key = next.getKey();
+                String value = next.getValue();
+                StringBuilder append = stringBuilder.append(key).append("=").append(value).append("&");
+                substring_url = append.toString().substring(0, append.toString().length() - 1);
+            }
+            String url_result = BASE_URL + url + "?" + substring_url;
+            Log.d("transfer", "getURL:请求地址:  " + url_result);
+
+            try {
+                onNetResult.onNetResult(SUCCESS, URLEncoder.encode(url_result));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
 
@@ -1554,7 +1585,10 @@ public class NetManger {
         } else {
             map.put("mobile", account);
         }
+
+        Log.d("transfer", "transfer:1557: " + map);
         postRequest("/api/pay/withdraw/transfer", map, (state, response) -> {
+            Log.d("transfer", "transfer: 1586: " + response);
             if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
@@ -1562,4 +1596,36 @@ public class NetManger {
         });
     }
 
+    public void postRequest2(String url, ArrayMap map, OnNetResult onNetResult) {
+        getURL2(url, map, (state, response) -> {
+            if (state.equals(SUCCESS)){
+                Log.d("transfer", "postRequest2: "+response.toString());
+                OkGo.<String>post(response.toString())
+                        .execute(new StringCallback() {
+                            @Override
+                            public void onStart(Request<String, ? extends Request> request) {
+                                super.onStart(request);
+                                onNetResult.onNetResult(BUSY, null);
+
+                            }
+
+                            @Override
+                            public void onSuccess(Response<String> response) {
+                                if (!TextUtils.isEmpty(response.body())) {
+                                    onNetResult.onNetResult(SUCCESS, response.body());
+                                }
+                            }
+
+                            @Override
+                            public void onError(Response<String> response) {
+                                super.onError(response);
+                                onNetResult.onNetResult(FAILURE, response.body());
+                            }
+                        });
+            }
+
+        });
+
+
+    }
 }

@@ -287,7 +287,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         });
 
 
-        String value_code = edit_code.getText().toString();
 
 
         text_getCode = view.findViewById(R.id.text_getCode);
@@ -344,6 +343,8 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         btn_submit.setOnClickListener(v -> {
             String value_amount = edit_amount.getText().toString();
             String value_pass = edit_pass.getText().toString();
+            String value_code = edit_code.getText().toString();
+
             if (account.contains("@")) {
 
                 NetManger.getInstance().checkEmailCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", value_code, (state, response) -> {
@@ -423,32 +424,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     };
 
 
-    private void setUnClick(EditText edit_amount, EditText edit_pass, EditText edit_code, Button btn_submit) {
-        edit_amount.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String value_pass = edit_pass.getText().toString();
-                String value_code = edit_code.getText().toString();
-                if (s.length() != 0 && value_pass.length() != 0 && value_code.length() != 0) {
-                    btn_submit.setEnabled(true);
-                    btn_submit.setBackground(getResources().getDrawable(R.drawable.bg_shape_main_color));
-                } else {
-                    btn_submit.setEnabled(false);
-                    btn_submit.setBackground(getResources().getDrawable(R.drawable.bg_shape_button));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-    }
 
     @Override
     protected int setLayoutResourceID() {
