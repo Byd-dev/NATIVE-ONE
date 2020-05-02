@@ -144,8 +144,8 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                 layout_country_code.setVisibility(View.VISIBLE);
                 layout_mobile.setVisibility(View.VISIBLE);
                 btn_submit.setText(R.string.text_sure);
-                Util.setTwoUnClick(edit_account,edit_code,btn_submit);
-                Util.setTwoUnClick(edit_code,edit_account,btn_submit);
+                Util.setTwoUnClick(edit_account, edit_code, btn_submit);
+                Util.setTwoUnClick(edit_code, edit_account, btn_submit);
             } else {
                 mobile = SPUtils.getBoolean(AppConfig.CHANGE_MOBILE, true);
                 if (mobile == true) {
@@ -153,15 +153,15 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                     layout_country_code.setVisibility(View.GONE);
                     layout_mobile.setVisibility(View.GONE);
                     btn_submit.setText(R.string.text_next);
-                    Util.setOneUnClick(edit_code,btn_submit);
+                    Util.setOneUnClick(edit_code, btn_submit);
 
                 } else {
                     text_title.setText(R.string.text_mobile_change);
                     layout_country_code.setVisibility(View.VISIBLE);
                     layout_mobile.setVisibility(View.VISIBLE);
                     btn_submit.setText(R.string.text_sure);
-                    Util.setTwoUnClick(edit_account,edit_code,btn_submit);
-                    Util.setTwoUnClick(edit_code,edit_account,btn_submit);
+                    Util.setTwoUnClick(edit_account, edit_code, btn_submit);
+                    Util.setTwoUnClick(edit_code, edit_account, btn_submit);
 
                 }
 
