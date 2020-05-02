@@ -666,6 +666,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         }
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
 
@@ -681,7 +682,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     UnionRateEntity unionRateEntity = (UnionRateEntity) response;
                     //退出需要清除
                     SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
-                    text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
+                    if (unionRateEntity.getUnion()!=null){
+                        text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
+                    }
                 }
             });
         } else {

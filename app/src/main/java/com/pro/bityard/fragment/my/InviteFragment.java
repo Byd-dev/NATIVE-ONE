@@ -294,7 +294,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
         text_getCode.setOnClickListener(v -> {
             if (account.contains("@")) {
-                NetManger.getInstance().getEmailCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -313,7 +313,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     }
                 });
             } else {
-                NetManger.getInstance().getMobileCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", (state, response1, response2) -> {
+                NetManger.getInstance().getMobileCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -346,7 +346,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
             String value_pass = edit_pass.getText().toString();
             if (account.contains("@")) {
 
-                NetManger.getInstance().checkEmailCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", value_code, (state, response) -> {
+                NetManger.getInstance().checkEmailCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", value_code, (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -364,7 +364,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
             } else {
 
-                NetManger.getInstance().checkMobileCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", value_code, (state, response) -> {
+                NetManger.getInstance().checkMobileCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", value_code, (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -535,7 +535,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     dismissProgressDialog();
                 }
                 InviteListEntity inviteListEntity = (InviteListEntity) response;
-                if (inviteListEntity.getData()==null){
+                if (inviteListEntity==null){
                     return;
                 }
                 if (inviteListEntity.getData().size() == 0) {
@@ -546,12 +546,12 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     recyclerView.setVisibility(View.VISIBLE);
                 }
                 if (type.equals(LOAD)) {
-                    if (unionRateEntity!=null){
+                    if (unionRateEntity.getUnion()!=null){
                         inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                     }
 
                 } else {
-                    if (unionRateEntity!=null){
+                    if (unionRateEntity.getUnion()!=null){
                         inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                     }
 

@@ -261,9 +261,9 @@ public class UnionRateEntity {
         private String dataMD5;
         private String discount;
         private int eagle;
-        private int frozen;
-        private int fundIn;
-        private int fundOut;
+        private double frozen;
+        private double fundIn;
+        private double fundOut;
         private double game;
         private boolean modify;
         private double money;
@@ -335,27 +335,27 @@ public class UnionRateEntity {
             this.eagle = eagle;
         }
 
-        public int getFrozen() {
+        public double getFrozen() {
             return frozen;
         }
 
-        public void setFrozen(int frozen) {
+        public void setFrozen(double frozen) {
             this.frozen = frozen;
         }
 
-        public int getFundIn() {
+        public double getFundIn() {
             return fundIn;
         }
 
-        public void setFundIn(int fundIn) {
+        public void setFundIn(double fundIn) {
             this.fundIn = fundIn;
         }
 
-        public int getFundOut() {
+        public double getFundOut() {
             return fundOut;
         }
 
-        public void setFundOut(int fundOut) {
+        public void setFundOut(double fundOut) {
             this.fundOut = fundOut;
         }
 
