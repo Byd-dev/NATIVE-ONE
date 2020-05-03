@@ -673,18 +673,18 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         //首页 -------------------------------------------------------------------------------------
         getBanner();
 
-
-        NetManger.getInstance().unionRate((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                UnionRateEntity unionRateEntity = (UnionRateEntity) response;
-                //退出需要清除
-                SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
-                if (unionRateEntity.getUnion() != null) {
-                    text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
+        if (isLogin()) {
+            NetManger.getInstance().unionRate((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    UnionRateEntity unionRateEntity = (UnionRateEntity) response;
+                    //退出需要清除
+                    SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+                    if (unionRateEntity.getUnion() != null) {
+                        text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
+                    }
                 }
-            }
-        });
-
+            });
+        }
 
 
     }

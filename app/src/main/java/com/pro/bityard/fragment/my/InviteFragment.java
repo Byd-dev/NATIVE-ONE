@@ -287,8 +287,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         });
 
 
-
-
         text_getCode = view.findViewById(R.id.text_getCode);
 
         text_getCode.setOnClickListener(v -> {
@@ -424,7 +422,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     };
 
 
-
     @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_invite;
@@ -474,25 +471,17 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
-        unionRateEntity = SPUtils.getData(AppConfig.KEY_UNION, UnionRateEntity.class);
-        Log.d("print", "initData:677:  " + unionRateEntity);
-        if (unionRateEntity == null) {
-            //获取佣金比例
-            NetManger.getInstance().unionRate((state, response) -> {
-                if (state.equals(SUCCESS)) {
-                    unionRateEntity = (UnionRateEntity) response;
-                    //退出需要清除
-                    SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+        NetManger.getInstance().unionRate((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                unionRateEntity = (UnionRateEntity) response;
+                //退出需要清除
+                SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+                if (unionRateEntity.getUnion() != null) {
                     text_commission_rate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
-
                 }
-            });
-        } else {
-            if (unionRateEntity.getUnion() != null) {
-                text_commission_rate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
-
             }
-        }
+        });
+
 
         page = 1;
         getInviteList(FIRST, page, null);

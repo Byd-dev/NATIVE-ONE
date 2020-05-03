@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.RateListEntity;
@@ -60,6 +59,7 @@ public class InitManger extends Observable {
             }
         });
 
+
         //获取佣金比例
         NetManger.getInstance().unionRate((state, response) -> {
             if (state.equals(SUCCESS)) {
@@ -72,6 +72,8 @@ public class InitManger extends Observable {
         //获取国家code
         NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
             if (state.equals(SUCCESS)) {
+
+                Log.d("print", "init:76:  "+response);
                 CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
                 SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
 

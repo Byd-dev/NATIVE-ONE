@@ -1083,6 +1083,9 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+
+
+                Log.d("print", "getRateList:1086:  "+response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -1565,7 +1568,6 @@ public class NetManger {
     /*获取个人详情*/
     public void userDetail(OnNetResult onNetResult) {
         getRequest("/api/user/detail", null, (state, response) -> {
-
             if (state.equals(SUCCESS)) {
                 UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
                 onNetResult.onNetResult(SUCCESS, userDetailEntity);
