@@ -672,26 +672,19 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         //首页 -------------------------------------------------------------------------------------
         getBanner();
-        //我的
-        UnionRateEntity data = SPUtils.getData(AppConfig.KEY_UNION, UnionRateEntity.class);
-        Log.d("print", "initData:677:  " + data);
-        if (data == null) {
-            //获取佣金比例
-            NetManger.getInstance().unionRate((state, response) -> {
-                if (state.equals(SUCCESS)) {
-                    UnionRateEntity unionRateEntity = (UnionRateEntity) response;
-                    //退出需要清除
-                    SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
-                    if (unionRateEntity.getUnion()!=null){
-                        text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
-                    }
+
+
+        NetManger.getInstance().unionRate((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                UnionRateEntity unionRateEntity = (UnionRateEntity) response;
+                //退出需要清除
+                SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+                if (unionRateEntity.getUnion() != null) {
+                    text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
                 }
-            });
-        } else {
-            if (data.getUnion() != null) {
-                text_commissionRate.setText(TradeUtil.mul(data.getUnion().getCommRatio(), 100) + "%");
             }
-        }
+        });
+
 
 
     }

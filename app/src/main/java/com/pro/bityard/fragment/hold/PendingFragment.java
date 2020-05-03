@@ -75,6 +75,29 @@ public class PendingFragment extends BaseFragment implements Observer {
         if (isLogin()) {
             headerRecyclerView.setVisibility(View.VISIBLE);
             btn_login.setVisibility(View.GONE);
+            NetManger.getInstance().getPending(tradeType, (state, response1, response2) -> {
+                if (state.equals(BUSY)) {
+                    swipeRefreshLayout.setRefreshing(true);
+                } else if (state.equals(SUCCESS)) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    positionEntity = (PositionEntity) response1;
+                    Log.d("print", "initData:挂单:  " + positionEntity);
+                    if (positionEntity.getData().size() == 0) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        headerRecyclerView.setVisibility(View.GONE);
+
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        headerRecyclerView.setVisibility(View.VISIBLE);
+                    }
+
+
+                } else if (state.equals(FAILURE)) {
+                    swipeRefreshLayout.setRefreshing(false);
+
+                }
+            });
+
 
         } else {
             headerRecyclerView.setVisibility(View.GONE);
