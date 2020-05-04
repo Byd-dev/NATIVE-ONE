@@ -57,7 +57,7 @@
     <string name="text_coin_turn">幣幣閃兌</string>
     <string name="text_withdrawal">提幣</string>
     <string name="text_recharge">充幣</string>
-    <string name="text_unlogin">未登錄</string>
+    <string name="text_unlogin">请登錄</string>
     <string name="text_setup">系统设置</string>
     <string name="text_logout">退出登錄</string>
     <string name="text_theme">主题切换</string>
@@ -280,5 +280,6 @@
     <string name="text_important">溫馨提示</string>
     <string name="text_sure_info">轉帳時，請務必確認好用戶信息</string>
     <string name="text_available_money">可用額度</string>
+    <string name="text_register_now">立即註冊></string>
 
 </resources>

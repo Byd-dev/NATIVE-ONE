@@ -516,13 +516,13 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 }
 
                 if (type.equals(LOAD)) {
+                    inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                     if (unionRateEntity.getUnion() != null) {
-                        inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                     }
 
                 } else {
+                    inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                     if (unionRateEntity.getUnion() != null) {
-                        inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                     }
 
                 }

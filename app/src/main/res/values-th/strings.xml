@@ -57,7 +57,7 @@
     <string name="text_coin_turn">Быстрый обмен</string>
     <string name="text_withdrawal">Снятия</string>
     <string name="text_recharge">Депозит</string>
-    <string name="text_unlogin">未登录</string>
+    <string name="text_unlogin">Логин</string>
     <string name="text_setup">系统设置</string>
     <string name="text_logout">退出登录</string>
     <string name="text_theme">主题切换</string>
@@ -280,5 +280,6 @@
     <string name="text_important">Примечания</string>
     <string name="text_sure_info">Пожалуйста, подтвердите информацию перед трансфертом</string>
     <string name="text_available_money">Доступно</string>
+    <string name="text_register_now">Регистрация</string>
 
 </resources>

@@ -57,7 +57,7 @@
     <string name="text_coin_turn">변환(Convert) 기능</string>
     <string name="text_withdrawal">출금</string>
     <string name="text_recharge">입금</string>
-    <string name="text_unlogin">未登录</string>
+    <string name="text_unlogin">로그인</string>
     <string name="text_setup">系统设置</string>
     <string name="text_logout">退出登录</string>
     <string name="text_theme">主题切换</string>
@@ -280,5 +280,6 @@
     <string name="text_important">제시</string>
     <string name="text_sure_info">이체 시 정보를 반드시 확인하셔야 합니다.</string>
     <string name="text_available_money">가용한도</string>
+    <string name="text_register_now">회원가입</string>
 
 </resources>

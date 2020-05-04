@@ -56,7 +56,7 @@
     <string name="text_coin_turn">Exchange</string>
     <string name="text_withdrawal">Withdraw</string>
     <string name="text_recharge">Deposit</string>
-    <string name="text_unlogin">未登录</string>
+    <string name="text_unlogin">Login</string>
     <string name="text_setup">系统设置</string>
     <string name="text_logout">退出登录</string>
     <string name="text_theme">主题切换</string>
@@ -279,5 +279,6 @@
     <string name="text_important">Important</string>
     <string name="text_sure_info">Please confirm the information before transfer</string>
     <string name="text_available_money">Available</string>
+    <string name="text_register_now">Register</string>
 
 </resources>

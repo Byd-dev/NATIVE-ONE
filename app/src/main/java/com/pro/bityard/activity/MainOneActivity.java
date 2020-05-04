@@ -191,6 +191,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @BindView(R.id.view_four)
     View view_four;
+    @BindView(R.id.text_register)
+    TextView text_register;
 
     private boolean isEyeOpen = true;
     private String netIncomeResult;
@@ -467,12 +469,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             LoginEntity data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             Log.d("print", "onResume:30:  " + data);
             text_userName.setText(data.getUser().getAccount());
+            text_uid.setVisibility(View.VISIBLE);
             text_uid.setText(data.getUser().getUserId());
-
+            text_register.setVisibility(View.GONE);
 
         } else {
             text_userName.setText(getResources().getText(R.string.text_unlogin));
-            text_uid.setText("--");
+            text_uid.setVisibility(View.GONE);
+            text_register.setVisibility(View.VISIBLE);
         }
 
 
@@ -613,6 +617,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         findViewById(R.id.layout_seven).setOnClickListener(this);
         findViewById(R.id.layout_eight).setOnClickListener(this);//系统设置
         findViewById(R.id.layout_nine).setOnClickListener(this);
+        findViewById(R.id.layout_login).setOnClickListener(this);
+        text_register.findViewById(R.id.text_register).setOnClickListener(this);
 
     }
 
@@ -904,6 +910,16 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
                 break;
             /*我的 -----------------------------------------------------------------------------------*/
+            case R.id.layout_login:
+                if (!isLogin()) {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+
+                break;
+            case R.id.text_register:
+                RegisterActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_REGISTER);
+                break;
+
             case R.id.layout_eight:
                 UserActivity.enter(this, IntentConfig.Keys.KEY_SET_UP);
 

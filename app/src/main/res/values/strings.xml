@@ -56,7 +56,7 @@
     <string name="text_coin_turn">币币闪兑</string>
     <string name="text_withdrawal">提币</string>
     <string name="text_recharge">充币</string>
-    <string name="text_unlogin">未登录</string>
+    <string name="text_unlogin">请登录</string>
     <string name="text_setup">系统设置</string>
     <string name="text_logout">退出登录</string>
     <string name="text_theme">主题切换</string>
@@ -279,5 +279,6 @@
     <string name="text_important">温馨提示</string>
     <string name="text_sure_info">转账时，请务必确认好用户信息</string>
     <string name="text_available_money">可用额度</string>
+    <string name="text_register_now">立即注册></string>
 
 </resources>
