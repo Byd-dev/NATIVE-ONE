@@ -21,6 +21,8 @@ public class IntentConfig {
         public static final String KEY_TRADE_HISTORY = "TRADE_HISTORY";
         //邀请记录
         public static final String KEY_INVITE_HISTORY = "INVITE_HISTORY";
+        //交易设置
+        public static final String KEY_TRADE_SETTINGS = "TRADE_SETTINGS";
         //修改登录密码
         public static final String KEY_SAFE_CENTER_LOGIN_PASS = "SAFE_CENTER_LOGIN_PASS";
         //设置资金密码和修改资金密码

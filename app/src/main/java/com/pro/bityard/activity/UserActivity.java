@@ -20,6 +20,7 @@ import com.pro.bityard.fragment.my.SafeCenterFragment;
 import com.pro.bityard.fragment.my.SetUpFragment;
 import com.pro.bityard.fragment.my.ThemeFragment;
 import com.pro.bityard.fragment.my.TradeRecordFragment;
+import com.pro.bityard.fragment.my.TradeSettingsFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import androidx.annotation.Nullable;
@@ -89,9 +90,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_INVITE_HISTORY:
                 addInviteFragment();
                 break;
+            case IntentConfig.Keys.KEY_TRADE_SETTINGS:
+                addTradeSettingsFragment();
+                break;
         }
 
 
+    }
+
+    private void addTradeSettingsFragment() {
+        String name = TradeSettingsFragment.class.getSimpleName();
+        //安全中心
+        TradeSettingsFragment fragment = new TradeSettingsFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addInviteFragment() {

@@ -73,14 +73,12 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
 import androidx.annotation.Nullable;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -189,11 +187,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.recyclerView_limit)
     RecyclerView recyclerView_limit;*/
 
-    @BindView(R.id.recyclerView_profit)
-    RecyclerView recyclerView_profit;
-
-    @BindView(R.id.recyclerView_loss)
-    RecyclerView recyclerView_loss;
 
     @BindView(R.id.text_market_volume)
     TextView text_market_volume;
@@ -209,15 +202,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @BindView(R.id.text_limit_all)
     TextView text_limit_all;
 
-    @BindView(R.id.drawerLayout)
-    DrawerLayout drawerLayout;
 
-    @BindView(R.id.img_one)
-    ImageView img_one;
-    @BindView(R.id.img_two)
-    ImageView img_two;
-    @BindView(R.id.img_three)
-    ImageView img_three;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.kline_1min_time)
@@ -249,10 +234,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private List<TradeListEntity> tradeListEntityList;
     private List<ChargeUnitEntity> chargeUnitEntityList;
     private ChargeUnitEntity chargeUnitEntity;
-    private double stopProfit = 3;
-    private double stopLoss = -0.9;
-    private boolean isOpenSure;
-    private boolean isCloseSure;
+
+
     @BindView(R.id.layout_more)
     LinearLayout layout_more;
     @BindView(R.id.text_one_hour)
@@ -395,7 +378,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         findViewById(R.id.img_back).setOnClickListener(this);
-        findViewById(R.id.img_back_two).setOnClickListener(this);
 
         findViewById(R.id.img_setting).setOnClickListener(this);
         findViewById(R.id.layout_product).setOnClickListener(this);
@@ -419,73 +401,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         /*recyclerView_market.setAdapter(radioGroupAdapter);
         recyclerView_limit.setAdapter(radioGroupAdapter);*/
 
-        isDefer = SPUtils.getBoolean(AppConfig.KEY_DEFER, false);
-        if (isDefer) {
-            img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
-        } else {
-            img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
-        }
 
-        isOpenSure = SPUtils.getBoolean(AppConfig.KEY_OPEN_SURE, true);
-        if (isOpenSure) {
-            img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
-        } else {
-            img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
-        }
-        isCloseSure = SPUtils.getBoolean(AppConfig.KEY_CLOSE_SURE, false);
-        if (isCloseSure) {
-            img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
-
-        } else {
-            img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
-
-        }
-
-        List<Integer> stopProfitList = new ArrayList<>();
-        stopProfitList.add(300);
-        stopProfitList.add(350);
-        stopProfitList.add(400);
-        stopProfitList.add(450);
-        stopProfitList.add(500);
-        radioRateProfitAdapter = new RadioRateAdapter(this);
-        recyclerView_profit.setAdapter(radioRateProfitAdapter);
-        recyclerView_profit.setLayoutManager(new GridLayoutManager(this, stopProfitList.size()));
-        radioRateProfitAdapter.setDatas(stopProfitList);
-        int index_profit = SPUtils.getInt(AppConfig.INDEX_PROFIT, 0);
-        radioRateProfitAdapter.select(index_profit);
-        radioRateProfitAdapter.setOnItemClick((position, data) -> {
-            radioRateProfitAdapter.select(position);
-            recyclerView_profit.setAdapter(radioRateProfitAdapter);
-            stopProfit = TradeUtil.div(data, 100, 2);
-            SPUtils.putInt(AppConfig.INDEX_PROFIT, position);
-
-        });
-
-        List<Integer> stopLossList = new ArrayList<>();
-        stopLossList.add(-10);
-        stopLossList.add(-30);
-        stopLossList.add(-50);
-        stopLossList.add(-70);
-        stopLossList.add(-90);
-        radioRateLossAdapter = new RadioRateAdapter(this);
-        recyclerView_loss.setAdapter(radioRateLossAdapter);
-        recyclerView_loss.setLayoutManager(new GridLayoutManager(this, stopLossList.size()));
-        radioRateLossAdapter.setDatas(stopLossList);
-        int index_loss = SPUtils.getInt(AppConfig.INDEX_LOSS, 4);
-        radioRateLossAdapter.select(index_loss);
-        radioRateLossAdapter.setOnItemClick((position, data) -> {
-            radioRateLossAdapter.select(position);
-            recyclerView_loss.setAdapter(radioRateLossAdapter);
-            stopLoss = TradeUtil.div(data, 100, 2);
-            SPUtils.putInt(AppConfig.INDEX_LOSS, position);
-
-        });
-
-
-        findViewById(R.id.layout_one).setOnClickListener(this);
-        findViewById(R.id.layout_two).setOnClickListener(this);
-        findViewById(R.id.layout_three).setOnClickListener(this);
-        findViewById(R.id.btn_sure).setOnClickListener(this);
 
         text_market_all.setOnClickListener(this);
         text_limit_all.setOnClickListener(this);
@@ -851,14 +767,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    @SuppressLint("RtlHardcoded")
-    private void showDrawerLayout() {
-        if (!drawerLayout.isDrawerOpen(Gravity.RIGHT)) {
-            drawerLayout.openDrawer(Gravity.RIGHT);
-        } else {
-            drawerLayout.closeDrawer(Gravity.RIGHT);
-        }
-    }
 
     @Override
     public void onClick(View v) {
@@ -879,19 +787,19 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_open));
                 }
                 break;
-            case R.id.btn_sure:
-            case R.id.img_back_two:
-                drawerLayout.closeDrawers();
-                break;
+
 
             case R.id.img_setting:
-                showDrawerLayout();
+                UserActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+
+
                 break;
 
             case R.id.layout_much:
 
                 if (isLogin()) {
                     String priceMuch = text_buy_much.getText().toString();
+                    boolean isOpenSure = SPUtils.getBoolean(AppConfig.KEY_OPEN_SURE, true);
                     if (isOpenSure) {
                         slowOpen("true", priceMuch);
                     } else {
@@ -906,6 +814,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.layout_empty:
                 if (isLogin()) {
                     String priceEmpty = text_buy_empty.getText().toString();
+                    boolean isOpenSure = SPUtils.getBoolean(AppConfig.KEY_OPEN_SURE, true);
                     if (isOpenSure) {
                         slowOpen("false", priceEmpty);
                     } else {
@@ -915,39 +824,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
-            case R.id.layout_one:
-                if (isDefer) {
-                    img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
-                    isDefer = false;
-                    SPUtils.putBoolean(AppConfig.KEY_DEFER, false);
-                } else {
-                    img_one.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
-                    isDefer = true;
-                    SPUtils.putBoolean(AppConfig.KEY_DEFER, true);
-                }
-                break;
-            case R.id.layout_two:
-                if (isOpenSure) {
-                    img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
-                    isOpenSure = false;
-                    SPUtils.putBoolean(AppConfig.KEY_OPEN_SURE, false);
-                } else {
-                    img_two.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
-                    isOpenSure = true;
-                    SPUtils.putBoolean(AppConfig.KEY_OPEN_SURE, true);
-                }
-                break;
-            case R.id.layout_three:
-                if (isCloseSure) {
-                    img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_false));
-                    isCloseSure = false;
-                    SPUtils.putBoolean(AppConfig.KEY_CLOSE_SURE, false);
-                } else {
-                    img_three.setBackground(getResources().getDrawable(R.mipmap.icon_check_true));
-                    isCloseSure = true;
-                    SPUtils.putBoolean(AppConfig.KEY_CLOSE_SURE, true);
-                }
-                break;
+
 
             case R.id.text_market_all:
                 if (text_market_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
@@ -1178,6 +1055,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     /*下单*/
     private void fastOpen(String isBuy, String priceMuchOrEmpty) {
+        isDefer = SPUtils.getBoolean(AppConfig.KEY_DEFER, false);
+        Log.d("print", "initView:是否递延:  "+isDefer);
+
         TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(quote), tradeListEntityList);
         if (priceMuchOrEmpty.equals(getResources().getString(R.string.text_default))) {
             return;
@@ -1209,9 +1089,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
 
 
+        String stopProfit = SPUtils.getString(AppConfig.VALUE_PROFIT, "3");
+        String stopLoss = SPUtils.getString(AppConfig.VALUE_LOSS, "-0.9");
         NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
                 tradeListEntity.getContractCode(), isBuy, margin, String.valueOf(lever), priceOrder, defer,
-                TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), String.valueOf(stopProfit), String.valueOf(stopLoss), serviceCharge,
+                TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), stopProfit, stopLoss, serviceCharge,
                 "0", TradeUtil.volume(lever, margin, parseDouble(priceMuchOrEmpty)), "0", "USDT", (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
@@ -1494,8 +1376,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     kline_1min_time.addSingleData(kData.get(kData.size() - 1));
 
 
-
-
                 } else {
                     Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(this.quote), -2);
                 }
@@ -1588,7 +1468,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 myKLineView_1Min.initKDataList(kData1MinHistory);
 
                 kline_1min_time.initKDataList(kData1MinHistory);
-
 
 
             } else {

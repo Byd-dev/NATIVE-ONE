@@ -990,6 +990,12 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
+            /*交易设置*/
+            case R.id.layout_five:
+
+                UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+
+                break;
 
         }
     }

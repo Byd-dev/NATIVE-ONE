@@ -42,10 +42,14 @@ public class AppConfig {
     public static final String KEY_OPEN_SURE = "KEY_OPEN";
     /*是否平仓确认*/
     public static final String KEY_CLOSE_SURE = "KEY_CLOSE";
-    /*止盈比例的默认值*/
+    /*止盈比例的默认值下标*/
     public static final String INDEX_PROFIT = "INDEX_PROFIT";
-    /*止损比例的默认值*/
+    /*止盈比例的默认值*/
+    public static final String VALUE_PROFIT = "VALUE_PROFIT";
+    /*止损比例的默认值下标*/
     public static final String INDEX_LOSS = "INDEX_LOSS";
+    /*止损比例的默认值下标*/
+    public static final String VALUE_LOSS = "VALUE_LOSS";
     /*汇率*/
     public static final String USD_RATE = "USD_RATE";
     /*汇率*/
