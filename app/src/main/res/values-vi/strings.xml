@@ -281,5 +281,6 @@
     <string name="text_sure_info">Vui lòng xác nhận chính xác thông tin tài khoản</string>
     <string name="text_available_money">Khả dụng</string>
     <string name="text_register_now">Đăng ký</string>
+    <string name="text_add_withdrawal_address">Thêm địa chỉ rút tiền</string>
 
 </resources>

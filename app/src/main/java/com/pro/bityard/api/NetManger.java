@@ -31,6 +31,7 @@ import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserDetailEntity;
+import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -1629,5 +1630,21 @@ public class NetManger {
         });
 
 
+    }
+
+
+    /*提币地址管理*/
+    public void withdrawalAddressList(OnNetResult onNetResult){
+        getRequest("/api/user/withdraw-address/list", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                WithdrawalAdressEntity entity = new Gson().fromJson(response.toString(), WithdrawalAdressEntity.class);
+                onNetResult.onNetResult(SUCCESS, entity);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
     }
 }

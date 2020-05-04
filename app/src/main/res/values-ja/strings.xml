@@ -281,6 +281,7 @@
     <string name="text_sure_info">转账时，请务必确认好用户信息</string>
     <string name="text_available_money">可用额度</string>
     <string name="text_register_now">立即注册</string>
+    <string name="text_add_withdrawal_address">添加提币地址</string>
 
 
 </resources>

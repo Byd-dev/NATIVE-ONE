@@ -21,6 +21,7 @@ import com.pro.bityard.fragment.my.SetUpFragment;
 import com.pro.bityard.fragment.my.ThemeFragment;
 import com.pro.bityard.fragment.my.TradeRecordFragment;
 import com.pro.bityard.fragment.my.TradeSettingsFragment;
+import com.pro.bityard.fragment.my.WithdrawalAddressFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import androidx.annotation.Nullable;
@@ -93,9 +94,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_TRADE_SETTINGS:
                 addTradeSettingsFragment();
                 break;
+            case IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS:
+                addWithdrawalAddressFragment();
+                break;
         }
 
 
+    }
+
+    private void addWithdrawalAddressFragment() {
+        String name = WithdrawalAddressFragment.class.getSimpleName();
+        //安全中心
+        WithdrawalAddressFragment fragment = new WithdrawalAddressFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addTradeSettingsFragment() {

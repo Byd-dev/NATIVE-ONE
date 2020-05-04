@@ -992,11 +992,17 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 break;
             /*交易设置*/
             case R.id.layout_five:
-
                 UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
-
                 break;
+            /*提币地址管理*/
+            case R.id.layout_six:
 
+                if (isLogin()) {
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS);
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
         }
     }
 

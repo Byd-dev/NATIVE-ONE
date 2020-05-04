@@ -281,5 +281,6 @@
     <string name="text_sure_info">Пожалуйста, подтвердите информацию перед трансфертом</string>
     <string name="text_available_money">Доступно</string>
     <string name="text_register_now">Регистрация</string>
+    <string name="text_add_withdrawal_address">Добавить адрес снятия</string>
 
 </resources>

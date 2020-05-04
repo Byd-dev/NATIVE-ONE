@@ -281,5 +281,6 @@
     <string name="text_sure_info">이체 시 정보를 반드시 확인하셔야 합니다.</string>
     <string name="text_available_money">가용한도</string>
     <string name="text_register_now">회원가입</string>
+    <string name="text_add_withdrawal_address">출금 주소 추가</string>
 
 </resources>

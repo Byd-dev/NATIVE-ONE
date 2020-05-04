@@ -280,5 +280,6 @@
     <string name="text_sure_info">Please confirm the information before transfer</string>
     <string name="text_available_money">Available</string>
     <string name="text_register_now">Register</string>
+    <string name="text_add_withdrawal_address">Add</string>
 
 </resources>

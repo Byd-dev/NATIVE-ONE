@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_maincolor">
+
+    <include layout="@layout/layout_bar" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--列表-->
+
+            <com.pro.bityard.view.HeaderRecyclerView
+                android:id="@+id/recyclerView_address"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_btn"
+        android:layout_marginBottom="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_25"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:background="@drawable/bg_shape_main_color"
+        android:padding="10dp"
+        android:text="@string/text_add_withdrawal_address"
+        android:textColor="@color/color_btn_text"
+        android:textSize="16sp"
+
+        />
+
+
+
+</LinearLayout>
