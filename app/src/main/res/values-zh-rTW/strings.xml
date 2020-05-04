@@ -282,5 +282,6 @@
     <string name="text_available_money">可用額度</string>
     <string name="text_register_now">立即註冊></string>
     <string name="text_add_withdrawal_address">添加提幣地址</string>
+    <string name="text_delete_address">删除地址</string>
 
 </resources>

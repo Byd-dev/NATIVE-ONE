@@ -830,6 +830,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 if (text_market_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
                     return;
                 } else {
+                    Util.lightOff(QuoteDetailActivity.this);
                     PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
                             new StringBuilder().append(getString(R.string.text_service_tip)).append(text_market_all.getText().toString()).append("USDT").toString(), state -> {
                             }
@@ -840,6 +841,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 if (text_limit_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
                     return;
                 } else {
+                    Util.lightOff(QuoteDetailActivity.this);
                     PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
                             new StringBuilder().append(getString(R.string.text_service_tip)).append(text_limit_all.getText().toString()).append("USDT").toString(), state -> {
                             }
@@ -976,7 +978,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
         popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(false);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_pop_market, Gravity.CENTER, 0, 0);
     }

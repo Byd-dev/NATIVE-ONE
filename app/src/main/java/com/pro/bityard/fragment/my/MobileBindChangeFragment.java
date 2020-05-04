@@ -460,7 +460,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
     private void showEditPopWindow(CountryCodeEntity data) {
 
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_country_code_layout, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_country_code_layout, null);
 
         TextView text_try = view.findViewById(R.id.text_try);
 
@@ -518,10 +518,12 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
 
         });
 
+
+
         popupWindow.setFocusable(true);
         //popupWindow.setAnimationStyle(R.style.pop_anim);
         popupWindow.setContentView(view);
-        popupWindow.setOutsideTouchable(false);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
 
     }

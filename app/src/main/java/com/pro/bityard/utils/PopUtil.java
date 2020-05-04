@@ -44,7 +44,6 @@ public class PopUtil {
         view.findViewById(R.id.text_sure).setOnClickListener(v -> {
             onPopResult.setPopResult(true);
             popupWindow.dismiss();
-            backgroundAlpha(activity);
         });
 
         TextView text_cancel = view.findViewById(R.id.text_cancel);
@@ -57,25 +56,21 @@ public class PopUtil {
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             onPopResult.setPopResult(false);
             popupWindow.dismiss();
-            backgroundAlpha(activity);
         });
-        WindowManager.LayoutParams params = activity.getWindow().getAttributes();
-        params.alpha = 0.6f;
-        activity.getWindow().setAttributes(params);
-        popupWindow.setFocusable(false);
-        popupWindow.setOutsideTouchable(false);
+
+
+        Util.dismiss(activity,popupWindow);
+
+
+        Util.isShowing(activity,popupWindow);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
        // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 
     }
 
-    private void backgroundAlpha(Activity activity) {
-        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
-        lp.alpha = (float) 1.0;
-        activity.getWindow().setAttributes(lp);
 
-
-    }
 
 }

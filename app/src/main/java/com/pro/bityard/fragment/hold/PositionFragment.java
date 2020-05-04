@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -187,12 +186,13 @@ public class PositionFragment extends BaseFragment implements Observer {
         positionAdapter.setOnItemClick(new PositionAdapter.OnItemClick() {
             @Override
             public void onClickListener(PositionEntity.DataBean data) {
+                Util.lightOff(getActivity());
                 showAddPopWindow(data);
             }
 
             @Override
             public void onCloseListener(String id) {
-
+                Util.lightOff(getActivity());
                 boolean isCloseSure = SPUtils.getBoolean(AppConfig.KEY_CLOSE_SURE, false);
                 if (isCloseSure) {
                     PopUtil.getInstance().showTip(getActivity(), layout_view, true, getResources().getString(R.string.text_are_you_sure), state -> {
@@ -209,7 +209,7 @@ public class PositionFragment extends BaseFragment implements Observer {
             @Override
             public void onProfitLossListener(PositionEntity.DataBean data) {
                 Log.d("print", "onProfitLossListener:165:  " + data);
-
+                Util.lightOff(getActivity());
                 showPopWindow(data);
 
             }
@@ -375,7 +375,6 @@ public class PositionFragment extends BaseFragment implements Observer {
                 } else if (state.equals(SUCCESS)) {
                     dismissProgressDialog();
                     popupWindow.dismiss();
-                    backgroundAlpha(1f);
                     Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
 
                 } else if (state.equals(FAILURE)) {
@@ -389,16 +388,13 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             popupWindow.dismiss();
-            backgroundAlpha(1f);
         });
 
-        WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
-        params.alpha = 0.6f;
-        getActivity().getWindow().setAttributes(params);
+        Util.dismiss(getActivity(), popupWindow);
+        Util.isShowing(getActivity(), popupWindow);
 
         popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(false);
-        // popupWindow.setAnimationStyle(R.style.pop_anim);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 
@@ -452,7 +448,6 @@ public class PositionFragment extends BaseFragment implements Observer {
         });
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             popupWindow.dismiss();
-            backgroundAlpha(1f);
 
         });
 
@@ -980,7 +975,6 @@ public class PositionFragment extends BaseFragment implements Observer {
                         } else if (state.equals(SUCCESS)) {
                             dismissProgressDialog();
                             popupWindow.dismiss();
-                            backgroundAlpha(1f);
                             initData();
 
                             Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
@@ -994,24 +988,14 @@ public class PositionFragment extends BaseFragment implements Observer {
         });
 
 
-        WindowManager.LayoutParams params = getActivity().getWindow().getAttributes();
-        params.alpha = 0.6f;
-        getActivity().getWindow().setAttributes(params);
+        Util.dismiss(getActivity(), popupWindow);
+
+        Util.isShowing(getActivity(), popupWindow);
 
         popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(false);
-        // popupWindow.setAnimationStyle(R.style.pop_anim);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
-
-    }
-
-
-    public void backgroundAlpha(float bgalpha) {
-        WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-        lp.alpha = bgalpha;
-        getActivity().getWindow().setAttributes(lp);
-
 
     }
 
@@ -1132,7 +1116,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                         //整体盈亏
                         setIncome(quoteList, positionEntity);
                         //整体净值
-                      //  setNetIncome(tradeType, positionEntity.getData(), quoteList);
+                        //  setNetIncome(tradeType, positionEntity.getData(), quoteList);
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
                     } else {
                         positionEntity.getData().clear();

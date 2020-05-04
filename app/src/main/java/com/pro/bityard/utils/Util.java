@@ -1,6 +1,7 @@
 package com.pro.bityard.utils;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -15,9 +16,11 @@ import android.text.method.PasswordTransformationMethod;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
@@ -479,4 +482,30 @@ public class Util {
             }
         });
     }
+
+    public static void lightOff(Activity activity) {
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = 0.7f;
+        activity.getWindow().setAttributes(lp);
+    }
+
+    public static void lightOn(Activity activity) {
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = 1f;
+        activity.getWindow().setAttributes(lp);
+    }
+
+    public static void dismiss(Activity activity, PopupWindow popupWindow) {
+        popupWindow.setOnDismissListener(() -> {
+            lightOn(activity);
+        });
+    }
+
+    public static  void isShowing(Activity activity, PopupWindow popupWindow){
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+            lightOn(activity);
+        }
+    }
+
 }
