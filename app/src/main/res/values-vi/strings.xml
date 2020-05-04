@@ -283,5 +283,10 @@
     <string name="text_register_now">Đăng ký</string>
     <string name="text_add_withdrawal_address">Thêm địa chỉ rút tiền</string>
     <string name="text_delete_address">Xóa địa chỉ</string>
+    <string name="text_chain_name">Chain Name</string>
+    <string name="text_enter">Nhập</string>
+    <string name="text_add_address">Địa chỉ</string>
+    <string name="text_address_tag">Nhập thẻ địa chỉ ví</string>
+    <string name="text_add_success">Đã thêm</string>
 
 </resources>

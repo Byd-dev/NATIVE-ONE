@@ -282,5 +282,10 @@
     <string name="text_register_now">立即注册></string>
     <string name="text_add_withdrawal_address">添加提币地址</string>
     <string name="text_delete_address">删除地址</string>
+    <string name="text_chain_name">选择链名称</string>
+    <string name="text_enter">请输入</string>
+    <string name="text_add_address">地址</string>
+    <string name="text_address_tag">请输入钱包地址标签</string>
+    <string name="text_add_success">添加成功</string>
 
 </resources>

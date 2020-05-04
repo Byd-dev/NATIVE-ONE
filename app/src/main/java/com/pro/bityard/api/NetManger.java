@@ -1,6 +1,7 @@
 package com.pro.bityard.api;
 
 
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -12,6 +13,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
@@ -40,8 +42,6 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -204,7 +204,7 @@ public class NetManger {
             Log.d("transfer", "getURL:请求地址:  " + url_result);
 
             try {
-                onNetResult.onNetResult(SUCCESS, URLEncoder.encode(url_result));
+                onNetResult.onNetResult(SUCCESS, Uri.encode(url_result));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1086,7 +1086,7 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
 
 
-                Log.d("print", "getRateList:1086:  "+response.toString());
+                Log.d("print", "getRateList:1086:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -1590,7 +1590,7 @@ public class NetManger {
         }
 
         Log.d("transfer", "transfer:1557: " + map);
-        postRequest("/api/pay/withdraw/transfer", map, (state, response) -> {
+        postRequest2("/api/pay/withdraw/transfer", map, (state, response) -> {
             Log.d("transfer", "transfer: 1586: " + response);
             if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
@@ -1601,8 +1601,8 @@ public class NetManger {
 
     public void postRequest2(String url, ArrayMap map, OnNetResult onNetResult) {
         getURL2(url, map, (state, response) -> {
-            if (state.equals(SUCCESS)){
-                Log.d("transfer", "postRequest2: "+response.toString());
+            if (state.equals(SUCCESS)) {
+                Log.d("transfer", "postRequest2: " + response.toString());
                 OkGo.<String>post(response.toString())
                         .execute(new StringCallback() {
                             @Override
@@ -1634,12 +1634,33 @@ public class NetManger {
 
 
     /*提币地址管理*/
-    public void withdrawalAddressList(OnNetResult onNetResult){
+    public void withdrawalAddressList(OnNetResult onNetResult) {
         getRequest("/api/user/withdraw-address/list", null, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                WithdrawalAdressEntity entity = new Gson().fromJson(response.toString(), WithdrawalAdressEntity.class);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    WithdrawalAdressEntity entity = new Gson().fromJson(response.toString(), WithdrawalAdressEntity.class);
+                    onNetResult.onNetResult(SUCCESS, entity);
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    /*提币地址删除*/
+    public void deleteAddress(String addressId, OnNetResult onNetResult) {
+        postRequest("/api/user/withdraw-address/delete/" + addressId, null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "deleteAddress:1664:  " + response);
+                TipEntity entity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, entity);
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
@@ -1647,4 +1668,31 @@ public class NetManger {
             }
         });
     }
+
+    /*提币地址添加*/
+    public void addAddress(String currency, String chain, String address, String remark, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("currency", currency);
+        map.put("chain", chain);
+        map.put("address", address);
+        map.put("remark", remark);
+
+        postRequest("/api/user/withdraw-address/create", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    AddAddressItemEntity entity = new Gson().fromJson(response.toString(), AddAddressItemEntity.class);
+                    onNetResult.onNetResult(SUCCESS, entity);
+                } else {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
 }

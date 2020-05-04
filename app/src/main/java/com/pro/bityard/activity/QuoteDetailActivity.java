@@ -781,7 +781,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 if (popupWindow != null && popupWindow.isShowing()) {
                     popupWindow.dismiss();
                     img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
-                    backgroundAlpha(1f);
                 } else {
                     showProductWindow(quoteList);
                     img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_open));
@@ -917,7 +916,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.layout_market_lever_select:
             case R.id.layout_limit_lever_select:
-
+                Util.lightOff(QuoteDetailActivity.this);
                 showLeverWindow(tradeListEntity);
 
 
@@ -976,7 +975,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             });
         }
-
+        Util.dismiss(QuoteDetailActivity.this,popupWindow);
+        Util.dismiss(QuoteDetailActivity.this,popupWindow);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
@@ -1001,14 +1001,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 String priceMuch = text_buy_much.getText().toString();
                 fastOpen(isBuy, priceMuch);
                 popupWindow.dismiss();
-                backgroundAlpha(1f);
             }
         });
         view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
-                backgroundAlpha(1f);
             }
         });
         WindowManager.LayoutParams params = getWindow().getAttributes();
@@ -1153,7 +1151,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             //相应选择
             quotePopAdapter.select(itemQuoteContCode(data));
-            backgroundAlpha(1f);
             img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
             popupWindow.dismiss();
 
@@ -1166,9 +1163,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         });
 
 
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 0.6f;
-        getWindow().setAttributes(params);
+
 
         Button btn_switch = view.findViewById(R.id.btn_switch);
 
@@ -1212,15 +1207,17 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
             }
 
-            backgroundAlpha(1f);
             popupWindow.dismiss();
             img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
 
 
         });
 
-        popupWindow.setFocusable(false);
-        popupWindow.setOutsideTouchable(false);
+        Util.dismiss(QuoteDetailActivity.this,popupWindow);
+        Util.dismiss(QuoteDetailActivity.this,popupWindow);
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
         // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_bar);
@@ -1565,13 +1562,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-    public void backgroundAlpha(float bgAlpha) {
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = bgAlpha;
-        getWindow().setAttributes(lp);
 
-
-    }
 
     @Override
     protected void onDestroy() {

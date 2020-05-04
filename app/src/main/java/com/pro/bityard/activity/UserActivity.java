@@ -8,6 +8,7 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;
 import com.pro.bityard.fragment.my.FundStatementFragment;
@@ -97,9 +98,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS:
                 addWithdrawalAddressFragment();
                 break;
+            case IntentConfig.Keys.KEY_ADD_ADDRESS:
+                addAddAddressFragment();
+                break;
         }
 
 
+    }
+
+    private void addAddAddressFragment() {
+        String name = AddAddressFragment.class.getSimpleName();
+        //安全中心
+        AddAddressFragment fragment = new AddAddressFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addWithdrawalAddressFragment() {

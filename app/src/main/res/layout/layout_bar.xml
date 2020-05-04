@@ -26,6 +26,19 @@
             android:textColor="@color/text_maincolor"
             android:textSize="@dimen/title_size" />
 
+        <ImageView
+            android:id="@+id/img_service"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/icon_service"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/margin_15"
+            android:paddingLeft="@dimen/margin_15"
+            android:visibility="gone"
+            />
+
+
 
     </RelativeLayout>
 

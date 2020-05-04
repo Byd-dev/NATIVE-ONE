@@ -283,5 +283,10 @@
     <string name="text_register_now">Регистрация</string>
     <string name="text_add_withdrawal_address">Добавить адрес снятия</string>
     <string name="text_delete_address">Удалить адрес</string>
+    <string name="text_chain_name">Название цепочки</string>
+    <string name="text_enter">Введите</string>
+    <string name="text_add_address">Адрес</string>
+    <string name="text_address_tag">Введите адрес кошелька</string>
+    <string name="text_add_success">Успешно</string>
 
 </resources>

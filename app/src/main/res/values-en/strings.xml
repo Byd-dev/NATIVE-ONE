@@ -282,5 +282,10 @@
     <string name="text_register_now">Register</string>
     <string name="text_add_withdrawal_address">Add</string>
     <string name="text_delete_address">Delete Address</string>
+    <string name="text_chain_name">Chain Name</string>
+    <string name="text_enter">Input</string>
+    <string name="text_add_address">address</string>
+    <string name="text_address_tag">Input wallet address tag</string>
+    <string name="text_add_success">Success</string>
 
 </resources>

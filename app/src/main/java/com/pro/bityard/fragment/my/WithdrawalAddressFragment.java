@@ -14,9 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.WithdrawalAddressAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.utils.Util;
 
@@ -45,6 +47,12 @@ public class WithdrawalAddressFragment extends BaseFragment implements View.OnCl
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
+    @Override
     protected void onLazyLoad() {
 
     }
@@ -53,6 +61,7 @@ public class WithdrawalAddressFragment extends BaseFragment implements View.OnCl
     protected void initView(View view) {
         text_title.setText(getResources().getString(R.string.text_withdrawal_address));
         view.findViewById(R.id.img_back).setOnClickListener(this);
+        view.findViewById(R.id.btn_submit).setOnClickListener(this);
 
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
@@ -85,7 +94,17 @@ public class WithdrawalAddressFragment extends BaseFragment implements View.OnCl
 
 
         view.findViewById(R.id.text_delete).setOnClickListener(v -> {
-            popupWindow.dismiss();
+            NetManger.getInstance().deleteAddress(data.getId(), (state, response) -> {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    popupWindow.dismiss();
+                    initData();
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
+            });
         });
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
@@ -94,8 +113,6 @@ public class WithdrawalAddressFragment extends BaseFragment implements View.OnCl
 
 
         Util.dismiss(getActivity(), popupWindow);
-
-
         Util.isShowing(getActivity(), popupWindow);
 
 
@@ -132,7 +149,9 @@ public class WithdrawalAddressFragment extends BaseFragment implements View.OnCl
             } else if (state.equals(SUCCESS)) {
                 swipeRefreshLayout.setRefreshing(false);
                 WithdrawalAdressEntity withdrawalAdressEntity = (WithdrawalAdressEntity) response;
-                withdrawalAddressAdapter.setDatas(withdrawalAdressEntity.getData());
+                if (withdrawalAdressEntity != null) {
+                    withdrawalAddressAdapter.setDatas(withdrawalAdressEntity.getData());
+                }
             } else if (state.equals(FAILURE)) {
                 swipeRefreshLayout.setRefreshing(false);
             }
@@ -145,6 +164,10 @@ public class WithdrawalAddressFragment extends BaseFragment implements View.OnCl
         switch (v.getId()) {
             case R.id.img_back:
                 getActivity().finish();
+                break;
+            case R.id.btn_submit:
+                UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_ADD_ADDRESS);
+
                 break;
         }
     }
