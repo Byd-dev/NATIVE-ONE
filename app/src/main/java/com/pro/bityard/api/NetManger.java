@@ -62,6 +62,8 @@ public class NetManger {
 
     public static String BASE_URL = "http://test.bityard.com";   //测试
 
+    public static String SERVICE_URL="https://v2.live800.com/live800/chatClient/chatbox.jsp?companyID=1360004&configID=128342&jid=1252134905&s=1&lan=%s&s=1&info=userId=%sname=%s";
+
     //  public static String BASE_URL = "https://www.bityard.com";    //正式
 
     public static NetManger getInstance() {

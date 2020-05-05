@@ -198,6 +198,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     private String netIncomeResult;
     private List<PositionEntity.DataBean> positionRealList;
     private List<PositionEntity.DataBean> positionSimulationList;
+    private LoginEntity loginEntity;
 
 
     @Override
@@ -466,11 +467,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     protected void onResume() {
         super.onResume();
         if (isLogin()) {
-            LoginEntity data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-            Log.d("print", "onResume:30:  " + data);
-            text_userName.setText(data.getUser().getAccount());
+            loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+            Log.d("print", "onResume:30:  " + loginEntity);
+            text_userName.setText(loginEntity.getUser().getAccount());
             text_uid.setVisibility(View.VISIBLE);
-            text_uid.setText(data.getUser().getUserId());
+            text_uid.setText(loginEntity.getUser().getUserId());
             text_register.setVisibility(View.GONE);
 
         } else {
@@ -1006,7 +1007,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             /*客服系统*/
             case R.id.layout_seven:
 
-                WebActivity.getInstance().openUrl(MainOneActivity.this, "https://v2.live800.com/live800/chatClient/chatbox.jsp?companyID=1360004&configID=128342&jid=1252134905&s=1&lan=zh&s=1&info=userId%3D422134795078729728%26name%3D%E6%B8%B8%E5%AE%A2%26memo%3D%27", "在线客服");
+                String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, "zh_cn");
+                String url;
+                if (isLogin()){
+                     url = String.format(NetManger.SERVICE_URL, language,loginEntity.getUser().getUserId(),loginEntity.getUser().getAccount());
+                }else {
+                    url = String.format(NetManger.SERVICE_URL,language, "","游客");
+                }
+                WebActivity.getInstance().openUrl(MainOneActivity.this, url, getResources().getString(R.string.text_my_service));
 
 
                 break;
