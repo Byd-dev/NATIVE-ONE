@@ -8,11 +8,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.WebActivity;
 import com.pro.bityard.adapter.ChainListAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.AddAddressItemEntity;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.utils.Util;
+import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +51,14 @@ public class AddAddressFragment extends BaseFragment implements View.OnClickList
     private List<String> dataList;
 
     private String chain = "OMNI";
+    private LoginEntity loginEntity;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+
+    }
 
     @Override
     protected void onLazyLoad() {
@@ -126,6 +138,17 @@ public class AddAddressFragment extends BaseFragment implements View.OnClickList
                         dismissProgressDialog();
                     }
                 });
+                break;
+
+            case R.id.img_service:
+                String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, "zh_cn");
+                String url;
+                if (isLogin()) {
+                    url = String.format(NetManger.SERVICE_URL, language, loginEntity.getUser().getUserId(), loginEntity.getUser().getAccount());
+                } else {
+                    url = String.format(NetManger.SERVICE_URL, language, "", "游客");
+                }
+                WebActivity.getInstance().openUrl(getActivity(), url, getResources().getString(R.string.text_my_service));
                 break;
 
         }

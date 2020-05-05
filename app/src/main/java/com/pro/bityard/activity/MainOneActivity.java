@@ -526,9 +526,10 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         recyclerView_hot.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView_hot.setAdapter(quoteHomeAdapter);
         quoteHomeAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(this, "1", data));
-        view.findViewById(R.id.img_icon1).setOnClickListener(this);
-        view.findViewById(R.id.img_icon2).setOnClickListener(this);
-        view.findViewById(R.id.img_head).setOnClickListener(this);
+        findViewById(R.id.img_icon1).setOnClickListener(this);
+        findViewById(R.id.img_icon2).setOnClickListener(this);
+        findViewById(R.id.img_head).setOnClickListener(this);
+        findViewById(R.id.img_service).setOnClickListener(this);
         quoteAdapter = new QuoteAdapter(this);
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_list.setAdapter(quoteAdapter);
@@ -1005,17 +1006,17 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
                 break;
             /*客服系统*/
+            case R.id.img_service:
             case R.id.layout_seven:
 
                 String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, "zh_cn");
                 String url;
-                if (isLogin()){
-                     url = String.format(NetManger.SERVICE_URL, language,loginEntity.getUser().getUserId(),loginEntity.getUser().getAccount());
-                }else {
-                    url = String.format(NetManger.SERVICE_URL,language, "","游客");
+                if (isLogin()) {
+                    url = String.format(NetManger.SERVICE_URL, language, loginEntity.getUser().getUserId(), loginEntity.getUser().getAccount());
+                } else {
+                    url = String.format(NetManger.SERVICE_URL, language, "", "游客");
                 }
                 WebActivity.getInstance().openUrl(MainOneActivity.this, url, getResources().getString(R.string.text_my_service));
-
 
                 break;
 

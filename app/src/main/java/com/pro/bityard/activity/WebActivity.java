@@ -394,7 +394,6 @@ public class WebActivity extends BaseActivity {
 
         String performance = DeviceUtil.isPerformance(context);
 
-
         isProgress = false;
         if (context != null) {
             String url = new UrlBuilder()
