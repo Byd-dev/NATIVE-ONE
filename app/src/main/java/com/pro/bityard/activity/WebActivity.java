@@ -23,6 +23,8 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -39,9 +41,17 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import butterknife.BindView;
 
 public class WebActivity extends BaseActivity {
 
+
+    @BindView(R.id.bar)
+    RelativeLayout layout_bar;
+    @BindView(R.id.text_title)
+    TextView text_title;
+    @BindView(R.id.img_back)
+    ImageView img_back;
 
     private static final int MY_PERMISSION_REQUEST_CODE = 10000;
 
@@ -49,7 +59,7 @@ public class WebActivity extends BaseActivity {
     private static WebActivity instance;
     private TextView text_err;
 
-    private RelativeLayout layout;
+    private LinearLayout layout;
 
     public static WebActivity getInstance() {
 
@@ -111,18 +121,6 @@ public class WebActivity extends BaseActivity {
                     }
                 }
 
-             /*   builder.append("?");
-                for (Map.Entry<String, Object> entry : params.entrySet()) {
-                    if (entry.getValue() != null) {
-                        builder.append(entry.getKey());
-                        builder.append('=');
-                        builder.append(entry.getValue().toString());
-                        builder.append('&');
-                    }
-                }
-                if (builder.toString().endsWith("&")) {
-                    builder.deleteCharAt(builder.length() - 1);
-                }*/
             }
             return builder.toString();
         }
@@ -146,7 +144,10 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //主题是深色的标题
+        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        //打开沉浸式状态栏
+        StatusBarUtil.setRootViewFitsSystemWindows(this, true);
 
     }
 
@@ -158,7 +159,6 @@ public class WebActivity extends BaseActivity {
 
     private static void openWeb(Context context, Intent intent) {
 
-        intent.putExtra("title", "color");
 
         context.startActivity(intent);
 
@@ -166,27 +166,24 @@ public class WebActivity extends BaseActivity {
 
 
     private void processIntent(Intent intent) {
-        Log.d(TAG, "openUrlNotitle:366:   " + intent);
-        Log.d(TAG, "openUrlNotitle:368:   " + intent);
 
         if (intent != null) {
             mTitle = intent.getStringExtra(KEY_TITLE);
             mUrl = intent.getStringExtra(KEY_URL);
-            String title = intent.getStringExtra("title");
 
-            if (title.equals("color")) {
-                setStatusBar(getResources().getColor(com.pro.switchlibrary.R.color.black));
+            text_title.setText(mTitle);
 
-            }
-
-
-            Boolean hasService = intent.getBooleanExtra(KEY_HAS_SERVICE, false);
-            //boolean hasCloseButton = intent.getBooleanExtra(KEY_HAS_CLOSE_BUTTON, false);
             String html = intent.getStringExtra(KEY_HTML);
-            boolean hasShareArticle = intent.getBooleanExtra(KEY_HAS_SHARE_ARTICLE, false);
+
 
             boolean hasTitle = intent.getBooleanExtra(KEY_HAS_TITLE, true);
 
+            if (hasTitle) {
+                layout_bar.setVisibility(View.VISIBLE);
+            } else {
+                layout_bar.setVisibility(View.GONE);
+
+            }
 
             if (!TextUtils.isEmpty(html)) {
                 mWebView.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
@@ -266,18 +263,8 @@ public class WebActivity extends BaseActivity {
                 builder.setTitle("SSL Certificate Error");
                 builder.setMessage(message);
 
-                builder.setPositiveButton("continue", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        handler.proceed();
-                    }
-                });
-                builder.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        handler.cancel();
-                    }
-                });
+                builder.setPositiveButton("continue", (dialog, which) -> handler.proceed());
+                builder.setNegativeButton("cancel", (dialog, which) -> handler.cancel());
                 final AlertDialog dialog = builder.create();
                 dialog.show();
             }
@@ -402,18 +389,8 @@ public class WebActivity extends BaseActivity {
 
     private static boolean isProgress = true;
 
-    public void openUrlWithTitle(Context context, String H5url) {
 
-        isProgress = false;
-        if (context != null) {
-            Intent intent = new Intent(context, WebActivity.class);
-            intent.putExtra(KEY_URL, H5url);
-            intent.putExtra(KEY_HAS_TITLE, true);
-            openWeb(context, intent);
-        }
-    }
-
-    public void openUrlNoTitle(Context context, String H5url, String title) {
+    public void openUrl(Context context, String H5url, String title) {
 
         String performance = DeviceUtil.isPerformance(context);
 
@@ -422,13 +399,17 @@ public class WebActivity extends BaseActivity {
         if (context != null) {
             String url = new UrlBuilder()
                     .url(H5url)
-                    .put("lv", performance)
                     .toUrl();
 
             Intent intent = new Intent(context, WebActivity.class);
             intent.putExtra(KEY_URL, url);
             intent.putExtra(KEY_TITLE, title);
-            intent.putExtra(KEY_HAS_TITLE, false);
+            if (title != null) {
+                intent.putExtra(KEY_HAS_TITLE, true);
+            } else {
+                intent.putExtra(KEY_HAS_TITLE, false);
+
+            }
             openWeb(context, intent);
         }
     }
@@ -450,20 +431,12 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void initView(View view) {
 
-        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
-        StatusBarUtil.setRootViewFitsSystemWindows(this, true);
-        //设置状态栏透明
-        StatusBarUtil.setTranslucentStatus(this);
-        if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
-            //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
-            //这样半透明+白=灰, 状态栏的文字能看得清
-            StatusBarUtil.setStatusBarColor(this, 0X0000000);
-        }
+        mWebView = findViewById(R.id.webview);
 
-        mWebView = findViewById(com.pro.switchlibrary.R.id.webview);
+        text_err = findViewById(R.id.text_err);
+        layout = findViewById(R.id.layout);
 
-        text_err = findViewById(com.pro.switchlibrary.R.id.text_err);
-        layout = findViewById(com.pro.switchlibrary.R.id.layout);
+        img_back.setOnClickListener(v -> finish());
 
 
         initViews();
