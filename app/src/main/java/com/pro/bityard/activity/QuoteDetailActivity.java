@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -400,7 +399,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         radioGroupAdapter = new RadioGroupAdapter(this);
         /*recyclerView_market.setAdapter(radioGroupAdapter);
         recyclerView_limit.setAdapter(radioGroupAdapter);*/
-
 
 
         text_market_all.setOnClickListener(this);
@@ -975,8 +973,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             });
         }
-        Util.dismiss(QuoteDetailActivity.this,popupWindow);
-        Util.dismiss(QuoteDetailActivity.this,popupWindow);
+        Util.dismiss(QuoteDetailActivity.this, popupWindow);
+        Util.dismiss(QuoteDetailActivity.this, popupWindow);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
@@ -1003,18 +1001,20 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 popupWindow.dismiss();
             }
         });
+
+
         view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 popupWindow.dismiss();
             }
         });
-        WindowManager.LayoutParams params = getWindow().getAttributes();
-        params.alpha = 0.6f;
-        getWindow().setAttributes(params);
+
+        Util.dismiss(QuoteDetailActivity.this, popupWindow);
+        Util.isShowing(QuoteDetailActivity.this, popupWindow);
 
         popupWindow.setFocusable(false);
-        popupWindow.setOutsideTouchable(false);
+        popupWindow.setOutsideTouchable(true);
         // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
@@ -1049,6 +1049,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             return;
         }
         String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
+        Util.lightOff(QuoteDetailActivity.this);
         showTip(isBuy, margin, serviceCharge);
 
     }
@@ -1056,7 +1057,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     /*下单*/
     private void fastOpen(String isBuy, String priceMuchOrEmpty) {
         isDefer = SPUtils.getBoolean(AppConfig.KEY_DEFER, false);
-        Log.d("print", "initView:是否递延:  "+isDefer);
+        Log.d("print", "initView:是否递延:  " + isDefer);
 
         TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(quote), tradeListEntityList);
         if (priceMuchOrEmpty.equals(getResources().getString(R.string.text_default))) {
@@ -1163,8 +1164,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         });
 
 
-
-
         Button btn_switch = view.findViewById(R.id.btn_switch);
 
         if (tradeType.equals("1")) {
@@ -1213,8 +1212,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         });
 
-        Util.dismiss(QuoteDetailActivity.this,popupWindow);
-        Util.dismiss(QuoteDetailActivity.this,popupWindow);
+        Util.dismiss(QuoteDetailActivity.this, popupWindow);
+        Util.dismiss(QuoteDetailActivity.this, popupWindow);
 
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
@@ -1560,8 +1559,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         }
     }
-
-
 
 
     @Override
