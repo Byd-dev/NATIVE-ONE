@@ -269,6 +269,12 @@ public class FundTransferFragment extends BaseFragment implements View.OnClickLi
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         DepositWithdrawEntity depositWithdrawEntity = (DepositWithdrawEntity) response;
+                        if (depositWithdrawEntity==null){
+                            return;
+                        }
+                        if (depositWithdrawEntity.getData()==null){
+                            return;
+                        }
                         if (depositWithdrawEntity.getData().size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);

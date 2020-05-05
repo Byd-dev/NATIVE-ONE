@@ -45,6 +45,7 @@
 
         </activity>
         <activity android:name=".activity.MainOneActivity" />
+        <activity android:name=".activity.WebActivity" />
 
         <meta-data
             android:name="android.max_aspect"

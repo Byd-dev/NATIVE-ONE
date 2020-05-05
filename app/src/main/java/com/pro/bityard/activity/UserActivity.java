@@ -101,6 +101,7 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_ADD_ADDRESS:
                 addAddAddressFragment();
                 break;
+
         }
 
 

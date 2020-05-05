@@ -1003,6 +1003,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
+            /*客服系统*/
+            case R.id.layout_seven:
+
+                WebActivity.getInstance().openUrlNoTitle(MainOneActivity.this, "https://v2.live800.com/live800/chatClient/chatbox.jsp?companyID=1360004&configID=128342&jid=1252134905&s=1&lan=zh&s=1&info=userId%3D422134795078729728%26name%3D%E6%B8%B8%E5%AE%A2%26memo%3D%27", "在线客服");
+
+
+                break;
+
         }
     }
 

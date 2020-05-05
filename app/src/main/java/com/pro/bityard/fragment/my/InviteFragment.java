@@ -504,6 +504,9 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 if (inviteListEntity == null) {
                     return;
                 }
+                if (inviteListEntity.getData()==null){
+                    return;
+                }
                 if (inviteListEntity.getData().size() == 0) {
                     layout_null.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);

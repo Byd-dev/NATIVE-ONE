@@ -25,6 +25,7 @@ public class IntentConfig {
         public static final String KEY_TRADE_SETTINGS = "TRADE_SETTINGS";
         //提币地址管理
         public static final String KEY_WITHDRAWAL_ADDRESS = "WITHDRAWAL_ADDRESS";
+
         //增加地址管理
         public static final String KEY_ADD_ADDRESS = "ADD_ADDRESS";
         //修改登录密码
