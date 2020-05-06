@@ -4,7 +4,7 @@
     android:id="@+id/layout_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_maincolor"
+    android:background="@color/color_bg_left"
     android:orientation="vertical">
 
 
@@ -13,6 +13,7 @@
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="@color/background_maincolor"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -76,95 +77,95 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <com.stx.xhb.xbanner.XBanner
-                    android:id="@+id/banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="125dp"
-                    android:layout_centerInParent="true"
-                    android:layout_marginTop="@dimen/margin_13"
-                    android:visibility="visible"
-                    app:AutoPlayTime="5000"
-                    app:clipChildrenLeftRightMargin="@dimen/margin_15"
-                    app:isClipChildrenMode="false"
-                    app:isHandLoop="true"
-                    app:pageChangeDuration="800"
-                    app:pointNormal="@mipmap/ic_point_gray"
-                    app:pointSelect="@mipmap/ic_point_blue" />
-                <!--快讯-->
                 <LinearLayout
-                    android:id="@+id/layout_announcement"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:layout_marginTop="@dimen/margin_15"
-                    android:layout_marginRight="@dimen/margin_15"
-                    android:background="@drawable/bg_shape_background"
-                    android:orientation="horizontal"
-                    android:visibility="visible">
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_shape_bottom_radius"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:src="@mipmap/icon_report"
-                        android:visibility="visible" />
-
-
+                    <com.stx.xhb.xbanner.XBanner
+                        android:id="@+id/banner"
+                        android:layout_width="match_parent"
+                        android:layout_height="125dp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="@dimen/margin_13"
+                        android:visibility="visible"
+                        app:AutoPlayTime="5000"
+                        app:clipChildrenLeftRightMargin="@dimen/margin_15"
+                        app:isClipChildrenMode="false"
+                        app:isHandLoop="true"
+                        app:pageChangeDuration="800"
+                        app:pointNormal="@mipmap/ic_point_gray"
+                        app:pointSelect="@mipmap/ic_point_blue" />
+                    <!--快讯-->
                     <LinearLayout
-                        android:id="@+id/layout_news"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
+                        android:id="@+id/layout_announcement"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/margin_15"
+                        android:layout_marginTop="@dimen/margin_15"
+                        android:layout_marginRight="@dimen/margin_15"
+                        android:background="@drawable/bg_second_background"
                         android:orientation="horizontal"
                         android:visibility="visible">
 
-
-                        <TextSwitcher
-                            android:id="@+id/ts_news"
-                            android:layout_width="match_parent"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10dp"
-                            android:inAnimation="@anim/slide_in_from_bottom"
-                            android:outAnimation="@anim/slide_out_to_top">
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:src="@mipmap/icon_report"
+                            android:visibility="visible" />
 
-                        </TextSwitcher>
+
+                        <LinearLayout
+                            android:id="@+id/layout_news"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
+
+
+                            <TextSwitcher
+                                android:id="@+id/ts_news"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="10dp"
+                                android:inAnimation="@anim/slide_in_from_bottom"
+                                android:outAnimation="@anim/slide_out_to_top">
+
+                            </TextSwitcher>
+
+                        </LinearLayout>
+
 
                     </LinearLayout>
-
-
-                </LinearLayout>
-                <!--三个行情-->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_line"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:layout_marginRight="@dimen/margin_15"
-                    android:background="@color/home_line" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:layout_margin="@dimen/margin_15"
-                    android:background="@drawable/bg_shape_background">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_hot"
+                    <!--三个行情-->
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerInParent="true" />
+                        android:layout_height="90dp"
+                        android:layout_margin="@dimen/margin_10">
 
-                </RelativeLayout>
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView_hot"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true" />
 
+                    </RelativeLayout>
+                </LinearLayout>
 
                 <!--中间图片-->
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="@dimen/margin_50"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:layout_marginTop="@dimen/margin_10"
                     android:background="@color/color_bg_left">
 
                     <ImageView
@@ -172,7 +173,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/margin_15"
-                        android:layout_marginTop="@dimen/margin_7"
                         android:layout_marginRight="@dimen/margin_15"
                         android:scaleType="fitXY" />
 
@@ -181,6 +181,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
+                    android:layout_marginBottom="@dimen/margin_10"
                     android:background="@color/color_bg_left"
                     android:orientation="horizontal">
 
@@ -188,8 +189,6 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/margin_15"
-                        android:layout_marginTop="@dimen/margin_7"
-                        android:layout_marginBottom="@dimen/margin_7"
                         android:layout_weight="3"
                         android:background="@drawable/bg_shape_background"
                         android:gravity="left|center_vertical"
@@ -232,9 +231,7 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_marginTop="@dimen/margin_7"
                         android:layout_marginRight="@dimen/margin_15"
-                        android:layout_marginBottom="@dimen/margin_7"
                         android:layout_weight="2"
                         android:orientation="vertical">
 
@@ -270,7 +267,7 @@
                             android:id="@+id/layout_simulation_home"
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
-                            android:layout_marginTop="@dimen/margin_7"
+                            android:layout_marginTop="@dimen/margin_10"
                             android:layout_weight="1"
                             android:background="@drawable/bg_shape_background"
                             android:gravity="left|center_vertical"
@@ -304,15 +301,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:layout_marginRight="@dimen/margin_15"
+                    android:background="@drawable/bg_shape_my_background"
                     android:orientation="vertical"
-
                     android:visibility="visible">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
+                        android:layout_marginLeft="@dimen/margin_15"
+                        android:layout_marginRight="@dimen/margin_15"
                         android:orientation="horizontal">
 
 
@@ -330,20 +327,20 @@
                     </RelativeLayout>
 
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp" />
+
+
                 </LinearLayout>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never" />
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="70dp"/>
-
 
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
