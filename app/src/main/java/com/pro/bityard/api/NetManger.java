@@ -10,8 +10,10 @@ import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.lzy.okgo.utils.HeaderParser;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.AddScoreEntity;
@@ -104,6 +106,36 @@ public class NetManger {
 
     }
 
+    //get 请求
+    public void getHeadRequest(String url, String head, ArrayMap map, OnNetResult onNetResult) {
+
+        HttpHeaders httpHeaders=new HttpHeaders();
+        httpHeaders.put("accept-language", head);
+        OkGo.<String>get(getURL(url, map))
+                .headers(httpHeaders)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, null);
+
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (!TextUtils.isEmpty(response.body())) {
+                            onNetResult.onNetResult(SUCCESS, response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, response.body());
+                    }
+                });
+
+    }
 
     //post 请求
     public void postRequest(String url, ArrayMap map, OnNetResult onNetResult) {
@@ -1700,8 +1732,8 @@ public class NetManger {
 
 
     /*最新公告*/
-    public void discover(OnNetResult onNetResult) {
-        getRequest("/api/discover/index.htm", null, (state, response) -> {
+    public void discover(String language, OnNetResult onNetResult) {
+        getHeadRequest("/api/discover/index.htm", language, null, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {

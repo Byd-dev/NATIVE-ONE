@@ -135,7 +135,7 @@ public class AnnouncementFragment extends BaseFragment implements View.OnClickLi
     @Override
     protected void initData() {
 
-        NetManger.getInstance().discover((state, response) -> {
+        NetManger.getInstance().discover("en-US",(state, response) -> {
             if (state.equals(BUSY)) {
                 swipeRefreshLayout.setRefreshing(true);
             } else if (state.equals(SUCCESS)) {

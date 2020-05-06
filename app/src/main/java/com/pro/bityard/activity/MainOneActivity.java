@@ -859,7 +859,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             /*首页 -----------------------------------------------------------------------------------*/
             case R.id.layout_announcement:
                 UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
-
                 break;
 
             case R.id.layout_simulation_home:
