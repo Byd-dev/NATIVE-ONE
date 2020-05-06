@@ -1032,6 +1032,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         }
     }
 
+
+
+
     /*设置我的页面的总净资产*/
     private void setMyNetIncome(BalanceEntity balanceEntity, String netIncome, String margin) {
         for (BalanceEntity.DataBean data : balanceEntity.getData()) {
