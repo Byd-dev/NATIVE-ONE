@@ -91,8 +91,8 @@ public class AnnouncementFragment extends BaseFragment implements View.OnClickLi
 
         WebView webView = view.findViewById(R.id.webview);
         webView.setBackgroundColor(0);
-        String CSS_STYLE ="<style>* {font-size:16px;line-height:20px;}p {color:#ffffff;}</style>";
-        webView.loadDataWithBaseURL(null, CSS_STYLE+data.getContent(), "text/html", "utf-8", null);
+        String CSS_STYLE = "<style>* {font-size:16px;line-height:20px;}p {color:#ffffff;}</style>";
+        webView.loadDataWithBaseURL(null, CSS_STYLE + data.getContent(), "text/html", "utf-8", null);
 
         view.findViewById(R.id.img_back).setOnClickListener(v -> {
             popupWindow.dismiss();
@@ -108,9 +108,16 @@ public class AnnouncementFragment extends BaseFragment implements View.OnClickLi
 
 
     @Override
+
+
     protected int setLayoutResourceID() {
+
+
         return R.layout.fragment_announcement;
+
+
     }
+
 
     @Override
     protected void intPresenter() {
