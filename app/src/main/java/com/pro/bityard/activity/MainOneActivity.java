@@ -50,6 +50,7 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.view.StatusBarHeightView;
 import com.pro.bityard.viewutil.StatusBarUtil;
+import com.pro.switchlibrary.OWebActivity;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
 
@@ -858,6 +859,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 break;
             /*首页 -----------------------------------------------------------------------------------*/
             case R.id.layout_announcement:
+                /*最新公告*/
+            case R.id.layout_nine:
                 UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
                 break;
 
@@ -1023,10 +1026,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
                 WebActivity.getInstance().openUrl(MainOneActivity.this, url, getResources().getString(R.string.text_my_service));
 
-                break;
-            /*最新公告*/
-            case R.id.layout_nine:
-                UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
                 break;
 
 

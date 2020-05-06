@@ -1,6 +1,7 @@
 package com.pro.bityard.activity;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,8 +32,12 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.utils.DeviceUtil;
+import com.pro.bityard.utils.WebFileUploader;
 import com.pro.bityard.viewutil.StatusBarUtil;
-import com.pro.switchlibrary.WebFileUploader;
+import com.pro.switchlibrary.AppConfig;
+import com.pro.switchlibrary.camera.CameraActivity;
+import com.pro.switchlibrary.camera.FileUtil;
+import com.pro.switchlibrary.camera.RecognizeService;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -207,8 +212,6 @@ public class WebActivity extends BaseActivity {
         initWebViewSetting();
         mWebView.setBackgroundColor(0);
         mWebView.addJavascriptInterface(new AppJs(this, mWebView), "AppJs");
-
-
         mWebView.setWebViewClient(new WebViewClient() {
 
 
@@ -548,14 +551,6 @@ public class WebActivity extends BaseActivity {
 
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mWebView != null && mWebView.canGoBack()) {
-            mWebView.goBack();
-        } else {
-            // super.onBackPressed();
-        }
-    }
 
 
     //打开本地应用
@@ -608,18 +603,15 @@ public class WebActivity extends BaseActivity {
     private void openAppDetails() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(getString(com.pro.switchlibrary.R.string.app_name) + getString(com.pro.switchlibrary.R.string.all_permission_required));
-        builder.setPositiveButton("手动授权", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent();
-                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                intent.setData(Uri.parse("package:" + getPackageName()));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-                intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-                startActivity(intent);
-            }
+        builder.setPositiveButton("手动授权", (dialog, which) -> {
+            Intent intent = new Intent();
+            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+            startActivity(intent);
         });
         builder.setCancelable(false);
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -638,6 +630,13 @@ public class WebActivity extends BaseActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        mWebFileUploader.onResult(requestCode, resultCode, intent);
 
     }
 }

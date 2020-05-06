@@ -523,8 +523,6 @@ public class OWebActivity extends BaseActivity {
         initWebViewSetting();
         mWebView.setBackgroundColor(0);
         mWebView.addJavascriptInterface(new AppJs(this, mWebView), "AppJs");
-
-
         mWebView.setWebViewClient(new WebViewClient() {
 
 
@@ -704,13 +702,7 @@ public class OWebActivity extends BaseActivity {
 
 
         });
-        mWebView.setDownloadListener(new DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition,
-                                        String mimeType, long contentLength) {
-                openApp(url);
-            }
-        });
+        mWebView.setDownloadListener((url, userAgent, contentDisposition, mimeType, contentLength) -> openApp(url));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mWebView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         } else {

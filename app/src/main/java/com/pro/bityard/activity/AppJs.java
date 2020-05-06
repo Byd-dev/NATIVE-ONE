@@ -1,6 +1,5 @@
 package com.pro.bityard.activity;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
@@ -13,9 +12,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.pro.bityard.utils.DeviceUtil;
-import com.pro.switchlibrary.SPUtils;
 
-import androidx.core.app.ActivityCompat;
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
 
 /**
@@ -125,12 +122,6 @@ public class AppJs {
     }
 
 
-
-
-
-
-
-
     /**
      * 结束当前页面
      *
@@ -152,11 +143,6 @@ public class AppJs {
         Intent intent = new Intent(Intent.ACTION_DIAL, uri);
         activity.startActivity(intent);
     }
-
-
-
-
-
 
 
 }
