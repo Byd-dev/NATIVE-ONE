@@ -1,13 +1,11 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -17,7 +15,7 @@ import com.pro.bityard.adapter.AnnouncementAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.AnnouncementEntity;
-import com.pro.bityard.utils.Util;
+import com.pro.bityard.utils.TradeUtil;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -71,53 +69,40 @@ public class AnnouncementFragment extends BaseFragment implements View.OnClickLi
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
         announcementAdapter.setDetailClick(data -> {
-            Util.lightOff(getActivity());
-            showEditPopWindow(data);
+            showDetailPopWindow(data);
         });
 
 
     }
 
     /*显示删除的按钮*/
-    private void showEditPopWindow(AnnouncementEntity.NoticesBean data) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_edit_pop, null);
+    private void showDetailPopWindow(AnnouncementEntity.NoticesBean data) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_announcement_detail_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        view.findViewById(R.id.text_delete).setOnClickListener(v -> {
-            NetManger.getInstance().deleteAddress(data.getId(), (state, response) -> {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    popupWindow.dismiss();
-                    initData();
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
-                }
-            });
-        });
+        TextView text_title = view.findViewById(R.id.text_title);
+        text_title.setText(R.string.text_announcement_detail);
+        TextView text_name = view.findViewById(R.id.text_name);
+        text_name.setText(data.getTitle());
+        TextView text_time = view.findViewById(R.id.text_time);
+        text_time.setText(TradeUtil.dateToStamp(data.getTime()));
 
-        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+        WebView webView = view.findViewById(R.id.webview);
+        webView.setBackgroundColor(0);
+        String CSS_STYLE ="<style>* {font-size:16px;line-height:20px;}p {color:#ffffff;}</style>";
+        webView.loadDataWithBaseURL(null, CSS_STYLE+data.getContent(), "text/html", "utf-8", null);
+
+        view.findViewById(R.id.img_back).setOnClickListener(v -> {
             popupWindow.dismiss();
         });
 
 
-        Util.dismiss(getActivity(), popupWindow);
-        Util.isShowing(getActivity(), popupWindow);
-
-
-        animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
-                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
-        animation.setInterpolator(new AccelerateInterpolator());
-        animation.setDuration(100);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setFocusable(true);
         popupWindow.setContentView(view);
         popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        view.startAnimation(animation);
 
     }
 
@@ -135,7 +120,7 @@ public class AnnouncementFragment extends BaseFragment implements View.OnClickLi
     @Override
     protected void initData() {
 
-        NetManger.getInstance().discover("en-US",(state, response) -> {
+        NetManger.getInstance().discover("en-us", (state, response) -> {
             if (state.equals(BUSY)) {
                 swipeRefreshLayout.setRefreshing(true);
             } else if (state.equals(SUCCESS)) {

@@ -287,5 +287,7 @@
     <string name="text_add_address">address</string>
     <string name="text_address_tag">Input wallet address tag</string>
     <string name="text_add_success">Success</string>
+    <string name="text_announcement_detail">Announcements</string>
+    <string name="text_create_time">Time:</string>
 
 </resources>

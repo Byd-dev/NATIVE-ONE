@@ -288,5 +288,7 @@
     <string name="text_add_address">地址</string>
     <string name="text_address_tag">請輸入錢包地址標簽</string>
     <string name="text_add_success">添加成功</string>
+    <string name="text_announcement_detail">公告详情</string>
+    <string name="text_create_time">發佈時間:</string>
 
 </resources>

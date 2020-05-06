@@ -288,5 +288,7 @@
     <string name="text_add_address">주소</string>
     <string name="text_address_tag">지갑 주소 태그를 입력해 주세요.</string>
     <string name="text_add_success">추가 성공</string>
+    <string name="text_announcement_detail">공지사항</string>
+    <string name="text_create_time">반포 시기:</string>
 
 </resources>

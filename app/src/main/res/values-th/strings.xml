@@ -288,5 +288,7 @@
     <string name="text_add_address">Адрес</string>
     <string name="text_address_tag">Введите адрес кошелька</string>
     <string name="text_add_success">Успешно</string>
+    <string name="text_announcement_detail">Объявления</string>
+    <string name="text_create_time">Время:</string>
 
 </resources>
