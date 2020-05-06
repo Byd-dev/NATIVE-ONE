@@ -9,6 +9,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.fragment.my.AddAddressFragment;
+import com.pro.bityard.fragment.my.AnnouncementFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;
 import com.pro.bityard.fragment.my.FundStatementFragment;
@@ -101,10 +102,23 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_ADD_ADDRESS:
                 addAddAddressFragment();
                 break;
+            case IntentConfig.Keys.KEY_ANNOUNCEMENT:
+                addAnnouncementFragment();
+                break;
 
         }
 
 
+    }
+
+    private void addAnnouncementFragment() {
+        String name = AnnouncementFragment.class.getSimpleName();
+        //安全中心
+        AnnouncementFragment fragment = new AnnouncementFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addAddAddressFragment() {

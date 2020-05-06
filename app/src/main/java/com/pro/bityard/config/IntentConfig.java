@@ -25,9 +25,10 @@ public class IntentConfig {
         public static final String KEY_TRADE_SETTINGS = "TRADE_SETTINGS";
         //提币地址管理
         public static final String KEY_WITHDRAWAL_ADDRESS = "WITHDRAWAL_ADDRESS";
-
         //增加地址管理
         public static final String KEY_ADD_ADDRESS = "ADD_ADDRESS";
+        //最新公告
+        public static final String KEY_ANNOUNCEMENT = "ANNOUNCEMENT";
         //修改登录密码
         public static final String KEY_SAFE_CENTER_LOGIN_PASS = "SAFE_CENTER_LOGIN_PASS";
         //设置资金密码和修改资金密码

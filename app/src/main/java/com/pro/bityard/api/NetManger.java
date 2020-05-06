@@ -15,6 +15,7 @@ import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.AddScoreEntity;
+import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.HistoryEntity;
@@ -62,7 +63,7 @@ public class NetManger {
 
     public static String BASE_URL = "http://test.bityard.com";   //测试
 
-    public static String SERVICE_URL="https://v2.live800.com/live800/chatClient/chatbox.jsp?companyID=1360004&configID=128342&jid=1252134905&s=1&lan=%s&s=1&info=userId=%sname=%s";
+    public static String SERVICE_URL = "https://v2.live800.com/live800/chatClient/chatbox.jsp?companyID=1360004&configID=128342&jid=1252134905&s=1&lan=%s&s=1&info=userId=%sname=%s";
 
     //  public static String BASE_URL = "https://www.bityard.com";    //正式
 
@@ -1689,6 +1690,27 @@ public class NetManger {
                     onNetResult.onNetResult(SUCCESS, entity);
                 } else {
                     onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+
+    /*最新公告*/
+    public void discover(OnNetResult onNetResult) {
+        getRequest("/api/discover/index.htm", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    AnnouncementEntity entity = new Gson().fromJson(response.toString(), AnnouncementEntity.class);
+                    onNetResult.onNetResult(SUCCESS, entity);
                 }
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);

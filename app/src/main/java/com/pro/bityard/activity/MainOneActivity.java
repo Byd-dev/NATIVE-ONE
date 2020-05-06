@@ -530,6 +530,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         findViewById(R.id.img_icon2).setOnClickListener(this);
         findViewById(R.id.img_head).setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
+        findViewById(R.id.layout_announcement).setOnClickListener(this);
         quoteAdapter = new QuoteAdapter(this);
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_list.setAdapter(quoteAdapter);
@@ -856,6 +857,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 QuoteDetailActivity.enter(MainOneActivity.this, "1", quoteList.get(0));
                 break;
             /*首页 -----------------------------------------------------------------------------------*/
+            case R.id.layout_announcement:
+                UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
+
+                break;
+
             case R.id.layout_simulation_home:
                 if (quoteList == null) {
                     return;
@@ -1019,6 +1025,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 WebActivity.getInstance().openUrl(MainOneActivity.this, url, getResources().getString(R.string.text_my_service));
 
                 break;
+            /*最新公告*/
+            case R.id.layout_nine:
+                UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
+                break;
+
 
         }
     }
