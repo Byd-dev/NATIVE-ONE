@@ -239,7 +239,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_account"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                />
 
 
         </LinearLayout>

@@ -59,6 +59,12 @@
 
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_line"
+        android:background="@color/home_line"
+        android:layout_marginLeft="@dimen/margin_15"
+        />
 
 
 </LinearLayout>
