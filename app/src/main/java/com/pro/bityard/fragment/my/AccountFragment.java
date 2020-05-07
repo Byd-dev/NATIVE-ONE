@@ -74,8 +74,6 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         //余额初始化
         BalanceManger.getInstance().addObserver(this);
         NetIncomeManger.getInstance().addObserver(this);
-
-
         accountAdapter = new AccountAdapter(getActivity());
         recyclerView_account.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_account.setAdapter(accountAdapter);
@@ -110,9 +108,13 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
                     text_balance.setText("***");
                     text_balance_currency.setText("***");
                     isEyeOpen = false;
+                    accountAdapter.setHide(isEyeOpen);
+                    recyclerView_account.setAdapter(accountAdapter);
                 } else {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     isEyeOpen = true;
+                    accountAdapter.setHide(isEyeOpen);
+                    recyclerView_account.setAdapter(accountAdapter);
                     if (isLogin()) {
                         if (netIncomeResult != null) {
                             String[] NetIncome = netIncomeResult.split(",");

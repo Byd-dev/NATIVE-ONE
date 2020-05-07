@@ -10,13 +10,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.entity.BalanceEntity;
-import com.pro.bityard.entity.BannerEntity;
+import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
-import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -35,6 +34,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public boolean isLoadMore = false;
 
+    private boolean isHide = true;
+
 
     public AccountAdapter(Context context) {
         this.context = context;
@@ -50,6 +51,10 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
+    }
+
+    public void setHide(boolean isHide) {
+        this.isHide = isHide;
     }
 
 
@@ -92,15 +97,33 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             double money = datas.get(position).getMoney();
 
-            ((MyViewHolder) holder).text_currency.setText(datas.get(position).getCurrency());
-            String string = SPUtils.getString(AppConfig.USD_RATE, null);
-            String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
-            ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + datas.get(position).getCurrency() + "≈" +
-                    TradeUtil.getNumberFormat(TradeUtil.mul(money, Double.parseDouble(string)), 2)+cny);
+            String currency = datas.get(position).getCurrency();
 
-            ChartUtil.setIcon(datas.get(position).getCurrency(),((MyViewHolder) holder).img_bg);
+            ((MyViewHolder) holder).text_currency.setText(currency);
+            ChartUtil.setIcon(currency, ((MyViewHolder) holder).img_bg);
+            if (isHide) {
+                getRate(currency, money, response -> {
+                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency + "≈"
+                            + response.toString() + "USDT");
+                });
 
+            } else {
+                ((MyViewHolder) holder).text_balance.setText("***≈***");
+            }
 
+        }
+    }
+
+    private void getRate(String currency, double money, OnResult onResult) {
+        RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
+        if (rateListEntity!=null){
+            for (RateListEntity.ListBean rateList : rateListEntity.getList()) {
+                if (currency.equals(rateList.getName())) {
+
+                    double mul = TradeUtil.mul(money, rateList.getValue());
+                    onResult.setResult(TradeUtil.getNumberFormat(mul, 2));
+                }
+            }
         }
     }
 
