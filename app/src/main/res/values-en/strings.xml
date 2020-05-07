@@ -289,5 +289,7 @@
     <string name="text_add_success">Success</string>
     <string name="text_announcement_detail">Announcements</string>
     <string name="text_create_time">Time:</string>
+    <string name="text_asset_statement">Asset Statement</string>
+    <string name="text_balance">Balance</string>
 
 </resources>

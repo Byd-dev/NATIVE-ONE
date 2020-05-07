@@ -8,6 +8,7 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.fragment.my.AccountFragment;
 import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.AnnouncementFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
@@ -105,10 +106,23 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_ANNOUNCEMENT:
                 addAnnouncementFragment();
                 break;
+            case IntentConfig.Keys.KEY_ACCOUNT:
+                addAccountFragment();
+                break;
 
         }
 
 
+    }
+
+    private void addAccountFragment() {
+        String name = AccountFragment.class.getSimpleName();
+        //安全中心
+        AccountFragment fragment = new AccountFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addAnnouncementFragment() {

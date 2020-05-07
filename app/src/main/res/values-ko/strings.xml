@@ -290,5 +290,7 @@
     <string name="text_add_success">추가 성공</string>
     <string name="text_announcement_detail">공지사항</string>
     <string name="text_create_time">반포 시기:</string>
+    <string name="text_asset_statement">자산 내역</string>
+    <string name="text_balance">잔고</string>
 
 </resources>

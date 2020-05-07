@@ -101,7 +101,10 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     private TextView text_getCode;
     private UserDetailEntity userDetailEntity;
     private PopupWindow popupWindow;
-
+    @Override
+    protected int setLayoutResourceID() {
+        return R.layout.fragment_invite;
+    }
     @Override
     protected void onLazyLoad() {
 
@@ -422,10 +425,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     };
 
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_invite;
-    }
+
 
     @Override
     protected void intPresenter() {

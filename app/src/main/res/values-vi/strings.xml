@@ -290,5 +290,7 @@
     <string name="text_add_success">Đã thêm</string>
     <string name="text_announcement_detail">Trung tâm thông cáo</string>
     <string name="text_create_time">Thời gian:</string>
+    <string name="text_asset_statement">Chi tiết tài sản</string>
+    <string name="text_balance">Khả dụng</string>
 
 </resources>

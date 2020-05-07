@@ -29,6 +29,8 @@ public class IntentConfig {
         public static final String KEY_ADD_ADDRESS = "ADD_ADDRESS";
         //最新公告
         public static final String KEY_ANNOUNCEMENT = "ANNOUNCEMENT";
+        //资金账户
+        public static final String KEY_ACCOUNT = "KEY_ACCOUNT";
         //修改登录密码
         public static final String KEY_SAFE_CENTER_LOGIN_PASS = "SAFE_CENTER_LOGIN_PASS";
         //设置资金密码和修改资金密码

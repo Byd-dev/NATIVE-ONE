@@ -636,6 +636,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         findViewById(R.id.layout_nine).setOnClickListener(this);
         findViewById(R.id.layout_login).setOnClickListener(this);
         text_register.findViewById(R.id.text_register).setOnClickListener(this);
+        findViewById(R.id.text_account).setOnClickListener(this);
 
     }
 
@@ -1041,6 +1042,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
                 WebActivity.getInstance().openUrl(MainOneActivity.this, url, getResources().getString(R.string.text_my_service));
 
+                break;
+                /*资金账户*/
+            case R.id.text_account:
+                if (isLogin()) {
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ACCOUNT);
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
                 break;
 
 

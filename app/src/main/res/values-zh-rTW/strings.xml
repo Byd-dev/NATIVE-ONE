@@ -290,5 +290,7 @@
     <string name="text_add_success">添加成功</string>
     <string name="text_announcement_detail">公告详情</string>
     <string name="text_create_time">發佈時間:</string>
+    <string name="text_asset_statement">資產明細</string>
+    <string name="text_balance">餘額</string>
 
 </resources>

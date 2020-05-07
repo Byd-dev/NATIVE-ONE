@@ -1369,7 +1369,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 List<KData> kData = ChartUtil.klineList(data);
                 if (kData1MinHistory != null) {
-                    Log.d("print", "update:1453: " + kData.get(kData.size() - 2).getTime());
+                   // Log.d("print", "update:1453: " + kData.get(kData.size() - 2).getTime());
                     myKLineView_1Min.addSingleData(kData.get(kData.size() - 1));
                     kline_1min_time.addSingleData(kData.get(kData.size() - 1));
 

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_bar" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@mipmap/bg_account"
+                android:orientation="vertical">
+
+                <!--余额名称-->
+                <RelativeLayout
+                    android:id="@+id/layout_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:text="@string/text_all_balance"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_big"
+                        android:textStyle="bold"
+                        android:typeface="monospace" />
+
+                    <ImageView
+                        android:id="@+id/img_eye_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:paddingLeft="@dimen/margin_20"
+                        android:paddingRight="@dimen/margin_20"
+                        android:src="@mipmap/icon_eye_open_black" />
+                </RelativeLayout>
+                <!--余额-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/text_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(USDT)"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_normal_two"
+                        android:typeface="monospace"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="≈"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_big"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_balance_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.0"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_bigger"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(CNY)"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/icon_recharge"
+                    android:drawablePadding="@dimen/margin_4"
+                    android:gravity="center"
+                    android:text="@string/text_recharge"
+                    android:textColor="@color/text_second_color"
+
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/icon_withdrawal"
+                    android:drawablePadding="@dimen/margin_4"
+                    android:gravity="center"
+                    android:text="@string/text_withdrawal"
+                    android:textColor="@color/text_second_color"
+
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/icon_coin_three"
+                    android:drawablePadding="@dimen/margin_4"
+                    android:gravity="center"
+                    android:text="@string/text_coin_turn"
+                    android:textColor="@color/text_second_color"
+
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:drawableTop="@mipmap/icon_coin_four"
+                    android:drawablePadding="@dimen/margin_4"
+                    android:gravity="center"
+                    android:text="@string/text_fabi_trade"
+                    android:textColor="@color/text_second_color"
+
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line_big"
+                android:background="@color/home_line" />
+
+
+            <!--列表-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_42">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="@string/text_asset_statement"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_42"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="@string/text_coin"
+                    android:textColor="@color/text_second_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="110dp"
+                    android:text="@string/text_balance"
+                    android:textColor="@color/text_second_color" />
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <com.pro.bityard.view.HeaderRecyclerView
+                android:id="@+id/recyclerView_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </LinearLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</LinearLayout>
