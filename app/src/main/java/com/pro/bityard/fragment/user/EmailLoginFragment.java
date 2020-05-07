@@ -25,6 +25,7 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
@@ -199,13 +200,17 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                     dismissProgressDialog();
                                     LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
                                     if (loginEntity.getCode() == 200) {
-                                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
-                                        getActivity().finish();
                                         SPUtils.putString(AppConfig.USER_EMAIL, edit_account.getText().toString());
-
-
                                         //登录成功 初始化
                                         TagManger.getInstance().tag();
+                                        NetManger.getInstance().userDetail((state2, response2) -> {
+                                            if (state.equals(SUCCESS)) {
+                                                UserDetailEntity userDetailEntity= (UserDetailEntity) response2;
+                                                loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
+                                                SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                                                getActivity().finish();
+                                            }
+                                        });
 
 
                                     } else if (loginEntity.getCode() == 401) {
@@ -242,7 +247,6 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
         }
     }
-
 
 
     @Override

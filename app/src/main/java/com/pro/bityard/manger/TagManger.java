@@ -38,7 +38,6 @@ public class TagManger extends Observable {
         postTag(true);
         BalanceManger.getInstance().getBalance("USDT");
 
-
     }
 
     /**

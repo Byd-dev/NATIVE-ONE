@@ -33,6 +33,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
@@ -276,8 +277,6 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                                     dismissProgressDialog();
                                     LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
                                     if (loginEntity.getCode() == 200) {
-                                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
-                                        getActivity().finish();
                                         //缓存上一次登录成功的区号和地址
                                         SPUtils.putString(AppConfig.USER_COUNTRY_CODE, text_countryCode.getText().toString());
                                         SPUtils.putString(AppConfig.USER_COUNTRY_NAME, text_countryName.getText().toString());
@@ -285,6 +284,14 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                                         //登录成功 初始化
                                         TagManger.getInstance().tag();
+                                        NetManger.getInstance().userDetail((state2, response2) -> {
+                                            if (state.equals(SUCCESS)) {
+                                                UserDetailEntity userDetailEntity= (UserDetailEntity) response2;
+                                                loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
+                                                SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                                                getActivity().finish();
+                                            }
+                                        });
 
                                     } else if (loginEntity.getCode() == 401) {
                                         count_pass++;

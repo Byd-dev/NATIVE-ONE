@@ -34,6 +34,7 @@ import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.UnionRateEntity;
+import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
 import com.pro.bityard.fragment.hold.PositionFragment;
@@ -50,7 +51,6 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.view.StatusBarHeightView;
 import com.pro.bityard.viewutil.StatusBarUtil;
-import com.pro.switchlibrary.OWebActivity;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
 
@@ -423,6 +423,20 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     radioButton_2.setChecked(true);
                 });
             }
+        } else if (o == UserDetailManger.getInstance()) {
+            UserDetailEntity userDetailEntity = (UserDetailEntity) arg;
+            runOnUiThread(() -> {
+                if (userDetailEntity.getUser() != null) {
+                    text_userName.setText(userDetailEntity.getUser().getUsername());
+                    text_uid.setVisibility(View.VISIBLE);
+                    text_uid.setText(loginEntity.getUser().getUserId());
+                    text_register.setVisibility(View.GONE);
+                } else {
+                    text_userName.setText(getResources().getText(R.string.text_unlogin));
+                    text_uid.setVisibility(View.GONE);
+                    text_register.setVisibility(View.VISIBLE);
+                }
+            });
         }
     }
 
@@ -469,8 +483,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         super.onResume();
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-            Log.d("print", "onResume:30:  " + loginEntity);
-            text_userName.setText(loginEntity.getUser().getAccount());
+            text_userName.setText(loginEntity.getUser().getUserName());
             text_uid.setVisibility(View.VISIBLE);
             text_uid.setText(loginEntity.getUser().getUserId());
             text_register.setVisibility(View.GONE);
@@ -753,6 +766,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     protected void initEvent() {
         QuoteListManger.getInstance().addObserver(this);
         InitManger.getInstance().init();
+        //个人详情
+        UserDetailManger.getInstance().addObserver(this);
         //余额初始化
         BalanceManger.getInstance().getBalance("USDT");
         //持仓初始化
@@ -1031,8 +1046,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         }
     }
-
-
 
 
     /*设置我的页面的总净资产*/

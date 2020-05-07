@@ -49,11 +49,9 @@ public class InitManger extends Observable {
         NetManger.getInstance().isLogin(response -> {
             boolean isLogin = (boolean) response;
             if (isLogin == true) {
-
                 PositionRealManger.getInstance().getHold();
                 PositionSimulationManger.getInstance().getHold();
-                UserDetailManger.getInstance().startScheduleJob(AppConfig.QUOTE_SECOND, AppConfig.ITEM_QUOTE_SECOND);
-
+                UserDetailManger.getInstance().startScheduleJob(AppConfig.QUOTE_SECOND, AppConfig.QUOTE_SECOND);
             } else {
                 SPUtils.remove(AppConfig.LOGIN);
             }
@@ -73,7 +71,6 @@ public class InitManger extends Observable {
         NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
             if (state.equals(SUCCESS)) {
 
-                Log.d("print", "init:76:  "+response);
                 CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
                 SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
 
