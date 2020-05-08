@@ -297,5 +297,7 @@
     <string name="text_usdt_address">Адрес снятия USDT</string>
     <string name="text_manage_address">Управлять адресом</string>
     <string name="text_withdrawal_limit">Лимит снятия</string>
+    <string name="text_withdrawal_tip_one">Минимальная сумма снятия для одного аккаунта составляет50USDT, меньшие суммы не обрабатываются</string>
+    <string name="text_withdrawal_tip_two">Пожалуйста,  проверите правильность адреса, неправильный адрес приведет к ошибке снятия.</string>
 
 </resources>

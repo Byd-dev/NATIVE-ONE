@@ -1,329 +1,371 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_maincolor">
+    android:background="@color/background_maincolor"
+    android:orientation="vertical">
 
-    <LinearLayout
+
+    <include layout="@layout/layout_bar" />
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <include layout="@layout/layout_bar" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_setup">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:drawableLeft="@mipmap/icon_usdt"
-                android:drawablePadding="@dimen/margin_16"
-                android:gravity="center"
-                android:text="USDT"
-                android:textColor="@color/text_maincolor"
-                android:textSize="@dimen/size_normal_two" />
-
-
-            <TextView
-                android:id="@+id/text_commission"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_15"
-                android:text="@string/text_default"
-                android:textColor="@color/text_maincolor"
-                android:textSize="@dimen/size_big"
-                android:visibility="gone" />
-
-
-        </RelativeLayout>
-
-        <include layout="@layout/layout_line" />
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/item_funds_height"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/text_chain_name"
-                android:textColor="@color/text_maincolor"
-                android:textSize="@dimen/size_normal_two" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawableLeft="@mipmap/icon_usdt"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="USDT"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_commission"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big"
+                    android:visibility="gone" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
+                android:layout_height="@dimen/item_funds_height"
+                android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/text_chain_name"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:layout_marginRight="@dimen/margin_5"
+                    android:layout_height="0dp"
+                    android:layout_weight="1">
 
-                    />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/margin_5"
+                        android:layout_marginRight="@dimen/margin_5"
+
+                        />
+
+                </LinearLayout>
+
 
             </LinearLayout>
 
-
-        </LinearLayout>
-
-        <include layout="@layout/layout_line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_setup"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edit_amount"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/text_amount_withdrawal"
-                android:inputType="number"
-                android:maxLines="1"
-                android:textColor="@color/text_maincolor"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
-
+            <include layout="@layout/layout_line" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="@dimen/margin_15"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
                 android:orientation="horizontal">
 
-                <TextView
+                <EditText
+                    android:id="@+id/edit_amount"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/text_amount_withdrawal"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:textColor="@color/text_maincolor"
+                    android:textColorHint="@color/color_hint"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/hint_size" />
+
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/text_available_money"
-                    android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_big" />
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/text_available_money"
+                        android:textColor="@color/text_second_color"
+                        android:textSize="@dimen/size_big" />
+
+                    <TextView
+                        android:id="@+id/text_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/text_default"
+                        android:textColor="@color/maincolor"
+                        android:textSize="@dimen/size_big" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/edit_address"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/text_usdt_address"
+                    android:maxLines="1"
+                    android:textColor="@color/text_maincolor"
+                    android:textColorHint="@color/color_hint"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/hint_size" />
 
                 <TextView
-                    android:id="@+id/text_balance"
+                    android:id="@+id/text_address_manage"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="@string/text_default"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:paddingRight="@dimen/margin_15"
+                    android:text="@string/text_manage_address"
                     android:textColor="@color/maincolor"
                     android:textSize="@dimen/size_big" />
 
+
             </LinearLayout>
 
+            <include layout="@layout/layout_line" />
 
-        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:orientation="horizontal">
 
-        <include layout="@layout/layout_line" />
+                <EditText
+                    android:id="@+id/edit_pass_withdraw"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/text_pin"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:textColor="@color/text_maincolor"
+                    android:textColorHint="@color/color_hint"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/hint_size" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_setup"
-            android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/edit_address"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
+                <ImageView
+                    android:id="@+id/img_eye"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:paddingRight="@dimen/margin_15"
+                    android:src="@mipmap/icon_eye_close" />
+
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:orientation="horizontal"
+
+                >
+
+                <EditText
+                    android:id="@+id/edit_code"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:hint="@string/text_email_code"
+                    android:maxLines="1"
+                    android:textColor="@color/text_maincolor"
+                    android:textColorHint="@color/color_hint"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/hint_size" />
+
+                <TextView
+                    android:id="@+id/text_getCode"
+                    android:layout_width="89dp"
+                    android:layout_height="@dimen/margin_30"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:background="@drawable/bg_circle_main_color"
+                    android:gravity="center"
+                    android:text="@string/text_get_code"
+                    android:textColor="@color/color_code"
+                    android:textSize="@dimen/size_normal" />
+
+
+            </LinearLayout>
+
+            <include layout="@layout/layout_line" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:gravity="center"
+                    android:text="@string/text_withdrawal_limit"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:gravity="center"
+                    android:text="10000 USDT"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:gravity="center"
+                    android:text="@string/text_service_pop"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:gravity="center"
+                    android:text="2 USDT"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+            <!--登录button-->
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen_btn"
                 android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_15"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/text_usdt_address"
-                android:maxLines="1"
-                android:textColor="@color/text_maincolor"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
+                android:layout_marginBottom="@dimen/margin_40"
+                android:background="@drawable/sel_switcher_enabled_bg"
+                android:enabled="false"
+                android:padding="10dp"
+                android:text="@string/text_sure"
+                android:textColor="@color/color_btn_text"
+                android:textSize="16sp"
 
-            <TextView
-                android:id="@+id/text_address_manage"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingLeft="@dimen/margin_15"
-                android:paddingRight="@dimen/margin_15"
-                android:text="@string/text_manage_address"
-                android:textColor="@color/maincolor"
-                android:textSize="@dimen/size_big" />
+                />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line_big"
+                android:background="@color/home_line" />
 
-        </LinearLayout>
-
-        <include layout="@layout/layout_line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_setup"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edit_pass_withdraw"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/text_pin"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textColor="@color/text_maincolor"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
-
-
-            <ImageView
-                android:id="@+id/img_eye"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:paddingLeft="@dimen/margin_15"
-                android:paddingRight="@dimen/margin_15"
-                android:src="@mipmap/icon_eye_close" />
-
-
-        </LinearLayout>
-
-        <include layout="@layout/layout_line" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_setup"
-            android:orientation="horizontal"
-
-            >
-
-            <EditText
-                android:id="@+id/edit_code"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_10"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/text_email_code"
-                android:maxLines="1"
-                android:textColor="@color/text_maincolor"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
-
-            <TextView
-                android:id="@+id/text_getCode"
-                android:layout_width="89dp"
-                android:layout_height="@dimen/margin_30"
+                android:layout_marginTop="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_15"
-                android:background="@drawable/bg_circle_main_color"
-                android:gravity="center"
-                android:text="@string/text_get_code"
-                android:textColor="@color/color_code"
-                android:textSize="@dimen/size_normal" />
+                android:layout_marginBottom="@dimen/margin_30"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_important"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_withdrawal_tip_one"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_withdrawal_tip_two"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal" />
+            </LinearLayout>
         </LinearLayout>
-
-        <include layout="@layout/layout_line" />
-
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_setup"
-
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:gravity="center"
-                android:text="@string/text_withdrawal_limit"
-                android:textColor="@color/text_maincolor"
-                android:textSize="@dimen/size_normal_two" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_15"
-                android:gravity="center"
-                android:text="10000 USDT"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal_two" />
-
-        </RelativeLayout>
-
-        <include layout="@layout/layout_line" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_setup"
-
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:gravity="center"
-                android:text="@string/text_service_pop"
-                android:textColor="@color/text_maincolor"
-                android:textSize="@dimen/size_normal_two" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_15"
-                android:gravity="center"
-                android:text="2 USDT"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal_two" />
-
-        </RelativeLayout>
-
-        <include layout="@layout/layout_line" />
-        <!--登录button-->
-        <Button
-            android:id="@+id/btn_submit"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimen_btn"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginTop="@dimen/margin_40"
-            android:layout_marginRight="@dimen/margin_15"
-            android:layout_marginBottom="@dimen/margin_15"
-            android:background="@drawable/sel_switcher_enabled_bg"
-            android:enabled="false"
-            android:padding="10dp"
-            android:text="@string/text_sure"
-            android:textColor="@color/color_btn_text"
-            android:textSize="16sp"
-
-            />
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

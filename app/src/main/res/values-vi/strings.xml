@@ -297,5 +297,7 @@
     <string name="text_usdt_address">Địa chỉ rút tiền USDT</string>
     <string name="text_manage_address">Danh sách địa chỉ</string>
     <string name="text_withdrawal_limit">Hạn mức rút tiền</string>
+    <string name="text_withdrawal_tip_one">Mỗi lệnh rút tiền không thể thấp hơn 50USDT</string>
+    <string name="text_withdrawal_tip_two">Vui lòng xác nhận chính xác địa chỉ trước khi rút tiền</string>
 
 </resources>

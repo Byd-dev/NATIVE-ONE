@@ -296,5 +296,7 @@
     <string name="text_usdt_address">USDT withdrawal address</string>
     <string name="text_manage_address">Manage address</string>
     <string name="text_withdrawal_limit">Withdrawal Limit</string>
+    <string name="text_withdrawal_tip_one">Minimum withdrawal amount is 50USDT,Otherwise it will not succeed</string>
+    <string name="text_withdrawal_tip_two">Please make sure the withdrawal address was correctly filled</string>
 
 </resources>
