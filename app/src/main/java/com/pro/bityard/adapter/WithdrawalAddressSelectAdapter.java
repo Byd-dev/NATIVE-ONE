@@ -1,48 +1,56 @@
 package com.pro.bityard.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.api.TradeResult;
+import com.pro.bityard.entity.WithdrawalAdressEntity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ChainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class WithdrawalAddressSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<String> datas;
+    private List<WithdrawalAdressEntity.DataBean> datas;
+
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
-    public boolean isLoadMore = false;
-    private String chain = "OMNI";
+    private boolean isHigh = false;
 
-    public ChainListAdapter(Context context) {
+    public boolean isLoadMore = false;
+
+
+    private List<Double> incomeList;
+
+
+    public WithdrawalAddressSelectAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<String> datas) {
+    public void setDatas(List<WithdrawalAdressEntity.DataBean> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
     }
 
-    public void select(String chain) {
-        this.chain = chain;
-        this.notifyDataSetChanged();
-
-    }
-
-    public void addDatas(List<String> datas) {
+    public void addDatas(List<WithdrawalAdressEntity.DataBean> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
+        this.notifyDataSetChanged();
+    }
+
+    public void sortPrice(boolean isHigh) {
+        this.isHigh = isHigh;
         this.notifyDataSetChanged();
     }
 
@@ -57,6 +65,11 @@ public class ChainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
+    public void getIncome(TradeResult tradeResult) {
+        tradeResult.setResult(incomeList);
+    }
+
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder;
@@ -64,7 +77,7 @@ public class ChainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
         if (viewType == TYPE_ITEM) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.item_radio_chain_layout, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_withdrawal_address_select_layout, parent, false);
             holder = new MyViewHolder(view);
             return holder;
         }
@@ -77,17 +90,15 @@ public class ChainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
-            ((MyViewHolder) holder).radioButton.setText(datas.get(position));
-            if (chain.equals(datas.get(position))) {
-                ((MyViewHolder) holder).radioButton.setChecked(true);
-            } else {
-                ((MyViewHolder) holder).radioButton.setChecked(false);
-            }
 
+            ((MyViewHolder) holder).text_name.setText(datas.get(position).getCurrency());
+            ((MyViewHolder) holder).text_chain.setText(datas.get(position).getChain());
+            ((MyViewHolder) holder).text_address.setText(datas.get(position).getAddress());
         }
     }
 
@@ -118,31 +129,46 @@ public class ChainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        RadioButton radioButton;
+        TextView text_name, text_chain, text_address;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            radioButton = itemView.findViewById(R.id.radio_lever);
+            text_name = itemView.findViewById(R.id.text_name);
+            text_chain = itemView.findViewById(R.id.text_chain);
+            text_address = itemView.findViewById(R.id.text_address);
 
-
-            radioButton.setOnClickListener(view -> {
-                if (onItemClick != null) {
-                    onItemClick.onSuccessListener(getAdapterPosition(), datas.get(getPosition()));
-
+            itemView.setOnClickListener(v -> {
+                if (onItemClick!=null){
+                    onItemClick.onClickListener(datas.get(getAdapterPosition()));
                 }
             });
+
+
+
+
+
         }
     }
 
     private OnItemClick onItemClick;
+
 
     public void setOnItemClick(OnItemClick onItemClick) {
         this.onItemClick = onItemClick;
     }
 
     public interface OnItemClick {
-        void onSuccessListener(Integer position, String data);
+        void onClickListener(WithdrawalAdressEntity.DataBean data);
+    }
+
+    private OnEditClick onEditClick;
+
+    public void setOnEditClick(OnEditClick onEditClick) {
+        this.onEditClick = onEditClick;
+    }
+    public interface OnEditClick {
+        void onClickListener(WithdrawalAdressEntity.DataBean data);
 
     }
 }

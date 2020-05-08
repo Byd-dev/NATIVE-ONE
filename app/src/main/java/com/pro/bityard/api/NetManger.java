@@ -1769,4 +1769,33 @@ public class NetManger {
             }
         });
     }
+
+
+    /*提币*/
+    public void withdrawal(String money,String currency,String chain,String addressId,String email,String password,OnNetResult onNetResult){
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("currency", currency);
+        map.put("money",money);
+        map.put("chain", chain);
+        map.put("addressId",addressId);
+        map.put("email",email);
+
+        map.put("password",password);
+        postRequest("/api/pay/withdraw/create", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    AddAddressItemEntity entity = new Gson().fromJson(response.toString(), AddAddressItemEntity.class);
+                    onNetResult.onNetResult(SUCCESS, entity);
+                } else {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
 }

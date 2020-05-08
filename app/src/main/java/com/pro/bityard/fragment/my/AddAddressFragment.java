@@ -84,7 +84,7 @@ public class AddAddressFragment extends BaseFragment implements View.OnClickList
         edit_address.setHint(getString(R.string.text_enter) + " OMNI " + getString(R.string.text_add_address));
 
         chainListAdapter.setOnItemClick((position, data) -> {
-            chainListAdapter.select(position);
+            chainListAdapter.select(data);
             recyclerView.setAdapter(chainListAdapter);
             edit_address.setHint(getString(R.string.text_enter) + " " + data + " " + getString(R.string.text_add_address));
             chain = data;
