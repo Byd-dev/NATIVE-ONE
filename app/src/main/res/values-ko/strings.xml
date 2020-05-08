@@ -279,7 +279,7 @@
     <string name="text_free">무료</string>
     <string name="text_important">제시</string>
     <string name="text_sure_info">이체 시 정보를 반드시 확인하셔야 합니다.</string>
-    <string name="text_available_money">가용한도</string>
+    <string name="text_available_money">가용한도:</string>
     <string name="text_register_now">회원가입</string>
     <string name="text_add_withdrawal_address">출금 주소 추가</string>
     <string name="text_delete_address">주소 삭제</string>
@@ -292,5 +292,10 @@
     <string name="text_create_time">반포 시기:</string>
     <string name="text_asset_statement">자산 내역</string>
     <string name="text_balance">잔고</string>
+    <string name="text_select_coin">코인 선택</string>
+    <string name="text_amount_withdrawal">수량</string>
+    <string name="text_usdt_address">USDT 출금 주소</string>
+    <string name="text_manage_address">주소 관리</string>
+    <string name="text_withdrawal_limit">최소 출금 금액</string>
 
 </resources>

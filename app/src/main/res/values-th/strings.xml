@@ -279,7 +279,7 @@
     <string name="text_free">Нет сборов</string>
     <string name="text_important">Примечания</string>
     <string name="text_sure_info">Пожалуйста, подтвердите информацию перед трансфертом</string>
-    <string name="text_available_money">Доступно</string>
+    <string name="text_available_money">Доступно:</string>
     <string name="text_register_now">Регистрация</string>
     <string name="text_add_withdrawal_address">Добавить адрес снятия</string>
     <string name="text_delete_address">Удалить адрес</string>
@@ -292,5 +292,10 @@
     <string name="text_create_time">Время:</string>
     <string name="text_asset_statement">Детали актива</string>
     <string name="text_balance">Баланс кошелька</string>
+    <string name="text_select_coin">Выберите монету</string>
+    <string name="text_amount_withdrawal">Количество</string>
+    <string name="text_usdt_address">Адрес снятия USDT</string>
+    <string name="text_manage_address">Управлять адресом</string>
+    <string name="text_withdrawal_limit">Лимит снятия</string>
 
 </resources>

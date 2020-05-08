@@ -278,7 +278,7 @@
     <string name="text_free">Fee-Free</string>
     <string name="text_important">Important</string>
     <string name="text_sure_info">Please confirm the information before transfer</string>
-    <string name="text_available_money">Available</string>
+    <string name="text_available_money">Available:</string>
     <string name="text_register_now">Register</string>
     <string name="text_add_withdrawal_address">Add</string>
     <string name="text_delete_address">Delete Address</string>
@@ -291,5 +291,10 @@
     <string name="text_create_time">Time:</string>
     <string name="text_asset_statement">Asset Statement</string>
     <string name="text_balance">Balance</string>
+    <string name="text_select_coin">Select Coin</string>
+    <string name="text_amount_withdrawal">Amount</string>
+    <string name="text_usdt_address">USDT withdrawal address</string>
+    <string name="text_manage_address">Manage address</string>
+    <string name="text_withdrawal_limit">Withdrawal Limit</string>
 
 </resources>

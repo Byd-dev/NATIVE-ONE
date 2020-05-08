@@ -423,7 +423,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     radioButton_2.setChecked(true);
                 });
             }
-        } else if (o == UserDetailManger.getInstance()) {
+        } /*else if (o == UserDetailManger.getInstance()) {
             UserDetailEntity userDetailEntity = (UserDetailEntity) arg;
             runOnUiThread(() -> {
                 if (userDetailEntity.getUser() != null) {
@@ -437,7 +437,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     text_register.setVisibility(View.VISIBLE);
                 }
             });
-        }
+        }*/
     }
 
     private void onSuccessListener(String data) {
@@ -637,6 +637,10 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         findViewById(R.id.layout_login).setOnClickListener(this);
         text_register.findViewById(R.id.text_register).setOnClickListener(this);
         findViewById(R.id.text_account).setOnClickListener(this);
+        findViewById(R.id.text_deposit).setOnClickListener(this);
+        findViewById(R.id.text_withdrawal).setOnClickListener(this);
+        findViewById(R.id.text_quick_exchange).setOnClickListener(this);
+        findViewById(R.id.text_fiat).setOnClickListener(this);
 
     }
 
@@ -768,7 +772,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         QuoteListManger.getInstance().addObserver(this);
         InitManger.getInstance().init();
         //个人详情
-        UserDetailManger.getInstance().addObserver(this);
+       // UserDetailManger.getInstance().addObserver(this);
         //余额初始化
         BalanceManger.getInstance().getBalance("USDT");
         //持仓初始化
@@ -856,8 +860,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);
-        UserDetailManger.getInstance().clear();
-        UserDetailManger.getInstance().cancelTimer();
+      //  UserDetailManger.getInstance().clear();
+      //  UserDetailManger.getInstance().cancelTimer();
 
 
     }
@@ -1051,8 +1055,38 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
-
-
+            /*充币*/
+            case R.id.text_deposit:
+                if (isLogin()) {
+                    WebActivity.getInstance().openUrl(MainOneActivity.this,"",getResources().getString(R.string.text_recharge));
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+            /*提币*/
+            case R.id.text_withdrawal:
+                if (isLogin()) {
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL);
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+            /*币币闪兑*/
+            case R.id.text_quick_exchange:
+                if (isLogin()) {
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_QUICK_EXCHANGE);
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+            /*法币充值*/
+            case R.id.text_fiat:
+                if (isLogin()) {
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_FIAT);
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
         }
     }
 

@@ -97,9 +97,9 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     private String REFRESH = "refresh";
     private String LOAD = "load";
     private UnionRateEntity unionRateEntity;
-    private TextView text_balance;
     private TextView text_getCode;
     private UserDetailEntity userDetailEntity;
+    private TextView text_balance;
     private PopupWindow popupWindow;
     @Override
     protected int setLayoutResourceID() {
@@ -565,7 +565,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
             if (text_balance != null) {
                 if (isAdded()) {
                     if (userDetailEntity != null) {
-                        text_balance.setText(getString(R.string.text_available_money) + ":" + TradeUtil.getNumberFormat(userDetailEntity.getUser().getMoney(), 2));
+                        text_balance.setText(TradeUtil.getNumberFormat(userDetailEntity.getUser().getMoney(), 2));
                     }
                 }
             }

@@ -1750,5 +1750,23 @@ public class NetManger {
             }
         });
     }
+    /*最新公告*/
+    public void depositAddress(String language, OnNetResult onNetResult) {
+        getHeadRequest("/api/pay/recharge/getAddress", language, null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    AnnouncementEntity entity = new Gson().fromJson(response.toString(), AnnouncementEntity.class);
+                    onNetResult.onNetResult(SUCCESS, entity);
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
 
+            }
+        });
+    }
 }

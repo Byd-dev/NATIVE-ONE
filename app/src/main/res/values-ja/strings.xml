@@ -279,7 +279,7 @@
     <string name="text_free">免费</string>
     <string name="text_important">温馨提示</string>
     <string name="text_sure_info">转账时，请务必确认好用户信息</string>
-    <string name="text_available_money">可用额度</string>
+    <string name="text_available_money">可用额度:</string>
     <string name="text_register_now">立即注册</string>
     <string name="text_add_withdrawal_address">添加提币地址</string>
     <string name="text_delete_address">删除地址</string>
@@ -292,6 +292,11 @@
     <string name="text_create_time">发布时间:</string>
     <string name="text_asset_statement">资产明细</string>
     <string name="text_balance">余额</string>
+    <string name="text_select_coin">选择币种</string>
+    <string name="text_amount_withdrawal">数量</string>
+    <string name="text_usdt_address">USDT提币地址</string>
+    <string name="text_manage_address">地址管理</string>
+    <string name="text_withdrawal_limit">提币限额</string>
 
 
 </resources>

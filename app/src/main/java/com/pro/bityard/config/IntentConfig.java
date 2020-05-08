@@ -31,6 +31,14 @@ public class IntentConfig {
         public static final String KEY_ANNOUNCEMENT = "ANNOUNCEMENT";
         //资金账户
         public static final String KEY_ACCOUNT = "KEY_ACCOUNT";
+        //充币
+        public static final String KEY_DEPOSIT = "KEY_DEPOSIT";
+        //提币
+        public static final String KEY_WITHDRAWAL = "KEY_WITHDRAWAL";
+        //币币闪兑
+        public static final String KEY_QUICK_EXCHANGE = "KEY_QUICK_EXCHANGE";
+        //法币充值
+        public static final String KEY_FIAT = "KEY_FIAT";
         //修改登录密码
         public static final String KEY_SAFE_CENTER_LOGIN_PASS = "SAFE_CENTER_LOGIN_PASS";
         //设置资金密码和修改资金密码

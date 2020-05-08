@@ -279,7 +279,7 @@
     <string name="text_free">Miễn phí</string>
     <string name="text_important">Lưu ý</string>
     <string name="text_sure_info">Vui lòng xác nhận chính xác thông tin tài khoản</string>
-    <string name="text_available_money">Khả dụng</string>
+    <string name="text_available_money">Khả dụng:</string>
     <string name="text_register_now">Đăng ký</string>
     <string name="text_add_withdrawal_address">Thêm địa chỉ rút tiền</string>
     <string name="text_delete_address">Xóa địa chỉ</string>
@@ -292,5 +292,10 @@
     <string name="text_create_time">Thời gian:</string>
     <string name="text_asset_statement">Chi tiết tài sản</string>
     <string name="text_balance">Khả dụng</string>
+    <string name="text_select_coin">Chọn tiền</string>
+    <string name="text_amount_withdrawal">Số lượng</string>
+    <string name="text_usdt_address">Địa chỉ rút tiền USDT</string>
+    <string name="text_manage_address">Danh sách địa chỉ</string>
+    <string name="text_withdrawal_limit">Hạn mức rút tiền</string>
 
 </resources>

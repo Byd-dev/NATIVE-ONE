@@ -1,7 +1,6 @@
 package com.pro.bityard.activity;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -31,13 +30,10 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.utils.DeviceUtil;
 import com.pro.bityard.utils.WebFileUploader;
 import com.pro.bityard.viewutil.StatusBarUtil;
-import com.pro.switchlibrary.AppConfig;
-import com.pro.switchlibrary.camera.CameraActivity;
-import com.pro.switchlibrary.camera.FileUtil;
-import com.pro.switchlibrary.camera.RecognizeService;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -48,7 +44,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import butterknife.BindView;
 
-public class WebActivity extends BaseActivity {
+public class WebActivity extends BaseActivity implements View.OnClickListener {
 
 
     @BindView(R.id.bar)
@@ -57,7 +53,8 @@ public class WebActivity extends BaseActivity {
     TextView text_title;
     @BindView(R.id.img_back)
     ImageView img_back;
-
+    @BindView(R.id.img_record)
+    ImageView img_record;
     private static final int MY_PERMISSION_REQUEST_CODE = 10000;
 
 
@@ -73,6 +70,19 @@ public class WebActivity extends BaseActivity {
             instance = new WebActivity();
         }
         return instance;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.img_record:
+                if (isLogin()) {
+                    UserActivity.enter(WebActivity.this, IntentConfig.Keys.KEY_FUND_STATEMENT);
+                } else {
+                    LoginActivity.enter(WebActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+        }
     }
 
     public static class UrlBuilder {
@@ -175,6 +185,10 @@ public class WebActivity extends BaseActivity {
         if (intent != null) {
             mTitle = intent.getStringExtra(KEY_TITLE);
             mUrl = intent.getStringExtra(KEY_URL);
+            if (mTitle.equals(getResources().getString(R.string.text_recharge))) {
+                img_record.setVisibility(View.VISIBLE);
+                img_record.setOnClickListener(this);
+            }
 
             text_title.setText(mTitle);
 
@@ -204,17 +218,10 @@ public class WebActivity extends BaseActivity {
 
 
         text_err.setOnClickListener(v -> mWebView.reload());
-
-        //  mWebView=findViewById(R.id.webview);
-     /*   mWebView = new WebView(getApplicationContext());
-        FrameLayout container = (FrameLayout) findViewById(R.id.container);
-        container.addView(mWebView);*/
         initWebViewSetting();
         mWebView.setBackgroundColor(0);
         mWebView.addJavascriptInterface(new AppJs(this, mWebView), "AppJs");
         mWebView.setWebViewClient(new WebViewClient() {
-
-
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
@@ -223,9 +230,7 @@ public class WebActivity extends BaseActivity {
                     text_err.setVisibility(View.VISIBLE);
                     mWebView.setVisibility(View.INVISIBLE);
                 }
-
             }
-
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
@@ -235,7 +240,6 @@ public class WebActivity extends BaseActivity {
                 text_err.setVisibility(View.VISIBLE);
                 mWebView.setVisibility(View.INVISIBLE);
             }
-
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(WebActivity.this);
@@ -325,8 +329,7 @@ public class WebActivity extends BaseActivity {
                     Map<String, String> extraHeaders = new HashMap<String, String>();
                     extraHeaders.put("Referer", "http://www.smartgouwu.com");
                     view.loadUrl(url, extraHeaders);
-                    //    Log.d("print", "shouldOverrideUrlLoading:729: " + url);
-                    // mWebView.loadUrl(url);
+
                 }
 
 
@@ -550,7 +553,6 @@ public class WebActivity extends BaseActivity {
     protected void initEvent() {
 
     }
-
 
 
     //打开本地应用
