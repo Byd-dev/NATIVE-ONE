@@ -228,7 +228,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private List<String> quoteList;
 
     private QuotePopAdapter quotePopAdapter;
-    private PopupWindow popupWindow;
     private String quote;
     private List<TradeListEntity> tradeListEntityList;
     private List<ChargeUnitEntity> chargeUnitEntityList;
@@ -776,13 +775,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.layout_product:
-                if (popupWindow != null && popupWindow.isShowing()) {
-                    popupWindow.dismiss();
-                    img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_right));
-                } else {
-                    showProductWindow(quoteList);
-                    img_right.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_open));
-                }
+                img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_open));
+                showProductWindow(quoteList);
                 break;
 
 
@@ -1111,7 +1105,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     private void showProductWindow(List<String> quoteList) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_product_layout, null);
-        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+      PopupWindow  popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_pop);
@@ -1126,6 +1120,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         }
 
+        popupWindow.setOnDismissListener(() -> {
+            img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_right));
+
+        });
         quotePopAdapter.setOnItemClick(data -> {
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
@@ -1212,12 +1210,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         });
 
-        Util.dismiss(QuoteDetailActivity.this, popupWindow);
-        Util.dismiss(QuoteDetailActivity.this, popupWindow);
-
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
-        // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_bar);
     }
@@ -1369,7 +1363,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 List<KData> kData = ChartUtil.klineList(data);
                 if (kData1MinHistory != null) {
-                   // Log.d("print", "update:1453: " + kData.get(kData.size() - 2).getTime());
+                    // Log.d("print", "update:1453: " + kData.get(kData.size() - 2).getTime());
                     myKLineView_1Min.addSingleData(kData.get(kData.size() - 1));
                     kline_1min_time.addSingleData(kData.get(kData.size() - 1));
 

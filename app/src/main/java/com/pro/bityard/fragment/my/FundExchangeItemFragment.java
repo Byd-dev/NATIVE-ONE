@@ -16,7 +16,6 @@ import com.pro.bityard.R;
 import com.pro.bityard.adapter.DepositWithdrawAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.FundItemEntity;
@@ -152,8 +151,8 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
         TextView text_name = view.findViewById(R.id.text_name);
         text_name.setText(dataBean.getCurrency());
         TextView text_type = view.findViewById(R.id.text_type);
-        ImageView img_bg=view.findViewById(R.id.img_bg);
-        ChartUtil.setIcon(dataBean.getCurrency(),img_bg);
+        ImageView img_bg = view.findViewById(R.id.img_bg);
+        ChartUtil.setIcon(dataBean.getCurrency(), img_bg);
 
         String explain = dataBean.getExplain();
         switch (explain) {
@@ -271,12 +270,14 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         DepositWithdrawEntity depositWithdrawEntity = (DepositWithdrawEntity) response;
-                        if (depositWithdrawEntity.getData().size() == 0) {
-                            layout_null.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        } else {
-                            layout_null.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
+                        if (layout_null != null && recyclerView != null) {
+                            if (depositWithdrawEntity.getData().size() == 0) {
+                                layout_null.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            } else {
+                                layout_null.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
                         }
 
                         if (loadType.equals(LOAD)) {
@@ -326,8 +327,7 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
                 fundSelectAdapter.notifyDataSetChanged();
                 text_select.setText(data.getName());
                 String code = data.getCode();
-                ChartUtil.setIcon(code,img_bg);
-
+                ChartUtil.setIcon(code, img_bg);
 
 
                 page = 0;

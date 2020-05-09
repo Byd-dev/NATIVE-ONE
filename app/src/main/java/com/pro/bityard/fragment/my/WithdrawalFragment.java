@@ -77,6 +77,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     ImageView img_eye;
     @BindView(R.id.text_getCode)
     TextView text_getCode;
+    @BindView(R.id.img_right)
+    ImageView img_right;
 
     private ChainListAdapter chainListAdapter;//杠杆适配器
     private List<String> dataList;
@@ -124,6 +126,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         text_getCode.setOnClickListener(this);
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
         layout_address.setOnClickListener(this);
+        img_right.setOnClickListener(this);
 
         withdrawalAddressSelectAdapter = new WithdrawalAddressSelectAdapter(getActivity());
 
@@ -193,17 +196,23 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             case R.id.img_back:
                 getActivity().finish();
                 break;
+            case R.id.img_right:
+                img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_open));
+
+                showAddressPopWindow(withdrawalAdressEntity);
+
+
+                break;
             case R.id.layout_address:
 
                 break;
             case R.id.img_record:
-                showAddressPopWindow(withdrawalAdressEntity);
 
-               /* if (isLogin()) {
+                if (isLogin()) {
                     UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_FUND_STATEMENT);
                 } else {
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
-                }*/
+                }
                 break;
             case R.id.text_address_manage:
                 if (isLogin()) {
@@ -310,7 +319,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     private void showAddressPopWindow(WithdrawalAdressEntity withdrawalAdressEntity) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_address_pop, null);
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+      PopupWindow  popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
        /* animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
@@ -319,6 +328,11 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         animation.setInterpolator(new AccelerateInterpolator());
         animation.setDuration(100);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());*/
+
+       popupWindow.setOnDismissListener(() -> {
+           img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_right));
+
+       });
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
