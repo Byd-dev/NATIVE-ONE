@@ -319,7 +319,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     private void showAddressPopWindow(WithdrawalAdressEntity withdrawalAdressEntity) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_address_pop, null);
-      PopupWindow  popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
        /* animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
                 Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
@@ -329,10 +329,10 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         animation.setDuration(100);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());*/
 
-       popupWindow.setOnDismissListener(() -> {
-           img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_right));
+        popupWindow.setOnDismissListener(() -> {
+            img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_right));
 
-       });
+        });
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
