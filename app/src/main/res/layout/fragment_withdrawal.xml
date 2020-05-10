@@ -30,7 +30,7 @@
                     android:drawableLeft="@mipmap/icon_usdt"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="USDT"
+                    android:text="@string/text_usdt_tether_us"
                     android:textColor="@color/text_maincolor"
                     android:textSize="@dimen/size_normal_two" />
 

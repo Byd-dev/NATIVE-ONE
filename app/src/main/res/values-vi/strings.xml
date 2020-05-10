@@ -299,5 +299,6 @@
     <string name="text_withdrawal_limit">Hạn mức rút tiền</string>
     <string name="text_withdrawal_tip_one">Mỗi lệnh rút tiền không thể thấp hơn 50USDT</string>
     <string name="text_withdrawal_tip_two">Vui lòng xác nhận chính xác địa chỉ trước khi rút tiền</string>
+    <string name="text_usdt_tether_us">USDT Tether US</string>
 
 </resources>

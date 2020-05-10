@@ -299,5 +299,6 @@
     <string name="text_withdrawal_limit">Лимит снятия</string>
     <string name="text_withdrawal_tip_one">Минимальная сумма снятия для одного аккаунта составляет50USDT, меньшие суммы не обрабатываются</string>
     <string name="text_withdrawal_tip_two">Пожалуйста,  проверите правильность адреса, неправильный адрес приведет к ошибке снятия.</string>
+    <string name="text_usdt_tether_us">USDT Tether US</string>
 
 </resources>

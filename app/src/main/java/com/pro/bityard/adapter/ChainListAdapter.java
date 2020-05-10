@@ -22,7 +22,7 @@ public class ChainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private static final int TYPE_FOOTER = 1;
 
     public boolean isLoadMore = false;
-    private String chain = "OMNI";
+    private String chain = "";
 
     public ChainListAdapter(Context context) {
         this.context = context;
