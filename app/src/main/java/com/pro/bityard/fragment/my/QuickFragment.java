@@ -1,6 +1,9 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +24,7 @@ import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
@@ -58,6 +62,10 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
     private TextView text_price;
     private TextView text_balance;
     private TextView text_all_exchange;
+    private String rate;
+
+    private boolean isEdit_amount = true;
+    private boolean isEdit_amount_transfer = false;
 
     @Override
     protected void onLazyLoad() {
@@ -95,6 +103,58 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
         selectQuickAdapter = new SelectQuickAdapter(getActivity());
+
+        edit_amount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    if (Util.isNumber(s.toString())) {
+                        Log.d("print", "onTextChanged:117: "+s.toString()+"       "+rate);
+                        edit_amount_transfer.setText(String.valueOf(TradeUtil.mul(Double.parseDouble(edit_amount.getText().toString()), Double.parseDouble(rate))));
+                    }
+
+                } else {
+                    edit_amount_transfer.setText(getResources().getString(R.string.text_default));
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        edit_amount_transfer.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    if (Util.isNumber(s.toString())) {
+                        Log.d("print", "onTextChanged:143: "+s.toString()+"       "+rate);
+                        edit_amount.setText(String.valueOf(TradeUtil.div(Double.parseDouble(edit_amount_transfer.getText().toString()), Double.parseDouble(rate), 10)));
+                    }
+
+                } else {
+                    edit_amount.setText(getResources().getString(R.string.text_default));
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
     }
@@ -148,6 +208,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
             ChartUtil.setIcon(currency, img_bg);
             popupWindow.dismiss();
             getRate(currency, money, (state, response1, response2) -> {
+                rate = response1.toString();
                 text_price.setText("1" + currency + "≈" + response1 + "USDT");
                 edit_amount_transfer.setText(response2.toString());
 
@@ -202,6 +263,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                 text_currency.setText(currency);
                 ChartUtil.setIcon(currency, img_bg);
                 getRate(currency, money, (state, response1, response2) -> {
+                    rate = response1.toString();
                     text_price.setText("1" + currency + "≈" + response1 + "USDT");
                     edit_amount_transfer.setText(response2.toString());
 
