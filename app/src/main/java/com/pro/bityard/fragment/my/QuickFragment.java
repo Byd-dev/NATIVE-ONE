@@ -3,7 +3,6 @@ package com.pro.bityard.fragment.my;
 import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +23,7 @@ import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -103,6 +103,18 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
         selectQuickAdapter = new SelectQuickAdapter(getActivity());
 
+        edit_amount.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                isEdit_amount = true;
+            }
+        });
+
+        edit_amount_transfer.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                isEdit_amount_transfer = true;
+            }
+        });
+
 
         edit_amount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -112,12 +124,13 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                 if (s.length() != 0) {
-                    if (isEdit_amount) {
-                        isEdit_amount_transfer = false;
-                        edit_amount_transfer.setText(String.valueOf(TradeUtil.mul(Double.parseDouble(s.toString()), Double.parseDouble(rate))));
-                    } else {
-                        isEdit_amount_transfer = true;
+                    if (Util.isNumber(s.toString())) {
+                        if (isEdit_amount) {
+                            isEdit_amount_transfer = false;
+                            edit_amount_transfer.setText(TradeUtil.getNumberFormat(TradeUtil.mul(Double.parseDouble(s.toString()), Double.parseDouble(rate)),2));
+                        }
                     }
 
                 } else {
@@ -140,15 +153,13 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                 if (s.length() != 0) {
-                    double v = Double.parseDouble(s.toString());
-                    double rateD = Double.parseDouble(rate);
-                    Log.d("print", "onTextChanged:144:  " + v + "    " + rateD);
-                    if (isEdit_amount_transfer) {
-                        edit_amount.setText(String.valueOf(TradeUtil.div(v, rateD, 2)));
-                        isEdit_amount = false;
-                    } else {
-                        isEdit_amount = true;
+                    if (Util.isNumber(s.toString())) {
+                        if (isEdit_amount_transfer) {
+                            isEdit_amount = false;
+                            edit_amount.setText(TradeUtil.getNumberFormat(TradeUtil.div(Double.parseDouble(s.toString()), Double.parseDouble(rate), 10),2));
+                        }
                     }
 
                 } else {
