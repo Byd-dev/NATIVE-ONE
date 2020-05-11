@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.my;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,13 +14,13 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.Observable;
 import java.util.Observer;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
@@ -29,14 +30,12 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     @BindView(R.id.text_title)
     TextView text_title;
 
-    @BindView(R.id.text_balance)
+
     TextView text_balance;
-    @BindView(R.id.text_balance_currency)
+
     TextView text_balance_currency;
     private boolean isEyeOpen = true;
-    @BindView(R.id.img_eye_switch)
     ImageView img_eye_switch;
-    @BindView(R.id.text_currency)
     TextView text_currency;
 
     private AccountAdapter accountAdapter;
@@ -46,7 +45,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.recyclerView_account)
-    RecyclerView recyclerView_account;
+    HeaderRecyclerView recyclerView_account;
 
     @Override
     protected int setLayoutResourceID() {
@@ -70,12 +69,18 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     protected void initView(View view) {
         text_title.setText(getResources().getString(R.string.text_account));
         view.findViewById(R.id.img_back).setOnClickListener(this);
-        img_eye_switch.setOnClickListener(this);
         //余额初始化
         BalanceManger.getInstance().addObserver(this);
         NetIncomeManger.getInstance().addObserver(this);
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_account_head, null);
+        text_balance = headView.findViewById(R.id.text_balance);
+        text_balance_currency = headView.findViewById(R.id.text_balance_currency);
+        img_eye_switch = headView.findViewById(R.id.img_eye_switch);
+        text_currency = headView.findViewById(R.id.text_currency);
+        img_eye_switch.setOnClickListener(this);
         accountAdapter = new AccountAdapter(getActivity());
         recyclerView_account.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView_account.addHeaderView(headView);
         recyclerView_account.setAdapter(accountAdapter);
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
@@ -109,12 +114,12 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
                     text_balance_currency.setText("***");
                     isEyeOpen = false;
                     accountAdapter.setHide(isEyeOpen);
-                    recyclerView_account.setAdapter(accountAdapter);
+                    accountAdapter.notifyDataSetChanged();
                 } else {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     isEyeOpen = true;
                     accountAdapter.setHide(isEyeOpen);
-                    recyclerView_account.setAdapter(accountAdapter);
+                    accountAdapter.notifyDataSetChanged();
                     if (isLogin()) {
                         if (netIncomeResult != null) {
                             String[] NetIncome = netIncomeResult.split(",");

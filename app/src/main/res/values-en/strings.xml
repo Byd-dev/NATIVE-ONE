@@ -304,5 +304,8 @@
     <string name="text_exchangeable_amount">Exchangeable Amount</string>
     <string name="text_latest_rate">Latest Rate</string>
     <string name="text_indicative_price">Indicative Price:</string>
+    <string name="text_exchange_all">Exchange All</string>
+    <string name="text_convert">Convert</string>
+    <string name="text_coin_balance">Balance</string>
 
 </resources>

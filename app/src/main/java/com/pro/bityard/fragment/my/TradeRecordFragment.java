@@ -257,6 +257,9 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                         if (tradeHistoryEntity == null) {
                             return;
                         }
+                        if (tradeHistoryEntity.getData()==null){
+                            return;
+                        }
                         if (tradeHistoryEntity.getData().size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView.setVisibility(View.GONE);

@@ -305,5 +305,8 @@
     <string name="text_exchangeable_amount">Доступные</string>
     <string name="text_latest_rate">Пос-я цена</string>
     <string name="text_indicative_price">Последний курс обмена:</string>
+    <string name="text_exchange_all">Обмен Все</string>
+    <string name="text_convert">Обмен</string>
+    <string name="text_coin_balance">Баланс кошелька</string>
 
 </resources>

@@ -305,5 +305,8 @@
     <string name="text_exchangeable_amount">可兌換數量</string>
     <string name="text_latest_rate">最新報價</string>
     <string name="text_indicative_price">價格參考:</string>
+    <string name="text_exchange_all">全部兌換</string>
+    <string name="text_convert">閃兌</string>
+    <string name="text_coin_balance">幣種餘額</string>
 
 </resources>

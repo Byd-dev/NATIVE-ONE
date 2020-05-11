@@ -305,5 +305,8 @@
     <string name="text_exchangeable_amount">Số tiền cho phép</string>
     <string name="text_latest_rate">Giá gần đây</string>
     <string name="text_indicative_price">Giá tham khảo:</string>
+    <string name="text_exchange_all">Đổi tất cả</string>
+    <string name="text_convert">Trao đổi</string>
+    <string name="text_coin_balance">Số dư</string>
 
 </resources>
