@@ -24,8 +24,6 @@ import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
-import com.pro.bityard.utils.Util;
-import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -53,7 +51,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
     private SelectQuickAdapter selectQuickAdapter;
     @BindView(R.id.recyclerView_quick)
-    HeaderRecyclerView recyclerView_quick;
+    RecyclerView recyclerView_quick;
     private LinearLayout layout_switch;
     private EditText edit_amount;
     private EditText edit_amount_transfer;
@@ -62,10 +60,10 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
     private TextView text_price;
     private TextView text_balance;
     private TextView text_all_exchange;
-    private String rate;
+    private String rate = "1.00";
 
     private boolean isEdit_amount = true;
-    private boolean isEdit_amount_transfer = false;
+    private boolean isEdit_amount_transfer = true;
 
     @Override
     protected void onLazyLoad() {
@@ -77,17 +75,18 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
         text_title.setText(getResources().getString(R.string.text_coin_turn));
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_quick_head, null);
-        layout_switch = headView.findViewById(R.id.layout_switch);
-        edit_amount = headView.findViewById(R.id.edit_amount);
-        edit_amount_transfer = headView.findViewById(R.id.edit_amount_transfer);
-        text_balance = headView.findViewById(R.id.text_balance);
-        text_currency = headView.findViewById(R.id.text_currency);
-        img_bg = headView.findViewById(R.id.img_bg);
-        text_price = headView.findViewById(R.id.text_price);
+        //  View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_quick_head, null);
+        layout_switch = view.findViewById(R.id.layout_switch);
+        edit_amount = view.findViewById(R.id.edit_amount);
+        edit_amount_transfer = view.findViewById(R.id.edit_amount_transfer);
+        text_balance = view.findViewById(R.id.text_balance);
+        text_currency = view.findViewById(R.id.text_currency);
+        img_bg = view.findViewById(R.id.img_bg);
+        text_price = view.findViewById(R.id.text_price);
+
 
         layout_switch.setOnClickListener(this);
-        headView.findViewById(R.id.text_all_exchange).setOnClickListener(v -> {
+        view.findViewById(R.id.text_all_exchange).setOnClickListener(v -> {
 
         });
 
@@ -97,12 +96,13 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
         quickAccountAdapter = new QuickAccountAdapter(getActivity());
         recyclerView_quick.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        recyclerView_quick.addHeaderView(headView);
+        //recyclerView_quick.addHeaderView(headView);
         recyclerView_quick.setAdapter(quickAccountAdapter);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
         selectQuickAdapter = new SelectQuickAdapter(getActivity());
+
 
         edit_amount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -113,14 +113,15 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
-                    if (Util.isNumber(s.toString())) {
-                        Log.d("print", "onTextChanged:117: "+s.toString()+"       "+rate);
-                        edit_amount_transfer.setText(String.valueOf(TradeUtil.mul(Double.parseDouble(edit_amount.getText().toString()), Double.parseDouble(rate))));
+                    if (isEdit_amount) {
+                        isEdit_amount_transfer = false;
+                        edit_amount_transfer.setText(String.valueOf(TradeUtil.mul(Double.parseDouble(s.toString()), Double.parseDouble(rate))));
+                    } else {
+                        isEdit_amount_transfer = true;
                     }
 
                 } else {
                     edit_amount_transfer.setText(getResources().getString(R.string.text_default));
-
                 }
             }
 
@@ -129,6 +130,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
             }
         });
+
 
         edit_amount_transfer.addTextChangedListener(new TextWatcher() {
             @Override
@@ -139,14 +141,18 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
-                    if (Util.isNumber(s.toString())) {
-                        Log.d("print", "onTextChanged:143: "+s.toString()+"       "+rate);
-                        edit_amount.setText(String.valueOf(TradeUtil.div(Double.parseDouble(edit_amount_transfer.getText().toString()), Double.parseDouble(rate), 10)));
+                    double v = Double.parseDouble(s.toString());
+                    double rateD = Double.parseDouble(rate);
+                    Log.d("print", "onTextChanged:144:  " + v + "    " + rateD);
+                    if (isEdit_amount_transfer) {
+                        edit_amount.setText(String.valueOf(TradeUtil.div(v, rateD, 2)));
+                        isEdit_amount = false;
+                    } else {
+                        isEdit_amount = true;
                     }
 
                 } else {
                     edit_amount.setText(getResources().getString(R.string.text_default));
-
                 }
             }
 
@@ -209,6 +215,9 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
             popupWindow.dismiss();
             getRate(currency, money, (state, response1, response2) -> {
                 rate = response1.toString();
+                if (rate.equals("0.00")) {
+                    rate = "1.00";
+                }
                 text_price.setText("1" + currency + "≈" + response1 + "USDT");
                 edit_amount_transfer.setText(response2.toString());
 
@@ -264,6 +273,9 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                 ChartUtil.setIcon(currency, img_bg);
                 getRate(currency, money, (state, response1, response2) -> {
                     rate = response1.toString();
+                    if (rate.equals("0.00")) {
+                        rate = "1.00";
+                    }
                     text_price.setText("1" + currency + "≈" + response1 + "USDT");
                     edit_amount_transfer.setText(response2.toString());
 
