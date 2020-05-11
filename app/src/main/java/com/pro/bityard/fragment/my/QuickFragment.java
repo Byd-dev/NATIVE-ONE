@@ -4,23 +4,38 @@ import android.annotation.SuppressLint;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuickAccountAdapter;
+import com.pro.bityard.adapter.SelectQuickAdapter;
+import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.HeaderRecyclerView;
+import com.pro.switchlibrary.SPUtils;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
+
+import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class QuickFragment extends BaseFragment implements View.OnClickListener, Observer {
     @BindView(R.id.text_title)
@@ -31,9 +46,18 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
     private BalanceEntity balanceEntity;
 
     private QuickAccountAdapter quickAccountAdapter;
+
+    private SelectQuickAdapter selectQuickAdapter;
     @BindView(R.id.recyclerView_quick)
     HeaderRecyclerView recyclerView_quick;
     private LinearLayout layout_switch;
+    private EditText edit_amount;
+    private EditText edit_amount_transfer;
+    private TextView text_currency;
+    private ImageView img_bg;
+    private TextView text_price;
+    private TextView text_balance;
+    private TextView text_all_exchange;
 
     @Override
     protected void onLazyLoad() {
@@ -47,8 +71,18 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_quick_head, null);
         layout_switch = headView.findViewById(R.id.layout_switch);
+        edit_amount = headView.findViewById(R.id.edit_amount);
+        edit_amount_transfer = headView.findViewById(R.id.edit_amount_transfer);
+        text_balance = headView.findViewById(R.id.text_balance);
+        text_currency = headView.findViewById(R.id.text_currency);
+        img_bg = headView.findViewById(R.id.img_bg);
+        text_price = headView.findViewById(R.id.text_price);
 
         layout_switch.setOnClickListener(this);
+        headView.findViewById(R.id.text_all_exchange).setOnClickListener(v -> {
+
+        });
+
 
         BalanceManger.getInstance().addObserver(this);
 
@@ -59,6 +93,9 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
         recyclerView_quick.setAdapter(quickAccountAdapter);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         swipeRefreshLayout.setOnRefreshListener(this::initData);
+
+        selectQuickAdapter = new SelectQuickAdapter(getActivity());
+
 
     }
 
@@ -98,18 +135,77 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
 
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_switch);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(selectQuickAdapter);
+
+        selectQuickAdapter.setOnItemClick(data -> {
+            double money = data.getMoney();
+            edit_amount.setText(TradeUtil.getNumberFormat(money, 2));
+            text_balance.setText(TradeUtil.getNumberFormat(money, 2));
+            String currency = data.getCurrency();
+            text_currency.setText(currency);
+            ChartUtil.setIcon(currency, img_bg);
+            popupWindow.dismiss();
+            getRate(currency, money, (state, response1, response2) -> {
+                text_price.setText("1" + currency + "≈" + response1 + "USDT");
+                edit_amount_transfer.setText(response2.toString());
+
+            });
+
+
+        });
+
+
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_switch, 0, 0, Gravity.CENTER);
     }
 
+    private void getRate(String currency, double money, OnNetTwoResult onNetTwoResult) {
+        RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
+        if (rateListEntity != null) {
+            for (RateListEntity.ListBean rateList : rateListEntity.getList()) {
+                if (currency.equals(rateList.getName())) {
+                    double mul = TradeUtil.mul(money, rateList.getValue());
+                    onNetTwoResult.setResult(SUCCESS, rateList.getValue(), TradeUtil.getNumberFormat(mul, 2));
+                }
+            }
+        }
+    }
+
+    List<BalanceEntity.DataBean> dataSelect;
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
-            if (quickAccountAdapter != null) {
-                quickAccountAdapter.setDatas(balanceEntity.getData());
+            if (quickAccountAdapter != null && balanceEntity != null) {
+                List<BalanceEntity.DataBean> data = balanceEntity.getData();
+                quickAccountAdapter.setDatas(data);
+
+                dataSelect = new ArrayList<>();
+                dataSelect.addAll(data);
+                Iterator<BalanceEntity.DataBean> iterator = dataSelect.iterator();
+                while (iterator.hasNext()) {
+                    BalanceEntity.DataBean value = iterator.next();
+                    if (value.getCurrency().equals("USDT")) {
+                        iterator.remove();
+                    }
+                }
+                double money = dataSelect.get(0).getMoney();
+                selectQuickAdapter.setDatas(dataSelect);
+                edit_amount.setText(TradeUtil.getNumberFormat(money, 2));
+                text_balance.setText(TradeUtil.getNumberFormat(money, 2));
+                String currency = dataSelect.get(0).getCurrency();
+                text_currency.setText(currency);
+                ChartUtil.setIcon(currency, img_bg);
+                getRate(currency, money, (state, response1, response2) -> {
+                    text_price.setText("1" + currency + "≈" + response1 + "USDT");
+                    edit_amount_transfer.setText(response2.toString());
+
+                });
             }
         }
     }
