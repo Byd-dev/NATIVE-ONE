@@ -300,6 +300,11 @@
     <string name="text_withdrawal_tip_one">单次提币不得低于50USDT,小于此金额将不会成功</string>
     <string name="text_withdrawal_tip_two">每一次提币前，需要确保地址准确无误，错误地址会导致提币失败</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
+    <string name="text_coin_exchange">货币兑换</string>
+    <string name="text_amount_input">请输入兑换数量</string>
+    <string name="text_exchangeable_amount">可兑换数量</string>
+    <string name="text_latest_rate">最新报价</string>
+    <string name="text_indicative_price">价格参考:</string>
 
 
 </resources>

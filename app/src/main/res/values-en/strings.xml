@@ -299,5 +299,10 @@
     <string name="text_withdrawal_tip_one">Minimum withdrawal amount is 50USDT,Otherwise it will not succeed</string>
     <string name="text_withdrawal_tip_two">Please make sure the withdrawal address was correctly filled</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
+    <string name="text_coin_exchange">Exchange</string>
+    <string name="text_amount_input">Amount</string>
+    <string name="text_exchangeable_amount">Exchangeable Amount</string>
+    <string name="text_latest_rate">Latest Rate</string>
+    <string name="text_indicative_price">Indicative Price:</string>
 
 </resources>

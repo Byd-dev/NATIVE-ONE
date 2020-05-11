@@ -300,5 +300,10 @@
     <string name="text_withdrawal_tip_one">최소 출금액이50USDT 이상입니다. 금액이 부족하는 경우, 제출히지는 못합니다. </string>
     <string name="text_withdrawal_tip_two">인출 주소가 올바르게 입력되었는지 확인하십시오.</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
+    <string name="text_coin_exchange">화폐 교환</string>
+    <string name="text_amount_input">교환하려는 암호화폐 수량을 입력해주세요.</string>
+    <string name="text_exchangeable_amount">교환할 수 있는 암호화폐 수량</string>
+    <string name="text_latest_rate">최신 가격</string>
+    <string name="text_indicative_price">최신 스왑 가격:</string>
 
 </resources>

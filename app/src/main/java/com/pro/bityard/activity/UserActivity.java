@@ -12,6 +12,7 @@ import com.pro.bityard.fragment.my.AccountFragment;
 import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.AnnouncementFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
+import com.pro.bityard.fragment.my.QuickFragment;
 import com.pro.bityard.fragment.my.WithdrawalFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;
 import com.pro.bityard.fragment.my.FundStatementFragment;
@@ -113,9 +114,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_WITHDRAWAL:
                 addWithdrawalFragment();
                 break;
+            case IntentConfig.Keys.KEY_QUICK_EXCHANGE:
+                addQuickExchangeFragment();
+                break;
         }
 
 
+    }
+
+    private void addQuickExchangeFragment() {
+        String name = QuickFragment.class.getSimpleName();
+        //币币闪兑
+        QuickFragment fragment = new QuickFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addWithdrawalFragment() {

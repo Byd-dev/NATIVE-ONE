@@ -300,5 +300,10 @@
     <string name="text_withdrawal_tip_one">Минимальная сумма снятия для одного аккаунта составляет50USDT, меньшие суммы не обрабатываются</string>
     <string name="text_withdrawal_tip_two">Пожалуйста,  проверите правильность адреса, неправильный адрес приведет к ошибке снятия.</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
+    <string name="text_coin_exchange">Обмен</string>
+    <string name="text_amount_input">Объем</string>
+    <string name="text_exchangeable_amount">Доступные</string>
+    <string name="text_latest_rate">Пос-я цена</string>
+    <string name="text_indicative_price">Последний курс обмена:</string>
 
 </resources>
