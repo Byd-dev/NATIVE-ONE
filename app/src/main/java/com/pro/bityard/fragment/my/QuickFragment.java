@@ -23,7 +23,6 @@ import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
-import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -126,11 +125,9 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (s.length() != 0) {
-                    if (Util.isNumber(s.toString())) {
-                        if (isEdit_amount) {
-                            isEdit_amount_transfer = false;
-                            edit_amount_transfer.setText(TradeUtil.getNumberFormat(TradeUtil.mul(Double.parseDouble(s.toString()), Double.parseDouble(rate)),2));
-                        }
+                    if (isEdit_amount) {
+                        isEdit_amount_transfer = false;
+                        edit_amount_transfer.setText(TradeUtil.getNumberFormat(TradeUtil.mul(Double.parseDouble(s.toString()), Double.parseDouble(rate)), 2));
                     }
 
                 } else {
@@ -155,11 +152,9 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
             public void onTextChanged(CharSequence s, int start, int before, int count) {
 
                 if (s.length() != 0) {
-                    if (Util.isNumber(s.toString())) {
-                        if (isEdit_amount_transfer) {
-                            isEdit_amount = false;
-                            edit_amount.setText(TradeUtil.getNumberFormat(TradeUtil.div(Double.parseDouble(s.toString()), Double.parseDouble(rate), 10),2));
-                        }
+                    if (isEdit_amount_transfer) {
+                        isEdit_amount = false;
+                        edit_amount.setText(TradeUtil.getNumberFormat(TradeUtil.div(Double.parseDouble(s.toString()), Double.parseDouble(rate), 10), 2));
                     }
 
                 } else {
