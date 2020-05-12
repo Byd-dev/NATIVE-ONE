@@ -308,6 +308,7 @@
     <string name="text_exchange_all">全部兑换</string>
     <string name="text_convert">闪兑</string>
     <string name="text_coin_balance">币种余额</string>
+    <string name="text_exchange_success">闪兑成功</string>
 
 
 </resources>

@@ -1798,4 +1798,30 @@ public class NetManger {
             }
         });
     }
+
+    /*币币闪兑*/
+    /*提币地址添加*/
+    public void exchange(String srcCurrency, String srcMoney, String desCurrency, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("srcCurrency", srcCurrency);
+        map.put("srcMoney", srcMoney);
+        map.put("desCurrency", desCurrency);
+
+        postRequest("/api/user/asset/exchangeApply", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "exchange:币币闪兑: "+response);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    onNetResult.onNetResult(SUCCESS, tipEntity);
+                } else {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
 }

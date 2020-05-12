@@ -308,5 +308,6 @@
     <string name="text_exchange_all">Обмен Все</string>
     <string name="text_convert">Обмен</string>
     <string name="text_coin_balance">Баланс кошелька</string>
+    <string name="text_exchange_success">Успешно</string>
 
 </resources>

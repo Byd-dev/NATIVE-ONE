@@ -308,5 +308,6 @@
     <string name="text_exchange_all">모두 전환하기</string>
     <string name="text_convert">변환</string>
     <string name="text_coin_balance">잔고</string>
+    <string name="text_exchange_success">성공</string>
 
 </resources>

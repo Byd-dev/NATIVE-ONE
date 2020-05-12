@@ -11,15 +11,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.QuickAccountAdapter;
 import com.pro.bityard.adapter.SelectQuickAdapter;
+import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetTwoResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.RateListEntity;
+import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -36,6 +39,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
+import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class QuickFragment extends BaseFragment implements View.OnClickListener, Observer {
@@ -65,6 +70,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
     private boolean isEdit_amount_transfer = true;
     private double money;
     private Double amount_transfer;
+    private String currency;
 
     @Override
     protected void onLazyLoad() {
@@ -84,6 +90,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
         text_currency = view.findViewById(R.id.text_currency);
         img_bg = view.findViewById(R.id.img_bg);
         text_price = view.findViewById(R.id.text_price);
+        view.findViewById(R.id.btn_submit).setOnClickListener(this);
 
 
         layout_switch.setOnClickListener(this);
@@ -207,6 +214,24 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
             case R.id.layout_switch:
                 showSwitchPopWindow();
                 break;
+            case R.id.btn_submit:
+                String value_amount = edit_amount.getText().toString();
+                NetManger.getInstance().exchange(currency, value_amount, "USDT", (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        Toast.makeText(getActivity(), R.string.text_exchange_success,Toast.LENGTH_SHORT).show();
+
+
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
+                        Toast.makeText(getActivity(),"FAILURE",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
+                break;
         }
     }
 
@@ -224,8 +249,8 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
         selectQuickAdapter.setOnItemClick(data -> {
             money = data.getMoney();
             edit_amount.setText(TradeUtil.getNumberFormat(money, 2));
-            text_balance.setText(TradeUtil.getNumberFormat(money, 2));
-            String currency = data.getCurrency();
+            currency = data.getCurrency();
+            text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency);
             text_currency.setText(currency);
             ChartUtil.setIcon(currency, img_bg);
             popupWindow.dismiss();
@@ -284,8 +309,8 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                 money = dataSelect.get(0).getMoney();
                 selectQuickAdapter.setDatas(dataSelect);
                 edit_amount.setText(TradeUtil.getNumberFormat(money, 2));
-                text_balance.setText(TradeUtil.getNumberFormat(money, 2));
-                String currency = dataSelect.get(0).getCurrency();
+                currency = dataSelect.get(0).getCurrency();
+                text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency);
                 text_currency.setText(currency);
                 ChartUtil.setIcon(currency, img_bg);
                 getRate(currency, money, (state, response1, response2) -> {

@@ -308,5 +308,6 @@
     <string name="text_exchange_all">Đổi tất cả</string>
     <string name="text_convert">Trao đổi</string>
     <string name="text_coin_balance">Số dư</string>
+    <string name="text_exchange_success">Thành công</string>
 
 </resources>

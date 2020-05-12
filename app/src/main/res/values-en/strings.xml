@@ -307,5 +307,6 @@
     <string name="text_exchange_all">Exchange All</string>
     <string name="text_convert">Convert</string>
     <string name="text_coin_balance">Balance</string>
+    <string name="text_exchange_success">Success</string>
 
 </resources>
