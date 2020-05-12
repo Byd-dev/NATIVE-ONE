@@ -63,6 +63,8 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
     private boolean isEdit_amount = true;
     private boolean isEdit_amount_transfer = true;
+    private double money;
+    private Double amount_transfer;
 
     @Override
     protected void onLazyLoad() {
@@ -85,8 +87,9 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
 
         layout_switch.setOnClickListener(this);
+        //全部兑换监听
         view.findViewById(R.id.text_all_exchange).setOnClickListener(v -> {
-
+            edit_amount.setText(String.valueOf(money));
         });
 
 
@@ -123,13 +126,15 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                 if (s.length() != 0) {
                     if (isEdit_amount) {
                         isEdit_amount_transfer = false;
-                        edit_amount_transfer.setText(TradeUtil.getNumberFormat(TradeUtil.mul(Double.parseDouble(s.toString()), Double.parseDouble(rate)), 2));
+                        double input_amount = Double.parseDouble(s.toString());
+                        edit_amount_transfer.setText(TradeUtil.getNumberFormat(TradeUtil.mul(input_amount, Double.parseDouble(rate)), 2));
+                        if (input_amount > money) {
+                            edit_amount.setText(String.valueOf(money));
+                        }
                     }
-
                 } else {
                     edit_amount_transfer.setText(getResources().getString(R.string.text_default));
                 }
@@ -154,7 +159,12 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                 if (s.length() != 0) {
                     if (isEdit_amount_transfer) {
                         isEdit_amount = false;
-                        edit_amount.setText(TradeUtil.getNumberFormat(TradeUtil.div(Double.parseDouble(s.toString()), Double.parseDouble(rate), 10), 2));
+                        double input_amount_transfer = Double.parseDouble(s.toString());
+                        edit_amount.setText(TradeUtil.getNumberFormat(TradeUtil.div(input_amount_transfer, Double.parseDouble(rate), 10), 2));
+                        if (input_amount_transfer > amount_transfer) {
+                            edit_amount_transfer.setText(String.valueOf(amount_transfer));
+
+                        }
                     }
 
                 } else {
@@ -212,7 +222,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
         recyclerView.setAdapter(selectQuickAdapter);
 
         selectQuickAdapter.setOnItemClick(data -> {
-            double money = data.getMoney();
+            money = data.getMoney();
             edit_amount.setText(TradeUtil.getNumberFormat(money, 2));
             text_balance.setText(TradeUtil.getNumberFormat(money, 2));
             String currency = data.getCurrency();
@@ -226,6 +236,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                 }
                 text_price.setText("1" + currency + "≈" + response1 + "USDT");
                 edit_amount_transfer.setText(response2.toString());
+                amount_transfer = Double.parseDouble(response2.toString());
 
             });
 
@@ -270,7 +281,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                         iterator.remove();
                     }
                 }
-                double money = dataSelect.get(0).getMoney();
+                money = dataSelect.get(0).getMoney();
                 selectQuickAdapter.setDatas(dataSelect);
                 edit_amount.setText(TradeUtil.getNumberFormat(money, 2));
                 text_balance.setText(TradeUtil.getNumberFormat(money, 2));
@@ -284,6 +295,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                     }
                     text_price.setText("1" + currency + "≈" + response1 + "USDT");
                     edit_amount_transfer.setText(response2.toString());
+                    amount_transfer = Double.parseDouble(response2.toString());
 
                 });
             }

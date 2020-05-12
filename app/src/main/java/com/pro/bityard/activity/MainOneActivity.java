@@ -34,7 +34,6 @@ import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.UnionRateEntity;
-import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
 import com.pro.bityard.fragment.hold.PositionFragment;
@@ -45,7 +44,6 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
-import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -772,7 +770,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         QuoteListManger.getInstance().addObserver(this);
         InitManger.getInstance().init();
         //个人详情
-       // UserDetailManger.getInstance().addObserver(this);
+        // UserDetailManger.getInstance().addObserver(this);
         //余额初始化
         BalanceManger.getInstance().getBalance("USDT");
         //持仓初始化
@@ -860,8 +858,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);
-      //  UserDetailManger.getInstance().clear();
-      //  UserDetailManger.getInstance().cancelTimer();
+        //  UserDetailManger.getInstance().clear();
+        //  UserDetailManger.getInstance().cancelTimer();
 
 
     }
@@ -1047,7 +1045,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 WebActivity.getInstance().openUrl(MainOneActivity.this, url, getResources().getString(R.string.text_my_service));
 
                 break;
-                /*资金账户*/
+            /*资金账户*/
             case R.id.text_account:
                 if (isLogin()) {
                     UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ACCOUNT);
@@ -1058,7 +1056,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(MainOneActivity.this,"",getResources().getString(R.string.text_recharge));
+                    WebActivity.getInstance().openUrl(MainOneActivity.this, "", getResources().getString(R.string.text_recharge));
                 } else {
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
