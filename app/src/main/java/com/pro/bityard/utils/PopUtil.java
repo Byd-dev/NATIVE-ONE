@@ -14,9 +14,7 @@ import android.widget.Toast;
 import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnResult;
-import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.manger.QuoteListManger;
-import com.pro.switchlibrary.SPUtils;
 
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
@@ -111,7 +109,6 @@ public class PopUtil {
 
         }
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
-            onResult.setResult(null);
             popupWindow.dismiss();
         });
 
