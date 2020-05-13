@@ -7,9 +7,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.LoginActivity;
+import com.pro.bityard.activity.UserActivity;
+import com.pro.bityard.activity.WebActivity;
 import com.pro.bityard.adapter.AccountAdapter;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
@@ -78,6 +82,10 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         img_eye_switch = headView.findViewById(R.id.img_eye_switch);
         text_currency = headView.findViewById(R.id.text_currency);
         img_eye_switch.setOnClickListener(this);
+        headView.findViewById(R.id.text_deposit).setOnClickListener(this);
+        headView.findViewById(R.id.text_withdrawal).setOnClickListener(this);
+        headView.findViewById(R.id.text_quick_exchange).setOnClickListener(this);
+        headView.findViewById(R.id.text_fiat).setOnClickListener(this);
         accountAdapter = new AccountAdapter(getActivity());
         recyclerView_account.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_account.addHeaderView(headView);
@@ -141,6 +149,38 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
                 }
 
+                break;
+            /*充币*/
+            case R.id.text_deposit:
+                if (isLogin()) {
+                    WebActivity.getInstance().openUrl(getActivity(), "", getResources().getString(R.string.text_recharge));
+                } else {
+                    LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+            /*提币*/
+            case R.id.text_withdrawal:
+                if (isLogin()) {
+                    UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_WITHDRAWAL);
+                } else {
+                    LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+            /*币币闪兑*/
+            case R.id.text_quick_exchange:
+                if (isLogin()) {
+                    UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_QUICK_EXCHANGE);
+                } else {
+                    LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+            /*法币充值*/
+            case R.id.text_fiat:
+                if (isLogin()) {
+                    UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_FIAT);
+                } else {
+                    LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
+                }
                 break;
         }
     }

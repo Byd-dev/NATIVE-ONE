@@ -112,6 +112,7 @@
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/text_deposit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -121,11 +122,11 @@
             android:gravity="center"
             android:text="@string/text_recharge"
             android:textColor="@color/text_second_color"
-
             android:textSize="@dimen/size_normal"
             android:typeface="monospace" />
 
         <TextView
+            android:id="@+id/text_withdrawal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -140,6 +141,7 @@
             android:typeface="monospace" />
 
         <TextView
+            android:id="@+id/text_quick_exchange"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -154,6 +156,7 @@
             android:typeface="monospace" />
 
         <TextView
+            android:id="@+id/text_fiat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

@@ -198,6 +198,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     private List<PositionEntity.DataBean> positionRealList;
     private List<PositionEntity.DataBean> positionSimulationList;
     private LoginEntity loginEntity;
+    private UnionRateEntity unionRateEntity;
 
 
     @Override
@@ -702,7 +703,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         if (isLogin()) {
             NetManger.getInstance().unionRate((state, response) -> {
                 if (state.equals(SUCCESS)) {
-                    UnionRateEntity unionRateEntity = (UnionRateEntity) response;
+                    unionRateEntity = (UnionRateEntity) response;
                     //退出需要清除
                     SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
                     if (unionRateEntity.getUnion() != null) {
@@ -958,11 +959,17 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     text_balance.setText("***");
                     text_balance_currency.setText("***");
+                    text_commissionRate.setText("***");
+
                     isEyeOpen = false;
                 } else {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
                     isEyeOpen = true;
                     if (isLogin()) {
+
+                        text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
+
+
                         if (netIncomeResult != null) {
                             String[] NetIncome = netIncomeResult.split(",");
                             if (NetIncome[0].equals("1")) {
