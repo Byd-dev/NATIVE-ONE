@@ -308,5 +308,6 @@
     <string name="text_convert">Convert</string>
     <string name="text_coin_balance">Balance</string>
     <string name="text_exchange_success">Success</string>
+    <string name="text_nickname_input">Enter The Username</string>
 
 </resources>

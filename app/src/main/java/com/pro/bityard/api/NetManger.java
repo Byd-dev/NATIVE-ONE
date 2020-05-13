@@ -13,7 +13,6 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
-import com.lzy.okgo.utils.HeaderParser;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.AddScoreEntity;
@@ -109,7 +108,7 @@ public class NetManger {
     //get 请求
     public void getHeadRequest(String url, String head, ArrayMap map, OnNetResult onNetResult) {
 
-        HttpHeaders httpHeaders=new HttpHeaders();
+        HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.put("accept-language", head);
         OkGo.<String>get(getURL(url, map))
                 .headers(httpHeaders)
@@ -1750,6 +1749,7 @@ public class NetManger {
             }
         });
     }
+
     /*最新公告*/
     public void depositAddress(String language, OnNetResult onNetResult) {
         getHeadRequest("/api/pay/recharge/getAddress", language, null, (state, response) -> {
@@ -1772,15 +1772,15 @@ public class NetManger {
 
 
     /*提币*/
-    public void withdrawal(String money,String currency,String chain,String addressId,String email,String password,OnNetResult onNetResult){
+    public void withdrawal(String money, String currency, String chain, String addressId, String email, String password, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("currency", currency);
-        map.put("money",money);
+        map.put("money", money);
         map.put("chain", chain);
-        map.put("addressId",addressId);
-        map.put("email",email);
+        map.put("addressId", addressId);
+        map.put("email", email);
 
-        map.put("password",password);
+        map.put("password", password);
         postRequest("/api/pay/withdraw/create", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
@@ -1811,7 +1811,28 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "exchange:币币闪兑: "+response);
+                Log.d("print", "exchange:币币闪兑: " + response);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    onNetResult.onNetResult(SUCCESS, tipEntity);
+                } else {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    public void updateNickName(String username, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("username", username);
+        postRequest("/api/user/update-username", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "updateNickName:1835:  "+response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     onNetResult.onNetResult(SUCCESS, tipEntity);

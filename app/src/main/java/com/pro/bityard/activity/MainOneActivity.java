@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 
@@ -45,7 +46,9 @@ import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.utils.ListUtil;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.view.StatusBarHeightView;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -75,7 +78,8 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 
 public class MainOneActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, Observer, View.OnClickListener {
-
+    @BindView(R.id.layout_view)
+    RelativeLayout layout_view;
     @BindView(R.id.layout_home)
     LinearLayout layout_home;
     @BindView(R.id.layout_market)
@@ -192,6 +196,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     View view_four;
     @BindView(R.id.text_register)
     TextView text_register;
+    @BindView(R.id.img_edit)
+    ImageView img_edit;
 
     private boolean isEyeOpen = true;
     private String netIncomeResult;
@@ -486,11 +492,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             text_uid.setVisibility(View.VISIBLE);
             text_uid.setText(loginEntity.getUser().getUserId());
             text_register.setVisibility(View.GONE);
+            img_edit.setVisibility(View.VISIBLE);
 
         } else {
             text_userName.setText(getResources().getText(R.string.text_unlogin));
             text_uid.setVisibility(View.GONE);
             text_register.setVisibility(View.VISIBLE);
+            img_edit.setVisibility(View.GONE);
+
         }
 
 
@@ -640,6 +649,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         findViewById(R.id.text_withdrawal).setOnClickListener(this);
         findViewById(R.id.text_quick_exchange).setOnClickListener(this);
         findViewById(R.id.text_fiat).setOnClickListener(this);
+        findViewById(R.id.img_edit).setOnClickListener(this);
 
     }
 
@@ -1091,6 +1101,19 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 } else {
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
+                break;
+            /*修改昵称*/
+            case R.id.img_edit:
+                if (isLogin()) {
+                    Util.lightOff(MainOneActivity.this);
+                    PopUtil.getInstance().showEdit(MainOneActivity.this, layout_view, true, result -> {
+                        loginEntity.getUser().setUserName(result.toString());
+                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                        onResume();
+
+                    });
+                }
+
                 break;
         }
     }

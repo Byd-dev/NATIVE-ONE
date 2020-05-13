@@ -309,5 +309,6 @@
     <string name="text_convert">변환</string>
     <string name="text_coin_balance">잔고</string>
     <string name="text_exchange_success">성공</string>
+    <string name="text_nickname_input">닉네임을 입력해 주세요.</string>
 
 </resources>

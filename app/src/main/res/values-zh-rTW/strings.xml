@@ -309,5 +309,6 @@
     <string name="text_convert">閃兌</string>
     <string name="text_coin_balance">幣種餘額</string>
     <string name="text_exchange_success">閃兌成功</string>
+    <string name="text_nickname_input">請輸入暱稱</string>
 
 </resources>
