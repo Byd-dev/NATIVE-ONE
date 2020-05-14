@@ -34,6 +34,7 @@ import com.pro.bityard.entity.TipSPSLMarginEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.entity.UnionRateEntity;
+import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.manger.NetIncomeManger;
@@ -860,7 +861,6 @@ public class NetManger {
                 if (state.equals(BUSY)) {
                     onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
-                    Log.d("print", "onNetResult:设置止盈止损:  " + response.toString());
                     TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
                     if (tipSPSLMarginEntity.getCode() == 200) {
 
@@ -889,7 +889,6 @@ public class NetManger {
                 if (state.equals(BUSY)) {
                     onNetResult.onNetResult(BUSY, null);
                 } else if (state.equals(SUCCESS)) {
-                    Log.d("print", "onNetResult:583:  " + response.toString());
                     TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
                     if (tipSPSLMarginEntity.getCode() == 200) {
                         onNetResult.onNetResult(SUCCESS, tipSPSLMarginEntity.getMessage());
@@ -1045,7 +1044,6 @@ public class NetManger {
         RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
         if (rateListEntity != null) {
             List<RateListEntity.ListBean> list = rateListEntity.getList();
-            // Log.d("print", "rateList:缓存: " + list);
             for (RateListEntity.ListBean rateList : list) {
                 if (src.equals(rateList.getName())) {
                     if (moneyType.equals("1")) {
@@ -1120,7 +1118,6 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
 
 
-                Log.d("print", "getRateList:1086:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -1197,7 +1194,6 @@ public class NetManger {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 AddScoreEntity addScoreEntity = new Gson().fromJson(response.toString(), AddScoreEntity.class);
-                Log.d("print", "addScore:1129:  " + response);
                 onNetResult.onNetResult(SUCCESS, addScoreEntity);
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
@@ -1218,7 +1214,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "passwordChange:修改密码:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
             } else if (state.equals(FAILURE)) {
@@ -1347,7 +1342,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "checkMobileCode:验证手机验证码: " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
 
@@ -1370,7 +1364,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "widthDrawPasswordSet:1305设置资金密码: " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
             } else if (state.equals(FAILURE)) {
@@ -1392,7 +1385,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "passwordChange:修改资金密码:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
             } else if (state.equals(FAILURE)) {
@@ -1490,7 +1482,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "exchangeRecord:1419:  " + response);
                 DepositWithdrawEntity depositWithdrawEntity = new Gson().fromJson(response.toString(), DepositWithdrawEntity.class);
                 onNetResult.onNetResult(SUCCESS, depositWithdrawEntity);
             } else if (state.equals(FAILURE)) {
@@ -1604,9 +1595,21 @@ public class NetManger {
     public void userDetail(OnNetResult onNetResult) {
         getRequest("/api/user/detail", null, (state, response) -> {
             if (state.equals(SUCCESS)) {
-                Log.d("print", "userDetail: BYD:"+response.toString());
                 UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
                 onNetResult.onNetResult(SUCCESS, userDetailEntity);
+            }
+        });
+    }
+
+    /*个人资产明细*/
+    public void userAsset(String currency, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("currency", currency);
+        getRequest("/api/user/asset/detail", map, (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                UserAssetEntity userAssetEntity = new Gson().fromJson(response.toString(), UserAssetEntity.class);
+                onNetResult.onNetResult(SUCCESS, userAssetEntity);
+
             }
         });
     }
@@ -1694,7 +1697,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "deleteAddress:1664:  " + response);
                 TipEntity entity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, entity);
             } else if (state.equals(FAILURE)) {
@@ -1812,7 +1814,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "exchange:币币闪兑: " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     onNetResult.onNetResult(SUCCESS, tipEntity);
@@ -1833,7 +1834,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "updateNickName:1835:  "+response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     onNetResult.onNetResult(SUCCESS, tipEntity);

@@ -35,6 +35,7 @@ import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.UnionRateEntity;
+import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
@@ -210,6 +211,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     private LoginEntity loginEntity;
     private UnionRateEntity unionRateEntity;
     private UserDetailEntity userDetailEntity;
+    private UserAssetEntity userAssetEntity;
 
 
     @Override
@@ -445,7 +447,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     text_register.setVisibility(View.GONE);
                     img_edit.setVisibility(View.VISIBLE);
                     if (isEyeOpen) {
-                        text_byd_balance.setText(userDetailEntity.getUser().getEagle() + "");
+                        text_byd_balance.setText(String.valueOf(userDetailEntity.getUser().getEagle()));
                         text_commissionRate.setText(TradeUtil.mul(userDetailEntity.getUser().getCommRatio(), 100) + "%");
                     }
 
@@ -729,9 +731,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         //首页 -------------------------------------------------------------------------------------
         getBanner();
 
+
         if (isLogin()) {
 
             UserDetailManger.getInstance().detail();
+
             /*NetManger.getInstance().unionRate((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     unionRateEntity = (UnionRateEntity) response;
@@ -1000,7 +1004,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     if (isLogin()) {
 
                         text_commissionRate.setText(TradeUtil.mul(userDetailEntity.getUser().getCommRatio(), 100) + "%");
-                        text_byd_balance.setText(userDetailEntity.getUser().getEagle() + "");
+                        text_byd_balance.setText(String.valueOf(userDetailEntity.getUser().getEagle()));
 
                         if (netIncomeResult != null) {
                             String[] NetIncome = netIncomeResult.split(",");
