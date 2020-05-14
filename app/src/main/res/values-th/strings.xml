@@ -8,20 +8,20 @@
     <string name="tab_four">การซื้อขาย</string>
     <string name="tab_five">ของฉัน</string>
     <string name="text_jump">ข้าม</string>
-    <string name="text_register">立即注册</string>
-    <string name="text_mobile_login">手机号码登录</string>
-    <string name="text_email_login">邮箱登录</string>
+    <string name="text_register">Регистрация</string>
+    <string name="text_mobile_login">Номер телефона</string>
+    <string name="text_email_login">По электронной почте</string>
     <string name="text_email">Электронная почта</string>
     <string name="text_email_input">Электронная почта</string>
-    <string name="text_input_pass">请输入密码</string>
+    <string name="text_input_pass">Пароль</string>
     <string name="text_pass">Логин Пароль</string>
     <string name="text_pass_err">您输入的密码有误</string>
-    <string name="text_forget_pass">忘记密码?</string>
-    <string name="text_number">手机号码</string>
-    <string name="text_input_number">请输入手机号</string>
-    <string name="text_select">选择国家</string>
-    <string name="text_login">立即登录</string>
-    <string name="text_register_title">注册Bityard</string>
+    <string name="text_forget_pass">Забыли пароль?</string>
+    <string name="text_number">Номер телефона</string>
+    <string name="text_input_number">Номер телефона</string>
+    <string name="text_select">Выберите свою страну или регион</string>
+    <string name="text_login">Логин</string>
+    <string name="text_register_title">Регистрация</string>
     <string name="text_mobile_register"><![CDATA[手机号码注册->]]></string>
     <string name="text_email_code">Код подтверждения электронной почты</string>
     <string name="text_email_code_input">Код подтверждения</string>
@@ -310,5 +310,6 @@
     <string name="text_coin_balance">Баланс кошелька</string>
     <string name="text_exchange_success">Успешно</string>
     <string name="text_nickname_input">Введите имя пользователя</string>
+    <string name="text_frequently_used">Часто используемый</string>
 
 </resources>

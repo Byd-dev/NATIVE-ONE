@@ -8,20 +8,20 @@
     <string name="tab_four">거래</string>
     <string name="tab_five">광산</string>
     <string name="text_jump">건너 뛰기</string>
-    <string name="text_register">立即注册</string>
-    <string name="text_mobile_login">手机号码登录</string>
-    <string name="text_email_login">邮箱登录</string>
+    <string name="text_register">회원가입</string>
+    <string name="text_mobile_login">핸드폰 번호</string>
+    <string name="text_email_login">이메일 로그인</string>
     <string name="text_email">이메일</string>
     <string name="text_email_input">이메일을 입력해 주세요.</string>
-    <string name="text_input_pass">请输入密码</string>
+    <string name="text_input_pass">비밀번호를 입력해 주세요.</string>
     <string name="text_pass">로그인 비밀번호</string>
     <string name="text_pass_err">您输入的密码有误</string>
-    <string name="text_forget_pass">忘记密码?</string>
-    <string name="text_number">手机号码</string>
-    <string name="text_input_number">请输入手机号</string>
-    <string name="text_select">选择国家</string>
-    <string name="text_login">立即登录</string>
-    <string name="text_register_title">注册Bityard</string>
+    <string name="text_forget_pass">비밀번호 찾기?</string>
+    <string name="text_number">핸드폰 번호</string>
+    <string name="text_input_number">핸드폰 번호을 입력해 주세요</string>
+    <string name="text_select">국가/지역 선택</string>
+    <string name="text_login">로그인</string>
+    <string name="text_register_title">회원가입</string>
     <string name="text_mobile_register"><![CDATA[手机号码注册->]]></string>
     <string name="text_email_code">이메일 인증 코드</string>
     <string name="text_email_code_input">이메일 인증 번호를 입력해 주세요.</string>
@@ -310,5 +310,6 @@
     <string name="text_coin_balance">잔고</string>
     <string name="text_exchange_success">성공</string>
     <string name="text_nickname_input">닉네임을 입력해 주세요.</string>
+    <string name="text_frequently_used">상용</string>
 
 </resources>

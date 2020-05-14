@@ -54,7 +54,7 @@
         android:background="@color/color_bg_left"
         android:gravity="left|center_vertical"
         android:paddingLeft="@dimen/margin_15"
-        android:text="常用国家"
+        android:text="@string/text_frequently_used"
         android:textColor="@color/color_hint"
         android:textSize="@dimen/hint_size" />
 

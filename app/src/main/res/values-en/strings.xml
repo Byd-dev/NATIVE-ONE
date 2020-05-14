@@ -8,18 +8,18 @@
     <string name="tab_five">Mine</string>
     <string name="text_jump">Next</string>
     <string name="text_register">Get Started</string>
-    <string name="text_mobile_login">手机号码登录</string>
-    <string name="text_email_login">邮箱登录</string>
+    <string name="text_mobile_login">Mobile</string>
+    <string name="text_email_login">Email</string>
     <string name="text_email">Email</string>
     <string name="text_email_input">Email</string>
-    <string name="text_input_pass">请输入密码</string>
+    <string name="text_input_pass">Password</string>
     <string name="text_pass">Login Password</string>
     <string name="text_pass_err">您输入的密码有误</string>
-    <string name="text_forget_pass">忘记密码?</string>
-    <string name="text_number">手机号码</string>
-    <string name="text_input_number">请输入手机号</string>
-    <string name="text_select">选择国家</string>
-    <string name="text_login">立即登录</string>
+    <string name="text_forget_pass">Forgot Password?</string>
+    <string name="text_number">Mobile Phone No.</string>
+    <string name="text_input_number">Mobile</string>
+    <string name="text_select">Country or region</string>
+    <string name="text_login">Login Now</string>
     <string name="text_register_title">Get Started Bityard</string>
     <string name="text_mobile_register"><![CDATA[手机号码注册->]]></string>
     <string name="text_email_code">Captcha</string>
@@ -309,5 +309,6 @@
     <string name="text_coin_balance">Balance</string>
     <string name="text_exchange_success">Success</string>
     <string name="text_nickname_input">Enter The Username</string>
+    <string name="text_frequently_used">Frequently Used</string>
 
 </resources>

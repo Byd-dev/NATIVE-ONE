@@ -8,20 +8,20 @@
     <string name="tab_four">Giao dịch</string>
     <string name="tab_five">Của tôi</string>
     <string name="text_jump">Bỏ qua</string>
-    <string name="text_register">立即注册</string>
-    <string name="text_mobile_login">手机号码登录</string>
-    <string name="text_email_login">邮箱登录</string>
+    <string name="text_register">Đăng ký</string>
+    <string name="text_mobile_login">Điện thoại</string>
+    <string name="text_email_login">Đăng nhập Email</string>
     <string name="text_email">Email</string>
     <string name="text_email_input">Email</string>
-    <string name="text_input_pass">请输入密码</string>
+    <string name="text_input_pass">Nhập mật khẩu đăng nhập</string>
     <string name="text_pass">Mật khẩu đăng nhập</string>
     <string name="text_pass_err">您输入的密码有误</string>
-    <string name="text_forget_pass">忘记密码?</string>
-    <string name="text_number">手机号码</string>
-    <string name="text_input_number">请输入手机号</string>
-    <string name="text_select">选择国家</string>
-    <string name="text_login">立即登录</string>
-    <string name="text_register_title">注册Bityard</string>
+    <string name="text_forget_pass">Quên mật khẩu?</string>
+    <string name="text_number">Điện thoại</string>
+    <string name="text_input_number">Nhập số điện thoại</string>
+    <string name="text_select">Quốc gia ( vùng)</string>
+    <string name="text_login">Đăng nhập</string>
+    <string name="text_register_title">Đăng ký</string>
     <string name="text_mobile_register"><![CDATA[手机号码注册->]]></string>
     <string name="text_email_code">Mã Email</string>
     <string name="text_email_code_input">Nhập mã Email</string>
@@ -310,5 +310,6 @@
     <string name="text_coin_balance">Số dư</string>
     <string name="text_exchange_success">Thành công</string>
     <string name="text_nickname_input">Nhập tên</string>
+    <string name="text_frequently_used">Thường dùng</string>
 
 </resources>
