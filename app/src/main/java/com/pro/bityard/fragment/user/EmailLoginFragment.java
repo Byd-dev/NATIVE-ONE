@@ -205,7 +205,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                         TagManger.getInstance().tag();
                                         NetManger.getInstance().userDetail((state2, response2) -> {
                                             if (state.equals(SUCCESS)) {
-                                                UserDetailEntity userDetailEntity= (UserDetailEntity) response2;
+                                                UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
                                                 loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
                                                 SPUtils.putData(AppConfig.LOGIN, loginEntity);
                                                 getActivity().finish();

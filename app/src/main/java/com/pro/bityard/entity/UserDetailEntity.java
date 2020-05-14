@@ -6,7 +6,7 @@ public class UserDetailEntity {
     /**
      * code : 200
      * message :
-     * user : {"account":"ppmwok@gmail.com","bankCardCount":0,"countryCode":"60","currency":"USDT","eagle":0,"eagleRatio":10,"email":"ppmwok@gmail.com","game":86857.19620973,"googleEnable":false,"googleValid":true,"hello":"下午好","identityNumber":"","identityNumberValid":false,"level":3,"localCurrency":"USD","mobile":"601133751865","money":17609.71342714,"name":"","phone":"601133751865","pw_l":1,"pw_w":1,"refer":"729728","registerTime":1578574378000,"tradeQuick":true,"unread":0,"userId":"422134795078729728","username":"小花花","usernameNo":1}
+     * user : {"account":"ppmwok@gmail.com","bankCardCount":0,"commRatio":0.06,"countryCode":"60","currency":"USDT","eagle":0,"eagleRatio":10,"email":"ppmwok@gmail.com","game":86885.48026523,"googleEnable":false,"googleValid":true,"hello":"下午好","identityNumber":"","identityNumberValid":false,"level":3,"localCurrency":"VND","lucky":0,"mobile":"60177152236","money":29645.36839241,"name":"","phone":"60177152236","prize":0,"pw_l":1,"pw_w":1,"refer":"729728","registerTime":1578574378000,"tradeQuick":true,"unread":0,"userId":"422134795078729728","username":"小朋友","usernameNo":9}
      */
 
     private int code;
@@ -52,6 +52,7 @@ public class UserDetailEntity {
             return "UserBean{" +
                     "account='" + account + '\'' +
                     ", bankCardCount=" + bankCardCount +
+                    ", commRatio=" + commRatio +
                     ", countryCode='" + countryCode + '\'' +
                     ", currency='" + currency + '\'' +
                     ", eagle=" + eagle +
@@ -65,10 +66,12 @@ public class UserDetailEntity {
                     ", identityNumberValid=" + identityNumberValid +
                     ", level=" + level +
                     ", localCurrency='" + localCurrency + '\'' +
+                    ", lucky=" + lucky +
                     ", mobile='" + mobile + '\'' +
                     ", money=" + money +
                     ", name='" + name + '\'' +
                     ", phone='" + phone + '\'' +
+                    ", prize=" + prize +
                     ", pw_l=" + pw_l +
                     ", pw_w=" + pw_w +
                     ", refer='" + refer + '\'' +
@@ -84,23 +87,26 @@ public class UserDetailEntity {
         /**
          * account : ppmwok@gmail.com
          * bankCardCount : 0
+         * commRatio : 0.06
          * countryCode : 60
          * currency : USDT
-         * eagle : 0
+         * eagle : 0.0
          * eagleRatio : 10
          * email : ppmwok@gmail.com
-         * game : 86857.19620973
+         * game : 86885.48026523
          * googleEnable : false
          * googleValid : true
          * hello : 下午好
          * identityNumber :
          * identityNumberValid : false
          * level : 3
-         * localCurrency : USD
-         * mobile : 601133751865
-         * money : 17609.71342714
+         * localCurrency : VND
+         * lucky : 0.0
+         * mobile : 60177152236
+         * money : 29645.36839241
          * name :
-         * phone : 601133751865
+         * phone : 60177152236
+         * prize : 0.0
          * pw_l : 1
          * pw_w : 1
          * refer : 729728
@@ -108,17 +114,18 @@ public class UserDetailEntity {
          * tradeQuick : true
          * unread : 0
          * userId : 422134795078729728
-         * username : 小花花
-         * usernameNo : 1
+         * username : 小朋友
+         * usernameNo : 9
          */
 
 
 
         private String account;
         private int bankCardCount;
+        private double commRatio;
         private String countryCode;
         private String currency;
-        private int eagle;
+        private double eagle;
         private int eagleRatio;
         private String email;
         private double game;
@@ -129,10 +136,12 @@ public class UserDetailEntity {
         private boolean identityNumberValid;
         private int level;
         private String localCurrency;
+        private double lucky;
         private String mobile;
         private double money;
         private String name;
         private String phone;
+        private double prize;
         private int pw_l;
         private int pw_w;
         private String refer;
@@ -159,6 +168,14 @@ public class UserDetailEntity {
             this.bankCardCount = bankCardCount;
         }
 
+        public double getCommRatio() {
+            return commRatio;
+        }
+
+        public void setCommRatio(double commRatio) {
+            this.commRatio = commRatio;
+        }
+
         public String getCountryCode() {
             return countryCode;
         }
@@ -175,11 +192,11 @@ public class UserDetailEntity {
             this.currency = currency;
         }
 
-        public int getEagle() {
+        public double getEagle() {
             return eagle;
         }
 
-        public void setEagle(int eagle) {
+        public void setEagle(double eagle) {
             this.eagle = eagle;
         }
 
@@ -263,6 +280,14 @@ public class UserDetailEntity {
             this.localCurrency = localCurrency;
         }
 
+        public double getLucky() {
+            return lucky;
+        }
+
+        public void setLucky(double lucky) {
+            this.lucky = lucky;
+        }
+
         public String getMobile() {
             return mobile;
         }
@@ -293,6 +318,14 @@ public class UserDetailEntity {
 
         public void setPhone(String phone) {
             this.phone = phone;
+        }
+
+        public double getPrize() {
+            return prize;
+        }
+
+        public void setPrize(double prize) {
+            this.prize = prize;
         }
 
         public int getPw_l() {

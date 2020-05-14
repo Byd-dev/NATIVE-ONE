@@ -1604,6 +1604,7 @@ public class NetManger {
     public void userDetail(OnNetResult onNetResult) {
         getRequest("/api/user/detail", null, (state, response) -> {
             if (state.equals(SUCCESS)) {
+                Log.d("print", "userDetail: BYD:"+response.toString());
                 UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
                 onNetResult.onNetResult(SUCCESS, userDetailEntity);
             }

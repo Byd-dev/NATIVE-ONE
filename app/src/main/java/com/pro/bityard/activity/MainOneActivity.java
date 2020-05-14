@@ -35,6 +35,7 @@ import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.UnionRateEntity;
+import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
 import com.pro.bityard.fragment.hold.PositionFragment;
@@ -45,6 +46,7 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
+import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -198,6 +200,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     TextView text_register;
     @BindView(R.id.img_edit)
     ImageView img_edit;
+    @BindView(R.id.text_byd_balance)
+    TextView text_byd_balance;
 
     private boolean isEyeOpen = true;
     private String netIncomeResult;
@@ -205,6 +209,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     private List<PositionEntity.DataBean> positionSimulationList;
     private LoginEntity loginEntity;
     private UnionRateEntity unionRateEntity;
+    private UserDetailEntity userDetailEntity;
 
 
     @Override
@@ -290,6 +295,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         } else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
             Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
+
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_available != null) {
                     for (BalanceEntity.DataBean data : balanceEntity.getData()) {
@@ -428,21 +434,34 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     radioButton_2.setChecked(true);
                 });
             }
-        } /*else if (o == UserDetailManger.getInstance()) {
-            UserDetailEntity userDetailEntity = (UserDetailEntity) arg;
+        } else if (o == UserDetailManger.getInstance()) {
+            userDetailEntity = (UserDetailEntity) arg;
+            Log.d("print", "update:437:  " + userDetailEntity);
             runOnUiThread(() -> {
                 if (userDetailEntity.getUser() != null) {
                     text_userName.setText(userDetailEntity.getUser().getUsername());
                     text_uid.setVisibility(View.VISIBLE);
                     text_uid.setText(loginEntity.getUser().getUserId());
                     text_register.setVisibility(View.GONE);
+                    img_edit.setVisibility(View.VISIBLE);
+                    if (isEyeOpen) {
+                        text_byd_balance.setText(userDetailEntity.getUser().getEagle() + "");
+                        text_commissionRate.setText(TradeUtil.mul(userDetailEntity.getUser().getCommRatio(), 100) + "%");
+                    }
+
                 } else {
+
                     text_userName.setText(getResources().getText(R.string.text_unlogin));
                     text_uid.setVisibility(View.GONE);
                     text_register.setVisibility(View.VISIBLE);
+                    img_edit.setVisibility(View.GONE);
+                    text_byd_balance.setText(getResources().getString(R.string.text_default));
+                    text_commissionRate.setText(getResources().getString(R.string.text_default));
+                    text_balance.setText(getResources().getString(R.string.text_default));
+                    text_balance_currency.setText(getResources().getString(R.string.text_default));
                 }
             });
-        }*/
+        }
     }
 
     private void onSuccessListener(String data) {
@@ -711,7 +730,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         getBanner();
 
         if (isLogin()) {
-            NetManger.getInstance().unionRate((state, response) -> {
+
+            UserDetailManger.getInstance().detail();
+            /*NetManger.getInstance().unionRate((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     unionRateEntity = (UnionRateEntity) response;
                     //退出需要清除
@@ -720,7 +741,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                         text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
                     }
                 }
-            });
+            });*/
         }
 
 
@@ -781,7 +802,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         QuoteListManger.getInstance().addObserver(this);
         InitManger.getInstance().init();
         //个人详情
-        // UserDetailManger.getInstance().addObserver(this);
+        UserDetailManger.getInstance().addObserver(this);
         //余额初始化
         BalanceManger.getInstance().getBalance("USDT");
         //持仓初始化
@@ -869,7 +890,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);
-        //  UserDetailManger.getInstance().clear();
+        UserDetailManger.getInstance().clear();
         //  UserDetailManger.getInstance().cancelTimer();
 
 
@@ -970,6 +991,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     text_balance.setText("***");
                     text_balance_currency.setText("***");
                     text_commissionRate.setText("***");
+                    text_byd_balance.setText("***");
 
                     isEyeOpen = false;
                 } else {
@@ -977,8 +999,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     isEyeOpen = true;
                     if (isLogin()) {
 
-                        text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
-
+                        text_commissionRate.setText(TradeUtil.mul(userDetailEntity.getUser().getCommRatio(), 100) + "%");
+                        text_byd_balance.setText(userDetailEntity.getUser().getEagle() + "");
 
                         if (netIncomeResult != null) {
                             String[] NetIncome = netIncomeResult.split(",");
