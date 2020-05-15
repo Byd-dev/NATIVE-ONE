@@ -60,9 +60,9 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
 import static com.pro.bityard.utils.TradeUtil.big;
 import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
-import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.lossAmount;
 import static com.pro.bityard.utils.TradeUtil.lossRate;
+import static com.pro.bityard.utils.TradeUtil.minMargin;
 import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
 import static com.pro.bityard.utils.TradeUtil.price;
 import static com.pro.bityard.utils.TradeUtil.profitRate;
@@ -166,40 +166,37 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         text_incomeAll = headView.findViewById(R.id.text_total_profit_loss);
         /*一键平仓*/
-        headView.findViewById(R.id.text_close_all).setOnClickListener(v -> NetManger.getInstance().closeAll(TradeUtil.positionIdList(positionEntity), tradeType, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
-                    Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                    initData();
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
-                }
+        headView.findViewById(R.id.text_close_all).setOnClickListener(v -> NetManger.getInstance().closeAll(TradeUtil.positionIdList(positionEntity), tradeType, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
+                Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                initData();
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
             }
         }));
 
 
         headerRecyclerView.setAdapter(positionAdapter);
-        swipeRefreshLayout.setOnRefreshListener(() -> initData());
+        swipeRefreshLayout.setOnRefreshListener(this::initData);
 
         //添加保证金
         positionAdapter.setAddMarginClick(data -> {
-            Util.lightOff(getActivity());
+            Util.lightOff(Objects.requireNonNull(getActivity()));
             showAddPopWindow(data);
         });
 
         //止盈止损
         positionAdapter.setProfitLossClick(data -> {
-            Util.lightOff(getActivity());
+            Util.lightOff(Objects.requireNonNull(getActivity()));
             showPopWindow(data);
         });
         //平仓监听
         positionAdapter.setCloseClick(id -> {
-            Util.lightOff(getActivity());
+            Util.lightOff(Objects.requireNonNull(getActivity()));
             boolean isCloseSure = SPUtils.getBoolean(AppConfig.KEY_CLOSE_SURE, false);
             if (isCloseSure) {
                 PopUtil.getInstance().showTip(getActivity(), layout_view, true, getResources().getString(R.string.text_are_you_sure), state -> {
@@ -245,7 +242,8 @@ public class PositionFragment extends BaseFragment implements Observer {
 
     /*增加保证金*/
     private void showAddPopWindow(PositionEntity.DataBean data) {
-        Log.d("print", "showAddPopWindow:245:  "+data);
+        Log.d("print", "showAddPopWindow:245:  " + data);
+        contractCode = data.getContractCode();
 
         boolean isBuy = data.isIsBuy();
         double lever = data.getLever();
@@ -298,7 +296,11 @@ public class PositionFragment extends BaseFragment implements Observer {
         //输入框
         DecimalEditText edit_margin = view.findViewById(R.id.edit_margin);
         edit_margin.setDecimalEndNumber(2);
-        edit_margin.setHint(0 + "~" + TradeUtil.maxMargin(lever, data.getOpPrice(), data.getVolume()));
+        List<TradeListEntity> tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
+        if (tradeListEntityList!=null){
+            TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode, tradeListEntityList);
+            edit_margin.setHint(minMargin(margin,data.getOpPrice(),data.getVolume()) + "~" + TradeUtil.maxMargin(tradeListEntity.getLeverList().get(0), margin, data.getOpPrice(), data.getVolume(), tradeListEntity.getDepositList().get(1)));
+        }
         edit_margin.setSelection(0, Objects.requireNonNull(edit_margin.getText()).toString().length());
 
         //总计
@@ -369,21 +371,18 @@ public class PositionFragment extends BaseFragment implements Observer {
         });
 
 
-        view.findViewById(R.id.text_sure).setOnClickListener(v -> NetManger.getInstance().submitMargin(data.getId(), text_margin_after.getText().toString(), new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    popupWindow.dismiss();
-                    Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
+        view.findViewById(R.id.text_sure).setOnClickListener(v -> NetManger.getInstance().submitMargin(data.getId(), edit_margin.getText().toString(), (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                popupWindow.dismiss();
+                Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
 
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
-                    Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
+                Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
-                }
             }
         }));
 
@@ -1061,7 +1060,6 @@ public class PositionFragment extends BaseFragment implements Observer {
             if (state.equals(SUCCESS)) {
             }
         });
-
 
 
         NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {

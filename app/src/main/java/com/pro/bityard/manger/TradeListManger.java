@@ -48,6 +48,7 @@ public class TradeListManger extends Observable {
     }
 
 
+
     public void tradeList(OnNetResult onNetResult) {
 
         NetManger.getInstance().codeList((state, response) -> {

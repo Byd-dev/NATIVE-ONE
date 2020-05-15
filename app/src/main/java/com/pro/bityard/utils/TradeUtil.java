@@ -396,10 +396,24 @@ public class TradeUtil {
     }
 
     /*保证金=仓位*开仓价格/杠杆*/
-    public static String maxMargin(double lever, double opPrice, double volume) {
+    public static String maxMargin(double lever, double margin, double opPrice, double volume, double deposit) {
+        //Wilde, [15.05.20 15:06]
+        //我用 最大保证金减去当前保证金  做一个值
+        //Wilde, [15.05.20 15:06]
+        //用最小杠杆· 带入当前的仓位去算保证金 然后减去当前保证金
+        //Wilde, [15.05.20 15:06]
+        //取两个里面的最小值
         double mul = mul(volume, opPrice);
-        double mul1 = div(mul, lever, 0);
-        return String.valueOf(mul1);
+        double div = div(mul, lever, 10);
+        double sub = sub(div, margin);
+        double sub1 = sub(deposit, margin);
+        double small = small(sub, sub1);
+        return getNumberFormat(small, 2);
+    }
+
+    public static String minMargin(double margin, double opPrice, double volume) {
+        double big = big(sub(div(mul(volume, opPrice), 100, 10),margin), 0);
+        return getNumberFormat(big, 2);
     }
 
 
@@ -916,7 +930,7 @@ public class TradeUtil {
     /*能否追加保证金*/
     public static boolean isAddMargin(String contractCode, double lever, double margin) {
         List<TradeListEntity> tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
-        Log.d("print", "isAddMargin:919: "+tradeListEntityList);
+        Log.d("print", "isAddMargin:919: " + tradeListEntityList);
         if (tradeListEntityList == null) {
             return false;
         } else {

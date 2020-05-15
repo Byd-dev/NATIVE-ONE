@@ -880,24 +880,21 @@ public class NetManger {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("bettingId", bettingId);
         map.put("margin", margin);
-        postRequest("/api/trade/margin.htm", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.onNetResult(BUSY, null);
-                } else if (state.equals(SUCCESS)) {
-                    TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
-                    if (tipSPSLMarginEntity.getCode() == 200) {
-                        onNetResult.onNetResult(SUCCESS, tipSPSLMarginEntity.getMessage());
-                    } else {
-                        onNetResult.onNetResult(FAILURE, tipSPSLMarginEntity.getMessage());
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
-                    onNetResult.onNetResult(FAILURE, null);
+        postRequest("/api/trade/margin.htm", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipSPSLMarginEntity tipSPSLMarginEntity = new Gson().fromJson(response.toString(), TipSPSLMarginEntity.class);
+                if (tipSPSLMarginEntity.getCode() == 200) {
+                    onNetResult.onNetResult(SUCCESS, tipSPSLMarginEntity.getMessage());
+                } else {
+                    onNetResult.onNetResult(FAILURE, tipSPSLMarginEntity.getMessage());
 
                 }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
             }
         });
     }
