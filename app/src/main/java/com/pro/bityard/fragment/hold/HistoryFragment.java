@@ -137,15 +137,15 @@ public class HistoryFragment extends BaseFragment implements Observer {
                         swipeRefreshLayout.setRefreshing(false);
                     }
                     historyEntity = (HistoryEntity) response;
-                    if (historyEntity.getData().size()==0){
+                    if (historyEntity.getData().size() == 0) {
                         layout_null.setVisibility(View.VISIBLE);
                         headerRecyclerView.setVisibility(View.GONE);
-                    }else {
+                    } else {
                         layout_null.setVisibility(View.GONE);
                         headerRecyclerView.setVisibility(View.VISIBLE);
                     }
                     historyAdapter.setDatas(historyEntity.getData());
-                    Log.d("print", "initData:历史: "+historyEntity.getData().get(0));
+                    Log.d("print", "initData:历史: " + historyEntity.getData().get(0));
                 } else if (state.equals(FAILURE)) {
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(false);
