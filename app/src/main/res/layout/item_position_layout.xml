@@ -303,10 +303,23 @@
                         android:layout_marginRight="@dimen/margin_15"
                         android:layout_alignParentRight="true"
                         android:text="--"
+                        android:visibility="gone"
                         android:textColor="@color/text_red_position"
                         android:textSize="@dimen/size_big"
                         android:typeface="monospace" />
 
+
+                    <TextView
+                        android:id="@+id/text_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_15"
+                        android:layout_alignParentRight="true"
+                        android:text="--"
+                        android:textColor="@color/text_red_position"
+                        android:textSize="@dimen/size_big"
+                        android:typeface="monospace" />
 
                     <TextView
                         android:id="@+id/text_worth_stay"

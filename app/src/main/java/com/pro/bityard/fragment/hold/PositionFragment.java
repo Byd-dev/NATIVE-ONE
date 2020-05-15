@@ -112,6 +112,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     private TextView text_income_pop;
     private TextView text_worth_pop;
     private double serviceCharge_pop;
+    private double margin_pop;
 
 
     public PositionFragment newInstance(String type) {
@@ -264,16 +265,16 @@ public class PositionFragment extends BaseFragment implements Observer {
         opPrice_pop = dataBean.getOpPrice();
         int priceDigit = dataBean.getPriceDigit();
         double lever = dataBean.getLever();
-        double margin = dataBean.getMargin();
+        margin_pop = dataBean.getMargin();
         double stopLoss = dataBean.getStopLoss();
         double stopProfit = dataBean.getStopProfit();
         //止损价
         TextView text_loss_price = view.findViewById(R.id.text_loss_price);
         //止损价格
-        text_loss_price.setText(StopLossPrice(isBuy_pop, opPrice_pop, priceDigit, lever, margin, Math.abs(stopLoss)));
+        text_loss_price.setText(StopLossPrice(isBuy_pop, opPrice_pop, priceDigit, lever, margin_pop, Math.abs(stopLoss)));
         TextView text_profit_price = view.findViewById(R.id.text_profit_price);
         //止盈价格
-        text_profit_price.setText(StopProfitPrice(isBuy_pop, opPrice_pop, priceDigit, lever, margin, stopProfit));
+        text_profit_price.setText(StopProfitPrice(isBuy_pop, opPrice_pop, priceDigit, lever, margin_pop, stopProfit));
         TextView text_opPrice = view.findViewById(R.id.text_open_price);
         text_opPrice.setText(String.valueOf(opPrice_pop));
         //成交量
@@ -293,7 +294,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         price(quoteList, dataBean.getContractCode(), response -> {
             text_price_pop.setText(response.toString());
             String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop);
-            text_income_pop.setText(income);
+            text_income_pop.setText(income+"("+TradeUtil.ratio(Double.parseDouble(income),margin_pop)+")");
             double incomeDouble = Double.parseDouble(income);
             String netIncome = netIncome(incomeDouble, serviceCharge_pop);
             double netIncomeDouble = Double.parseDouble(netIncome);
@@ -339,7 +340,7 @@ public class PositionFragment extends BaseFragment implements Observer {
             Util.lightOff(Objects.requireNonNull(getActivity()));
             showAddPopWindow(dataBean);
         });
-        boolean addMargin = TradeUtil.isAddMargin(dataBean.getContractCode(), lever, margin);
+        boolean addMargin = TradeUtil.isAddMargin(dataBean.getContractCode(), lever, margin_pop);
         if (addMargin) {
             img_add.setBackgroundResource(R.mipmap.icon_add);
             layout_add.setEnabled(true);
@@ -352,7 +353,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
 
         TextView text_margin = view.findViewById(R.id.text_margin);
-        text_margin.setText(String.valueOf(margin));
+        text_margin.setText(String.valueOf(margin_pop));
 
         TextView text_lever = view.findViewById(R.id.text_lever);
         text_lever.setText(String.valueOf(lever));
@@ -1302,7 +1303,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                         price(quoteList, contractCode, response -> {
                             text_price_pop.setText(response.toString());
                             String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop);
-                            text_income_pop.setText(income);
+                            text_income_pop.setText(income+"("+TradeUtil.ratio(Double.parseDouble(income),margin_pop)+")");
 
                             double incomeDouble = Double.parseDouble(income);
                             String netIncome = netIncome(incomeDouble, serviceCharge_pop);

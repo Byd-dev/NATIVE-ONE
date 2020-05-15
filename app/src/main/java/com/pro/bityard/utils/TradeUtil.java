@@ -412,7 +412,7 @@ public class TradeUtil {
     }
 
     public static String minMargin(double margin, double opPrice, double volume) {
-        double big = big(sub(div(mul(volume, opPrice), 100, 10),margin), 0);
+        double big = big(sub(div(mul(volume, opPrice), 100, 10), margin), 0);
         return getNumberFormat(big, 2);
     }
 
@@ -943,6 +943,13 @@ public class TradeUtil {
             }
         }
 
+    }
+
+    /*盈亏比*/
+    public static String ratio(double income,double margin) {
+        double div = div(income, margin, 10);
+        double mul = mul(div, 100);
+        return getNumberFormat(mul,2)+"%";
     }
 
 
