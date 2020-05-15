@@ -5,12 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.PositionEntity;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
@@ -104,7 +106,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof MyViewHolder) {
             String[] split = Util.quoteList(datas.get(position).getContractCode()).split(",");
             ((MyViewHolder) holder).text_name.setText(split[0]);
-            ((MyViewHolder) holder).text_volume.setText("×" + String.valueOf(datas.get(position).getVolume()));
+            ((MyViewHolder) holder).text_volume.setText("×" + datas.get(position).getVolume());
 
             double opPrice = datas.get(position).getOpPrice();
 
@@ -119,6 +121,18 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             double stopProfit = datas.get(position).getStopProfit();
 
             int priceDigit = datas.get(position).getPriceDigit();
+
+
+            boolean addMargin = TradeUtil.isAddMargin(datas.get(position).getContractCode(), lever, margin);
+            if (addMargin) {
+                ((MyViewHolder) holder).img_add.setBackgroundResource(R.mipmap.icon_add);
+                ((MyViewHolder) holder).layout_add.setEnabled(true);
+
+            } else {
+                ((MyViewHolder) holder).img_add.setBackgroundResource(R.mipmap.icon_add_normal);
+                ((MyViewHolder) holder).layout_add.setEnabled(false);
+
+            }
 
 
             if (isBuy) {
@@ -195,7 +209,8 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 text_loss_price, text_price, text_profit_price,
                 text_income, text_worth, text_close_out,
                 text_profit_loss, text_add;
-        ImageView img_buy;
+        ImageView img_buy, img_add;
+        LinearLayout layout_add;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -211,8 +226,10 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             img_buy = itemView.findViewById(R.id.img_buy);
             text_profit_loss = itemView.findViewById(R.id.text_profit_loss);
             text_add = itemView.findViewById(R.id.text_add);
+            img_add = itemView.findViewById(R.id.img_add);
+            layout_add=itemView.findViewById(R.id.layout_add);
 
-            itemView.findViewById(R.id.text_detail).setOnClickListener(v -> {
+            layout_add.setOnClickListener(v -> {
                 if (onDetailClick != null) {
                     onDetailClick.onClickListener(datas.get(getPosition() - 1));
                 }

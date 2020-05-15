@@ -34,6 +34,7 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
+import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
@@ -47,6 +48,7 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
+import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
@@ -812,6 +814,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         //持仓初始化
         PositionRealManger.getInstance().getHold();
         PositionSimulationManger.getInstance().getHold();
+
+        TradeListManger.getInstance().tradeList((state, response) -> {
+            if (state.equals(SUCCESS)){
+            }
+        });
     }
 
 

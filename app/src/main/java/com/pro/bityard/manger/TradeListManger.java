@@ -50,19 +50,13 @@ public class TradeListManger extends Observable {
 
     public void tradeList(OnNetResult onNetResult) {
 
-        NetManger.getInstance().codeList(new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(SUCCESS)) {
-                    getTradeList(response.toString(), new OnNetResult() {
-                        @Override
-                        public void onNetResult(String state, Object response) {
-                            if (state.equals(SUCCESS)) {
-                                onNetResult.onNetResult(SUCCESS, response);
-                            }
-                        }
-                    });
-                }
+        NetManger.getInstance().codeList((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                getTradeList(response.toString(), (state1, response1) -> {
+                    if (state1.equals(SUCCESS)) {
+                        onNetResult.onNetResult(SUCCESS, response1);
+                    }
+                });
             }
         });
 

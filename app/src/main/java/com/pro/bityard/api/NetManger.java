@@ -276,25 +276,22 @@ public class NetManger {
     /*行情地址host 合约号 合约号详情 的方法  关键*/
     public void getHostCodeTradeList(OnNetThreeResult onNetThreeResult) {
 
-        initURL(new OnNetTwoResult() {
-            @Override
-            public void setResult(String state, Object response1, Object response2) {
-                if (state.equals(BUSY)) {
-                    onNetThreeResult.setResult(BUSY, null, null, null);
+        initURL((state, response1, response2) -> {
+            if (state.equals(BUSY)) {
+                onNetThreeResult.setResult(BUSY, null, null, null);
 
-                } else if (state.equals(SUCCESS)) {
+            } else if (state.equals(SUCCESS)) {
 
-                    List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response2;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < tradeListEntityList.size(); i++) {
-                        stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
-                    }
-                    onNetThreeResult.setResult(SUCCESS, response1, stringBuilder.toString(), tradeListEntityList);
-
-                } else if (state.equals(FAILURE)) {
-                    onNetThreeResult.setResult(FAILURE, null, null, null);
-
+                List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response2;
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < tradeListEntityList.size(); i++) {
+                    stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
                 }
+                onNetThreeResult.setResult(SUCCESS, response1, stringBuilder.toString(), tradeListEntityList);
+
+            } else if (state.equals(FAILURE)) {
+                onNetThreeResult.setResult(FAILURE, null, null, null);
+
             }
         });
     }

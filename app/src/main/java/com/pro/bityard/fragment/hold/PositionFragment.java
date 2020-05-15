@@ -28,12 +28,14 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
+import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
+import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -58,6 +60,7 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
 import static com.pro.bityard.utils.TradeUtil.big;
 import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
+import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.lossAmount;
 import static com.pro.bityard.utils.TradeUtil.lossRate;
 import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
@@ -242,6 +245,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
     /*增加保证金*/
     private void showAddPopWindow(PositionEntity.DataBean data) {
+        Log.d("print", "showAddPopWindow:245:  "+data);
 
         boolean isBuy = data.isIsBuy();
         double lever = data.getLever();
@@ -1051,6 +1055,10 @@ public class PositionFragment extends BaseFragment implements Observer {
         //持仓初始化
         PositionRealManger.getInstance().getHold();
         PositionSimulationManger.getInstance().getHold();
+
+
+
+
 
         NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
             if (state.equals(BUSY)) {

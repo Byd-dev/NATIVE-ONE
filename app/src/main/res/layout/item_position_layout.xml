@@ -349,9 +349,11 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/img_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_add" />
+
+                    />
 
 
                 <TextView
@@ -361,6 +363,7 @@
                     android:layout_marginLeft="@dimen/margin_5"
                     android:gravity="center"
                     android:text="@string/text_additional_margin"
+                    android:enabled="false"
                     android:textColor="@color/text_second_color"
                     android:textSize="@dimen/size_normal"
                     android:typeface="monospace" />

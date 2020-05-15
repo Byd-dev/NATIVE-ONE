@@ -5,13 +5,11 @@ import android.util.Log;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.PositionEntity;
-import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.entity.TradeListEntity;
-import com.pro.switchlibrary.SPUtils;
+import com.pro.bityard.manger.TradeListManger;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -243,7 +241,7 @@ public class TradeUtil {
                     String s = netIncome(Double.parseDouble(income1), serviceCharge);
                     incomeList.add(Double.parseDouble(s));
                 });
-            }else {
+            } else {
                 incomeList.add(0.0);
             }
 
@@ -253,7 +251,7 @@ public class TradeUtil {
             for (int i = 0; i < incomeList.size(); i++) {
                 income = TradeUtil.add(income, incomeList.get(i));
             }
-            Log.d("hold", "getNetIncome:收入: "+income);
+            Log.d("hold", "getNetIncome:收入: " + income);
             tradeResult.setResult(income);
         }
     }
@@ -314,8 +312,8 @@ public class TradeUtil {
         }
         List<Double> marginList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionList) {
-                double margin = dataBean.getMargin();
-                marginList.add(margin);
+            double margin = dataBean.getMargin();
+            marginList.add(margin);
 
 
         }
@@ -399,7 +397,6 @@ public class TradeUtil {
 
     /*保证金=仓位*开仓价格/杠杆*/
     public static String maxMargin(double lever, double opPrice, double volume) {
-
         double mul = mul(volume, opPrice);
         double mul1 = div(mul, lever, 0);
         return String.valueOf(mul1);
@@ -914,6 +911,19 @@ public class TradeUtil {
             }
         }
         return null;
+    }
+
+    /*能否追加保证金*/
+    public static boolean isAddMargin(String contractCode, double lever, double margin) {
+        List<TradeListEntity> tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
+        TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode, tradeListEntityList);
+        Integer integer = tradeListEntity.getLeverList().get(0);
+        Integer integer1 = tradeListEntity.getDepositList().get(1);
+        if (lever <= integer || margin == integer1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 
