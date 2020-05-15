@@ -334,6 +334,11 @@ public class PositionFragment extends BaseFragment implements Observer {
             Util.lightOff(Objects.requireNonNull(getActivity()));
             showPopWindow(dataBean);
         });
+        //追加保证金
+        view.findViewById(R.id.layout_add).setOnClickListener(v -> {
+            Util.lightOff(Objects.requireNonNull(getActivity()));
+            showAddPopWindow(dataBean);
+        });
         boolean addMargin = TradeUtil.isAddMargin(dataBean.getContractCode(), lever, margin);
         if (addMargin) {
             img_add.setBackgroundResource(R.mipmap.icon_add);

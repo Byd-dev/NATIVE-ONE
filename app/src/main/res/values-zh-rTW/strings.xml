@@ -251,7 +251,7 @@
     <string name="text_p_l_detail">訂單盈虧</string>
     <string name="text_profit">利潤</string>
     <string name="text_side">多/空</string>
-    <string name="text_order_id">訂單號</string>
+    <string name="text_order_id">訂單編號</string>
     <string name="text_order_tip">委托</string>
     <string name="text_o_n">過夜天數</string>
     <string name="text_o_n_fee">過夜費</string>

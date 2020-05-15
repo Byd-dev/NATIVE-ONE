@@ -250,7 +250,7 @@
     <string name="text_p_l_detail">订单盈亏</string>
     <string name="text_profit">利润</string>
     <string name="text_side">多/空</string>
-    <string name="text_order_id">订单号</string>
+    <string name="text_order_id">订单编号</string>
     <string name="text_order_tip">委托</string>
     <string name="text_o_n">过夜天数</string>
     <string name="text_o_n_fee">过夜费</string>
