@@ -104,7 +104,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof MyViewHolder) {
             String[] split = Util.quoteList(datas.get(position).getContractCode()).split(",");
             ((MyViewHolder) holder).text_name.setText(split[0]);
-            ((MyViewHolder) holder).text_volume.setText("×"+String.valueOf(datas.get(position).getVolume()));
+            ((MyViewHolder) holder).text_volume.setText("×" + String.valueOf(datas.get(position).getVolume()));
 
             double opPrice = datas.get(position).getOpPrice();
 
@@ -135,32 +135,29 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             //止盈价格
             ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, opPrice, priceDigit, lever, margin, stopProfit));
             //现价和盈亏
-            price(quoteList, datas.get(position).getContractCode(), new TradeResult() {
-                @Override
-                public void setResult(Object response) {
-                    ((MyViewHolder) holder).text_price.setText(response.toString());
-                    String income = income(isBuy, Double.parseDouble(response.toString()), opPrice, datas.get(position).getVolume());
-                    ((MyViewHolder) holder).text_income.setText(income);
-                    double incomeDouble = Double.parseDouble(income);
+            price(quoteList, datas.get(position).getContractCode(), response -> {
+                ((MyViewHolder) holder).text_price.setText(response.toString());
+                String income = income(isBuy, Double.parseDouble(response.toString()), opPrice, datas.get(position).getVolume());
+                ((MyViewHolder) holder).text_income.setText(income);
+                double incomeDouble = Double.parseDouble(income);
 
 
-                    String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
-                    double netIncomeDouble = Double.parseDouble(netIncome);
+                String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
+                double netIncomeDouble = Double.parseDouble(netIncome);
 
-                    ((MyViewHolder) holder).text_worth.setText(netIncome);
-                    if (incomeDouble > 0) {
-                        ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
-                    } else {
-                        ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
-                    }
-
-                    if (netIncomeDouble > 0) {
-                        ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_green));
-                    } else {
-                        ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_red));
-                    }
-
+                ((MyViewHolder) holder).text_worth.setText(netIncome);
+                if (incomeDouble > 0) {
+                    ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                } else {
+                    ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
                 }
+
+                if (netIncomeDouble > 0) {
+                    ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                } else {
+                    ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                }
+
             });
 
 
@@ -197,7 +194,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView text_name, text_volume, text_buy_price,
                 text_loss_price, text_price, text_profit_price,
                 text_income, text_worth, text_close_out,
-                text_profit_loss,text_add;
+                text_profit_loss, text_add;
         ImageView img_buy;
 
         public MyViewHolder(View itemView) {
@@ -212,64 +209,87 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             text_worth = itemView.findViewById(R.id.text_worth);
             text_close_out = itemView.findViewById(R.id.text_close_out);
             img_buy = itemView.findViewById(R.id.img_buy);
-            text_profit_loss=itemView.findViewById(R.id.text_profit_loss);
-            text_add=itemView.findViewById(R.id.text_add);
+            text_profit_loss = itemView.findViewById(R.id.text_profit_loss);
+            text_add = itemView.findViewById(R.id.text_add);
 
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClick != null) {
-                        onItemClick.onClickListener(datas.get(getPosition() - 1));
-                    }
-                }
-            });
-
-            text_close_out.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClick != null) {
-                        onItemClick.onCloseListener(datas.get(getPosition() - 1).getId());
-                    }
-                }
-            });
-
-            text_profit_loss.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClick != null) {
-                        onItemClick.onProfitLossListener(datas.get(getPosition() - 1));
-                    }
-                }
-            });
-
-            text_add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClick!=null){
-                        onItemClick.onClickListener(datas.get(getPosition()-1));
-                    }
+            itemView.findViewById(R.id.text_detail).setOnClickListener(v -> {
+                if (onDetailClick!=null){
+                    onDetailClick.onClickListener(datas.get(getPosition() - 1));
                 }
             });
 
 
+
+
+            text_close_out.setOnClickListener(v -> {
+                if (closeClick != null) {
+                    closeClick.onCloseListener(datas.get(getPosition() - 1).getId());
+                }
+            });
+
+            text_profit_loss.setOnClickListener(v -> {
+                if (profitLossClick != null) {
+                    profitLossClick.onProfitLossListener(datas.get(getPosition() - 1));
+                }
+            });
+
+            text_add.setOnClickListener(v -> {
+                if (addMarginClick != null) {
+                    addMarginClick.onAddMarginClick(datas.get(getPosition() - 1));
+                }
+            });
 
 
         }
     }
 
-    private OnItemClick onItemClick;
+    //查看详情的监听
+    private OnDetailClick onDetailClick;
 
-    public void setOnItemClick(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
+    public void setOnDetailClick(OnDetailClick onDetailClick) {
+        this.onDetailClick = onDetailClick;
     }
 
-    public interface OnItemClick {
+    public interface OnDetailClick {
         void onClickListener(PositionEntity.DataBean data);
 
-        void onCloseListener(String id);
 
+    }
+
+
+    //追加保证金监听
+    private AddMarginClick addMarginClick;
+
+    public void setAddMarginClick(AddMarginClick addMarginClick) {
+
+        this.addMarginClick = addMarginClick;
+    }
+
+    public interface AddMarginClick {
+        void onAddMarginClick(PositionEntity.DataBean data);
+    }
+
+
+    //止盈止损监听
+    private ProfitLossClick profitLossClick;
+
+    public void setProfitLossClick(ProfitLossClick profitLossClick) {
+        this.profitLossClick = profitLossClick;
+    }
+
+    public interface ProfitLossClick {
         void onProfitLossListener(PositionEntity.DataBean data);
+    }
 
+
+    //平仓的监听
+    private CloseClick closeClick;
+
+    public void setCloseClick(CloseClick closeClick) {
+        this.closeClick = closeClick;
+    }
+
+    public interface CloseClick {
+        void onCloseListener(String id);
     }
 }

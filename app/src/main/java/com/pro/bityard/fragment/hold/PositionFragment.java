@@ -183,39 +183,37 @@ public class PositionFragment extends BaseFragment implements Observer {
         headerRecyclerView.setAdapter(positionAdapter);
         swipeRefreshLayout.setOnRefreshListener(() -> initData());
 
-        positionAdapter.setOnItemClick(new PositionAdapter.OnItemClick() {
-            @Override
-            public void onClickListener(PositionEntity.DataBean data) {
-                Util.lightOff(getActivity());
-                showAddPopWindow(data);
+        //添加保证金
+        positionAdapter.setAddMarginClick(data -> {
+            Util.lightOff(getActivity());
+            showAddPopWindow(data);
+        });
+
+        //止盈止损
+        positionAdapter.setProfitLossClick(data -> {
+            Util.lightOff(getActivity());
+            showPopWindow(data);
+        });
+        //平仓监听
+        positionAdapter.setCloseClick(id -> {
+            Util.lightOff(getActivity());
+            boolean isCloseSure = SPUtils.getBoolean(AppConfig.KEY_CLOSE_SURE, false);
+            if (isCloseSure) {
+                PopUtil.getInstance().showTip(getActivity(), layout_view, true, getResources().getString(R.string.text_are_you_sure), state -> {
+                    if (state) {
+                        close(id);
+                    }
+                });
+            } else {
+                close(id);
             }
-
-            @Override
-            public void onCloseListener(String id) {
-                Util.lightOff(getActivity());
-                boolean isCloseSure = SPUtils.getBoolean(AppConfig.KEY_CLOSE_SURE, false);
-                if (isCloseSure) {
-                    PopUtil.getInstance().showTip(getActivity(), layout_view, true, getResources().getString(R.string.text_are_you_sure), state -> {
-                        if (state) {
-                            close(id);
-                        }
-                    });
-                } else {
-                    close(id);
-                }
-
-            }
-
-            @Override
-            public void onProfitLossListener(PositionEntity.DataBean data) {
-                Log.d("print", "onProfitLossListener:165:  " + data);
-                Util.lightOff(getActivity());
-                showPopWindow(data);
-
-            }
-
+        });
+        //查看详情
+        positionAdapter.setOnDetailClick(data -> {
 
         });
+
+
         btn_login.setOnClickListener(v -> {
             LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
 
