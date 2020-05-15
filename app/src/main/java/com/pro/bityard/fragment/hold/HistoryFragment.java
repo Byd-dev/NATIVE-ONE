@@ -107,7 +107,6 @@ public class HistoryFragment extends BaseFragment implements Observer {
 
         btn_login.setOnClickListener(v -> {
             LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
-
         });
 
 
