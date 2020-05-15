@@ -213,12 +213,10 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             text_add = itemView.findViewById(R.id.text_add);
 
             itemView.findViewById(R.id.text_detail).setOnClickListener(v -> {
-                if (onDetailClick!=null){
+                if (onDetailClick != null) {
                     onDetailClick.onClickListener(datas.get(getPosition() - 1));
                 }
             });
-
-
 
 
             text_close_out.setOnClickListener(v -> {
@@ -233,7 +231,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
 
-            text_add.setOnClickListener(v -> {
+            itemView.findViewById(R.id.layout_add).setOnClickListener(v -> {
                 if (addMarginClick != null) {
                     addMarginClick.onAddMarginClick(datas.get(getPosition() - 1));
                 }

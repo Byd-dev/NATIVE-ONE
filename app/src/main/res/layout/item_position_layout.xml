@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_3"
-        android:background="@color/home_line"
-        />
+        android:background="@color/home_line" />
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="182dp"
+        android:layout_height="160dp"
         android:background="@color/background_maincolor"
         android:orientation="vertical">
         <!--1-->
@@ -33,9 +34,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:text="BTC"
-                    android:typeface="monospace"
                     android:textColor="@color/text_maincolor"
-                    android:textSize="@dimen/size_big" />
+                    android:textSize="@dimen/size_big"
+                    android:typeface="monospace" />
 
                 <TextView
                     android:id="@+id/text_name_usdt"
@@ -44,10 +45,10 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/text_name"
                     android:text="/USDT"
-                    android:typeface="monospace"
-
                     android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal" />
+
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
 
                 <ImageView
                     android:id="@+id/img_buy"
@@ -67,9 +68,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="--"
-                    android:typeface="monospace"
                     android:textColor="@color/text_maincolor"
-                    android:textSize="@dimen/size_normal" />
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
 
             </RelativeLayout>
 
@@ -91,24 +92,24 @@
                     android:paddingLeft="@dimen/margin_15"
                     android:paddingRight="@dimen/margin_15"
                     android:text="@string/text_detail"
-                    android:typeface="monospace"
-
                     android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal" />
+
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
 
             </RelativeLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_line"
-            android:background="@color/home_line"
             android:layout_marginLeft="@dimen/margin_15"
-            />
+            android:background="@color/home_line" />
         <!--2-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="82dp"
+            android:layout_height="60dp"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -133,10 +134,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_buy_price"
-                            android:typeface="monospace"
-
                             android:textColor="@color/text_second_color"
+
                             android:textSize="@dimen/size_normal"
+                            android:typeface="monospace"
 
                             />
 
@@ -144,12 +145,12 @@
                             android:id="@+id/text_buy_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="--"
-                            android:typeface="monospace"
-
                             android:layout_marginLeft="@dimen/margin_5"
+                            android:text="--"
+
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal"
+                            android:typeface="monospace"
 
                             />
 
@@ -166,10 +167,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_stoploss_price"
-                            android:typeface="monospace"
-
                             android:textColor="@color/text_second_color"
+
                             android:textSize="@dimen/size_normal"
+                            android:typeface="monospace"
 
                             />
 
@@ -177,12 +178,12 @@
                             android:id="@+id/text_loss_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
-                            android:typeface="monospace"
 
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal"
-                            android:layout_marginLeft="@dimen/margin_5"
+                            android:typeface="monospace"
 
                             />
 
@@ -206,10 +207,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_price"
-                            android:typeface="monospace"
-
                             android:textColor="@color/text_second_color"
                             android:textSize="@dimen/size_normal"
+                            android:typeface="monospace"
 
                             />
 
@@ -217,12 +217,12 @@
                             android:id="@+id/text_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
-                            android:typeface="monospace"
 
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal"
-                            android:layout_marginLeft="@dimen/margin_5"
+                            android:typeface="monospace"
 
                             />
 
@@ -239,10 +239,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_profit_price"
-                            android:typeface="monospace"
-
                             android:textColor="@color/text_second_color"
+
                             android:textSize="@dimen/size_normal"
+                            android:typeface="monospace"
 
                             />
 
@@ -250,12 +250,12 @@
                             android:id="@+id/text_profit_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
-                            android:typeface="monospace"
 
                             android:textColor="@color/text_maincolor"
                             android:textSize="@dimen/size_normal"
-                            android:layout_marginLeft="@dimen/margin_5"
+                            android:typeface="monospace"
 
                             />
 
@@ -284,11 +284,11 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginRight="@dimen/margin_15"
                         android:text="--"
-                        android:typeface="monospace"
-
                         android:textColor="@color/text_red_position"
 
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+
+                        android:typeface="monospace" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -301,13 +301,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_toLeftOf="@+id/text_worth_stay"
+                        android:layout_marginRight="@dimen/margin_15"
+                        android:layout_alignParentRight="true"
                         android:text="--"
-                        android:typeface="monospace"
-
-                        android:layout_marginRight="@dimen/margin_5"
                         android:textColor="@color/text_red_position"
-                        android:textSize="@dimen/size_big" />
+                        android:textSize="@dimen/size_big"
+                        android:typeface="monospace" />
 
 
                     <TextView
@@ -318,9 +317,9 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/margin_15"
                         android:text="@string/text_netincome"
-                        android:typeface="monospace"
-
-                        android:textColor="@color/text_second_color" />
+                        android:textColor="@color/text_second_color"
+                        android:visibility="gone"
+                        android:typeface="monospace" />
 
 
                 </RelativeLayout>
@@ -332,56 +331,70 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_line"
-            android:background="@color/home_line"
-            />
+            android:background="@color/home_line" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
             >
-            <TextView
-                android:id="@+id/text_add"
+
+            <LinearLayout
+                android:id="@+id/layout_add"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="追加保证金"
-                android:drawablePadding="@dimen/margin_5"
-                android:drawableLeft="@mipmap/icon_add"
                 android:layout_centerVertical="true"
-                android:textSize="@dimen/size_normal"
-                android:typeface="monospace"
                 android:gravity="center"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:textColor="@color/text_second_color"
-                />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_add" />
+
+
+                <TextView
+                    android:id="@+id/text_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:gravity="center"
+                    android:text="@string/text_additional_margin"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/text_close_out"
                 android:layout_width="70dp"
                 android:layout_height="@dimen/margin_28"
-                android:gravity="center"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_15"
                 android:layout_centerVertical="true"
-                android:textSize="@dimen/size_normal"
-                android:textColor="@color/text_main_color_black"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@drawable/bg_shape_main_color"
+                android:gravity="center"
                 android:text="@string/text_close_out_color"
-                android:typeface="monospace"
+                android:textColor="@color/text_main_color_black"
+                android:textSize="@dimen/size_normal"
 
-                android:background="@drawable/bg_shape_main_color"/>
+                android:typeface="monospace" />
+
             <TextView
                 android:id="@+id/text_profit_loss"
                 android:layout_width="70dp"
                 android:layout_height="@dimen/margin_28"
-                android:gravity="center"
-                android:layout_marginRight="@dimen/margin_15"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_15"
                 android:layout_toLeftOf="@+id/text_close_out"
-                android:textSize="@dimen/size_normal"
-                android:textColor="@color/maincolor"
+                android:background="@drawable/bg_kuang_main_color"
+                android:gravity="center"
                 android:text="@string/text_profit_loss"
-                android:typeface="monospace"
+                android:textColor="@color/maincolor"
+                android:textSize="@dimen/size_normal"
 
-                android:background="@drawable/bg_kuang_main_color"/>
+                android:typeface="monospace" />
 
 
         </RelativeLayout>
@@ -392,8 +405,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line"
-        android:background="@color/home_line"
-        />
+        android:background="@color/home_line" />
 
 
 </LinearLayout>

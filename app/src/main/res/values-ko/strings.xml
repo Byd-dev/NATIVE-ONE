@@ -85,11 +85,11 @@
     <string name="text_history">历史</string>
     <string name="text_detail">더 보기</string>
     <string name="text_buy_price">주문 가격</string>
-    <string name="text_stoploss_price">止损价</string>
-    <string name="text_close_out_color">平仓</string>
-    <string name="text_profit_loss">止盈止损</string>
+    <string name="text_stoploss_price">스탑 로스</string>
+    <string name="text_close_out_color">청산</string>
+    <string name="text_profit_loss">TP/SL</string>
     <string name="text_price">现价</string>
-    <string name="text_profit_price">止盈价</string>
+    <string name="text_profit_price">테이크 프로핏</string>
     <string name="text_total_profit_loss">总盈亏:</string>
     <string name="text_all_cloes">一键平仓</string>
     <string name="text_netincome">(净盈亏)</string>
@@ -311,5 +311,6 @@
     <string name="text_exchange_success">성공</string>
     <string name="text_nickname_input">닉네임을 입력해 주세요.</string>
     <string name="text_frequently_used">상용</string>
+    <string name="text_additional_margin">추가 마진</string>
 
 </resources>

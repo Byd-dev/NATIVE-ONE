@@ -84,11 +84,11 @@
     <string name="text_history">history</string>
     <string name="text_detail">View More</string>
     <string name="text_buy_price">Open</string>
-    <string name="text_stoploss_price">止损价</string>
-    <string name="text_close_out_color">平仓</string>
-    <string name="text_profit_loss">止盈止损</string>
+    <string name="text_stoploss_price">SL</string>
+    <string name="text_close_out_color">Close</string>
+    <string name="text_profit_loss">TP/SL</string>
     <string name="text_price">现价</string>
-    <string name="text_profit_price">止盈价</string>
+    <string name="text_profit_price">TP</string>
     <string name="text_total_profit_loss">总盈亏:</string>
     <string name="text_all_cloes">一键平仓</string>
     <string name="text_netincome">(净盈亏)</string>
@@ -310,5 +310,6 @@
     <string name="text_exchange_success">Success</string>
     <string name="text_nickname_input">Enter The Username</string>
     <string name="text_frequently_used">Frequently Used</string>
+    <string name="text_additional_margin">Additional Margin</string>
 
 </resources>

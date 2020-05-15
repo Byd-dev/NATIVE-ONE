@@ -311,6 +311,7 @@
     <string name="text_exchange_success">闪兑成功</string>
     <string name="text_nickname_input">请输入昵称</string>
     <string name="text_frequently_used">常用</string>
+    <string name="text_additional_margin">追加保证金</string>
 
 
 </resources>
