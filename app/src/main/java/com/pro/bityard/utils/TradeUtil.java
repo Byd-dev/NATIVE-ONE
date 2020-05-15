@@ -930,7 +930,6 @@ public class TradeUtil {
     /*能否追加保证金*/
     public static boolean isAddMargin(String contractCode, double lever, double margin) {
         List<TradeListEntity> tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
-        Log.d("print", "isAddMargin:919: " + tradeListEntityList);
         if (tradeListEntityList == null) {
             return false;
         } else {

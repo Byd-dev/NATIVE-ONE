@@ -311,5 +311,9 @@
     <string name="text_nickname_input">Enter The Username</string>
     <string name="text_frequently_used">Frequently Used</string>
     <string name="text_additional_margin">Additional Margin</string>
+    <string name="text_positions">Positions</string>
+    <string name="text_qty">Qty</string>
+    <string name="text_frozen">Frozen</string>
+    <string name="text_paid">Paid</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.hold;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -11,6 +12,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
@@ -21,7 +23,6 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PositionAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -36,6 +37,7 @@ import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -58,11 +60,15 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
+import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
+import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
 import static com.pro.bityard.utils.TradeUtil.big;
 import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
+import static com.pro.bityard.utils.TradeUtil.income;
 import static com.pro.bityard.utils.TradeUtil.lossAmount;
 import static com.pro.bityard.utils.TradeUtil.lossRate;
 import static com.pro.bityard.utils.TradeUtil.minMargin;
+import static com.pro.bityard.utils.TradeUtil.netIncome;
 import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
 import static com.pro.bityard.utils.TradeUtil.price;
 import static com.pro.bityard.utils.TradeUtil.profitRate;
@@ -99,6 +105,13 @@ public class PositionFragment extends BaseFragment implements Observer {
     private boolean isEdit_loss_amount = true;
     private boolean isEdit_loss_price = false;
     private List<String> quoteList;
+    private TextView text_price_pop;
+    private double volume_pop;
+    private boolean isBuy_pop;
+    private double opPrice_pop;
+    private TextView text_income_pop;
+    private TextView text_worth_pop;
+    private double serviceCharge_pop;
 
 
     public PositionFragment newInstance(String type) {
@@ -210,7 +223,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         });
         //查看详情
         positionAdapter.setOnDetailClick(data -> {
-
+            showDetailPopWindow(getActivity(), layout_view, data);
         });
 
 
@@ -220,6 +233,149 @@ public class PositionFragment extends BaseFragment implements Observer {
         });
 
 
+    }
+
+
+    /*显示详情*/
+    private void showDetailPopWindow(Activity activity, View layout_view, PositionEntity.DataBean dataBean) {
+        contractCode = dataBean.getContractCode();
+
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_position_detail_pop, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        TextView text_title = view.findViewById(R.id.text_title);
+        text_title.setText(R.string.text_positions);
+
+        TextView text_name = view.findViewById(R.id.text_name);
+
+        String[] split = Util.quoteList(dataBean.getContractCode()).split(",");
+        text_name.setText(split[0]);
+        TextView text_currency = view.findViewById(R.id.text_currency);
+        text_currency.setText(dataBean.getCurrency());
+        isBuy_pop = dataBean.isIsBuy();
+        //盈利
+        text_income_pop = view.findViewById(R.id.text_income);
+        //净收入
+        text_worth_pop = view.findViewById(R.id.text_worth);
+        //当前价
+        text_price_pop = view.findViewById(R.id.text_price);
+        //开盘价
+        opPrice_pop = dataBean.getOpPrice();
+        int priceDigit = dataBean.getPriceDigit();
+        double lever = dataBean.getLever();
+        double margin = dataBean.getMargin();
+        double stopLoss = dataBean.getStopLoss();
+        double stopProfit = dataBean.getStopProfit();
+        //止损价
+        TextView text_loss_price = view.findViewById(R.id.text_loss_price);
+        //止损价格
+        text_loss_price.setText(StopLossPrice(isBuy_pop, opPrice_pop, priceDigit, lever, margin, Math.abs(stopLoss)));
+        TextView text_profit_price = view.findViewById(R.id.text_profit_price);
+        //止盈价格
+        text_profit_price.setText(StopProfitPrice(isBuy_pop, opPrice_pop, priceDigit, lever, margin, stopProfit));
+        TextView text_opPrice = view.findViewById(R.id.text_open_price);
+        text_opPrice.setText(String.valueOf(opPrice_pop));
+        //成交量
+        volume_pop = dataBean.getVolume();
+        //服务费
+        serviceCharge_pop = dataBean.getServiceCharge();
+
+        ImageView img_bg = view.findViewById(R.id.img_bg);
+
+        if (isBuy_pop) {
+            img_bg.setBackgroundResource(R.mipmap.icon_up);
+        } else {
+            img_bg.setBackgroundResource(R.mipmap.icon_down);
+
+        }
+        //现价和盈亏
+        price(quoteList, dataBean.getContractCode(), response -> {
+            text_price_pop.setText(response.toString());
+            String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop);
+            text_income_pop.setText(income);
+            double incomeDouble = Double.parseDouble(income);
+            String netIncome = netIncome(incomeDouble, serviceCharge_pop);
+            double netIncomeDouble = Double.parseDouble(netIncome);
+
+            text_worth_pop.setText(netIncome + "(" + getResources().getString(R.string.text_profit) + ")");
+            if (incomeDouble > 0) {
+                text_income_pop.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+            } else {
+                text_income_pop.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
+            }
+
+            if (netIncomeDouble > 0) {
+                text_worth_pop.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+            } else {
+                text_worth_pop.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
+            }
+
+        });
+
+        LinearLayout layout_add = view.findViewById(R.id.layout_add);
+        ImageView img_add = view.findViewById(R.id.img_add);
+        //平仓
+        view.findViewById(R.id.text_close_out).setOnClickListener(v -> {
+            Util.lightOff(Objects.requireNonNull(getActivity()));
+            boolean isCloseSure = SPUtils.getBoolean(AppConfig.KEY_CLOSE_SURE, false);
+            if (isCloseSure) {
+                PopUtil.getInstance().showTip(getActivity(), layout_view, true, getResources().getString(R.string.text_are_you_sure), state -> {
+                    if (state) {
+                        close(dataBean.getId());
+                    }
+                });
+            } else {
+                close(dataBean.getId());
+            }
+        });
+        //止盈止损
+        view.findViewById(R.id.text_profit_loss).setOnClickListener(v -> {
+            Util.lightOff(Objects.requireNonNull(getActivity()));
+            showPopWindow(dataBean);
+        });
+        boolean addMargin = TradeUtil.isAddMargin(dataBean.getContractCode(), lever, margin);
+        if (addMargin) {
+            img_add.setBackgroundResource(R.mipmap.icon_add);
+            layout_add.setEnabled(true);
+
+        } else {
+            img_add.setBackgroundResource(R.mipmap.icon_add_normal);
+            layout_add.setEnabled(false);
+
+        }
+
+
+        TextView text_margin = view.findViewById(R.id.text_margin);
+        text_margin.setText(String.valueOf(margin));
+
+        TextView text_lever = view.findViewById(R.id.text_lever);
+        text_lever.setText(String.valueOf(lever));
+        TextView text_orders = view.findViewById(R.id.text_order);
+        text_orders.setText(String.valueOf(dataBean.getCpVolume()));
+
+        TextView text_fee = view.findViewById(R.id.text_fee);
+        text_fee.setText(String.valueOf(serviceCharge_pop));
+        TextView text_o_n = view.findViewById(R.id.text_o_n);
+        text_o_n.setText(String.valueOf(dataBean.getDeferDays()));
+        TextView text_o_n_fee = view.findViewById(R.id.text_o_n_fee);
+        text_o_n_fee.setText(String.valueOf(dataBean.getDeferFee()));
+        TextView text_open_time = view.findViewById(R.id.text_open_time);
+        text_open_time.setText(ChartUtil.getDate(dataBean.getTime()));
+        TextView text_order_id = view.findViewById(R.id.text_order_id);
+        text_order_id.setText(dataBean.getId());
+
+
+        view.findViewById(R.id.img_back).setOnClickListener(v -> {
+            popupWindow.dismiss();
+
+        });
+
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
     }
 
     private void close(String id) {
@@ -297,9 +453,9 @@ public class PositionFragment extends BaseFragment implements Observer {
         DecimalEditText edit_margin = view.findViewById(R.id.edit_margin);
         edit_margin.setDecimalEndNumber(2);
         List<TradeListEntity> tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
-        if (tradeListEntityList!=null){
+        if (tradeListEntityList != null) {
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode, tradeListEntityList);
-            edit_margin.setHint(minMargin(margin,data.getOpPrice(),data.getVolume()) + "~" + TradeUtil.maxMargin(tradeListEntity.getLeverList().get(0), margin, data.getOpPrice(), data.getVolume(), tradeListEntity.getDepositList().get(1)));
+            edit_margin.setHint(minMargin(margin, data.getOpPrice(), data.getVolume()) + "~" + TradeUtil.maxMargin(tradeListEntity.getLeverList().get(0), margin, data.getOpPrice(), data.getVolume(), tradeListEntity.getDepositList().get(1)));
         }
         edit_margin.setSelection(0, Objects.requireNonNull(edit_margin.getText()).toString().length());
 
@@ -1137,6 +1293,34 @@ public class PositionFragment extends BaseFragment implements Observer {
                     if (text_price != null) {
                         price(quoteList, contractCode, response -> text_price.setText(response.toString()));
                     }
+                    if (text_price_pop != null) {
+                        price(quoteList, contractCode, response -> {
+                            text_price_pop.setText(response.toString());
+                            String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop);
+                            text_income_pop.setText(income);
+
+                            double incomeDouble = Double.parseDouble(income);
+                            String netIncome = netIncome(incomeDouble, serviceCharge_pop);
+                            double netIncomeDouble = Double.parseDouble(netIncome);
+
+                            text_worth_pop.setText(netIncome + "(" + getResources().getString(R.string.text_profit) + ")");
+                            if (incomeDouble > 0) {
+                                text_income_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
+                            } else {
+                                text_income_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
+                            }
+
+                            if (netIncomeDouble > 0) {
+                                text_worth_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
+                            } else {
+                                text_worth_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
+                            }
+
+                        });
+
+
+                    }
+
                 });
             } else {
                 StringBuilder stringBuilder = new StringBuilder();

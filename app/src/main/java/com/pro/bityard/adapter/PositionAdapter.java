@@ -107,6 +107,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             String[] split = Util.quoteList(datas.get(position).getContractCode()).split(",");
             ((MyViewHolder) holder).text_name.setText(split[0]);
             ((MyViewHolder) holder).text_volume.setText("×" + datas.get(position).getVolume());
+            ((MyViewHolder) holder).text_currency.setText("/"+datas.get(position).getCurrency());
 
             double opPrice = datas.get(position).getOpPrice();
 
@@ -205,7 +206,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_volume, text_buy_price,
+        TextView text_name,text_currency, text_volume, text_buy_price,
                 text_loss_price, text_price, text_profit_price,
                 text_income, text_worth, text_close_out,
                 text_profit_loss, text_add;
@@ -215,6 +216,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         public MyViewHolder(View itemView) {
             super(itemView);
             text_name = itemView.findViewById(R.id.text_name);
+            text_currency=itemView.findViewById(R.id.text_currency);
             text_volume = itemView.findViewById(R.id.text_volume);
             text_buy_price = itemView.findViewById(R.id.text_buy_price);
             text_loss_price = itemView.findViewById(R.id.text_loss_price);
@@ -223,13 +225,13 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             text_income = itemView.findViewById(R.id.text_income);
             text_worth = itemView.findViewById(R.id.text_worth);
             text_close_out = itemView.findViewById(R.id.text_close_out);
-            img_buy = itemView.findViewById(R.id.img_buy);
             text_profit_loss = itemView.findViewById(R.id.text_profit_loss);
+            img_buy = itemView.findViewById(R.id.img_buy);
             text_add = itemView.findViewById(R.id.text_add);
             img_add = itemView.findViewById(R.id.img_add);
             layout_add=itemView.findViewById(R.id.layout_add);
 
-            layout_add.setOnClickListener(v -> {
+            itemView.findViewById(R.id.text_detail).setOnClickListener(v -> {
                 if (onDetailClick != null) {
                     onDetailClick.onClickListener(datas.get(getPosition() - 1));
                 }
@@ -248,7 +250,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 }
             });
 
-            itemView.findViewById(R.id.layout_add).setOnClickListener(v -> {
+           layout_add.setOnClickListener(v -> {
                 if (addMarginClick != null) {
                     addMarginClick.onAddMarginClick(datas.get(getPosition() - 1));
                 }

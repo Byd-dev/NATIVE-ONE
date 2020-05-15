@@ -312,5 +312,9 @@
     <string name="text_nickname_input">Введите имя пользователя</string>
     <string name="text_frequently_used">Часто используемый</string>
     <string name="text_additional_margin">Вариационная</string>
+    <string name="text_positions">Позиции</string>
+    <string name="text_qty">Количество</string>
+    <string name="text_frozen">Замороженная</string>
+    <string name="text_paid">Оплаченный</string>
 
 </resources>

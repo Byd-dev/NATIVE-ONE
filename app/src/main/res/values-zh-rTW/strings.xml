@@ -312,5 +312,9 @@
     <string name="text_nickname_input">請輸入暱稱</string>
     <string name="text_frequently_used">常用</string>
     <string name="text_additional_margin">追加保證金</string>
+    <string name="text_positions">持倉詳情</string>
+    <string name="text_qty">倉位</string>
+    <string name="text_frozen">凍結</string>
+    <string name="text_paid">已支付</string>
 
 </resources>

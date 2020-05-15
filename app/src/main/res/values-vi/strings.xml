@@ -312,5 +312,9 @@
     <string name="text_nickname_input">Nhập tên</string>
     <string name="text_frequently_used">Thường dùng</string>
     <string name="text_additional_margin">Thêm ký quỹ</string>
+    <string name="text_positions">Vị thế</string>
+    <string name="text_qty">Vị thế</string>
+    <string name="text_frozen">Đóng băng</string>
+    <string name="text_paid">Đã trả</string>
 
 </resources>

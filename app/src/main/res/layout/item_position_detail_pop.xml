@@ -1,0 +1,624 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_bar" />
+    <!--持仓 挂单 历史-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/text_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="@dimen/margin_10"
+                        android:text="@string/text_default"
+                        android:textColor="@color/text_maincolor"
+                        android:textSize="@dimen/size_big" />
+
+                    <TextView
+                        android:id="@+id/text_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="USDT"
+                        android:textColor="@color/text_second_color"
+                        android:textSize="@dimen/size_normal" />
+
+                    <ImageView
+                        android:id="@+id/img_bg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margin_10" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/text_income"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_default"
+                        android:textColor="@color/text_quote_green"
+                        android:textSize="@dimen/size_normal" />
+
+                    <TextView
+                        android:id="@+id/text_worth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_default"
+                        android:textColor="@color/text_quote_green"
+                        android:textSize="@dimen/size_normal" />
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line"
+                android:background="@color/home_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_buy_price"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_open_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_now_price"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line"
+                android:background="@color/home_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_stoploss_price"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_loss_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_profit_price"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_profit_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_lever"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_lever"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_qty"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two"
+                    tools:ignore="HardcodedText" />
+
+
+                <TextView
+                    android:id="@+id/text_order"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:gravity="left|center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_frozen"
+                        android:textColor="@color/text_maincolor"
+                        android:textSize="@dimen/size_normal"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_5"
+                        android:text="@string/text_margin"
+                        android:textColor="@color/text_second_color"
+                        android:textSize="@dimen/size_normal_two" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/text_margin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:gravity="left|center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_paid"
+                        android:textColor="@color/text_maincolor"
+                        android:textSize="@dimen/size_normal"
+
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_5"
+                        android:gravity="center"
+                        android:text="@string/text_service_pop"
+                        android:textColor="@color/text_second_color"
+                        android:textSize="@dimen/size_normal_two" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/text_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_o_n_fee"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_o_n_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_o_n"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_o_n"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_currency_type"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_currency_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:id="@+id/stay_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_open_time"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_open_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/stay_time"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:id="@+id/stay_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_order_id"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+                <TextView
+                    android:id="@+id/text_order_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/stay_id"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_maincolor"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_setup"
+        android:background="@color/color_bg_left">
+
+        <LinearLayout
+            android:id="@+id/layout_add"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                />
+
+
+            <TextView
+                android:id="@+id/text_add"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="@string/text_additional_margin"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal"
+                android:typeface="monospace" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/text_close_out"
+            android:layout_width="70dp"
+            android:layout_height="@dimen/margin_28"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@drawable/bg_shape_main_color"
+            android:gravity="center"
+            android:text="@string/text_close_out_color"
+            android:textColor="@color/text_main_color_black"
+            android:textSize="@dimen/size_normal"
+
+            android:typeface="monospace" />
+
+        <TextView
+            android:id="@+id/text_profit_loss"
+            android:layout_width="70dp"
+            android:layout_height="@dimen/margin_28"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:layout_toLeftOf="@+id/text_close_out"
+            android:background="@drawable/bg_kuang_main_color"
+            android:gravity="center"
+            android:text="@string/text_profit_loss"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/size_normal"
+
+            android:typeface="monospace" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

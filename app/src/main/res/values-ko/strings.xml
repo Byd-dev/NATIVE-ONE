@@ -312,5 +312,9 @@
     <string name="text_nickname_input">닉네임을 입력해 주세요.</string>
     <string name="text_frequently_used">상용</string>
     <string name="text_additional_margin">추가 마진</string>
+    <string name="text_positions">포지션 상황</string>
+    <string name="text_qty">포지션</string>
+    <string name="text_frozen">동결</string>
+    <string name="text_paid">지불 완료</string>
 
 </resources>

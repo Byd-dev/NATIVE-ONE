@@ -312,6 +312,10 @@
     <string name="text_nickname_input">请输入昵称</string>
     <string name="text_frequently_used">常用</string>
     <string name="text_additional_margin">追加保证金</string>
+    <string name="text_positions">持仓详情</string>
+    <string name="text_qty">仓位</string>
+    <string name="text_frozen">冻结</string>
+    <string name="text_paid">已支付</string>
 
 
 </resources>
