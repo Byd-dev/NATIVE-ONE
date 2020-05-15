@@ -316,5 +316,6 @@
     <string name="text_qty">Количество</string>
     <string name="text_frozen">Замороженная</string>
     <string name="text_paid">Оплаченный</string>
+    <string name="text_pendings">Ожидании</string>
 
 </resources>

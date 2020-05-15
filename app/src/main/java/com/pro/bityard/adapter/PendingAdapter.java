@@ -105,7 +105,7 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof MyViewHolder) {
             String[] split = Util.quoteList(datas.get(position).getContractCode()).split(",");
             ((MyViewHolder) holder).text_name.setText(split[0]);
-            ((MyViewHolder) holder).text_volume.setText("×"+String.valueOf(datas.get(position).getVolume()));
+            ((MyViewHolder) holder).text_volume.setText("×" + String.valueOf(datas.get(position).getVolume()));
 
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getTime()));
 
@@ -137,12 +137,7 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //止盈价格
             ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, price, priceDigit, lever, margin, stopProfit));
             //现价和盈亏
-            price(quoteList, datas.get(position).getContractCode(), new TradeResult() {
-                @Override
-                public void setResult(Object response) {
-                    ((MyViewHolder) holder).text_price.setText(response.toString());
-                }
-            });
+            price(quoteList, datas.get(position).getContractCode(), response -> ((MyViewHolder) holder).text_price.setText(response.toString()));
 
 
         }
@@ -193,21 +188,15 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             text_time = itemView.findViewById(R.id.text_time);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClick != null) {
-                        onItemClick.onClickListener(datas.get(getPosition()));
-                    }
+            itemView.findViewById(R.id.text_detail).setOnClickListener(v -> {
+                if (onDetailClick != null) {
+                    onDetailClick.onClickListener(datas.get(getAdapterPosition()));
                 }
             });
 
-            text_cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (onItemClick != null) {
-                        onItemClick.onCancelListener(datas.get(getPosition()).getId());
-                    }
+            text_cancel.setOnClickListener(v -> {
+                if (onCancelClick != null) {
+                    onCancelClick.onCancelListener(datas.get(getPosition()).getId());
                 }
             });
 
@@ -215,18 +204,29 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }
     }
 
-    private OnItemClick onItemClick;
+    //查看详情的监听
 
-    public void setOnItemClick(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
+    private PositionAdapter.OnDetailClick onDetailClick;
+
+    public void setOnDetailClick(PositionAdapter.OnDetailClick onDetailClick) {
+        this.onDetailClick = onDetailClick;
     }
 
-    public interface OnItemClick {
+    public interface OnDetailClick {
         void onClickListener(PositionEntity.DataBean data);
 
-        void onCancelListener(String id);
 
-        void onProfitLossListener();
+    }
+    //撤单监听
+    private OnCancelClick onCancelClick;
+
+    public void setOnCancelClick(OnCancelClick onCancelClick) {
+
+        this.onCancelClick = onCancelClick;
+    }
+
+    public interface OnCancelClick {
+        void onCancelListener(String id);
 
     }
 }

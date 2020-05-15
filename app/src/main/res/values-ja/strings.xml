@@ -316,6 +316,7 @@
     <string name="text_qty">仓位</string>
     <string name="text_frozen">冻结</string>
     <string name="text_paid">已支付</string>
+    <string name="text_pendings">指値注文詳細</string>
 
 
 </resources>

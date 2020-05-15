@@ -316,5 +316,6 @@
     <string name="text_qty">Vị thế</string>
     <string name="text_frozen">Đóng băng</string>
     <string name="text_paid">Đã trả</string>
+    <string name="text_pendings">Lệnh chờ</string>
 
 </resources>
