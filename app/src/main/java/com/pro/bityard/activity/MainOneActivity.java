@@ -34,7 +34,6 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
-import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
@@ -733,7 +732,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         //首页 -------------------------------------------------------------------------------------
         getBanner();
 
-
+        //合约号
+        TradeListManger.getInstance().tradeList((state, response) -> {
+            if (state.equals(SUCCESS)) {
+            }
+        });
         if (isLogin()) {
 
             UserDetailManger.getInstance().detail();
@@ -815,10 +818,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         PositionRealManger.getInstance().getHold();
         PositionSimulationManger.getInstance().getHold();
 
-        TradeListManger.getInstance().tradeList((state, response) -> {
-            if (state.equals(SUCCESS)){
-            }
-        });
     }
 
 

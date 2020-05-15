@@ -1056,7 +1056,11 @@ public class PositionFragment extends BaseFragment implements Observer {
         PositionRealManger.getInstance().getHold();
         PositionSimulationManger.getInstance().getHold();
 
-
+        //合约号
+        TradeListManger.getInstance().tradeList((state, response) -> {
+            if (state.equals(SUCCESS)) {
+            }
+        });
 
 
 

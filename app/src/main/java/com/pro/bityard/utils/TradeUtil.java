@@ -916,14 +916,20 @@ public class TradeUtil {
     /*能否追加保证金*/
     public static boolean isAddMargin(String contractCode, double lever, double margin) {
         List<TradeListEntity> tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
-        TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode, tradeListEntityList);
-        Integer integer = tradeListEntity.getLeverList().get(0);
-        Integer integer1 = tradeListEntity.getDepositList().get(1);
-        if (lever <= integer || margin == integer1) {
+        Log.d("print", "isAddMargin:919: "+tradeListEntityList);
+        if (tradeListEntityList == null) {
             return false;
         } else {
-            return true;
+            TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode, tradeListEntityList);
+            Integer integer = tradeListEntity.getLeverList().get(0);
+            Integer integer1 = tradeListEntity.getDepositList().get(1);
+            if (lever <= integer || margin == integer1) {
+                return false;
+            } else {
+                return true;
+            }
         }
+
     }
 
 
