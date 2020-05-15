@@ -224,8 +224,6 @@ public class PendingFragment extends BaseFragment implements Observer {
         text_profit_price.setText(StopProfitPrice(isBuy_pop, price, priceDigit, lever, margin_pop, stopProfit));
         TextView text_pending_price = view.findViewById(R.id.text_pending_price);
         text_pending_price.setText(TradeUtil.getNumberFormat(price, priceDigit));
-        //成交量
-        double volume_pop = dataBean.getVolume();
         //服务费
         double serviceCharge_pop = dataBean.getServiceCharge();
 

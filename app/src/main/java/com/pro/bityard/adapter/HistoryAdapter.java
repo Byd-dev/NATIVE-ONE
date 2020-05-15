@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.HistoryEntity;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
@@ -102,7 +103,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof MyViewHolder) {
             String[] split = Util.quoteList(datas.get(position).getContractCode()).split(",");
             ((MyViewHolder) holder).text_name.setText(split[0]);
-            ((MyViewHolder) holder).text_volume.setText("×"+String.valueOf(datas.get(position).getVolume()));
+            ((MyViewHolder) holder).text_volume.setText("×"+datas.get(position).getVolume());
 
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getTime()));
 
@@ -216,12 +217,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             text_tag=itemView.findViewById(R.id.text_tag);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClick != null) {
-                        onItemClick.onClickListener(datas.get(getPosition() - 1));
-                    }
+            itemView.findViewById(R.id.text_detail).setOnClickListener(view -> {
+                if (onDetailClick != null) {
+                    onDetailClick.onClickListener(datas.get(getPosition()));
                 }
             });
 
@@ -229,16 +227,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         }
     }
+    //查看详情的监听
+    private OnDetailClick onDetailClick;
 
-    private OnItemClick onItemClick;
-
-    public void setOnItemClick(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
+    public void setOnDetailClick(OnDetailClick onDetailClick) {
+        this.onDetailClick = onDetailClick;
     }
 
-    public interface OnItemClick {
+    public interface OnDetailClick {
         void onClickListener(HistoryEntity.DataBean data);
-
 
 
     }

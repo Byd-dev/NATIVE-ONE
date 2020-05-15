@@ -2,6 +2,7 @@ package com.pro.bityard.fragment.hold;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -99,6 +100,11 @@ public class HistoryFragment extends BaseFragment implements Observer {
         headerRecyclerView.setAdapter(historyAdapter);
 
         swipeRefreshLayout.setOnRefreshListener(this::initData);
+
+        historyAdapter.setOnDetailClick(data -> {
+
+        });
+
         btn_login.setOnClickListener(v -> {
             LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
 
@@ -139,6 +145,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
                         headerRecyclerView.setVisibility(View.VISIBLE);
                     }
                     historyAdapter.setDatas(historyEntity.getData());
+                    Log.d("print", "initData:历史: "+historyEntity.getData().get(0));
                 } else if (state.equals(FAILURE)) {
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(false);

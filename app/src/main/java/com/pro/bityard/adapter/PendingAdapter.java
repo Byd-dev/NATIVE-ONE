@@ -190,7 +190,7 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             itemView.findViewById(R.id.text_detail).setOnClickListener(v -> {
                 if (onDetailClick != null) {
-                    onDetailClick.onClickListener(datas.get(getAdapterPosition()));
+                    onDetailClick.onClickListener(datas.get(getPosition()));
                 }
             });
 

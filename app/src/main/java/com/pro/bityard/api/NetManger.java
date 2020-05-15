@@ -761,30 +761,26 @@ public class NetManger {
         map.put("schemeSort", "2");
         map.put("tradeType", tradeType);
         map.put("_", String.valueOf(new Date().getTime()));
-        getRequest("/api/trade/scheme/history", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.onNetResult(BUSY, null);
-                } else if (state.equals(SUCCESS)) {
-
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 401) {
-                        onNetResult.onNetResult(FAILURE, null);
-
-                    } else if (tipEntity.getCode() == 200) {
-                        HistoryEntity historyEntity = new Gson().fromJson(response.toString(), HistoryEntity.class);
-
-
-                        onNetResult.onNetResult(SUCCESS, historyEntity);
-
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
+        getRequest("/api/trade/scheme/history", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
                     onNetResult.onNetResult(FAILURE, null);
 
+                } else if (tipEntity.getCode() == 200) {
+                    HistoryEntity historyEntity = new Gson().fromJson(response.toString(), HistoryEntity.class);
+
+
+                    onNetResult.onNetResult(SUCCESS, historyEntity);
+
+
                 }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
             }
         });
     }
