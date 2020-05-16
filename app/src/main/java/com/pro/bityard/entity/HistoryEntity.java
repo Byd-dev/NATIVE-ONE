@@ -5,8 +5,6 @@ import java.util.List;
 public class HistoryEntity {
 
 
-
-
     private double code;
     private String message;
     private List<DataBean> data;
@@ -97,8 +95,8 @@ public class HistoryEntity {
         private double cpPrice;
         private double cpVolume;
         private String currency;
-        private double deferDays;
-        private double deferFee;
+        private String deferDays;
+        private String deferFee;
         private double eagleDeduction;
         private String followId;
         private String id;
@@ -247,19 +245,27 @@ public class HistoryEntity {
             this.currency = currency;
         }
 
-        public double getDeferDays() {
-            return deferDays;
+        public String getDeferDays() {
+            if (Double.parseDouble(deferDays) == 0) {
+                return "N/A";
+            } else {
+                return deferDays;
+            }
         }
 
-        public void setDeferDays(double deferDays) {
+        public void setDeferDays(String deferDays) {
             this.deferDays = deferDays;
         }
 
-        public double getDeferFee() {
-            return deferFee;
+        public String getDeferFee() {
+            if (Double.parseDouble(deferFee) == 0) {
+                return "N/A";
+            } else {
+                return deferFee;
+            }
         }
 
-        public void setDeferFee(double deferFee) {
+        public void setDeferFee(String deferFee) {
             this.deferFee = deferFee;
         }
 

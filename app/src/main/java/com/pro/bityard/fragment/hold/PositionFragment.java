@@ -358,7 +358,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         TextView text_lever = view.findViewById(R.id.text_lever);
         text_lever.setText(String.valueOf(lever));
         TextView text_orders = view.findViewById(R.id.text_order);
-        text_orders.setText(String.valueOf(dataBean.getCpVolume()));
+        text_orders.setText(String.valueOf(dataBean.getVolume()));
 
         TextView text_fee = view.findViewById(R.id.text_fee);
         text_fee.setText(String.valueOf(serviceCharge_pop));

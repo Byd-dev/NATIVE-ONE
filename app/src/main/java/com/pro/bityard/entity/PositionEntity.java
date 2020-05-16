@@ -149,8 +149,8 @@ public class PositionEntity {
         private double cpPrice;
         private double cpVolume;
         private String currency;
-        private int deferDays;
-        private double deferFee;
+        private String deferDays;
+        private String deferFee;
         private double eagleDeduction;
         private String followId;
         private String id;
@@ -253,19 +253,27 @@ public class PositionEntity {
             this.currency = currency;
         }
 
-        public int getDeferDays() {
-            return deferDays;
+        public String getDeferDays() {
+            if (Double.parseDouble(deferDays) == 0) {
+                return "N/A";
+            } else {
+                return deferDays;
+            }
         }
 
-        public void setDeferDays(int deferDays) {
+        public void setDeferDays(String deferDays) {
             this.deferDays = deferDays;
         }
 
-        public double getDeferFee() {
-            return deferFee;
+        public String getDeferFee() {
+            if (Double.parseDouble(deferFee) == 0) {
+                return "N/A";
+            } else {
+                return deferFee;
+            }
         }
 
-        public void setDeferFee(double deferFee) {
+        public void setDeferFee(String deferFee) {
             this.deferFee = deferFee;
         }
 

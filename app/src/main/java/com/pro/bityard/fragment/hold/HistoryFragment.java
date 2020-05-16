@@ -198,11 +198,11 @@ public class HistoryFragment extends BaseFragment implements Observer {
 
         if (income > 0) {
             text_income.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
-            text_worth.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+         //   text_worth.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
 
         } else {
             text_income.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
-            text_worth.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
+          //  text_worth.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
 
         }
 
@@ -295,7 +295,6 @@ public class HistoryFragment extends BaseFragment implements Observer {
                         headerRecyclerView.setVisibility(View.VISIBLE);
                     }
                     historyAdapter.setDatas(historyEntity.getData());
-                    Log.d("print", "initData:历史: " + historyEntity.getData().get(0));
                 } else if (state.equals(FAILURE)) {
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(false);

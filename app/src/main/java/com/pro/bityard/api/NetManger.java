@@ -1846,7 +1846,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "marginHistory:1847: " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     MarginHistoryEntity marginHistoryEntity = new Gson().fromJson(response.toString(), MarginHistoryEntity.class);
