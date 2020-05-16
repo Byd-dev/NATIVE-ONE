@@ -318,5 +318,9 @@
     <string name="text_paid">Đã trả</string>
     <string name="text_pendings">Lệnh chờ</string>
     <string name="text_product">Tiền</string>
+    <string name="text_open_tip">Mở</string>
+    <string name="text_margin_start">Ký quỹ ban đầu</string>
+    <string name="text_initial_leverage">Đòn bẩy ban đầu</string>
+    <string name="text_history_detail">Lịch sử</string>
 
 </resources>

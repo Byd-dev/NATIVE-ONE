@@ -318,6 +318,10 @@
     <string name="text_paid">已支付</string>
     <string name="text_pendings">指値注文詳細</string>
     <string name="text_product">合约</string>
+    <string name="text_open_tip">开仓</string>
+    <string name="text_margin_start">初始保证金</string>
+    <string name="text_initial_leverage">初始杠杆</string>
+    <string name="text_history_detail">履歴詳細</string>
 
 
 </resources>

@@ -317,5 +317,9 @@
     <string name="text_paid">Paid</string>
     <string name="text_pendings">Pendings</string>
     <string name="text_product">Name</string>
+    <string name="text_open_tip">Open</string>
+    <string name="text_margin_start">Initial Margin</string>
+    <string name="text_initial_leverage">Initial leverage</string>
+    <string name="text_history_detail">History</string>
 
 </resources>

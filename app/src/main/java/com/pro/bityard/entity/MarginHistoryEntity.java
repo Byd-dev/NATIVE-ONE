@@ -63,6 +63,17 @@ public class MarginHistoryEntity {
                     '}';
         }
 
+        public DataBean(String bettingId, String brand, long createTime, String id, double lever, double margin, double stopLoss, double stopProfit) {
+            this.bettingId = bettingId;
+            this.brand = brand;
+            this.createTime = createTime;
+            this.id = id;
+            this.lever = lever;
+            this.margin = margin;
+            this.stopLoss = stopLoss;
+            this.stopProfit = stopProfit;
+        }
+
         /**
          * bettingId : 468384337126375424
          * brand : BYD
@@ -73,6 +84,8 @@ public class MarginHistoryEntity {
          * stopLoss : -2.5
          * stopProfit : 25.0
          */
+
+
 
 
 

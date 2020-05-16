@@ -15,16 +15,19 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.HistoryAdapter;
+import com.pro.bityard.adapter.MarginHistoryAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.HistoryEntity;
+import com.pro.bityard.entity.MarginHistoryEntity;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -50,6 +53,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
     @BindView(R.id.btn_login)
     Button btn_login;
     private HistoryAdapter historyAdapter;
+    private MarginHistoryAdapter marginHistoryAdapter;
 
 
     @BindView(R.id.swipeRefreshLayout)
@@ -88,6 +92,8 @@ public class HistoryFragment extends BaseFragment implements Observer {
             btn_login.setVisibility(View.VISIBLE);
             layout_null.setVisibility(View.GONE);
         }
+
+        initData();
     }
 
     @Override
@@ -111,6 +117,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
         headerRecyclerView.setAdapter(historyAdapter);
 
         swipeRefreshLayout.setOnRefreshListener(this::initData);
+
 
         historyAdapter.setOnDetailClick(data -> {
             showDetailPopWindow(getActivity(), layout_view, data);
@@ -143,7 +150,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
         TextView text_title = view.findViewById(R.id.text_title);
-        text_title.setText(R.string.text_positions);
+        text_title.setText(R.string.text_history_detail);
 
         TextView text_name = view.findViewById(R.id.text_name);
 
@@ -215,7 +222,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
         TextView text_o_n_fee = view.findViewById(R.id.text_o_n_fee);
         text_o_n_fee.setText(String.valueOf(dataBean.getDeferFee()));
         TextView text_close_time = view.findViewById(R.id.text_close_time);
-        text_close_time.setText(ChartUtil.getDate(dataBean.getTime()));
+        text_close_time.setText(ChartUtil.getDate(dataBean.getTradeTime()));
 
 
         view.findViewById(R.id.img_back).setOnClickListener(v -> {
@@ -224,17 +231,24 @@ public class HistoryFragment extends BaseFragment implements Observer {
         });
 
 
+        TextView text_id = view.findViewById(R.id.text_order_id);
+        text_id.setText(dataBean.getId());
+
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
-        swipeRefreshLayout.setOnRefreshListener(() -> {
-            getMarginHistory(dataBean.getId());
-        });
+
+        marginHistoryAdapter = new MarginHistoryAdapter(getActivity());
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter();
+        recyclerView.setAdapter(marginHistoryAdapter);
 
+        getMarginHistory(dataBean, swipeRefreshLayout);
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            getMarginHistory(dataBean, swipeRefreshLayout);
+        });
 
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
@@ -242,15 +256,19 @@ public class HistoryFragment extends BaseFragment implements Observer {
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
     }
 
-    private void getMarginHistory(String bettingId) {
-        NetManger.getInstance().marginHistory(bettingId, (state, response) -> {
-            if (state.equals(BUSY)) {
-                showProgressDialog();
-            } else if (state.equals(SUCCESS)) {
 
-                dismissProgressDialog();
+    private void getMarginHistory(HistoryEntity.DataBean dataBean, SwipeRefreshLayout swipeRefreshLayout) {
+        NetManger.getInstance().marginHistory(dataBean.getId(), (state, response) -> {
+            if (state.equals(BUSY)) {
+                swipeRefreshLayout.setRefreshing(true);
+            } else if (state.equals(SUCCESS)) {
+                swipeRefreshLayout.setRefreshing(false);
+                MarginHistoryEntity marginHistoryEntity = (MarginHistoryEntity) response;
+                List<MarginHistoryEntity.DataBean> data = marginHistoryEntity.getData();
+                marginHistoryAdapter.setDatas(data);
             } else if (state.equals(FAILURE)) {
-                dismissProgressDialog();
+                swipeRefreshLayout.setRefreshing(false);
+
             }
         });
     }

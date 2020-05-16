@@ -97,7 +97,25 @@ public class MarginHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
         if (holder instanceof MyViewHolder) {
         ((MyViewHolder) holder).text_time.setText(ChartUtil.getDate(datas.get(position).getCreateTime()));
 
-        
+        if (position==0){
+            ((MyViewHolder) holder).text_tip.setText(R.string.text_open_tip);
+            ((MyViewHolder) holder).text_margin_tip.setText(R.string.text_margin_start);
+            ((MyViewHolder) holder).text_lever_tip.setText(R.string.text_initial_leverage);
+            ((MyViewHolder) holder).text_tip.setTextColor(context.getResources().getColor(R.color.text_maincolor));
+        }else {
+            ((MyViewHolder) holder).text_tip.setText(String.valueOf(position));
+            ((MyViewHolder) holder).text_margin_tip.setText(R.string.text_additional_margin);
+            ((MyViewHolder) holder).text_lever_tip.setText(R.string.text_lever);
+            ((MyViewHolder) holder).text_tip.setTextColor(context.getResources().getColor(R.color.maincolor));
+
+        }
+
+
+        ((MyViewHolder) holder).text_margin.setText(String.valueOf(datas.get(position).getMargin()));
+
+        ((MyViewHolder) holder).text_lever.setText(String.valueOf(datas.get(position).getLever()));
+
+
 
 
 
