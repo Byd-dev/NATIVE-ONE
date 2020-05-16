@@ -317,5 +317,6 @@
     <string name="text_frozen">凍結</string>
     <string name="text_paid">已支付</string>
     <string name="text_pendings">掛單詳情</string>
+    <string name="text_product">合約</string>
 
 </resources>

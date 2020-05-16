@@ -317,5 +317,6 @@
     <string name="text_frozen">동결</string>
     <string name="text_paid">지불 완료</string>
     <string name="text_pendings">주문 상황</string>
+    <string name="text_product">계약</string>
 
 </resources>

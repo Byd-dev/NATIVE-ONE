@@ -317,5 +317,6 @@
     <string name="text_frozen">Замороженная</string>
     <string name="text_paid">Оплаченный</string>
     <string name="text_pendings">Ожидании</string>
+    <string name="text_product">Монета</string>
 
 </resources>

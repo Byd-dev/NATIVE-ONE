@@ -11,6 +11,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 
 public class DetailActivity extends BaseActivity {
+    private static final String TYPE = "DETAIL_TYPE";
 
 
     public static void enter(Context context, String type, String id) {
@@ -20,6 +21,11 @@ public class DetailActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    public static void enter(Context context, String type) {
+        Intent intent = new Intent(context, DetailActivity.class);
+        intent.putExtra(TYPE, type);
+        context.startActivity(intent);
+    }
 
 
 

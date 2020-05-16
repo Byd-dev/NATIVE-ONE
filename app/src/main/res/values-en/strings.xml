@@ -315,6 +315,7 @@
     <string name="text_qty">Qty</string>
     <string name="text_frozen">Frozen</string>
     <string name="text_paid">Paid</string>
-    <string name="text_pendings">挂单详情</string>
+    <string name="text_pendings">Pendings</string>
+    <string name="text_product">Name</string>
 
 </resources>

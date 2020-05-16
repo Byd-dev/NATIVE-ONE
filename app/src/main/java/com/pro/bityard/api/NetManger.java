@@ -24,6 +24,7 @@ import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.InviteEntity;
 import com.pro.bityard.entity.InviteListEntity;
 import com.pro.bityard.entity.IsLoginEntity;
+import com.pro.bityard.entity.MarginHistoryEntity;
 import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.RateEntity;
@@ -1827,6 +1828,29 @@ public class NetManger {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     onNetResult.onNetResult(SUCCESS, tipEntity);
+                } else {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    /*历史详情的操作记录*/
+    public void marginHistory(String bettingId, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("bettingId", bettingId);
+        getRequest("/api/trade/margin/history", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "marginHistory:1847: " + response);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    MarginHistoryEntity marginHistoryEntity = new Gson().fromJson(response.toString(), MarginHistoryEntity.class);
+                    onNetResult.onNetResult(SUCCESS, marginHistoryEntity);
                 } else {
                     onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
                 }

@@ -1,12 +1,16 @@
 package com.pro.bityard.fragment.hold;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
@@ -16,6 +20,9 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.manger.TagManger;
+import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import java.util.Observable;
@@ -23,19 +30,23 @@ import java.util.Observer;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
+import static com.pro.bityard.utils.TradeUtil.netIncome;
 
 public class HistoryFragment extends BaseFragment implements Observer {
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
     @BindView(R.id.headerRecyclerView)
     HeaderRecyclerView headerRecyclerView;
-
+    @BindView(R.id.layout_view)
+    LinearLayout layout_view;
     @BindView(R.id.btn_login)
     Button btn_login;
     private HistoryAdapter historyAdapter;
@@ -102,6 +113,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
         historyAdapter.setOnDetailClick(data -> {
+            showDetailPopWindow(getActivity(), layout_view, data);
 
         });
 
@@ -120,6 +132,127 @@ public class HistoryFragment extends BaseFragment implements Observer {
     @Override
     protected void intPresenter() {
 
+    }
+
+
+    /*显示详情*/
+    private void showDetailPopWindow(Activity activity, View layout_view, HistoryEntity.DataBean dataBean) {
+
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_history_detail_pop, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        TextView text_title = view.findViewById(R.id.text_title);
+        text_title.setText(R.string.text_positions);
+
+        TextView text_name = view.findViewById(R.id.text_name);
+
+        String[] split = Util.quoteList(dataBean.getContractCode()).split(",");
+        text_name.setText(split[0]);
+        TextView text_currency = view.findViewById(R.id.text_currency);
+        text_currency.setText("/" + dataBean.getCurrency());
+        boolean isBuy = dataBean.isIsBuy();
+        TextView text_side = view.findViewById(R.id.text_side);
+        if (isBuy) {
+            text_side.setText(R.string.text_buy_much);
+        } else {
+            text_side.setText(R.string.text_buy_empty);
+        }
+        //盈利
+        TextView text_income = view.findViewById(R.id.text_income);
+        //净收入
+        TextView text_worth = view.findViewById(R.id.text_worth);
+        //开盘价
+        double opPrice = dataBean.getOpPrice();
+        double cpPrice = dataBean.getCpPrice();
+        int priceDigit = dataBean.getPriceDigit();
+        double lever = dataBean.getLever();
+        double margin = dataBean.getMargin();
+
+        //开仓价
+        TextView text_open_price = view.findViewById(R.id.text_open_price);
+        text_open_price.setText(String.valueOf(opPrice));
+        //平仓价
+        TextView text_close_price = view.findViewById(R.id.text_close_price);
+        text_close_price.setText(String.valueOf(cpPrice));
+        //服务费
+        double serviceCharge = dataBean.getServiceCharge();
+
+        double income = dataBean.getIncome();
+
+        text_income.setText(getNumberFormat(income, 2));
+
+        TextView text_rate = view.findViewById(R.id.text_rate);
+        text_rate.setText(TradeUtil.ratio(income, margin));
+
+        String netIncome = netIncome(income, serviceCharge);
+
+        text_worth.setText(netIncome);
+
+        if (income > 0) {
+            text_income.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+            text_worth.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+
+        } else {
+            text_income.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
+            text_worth.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
+
+        }
+
+
+        TextView text_margin = view.findViewById(R.id.text_margin);
+        text_margin.setText(String.valueOf(margin));
+
+        TextView text_lever = view.findViewById(R.id.text_lever);
+        text_lever.setText(lever + "×");
+        TextView text_orders = view.findViewById(R.id.text_order);
+        text_orders.setText(String.valueOf(dataBean.getCpVolume()));
+
+        TextView text_fee = view.findViewById(R.id.text_fee);
+        text_fee.setText(String.valueOf(serviceCharge));
+        TextView text_o_n = view.findViewById(R.id.text_o_n);
+        text_o_n.setText(String.valueOf(dataBean.getDeferDays()));
+        TextView text_o_n_fee = view.findViewById(R.id.text_o_n_fee);
+        text_o_n_fee.setText(String.valueOf(dataBean.getDeferFee()));
+        TextView text_close_time = view.findViewById(R.id.text_close_time);
+        text_close_time.setText(ChartUtil.getDate(dataBean.getTime()));
+
+
+        view.findViewById(R.id.img_back).setOnClickListener(v -> {
+            popupWindow.dismiss();
+
+        });
+
+
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            getMarginHistory(dataBean.getId());
+        });
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter();
+
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+    }
+
+    private void getMarginHistory(String bettingId) {
+        NetManger.getInstance().marginHistory(bettingId, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+
+                dismissProgressDialog();
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
+            }
+        });
     }
 
     @Override

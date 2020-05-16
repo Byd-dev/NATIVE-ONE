@@ -741,16 +741,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
             UserDetailManger.getInstance().detail();
 
-            /*NetManger.getInstance().unionRate((state, response) -> {
-                if (state.equals(SUCCESS)) {
-                    unionRateEntity = (UnionRateEntity) response;
-                    //退出需要清除
-                    SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
-                    if (unionRateEntity.getUnion() != null) {
-                        text_commissionRate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
-                    }
-                }
-            });*/
+
         }
 
 

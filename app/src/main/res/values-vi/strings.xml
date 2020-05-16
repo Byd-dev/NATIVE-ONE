@@ -317,5 +317,6 @@
     <string name="text_frozen">Đóng băng</string>
     <string name="text_paid">Đã trả</string>
     <string name="text_pendings">Lệnh chờ</string>
+    <string name="text_product">Tiền</string>
 
 </resources>
