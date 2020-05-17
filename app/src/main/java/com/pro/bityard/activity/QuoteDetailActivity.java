@@ -716,9 +716,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         if (!s.toString().startsWith(".")) {
                             if (parseDouble(s.toString()) > parseDouble(marginMax(tradeListEntity.getDepositList()))) {
                                 edit_market_margin.setText(marginMax(tradeListEntity.getDepositList()));
-                            } else if (parseDouble(s.toString()) < parseDouble(marginMin(tradeListEntity.getDepositList()))) {
+                            } /*else if (parseDouble(s.toString()) < parseDouble(marginMin(tradeListEntity.getDepositList()))) {
                                 edit_market_margin.postDelayed(() -> edit_market_margin.setText(marginMin(tradeListEntity.getDepositList())), 1000);
-                            }
+                            }*/
                         }
                     }
                 }
@@ -742,9 +742,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         if (!s.toString().startsWith(".")) {
                             if (parseDouble(s.toString()) > parseDouble(marginMax(tradeListEntity.getDepositList()))) {
                                 edit_limit_margin.setText(marginMax(tradeListEntity.getDepositList()));
-                            } else if (parseDouble(s.toString()) < parseDouble(marginMin(tradeListEntity.getDepositList()))) {
+                            }/* else if (parseDouble(s.toString()) < parseDouble(marginMin(tradeListEntity.getDepositList()))) {
                                 edit_limit_margin.postDelayed(() -> edit_limit_margin.setText(marginMin(tradeListEntity.getDepositList())), 1000);
-                            }
+                            }*/
                         }
                     }
 
