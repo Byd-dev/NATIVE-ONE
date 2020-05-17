@@ -324,5 +324,6 @@
     <string name="text_history_detail">거래 내역</string>
     <string name="text_home_tip_login">258USDT 등록 보너스·로그인하여 매일 수령하기</string>
     <string name="text_login_register">로그인/회원가입</string>
+    <string name="text_share">공유하기</string>
 
 </resources>

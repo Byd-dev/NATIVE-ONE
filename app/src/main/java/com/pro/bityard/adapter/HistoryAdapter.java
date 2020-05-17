@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.HistoryEntity;
-import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
@@ -103,7 +102,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof MyViewHolder) {
             String[] split = Util.quoteList(datas.get(position).getContractCode()).split(",");
             ((MyViewHolder) holder).text_name.setText(split[0]);
-            ((MyViewHolder) holder).text_volume.setText("×"+datas.get(position).getVolume());
+            ((MyViewHolder) holder).text_volume.setText("×" + datas.get(position).getVolume());
 
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getTime()));
 
@@ -141,8 +140,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((MyViewHolder) holder).text_loss_price.setText(StopLossPrice(isBuy, opPrice, priceDigit, lever, margin, Math.abs(stopLoss)));
             //止盈价格
             ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, opPrice, priceDigit, lever, margin, stopProfit));
-
-
 
 
             String income = income(isBuy, cpPrice, opPrice, datas.get(position).getVolume());
@@ -199,7 +196,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_volume, text_open_price,
                 text_loss_price, text_close_price, text_profit_price,
-                text_income, text_worth,text_time,text_tag;
+                text_income, text_worth, text_time, text_tag;
         ImageView img_buy;
 
         public MyViewHolder(View itemView) {
@@ -213,8 +210,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             text_income = itemView.findViewById(R.id.text_income);
             text_worth = itemView.findViewById(R.id.text_worth);
             img_buy = itemView.findViewById(R.id.img_buy);
-            text_time=itemView.findViewById(R.id.text_time);
-            text_tag=itemView.findViewById(R.id.text_tag);
+            text_time = itemView.findViewById(R.id.text_time);
+            text_tag = itemView.findViewById(R.id.text_tag);
 
 
             itemView.findViewById(R.id.text_detail).setOnClickListener(view -> {
@@ -223,10 +220,28 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 }
             });
 
+            itemView.findViewById(R.id.text_share).setOnClickListener(v -> {
+                if (onShareClick != null) {
+                    onShareClick.onClickListener(datas.get(getPosition()));
+                }
+            });
 
 
         }
     }
+
+    private OnShareClick onShareClick;
+
+    public void setOnShareClick(OnShareClick onShareClick) {
+        this.onShareClick = onShareClick;
+    }
+
+    public interface OnShareClick {
+        void onClickListener(HistoryEntity.DataBean data);
+
+    }
+
+
     //查看详情的监听
     private OnDetailClick onDetailClick;
 

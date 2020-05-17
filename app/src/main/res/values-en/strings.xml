@@ -323,5 +323,6 @@
     <string name="text_history_detail">History</string>
     <string name="text_home_tip_login">Sign up and earn 258USDT·Login and get it</string>
     <string name="text_login_register">Login/Register</string>
+    <string name="text_share">Share</string>
 
 </resources>
