@@ -133,7 +133,9 @@ public class Util {
         if (content == null) {
             return null;
         } else {
-            name = content.substring(0, content.length() - 8) + "," + content.substring(content.length() - 8, content.length() - 4);
+           // name = content.substring(0, content.length() - 8) + "," + content.substring(content.length() - 8, content.length() - 4);
+            name = content.substring(0, content.length() - 6) + "," + content.substring(content.length() - 6, content.length() - 2);
+
             return name;
         }
     }

@@ -82,6 +82,12 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 
 public class MainOneActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, Observer, View.OnClickListener {
+
+    public static boolean isForeground = false;
+    public static final String MESSAGE_RECEIVED_ACTION = "${applicationId}.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
+
     @BindView(R.id.layout_view)
     RelativeLayout layout_view;
     @BindView(R.id.layout_home)
@@ -504,10 +510,18 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         context.startActivity(intent);
     }
 
+    @Override
+    protected void onPause() {
+        isForeground = false;
+        super.onPause();
+
+    }
 
     @Override
     protected void onResume() {
+        isForeground = true;
         super.onResume();
+
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             text_userName.setText(loginEntity.getUser().getUserName());

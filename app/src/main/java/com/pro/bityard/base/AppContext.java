@@ -33,6 +33,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.OkHttpClient;
 import skin.support.SkinCompatManager;
 import skin.support.app.SkinAppCompatViewInflater;
@@ -66,6 +67,8 @@ public class AppContext extends Application {
         SPUtils.init(this);
         //数据分析统计初始化
         initAdjust();
+        //极光推送必须
+        JPushInterface.init(this);
 
 
         //换肤的初始化
