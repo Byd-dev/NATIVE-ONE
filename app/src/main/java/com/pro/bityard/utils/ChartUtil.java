@@ -551,7 +551,7 @@ public class ChartUtil {
         return b1.divide(b2, len, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
-    public static void setIcon(String code, ImageView img_bg){
+    public static void setIcon(String code, ImageView img_bg) {
         switch (code) {
             case "":
                 img_bg.setVisibility(View.GONE);
@@ -614,6 +614,10 @@ public class ChartUtil {
 
                 img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dash));
                 break;
+            default:
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt));
+                break;
+
         }
     }
 

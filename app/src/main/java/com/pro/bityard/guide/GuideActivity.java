@@ -110,13 +110,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     @Override
     protected void initData() {
         /*初始化获取行情 合约号 行情地址*/
-        // TODO: 2020/3/13    这里到时候再判断是先有了行情再跳入主页还是另外判断 
-        String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        if (quote_host == null && quote_code == null) {
-            NetManger.getInstance().initQuote();
-        }
-
+        // TODO: 2020/3/13    这里到时候再判断是先有了行情再跳入主页还是另外判断
+        NetManger.getInstance().initQuote();
 
     }
 

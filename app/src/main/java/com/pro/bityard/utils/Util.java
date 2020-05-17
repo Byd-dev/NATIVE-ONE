@@ -130,14 +130,40 @@ public class Util {
 
     public static String quoteList(String content) {
         String name;
+
+        StringBuilder stringBuilder;
         if (content == null) {
             return null;
         } else {
-           // name = content.substring(0, content.length() - 8) + "," + content.substring(content.length() - 8, content.length() - 4);
-            name = content.substring(0, content.length() - 6) + "," + content.substring(content.length() - 6, content.length() - 2);
-
+            ArrayList<String> allSatisfyStr = getAllSatisfyStr(content, "[a-zA-Z]");
+            stringBuilder = new StringBuilder();
+            for (int i = 0; i < allSatisfyStr.size(); i++) {
+                stringBuilder.append(allSatisfyStr.get(i));
+            }
+            if (stringBuilder.toString().contains("USDT")) {
+                name = stringBuilder.substring(0, content.length() - 8) + "," + stringBuilder.substring(content.length() - 8, content.length() - 4);
+            } else {
+                name = stringBuilder.toString()+","+"null";
+            }
             return name;
         }
+    }
+
+    public static ArrayList<String> getAllSatisfyStr(String str, String regex) {
+        if (str == null || str.isEmpty()) {
+            return null;
+        }
+        ArrayList<String> allSatisfyStr = new ArrayList<>();
+        if (regex == null || regex.isEmpty()) {
+            allSatisfyStr.add(str);
+            return allSatisfyStr;
+        }
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(str);
+        while (matcher.find()) {
+            allSatisfyStr.add(matcher.group());
+        }
+        return allSatisfyStr;
     }
 
 
@@ -505,13 +531,12 @@ public class Util {
         });
     }
 
-    public static  void isShowing(Activity activity, PopupWindow popupWindow){
+    public static void isShowing(Activity activity, PopupWindow popupWindow) {
         if (popupWindow.isShowing()) {
             popupWindow.dismiss();
             lightOn(activity);
         }
     }
-
 
 
     /**
@@ -520,6 +545,7 @@ public class Util {
     public static boolean isNumber(String value) {
         return isInteger(value) || isDouble(value);
     }
+
     /**
      * 判断字符串是否是整数
      */

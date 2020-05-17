@@ -324,36 +324,31 @@ public class NetManger {
     //行情init初始化
     public void initURL(OnNetTwoResult onNetResult) {
         /*获取行情的host*/
-        getRequest("/api/trade/commodity/initial", null, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                } else if (state.equals(SUCCESS)) {
-                    InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
-                    List<InitEntity.GroupBean> group = initEntity.getGroup();
-                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                    for (InitEntity.GroupBean data : group) {
-                        if (data.getName().equals("数字货币")) {
-                            String list = data.getList();
-                            getTradeList(list, new OnNetResult() {
-                                @Override
-                                public void onNetResult(String state, Object response) {
-                                    if (state.equals(BUSY)) {
+        getRequest("/api/trade/commodity/initial", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+            } else if (state.equals(SUCCESS)) {
+                InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
+                List<InitEntity.GroupBean> group = initEntity.getGroup();
+                // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
+                for (InitEntity.GroupBean data : group) {
+                    if (data.getName().equals("数字货币")) {
+                        String list = data.getList();
+                        Log.d("print", "onNetResult:338:  "+list);
+                        getTradeList(list, (state1, response1) -> {
+                            if (state1.equals(BUSY)) {
 
-                                    } else if (state.equals(SUCCESS)) {
-                                        String quoteDomain = initEntity.getQuoteDomain();//获取域名
-                                        onNetResult.setResult(SUCCESS, quoteDomain, response);
+                            } else if (state1.equals(SUCCESS)) {
+                                String quoteDomain = initEntity.getQuoteDomain();//获取域名
+                                onNetResult.setResult(SUCCESS, quoteDomain, response1);
 
-                                    } else if (state.equals(FAILURE)) {
-                                        onNetResult.setResult(FAILURE, null, response);
-                                    }
-                                }
-                            });//获取合约号
-                        }
+                            } else if (state1.equals(FAILURE)) {
+                                onNetResult.setResult(FAILURE, null, response1);
+                            }
+                        });//获取合约号
                     }
-                } else if (state.equals(FAILURE)) {
-                    onNetResult.setResult(FAILURE, null, null);
                 }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.setResult(FAILURE, null, null);
             }
         });
     }
@@ -597,14 +592,11 @@ public class NetManger {
 
     public void initQuote() {
         /*初始化获取行情 合约号 行情地址*/
-        getHostCodeTradeList(new OnNetThreeResult() {
-            @Override
-            public void setResult(String state, Object response1, Object response2, Object response3) {
-                if (state.equals(SUCCESS)) {
-                    SPUtils.putString(AppConfig.QUOTE_HOST, response1.toString());
-                    SPUtils.putString(AppConfig.QUOTE_CODE, response2.toString());
-                    SPUtils.putString(AppConfig.QUOTE_DETAIL, response3.toString());
-                }
+        getHostCodeTradeList((state, response1, response2, response3) -> {
+            if (state.equals(SUCCESS)) {
+                SPUtils.putString(AppConfig.QUOTE_HOST, response1.toString());
+                SPUtils.putString(AppConfig.QUOTE_CODE, response2.toString());
+                SPUtils.putString(AppConfig.QUOTE_DETAIL, response3.toString());
             }
         });
     }

@@ -607,24 +607,21 @@ public class TradeUtil {
     /*涨跌幅从小到大*/
     public static List<String> rangeLowToHigh(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
-        Collections.sort(quoteList, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                String[] split1 = o1.split(",");
-                String[] split2 = o2.split(",");
-                double v = Double.valueOf(split1[2]);
-                double v1 = Double.valueOf(split1[3]);
-                double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 2), 100);
-                double v2 = Double.valueOf(split2[2]);
-                double v3 = Double.valueOf(split2[3]);
-                double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
+        Collections.sort(quoteList, (o1, o2) -> {
+            String[] split1 = o1.split(",");
+            String[] split2 = o2.split(",");
+            double v = Double.valueOf(split1[2]);
+            double v1 = Double.valueOf(split1[3]);
+            double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 2), 100);
+            double v2 = Double.valueOf(split2[2]);
+            double v3 = Double.valueOf(split2[3]);
+            double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
 
-                double sub = TradeUtil.sub(mul, mul2);
-                if (sub == 0) {
-                    return (int) TradeUtil.sub(mul2, mul);
-                }
-                return (int) sub;
+            double sub = TradeUtil.sub(mul, mul2);
+            if (sub == 0) {
+                return (int) TradeUtil.sub(mul2, mul);
             }
+            return (int) sub;
         });
         for (String quote : quoteList) {
             quoteList2.add(quote);
@@ -636,24 +633,21 @@ public class TradeUtil {
     /*涨跌幅从大到小*/
     public static List<String> rangeHighToLow(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
-        Collections.sort(quoteList, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                String[] split1 = o1.split(",");
-                String[] split2 = o2.split(",");
-                double v = Double.valueOf(split1[2]);
-                double v1 = Double.valueOf(split1[3]);
-                double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 2), 100);
-                double v2 = Double.valueOf(split2[2]);
-                double v3 = Double.valueOf(split2[3]);
-                double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
+        Collections.sort(quoteList, (o1, o2) -> {
+            String[] split1 = o1.split(",");
+            String[] split2 = o2.split(",");
+            double v = Double.valueOf(split1[2]);
+            double v1 = Double.valueOf(split1[3]);
+            double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 2), 100);
+            double v2 = Double.valueOf(split2[2]);
+            double v3 = Double.valueOf(split2[3]);
+            double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
 
-                double sub = TradeUtil.sub(mul2, mul);
-                if (sub == 0) {
-                    return (int) TradeUtil.sub(mul, mul2);
-                }
-                return (int) sub;
+            double sub = TradeUtil.sub(mul2, mul);
+            if (sub == 0) {
+                return (int) TradeUtil.sub(mul, mul2);
             }
+            return (int) sub;
         });
         for (String quote : quoteList) {
             quoteList2.add(quote);
@@ -831,13 +825,20 @@ public class TradeUtil {
     public static String listQuoteName(String quote) {
         String[] split = quote.split(",");
 
-        String[] split1 = Util.quoteList(split[0]).split(",");
-        return split1[0];
+        String s = Util.quoteList(split[0]);
+        if (s!=null){
+            String[] split1 = s.split(",");
+            return split1[0];
+
+        }else {
+            return  null;
+        }
     }
 
     /*usdt*/
     public static String listQuoteUSD(String quote) {
         String[] split = quote.split(",");
+
 
         String[] split1 = Util.quoteList(split[0]).split(",");
         return split1[1];

@@ -90,6 +90,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
+
+
             String name = TradeUtil.listQuoteName(datas.get(position));
 
 
