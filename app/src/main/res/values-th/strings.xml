@@ -322,5 +322,7 @@
     <string name="text_margin_start">Начальная маржа</string>
     <string name="text_initial_leverage">Начальное плечо</string>
     <string name="text_history_detail">История</string>
+    <string name="text_home_tip_login">Регистрируйся и получай 258USDT·Зайди сейчас</string>
+    <string name="text_login_register">Войти/Регистрация</string>
 
 </resources>

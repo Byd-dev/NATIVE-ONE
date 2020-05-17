@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/layout_login_register"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="#273552">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="@string/text_home_tip_login"
+            android:textColor="@color/text_maincolor"
+            android:textSize="@dimen/size_big" />
+
+
+        <TextView
+            android:id="@+id/text_login_register"
+            android:layout_width="102dp"
+            android:layout_height="34dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@drawable/gradient_bg_main"
+            android:gravity="center"
+            android:text="@string/text_login_register"
+            android:textColor="@color/text_maincolor"
+            android:textSize="@dimen/size_normal_two"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

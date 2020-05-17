@@ -100,6 +100,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     LinearLayout layout_my;
     @BindView(R.id.layout_status)
     StatusBarHeightView layout_status;
+    @BindView(R.id.layout_login_register)
+    RelativeLayout layout_login_register;
 
     @BindView(R.id.radio_2)
     RadioButton radioButton_2;
@@ -529,12 +531,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             text_uid.setText(loginEntity.getUser().getUserId());
             text_register.setVisibility(View.GONE);
             img_edit.setVisibility(View.VISIBLE);
+            layout_login_register.setVisibility(View.GONE);
 
         } else {
             text_userName.setText(getResources().getText(R.string.text_unlogin));
             text_uid.setVisibility(View.GONE);
             text_register.setVisibility(View.VISIBLE);
             img_edit.setVisibility(View.GONE);
+            layout_login_register.setVisibility(View.VISIBLE);
 
         }
 
@@ -566,6 +570,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         radioButton_2.setOnClickListener(this);
 
 
+
+
         /*首页 分割线-----------------------------------------------------------------------------*/
         QuoteListManger.getInstance().addObserver(this);
         textSwitcher.setFactory(() -> {
@@ -589,6 +595,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         findViewById(R.id.img_head).setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
+        findViewById(R.id.text_login_register).setOnClickListener(this);
         quoteAdapter = new QuoteAdapter(this);
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_list.setAdapter(quoteAdapter);
@@ -915,6 +922,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
+            case R.id.text_login_register:
+                LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+
+                break;
 
             case R.id.radio_2:
                 if (quoteList == null) {

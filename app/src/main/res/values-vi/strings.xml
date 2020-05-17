@@ -322,5 +322,7 @@
     <string name="text_margin_start">Ký quỹ ban đầu</string>
     <string name="text_initial_leverage">Đòn bẩy ban đầu</string>
     <string name="text_history_detail">Lịch sử</string>
+    <string name="text_home_tip_login">Đăng ký nhận 258USDT Đăng nhập nhận thưởng hàng ngày</string>
+    <string name="text_login_register">Nhận ngay</string>
 
 </resources>
