@@ -826,12 +826,12 @@ public class TradeUtil {
         String[] split = quote.split(",");
 
         String s = Util.quoteList(split[0]);
-        if (s!=null){
+        if (s != null) {
             String[] split1 = s.split(",");
             return split1[0];
 
-        }else {
-            return  null;
+        } else {
+            return null;
         }
     }
 
@@ -947,11 +947,15 @@ public class TradeUtil {
     }
 
     /*盈亏比*/
-    public static String ratio(double income,double margin) {
+    public static String ratio(double income, double margin) {
         double div = div(income, margin, 10);
         double mul = mul(div, 100);
-        return getNumberFormat(mul,2)+"%";
+        return getNumberFormat(mul, 2) + "%";
     }
 
-
+    public static double ratioDouble(double income, double margin) {
+        double div = div(income, margin, 10);
+        double mul = mul(div, 100);
+        return mul;
+    }
 }

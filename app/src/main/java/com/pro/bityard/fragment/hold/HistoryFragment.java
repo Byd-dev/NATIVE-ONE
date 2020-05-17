@@ -22,6 +22,7 @@ import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.MarginHistoryEntity;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -125,7 +126,8 @@ public class HistoryFragment extends BaseFragment implements Observer {
 
         //分享监听
         historyAdapter.setOnShareClick(data -> {
-            
+            Util.lightOff(getActivity());
+            PopUtil.getInstance().showShare(getActivity(), layout_view, data);
         });
 
         btn_login.setOnClickListener(v -> {

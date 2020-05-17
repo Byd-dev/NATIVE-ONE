@@ -325,5 +325,18 @@
     <string name="text_home_tip_login">Регистрируйся и получай 258USDT·Зайди сейчас</string>
     <string name="text_login_register">Войти/Регистрация</string>
     <string name="text_share">Поделиться</string>
+    <string name="text_my_rate_return">Моя норма прибыли</string>
+    <string name="text_wonderful_unrivalled">Отлично и классно</string>
+    <string name="text_scan_download">Сканирование для загрузки</string>
+    <string name="text_download_app">Cкачать APP</string>
+    <string name="text_trade_anytime">Начните торговлю Bityard в любое время и в любом месте</string>
+    <string name="text_king">Я - король</string>
+    <string name="text_awesome">Больше никто</string>
+    <string name="text_set_goal">Поставить маленькую цель заработать 1 миллион</string>
+    <string name="text_one_step">Вы всего в одном шаге от вершины</string>
+    <string name="text_get_less">Торговать немного, а заработать много</string>
+    <string name="text_stop_loss">Вовремя остановите потерю, теперь всё стабильно</string>
+    <string name="text_do_hesitate">Не медлите, когда придет время</string>
+    <string name="text_just_case">Ничего старшного, мы ещё держимся</string>
 
 </resources>

@@ -325,5 +325,18 @@
     <string name="text_home_tip_login">註冊領258USDT·登錄天天領</string>
     <string name="text_login_register">登錄/註冊</string>
     <string name="text_share">分享</string>
+    <string name="text_my_rate_return">我的收益率</string>
+    <string name="text_wonderful_unrivalled">神機妙算，無可匹敵</string>
+    <string name="text_scan_download">掃一掃下載</string>
+    <string name="text_download_app">下載app</string>
+    <string name="text_trade_anytime">隨時隨地開啟Bityard交易</string>
+    <string name="text_king">我就是王者</string>
+    <string name="text_awesome">還！有！誰！</string>
+    <string name="text_set_goal">設個小目標，先掙一百萬</string>
+    <string name="text_one_step">你離登頂僅一步之遙</string>
+    <string name="text_get_less">小賺一點，勝人一籌</string>
+    <string name="text_stop_loss">及時止損，穩字當頭</string>
+    <string name="text_do_hesitate">盈虧一瞬間，看準就下手</string>
+    <string name="text_just_case">小意思，下次再戰</string>
 
 </resources>

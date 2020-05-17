@@ -324,5 +324,18 @@
     <string name="text_home_tip_login">Sign up and earn 258USDT·Login and get it</string>
     <string name="text_login_register">Login/Register</string>
     <string name="text_share">Share</string>
+    <string name="text_my_rate_return">My Rate of Return</string>
+    <string name="text_wonderful_unrivalled">Wonderful,unrivalled</string>
+    <string name="text_scan_download">Scan to download</string>
+    <string name="text_download_app">Download APP</string>
+    <string name="text_trade_anytime">Start Bityard trading anytime anywhere</string>
+    <string name="text_king">I\'m the king</string>
+    <string name="text_awesome">Awesome</string>
+    <string name="text_set_goal">Set 1 million as a small goal</string>
+    <string name="text_one_step">You are only one step away from the summit</string>
+    <string name="text_get_less">Earn a little and one-upmanship</string>
+    <string name="text_stop_loss">Timely stop loss,it’s steady now</string>
+    <string name="text_do_hesitate">Don\'t hesitate when the time is right</string>
+    <string name="text_just_case">Just a piece of cake</string>
 
 </resources>
