@@ -747,8 +747,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                             }*/
                         }
                     }
-
-
                 }
 
                 @Override
