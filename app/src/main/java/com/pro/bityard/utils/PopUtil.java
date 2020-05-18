@@ -2,9 +2,13 @@ package com.pro.bityard.utils;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,12 +19,15 @@ import android.widget.Toast;
 import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnResult;
+import com.pro.bityard.api.PopResult;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.manger.QuoteListManger;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import androidx.core.app.ActivityCompat;
 
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
@@ -134,11 +141,19 @@ public class PopUtil {
     private List<String> lowList = new ArrayList<>();
 
 
-    /*显示详情*/
-    public void showShare(Activity activity, View layout_view, HistoryEntity.DataBean dataBean) {
+    public void dialogShare() {
+
+    }
+
+
+    /*显示分享详情*/
+    public void showShare(Activity activity, View layout_view, HistoryEntity.DataBean dataBean, PopResult popResult) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_share_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        LinearLayout layout_share = view.findViewById(R.id.layout_share);
+
 
         double opPrice = dataBean.getOpPrice();
         double cpPrice = dataBean.getCpPrice();
@@ -160,10 +175,10 @@ public class PopUtil {
         TextView text_close_price = view.findViewById(R.id.text_close_price);
         text_close_price.setText(String.valueOf(cpPrice));
         TextView text_lever = view.findViewById(R.id.text_lever);
-        if (dataBean.isIsBuy()){
-            text_lever.setText(activity.getString(R.string.text_much)+lever + "×");
-        }else {
-            text_lever.setText(activity.getString(R.string.text_empty)+lever + "×");
+        if (dataBean.isIsBuy()) {
+            text_lever.setText(activity.getString(R.string.text_much) + lever + "×");
+        } else {
+            text_lever.setText(activity.getString(R.string.text_empty) + lever + "×");
 
         }
 
@@ -199,7 +214,7 @@ public class PopUtil {
 
         TextView text_title = view.findViewById(R.id.text_title);
 
-        ImageView img_person=view.findViewById(R.id.img_person);
+        ImageView img_person = view.findViewById(R.id.img_person);
         double rate = TradeUtil.ratioDouble(income, margin);
         if (rate >= 0 && rate < 100) {
             text_title.setText(midList.get(mid));
@@ -217,10 +232,67 @@ public class PopUtil {
 
         Util.dismiss(activity, popupWindow);
         Util.isShowing(activity, popupWindow);
+
+        popResult.setResult(layout_share, popupWindow);
+
         popupWindow.setFocusable(true);
+        popupWindow.setAnimationStyle(R.style.AnimBottom);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+
+
     }
+
+
+    /*分享弹窗*/
+    public void showSharePlatform(Activity activity, View layout_view, HistoryEntity.DataBean dataBean) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.layout_share_pop, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        /*同时打开图片*/
+        showShare(activity, layout_view, dataBean, (response1, repose2) -> {
+            PopupWindow popupWindow1 = (PopupWindow) repose2;
+            view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+                popupWindow.dismiss();
+                popupWindow1.dismiss();
+            });
+
+            //保存图片
+            view.findViewById(R.id.text_save).setOnClickListener(v -> {
+
+                if (PermissionUtil.readAndWrite(activity)) {
+                    View view1 = (View) response1;
+                    ImageUtil.getInstance().SaveBitmapFromView(activity, view1);
+                    Toast.makeText(activity, activity.getResources().getString(R.string.text_save), Toast.LENGTH_SHORT).show();
+                    popupWindow.dismiss();
+                    popupWindow1.dismiss();
+                } else {
+                    String[] PERMISSIONS = {
+                            "android.permission.READ_EXTERNAL_STORAGE",
+                            "android.permission.WRITE_EXTERNAL_STORAGE"};
+                    ActivityCompat.requestPermissions(activity, PERMISSIONS, 1);
+
+                }
+
+
+            });
+        });
+
+
+        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+        animation.setInterpolator(new AccelerateInterpolator());
+        animation.setDuration(300);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+
+        popupWindow.setFocusable(true);
+        popupWindow.setContentView(view);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        view.startAnimation(animation);
+    }
+
 
 }

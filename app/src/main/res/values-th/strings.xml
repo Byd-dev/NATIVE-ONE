@@ -340,5 +340,7 @@
     <string name="text_just_case">Ничего старшного, мы ещё держимся</string>
     <string name="text_much">Купить</string>
     <string name="text_empty">Продать</string>
+    <string name="text_save">已保存</string>
+    <string name="text_save_img">保存图片</string>
 
 </resources>

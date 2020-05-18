@@ -340,5 +340,7 @@
     <string name="text_just_case">식은 죽 먹기이다</string>
     <string name="text_much">매수</string>
     <string name="text_empty">매도</string>
+    <string name="text_save">已保存</string>
+    <string name="text_save_img">保存图片</string>
 
 </resources>

@@ -127,7 +127,8 @@ public class HistoryFragment extends BaseFragment implements Observer {
         //分享监听
         historyAdapter.setOnShareClick(data -> {
             Util.lightOff(getActivity());
-            PopUtil.getInstance().showShare(getActivity(), layout_view, data);
+            PopUtil.getInstance().showSharePlatform(getActivity(),layout_view,data);
+
         });
 
         btn_login.setOnClickListener(v -> {

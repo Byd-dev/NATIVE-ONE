@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DevInfor>
+
+    <!-- 如果不需要支持某平台，可缺省该平台的配置-->
+
+
+
+    <Wechat
+        AppId="wxc40e16f3ba6ebabc"
+        AppSecret="dcad950cd0633a27e353477c4ec12e7a"/>
+
+    <Facebook
+        AppId="557969661528134"
+        AppName="Bityard"
+        />
+
+    <Twitter
+        ConsumerKey="fCm4SUcgYI1wUACGxB2erX5pL"
+        ConsumerSecret="NAhzwYCgm15FBILWqXYDKxpryiuDlEQWZ5YERnO1D89VBtZO6q"
+        CallbackUrl="https://www.jiguang.cn/"
+    />
+
+
+</DevInfor>

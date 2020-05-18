@@ -340,5 +340,7 @@
     <string name="text_just_case">Chuyện nhỏ, lần tới chiến tiếp</string>
     <string name="text_much">Mua</string>
     <string name="text_empty">Bán</string>
+    <string name="text_save">已保存</string>
+    <string name="text_save_img">保存图片</string>
 
 </resources>

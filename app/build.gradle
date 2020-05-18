@@ -11,11 +11,15 @@ android {
         versionName "1.0"
         flavorDimensions "1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         //极光推送必须
         manifestPlaceholders = [
                 JPUSH_PKGNAME : applicationId,
-                JPUSH_APPKEY : "d598231f7d0035d4dabaaf3b", //JPush 上注册的包名对应的 Appkey.
+                JSHARE_PKGNAME: applicationId,
+                JPUSH_APPKEY  : "d598231f7d0035d4dabaaf3b", //JPush 上注册的包名对应的 Appkey.
                 JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                FACEBOOK_APPID: "557969661528134",//极光分享必须
+
         ]
 
 
@@ -68,6 +72,9 @@ android {
         lintOptions {
             abortOnError false
         }
+
+
+
     }
     /*夜间模式*/
     sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res-night'] } }
@@ -80,8 +87,9 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
         }
+
     }
 
     compileOptions {
@@ -134,4 +142,15 @@ dependencies {
     //极光推送必须
     implementation 'cn.jiguang.sdk:jpush:3.6.0'  // 此处以JPush 3.6.0 版本为例。
     implementation 'cn.jiguang.sdk:jcore:2.3.4'  // 此处以JCore 2.3.4 版本为例。
+    //极光分享必须
+    implementation 'cn.jiguang.sdk:jshare:1.6.0'  // 此处以JShare 1.6.0 版本为例，具体版本请参考压缩包libs的jar包版本。
+    implementation 'cn.jiguang.sdk:jshare-wechatmodel:1.6.0'
+    // 此处以jshare-wechatmodel 1.6.0  版本为例，具体版本请参考压缩包libs的jar包版本。
+    implementation 'cn.jiguang.sdk:jshare-facebookmodel:1.6.0'
+    // 此处以jshare-facebookmodel 1.6.0  版本为例，具体版本请参考压缩包libs的jar包版本。
+    implementation 'cn.jiguang.sdk:jshare-twittermodel:1.6.0'
+    // 此处以jshare-twittermodel 1.6.0  版本为例，具体版本请参考压缩包libs的jar包版本。
+    implementation 'cn.jiguang.sdk:jcore:2.3.4'  // 此处以JCore 1.2.3版本为例，具体版本请参考压缩包libs的jar包版本。
+    //极光分享必须
+    implementation 'com.android.support:multidex:1.0.3'
 }
