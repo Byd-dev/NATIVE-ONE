@@ -3,6 +3,7 @@ package com.pro.bityard.utils;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.core.app.ActivityCompat;
+import cn.jiguang.share.wechat.Wechat;
 
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
@@ -264,7 +266,7 @@ public class PopUtil {
 
                 if (PermissionUtil.readAndWrite(activity)) {
                     View view1 = (View) response1;
-                    ImageUtil.getInstance().SaveBitmapFromView(activity, view1);
+                    ImageUtil.SaveBitmapFromView(activity, view1);
                     Toast.makeText(activity, activity.getResources().getString(R.string.text_save), Toast.LENGTH_SHORT).show();
                     popupWindow.dismiss();
                     popupWindow1.dismiss();
@@ -273,10 +275,16 @@ public class PopUtil {
                             "android.permission.READ_EXTERNAL_STORAGE",
                             "android.permission.WRITE_EXTERNAL_STORAGE"};
                     ActivityCompat.requestPermissions(activity, PERMISSIONS, 1);
-
                 }
 
 
+            });
+
+            //微信朋友分享
+            view.findViewById(R.id.text_friend);
+            view.setOnClickListener(v -> {
+                ShareUtil.shareImg(ImageUtil.getBitmap((View) response1), Wechat.Name, response ->
+                        Log.d("jiguang", "setResult:292:  " + response));
             });
         });
 

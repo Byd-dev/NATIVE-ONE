@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -42,25 +41,32 @@ public class ImageUtil {
 
     }
 
-    public void SaveBitmapFromView(Context context, View view) {
+    public static void SaveBitmapFromView(Context context, View view) {
         int w = view.getWidth();
         int h = view.getHeight();
         Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         Canvas c = new Canvas(bmp);
         view.layout(0, 0, w, h);
         view.draw(c);
-        // 缩小图片
-        Matrix matrix = new Matrix();
-        matrix.postScale(0.5f, 0.5f); //长和宽放大缩小的比例
-        bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
         DateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         saveBitmap(context, bmp, format.format(new Date()) + ".JPEG");
     }
 
+    public static Bitmap getBitmap(View view) {
+        int w = view.getWidth();
+        int h = view.getHeight();
+        Bitmap bmp = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+        Canvas c = new Canvas(bmp);
+        view.layout(0, 0, w, h);
+        view.draw(c);
+        return bmp;
+    }
+
+
     /*
      * 保存文件，文件名为当前日期
      */
-    public void saveBitmap(Context context, Bitmap bitmap, String bitName) {
+    public static void saveBitmap(Context context, Bitmap bitmap, String bitName) {
         String fileName;
         File file;
         if (Build.BRAND.equals("Xiaomi")) { // 小米手机
@@ -69,7 +75,6 @@ public class ImageUtil {
             fileName = Environment.getExternalStorageDirectory().getPath() + "/DCIM/" + bitName;
         }
         file = new File(fileName);
-
         if (file.exists()) {
             file.delete();
         }
