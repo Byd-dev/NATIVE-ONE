@@ -256,6 +256,8 @@ public class PopUtil {
         /*同时打开图片*/
         showShare(activity, layout_view, dataBean, (response1, repose2) -> {
             PopupWindow popupWindow1 = (PopupWindow) repose2;
+
+
             view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
                 popupWindow.dismiss();
                 popupWindow1.dismiss();
@@ -287,6 +289,7 @@ public class PopUtil {
                         Log.d("jiguang", "setResult:292:  " + response));
             });
         });
+
 
 
         TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,

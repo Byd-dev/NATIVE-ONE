@@ -141,11 +141,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //止盈价格
             ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, opPrice, priceDigit, lever, margin, stopProfit));
 
-
             String income = income(isBuy, cpPrice, opPrice, datas.get(position).getVolume());
             ((MyViewHolder) holder).text_income.setText(income);
             double incomeDouble = Double.parseDouble(income);
+            //盈亏比
 
+            ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(Double.parseDouble(income),margin));
 
             String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
             double netIncomeDouble = Double.parseDouble(netIncome);
@@ -153,8 +154,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((MyViewHolder) holder).text_worth.setText(netIncome);
             if (incomeDouble > 0) {
                 ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                ((MyViewHolder) holder).text_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+
             } else {
                 ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                ((MyViewHolder) holder).text_rate.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+
             }
 
             if (netIncomeDouble > 0) {
@@ -162,7 +167,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             } else {
                 ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_red));
             }
-
 
         }
     }
@@ -196,7 +200,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_volume, text_open_price,
                 text_loss_price, text_close_price, text_profit_price,
-                text_income, text_worth, text_time, text_tag;
+                text_income, text_worth, text_time, text_tag,text_rate;
         ImageView img_buy;
 
         public MyViewHolder(View itemView) {
@@ -212,6 +216,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             img_buy = itemView.findViewById(R.id.img_buy);
             text_time = itemView.findViewById(R.id.text_time);
             text_tag = itemView.findViewById(R.id.text_tag);
+            text_rate=itemView.findViewById(R.id.text_rate);
 
 
             itemView.findViewById(R.id.text_detail).setOnClickListener(view -> {

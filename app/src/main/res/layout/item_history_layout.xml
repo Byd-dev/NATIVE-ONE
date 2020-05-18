@@ -296,10 +296,10 @@
                         android:layout_marginRight="@dimen/margin_5"
                         android:layout_toLeftOf="@+id/text_worth_stay"
                         android:text="--"
-
                         android:textColor="@color/text_red_position"
                         android:textSize="@dimen/size_big"
-                        android:typeface="monospace" />
+                        android:typeface="monospace"
+                        android:visibility="gone" />
 
 
                     <TextView
@@ -311,9 +311,20 @@
                         android:layout_marginRight="@dimen/margin_15"
                         android:text="@string/text_netincome"
                         android:textColor="@color/text_second_color"
+                        android:typeface="monospace"
+                        android:visibility="gone" />
 
+                    <TextView
+                        android:id="@+id/text_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/margin_15"
+                        android:text="--"
+                        android:textColor="@color/text_red_position"
+                        android:textSize="@dimen/size_big"
                         android:typeface="monospace" />
-
 
                 </RelativeLayout>
 
@@ -362,17 +373,16 @@
                 android:id="@+id/text_share"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/text_share"
-                android:gravity="center"
-                android:textColor="@color/maincolor"
-                android:textSize="@dimen/size_normal"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:paddingRight="@dimen/margin_15"
-                android:paddingLeft="@dimen/margin_15"
                 android:drawableLeft="@mipmap/icon_share"
                 android:drawablePadding="@dimen/margin_10"
-                />
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_15"
+                android:text="@string/text_share"
+                android:textColor="@color/maincolor"
+                android:textSize="@dimen/size_normal" />
 
 
         </RelativeLayout>

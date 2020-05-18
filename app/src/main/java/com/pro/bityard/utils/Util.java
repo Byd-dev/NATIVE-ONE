@@ -538,7 +538,26 @@ public class Util {
         }
     }
 
+    public static void twoDismiss(Activity activity, PopupWindow popupWindow, PopupWindow popupWindow1) {
+        popupWindow.setOnDismissListener(() -> {
+            lightOn(activity);
+        });
+        popupWindow1.setOnDismissListener(() -> {
+            lightOn(activity);
+        });
+    }
 
+    public static void twoIsShowing(Activity activity, PopupWindow popupWindow, PopupWindow popupWindow1) {
+        if (popupWindow.isShowing()) {
+            popupWindow.dismiss();
+            lightOn(activity);
+        }
+        if (popupWindow1.isShowing()) {
+            popupWindow1.dismiss();
+            lightOn(activity);
+        }
+
+    }
     /**
      * 判断字符串是否是数字
      */
