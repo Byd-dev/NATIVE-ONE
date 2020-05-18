@@ -160,7 +160,13 @@ public class PopUtil {
         TextView text_close_price = view.findViewById(R.id.text_close_price);
         text_close_price.setText(String.valueOf(cpPrice));
         TextView text_lever = view.findViewById(R.id.text_lever);
-        text_lever.setText(lever + "×");
+        if (dataBean.isIsBuy()){
+            text_lever.setText(activity.getString(R.string.text_much)+lever + "×");
+        }else {
+            text_lever.setText(activity.getString(R.string.text_empty)+lever + "×");
+
+        }
+
         TextView text_rate = view.findViewById(R.id.text_rate);
         text_rate.setText(TradeUtil.ratio(income, margin));
 

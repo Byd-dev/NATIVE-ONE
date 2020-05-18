@@ -36,7 +36,8 @@
                     android:text="@string/text_wonderful_unrivalled"
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger"
-                    android:textStyle="bold" />
+
+                    />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -66,8 +67,7 @@
                             android:layout_marginRight="@dimen/margin_15"
                             android:text="@string/text_default"
                             android:textColor="@color/text_quote_green"
-
-                            android:textSize="26sp"
+                            android:textSize="30sp"
 
                             />
 
@@ -134,7 +134,8 @@
                                 android:text="@string/text_default"
                                 android:textColor="@color/text_main_color_black"
                                 android:textSize="@dimen/size_big"
-                                android:textStyle="bold" />
+
+                                />
 
                             <TextView
                                 android:id="@+id/text_currency"
@@ -172,7 +173,7 @@
                             android:text="@string/text_default"
                             android:textColor="@color/text_main_color_black"
                             android:textSize="@dimen/size_big"
-                            android:textStyle="bold" />
+                            />
 
                     </LinearLayout>
 
@@ -202,7 +203,7 @@
                             android:text="@string/text_default"
                             android:textColor="@color/text_main_color_black"
                             android:textSize="@dimen/size_big"
-                            android:textStyle="bold" />
+                            />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -255,7 +256,7 @@
                         android:text="@string/text_download_app"
                         android:textColor="@color/text_main_color_black"
                         android:textSize="@dimen/size_bigger"
-                        android:textStyle="bold" />
+                        />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -263,7 +264,7 @@
                         android:text="@string/text_trade_anytime"
                         android:textColor="@color/text_main_color_black"
                         android:textSize="@dimen/size_big"
-                        android:textStyle="bold" />
+                        />
 
                 </LinearLayout>
             </RelativeLayout>

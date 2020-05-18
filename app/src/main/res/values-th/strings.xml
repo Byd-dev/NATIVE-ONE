@@ -338,5 +338,7 @@
     <string name="text_stop_loss">Вовремя остановите потерю, теперь всё стабильно</string>
     <string name="text_do_hesitate">Не медлите, когда придет время</string>
     <string name="text_just_case">Ничего старшного, мы ещё держимся</string>
+    <string name="text_much">Купить</string>
+    <string name="text_empty">Продать</string>
 
 </resources>

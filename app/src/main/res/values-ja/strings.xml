@@ -338,6 +338,8 @@
     <string name="text_stop_loss">及时止损，稳字当头</string>
     <string name="text_do_hesitate">盈亏一瞬间，看准就下手</string>
     <string name="text_just_case">小意思，下次再战</string>
+    <string name="text_much">多</string>
+    <string name="text_empty">空</string>
 
 
 </resources>

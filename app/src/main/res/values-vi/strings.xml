@@ -338,5 +338,7 @@
     <string name="text_stop_loss">Dừng lỗ kịp thời, đang ổn rồi!</string>
     <string name="text_do_hesitate">Lời lỗ chỉ cách nhau trong gang tấc, hãy có quyết định sáng suốt  nhé!</string>
     <string name="text_just_case">Chuyện nhỏ, lần tới chiến tiếp</string>
+    <string name="text_much">Mua</string>
+    <string name="text_empty">Bán</string>
 
 </resources>

@@ -515,7 +515,7 @@ public class Util {
 
     public static void lightOff(Activity activity) {
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
-        lp.alpha = 0.6f;
+        lp.alpha = 0.2f;
         activity.getWindow().setAttributes(lp);
     }
 
