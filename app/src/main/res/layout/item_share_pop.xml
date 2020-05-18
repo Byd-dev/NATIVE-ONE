@@ -9,20 +9,21 @@
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="4"
-            android:background="@mipmap/my_bg">
+            android:background="@mipmap/bg_share">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_20"
+                android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginTop="60dp"
-                android:layout_marginRight="@dimen/margin_20"
-                android:layout_marginBottom="@dimen/margin_20"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/margin_15"
                 android:background="@drawable/bg_radius_white"
                 android:orientation="vertical">
 
@@ -30,12 +31,12 @@
                     android:id="@+id/text_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_wonderful_unrivalled"
-                    android:layout_marginTop="@dimen/margin_50"
                     android:layout_marginLeft="@dimen/margin_15"
-                    android:textStyle="bold"
+                    android:layout_marginTop="60dp"
+                    android:text="@string/text_wonderful_unrivalled"
                     android:textColor="@color/text_main_color_black"
-                    android:textSize="@dimen/size_bigger" />
+                    android:textSize="@dimen/size_bigger"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -48,13 +49,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_my_rate_return"
-                        android:textColor="@color/text_second_color"
+
+                        android:textColor="@color/color_pop"
                         android:textSize="@dimen/size_normal_two" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_10"
                         android:orientation="horizontal">
 
                         <TextView
@@ -64,21 +65,22 @@
                             android:layout_gravity="center"
                             android:layout_marginRight="@dimen/margin_15"
                             android:text="@string/text_default"
-                            android:textStyle="bold"
-
                             android:textColor="@color/text_quote_green"
-                            android:textSize="26sp" />
+
+                            android:textSize="26sp"
+
+                            />
 
                         <TextView
                             android:id="@+id/text_lever"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:background="@drawable/bg_shape_main_color"
+                            android:background="@drawable/bg_circle_main_half_color"
                             android:paddingLeft="@dimen/margin_8"
                             android:paddingRight="@dimen/margin_8"
                             android:text="@string/text_default"
-                            android:textColor="@color/text_main_color_black"
+                            android:textColor="@color/maincolor"
                             android:textSize="@dimen/size_big" />
 
                     </LinearLayout>
@@ -92,7 +94,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:layout_marginBottom="80dp"
-                    android:background="@color/text_second_color" />
+                    android:background="#EEEEEE" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -159,7 +161,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_o_price"
-                            android:textColor="@color/text_second_color"
+                            android:textColor="@color/color_pop"
                             android:textSize="@dimen/size_normal_two" />
 
                         <TextView
@@ -168,9 +170,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_5"
                             android:text="@string/text_default"
-                            android:textStyle="bold"
                             android:textColor="@color/text_main_color_black"
-                            android:textSize="@dimen/size_big" />
+                            android:textSize="@dimen/size_big"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
 
@@ -187,7 +189,7 @@
                             android:layout_marginRight="@dimen/margin_15"
                             android:gravity="center"
                             android:text="@string/text_close_price"
-                            android:textColor="@color/text_second_color"
+                            android:textColor="@color/color_pop"
                             android:textSize="@dimen/size_normal_two" />
 
 
@@ -198,9 +200,9 @@
                             android:layout_marginTop="@dimen/margin_5"
                             android:layout_marginRight="@dimen/margin_15"
                             android:text="@string/text_default"
-                            android:textStyle="bold"
                             android:textColor="@color/text_main_color_black"
-                            android:textSize="@dimen/size_big" />
+                            android:textSize="@dimen/size_big"
+                            android:textStyle="bold" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -208,7 +210,13 @@
 
             </RelativeLayout>
 
-
+            <ImageView
+                android:id="@+id/img_person"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_20"
+                android:src="@mipmap/icon_win" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -268,6 +276,7 @@
                 android:layout_marginBottom="@dimen/margin_10"
                 android:gravity="center"
                 android:text="@string/text_scan_download"
+                android:textColor="@color/color_pop"
                 android:textSize="@dimen/size_normal" />
 
             <TextView

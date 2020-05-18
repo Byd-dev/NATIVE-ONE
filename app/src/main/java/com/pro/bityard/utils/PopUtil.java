@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -191,13 +192,20 @@ public class PopUtil {
 
 
         TextView text_title = view.findViewById(R.id.text_title);
+
+        ImageView img_person=view.findViewById(R.id.img_person);
         double rate = TradeUtil.ratioDouble(income, margin);
         if (rate >= 0 && rate < 100) {
             text_title.setText(midList.get(mid));
+            img_person.setImageDrawable(activity.getResources().getDrawable(R.mipmap.icon_win));
         } else if (rate >= 100) {
             text_title.setText(topList.get(top));
+            img_person.setImageDrawable(activity.getResources().getDrawable(R.mipmap.icon_win));
+
         } else if (rate < 0) {
             text_title.setText(lowList.get(low));
+            img_person.setImageDrawable(activity.getResources().getDrawable(R.mipmap.icon_loss));
+
         }
 
 

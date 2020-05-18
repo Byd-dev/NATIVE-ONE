@@ -370,7 +370,7 @@
                 android:layout_centerVertical="true"
                 android:paddingRight="@dimen/margin_15"
                 android:paddingLeft="@dimen/margin_15"
-                android:drawableLeft="@mipmap/icon_add"
+                android:drawableLeft="@mipmap/icon_share"
                 android:drawablePadding="@dimen/margin_10"
                 />
 

@@ -36,4 +36,5 @@
     <color name="color_minute">#2296D7</color>
     <color name="color_shadow_above">#244968</color>
     <color name="color_shadow_below">#591A2435</color>
+    <color name="color_pop">#687B93</color>
 </resources>

@@ -30,7 +30,7 @@
     <dimen name="size_bigger">17sp</dimen>
     <dimen name="size_normal_two">14sp</dimen>
     <dimen name="tab_height">42dp</dimen>
-    <dimen name="size_line">0.2dp</dimen>
+    <dimen name="size_line">0.5dp</dimen>
     <dimen name="margin_36">36dp</dimen>
     <dimen name="size_line_big">5dp</dimen>
     <dimen name="margin_7">7dp</dimen>
