@@ -838,8 +838,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 }
                 break;
             case R.id.text_position:
-                TabManger.getInstance().jump(MainOneActivity.TAB_TYPE.TAB_POSITION);
-                finish();
+                /*TabManger.getInstance().jump(MainOneActivity.TAB_TYPE.TAB_POSITION);
+                finish();*/
+                UserActivity.enter(QuoteDetailActivity.this,IntentConfig.Keys.KEY_HOLD);
                 break;
             case R.id.text_one_hour:
 

@@ -27,6 +27,7 @@ import com.pro.bityard.fragment.my.ThemeFragment;
 import com.pro.bityard.fragment.my.TradeRecordFragment;
 import com.pro.bityard.fragment.my.TradeSettingsFragment;
 import com.pro.bityard.fragment.my.WithdrawalAddressFragment;
+import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import androidx.annotation.Nullable;
@@ -117,9 +118,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_QUICK_EXCHANGE:
                 addQuickExchangeFragment();
                 break;
+            case IntentConfig.Keys.KEY_HOLD:
+                addHoldFragment();
+                break;
         }
 
 
+    }
+
+    private void addHoldFragment() {
+        String name = HoldFragment.class.getSimpleName();
+        //持仓
+        HoldFragment fragment = new HoldFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addQuickExchangeFragment() {

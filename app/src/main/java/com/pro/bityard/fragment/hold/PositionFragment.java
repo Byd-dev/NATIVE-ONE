@@ -146,6 +146,11 @@ public class PositionFragment extends BaseFragment implements Observer {
     @Override
     public void onResume() {
         super.onResume();
+        //行情的注册
+        QuoteListManger.getInstance().addObserver(this);
+        //标签
+        TagManger.getInstance().addObserver(this);
+
         if (isLogin()) {
             headerRecyclerView.setVisibility(View.VISIBLE);
             btn_login.setVisibility(View.GONE);
@@ -161,10 +166,6 @@ public class PositionFragment extends BaseFragment implements Observer {
     @SuppressLint("InflateParams")
     @Override
     protected void initView(View view) {
-        //行情的注册
-        QuoteListManger.getInstance().addObserver(this);
-        //标签
-        TagManger.getInstance().addObserver(this);
 
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
@@ -294,7 +295,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         price(quoteList, dataBean.getContractCode(), response -> {
             text_price_pop.setText(response.toString());
             String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop);
-            text_income_pop.setText(income+"("+TradeUtil.ratio(Double.parseDouble(income),margin_pop)+")");
+            text_income_pop.setText(income + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
             double incomeDouble = Double.parseDouble(income);
             String netIncome = netIncome(incomeDouble, serviceCharge_pop);
             double netIncomeDouble = Double.parseDouble(netIncome);
@@ -540,6 +541,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                 dismissProgressDialog();
                 popupWindow.dismiss();
                 Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
+                initData();
 
             } else if (state.equals(FAILURE)) {
                 dismissProgressDialog();
@@ -1268,7 +1270,6 @@ public class PositionFragment extends BaseFragment implements Observer {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        QuoteListManger.getInstance().clear();
         TagManger.getInstance().clear();
     }
 
@@ -1297,34 +1298,36 @@ public class PositionFragment extends BaseFragment implements Observer {
 
                     //pop 实时价格也是同步刷新
                     if (text_price != null) {
-                        price(quoteList, contractCode, response -> text_price.setText(response.toString()));
+                        if (isAdded()) {
+                            price(quoteList, contractCode, response -> text_price.setText(response.toString()));
+                        }
                     }
                     if (text_price_pop != null) {
-                        price(quoteList, contractCode, response -> {
-                            text_price_pop.setText(response.toString());
-                            String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop);
-                            text_income_pop.setText(income+"("+TradeUtil.ratio(Double.parseDouble(income),margin_pop)+")");
+                        if (isAdded()) {
+                            price(quoteList, contractCode, response -> {
+                                text_price_pop.setText(response.toString());
+                                String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop);
+                                text_income_pop.setText(income + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
 
-                            double incomeDouble = Double.parseDouble(income);
-                            String netIncome = netIncome(incomeDouble, serviceCharge_pop);
-                            double netIncomeDouble = Double.parseDouble(netIncome);
+                                double incomeDouble = Double.parseDouble(income);
+                                String netIncome = netIncome(incomeDouble, serviceCharge_pop);
+                                double netIncomeDouble = Double.parseDouble(netIncome);
+                                text_worth_pop.setText(netIncome + "(" + getResources().getString(R.string.text_profit) + ")");
+                                if (incomeDouble > 0) {
+                                    text_income_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
+                                } else {
+                                    text_income_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
+                                }
 
-                            text_worth_pop.setText(netIncome + "(" + getResources().getString(R.string.text_profit) + ")");
-                            if (incomeDouble > 0) {
-                                text_income_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
-                            } else {
-                                text_income_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
-                            }
+                                if (netIncomeDouble > 0) {
+                                    text_worth_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
+                                } else {
+                                    text_worth_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
+                                }
 
-                            if (netIncomeDouble > 0) {
-                                text_worth_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
-                            } else {
-                                text_worth_pop.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
-                            }
+                            });
 
-                        });
-
-
+                        }
                     }
 
                 });

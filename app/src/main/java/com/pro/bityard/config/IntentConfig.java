@@ -37,6 +37,8 @@ public class IntentConfig {
         public static final String KEY_WITHDRAWAL = "KEY_WITHDRAWAL";
         //币币闪兑
         public static final String KEY_QUICK_EXCHANGE = "KEY_QUICK_EXCHANGE";
+        //持仓
+        public static final String KEY_HOLD = "KEY_HOLD";
         //法币充值
         public static final String KEY_FIAT = "KEY_FIAT";
         //修改登录密码

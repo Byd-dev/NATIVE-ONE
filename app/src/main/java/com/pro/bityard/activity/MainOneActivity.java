@@ -18,6 +18,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
@@ -41,7 +42,6 @@ import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
 import com.pro.bityard.fragment.hold.PositionFragment;
 import com.pro.bityard.manger.BalanceManger;
-import com.pro.bityard.manger.InitManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
@@ -291,6 +291,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteAdapter.setDatas(quoteList);
                     quoteAdapter_market.setDatas(quoteList);
                     if (isLogin()) {
+                        Toast.makeText(this, "首页行情", Toast.LENGTH_SHORT).show();
                         if (tradeType.equals("1")) {
                             setNetIncome(tradeType, positionRealList, quoteList);
                         } else {
@@ -524,6 +525,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         isForeground = true;
         super.onResume();
 
+        Toast.makeText(this, "执行了onResume", Toast.LENGTH_SHORT).show();
+
+
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             text_userName.setText(loginEntity.getUser().getUserName());
@@ -557,6 +561,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     protected void initView(View view) {
+        Toast.makeText(this, "执行了initView", Toast.LENGTH_SHORT).show();
+
         //主题是深色的标题
         StatusBarUtil.setStatusBarDarkTheme(this, false);
         //打开沉浸式状态栏
@@ -820,15 +826,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     protected void initEvent() {
-        QuoteListManger.getInstance().addObserver(this);
-        InitManger.getInstance().init();
-        //个人详情
-        UserDetailManger.getInstance().addObserver(this);
-        //余额初始化
-        BalanceManger.getInstance().getBalance("USDT");
-        //持仓初始化
-        PositionRealManger.getInstance().getHold();
-        PositionSimulationManger.getInstance().getHold();
+
 
     }
 
@@ -909,6 +907,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d("print", "onDestroy:912:  " + "执行了Ondestory");
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);

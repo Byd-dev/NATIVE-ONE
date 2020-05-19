@@ -14,6 +14,14 @@
         android:layout_height="@dimen/bar_height"
         android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/margin_15"
+            android:src="@mipmap/img_back"
+            android:visibility="gone" />
 
         <RadioGroup
             android:id="@+id/radioGroup_hold"
@@ -70,7 +78,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <!--头部的 可用 冻结 净值-->
         <LinearLayout

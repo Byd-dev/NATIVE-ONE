@@ -118,12 +118,24 @@ public class Util {
         }
     }
 
+    //            name = content.substring(0, content.length() - 8) + "/" + content.substring(content.length() - 8, content.length() - 4);
     public static String quoteNme(String content) {
         String name;
+        StringBuilder stringBuilder;
+
         if (content == null) {
             return null;
         } else {
-            name = content.substring(0, content.length() - 8) + "/" + content.substring(content.length() - 8, content.length() - 4);
+            ArrayList<String> allSatisfyStr = getAllSatisfyStr(content, "[a-zA-Z]");
+            stringBuilder = new StringBuilder();
+            for (int i = 0; i < allSatisfyStr.size(); i++) {
+                stringBuilder.append(allSatisfyStr.get(i));
+            }
+            if (stringBuilder.toString().contains("USDT")) {
+                name = content.substring(0, content.length() - 8) + "/" + content.substring(content.length() - 8, content.length() - 4);
+            } else {
+                name = stringBuilder.toString() + "," + "null";
+            }
             return name;
         }
     }
@@ -143,7 +155,7 @@ public class Util {
             if (stringBuilder.toString().contains("USDT")) {
                 name = stringBuilder.substring(0, content.length() - 8) + "," + stringBuilder.substring(content.length() - 8, content.length() - 4);
             } else {
-                name = stringBuilder.toString()+","+"null";
+                name = stringBuilder.toString() + "," + "null";
             }
             return name;
         }
@@ -558,6 +570,7 @@ public class Util {
         }
 
     }
+
     /**
      * 判断字符串是否是数字
      */
