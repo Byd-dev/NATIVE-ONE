@@ -130,11 +130,11 @@
                             <TextView
                                 android:id="@+id/text_name"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center"
-                                android:text="@string/text_default"
+                                android:text="BTC"
                                 android:textColor="@color/text_main_color_black"
-                                android:textSize="@dimen/size_big"
+                                android:textSize="@dimen/size_normal_two"
 
                                 />
 
@@ -143,10 +143,10 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="USDT"
+                                android:text="/USDT"
                                 android:textColor="@color/text_main_color_black"
-                                android:textSize="@dimen/size_big"
-                                android:textStyle="bold" />
+                                android:textSize="@dimen/size_normal_two"
+                                />
 
                         </LinearLayout>
 
@@ -173,7 +173,7 @@
                             android:layout_marginTop="@dimen/margin_5"
                             android:text="@string/text_default"
                             android:textColor="@color/text_main_color_black"
-                            android:textSize="@dimen/size_big"
+                            android:textSize="@dimen/size_normal_two"
                             />
 
                     </LinearLayout>
@@ -203,7 +203,7 @@
                             android:layout_marginRight="@dimen/margin_15"
                             android:text="@string/text_default"
                             android:textColor="@color/text_main_color_black"
-                            android:textSize="@dimen/size_big"
+                            android:textSize="@dimen/size_normal_two"
                             />
 
                     </LinearLayout>
