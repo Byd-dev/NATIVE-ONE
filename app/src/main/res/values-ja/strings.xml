@@ -345,6 +345,9 @@
     <string name="text_records">操作记录</string>
     <string name="text_additional_amount">追加金额</string>
     <string name="text_spsl">修改止盈止损</string>
+    <string name="text_mining_day">天天挖矿</string>
+    <string name="text_byd_get">平台币BYD等你拿</string>
+    <string name="text_language_set">语言设置</string>
 
 
 </resources>

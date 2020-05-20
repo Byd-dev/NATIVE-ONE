@@ -2,10 +2,10 @@
     <string name="app_name">BITYARD</string>
 
     <string name="tab_one">Home</string>
-    <string name="tab_two">Market</string>
+    <string name="tab_two">Markets</string>
     <string name="tab_three">Trade</string>
-    <string name="tab_four">Hold</string>
-    <string name="tab_five">Mine</string>
+    <string name="tab_four">Position</string>
+    <string name="tab_five">Account</string>
     <string name="text_jump">Next</string>
     <string name="text_register">Get Started</string>
     <string name="text_mobile_login">Mobile</string>
@@ -41,15 +41,15 @@
     <string name="text_edit_pass_new_sure">New Password</string>
     <string name="text_sure">Confirm</string>
     <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
-    <string name="text_recommend">推荐榜单</string>
-    <string name="text_trade_bonus">交易赠金</string>
-    <string name="text_trade_simulation">模拟交易</string>
+    <string name="text_recommend">Recommended</string>
+    <string name="text_trade_bonus">258U Bonus</string>
+    <string name="text_trade_simulation">Demo</string>
     <string name="text_err_init">初始化失败</string>
-    <string name="text_market_tab">行情</string>
-    <string name="text_home_tab">首页</string>
-    <string name="text_new_price">最新价</string>
-    <string name="text_up_down">涨跌幅</string>
-    <string name="text_name">名称</string>
+    <string name="text_market_tab">Markets</string>
+    <string name="text_home_tab">Home</string>
+    <string name="text_new_price">Last Price</string>
+    <string name="text_up_down">Change%</string>
+    <string name="text_name">Name</string>
     <string name="text_all_balance">Total Assets(USDT)</string>
     <string name="text_mining">Mine Now</string>
     <string name="text_fabi_trade">Fiat</string>
@@ -57,14 +57,14 @@
     <string name="text_withdrawal">Withdraw</string>
     <string name="text_recharge">Deposit</string>
     <string name="text_unlogin">Login</string>
-    <string name="text_setup">系统设置</string>
-    <string name="text_logout">退出登录</string>
-    <string name="text_theme">主题切换</string>
-    <string name="text_rate">汇率</string>
-    <string name="text_language">Language</string>
-    <string name="text_theme_setup">主题设置</string>
-    <string name="text_night">夜间模式</string>
-    <string name="text_day">日间模式</string>
+    <string name="text_setup">System Settings</string>
+    <string name="text_logout">Log Out</string>
+    <string name="text_theme">Theme</string>
+    <string name="text_rate">Exchange Rate</string>
+    <string name="text_language">Choose a language</string>
+    <string name="text_theme_setup">Language</string>
+    <string name="text_night">Night</string>
+    <string name="text_day">Day</string>
     <string name="text_english">English</string>
     <string name="text_chinese">简体中文</string>
     <string name="text_chinese_second">Chinese,Simplified</string>
@@ -76,8 +76,8 @@
     <string name="text_korean_second">Korean</string>
     <string name="text_real">Live</string>
     <string name="text_simulation">Demo</string>
-    <string name="text_available">可用</string>
-    <string name="text_freeze">冻结</string>
+    <string name="text_available">Available</string>
+    <string name="text_freeze">Margin</string>
     <string name="text_worth">Equity</string>
     <string name="text_open">Position</string>
     <string name="text_order">Pending</string>
@@ -344,5 +344,8 @@
     <string name="text_records">Records</string>
     <string name="text_additional_amount">Additional Amount</string>
     <string name="text_spsl">TP/SL</string>
+    <string name="text_mining_day">Mining</string>
+    <string name="text_byd_get">Earn BYD Tokens</string>
+    <string name="text_language_set">Language</string>
 
 </resources>

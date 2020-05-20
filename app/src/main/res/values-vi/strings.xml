@@ -3,10 +3,10 @@
     <string name="app_name">BITYARD</string>
 
     <string name="tab_one">Trang chủ</string>
-    <string name="tab_two">Báo giá</string>
-    <string name="tab_three">Vị trí mở</string>
-    <string name="tab_four">Giao dịch</string>
-    <string name="tab_five">Của tôi</string>
+    <string name="tab_two">Thị trường</string>
+    <string name="tab_three">Giao dịch</string>
+    <string name="tab_four">Vị thế</string>
+    <string name="tab_five">Tài khoản</string>
     <string name="text_jump">Bỏ qua</string>
     <string name="text_register">Đăng ký</string>
     <string name="text_mobile_login">Điện thoại</string>
@@ -42,15 +42,15 @@
     <string name="text_edit_pass_new_sure">Nhập mật khẩu mới</string>
     <string name="text_sure">Xác nhận</string>
     <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
-    <string name="text_recommend">推荐榜单</string>
-    <string name="text_trade_bonus">交易赠金</string>
-    <string name="text_trade_simulation">模拟交易</string>
+    <string name="text_recommend">Đề xuất</string>
+    <string name="text_trade_bonus">258U Bonus</string>
+    <string name="text_trade_simulation">Demo</string>
     <string name="text_err_init">初始化失败</string>
-    <string name="text_market_tab">行情</string>
-    <string name="text_home_tab">首页</string>
-    <string name="text_new_price">最新价</string>
-    <string name="text_up_down">涨跌幅</string>
-    <string name="text_name">名称</string>
+    <string name="text_market_tab">Thị trường</string>
+    <string name="text_home_tab">Trang chủ</string>
+    <string name="text_new_price">Last Price</string>
+    <string name="text_up_down">Change%</string>
+    <string name="text_name">Tên</string>
     <string name="text_all_balance">Tổng giá trị ước tính(USDT)</string>
     <string name="text_mining">Đến khai thác</string>
     <string name="text_fabi_trade">Nạp tiền pháp định</string>
@@ -58,14 +58,14 @@
     <string name="text_withdrawal">Rút tiền</string>
     <string name="text_recharge">Nạp tiền</string>
     <string name="text_unlogin">Đăng nhập</string>
-    <string name="text_setup">系统设置</string>
-    <string name="text_logout">退出登录</string>
-    <string name="text_theme">主题切换</string>
-    <string name="text_rate">汇率</string>
-    <string name="text_language">选择语言</string>
-    <string name="text_theme_setup">主题设置</string>
-    <string name="text_night">夜间模式</string>
-    <string name="text_day">日间模式</string>
+    <string name="text_setup">Cài đặt hệ thống</string>
+    <string name="text_logout">Thoát đăng nhập</string>
+    <string name="text_theme">Đổi chủ đề</string>
+    <string name="text_rate">Tỉ giá</string>
+    <string name="text_language">Chọn ngôn ngữ</string>
+    <string name="text_theme_setup">Đổi chủ đề</string>
+    <string name="text_night">Ban đêm</string>
+    <string name="text_day">Ban ngày</string>
     <string name="text_english">English</string>
     <string name="text_chinese">简体中文</string>
     <string name="text_chinese_second">Chinese,Simplified</string>
@@ -345,5 +345,8 @@
     <string name="text_records">Lịch sử</string>
     <string name="text_additional_amount">Thêm số dư</string>
     <string name="text_spsl">TP/SL</string>
+    <string name="text_mining_day">Mining</string>
+    <string name="text_byd_get">Nhận ngay BYD</string>
+    <string name="text_language_set">Ngôn ngữ</string>
 
 </resources>

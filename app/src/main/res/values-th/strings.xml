@@ -2,11 +2,11 @@
 <resources>
     <string name="app_name">BITYARD</string>
 
-    <string name="tab_one">บ้าน</string>
-    <string name="tab_two">ราคา</string>
-    <string name="tab_three">เปิดตำแหน่ง</string>
-    <string name="tab_four">การซื้อขาย</string>
-    <string name="tab_five">ของฉัน</string>
+    <string name="tab_one">Главная</string>
+    <string name="tab_two">Рынки</string>
+    <string name="tab_three">Торговля</string>
+    <string name="tab_four">Позиция</string>
+    <string name="tab_five">Аккаунт</string>
     <string name="text_jump">ข้าม</string>
     <string name="text_register">Регистрация</string>
     <string name="text_mobile_login">Номер телефона</string>
@@ -42,15 +42,15 @@
     <string name="text_edit_pass_new_sure">Новый пароль</string>
     <string name="text_sure">Подтвердить</string>
     <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
-    <string name="text_recommend">推荐榜单</string>
-    <string name="text_trade_bonus">交易赠金</string>
-    <string name="text_trade_simulation">模拟交易</string>
+    <string name="text_recommend">Рекомендуемые списки</string>
+    <string name="text_trade_bonus">Бонусы</string>
+    <string name="text_trade_simulation">Демо</string>
     <string name="text_err_init">初始化失败</string>
-    <string name="text_market_tab">行情</string>
-    <string name="text_home_tab">首页</string>
-    <string name="text_new_price">最新价</string>
-    <string name="text_up_down">涨跌幅</string>
-    <string name="text_name">名称</string>
+    <string name="text_market_tab">Рынки</string>
+    <string name="text_home_tab">Главная</string>
+    <string name="text_new_price">Пос-я цена</string>
+    <string name="text_up_down">Изменение%</string>
+    <string name="text_name">Монета</string>
     <string name="text_all_balance">Мои активы(USDT)</string>
     <string name="text_mining">Майнинг сейчас</string>
     <string name="text_fabi_trade">Фиат</string>
@@ -58,14 +58,14 @@
     <string name="text_withdrawal">Снятия</string>
     <string name="text_recharge">Депозит</string>
     <string name="text_unlogin">Логин</string>
-    <string name="text_setup">系统设置</string>
-    <string name="text_logout">退出登录</string>
-    <string name="text_theme">主题切换</string>
-    <string name="text_rate">汇率</string>
-    <string name="text_language">选择语言</string>
+    <string name="text_setup">Системные настройки</string>
+    <string name="text_logout">Выйти</string>
+    <string name="text_theme">Тема</string>
+    <string name="text_rate">Курс обмена</string>
+    <string name="text_language">Выбрать язык</string>
     <string name="text_theme_setup">主题设置</string>
-    <string name="text_night">夜间模式</string>
-    <string name="text_day">日间模式</string>
+    <string name="text_night">Ночной режим</string>
+    <string name="text_day">Дневной режим</string>
     <string name="text_english">English</string>
     <string name="text_chinese">简体中文</string>
     <string name="text_chinese_second">Chinese,Simplified</string>
@@ -345,5 +345,8 @@
     <string name="text_records">История</string>
     <string name="text_additional_amount">Дополнительная сумма</string>
     <string name="text_spsl">TP/SL</string>
+    <string name="text_mining_day">Майнинг</string>
+    <string name="text_byd_get">Получить токен BYD</string>
+    <string name="text_language_set">Язык</string>
 
 </resources>

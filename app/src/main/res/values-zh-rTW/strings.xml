@@ -42,15 +42,15 @@
     <string name="text_edit_pass_new_sure">請再次輸入新密碼</string>
     <string name="text_sure">確認</string>
     <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
-    <string name="text_recommend">推荐榜单</string>
-    <string name="text_trade_bonus">交易赠金</string>
-    <string name="text_trade_simulation">模拟交易</string>
+    <string name="text_recommend">推薦榜單</string>
+    <string name="text_trade_bonus">贈金活動</string>
+    <string name="text_trade_simulation">模擬交易</string>
     <string name="text_err_init">初始化失败</string>
     <string name="text_market_tab">行情</string>
-    <string name="text_home_tab">首页</string>
-    <string name="text_new_price">最新价</string>
-    <string name="text_up_down">涨跌幅</string>
-    <string name="text_name">名称</string>
+    <string name="text_home_tab">首頁</string>
+    <string name="text_new_price">最新價</string>
+    <string name="text_up_down">漲跌幅</string>
+    <string name="text_name">名稱</string>
     <string name="text_all_balance">總淨資產(USDT)</string>
     <string name="text_mining">前往挖礦</string>
     <string name="text_fabi_trade">法幣充值</string>
@@ -58,14 +58,14 @@
     <string name="text_withdrawal">提幣</string>
     <string name="text_recharge">充幣</string>
     <string name="text_unlogin">请登錄</string>
-    <string name="text_setup">系统设置</string>
+    <string name="text_setup">系統設置</string>
     <string name="text_logout">退出登錄</string>
-    <string name="text_theme">主题切换</string>
-    <string name="text_rate">汇率</string>
-    <string name="text_language">选择语言</string>
+    <string name="text_theme">主題切換</string>
+    <string name="text_rate">匯率</string>
+    <string name="text_language">選擇語言</string>
     <string name="text_theme_setup">主题设置</string>
-    <string name="text_night">夜间模式</string>
-    <string name="text_day">日间模式</string>
+    <string name="text_night">夜晚模式</string>
+    <string name="text_day">白晝模式</string>
     <string name="text_english">English</string>
     <string name="text_chinese">简体中文</string>
     <string name="text_chinese_second">Chinese,Simplified</string>
@@ -345,5 +345,8 @@
     <string name="text_records">操作記錄</string>
     <string name="text_additional_amount">追加金额</string>
     <string name="text_spsl">修改止盈止損</string>
+    <string name="text_mining_day">天天挖礦</string>
+    <string name="text_byd_get">平台幣BYD等你拿</string>
+    <string name="text_language_set">語言設置</string>
 
 </resources>

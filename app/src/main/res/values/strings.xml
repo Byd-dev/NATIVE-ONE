@@ -42,7 +42,7 @@
     <string name="text_sure">确认</string>
     <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
     <string name="text_recommend">推荐榜单</string>
-    <string name="text_trade_bonus">交易赠金</string>
+    <string name="text_trade_bonus">赠金活动</string>
     <string name="text_trade_simulation">模拟交易</string>
     <string name="text_err_init">初始化失败</string>
     <string name="text_market_tab">市场</string>
@@ -344,5 +344,8 @@
     <string name="text_records">操作记录</string>
     <string name="text_additional_amount">追加金额</string>
     <string name="text_spsl">修改止盈止损</string>
+    <string name="text_mining_day">天天挖矿</string>
+    <string name="text_byd_get">平台币BYD等你拿</string>
+    <string name="text_language_set">语言设置</string>
 
 </resources>

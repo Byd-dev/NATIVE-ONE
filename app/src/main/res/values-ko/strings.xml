@@ -2,11 +2,11 @@
 <resources>
     <string name="app_name">BITYARD</string>
 
-    <string name="tab_one">홈</string>
-    <string name="tab_two">인용문</string>
-    <string name="tab_three">오픈</string>
-    <string name="tab_four">거래</string>
-    <string name="tab_five">광산</string>
+    <string name="tab_one">홈페이지</string>
+    <string name="tab_two">시세</string>
+    <string name="tab_three">거래</string>
+    <string name="tab_four">포지션</string>
+    <string name="tab_five">계정</string>
     <string name="text_jump">건너 뛰기</string>
     <string name="text_register">회원가입</string>
     <string name="text_mobile_login">핸드폰 번호</string>
@@ -42,15 +42,15 @@
     <string name="text_edit_pass_new_sure">새 비밀번호를 확인해 주세요.</string>
     <string name="text_sure">확인</string>
     <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
-    <string name="text_recommend">推荐榜单</string>
-    <string name="text_trade_bonus">交易赠金</string>
-    <string name="text_trade_simulation">模拟交易</string>
+    <string name="text_recommend">추천 리스트</string>
+    <string name="text_trade_bonus">프로모션 </string>
+    <string name="text_trade_simulation">모의거래</string>
     <string name="text_err_init">初始化失败</string>
-    <string name="text_market_tab">行情</string>
-    <string name="text_home_tab">首页</string>
-    <string name="text_new_price">最新价</string>
-    <string name="text_up_down">涨跌幅</string>
-    <string name="text_name">名称</string>
+    <string name="text_market_tab">시세</string>
+    <string name="text_home_tab">홈페이지</string>
+    <string name="text_new_price">최신 가격</string>
+    <string name="text_up_down">변동폭%</string>
+    <string name="text_name">코인</string>
     <string name="text_all_balance">총 자산(USDT)</string>
     <string name="text_mining">채굴하기</string>
     <string name="text_fabi_trade">피아트 화폐 입금</string>
@@ -58,14 +58,14 @@
     <string name="text_withdrawal">출금</string>
     <string name="text_recharge">입금</string>
     <string name="text_unlogin">로그인</string>
-    <string name="text_setup">系统设置</string>
-    <string name="text_logout">退出登录</string>
-    <string name="text_theme">主题切换</string>
-    <string name="text_rate">汇率</string>
-    <string name="text_language">选择语言</string>
+    <string name="text_setup">시스템 설정</string>
+    <string name="text_logout">로그아웃</string>
+    <string name="text_theme">주제 변경</string>
+    <string name="text_rate">환율</string>
+    <string name="text_language">언어 선택</string>
     <string name="text_theme_setup">主题设置</string>
-    <string name="text_night">夜间模式</string>
-    <string name="text_day">日间模式</string>
+    <string name="text_night">밤</string>
+    <string name="text_day">낮</string>
     <string name="text_english">English</string>
     <string name="text_chinese">简体中文</string>
     <string name="text_chinese_second">Chinese,Simplified</string>
@@ -345,5 +345,8 @@
     <string name="text_records">내역</string>
     <string name="text_additional_amount">추가 금액</string>
     <string name="text_spsl">TP/SL</string>
+    <string name="text_mining_day">마이닝</string>
+    <string name="text_byd_get">토큰 BYD 받기</string>
+    <string name="text_language_set">언어 설정</string>
 
 </resources>

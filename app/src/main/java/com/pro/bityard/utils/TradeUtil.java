@@ -935,6 +935,9 @@ public class TradeUtil {
             return false;
         } else {
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode, tradeListEntityList);
+            if (tradeListEntity==null){
+                return false;
+            }
             Integer integer = tradeListEntity.getLeverList().get(0);
             Integer integer1 = tradeListEntity.getDepositList().get(1);
             if (lever <= integer || margin == integer1) {

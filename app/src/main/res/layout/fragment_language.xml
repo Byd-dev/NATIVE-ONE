@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/text_theme_setup"
+            android:text="@string/text_language_set"
             android:textColor="@color/text_maincolor"
             android:textSize="@dimen/title_size" />
 

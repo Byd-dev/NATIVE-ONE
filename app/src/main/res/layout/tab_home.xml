@@ -208,7 +208,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="交易挖矿"
+                                    android:text="@string/text_mining_day"
                                     android:textColor="@color/text_maincolor"
                                     android:textSize="16sp"
                                     android:visibility="visible" />
@@ -217,7 +217,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/margin_9"
-                                    android:text="5 USDT 即可交易"
+                                    android:text="@string/text_byd_get"
                                     android:textColor="@color/text_secondcolor"
                                     android:textSize="12sp" />
 

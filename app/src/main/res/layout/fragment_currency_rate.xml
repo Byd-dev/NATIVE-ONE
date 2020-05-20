@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/text_asset_rate"
+            android:text="@string/text_rate"
             android:textColor="@color/text_maincolor"
             android:textSize="@dimen/title_size" />
 
