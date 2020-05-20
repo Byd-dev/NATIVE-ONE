@@ -21,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="修改止盈止损"
+                android:text="@string/text_spsl"
                 android:textColor="@color/text_maincolor"
                 android:textSize="@dimen/size_normal"
 
@@ -127,7 +127,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/text_now_price"
+                android:text="@string/text_price"
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal"
                 android:typeface="monospace"
@@ -439,7 +439,7 @@
                             <TextView
                                 android:id="@+id/text_second_color"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:text="@string/text_stop_loss_pop"
                                 android:textColor="@color/text_second_color"
@@ -786,7 +786,7 @@
                 android:layout_weight="1"
                 android:background="@color/maincolor"
                 android:gravity="center"
-                android:text="@string/text_sure_position"
+                android:text="@string/text_sure"
                 android:textColor="@color/text_main_color_black"
                 android:textSize="@dimen/size_normal" />
         </LinearLayout>

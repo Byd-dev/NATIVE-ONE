@@ -74,11 +74,11 @@
     <string name="text_japan_second">Japanese</string>
     <string name="text_korean">한국어</string>
     <string name="text_korean_second">Korean</string>
-    <string name="text_real">实盘持仓</string>
-    <string name="text_simulation">模拟持仓</string>
-    <string name="text_available">可用(USDT)</string>
-    <string name="text_freeze">冻结(USDT)</string>
-    <string name="text_worth">净值(USDT)</string>
+    <string name="text_real">实盘</string>
+    <string name="text_simulation">模拟</string>
+    <string name="text_available">可用</string>
+    <string name="text_freeze">占用</string>
+    <string name="text_worth">账户净值</string>
     <string name="text_open">持仓</string>
     <string name="text_order">挂单</string>
     <string name="text_history">历史</string>
@@ -89,7 +89,7 @@
     <string name="text_price">当前价</string>
     <string name="text_profit_price">止盈价</string>
     <string name="text_stoploss_price">止损价</string>
-    <string name="text_total_profit_loss">浮动盈亏:</string>
+    <string name="text_total_profit_loss">总盈亏:</string>
     <string name="text_all_cloes">一键平仓</string>
     <string name="text_netincome">(净盈亏)</string>
     <string name="text_pending_text">挂单价</string>
@@ -106,9 +106,9 @@
     <string name="text_loss_rate">亏损百分比:</string>
     <string name="text_profit_rate">盈利百分比:</string>
     <string name="text_profit_amount">盈利金额:</string>
-    <string name="text_loss_amount">亏损金额:</string>
-    <string name="text_profit_forward">预计盈利</string>
-    <string name="text_loss_forward">预计亏损</string>
+    <string name="text_loss_amount">止损金额:</string>
+    <string name="text_profit_forward">止盈</string>
+    <string name="text_loss_forward">止损</string>
     <string name="text_success">成功</string>
     <string name="text_add_margin">追加保证金</string>
     <string name="text_available_add">可用:</string>
@@ -341,5 +341,8 @@
     <string name="text_empty">空</string>
     <string name="text_save">已保存</string>
     <string name="text_save_img">保存图片</string>
+    <string name="text_records">操作记录</string>
+    <string name="text_additional_amount">追加金额</string>
+    <string name="text_spsl">修改止盈止损</string>
 
 </resources>

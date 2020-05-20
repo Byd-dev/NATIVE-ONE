@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="追加金额"
+                android:text="@string/text_additional_amount"
                 android:textColor="@color/maincolor"
                 android:textSize="@dimen/size_big"
                 android:typeface="monospace" />
@@ -431,7 +431,7 @@
                 android:layout_weight="1"
                 android:background="@color/maincolor"
                 android:gravity="center"
-                android:text="@string/text_sure_position"
+                android:text="@string/text_sure"
                 android:textColor="@color/text_main_color_black"
                 android:textSize="@dimen/size_normal" />
         </LinearLayout>

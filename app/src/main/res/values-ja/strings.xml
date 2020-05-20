@@ -342,6 +342,9 @@
     <string name="text_empty">空</string>
     <string name="text_save">已保存</string>
     <string name="text_save_img">保存图片</string>
+    <string name="text_records">操作记录</string>
+    <string name="text_additional_amount">追加金额</string>
+    <string name="text_spsl">修改止盈止损</string>
 
 
 </resources>
