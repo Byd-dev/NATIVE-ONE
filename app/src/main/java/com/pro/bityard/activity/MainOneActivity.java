@@ -42,6 +42,7 @@ import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
 import com.pro.bityard.fragment.hold.PositionFragment;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.InitManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
@@ -526,6 +527,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         super.onResume();
 
         Toast.makeText(this, "执行了onResume", Toast.LENGTH_SHORT).show();
+        //初始化
+        InitManger.getInstance().init();
 
 
         if (isLogin()) {
@@ -756,6 +759,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     protected void initData() {
 
+
+
         //首页 -------------------------------------------------------------------------------------
         getBanner();
 
@@ -765,10 +770,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             }
         });
         if (isLogin()) {
-
             UserDetailManger.getInstance().detail();
-
-
         }
 
 

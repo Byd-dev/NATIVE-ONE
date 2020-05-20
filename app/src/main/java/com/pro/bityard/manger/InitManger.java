@@ -1,7 +1,5 @@
 package com.pro.bityard.manger;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.config.AppConfig;
@@ -51,7 +49,6 @@ public class InitManger extends Observable {
             if (isLogin == true) {
                 PositionRealManger.getInstance().getHold();
                 PositionSimulationManger.getInstance().getHold();
-               // UserDetailManger.getInstance().startScheduleJob(AppConfig.QUOTE_SECOND, AppConfig.QUOTE_SECOND);
             } else {
                 SPUtils.remove(AppConfig.LOGIN);
             }
