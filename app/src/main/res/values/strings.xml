@@ -119,17 +119,17 @@
     <string name="text_add_coin">加币</string>
     <string name="text_buy_much">做多</string>
     <string name="text_buy_empty">做空</string>
-    <string name="text_max">24H最高</string>
+    <string name="text_max">最高</string>
     <string name="text_default">0.00</string>
-    <string name="text_min">24H最低</string>
-    <string name="text_volume">24H量</string>
+    <string name="text_min">最低</string>
+    <string name="text_volume">24H</string>
     <string name="text_simulation_btn">切换模拟盘</string>
     <string name="text_real_trade">(实盘)</string>
-    <string name="text_real_btn">切换成实盘</string>
+    <string name="text_real_btn">切换实盘</string>
     <string name="text_simulation_trade">(模拟)</string>
     <string name="text_market_price">市价</string>
     <string name="text_limit_price">限价</string>
-    <string name="text_market_price_edit">市价下单:</string>
+    <string name="text_market_price_edit">市价委托:</string>
     <string name="text_margin_edit">保证金:</string>
     <string name="text_volume_edit">仓位:</string>
     <string name="text_market_price_input_edit">以市价买入</string>
@@ -140,7 +140,7 @@
     <string name="text_80x">80X</string>
     <string name="text_100x">100X</string>
     <string name="text_market_all">总计支付:</string>
-    <string name="text_limit_price_edit">限价下单:</string>
+    <string name="text_limit_price_edit">限价委托:</string>
     <string name="text_order_success">买入委托已提交</string>
     <string name="text_margin_input">请输入保证金</string>
     <string name="text_limit_price_input">请输入限价</string>
@@ -153,7 +153,7 @@
     <string name="text_inall_pop">合计</string>
     <string name="text_service_pop">手续费</string>
     <string name="text_are_you_sure">是否确认平仓?</string>
-    <string name="text_service_tip">手续费=保证金(杠杆-1)×0.15%\n本次支付手续费是</string>
+    <string name="text_service_tip">手续费=保证金(杠杆-1)*0.15%\n</string>
     <string name="text_tip_login">未登录</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
@@ -347,5 +347,7 @@
     <string name="text_mining_day">天天挖矿</string>
     <string name="text_byd_get">平台币BYD等你拿</string>
     <string name="text_language_set">语言设置</string>
+    <string name="text_more">更多</string>
+    <string name="text_trade_fees">本次支付手续费</string>
 
 </resources>

@@ -59,7 +59,6 @@ import com.pro.bityard.manger.QuoteMonthCurrentManger;
 import com.pro.bityard.manger.QuoteMonthHistoryManger;
 import com.pro.bityard.manger.QuoteWeekCurrentManger;
 import com.pro.bityard.manger.QuoteWeekHistoryManger;
-import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -72,6 +71,7 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
@@ -97,7 +97,6 @@ import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteUSD;
 import static com.pro.bityard.utils.TradeUtil.marginMax;
-import static com.pro.bityard.utils.TradeUtil.marginMin;
 import static com.pro.bityard.utils.TradeUtil.marginOrder;
 import static java.lang.Double.parseDouble;
 
@@ -250,7 +249,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.stay_view)
     View stay_view;
-    private String[] titles = new String[]{"分时", "1分", "3分", "5分", "15分", "更多"};
+    private List<String> titles = new ArrayList<>();
     private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData3MinHistory, kData60MinHistory, kDataDayHistory, kDataWeekHistory, kDataMonthHistory;
 
 
@@ -316,12 +315,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
     private void setTabStyle() {
-        for (int i = 0; i < titles.length; i++) {//根据Tab数量循环来设置
+        for (int i = 0; i < titles.size(); i++) {//根据Tab数量循环来设置
             TabLayout.Tab tab = tabLayout.getTabAt(i);
             if (tab != null) {
                 View view = LayoutInflater.from(this).inflate(R.layout.tab_title_layout, null);
                 TextView text_title_one = view.findViewById(R.id.text_title);
-                text_title_one.setText(titles[i]);
+                text_title_one.setText(titles.get(i));
                 ImageView img_subscript = view.findViewById(R.id.img_subscript);
 
                 if (i == 0) {
@@ -343,6 +342,14 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     protected void initView(View view) {
+
+
+        titles.add("Line");
+        titles.add("1min");
+        titles.add("3min");
+        titles.add("5min");
+        titles.add("15min");
+        titles.add(getResources().getString(R.string.text_more));
 
 
         QuoteListManger.getInstance().addObserver(this);
@@ -403,11 +410,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         text_market_all.setOnClickListener(this);
         text_limit_all.setOnClickListener(this);
 
-        for (int i = 0; i < titles.length; i++) {
+        for (int i = 0; i < titles.size(); i++) {
             tabLayout.addTab(tabLayout.newTab());
         }
-        for (int i = 0; i < titles.length; i++) {
-            tabLayout.getTabAt(i).setText(titles[i]);
+        for (int i = 0; i < titles.size(); i++) {
+            tabLayout.getTabAt(i).setText(titles.get(i));
         }
         setTabStyle();
 
@@ -424,7 +431,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 TabLayout.Tab tabAt = tabLayout.getTabAt(5);
                 View view2 = tabAt.getCustomView();
-                ((TextView) view2.findViewById(R.id.text_title)).setText(titles[5]);//设置一下文字
+                ((TextView) view2.findViewById(R.id.text_title)).setText(titles.get(5));//设置一下文字
                 tabAt.setCustomView(view2);
 
                 switch (tab.getPosition()) {
@@ -821,7 +828,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 } else {
                     Util.lightOff(QuoteDetailActivity.this);
                     PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
-                            new StringBuilder().append(getString(R.string.text_service_tip)).append(text_market_all.getText().toString()).append("USDT").toString(), state -> {
+                            new StringBuilder().append(getString(R.string.text_service_tip)).append(getString(R.string.text_trade_fees)).append(text_market_all.getText().toString()).append("USDT").toString(), state -> {
                             }
                     );
                 }
@@ -832,7 +839,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 } else {
                     Util.lightOff(QuoteDetailActivity.this);
                     PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
-                            new StringBuilder().append(getString(R.string.text_service_tip)).append(text_limit_all.getText().toString()).append("USDT").toString(), state -> {
+                            new StringBuilder().append(getString(R.string.text_service_tip)).append(getString(R.string.text_trade_fees)).append(text_limit_all.getText().toString()).append("USDT").toString(), state -> {
                             }
                     );
                 }
@@ -840,7 +847,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.text_position:
                 /*TabManger.getInstance().jump(MainOneActivity.TAB_TYPE.TAB_POSITION);
                 finish();*/
-                UserActivity.enter(QuoteDetailActivity.this,IntentConfig.Keys.KEY_HOLD);
+                UserActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_HOLD);
                 break;
             case R.id.text_one_hour:
 
@@ -974,6 +981,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         popupWindow.showAsDropDown(layout_pop_market, Gravity.CENTER, 0, 0);
     }
 
+    /*下单提示*/
     private void showTip(String isBuy, String margin, String service) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_much_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
@@ -996,12 +1004,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         });
 
 
-        view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> popupWindow.dismiss());
 
         Util.dismiss(QuoteDetailActivity.this, popupWindow);
         Util.isShowing(QuoteDetailActivity.this, popupWindow);
@@ -1102,9 +1105,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         );
     }
 
+    /*行情选择*/
     private void showProductWindow(List<String> quoteList) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_product_layout, null);
-      PopupWindow  popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_pop);

@@ -154,7 +154,7 @@
     <string name="text_inall_pop">合计</string>
     <string name="text_service_pop">手续费</string>
     <string name="text_are_you_sure">是否确认平仓?</string>
-    <string name="text_service_tip">手续费=保证金(杠杆-1)×0.15%\n本次支付手续费是</string>
+    <string name="text_service_tip">手续费=保证金(杠杆-1)×0.15%\n</string>
     <string name="text_tip_login">请登录</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
@@ -169,10 +169,10 @@
     <string name="kline_change_detail">涨跌幅</string>
     <string name="kline_volume_detail">成交量</string>
     <string name="text_rule">规则</string>
-    <string name="text_1h">1小时</string>
-    <string name="text_1day">1天</string>
-    <string name="text_1week">1周</string>
-    <string name="text_1month">1月</string>
+    <string name="text_1h">1hour</string>
+    <string name="text_1day">1day</string>
+    <string name="text_1week">1week</string>
+    <string name="text_1month">1mon</string>
     <string name="text_lever_select">选择杠杆</string>
     <string name="text_my_service">在线客服</string>
     <string name="text_asset_rate">币种选择</string>
@@ -348,6 +348,8 @@
     <string name="text_mining_day">天天挖矿</string>
     <string name="text_byd_get">平台币BYD等你拿</string>
     <string name="text_language_set">语言设置</string>
+    <string name="text_more">更多</string>
+    <string name="text_trade_fees">本次支付手续费</string>
 
 
 </resources>

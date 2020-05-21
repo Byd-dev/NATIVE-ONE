@@ -46,6 +46,7 @@ public class InitManger extends Observable {
         //判断是否登录
         NetManger.getInstance().isLogin(response -> {
             boolean isLogin = (boolean) response;
+
             if (isLogin == true) {
                 PositionRealManger.getInstance().getHold();
                 PositionSimulationManger.getInstance().getHold();
