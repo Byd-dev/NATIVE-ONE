@@ -86,6 +86,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
+import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteIsRange;
@@ -569,7 +570,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         //手续费
         chargeUnitEntityList = ChargeUnitManger.getInstance().getChargeUnitEntityList();
         if (tradeListEntityList == null) {
-            startHandler(handler, 0, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
+            startHandler(handler, 0, QUOTE_SECOND, QUOTE_SECOND);
         } else {
             tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
             // Log.d("print", "initData:258:合约号:  " + tradeListEntity);
@@ -577,7 +578,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
         if (chargeUnitEntityList == null) {
-            startHandler(handler, 1, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
+            startHandler(handler, 1, QUOTE_SECOND, QUOTE_SECOND);
         } else {
             chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
             // Log.d("print", "initData:259:手续费: " + chargeUnitEntity);
