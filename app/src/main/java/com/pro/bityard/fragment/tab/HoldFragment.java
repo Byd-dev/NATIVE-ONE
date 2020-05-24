@@ -318,10 +318,8 @@ public class HoldFragment extends BaseFragment implements Observer {
                     double money1 = data.getMoney();//可用余额
                     double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
                     double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
-                    if (isAdded()) {
-                        if (text_worth != null) {
-                            text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
-                        }
+                    if (text_worth != null) {
+                        text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
                     }
 
                 });
