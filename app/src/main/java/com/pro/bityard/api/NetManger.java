@@ -67,9 +67,11 @@ public class NetManger {
 
     public static String BASE_URL = "https://test.bityard.com";   //测试
 
+    public static String QUOTE_HISTORY = "https://app.bityard.com";
+
     public static String SERVICE_URL = "https://v2.live800.com/live800/chatClient/chatbox.jsp?companyID=1360004&configID=128342&jid=1252134905&s=1&lan=%s&s=1&info=userId=%sname=%s";
 
-     // public static String BASE_URL = "https://www.bityard.com";    //正式
+    // public static String BASE_URL = "https://www.bityard.com";    //正式
 
     public static NetManger getInstance() {
 
@@ -182,8 +184,10 @@ public class NetManger {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        if (!TextUtils.isEmpty(response.body())) {
+                        if (!response.body().startsWith("err")) {
                             onNetResult.onNetResult(SUCCESS, response.body());
+                        } else {
+                            onNetResult.onNetResult(FAILURE, null);
                         }
                     }
 
@@ -306,14 +310,18 @@ public class NetManger {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
-                List<InitEntity.GroupBean> group = initEntity.getGroup();
-                // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                for (InitEntity.GroupBean data : group) {
-                    if (data.getName().equals("数字货币")) {
-                        String list = data.getList();
-                        onNetResult.onNetResult(SUCCESS, list);
+                if (initEntity.getGroup() != null) {
+                    String quoteDomain = initEntity.getQuoteDomain();
+                    List<InitEntity.GroupBean> group = initEntity.getGroup();
+                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
+                    for (InitEntity.GroupBean data : group) {
+                        if (data.getName().equals("数字货币")) {
+                            String list = data.getList();
+                            onNetResult.onNetResult(SUCCESS, list);
+                        }
                     }
                 }
+
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
 
@@ -329,25 +337,28 @@ public class NetManger {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
                 InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
-                List<InitEntity.GroupBean> group = initEntity.getGroup();
-                // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                for (InitEntity.GroupBean data : group) {
-                    if (data.getName().equals("数字货币")) {
-                        String list = data.getList();
-                        Log.d("print", "onNetResult:338:  "+list);
-                        getTradeList(list, (state1, response1) -> {
-                            if (state1.equals(BUSY)) {
+                if (initEntity.getGroup() != null) {
+                    List<InitEntity.GroupBean> group = initEntity.getGroup();
+                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
+                    for (InitEntity.GroupBean data : group) {
+                        if (data.getName().equals("数字货币")) {
+                            String list = data.getList();
+                            Log.d("print", "onNetResult:338:  " + list);
+                            getTradeList(list, (state1, response1) -> {
+                                if (state1.equals(BUSY)) {
 
-                            } else if (state1.equals(SUCCESS)) {
-                                String quoteDomain = initEntity.getQuoteDomain();//获取域名
-                                onNetResult.setResult(SUCCESS, quoteDomain, response1);
+                                } else if (state1.equals(SUCCESS)) {
+                                    String quoteDomain = initEntity.getQuoteDomain();//获取域名
+                                    onNetResult.setResult(SUCCESS, quoteDomain, response1);
 
-                            } else if (state1.equals(FAILURE)) {
-                                onNetResult.setResult(FAILURE, null, response1);
-                            }
-                        });//获取合约号
+                                } else if (state1.equals(FAILURE)) {
+                                    onNetResult.setResult(FAILURE, null, response1);
+                                }
+                            });//获取合约号
+                        }
                     }
                 }
+
             } else if (state.equals(FAILURE)) {
                 onNetResult.setResult(FAILURE, null, null);
             }
@@ -580,8 +591,9 @@ public class NetManger {
 
         getHostRequest(quoteDomain, url, map, (state, response) -> {
             if (state.equals(BUSY)) {
-
+                onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("print", "quote:85: " + response.toString());
                 onNetResult.onNetResult(SUCCESS, response.toString());
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);

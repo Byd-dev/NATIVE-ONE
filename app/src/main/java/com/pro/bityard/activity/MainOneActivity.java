@@ -1027,6 +1027,12 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     isEyeOpen = true;
                     if (isLogin()) {
 
+                        if (userDetailEntity==null){
+                            return;
+                        }
+                        if (userDetailEntity.getUser()==null){
+                            return;
+                        }
                         text_commissionRate.setText(TradeUtil.mul(userDetailEntity.getUser().getCommRatio(), 100) + "%");
                         text_byd_balance.setText(String.valueOf(userDetailEntity.getUser().getEagle()));
 

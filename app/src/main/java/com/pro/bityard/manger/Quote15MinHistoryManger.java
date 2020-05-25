@@ -78,11 +78,10 @@ public class Quote15MinHistoryManger extends Observable {
     int getCount=0;
     public void quote(String quote_code, int count) {
 
-        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", count, "/api/tv/tradingView/history", quote_code, "15", (state, response) -> {
+        NetManger.getInstance().getQuoteHistory(NetManger.QUOTE_HISTORY, count, "/api/tv/tradingView/history", quote_code, "15", (state, response) -> {
             if (state.equals(BUSY)) {
 
             } else if (state.equals(SUCCESS)) {
-
                 QuoteChartEntity quoteChartEntity = new Gson().fromJson(response.toString(), QuoteChartEntity.class);
                 if (quoteChartEntity.getS().equals("ok")) {
                     Log.d("print", "quote:88 "+"15Min:"+getCount++);

@@ -115,7 +115,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         super.onResume();
         loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity != null) {
-            text_url.setText("http://app.bityard.com/?ru=" + loginEntity.getUser().getRefer());
+            text_url.setText(NetManger.QUOTE_HISTORY+"/?ru=" + loginEntity.getUser().getRefer());
         }
 
     }
