@@ -1073,27 +1073,34 @@ public class NetManger {
             }
 
         } else {
-            /*获得多币种汇率*/
-            NetManger.getInstance().getRateList("USDT,BTC,ETH,XRP,HT,TRX,LINK", "USDT", (state, response) -> {
+
+            NetManger.getInstance().getInit((state, response) -> {
                 if (state.equals(SUCCESS)) {
-                    RateListEntity rateListEntity2 = (RateListEntity) response;
-                    Log.d("print", "rateList:最新:  " + rateListEntity2);
-                    SPUtils.putData(AppConfig.RATE_LIST, rateListEntity2);
-                    for (RateListEntity.ListBean rateList : rateListEntity2.getList()) {
-                        if (src.equals(rateList.getName())) {
-                            if (moneyType.equals("1")) {
-                                double mul = TradeUtil.mul(dataBean.getMoney(), rateList.getValue());
-                                onNetResult.onNetResult(SUCCESS, mul);
+                    InitEntity initEntity = (InitEntity) response;
+                    String supportCurrency = initEntity.getBrand().getSupportCurrency();
+                    /*获得多币种汇率*/
+                    NetManger.getInstance().getRateList(supportCurrency, "USDT", (state2, response2) -> {
+                        if (state2.equals(SUCCESS)) {
+                            RateListEntity rateListEntity2 = (RateListEntity) response2;
+                            SPUtils.putData(AppConfig.RATE_LIST, rateListEntity2);
+                            for (RateListEntity.ListBean rateList : rateListEntity2.getList()) {
+                                if (src.equals(rateList.getName())) {
+                                    if (moneyType.equals("1")) {
+                                        double mul = TradeUtil.mul(dataBean.getMoney(), rateList.getValue());
+                                        onNetResult.onNetResult(SUCCESS, mul);
 
-                            } else {
-                                double mul = TradeUtil.mul(dataBean.getGame(), rateList.getValue());
-                                onNetResult.onNetResult(SUCCESS, mul);
+                                    } else {
+                                        double mul = TradeUtil.mul(dataBean.getGame(), rateList.getValue());
+                                        onNetResult.onNetResult(SUCCESS, mul);
+                                    }
+
+                                }
                             }
-
                         }
-                    }
+                    });
                 }
             });
+
         }
     }
 

@@ -122,18 +122,7 @@ public class MarginHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
         }
     }
 
-    private void getRate(String currency, double money, OnResult onResult) {
-        RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
-        if (rateListEntity!=null){
-            for (RateListEntity.ListBean rateList : rateListEntity.getList()) {
-                if (currency.equals(rateList.getName())) {
 
-                    double mul = TradeUtil.mul(money, rateList.getValue());
-                    onResult.setResult(TradeUtil.getNumberFormat(mul, 2));
-                }
-            }
-        }
-    }
 
     @Override
     public int getItemViewType(int position) {
