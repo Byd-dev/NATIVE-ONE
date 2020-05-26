@@ -1,5 +1,7 @@
 package com.pro.bityard.manger;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.config.AppConfig;
@@ -46,7 +48,6 @@ public class InitManger extends Observable {
         //判断是否登录
         NetManger.getInstance().isLogin(response -> {
             boolean isLogin = (boolean) response;
-
             if (isLogin == true) {
                 PositionRealManger.getInstance().getHold();
                 PositionSimulationManger.getInstance().getHold();
@@ -54,6 +55,22 @@ public class InitManger extends Observable {
                 SPUtils.remove(AppConfig.LOGIN);
             }
         });
+
+
+        String currencyList = SPUtils.getString(AppConfig.SUPPORT_CURRENCY, null);
+
+        if (currencyList!=null){
+            /*获得多币种汇率*/
+            NetManger.getInstance().getRateList(currencyList, "USDT", (state2, response2) -> {
+                if (state2.equals(SUCCESS)) {
+                    RateListEntity rateListEntity = (RateListEntity) response2;
+                    SPUtils.putData(AppConfig.RATE_LIST, rateListEntity);
+                }
+            });
+        }else {
+
+        }
+
 
 
         //获取佣金比例
@@ -76,13 +93,9 @@ public class InitManger extends Observable {
         });
 
 
-        /*获得多币种汇率*/
-        NetManger.getInstance().getRateList("USDT,BTC,ETH,XRP,HT,TRX,LINK", "USDT", (state, response) -> {
-            if (state.equals(SUCCESS)) {
-                RateListEntity rateListEntity = (RateListEntity) response;
-                SPUtils.putData(AppConfig.RATE_LIST, rateListEntity);
-            }
-        });
+
+
+
 
         /*获取原先配置的货币单位汇率*/
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");

@@ -233,6 +233,12 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 fundItemEntity = new Gson().fromJson(response.toString(), FundItemEntity.class);
+                if (fundItemEntity == null) {
+                    return;
+                }
+                if (fundItemEntity.getData() == null) {
+                    return;
+                }
                 if (!fundItemEntity.getData().get(0).getName().equals("ALL")) {
                     fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));
                 }
@@ -314,36 +320,45 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(fundSelectAdapter);
-        if (fundItemEntity != null) {
-            List<FundItemEntity.DataBean> fundItemEntityData = fundItemEntity.getData();
-            fundSelectAdapter.setDatas(fundItemEntityData);
 
-            fundSelectAdapter.select(oldSelect);
-            /*监听*/
-            fundSelectAdapter.setOnItemClick((position, data) -> {
-                oldSelect = position;
-                fundSelectAdapter.select(position);
-                recyclerView.setAdapter(fundSelectAdapter);
-                fundSelectAdapter.notifyDataSetChanged();
-                text_select.setText(data.getName());
-                String code = data.getCode();
-                ChartUtil.setIcon(code, img_bg);
-
-
-                page = 0;
-                srcCurrency = data.getCode();
-                getWithdrawal(FIRST, null, null, "1", srcCurrency, "USDT", createTimeGe,
-                        createTimeLe, String.valueOf(page), "10");
-                popupWindow.dismiss();
-
-
-            });
-        }
 
         popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(false);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_select, Gravity.CENTER, 0, 0);
+
+        if (fundItemEntity == null) {
+            return;
+        }
+        if (fundItemEntity.getData() == null) {
+            return;
+        }
+
+        List<FundItemEntity.DataBean> fundItemEntityData = fundItemEntity.getData();
+        fundSelectAdapter.setDatas(fundItemEntityData);
+
+        fundSelectAdapter.select(oldSelect);
+        /*监听*/
+        fundSelectAdapter.setOnItemClick((position, data) -> {
+            oldSelect = position;
+            fundSelectAdapter.select(position);
+            recyclerView.setAdapter(fundSelectAdapter);
+            fundSelectAdapter.notifyDataSetChanged();
+            text_select.setText(data.getName());
+            String code = data.getCode();
+            ChartUtil.setIcon(code, img_bg);
+
+
+            page = 0;
+            srcCurrency = data.getCode();
+            getWithdrawal(FIRST, null, null, "1", srcCurrency, "USDT", createTimeGe,
+                    createTimeLe, String.valueOf(page), "10");
+            popupWindow.dismiss();
+
+
+        });
+
+
     }
 
     @Override

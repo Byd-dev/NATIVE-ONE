@@ -52,6 +52,9 @@ public class AppConfig {
     public static final String VALUE_LOSS = "VALUE_LOSS";
     /*汇率*/
     public static final String USD_RATE = "USD_RATE";
+    /*可支持的currency*/
+    public static final String SUPPORT_CURRENCY = "SUPPORT_CURRENCY";
+
     /*汇率*/
     public static final String USDT = "USDT";
     public static final String BTC = "BTC";

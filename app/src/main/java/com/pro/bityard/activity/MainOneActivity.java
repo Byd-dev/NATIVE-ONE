@@ -573,6 +573,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         //行情初始化
         QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
         TabManger.getInstance().addObserver(this);
+        //个人信息初始化
+        UserDetailManger.getInstance().addObserver(this);
         //初始化 交易设置
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
@@ -758,8 +760,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
-
-
 
         //首页 -------------------------------------------------------------------------------------
         getBanner();
@@ -1027,10 +1027,10 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     isEyeOpen = true;
                     if (isLogin()) {
 
-                        if (userDetailEntity==null){
+                        if (userDetailEntity == null) {
                             return;
                         }
-                        if (userDetailEntity.getUser()==null){
+                        if (userDetailEntity.getUser() == null) {
                             return;
                         }
                         text_commissionRate.setText(TradeUtil.mul(userDetailEntity.getUser().getCommRatio(), 100) + "%");

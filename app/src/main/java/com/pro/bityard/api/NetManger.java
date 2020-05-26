@@ -311,7 +311,6 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
                 if (initEntity.getGroup() != null) {
-                    String quoteDomain = initEntity.getQuoteDomain();
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
                     // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
                     for (InitEntity.GroupBean data : group) {
@@ -350,7 +349,7 @@ public class NetManger {
                                 } else if (state1.equals(SUCCESS)) {
                                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
                                     onNetResult.setResult(SUCCESS, quoteDomain, response1);
-
+                                    SPUtils.putString(AppConfig.SUPPORT_CURRENCY,initEntity.getBrand().getSupportCurrency());
                                 } else if (state1.equals(FAILURE)) {
                                     onNetResult.setResult(FAILURE, null, response1);
                                 }

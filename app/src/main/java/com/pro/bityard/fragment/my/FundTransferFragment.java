@@ -233,6 +233,12 @@ public class FundTransferFragment extends BaseFragment implements View.OnClickLi
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 fundItemEntity = new Gson().fromJson(response.toString(), FundItemEntity.class);
+                if (fundItemEntity==null){
+                    return;
+                }
+                if (fundItemEntity.getData()==null){
+                    return;
+                }
                 if (!fundItemEntity.getData().get(0).getName().equals("ALL")) {
                     fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));
                 }

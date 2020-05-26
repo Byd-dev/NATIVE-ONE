@@ -3,6 +3,7 @@ package com.pro.bityard.manger;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.pro.bityard.api.NetManger;
 
@@ -71,6 +72,8 @@ public class UserDetailManger extends Observable {
         NetManger.getInstance().userDetail((state, response) -> {
             if (state.equals(SUCCESS)) {
                 postDetail(response);
+                Log.d("print", "userDetail:初始化个人信息: 75: "+response.toString());
+
             }
         });
 
