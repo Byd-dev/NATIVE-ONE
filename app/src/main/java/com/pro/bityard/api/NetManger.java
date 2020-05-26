@@ -611,7 +611,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "quote:85: " + response.toString());
                 onNetResult.onNetResult(SUCCESS, response.toString());
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);

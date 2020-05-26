@@ -8,6 +8,7 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.fragment.hold.RuleFragment;
 import com.pro.bityard.fragment.my.AccountFragment;
 import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.AnnouncementFragment;
@@ -121,9 +122,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_HOLD:
                 addHoldFragment();
                 break;
+            case IntentConfig.Keys.RULE:
+                addRuleFragment();
+                break;
         }
 
 
+    }
+
+    private void addRuleFragment() {
+        String name = RuleFragment.class.getSimpleName();
+        //持仓
+        RuleFragment fragment = new RuleFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addHoldFragment() {

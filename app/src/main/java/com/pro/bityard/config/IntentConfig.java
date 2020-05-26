@@ -59,6 +59,9 @@ public class IntentConfig {
         public static final String KEY_FORGET = "FORGET";
         /**手机号码*/
         public static final String PHONE_NUMBER = "PHONE_NUMBER";
+        //规则
+        public static final String RULE = "RULE";
+
 
         /*验证码*/
         public static final String AUTH_CODE = "AUTH_CODE";

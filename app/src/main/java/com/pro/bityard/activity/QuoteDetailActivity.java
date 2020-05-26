@@ -401,6 +401,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.text_one_day).setOnClickListener(this);
         findViewById(R.id.text_one_week).setOnClickListener(this);
         findViewById(R.id.text_one_month).setOnClickListener(this);
+        findViewById(R.id.text_rule).setOnClickListener(this);
 
 
         radioGroupAdapter = new RadioGroupAdapter(this);
@@ -937,6 +938,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 } else {
                     LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
+                break;
+            /*规则*/
+            case R.id.text_rule:
+                UserActivity.enter(QuoteDetailActivity.this,IntentConfig.Keys.RULE);
                 break;
         }
     }
