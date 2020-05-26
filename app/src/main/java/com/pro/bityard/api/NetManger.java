@@ -328,6 +328,25 @@ public class NetManger {
         });
     }
 
+    /*获取初始化数据*/
+    public void getInit(OnNetResult onNetResult) {
+        /*获取行情的host*/
+        NetManger.getInstance().getRequest("/api/trade/commodity/initial", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
+                if (initEntity.getGroup() != null) {
+                  onNetResult.onNetResult(SUCCESS,initEntity);
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
 
     //行情init初始化
     public void initURL(OnNetTwoResult onNetResult) {

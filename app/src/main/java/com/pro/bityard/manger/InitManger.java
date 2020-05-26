@@ -1,11 +1,10 @@
 package com.pro.bityard.manger;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.switchlibrary.SPUtils;
@@ -59,7 +58,7 @@ public class InitManger extends Observable {
 
         String currencyList = SPUtils.getString(AppConfig.SUPPORT_CURRENCY, null);
 
-        if (currencyList!=null){
+        if (currencyList != null) {
             /*获得多币种汇率*/
             NetManger.getInstance().getRateList(currencyList, "USDT", (state2, response2) -> {
                 if (state2.equals(SUCCESS)) {
@@ -67,10 +66,22 @@ public class InitManger extends Observable {
                     SPUtils.putData(AppConfig.RATE_LIST, rateListEntity);
                 }
             });
-        }else {
+        } else {
+            NetManger.getInstance().getInit((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    InitEntity initEntity = (InitEntity) response;
+                    String supportCurrency = initEntity.getBrand().getSupportCurrency();
+                    /*获得多币种汇率*/
+                    NetManger.getInstance().getRateList(supportCurrency, "USDT", (state2, response2) -> {
+                        if (state2.equals(SUCCESS)) {
+                            RateListEntity rateListEntity = (RateListEntity) response2;
+                            SPUtils.putData(AppConfig.RATE_LIST, rateListEntity);
+                        }
+                    });
+                }
+            });
 
         }
-
 
 
         //获取佣金比例
