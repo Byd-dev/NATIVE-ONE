@@ -218,6 +218,12 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 fundItemEntity = new Gson().fromJson(response.toString(), FundItemEntity.class);
+                if (fundItemEntity==null){
+                    return;
+                }
+                if (fundItemEntity.getData()==null){
+                    return;
+                }
                 if (!fundItemEntity.getData().get(0).getName().equals("ALL")) {
                     fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));
                 }
@@ -307,6 +313,16 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(fundSelectAdapter);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setContentView(view);
+        popupWindow.showAsDropDown(layout_select, Gravity.CENTER, 0, 0);
+        if (fundItemEntity==null){
+            return;
+        }
+        if (fundItemEntity.getData()==null){
+            return;
+        }
         if (fundItemEntity != null) {
             List<FundItemEntity.DataBean> fundItemEntityData = fundItemEntity.getData();
             fundSelectAdapter.setDatas(fundItemEntityData);
@@ -337,10 +353,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
             });
         }
 
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setContentView(view);
-        popupWindow.showAsDropDown(layout_select, Gravity.CENTER, 0, 0);
+
     }
 
     @Override
