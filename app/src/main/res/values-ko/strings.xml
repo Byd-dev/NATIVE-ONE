@@ -350,5 +350,6 @@
     <string name="text_language_set">언어 설정</string>
     <string name="text_more">더보기</string>
     <string name="text_trade_fees">수수료</string>
+    <string name="text_trade_rule">계약거래</string>
 
 </resources>

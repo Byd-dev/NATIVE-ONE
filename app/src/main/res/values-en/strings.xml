@@ -349,5 +349,6 @@
     <string name="text_language_set">Language</string>
     <string name="text_more">More</string>
     <string name="text_trade_fees">Trading Fees</string>
+    <string name="text_trade_rule">Trade</string>
 
 </resources>

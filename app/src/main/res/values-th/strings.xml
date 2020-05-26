@@ -350,5 +350,6 @@
     <string name="text_language_set">Язык</string>
     <string name="text_more">Другое</string>
     <string name="text_trade_fees">К-ия за тр-цию</string>
+    <string name="text_trade_rule">Торговля</string>
 
 </resources>

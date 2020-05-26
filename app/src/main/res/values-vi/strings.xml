@@ -350,5 +350,6 @@
     <string name="text_language_set">Ngôn ngữ</string>
     <string name="text_more">Thêm</string>
     <string name="text_trade_fees">Phí giao dịch</string>
+    <string name="text_trade_rule">Giao dịch</string>
 
 </resources>

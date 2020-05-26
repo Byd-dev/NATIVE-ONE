@@ -350,6 +350,7 @@
     <string name="text_language_set">语言设置</string>
     <string name="text_more">更多</string>
     <string name="text_trade_fees">本次支付手续费</string>
+    <string name="text_trade_rule">合约交易</string>
 
 
 </resources>

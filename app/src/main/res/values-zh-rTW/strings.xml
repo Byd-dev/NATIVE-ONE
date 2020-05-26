@@ -350,5 +350,6 @@
     <string name="text_language_set">語言設置</string>
     <string name="text_more">更多</string>
     <string name="text_trade_fees">本次支付手續費</string>
+    <string name="text_trade_rule">合約交易</string>
 
 </resources>
