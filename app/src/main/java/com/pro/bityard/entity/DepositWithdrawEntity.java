@@ -176,14 +176,14 @@ public class DepositWithdrawEntity {
         private long finishTime;
         private String id;
         private String idStr;
-        private int money;
+        private double money;
         private String payNumber;
         private String payOrder;
         private String payOrderTx;
         private Object realname;
         private String remark;
         private String srcCurrency;
-        private int srcMoney;
+        private double srcMoney;
         private int status;
         private Object statusDesc;
         private String txid;
@@ -329,11 +329,11 @@ public class DepositWithdrawEntity {
             this.idStr = idStr;
         }
 
-        public int getMoney() {
+        public double getMoney() {
             return money;
         }
 
-        public void setMoney(int money) {
+        public void setMoney(double money) {
             this.money = money;
         }
 
@@ -385,11 +385,11 @@ public class DepositWithdrawEntity {
             this.srcCurrency = srcCurrency;
         }
 
-        public int getSrcMoney() {
+        public double getSrcMoney() {
             return srcMoney;
         }
 
-        public void setSrcMoney(int srcMoney) {
+        public void setSrcMoney(double srcMoney) {
             this.srcMoney = srcMoney;
         }
 
