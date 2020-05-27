@@ -1,5 +1,7 @@
 package com.pro.bityard.entity;
 
+import com.pro.bityard.utils.TradeUtil;
+
 import java.util.List;
 
 public class HistoryEntity {
@@ -261,7 +263,8 @@ public class HistoryEntity {
             if (Double.parseDouble(deferFee) == 0) {
                 return "N/A";
             } else {
-                return deferFee;
+                return TradeUtil.getNumberFormat(Double.parseDouble(deferFee),2);
+
             }
         }
 

@@ -1,5 +1,7 @@
 package com.pro.bityard.entity;
 
+import com.pro.bityard.utils.TradeUtil;
+
 import java.util.List;
 
 public class TradeHistoryEntity {
@@ -149,8 +151,8 @@ public class TradeHistoryEntity {
         private double cpPrice;
         private double cpVolume;
         private String currency;
-        private int deferDays;
-        private double deferFee;
+        private String deferDays;
+        private String deferFee;
         private int eagleDeduction;
         private String followId;
         private String id;
@@ -253,19 +255,27 @@ public class TradeHistoryEntity {
             this.currency = currency;
         }
 
-        public int getDeferDays() {
-            return deferDays;
+        public String getDeferDays() {
+            if (Double.parseDouble(deferDays) == 0) {
+                return "N/A";
+            } else {
+                return deferDays;
+            }
         }
 
-        public void setDeferDays(int deferDays) {
+        public void setDeferDays(String deferDays) {
             this.deferDays = deferDays;
         }
 
-        public double getDeferFee() {
-            return deferFee;
+        public String getDeferFee() {
+            if (Double.parseDouble(deferFee) == 0) {
+                return "N/A";
+            } else {
+                return TradeUtil.getNumberFormat(Double.parseDouble(deferFee),2);
+            }
         }
 
-        public void setDeferFee(double deferFee) {
+        public void setDeferFee(String deferFee) {
             this.deferFee = deferFee;
         }
 
