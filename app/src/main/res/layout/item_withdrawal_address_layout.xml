@@ -25,7 +25,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:text=""
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal_two" />
 
 
@@ -75,7 +75,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="left|center_vertical"
                         android:text="@string/text_default"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal_two" />
 
                     <TextView

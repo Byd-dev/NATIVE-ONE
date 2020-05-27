@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/text_add_margin"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal"
 
                 />
@@ -67,7 +67,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:inputType="numberDecimal"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textColorHint="@color/text_second_color"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/size_normal" />
@@ -168,7 +168,7 @@
                         android:layout_centerVertical="true"
                         android:text="--"
                         android:textSize="@dimen/size_normal"
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -176,7 +176,7 @@
                         android:layout_centerInParent="true"
                         android:text="→"
 
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                     <TextView
                         android:id="@+id/text_margin_after"
@@ -187,7 +187,7 @@
                         android:text="--"
                         android:textSize="@dimen/size_normal"
 
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -221,14 +221,14 @@
                         android:text="--"
                         android:textSize="@dimen/size_normal"
 
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="→"
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                     <TextView
                         android:id="@+id/text_lever_after"
@@ -239,7 +239,7 @@
                         android:text="--"
                         android:textSize="@dimen/size_normal"
 
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -272,14 +272,14 @@
                         android:text="--"
                         android:textSize="@dimen/size_normal"
 
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="→"
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                     <TextView
                         android:id="@+id/text_stop_profit_after"
@@ -290,7 +290,7 @@
                         android:text="--"
                         android:textSize="@dimen/size_normal"
 
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -323,14 +323,14 @@
                         android:text="--"
                         android:textSize="@dimen/size_normal"
 
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="→"
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                     <TextView
                         android:id="@+id/text_stop_loss_after"
@@ -341,7 +341,7 @@
                         android:text="--"
                         android:textSize="@dimen/size_normal"
 
-                        android:textColor="@color/text_maincolor" />
+                        android:textColor="@color/text_main_color" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -421,7 +421,7 @@
                 android:background="@color/edit_color"
                 android:gravity="center"
                 android:text="@string/text_cancel_position"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal" />
 
             <TextView

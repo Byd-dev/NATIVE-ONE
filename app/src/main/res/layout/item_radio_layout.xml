@@ -19,7 +19,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:text=""
-        android:textColor="@color/text_maincolor"
+        android:textColor="@color/text_main_color"
         android:textSize="@dimen/size_normal_two"
         android:typeface="monospace" />
 

@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
 import com.pro.bityard.utils.TradeUtil;
-import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +95,7 @@ public class QuoteHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
             } else if (Integer.parseInt(tag) == 0) {
 
-                ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_maincolor));
+                ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_main_color));
 
             }
 

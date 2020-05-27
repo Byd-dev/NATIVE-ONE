@@ -590,7 +590,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             textView.setMaxLines(1);
             textView.setEllipsize(TextUtils.TruncateAt.END);
             textView.setLineSpacing(1.1f, 1.1f);
-            textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(this), R.color.text_maincolor));
+            textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(this), R.color.text_main_color));
             textView.setTextSize(13);
             textView.setSingleLine();
             return textView;

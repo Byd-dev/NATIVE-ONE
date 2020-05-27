@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/text_bind_email"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/title_size" />
 
 
@@ -65,7 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_email"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal"
 
                     />
@@ -86,7 +86,7 @@
                         android:hint="@string/text_email_input"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textColorHint="@color/color_hint"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/hint_size" />
@@ -110,7 +110,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_email_code"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal"
 
                     />
@@ -133,7 +133,7 @@
                         android:hint="@string/text_email_code_input"
                         android:inputType="number"
                         android:maxLines="1"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textColorHint="@color/color_hint"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/hint_size" />

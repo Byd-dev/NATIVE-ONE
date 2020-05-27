@@ -34,7 +34,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:text="BTC"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big"
                     android:typeface="monospace" />
 
@@ -67,7 +67,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="--"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal"
                     android:typeface="monospace" />
 
@@ -147,7 +147,7 @@
                             android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
 
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 
@@ -180,7 +180,7 @@
                             android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
 
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 
@@ -219,7 +219,7 @@
                             android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
 
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 
@@ -252,7 +252,7 @@
                             android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
 
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 

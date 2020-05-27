@@ -36,6 +36,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class UserActivity extends BaseActivity {
     private static final String TYPE = "USER_TYPE";
+    private static final String VALUE = "VALUE";
 
     private FragmentTransaction ft;
 
@@ -51,13 +52,20 @@ public class UserActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-
+    public static void enter(Context context, String type,String value) {
+        Intent intent = new Intent(context, UserActivity.class);
+        intent.putExtra(TYPE, type);
+        intent.putExtra(VALUE,value);
+        context.startActivity(intent);
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.setStatusBarDarkTheme(this, false);
         Intent intent = getIntent();
         String type = intent.getStringExtra(TYPE);
+
+        String value = intent.getStringExtra(VALUE);
 
 
         assert type != null;
@@ -123,17 +131,17 @@ public class UserActivity extends BaseActivity {
                 addHoldFragment();
                 break;
             case IntentConfig.Keys.RULE:
-                addRuleFragment();
+                addRuleFragment(value);
                 break;
         }
 
 
     }
 
-    private void addRuleFragment() {
+    private void addRuleFragment(String value) {
         String name = RuleFragment.class.getSimpleName();
         //持仓
-        RuleFragment fragment = new RuleFragment();
+        RuleFragment fragment = new RuleFragment().newInstance(value);
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, fragment, name);
         ft.addToBackStack(name);

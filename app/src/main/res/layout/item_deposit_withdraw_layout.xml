@@ -24,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:text="提币"
                 android:textSize="@dimen/size_normal_two"
-                android:textColor="@color/text_maincolor"/>
+                android:textColor="@color/text_main_color"/>
 
             <TextView
                 android:id="@+id/text_time"
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:text="--"
                 android:textSize="@dimen/size_bigger"
-                android:textColor="@color/text_maincolor"/>
+                android:textColor="@color/text_main_color"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:text="50"
                     android:textSize="@dimen/size_normal"
-                    android:textColor="@color/text_maincolor"/>
+                    android:textColor="@color/text_main_color"/>
                 <TextView
                     android:id="@+id/text_currency"
                     android:layout_width="wrap_content"

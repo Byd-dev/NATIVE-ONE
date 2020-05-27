@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/text_spsl"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal"
 
                 />
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:text="BTC"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_big"
                 android:typeface="monospace" />
 
@@ -53,7 +53,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@+id/text_name"
                 android:text="/USDT"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_big"
                 android:typeface="monospace" />
 
@@ -75,7 +75,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_15"
                 android:text="--"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal"
                 android:typeface="monospace" />
 
@@ -232,7 +232,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_profit_forward"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal" />
 
                     <LinearLayout
@@ -263,7 +263,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:inputType="numberDecimal"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textColorHint="@color/text_second_color"
                             android:textCursorDrawable="@null"
                             android:textSize="@dimen/size_normal" />
@@ -370,7 +370,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_loss_forward"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal" />
 
                     <LinearLayout
@@ -401,7 +401,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:inputType="numberDecimal"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textColorHint="@color/text_second_color"
 
                             android:textCursorDrawable="@null"
@@ -508,7 +508,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_profit_price"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal" />
 
                     <LinearLayout
@@ -539,7 +539,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:inputType="numberDecimal"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textColorHint="@color/text_second_color"
                             android:textCursorDrawable="@null"
                             android:textSize="@dimen/size_normal" />
@@ -643,7 +643,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_stoploss_price"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal" />
 
                     <LinearLayout
@@ -674,7 +674,7 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:inputType="numberDecimal"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textColorHint="@color/text_second_color"
                             android:textCursorDrawable="@null"
@@ -776,7 +776,7 @@
                 android:background="@color/edit_color"
                 android:gravity="center"
                 android:text="@string/text_cancel_position"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal" />
 
             <TextView

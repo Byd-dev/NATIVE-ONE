@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_select"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal"
 
                 />
@@ -121,7 +121,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_number"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal"
 
                 />
@@ -142,7 +142,7 @@
                     android:hint="@string/text_input_number"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/hint_size" />
@@ -166,7 +166,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_mobile_code"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal"
 
                 />
@@ -189,7 +189,7 @@
                     android:hint="@string/text_mobile_code_input"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/hint_size" />

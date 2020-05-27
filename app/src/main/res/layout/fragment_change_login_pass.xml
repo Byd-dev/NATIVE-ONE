@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_old_pass"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal_two"
 
             />
@@ -44,7 +44,7 @@
                 android:hint="@string/text_old_pass_input"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textColorHint="@color/color_hint"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/hint_size" />
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="新密码"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal_two"
 
             />
@@ -101,7 +101,7 @@
                 android:hint="@string/text_edit_pass_new"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textColorHint="@color/color_hint"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/hint_size" />
@@ -134,7 +134,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_pass_new_sure"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal_two"
 
             />
@@ -157,7 +157,7 @@
                 android:hint="@string/text_edit_pass_new_sure"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textColorHint="@color/color_hint"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/hint_size" />
@@ -191,7 +191,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_email_code"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal_two"
 
             />
@@ -214,7 +214,7 @@
                 android:hint="@string/text_email_code_input"
                 android:inputType="text"
                 android:maxLines="1"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textColorHint="@color/color_hint"
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/hint_size" />

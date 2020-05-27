@@ -351,5 +351,32 @@
     <string name="text_more">Другое</string>
     <string name="text_trade_fees">К-ия за тр-цию</string>
     <string name="text_trade_rule">Торговля</string>
+    <string name="text_trading_rules">Информация</string>
+    <string name="text_trade_name">Данные Контракта</string>
+    <string name="text_min_margin">Мин-маржа</string>
+    <string name="text_5_usdt">5 USDT</string>
+    <string name="text_max_margin">Макс-маржа</string>
+    <string name="text_max_usdt">20000 USDT</string>
+    <string name="text_trade_time">Торговые часы</string>
+    <string name="text_7_24">7×24H</string>
+    <string name="text_leverage">Рычаг</string>
+    <string name="text_20_100">20X ~ 100X</string>
+    <string name="text_forever">Бессрочный</string>
+    <string name="text_closing_time">Время закрытия</string>
+    <string name="text_fees">Сборы</string>
+    <string name="text_margin_rule">Маржа*(Рычаг-1)*</string>
+    <string name="text_lever_rule">Маржа*(Рычаг-1)*0.045%</string>
+    <string name="text_fee_charge">Взимать комиссию за ночь</string>
+    <string name="text_issue_time">Время выпуска</string>
+    <string name="text_introduction">Введение</string>
+    <string name="text_issue_amount">Объем циркуляции</string>
+    <string name="text_circulation_volume">В обращении</string>
+    <string name="text_crowd_price">Краудфандинг</string>
+    <string name="text_white_paper">Белая книга</string>
+    <string name="text_website">Веп-сайт</string>
+    <string name="text_block_query">Запрос блока</string>
+    <string name="text_o_n_rules">Правила O / N</string>
+    <string name="text_o_n_rule">При включении заказ можно удерживать всю ночь (сверх 05:55:00 по Сингапурскому времени), при этом будет начислена комиссия за ночь. Удерживать всю ночь= Маржа*(Рычаг-1)*0.045%. При отключении заказ будет закрыт системой до 05:55:00 по Сингапурскому времени.</string>
+    <string name="text_introduction_simple">Введение</string>
 
 </resources>

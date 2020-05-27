@@ -351,5 +351,32 @@
     <string name="text_more">更多</string>
     <string name="text_trade_fees">本次支付手續費</string>
     <string name="text_trade_rule">合約交易</string>
+    <string name="text_trading_rules">交易規則</string>
+    <string name="text_trade_name">交易品種</string>
+    <string name="text_min_margin">最低保證金</string>
+    <string name="text_5_usdt">5 USDT</string>
+    <string name="text_max_margin">最高保證金</string>
+    <string name="text_max_usdt">20000 USDT</string>
+    <string name="text_trade_time">交易時間</string>
+    <string name="text_7_24">7×24H</string>
+    <string name="text_leverage">交易杠桿</string>
+    <string name="text_20_100">20X ~ 100X</string>
+    <string name="text_forever">永久</string>
+    <string name="text_closing_time">不持倉過夜</string>
+    <string name="text_fees">费率</string>
+    <string name="text_margin_rule">保證金*(杠桿-1)*</string>
+    <string name="text_lever_rule">保證金*(杠桿-1)*0.045%</string>
+    <string name="text_fee_charge">過夜費收取</string>
+    <string name="text_issue_time">發行時間</string>
+    <string name="text_introduction">介紹</string>
+    <string name="text_issue_amount">發行總量</string>
+    <string name="text_circulation_volume">流通總量</string>
+    <string name="text_crowd_price">眾籌價格</string>
+    <string name="text_white_paper">白皮書</string>
+    <string name="text_website">官網</string>
+    <string name="text_block_query">區塊鏈查詢</string>
+    <string name="text_o_n_rules">過夜規則</string>
+    <string name="text_o_n_rule">開啟後，訂單可持倉過夜（超過新加坡時間 05:55:00），但會收取一定的過夜費，過夜費 = 保證金（杠桿-1）0.045% 如未開啟，訂單會在新加坡時間 05:55:00 被系統強制平倉</string>
+    <string name="text_introduction_simple">簡介</string>
 
 </resources>

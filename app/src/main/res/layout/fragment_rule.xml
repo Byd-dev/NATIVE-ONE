@@ -10,8 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:overScrollMode="never"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,8 +35,6 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-
-
             </RelativeLayout>
 
             <View
@@ -46,30 +44,45 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:background="@color/color_bg_left"
-                android:layout_height="@dimen/margin_setup">
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
-                    android:drawablePadding="@dimen/margin_16"
-                    android:gravity="center"
-                    android:text="@string/text_buy_price"
-                    android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal_two" />
+                    android:orientation="horizontal">
 
+                    <ImageView
+                        android:id="@+id/img_bg"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/icon_usdt" />
+
+                    <TextView
+                        android:id="@+id/text_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:text="@string/text_default"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="18sp"
+                        android:typeface="monospace" />
+
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/text_open_price"
+                    android:id="@+id/text_name_en"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -88,21 +101,9 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_price"
-                    android:textColor="@color/text_second_color"
+                    android:text="@string/text_trading_rules"
+                    android:textColor="@color/maincolor"
                     android:textSize="@dimen/size_normal_two" />
-
-
-                <TextView
-                    android:id="@+id/text_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_15"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
-                    android:textSize="@dimen/size_big" />
 
 
             </RelativeLayout>
@@ -114,7 +115,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_setup">
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -123,21 +125,39 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_stoploss_price"
-                    android:textColor="@color/text_second_color"
+                    android:text="@string/text_trade_name"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
-
-                <TextView
-                    android:id="@+id/text_loss_price"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
-                    android:textSize="@dimen/size_big" />
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/text_trade_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:text="@string/text_default"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="18sp"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="/--"
+                        android:textColor="@color/text_quote_color"
+                        android:textSize="12sp"
+                        android:typeface="monospace" />
+
+                </LinearLayout>
 
 
             </RelativeLayout>
@@ -155,8 +175,8 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_profit_price"
-                    android:textColor="@color/text_second_color"
+                    android:text="@string/text_min_margin"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
 
@@ -167,8 +187,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:text="@string/text_5_usdt"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -178,7 +198,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_setup">
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -187,20 +208,19 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_lever"
-                    android:textColor="@color/text_second_color"
+                    android:text="@string/text_max_margin"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
 
                 <TextView
-                    android:id="@+id/text_lever"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:text="@string/text_max_usdt"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -219,68 +239,19 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_qty"
-                    android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal_two"
-                   />
+                    android:text="@string/text_trade_time"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
 
 
                 <TextView
-                    android:id="@+id/text_order"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
-                    android:textSize="@dimen/size_big" />
-
-
-            </RelativeLayout>
-
-            <include layout="@layout/layout_line" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_setup">
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:gravity="left|center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_frozen"
-                        android:textColor="@color/text_maincolor"
-                        android:textSize="@dimen/size_normal"
-
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_5"
-                        android:text="@string/text_margin"
-                        android:textColor="@color/text_second_color"
-                        android:textSize="@dimen/size_normal_two" />
-                </LinearLayout>
-
-
-                <TextView
-                    android:id="@+id/text_margin"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_15"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:text="@string/text_7_24"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -291,54 +262,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_setup">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:gravity="left|center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_paid"
-                        android:textColor="@color/text_maincolor"
-                        android:textSize="@dimen/size_normal"
-
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_5"
-                        android:gravity="center"
-                        android:text="@string/text_service_pop"
-                        android:textColor="@color/text_second_color"
-                        android:textSize="@dimen/size_normal_two" />
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/text_fee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/margin_15"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
-                    android:textSize="@dimen/size_big" />
-
-
-            </RelativeLayout>
-
-            <include layout="@layout/layout_line" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_setup">
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -347,8 +272,8 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_o_n_fee"
-                    android:textColor="@color/text_second_color"
+                    android:text="@string/text_leverage"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
 
@@ -359,8 +284,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:text="@string/text_20_100"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -379,20 +304,19 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_o_n"
-                    android:textColor="@color/text_second_color"
+                    android:text="持仓时间"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
 
                 <TextView
-                    android:id="@+id/text_o_n"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:text="@string/text_forever"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -426,7 +350,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -436,7 +360,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_setup">
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
 
                 <TextView
                     android:id="@+id/stay_time"
@@ -446,20 +371,19 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_open_time"
-                    android:textColor="@color/text_maincolor"
+                    android:text="@string/text_closing_time"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
 
                 <TextView
-                    android:id="@+id/text_open_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_toRightOf="@+id/stay_time"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="新加坡时间 05:55:00自动平仓"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -473,28 +397,445 @@
                 android:layout_height="@dimen/margin_setup">
 
                 <TextView
-                    android:id="@+id/stay_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_order_id"
-                    android:textColor="@color/text_maincolor"
+                    android:text="@string/text_fees"
+                    android:textColor="@color/maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_service_pop"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_margin_rule"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big" />
+
+                    <TextView
+                        android:id="@+id/text_fees"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.15%"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_o_n_fee"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/text_lever_rule"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_fee_charge"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
 
                 <TextView
-                    android:id="@+id/text_order_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="新加坡时间每日05:55:00"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_toRightOf="@+id/stay_id"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_introduction"
+                    android:textColor="@color/maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_issue_time"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <TextView
+                    android:id="@+id/text_issue_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_issue_amount"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <TextView
+                    android:id="@+id/text_issue_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_circulation_volume"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <TextView
+                    android:id="@+id/text_circulation_volume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_crowd_price"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <TextView
+                    android:id="@+id/text_crowd_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_white_paper"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <TextView
+                    android:id="@+id/text_white_paper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_website"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <TextView
+                    android:id="@+id/text_website"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:background="@color/color_bg_left">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_block_query"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <TextView
+                    android:id="@+id/text_block_query"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_o_n_rules"
+                    android:textColor="@color/maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_bg_left">
+
+                <TextView
+                    android:id="@+id/text_o_n_rule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/margin_15"
+                    android:text="@string/text_o_n_rule"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_introduction_simple"
+                    android:textColor="@color/maincolor"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_bg_left">
+
+                <TextView
+                    android:id="@+id/text_introduction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two" />
 
 
             </RelativeLayout>
@@ -504,7 +845,6 @@
         </LinearLayout>
 
     </ScrollView>
-
 
 
 </LinearLayout>

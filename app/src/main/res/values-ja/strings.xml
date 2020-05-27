@@ -351,6 +351,33 @@
     <string name="text_more">更多</string>
     <string name="text_trade_fees">本次支付手续费</string>
     <string name="text_trade_rule">合约交易</string>
+    <string name="text_trading_rules">交易规则</string>
+    <string name="text_trade_name">交易品种</string>
+    <string name="text_min_margin">最低保证金</string>
+    <string name="text_5_usdt">5 USDT</string>
+    <string name="text_max_margin">最高保证金</string>
+    <string name="text_max_usdt">20000 USDT</string>
+    <string name="text_trade_time">交易时间</string>
+    <string name="text_7_24">7×24H</string>
+    <string name="text_leverage">交易杠杆</string>
+    <string name="text_20_100">20X ~ 100X</string>
+    <string name="text_forever">永久</string>
+    <string name="text_closing_time">不持仓过夜</string>
+    <string name="text_fees">费率</string>
+    <string name="text_margin_rule">保证金*(杠杆-1)*</string>
+    <string name="text_lever_rule">保证金*(杠杆-1)*0.045%</string>
+    <string name="text_fee_charge">过夜费收取</string>
+    <string name="text_issue_time">发行时间</string>
+    <string name="text_introduction">介绍</string>
+    <string name="text_issue_amount">发行总量</string>
+    <string name="text_circulation_volume">流通总量</string>
+    <string name="text_crowd_price">众筹价格</string>
+    <string name="text_white_paper">白皮书</string>
+    <string name="text_website">官网</string>
+    <string name="text_block_query">区块链查询</string>
+    <string name="text_o_n_rules">过夜规则</string>
+    <string name="text_o_n_rule">开启后，订单可持仓过夜（超过新加坡时间 05:55:00），但会收取一定的过夜费，过夜费 = 保证金*（杠杆-1） * 0.045% 如未开启，订单会在新加坡时间 05:55:00 被系统强制平仓</string>
+    <string name="text_introduction_simple">简介</string>
 
 
 </resources>

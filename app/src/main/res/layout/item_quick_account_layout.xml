@@ -36,7 +36,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:text="USDT"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_big" />
 
         </LinearLayout>

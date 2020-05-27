@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/text_trade_set"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/title_size" />
 
 
@@ -55,7 +55,7 @@
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_15"
                 android:text="@string/text_stop_profit_rate"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal_two" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -81,7 +81,7 @@
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_15"
                 android:text="@string/text_stop_loss_rate"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal_two" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -108,7 +108,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:text="@string/text_defer_sure"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal" />
 
             <ImageView
@@ -134,7 +134,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:text="@string/text_order_sure"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal" />
 
             <ImageView
@@ -161,7 +161,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:text="@string/text_close_sure"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal" />
 
             <ImageView

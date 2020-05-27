@@ -10,14 +10,11 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.utils.TradeUtil;
-import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
-
-import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 
 public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -102,7 +99,7 @@ public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             } else {
                 ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_pop_item));
-                ((MyViewHolder) holder).text_name.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                ((MyViewHolder) holder).text_name.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_main_color));
                 ((MyViewHolder) holder).text_price.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_second_color));
                 ((MyViewHolder) holder).text_name_usdt.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_second_color));
             }

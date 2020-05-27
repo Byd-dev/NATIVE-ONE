@@ -35,7 +35,7 @@
                     android:text="BTC"
                     android:typeface="monospace"
 
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
                 <TextView
@@ -68,7 +68,7 @@
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="--"
                     android:typeface="monospace"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal" />
 
             </RelativeLayout>
@@ -145,7 +145,7 @@
                             android:layout_height="wrap_content"
                             android:text="--"
                             android:layout_marginLeft="@dimen/margin_5"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
 
@@ -175,7 +175,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="--"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:layout_marginLeft="@dimen/margin_5"
                             android:typeface="monospace"
@@ -213,7 +213,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="--"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:layout_marginLeft="@dimen/margin_5"
                             android:typeface="monospace"
@@ -244,7 +244,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="--"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:layout_marginLeft="@dimen/margin_5"
                             android:typeface="monospace"

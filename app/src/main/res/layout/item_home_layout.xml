@@ -130,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="交易挖矿"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="16sp"
                     android:visibility="visible" />
 
@@ -183,7 +183,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:text="@string/text_trade_bonus"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
@@ -212,7 +212,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:text="@string/text_trade_simulation"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="14sp"
                     android:visibility="visible" />
 
@@ -246,7 +246,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:text="@string/text_recommend"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

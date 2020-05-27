@@ -32,7 +32,7 @@
                 android:layout_marginRight="@dimen/margin_10"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_big" />
 
 

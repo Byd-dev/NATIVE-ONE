@@ -23,7 +23,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:gravity="center"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal_two" />
 
 
@@ -65,7 +65,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_15"
                 android:text="@string/text_default"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_big" />
 
         </RelativeLayout>
@@ -94,7 +94,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_15"
                 android:text="@string/text_default"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_big" />
 
         </RelativeLayout>

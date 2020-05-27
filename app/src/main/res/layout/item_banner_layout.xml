@@ -25,7 +25,7 @@
             android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:layout_margin="@dimen/margin_15"
-            android:textColor="@color/text_maincolor" />
+            android:textColor="@color/text_main_color" />
     </RelativeLayout>
 
 

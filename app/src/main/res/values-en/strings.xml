@@ -350,5 +350,32 @@
     <string name="text_more">More</string>
     <string name="text_trade_fees">Trading Fees</string>
     <string name="text_trade_rule">Trade</string>
+    <string name="text_trading_rules">Trading Rules</string>
+    <string name="text_trade_name">Name</string>
+    <string name="text_min_margin">Min-Margin</string>
+    <string name="text_5_usdt">5 USDT</string>
+    <string name="text_max_margin">Max-Margin</string>
+    <string name="text_max_usdt">20000 USDT</string>
+    <string name="text_trade_time">Trading Hours</string>
+    <string name="text_7_24">7×24H</string>
+    <string name="text_leverage">Leverage</string>
+    <string name="text_20_100">20X ~ 100X</string>
+    <string name="text_forever">Permanent</string>
+    <string name="text_closing_time">Closing Time</string>
+    <string name="text_fees">Fees</string>
+    <string name="text_margin_rule">Margin*(leverage-1)*</string>
+    <string name="text_lever_rule">Margin*(leverage-1)*0.045%</string>
+    <string name="text_fee_charge">O/N Fee Charge</string>
+    <string name="text_issue_time">Issue Time</string>
+    <string name="text_introduction">Introduction</string>
+    <string name="text_issue_amount">Issue Amount</string>
+    <string name="text_circulation_volume">Circulation Volume</string>
+    <string name="text_crowd_price">Crowdfunding Price</string>
+    <string name="text_white_paper">White Paper</string>
+    <string name="text_website">Website</string>
+    <string name="text_block_query">Block query</string>
+    <string name="text_o_n_rules">O/N Rules</string>
+    <string name="text_o_n_rule">Select on, the order can be held overnight (after Singapore time 05:55:00 ),Overnight Fee will be charged，Overnight Fees=Margin*(Leverage-1)*0.045%，If select off, the order will be closed  by the system at Singapore time 05:55:00</string>
+    <string name="text_introduction_simple">Introduction</string>
 
 </resources>

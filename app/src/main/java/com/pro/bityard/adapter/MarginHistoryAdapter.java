@@ -5,20 +5,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.api.OnResult;
-import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.MarginHistoryEntity;
-import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.utils.ChartUtil;
-import com.pro.bityard.utils.TradeUtil;
-import com.pro.bityard.utils.Util;
-import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +93,7 @@ public class MarginHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((MyViewHolder) holder).text_tip.setText(R.string.text_open_tip);
             ((MyViewHolder) holder).text_margin_tip.setText(R.string.text_margin_start);
             ((MyViewHolder) holder).text_lever_tip.setText(R.string.text_initial_leverage);
-            ((MyViewHolder) holder).text_tip.setTextColor(context.getResources().getColor(R.color.text_maincolor));
+            ((MyViewHolder) holder).text_tip.setTextColor(context.getResources().getColor(R.color.text_main_color));
         }else {
             ((MyViewHolder) holder).text_tip.setText(String.valueOf(position));
             ((MyViewHolder) holder).text_margin_tip.setText(R.string.text_additional_margin);

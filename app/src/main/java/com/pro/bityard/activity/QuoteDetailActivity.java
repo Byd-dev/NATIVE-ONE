@@ -620,9 +620,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case "0":
 
-                text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-                text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-                text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_main_color));
+                text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_main_color));
+                text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_main_color));
 
                 break;
             default:
@@ -941,7 +941,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             /*规则*/
             case R.id.text_rule:
-                UserActivity.enter(QuoteDetailActivity.this,IntentConfig.Keys.RULE);
+                UserActivity.enter(QuoteDetailActivity.this,IntentConfig.Keys.RULE,TradeUtil.itemQuoteContCode(quote));
                 break;
         }
     }
@@ -1352,9 +1352,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 } else if (itemQuoteIsRange(this.quote).equals("0")) {
 
-                    text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-                    text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-                    text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
+                    text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_main_color));
+                    text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_main_color));
+                    text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_main_color));
 
                 }
 

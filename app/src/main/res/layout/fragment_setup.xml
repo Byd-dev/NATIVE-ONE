@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/text_setup"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/title_size" />
 
 
@@ -49,7 +49,7 @@
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
             android:text="@string/text_language"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
         <TextView
@@ -87,7 +87,7 @@
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
             android:text="@string/text_theme"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
         <TextView
@@ -127,7 +127,7 @@
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
             android:text="@string/text_rate"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
         <TextView

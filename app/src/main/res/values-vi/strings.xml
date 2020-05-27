@@ -351,5 +351,32 @@
     <string name="text_more">Thêm</string>
     <string name="text_trade_fees">Phí giao dịch</string>
     <string name="text_trade_rule">Giao dịch</string>
+    <string name="text_trading_rules">Quy tắc giao dịch</string>
+    <string name="text_trade_name">Loại tiền</string>
+    <string name="text_min_margin">Ký quỹ thấp nhất</string>
+    <string name="text_5_usdt">5 USDT</string>
+    <string name="text_max_margin">Ký quỹ cao nhất</string>
+    <string name="text_max_usdt">20000 USDT</string>
+    <string name="text_trade_time">Thời gian giao dịch</string>
+    <string name="text_7_24">7×24H</string>
+    <string name="text_leverage">Đòn bẩy</string>
+    <string name="text_20_100">20X ~ 100X</string>
+    <string name="text_forever">Trọn đời</string>
+    <string name="text_closing_time">Không qua đêm</string>
+    <string name="text_fees">Lệ phí</string>
+    <string name="text_margin_rule">Tiền bảo lãnh*(đòn bẩy-1)*</string>
+    <string name="text_lever_rule">Tiền bảo lãnh*(đòn bẩy-1)*0.045%</string>
+    <string name="text_fee_charge">Thu phí qua đêm</string>
+    <string name="text_issue_time">Thời gian phát hành</string>
+    <string name="text_introduction">Giới thiệu</string>
+    <string name="text_issue_amount">Số lượng phân bổ</string>
+    <string name="text_circulation_volume">Số lượng luân chuyển</string>
+    <string name="text_crowd_price">Gây quỹ cộng đồng</string>
+    <string name="text_white_paper">Cáo bạch</string>
+    <string name="text_website">Trang web chính thức</string>
+    <string name="text_block_query">Truy vấn Blockchain</string>
+    <string name="text_o_n_rules">Quy tắc O/N</string>
+    <string name="text_o_n_rule">Sau khi mở, lệnh có thể được giữ qua đêm ( hơn 05:55:00 giờ Singapore)，tuy nhiên sẽ thu phí qua đêm tiền bảo đảm( đòn bẩy-1)0.045%， Nếu không mở, lệnh sẽ bị buộc đóng trước 05:55:00 giờ Singapore</string>
+    <string name="text_introduction_simple">Giới thiệu</string>
 
 </resources>

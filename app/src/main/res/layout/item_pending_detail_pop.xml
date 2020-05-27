@@ -38,7 +38,7 @@
                         android:layout_gravity="center"
                         android:layout_marginRight="@dimen/margin_10"
                         android:text="@string/text_default"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_big" />
 
                     <TextView
@@ -90,7 +90,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -122,7 +122,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -157,7 +157,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -189,7 +189,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -221,7 +221,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -254,7 +254,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -278,7 +278,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_frozen"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal"
 
                         />
@@ -301,7 +301,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -325,7 +325,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_paid"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal"
 
                         />
@@ -349,7 +349,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -381,7 +381,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -413,7 +413,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -447,7 +447,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -468,7 +468,7 @@
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
                     android:text="@string/text_open_time"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
 
@@ -480,7 +480,7 @@
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_toRightOf="@+id/stay_time"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 
@@ -502,7 +502,7 @@
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
                     android:text="@string/text_order_id"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
 
@@ -514,7 +514,7 @@
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_toRightOf="@+id/stay_id"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
 

@@ -31,7 +31,7 @@
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
                     android:text="@string/text_usdt_tether_us"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
 
@@ -43,7 +43,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_default"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big"
                     android:visibility="gone" />
 
@@ -64,7 +64,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/text_chain_name"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
                 <LinearLayout
@@ -104,7 +104,7 @@
                     android:hint="@string/text_amount_withdrawal"
                     android:inputType="number"
                     android:maxLines="1"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/hint_size" />
@@ -157,7 +157,7 @@
                     android:background="@null"
                     android:hint="@string/text_usdt_address"
                     android:maxLines="2"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/hint_size" />
@@ -204,7 +204,7 @@
                     android:hint="@string/text_pin"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/hint_size" />
@@ -241,7 +241,7 @@
                     android:background="@null"
                     android:hint="@string/text_email_code"
                     android:maxLines="1"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/hint_size" />
@@ -276,7 +276,7 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:gravity="center"
                     android:text="@string/text_withdrawal_limit"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
                 <TextView
@@ -307,7 +307,7 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:gravity="center"
                     android:text="@string/text_service_pop"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
                 <TextView
@@ -360,7 +360,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_important"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal" />
 
                 <TextView

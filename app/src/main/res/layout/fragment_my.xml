@@ -128,7 +128,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="@string/text_all_balance"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
 
                                 android:textSize="@dimen/size_big"
                                 android:typeface="monospace" />
@@ -157,7 +157,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="0.00"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
 
                                 android:textSize="24sp"
                                 android:typeface="monospace" />
@@ -168,7 +168,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="≈ 0.0(CNY)"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
 
                                 android:textSize="@dimen/size_big"
                                 android:typeface="monospace" />
@@ -223,7 +223,7 @@
                             android:layout_marginLeft="@dimen/margin_15"
                             android:layout_toRightOf="@+id/img_byd"
                             android:text="0.00"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="18sp"
 
                             android:typeface="monospace" />
@@ -235,7 +235,7 @@
                             android:layout_marginLeft="@dimen/margin_10"
                             android:layout_toRightOf="@+id/text_byd_balance"
                             android:text="BYD"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="18sp" />
 
@@ -336,7 +336,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="安全中心"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace" />
 
@@ -370,7 +370,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="资金明细"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace" />
@@ -405,7 +405,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="代理记录"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace" />
@@ -440,7 +440,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="交易设置"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace" />
@@ -476,7 +476,7 @@
                             android:gravity="center"
                             android:text="提币地址管理"
 
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace" />
 
@@ -510,7 +510,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="系统设置"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace" />
@@ -545,7 +545,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="最新公告"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace" />

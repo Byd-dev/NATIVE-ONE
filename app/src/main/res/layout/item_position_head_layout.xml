@@ -23,7 +23,7 @@
             android:layout_marginLeft="@dimen/margin_15"
             android:text="@string/text_total_profit_loss"
             android:typeface="monospace"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="16sp" />
 
 
@@ -35,7 +35,7 @@
             android:layout_marginLeft="@dimen/margin_21"
             android:typeface="monospace"
             android:layout_toRightOf="@+id/text_total"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="16sp" />
 
         <TextView

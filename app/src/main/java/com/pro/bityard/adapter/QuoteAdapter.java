@@ -1,8 +1,6 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +12,12 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
-import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import static com.pro.bityard.utils.TradeUtil.itemQuotePrice;
-import static com.pro.bityard.utils.TradeUtil.itemQuoteTodayPrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 
 public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -121,7 +116,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             } else if (Integer.parseInt(tag) == 0) {
 
-                ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_maincolor));
+                ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_main_color));
                 ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_normal));
 
             }

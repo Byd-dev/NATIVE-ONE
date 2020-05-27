@@ -54,7 +54,7 @@
                 android:text="-.-%"
                 android:typeface="monospace"
 
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="14sp" />
         </LinearLayout>
 

@@ -16,7 +16,7 @@
             android:layout_marginLeft="@dimen/margin_15"
             android:gravity="center"
             android:text="@string/text_coin_exchange"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal_two" />
 
 
@@ -28,7 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
             android:text="@string/text_default"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_big"
             android:visibility="gone" />
 
@@ -70,7 +70,7 @@
                     android:inputType="numberDecimal"
                     android:hint="@string/text_exchangeable_amount"
                     android:maxLines="1"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/hint_size" />
@@ -97,7 +97,7 @@
                         android:layout_marginLeft="@dimen/margin_10"
                         android:layout_marginRight="@dimen/margin_10"
                         android:gravity="center"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_big" />
 
                     <ImageView
@@ -134,7 +134,7 @@
                     android:inputType="numberDecimal"
                     android:hint="@string/text_amount_input"
                     android:maxLines="1"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/hint_size" />
@@ -159,7 +159,7 @@
                         android:layout_marginRight="@dimen/margin_15"
                         android:gravity="center"
                         android:text="USDT"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_big" />
 
 
@@ -279,7 +279,7 @@
             android:layout_marginLeft="@dimen/margin_15"
             android:gravity="center"
             android:text="@string/text_coin_balance"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal_two" />
 
     </RelativeLayout>

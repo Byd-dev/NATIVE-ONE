@@ -39,7 +39,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:text="@string/text_total_commissions"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal_two" />
 
                     <TextView
@@ -59,7 +59,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/margin_5"
                         android:text="@string/text_default"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal" />
 
 
@@ -88,7 +88,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_default"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
 
                         <TextView
@@ -114,7 +114,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_default"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
 
                         <TextView
@@ -140,7 +140,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_default"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
 
                         <TextView
@@ -173,7 +173,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_default"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
 
                         <TextView
@@ -199,7 +199,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_default"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
 
                         <TextView
@@ -225,7 +225,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_default"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
 
                         <TextView
@@ -274,7 +274,7 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="@string/text_referrals"
-                    android:textColor="@color/text_maincolor" />
+                    android:textColor="@color/text_main_color" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
@@ -293,7 +293,7 @@
                         android:hint="@string/text_referrals_nickname"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/margin_5"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textColorHint="@color/color_hint"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/hint_size" />

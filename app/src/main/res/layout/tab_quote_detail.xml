@@ -61,7 +61,7 @@
                             android:layout_centerVertical="true"
                             android:gravity="center"
                             android:text="BTC"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/title_size" />
 
                         <TextView
@@ -142,7 +142,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentBottom="true"
                                 android:text="@string/text_default"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="26sp"
                                 android:typeface="monospace" />
 
@@ -169,7 +169,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
                                 android:text="-.-"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="@dimen/size_normal"
                                 android:typeface="monospace" />
 
@@ -181,7 +181,7 @@
                                 android:layout_marginLeft="@dimen/margin_20"
                                 android:layout_toRightOf="@+id/text_change"
                                 android:text="@string/text_default"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="@dimen/size_normal"
                                 android:typeface="monospace" />
 
@@ -217,7 +217,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/margin_10"
                                 android:text="@string/text_default"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="@dimen/size_normal" />
 
 
@@ -246,7 +246,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/margin_10"
                                 android:text="@string/text_default"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="@dimen/size_normal" />
 
 
@@ -273,7 +273,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_marginRight="@dimen/margin_10"
                                 android:text="@string/text_default"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="@dimen/size_normal" />
 
 
@@ -535,7 +535,7 @@
                                 android:layout_gravity="center"
                                 android:layout_marginLeft="@dimen/margin_10"
                                 android:text="@string/text_default"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="@dimen/size_normal" />
 
 
@@ -568,7 +568,7 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:inputType="numberDecimal"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textColorHint="@color/text_second_color"
                                 android:textCursorDrawable="@null"
                                 android:textSize="@dimen/size_normal" />
@@ -667,7 +667,7 @@
                                     android:layout_gravity="center"
                                     android:layout_marginLeft="@dimen/margin_10"
                                     android:text="@string/text_default"
-                                    android:textColor="@color/text_maincolor"
+                                    android:textColor="@color/text_main_color"
                                     android:textSize="@dimen/size_normal" />
 
                             </LinearLayout>
@@ -696,7 +696,7 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="@dimen/margin_10"
                                     android:text="@string/text_default"
-                                    android:textColor="@color/text_maincolor"
+                                    android:textColor="@color/text_main_color"
                                     android:textSize="@dimen/size_normal" />
 
 
@@ -742,8 +742,8 @@
                                 android:background="@null"
                                 android:hint="@string/text_market_price_input_edit"
                                 android:inputType="numberDecimal"
-                                android:textColor="@color/text_maincolor"
-                                android:textColorHint="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
+                                android:textColorHint="@color/text_main_color"
                                 android:textCursorDrawable="@null"
                                 android:textSize="@dimen/size_normal" />
 
@@ -777,7 +777,7 @@
                                 android:layout_weight="1"
                                 android:background="@null"
                                 android:inputType="numberDecimal"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textColorHint="@color/text_second_color"
                                 android:textCursorDrawable="@null"
                                 android:textSize="@dimen/size_normal" />
@@ -877,7 +877,7 @@
                                     android:layout_gravity="center"
                                     android:layout_marginLeft="@dimen/margin_10"
                                     android:text="@string/text_default"
-                                    android:textColor="@color/text_maincolor"
+                                    android:textColor="@color/text_main_color"
                                     android:textSize="@dimen/size_normal" />
 
                             </LinearLayout>
@@ -906,7 +906,7 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="@dimen/margin_10"
                                     android:text="@string/text_default"
-                                    android:textColor="@color/text_maincolor"
+                                    android:textColor="@color/text_main_color"
                                     android:textSize="@dimen/size_normal" />
 
 
@@ -976,7 +976,7 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="@string/text_buy_much"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_bigger" />
 
                         <TextView
@@ -986,7 +986,7 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="@string/text_default"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_big" />
                     </LinearLayout>
 
@@ -1006,7 +1006,7 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="@string/text_buy_empty"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_bigger" />
 
                         <TextView
@@ -1016,7 +1016,7 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="@string/text_default"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_big" />
 
 
@@ -1053,7 +1053,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:text="@string/text_trade_set"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/title_size" />
 
 
@@ -1077,7 +1077,7 @@
                         android:layout_marginLeft="@dimen/margin_15"
                         android:layout_marginRight="@dimen/margin_15"
                         android:text="@string/text_stop_profit_rate"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal_two" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -1103,7 +1103,7 @@
                         android:layout_marginLeft="@dimen/margin_15"
                         android:layout_marginRight="@dimen/margin_15"
                         android:text="@string/text_stop_loss_rate"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal_two" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -1130,7 +1130,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:text="@string/text_defer_sure"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal" />
 
                     <ImageView
@@ -1156,7 +1156,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:text="@string/text_order_sure"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal" />
 
                     <ImageView
@@ -1183,7 +1183,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:text="@string/text_close_sure"
-                        android:textColor="@color/text_maincolor"
+                        android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal" />
 
                     <ImageView

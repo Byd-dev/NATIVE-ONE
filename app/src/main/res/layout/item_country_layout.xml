@@ -17,7 +17,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_15"
             android:text=""
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="14sp" />
         <TextView
             android:id="@+id/text_code"
@@ -27,7 +27,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/margin_15"
             android:text=""
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="14sp" />
 
     </RelativeLayout>

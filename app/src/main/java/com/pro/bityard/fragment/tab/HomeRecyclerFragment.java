@@ -114,7 +114,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
                 textView.setMaxLines(1);
                 textView.setEllipsize(TextUtils.TruncateAt.END);
                 textView.setLineSpacing(1.1f, 1.1f);
-                textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.text_maincolor));
+                textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(getActivity()), R.color.text_main_color));
                 textView.setTextSize(13);
                 textView.setSingleLine();
                 return textView;

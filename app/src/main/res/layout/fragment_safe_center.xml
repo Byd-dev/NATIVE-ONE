@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/text_safe_center"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="@dimen/title_size" />
 
 
@@ -44,7 +44,7 @@
             android:gravity="center"
             android:textStyle="bold"
             android:text="@string/text_security_level"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="15sp" />
         <ImageView
             android:id="@+id/img_lever"
@@ -88,7 +88,7 @@
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
             android:text="@string/text_pass"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
         <TextView
@@ -125,7 +125,7 @@
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
             android:text="@string/text_pin"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
         <TextView
@@ -165,7 +165,7 @@
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
             android:text="@string/text_mobile_set_up"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
         <TextView
@@ -203,7 +203,7 @@
             android:drawablePadding="@dimen/margin_16"
             android:gravity="center"
             android:text="@string/text_email_verification"
-            android:textColor="@color/text_maincolor"
+            android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
         <TextView

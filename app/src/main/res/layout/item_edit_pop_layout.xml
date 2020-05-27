@@ -36,7 +36,7 @@
                     android:background="@null"
                     android:hint="@string/text_nickname_input"
                     android:maxLines="1"
-                    android:textColor="@color/text_maincolor"
+                    android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"
                     android:textSize="@dimen/hint_size" />
@@ -60,7 +60,7 @@
                 android:background="@color/edit_color"
                 android:gravity="center"
                 android:text="@string/text_cancel_position"
-                android:textColor="@color/text_maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal" />
 
             <TextView

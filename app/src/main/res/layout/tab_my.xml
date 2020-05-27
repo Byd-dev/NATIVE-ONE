@@ -174,7 +174,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="0.00"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="16sp"
                                 android:textStyle="bold"
                                 android:typeface="monospace" />
@@ -194,7 +194,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="≈"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="@dimen/size_big"
                                 android:typeface="monospace" />
 
@@ -204,7 +204,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:text="0.0"
-                                android:textColor="@color/text_maincolor"
+                                android:textColor="@color/text_main_color"
                                 android:textSize="@dimen/size_normal_two"
                                 android:typeface="monospace" />
 
@@ -288,7 +288,7 @@
                             android:layout_marginLeft="@dimen/margin_15"
                             android:layout_toRightOf="@+id/img_byd"
                             android:text="0.00"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="18sp"
 
                             android:typeface="monospace" />
@@ -300,7 +300,7 @@
                             android:layout_marginLeft="@dimen/margin_10"
                             android:layout_toRightOf="@+id/text_byd_balance"
                             android:text="BYD"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="18sp" />
 
@@ -405,7 +405,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="@string/text_safe_center"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
 
@@ -439,7 +439,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="@string/text_fund_statement"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
@@ -475,7 +475,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="@string/text_orders"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
@@ -510,7 +510,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="@string/text_affiliate_stats"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
@@ -546,7 +546,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="@string/text_trade_settings"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
@@ -582,7 +582,7 @@
                             android:gravity="center"
                             android:text="@string/text_withdrawal_address"
 
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
 
@@ -616,7 +616,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="@string/text_my_service"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
@@ -651,7 +651,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="@string/text_system_settings"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
@@ -686,7 +686,7 @@
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
                             android:text="@string/text_announcements"
-                            android:textColor="@color/text_maincolor"
+                            android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal_two"
                             android:typeface="monospace" />
