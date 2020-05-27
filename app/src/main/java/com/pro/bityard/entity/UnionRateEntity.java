@@ -260,7 +260,7 @@ public class UnionRateEntity {
         private String currency;
         private String dataMD5;
         private String discount;
-        private int eagle;
+        private double eagle;
         private double frozen;
         private double fundIn;
         private double fundOut;
@@ -327,11 +327,11 @@ public class UnionRateEntity {
             this.discount = discount;
         }
 
-        public int getEagle() {
+        public double getEagle() {
             return eagle;
         }
 
-        public void setEagle(int eagle) {
+        public void setEagle(double eagle) {
             this.eagle = eagle;
         }
 
