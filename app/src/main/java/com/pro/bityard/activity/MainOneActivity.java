@@ -1048,10 +1048,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                         } else {
                             text_balance.setText(getResources().getString(R.string.text_default));
                             text_balance_currency.setText(getResources().getString(R.string.text_default));
+                            text_commissionRate.setText(getResources().getString(R.string.text_default));
+                            text_byd_balance.setText(getResources().getString(R.string.text_default));
                         }
                     } else {
                         text_balance.setText(getResources().getString(R.string.text_default));
                         text_balance_currency.setText(getResources().getString(R.string.text_default));
+                        text_commissionRate.setText(getResources().getString(R.string.text_default));
+                        text_byd_balance.setText(getResources().getString(R.string.text_default));
                     }
 
 
