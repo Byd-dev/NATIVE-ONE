@@ -16,7 +16,6 @@ import java.math.RoundingMode;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -582,20 +581,44 @@ public class TradeUtil {
         return quoteList2;
     }
 
+    /*BTC BCH ETH*/
+    public static List<String> homeHot(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String quote : quoteList) {
+            String[] split = quote.split(",");
+            if (split[0].contains("ETH") || split[0].contains("BCH") || split[0].contains("BTC")) {
+                quoteList2.add(quote);
+            }
+        }
+
+        return quoteList2;
+    }
+
+    /*除去 BTC BCH ETH*/
+    public static List<String> homeList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String quote : quoteList) {
+            String[] split = quote.split(",");
+            if (!split[0].contains("ETH") && !split[0].contains("BCH") && !split[0].contains("BTC")) {
+                quoteList2.add(quote);
+            }
+        }
+
+        return quoteList2;
+    }
+
+
     /*价格从大到小*/
     public static List<String> priceHighToLow(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
-        Collections.sort(quoteList, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                String[] split1 = o1.split(",");
-                String[] split2 = o2.split(",");
-                double sub = TradeUtil.sub(Double.parseDouble(split2[2]), Double.parseDouble(split1[2]));
-                if (sub == 0) {
-                    return (int) TradeUtil.sub(Double.parseDouble(split1[2]), Double.parseDouble(split2[2]));
-                }
-                return (int) sub;
+        Collections.sort(quoteList, (o1, o2) -> {
+            String[] split1 = o1.split(",");
+            String[] split2 = o2.split(",");
+            double sub = TradeUtil.sub(Double.parseDouble(split2[2]), Double.parseDouble(split1[2]));
+            if (sub == 0) {
+                return (int) TradeUtil.sub(Double.parseDouble(split1[2]), Double.parseDouble(split2[2]));
             }
+            return (int) sub;
         });
         for (String quote : quoteList) {
             quoteList2.add(quote);
@@ -935,7 +958,7 @@ public class TradeUtil {
             return false;
         } else {
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode, tradeListEntityList);
-            if (tradeListEntity==null){
+            if (tradeListEntity == null) {
                 return false;
             }
             Integer integer = tradeListEntity.getLeverList().get(0);

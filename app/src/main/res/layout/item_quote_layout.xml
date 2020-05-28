@@ -8,14 +8,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="58dp"
-        >
+        android:layout_height="58dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_15"
             android:orientation="horizontal">
 
             <ImageView
@@ -23,31 +21,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="@dimen/margin_15"
                 android:src="@mipmap/icon_usdt"
+
                 />
 
             <TextView
                 android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="--"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:typeface="monospace"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:text="@string/text_default"
                 android:textColor="@color/text_main_color"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:typeface="monospace" />
 
             <TextView
                 android:id="@+id/text_name_usdt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/--"
-                android:typeface="monospace"
+                android:text="@string/text_default"
                 android:textColor="@color/text_quote_color"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:typeface="monospace" />
 
         </LinearLayout>
-
-
 
 
         <TextView
@@ -57,41 +55,38 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:text="@string/text_default"
-            android:typeface="monospace"
             android:textColor="@color/text_main_color"
             android:textSize="19sp"
-            />
+            android:typeface="monospace" />
 
         <RelativeLayout
             android:id="@+id/layout_bg"
             android:layout_width="80dp"
             android:layout_height="@dimen/margin_30"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
             android:background="@drawable/bg_shape_red"
-            android:layout_centerVertical="true"
             android:orientation="horizontal">
-
 
 
             <TextView
                 android:id="@+id/text_change"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-.-%"
                 android:layout_centerInParent="true"
-                android:typeface="monospace"
+                android:text="-.-%"
                 android:textColor="@color/text_main_color"
-                android:textSize="@dimen/size_normal" />
+                android:textSize="@dimen/size_normal"
+                android:typeface="monospace" />
 
             <ImageView
                 android:id="@+id/img_up_down"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_5"
                 android:layout_alignParentRight="true"
-                />
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_5" />
 
         </RelativeLayout>
 
@@ -101,10 +96,9 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line"
-        android:background="@color/home_line"
-        android:layout_marginRight="@dimen/margin_15"
         android:layout_marginLeft="@dimen/margin_15"
-        />
+        android:layout_marginRight="@dimen/margin_15"
+        android:background="@color/home_line" />
 
 
 </LinearLayout>

@@ -27,6 +27,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
+    private boolean isShow=false;
+
 
     public boolean isLoadMore = false;
 
@@ -43,6 +45,11 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void addDatas(List<String> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
+        this.notifyDataSetChanged();
+    }
+
+    public void isShowIcon(boolean isShow){
+        this.isShow=isShow;
         this.notifyDataSetChanged();
     }
 
@@ -89,8 +96,12 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             String name = TradeUtil.listQuoteName(datas.get(position));
 
+            if (isShow){
+                ChartUtil.setIcon(name,((MyViewHolder) holder).img_icon);
+            }else {
+                ((MyViewHolder) holder).img_icon.setVisibility(View.GONE);
+            }
 
-            ChartUtil.setIcon(name,((MyViewHolder) holder).img_icon);
 
             ((MyViewHolder) holder).text_name.setText(name);
             ((MyViewHolder) holder).text_name_usdt.setText("/" + TradeUtil.listQuoteUSD(datas.get(position)));

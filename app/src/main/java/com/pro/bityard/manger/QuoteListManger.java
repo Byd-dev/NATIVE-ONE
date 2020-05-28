@@ -61,9 +61,9 @@ public class QuoteListManger extends Observable {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST,null);
-            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE,null);
-            if (quote_host==null && quote_code==null) {
+            String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
+            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+            if (quote_host == null && quote_code == null) {
                 NetManger.getInstance().initQuote();
                 return;
             } else {
@@ -85,7 +85,7 @@ public class QuoteListManger extends Observable {
 
         ArrayMap<String, List<String>> arrayMap = new ArrayMap<>();
 
-        if (quote_host==null && quote_code==null) {
+        if (quote_host == null && quote_code == null) {
             NetManger.getInstance().initQuote();
         } else {
             NetManger.getInstance().getQuote(quote_host, "/quote.jsp", quote_code, new OnNetResult() {
@@ -98,6 +98,7 @@ public class QuoteListManger extends Observable {
                         QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
                         String data = quoteEntity.getData();
                         List<String> strings = Util.quoteResult(data);
+
                         //价格从高到低
                         List<String> stringList = TradeUtil.priceHighToLow(strings);
                         //价格从低到高
@@ -106,11 +107,18 @@ public class QuoteListManger extends Observable {
                         List<String> stringList2 = TradeUtil.rangeHighToLow(strings);
                         //涨跌幅从低到高
                         List<String> stringList3 = TradeUtil.rangeLowToHigh(strings);
-                        arrayMap.put("0",strings);
+                        //BTC BCH ETH
+                        List<String> stringList4 = TradeUtil.homeHot(strings);
+                        //除去 BTC BCH ETH
+                        List<String> stringList5 = TradeUtil.homeList(strings);
+                        arrayMap.put("0", strings);
                         arrayMap.put("1", stringList);
                         arrayMap.put("2", stringList1);
                         arrayMap.put("3", stringList2);
                         arrayMap.put("4", stringList3);
+                        arrayMap.put("5", stringList4);
+                        arrayMap.put("6", stringList5);
+
                         postQuote(arrayMap);
 
                     } else if (state.equals(FAILURE)) {

@@ -35,8 +35,6 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
-import com.pro.bityard.entity.UnionRateEntity;
-import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
@@ -219,9 +217,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     private List<PositionEntity.DataBean> positionRealList;
     private List<PositionEntity.DataBean> positionSimulationList;
     private LoginEntity loginEntity;
-    private UnionRateEntity unionRateEntity;
     private UserDetailEntity userDetailEntity;
-    private UserAssetEntity userAssetEntity;
 
 
     @Override
@@ -277,8 +273,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     }
 
 
-    private int count = 0;
-
     @Override
     public void update(Observable o, Object arg) {
 
@@ -288,8 +282,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             runOnUiThread(() -> {
                 assert quoteList != null;
                 if (quoteList.size() >= 3) {
-                    quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
-                    quoteAdapter.setDatas(quoteList);
+                    quoteHomeAdapter.setDatas(arrayMap.get("5"));
+                    quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
                     if (isLogin()) {
                         Toast.makeText(this, "首页行情", Toast.LENGTH_SHORT).show();
@@ -610,6 +604,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         quoteAdapter = new QuoteAdapter(this);
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_list.setAdapter(quoteAdapter);
+        quoteAdapter.isShowIcon(false);
 
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
@@ -624,6 +619,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         quoteAdapter_market = new QuoteAdapter(this);
         recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_market.setAdapter(quoteAdapter_market);
+        quoteAdapter_market.isShowIcon(true);
         @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null);
 
         recyclerView_market.addFooterView(footView);
