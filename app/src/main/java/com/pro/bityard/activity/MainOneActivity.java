@@ -229,48 +229,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     private List<String> quoteList;
 
 
-    public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
-        Log.d("hold", "setNetIncome:204:  " + positionList);
-        if (positionList == null) {
-            StringBuilder stringBuilder = new StringBuilder();
-            StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
-                    .append(",").append(0.0);
-            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
-            //账户净值=可用余额+占用保证金+浮动盈亏
-            Log.d("hold", "setNetIncome:发送的数据 210:  " + append.toString());
-            NetIncomeManger.getInstance().postNetIncome(append.toString());
-        } else if (positionList.size() == 0) {
-            StringBuilder stringBuilder = new StringBuilder();
-            StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
-                    .append(",").append(0.0);
-            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
-            //账户净值=可用余额+占用保证金+浮动盈亏
-            Log.d("hold", "setNetIncome:发送的数据 219:  " + append.toString());
-            NetIncomeManger.getInstance().postNetIncome(append.toString());
-        } else {
-            TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
-                double margin;
-                double income;
-                //    Log.d("print", "setNetIncome: 207: "+positionList+"    "+response1+"    "+response2);
-                if (positionList == null) {
-                    margin = 0.0;
-                    income = 0.0;
-                } else {
-                    margin = Double.parseDouble(response2.toString());
-                    income = Double.parseDouble(response1.toString());
-                }
-                StringBuilder stringBuilder = new StringBuilder();
-                StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
-                        .append(",").append(margin);
-                //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
-                //账户净值=可用余额+占用保证金+浮动盈亏
-                Log.d("hold", "setNetIncome:发送的数据 220:  " + append.toString());
-                NetIncomeManger.getInstance().postNetIncome(append.toString());
-            }));
-        }
 
-
-    }
 
 
     @Override
@@ -286,7 +245,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
                     if (isLogin()) {
-                        Toast.makeText(this, "首页行情", Toast.LENGTH_SHORT).show();
                         if (tradeType.equals("1")) {
                             setNetIncome(tradeType, positionRealList, quoteList);
                         } else {
@@ -1093,7 +1051,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 break;
             /*交易设置*/
             case R.id.layout_five:
-                UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+                if (isLogin()){
+                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+                }else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
                 break;
             /*提币地址管理*/
             case R.id.layout_six:
@@ -1199,7 +1161,48 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             }
         }
     }
+    public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
+        Log.d("hold", "setNetIncome:204:  " + positionList);
+        if (positionList == null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
+                    .append(",").append(0.0);
+            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+            //账户净值=可用余额+占用保证金+浮动盈亏
+            Log.d("hold", "setNetIncome:发送的数据 210:  " + append.toString());
+            NetIncomeManger.getInstance().postNetIncome(append.toString());
+        } else if (positionList.size() == 0) {
+            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
+                    .append(",").append(0.0);
+            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+            //账户净值=可用余额+占用保证金+浮动盈亏
+            Log.d("hold", "setNetIncome:发送的数据 219:  " + append.toString());
+            NetIncomeManger.getInstance().postNetIncome(append.toString());
+        } else {
+            TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
+                double margin;
+                double income;
+                //    Log.d("print", "setNetIncome: 207: "+positionList+"    "+response1+"    "+response2);
+                if (positionList == null) {
+                    margin = 0.0;
+                    income = 0.0;
+                } else {
+                    margin = Double.parseDouble(response2.toString());
+                    income = Double.parseDouble(response1.toString());
+                }
+                StringBuilder stringBuilder = new StringBuilder();
+                StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
+                        .append(",").append(margin);
+                //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+                //账户净值=可用余额+占用保证金+浮动盈亏
+                Log.d("hold", "setNetIncome:发送的数据 220:  " + append.toString());
+                NetIncomeManger.getInstance().postNetIncome(append.toString());
+            }));
+        }
 
+
+    }
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -788,7 +788,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
             case R.id.img_setting:
-                UserActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+                if (isLogin()){
+                    UserActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+                }else {
+                    LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
 
 
                 break;

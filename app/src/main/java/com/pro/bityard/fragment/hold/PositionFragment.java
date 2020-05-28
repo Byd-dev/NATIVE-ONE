@@ -1226,43 +1226,47 @@ public class PositionFragment extends BaseFragment implements Observer {
         });
 
 
-        NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
-            if (state.equals(BUSY)) {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(true);
-                }
-            } else if (state.equals(SUCCESS)) {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-                positionEntity = (PositionEntity) response1;
-                positionAdapter.setDatas(positionEntity.getData(), quoteList);
-                //这里根据持仓来是否显示头部视图
-                if (positionEntity.getData().size() == 0) {
-                    text_incomeAll.setText("");
-                    headerRecyclerView.removeHeaderView(headView);
-                    layout_null.setVisibility(View.VISIBLE);
-                    headerRecyclerView.setVisibility(View.GONE);
-
-                } else {
-                    //防止刷新已经有头布局 继续添加出现的bug
-                    if (headerRecyclerView != null) {
-                        if (headerRecyclerView.getHeadersCount() == 0) {
-                            headerRecyclerView.addHeaderView(headView);
-                        }
+        if (isLogin()){
+            NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
+                if (state.equals(BUSY)) {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(true);
                     }
-                    headerRecyclerView.setVisibility(View.VISIBLE);
+                } else if (state.equals(SUCCESS)) {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                    positionEntity = (PositionEntity) response1;
+                    positionAdapter.setDatas(positionEntity.getData(), quoteList);
+                    //这里根据持仓来是否显示头部视图
+                    if (positionEntity.getData().size() == 0) {
+                        text_incomeAll.setText("");
+                        headerRecyclerView.removeHeaderView(headView);
+                        layout_null.setVisibility(View.VISIBLE);
+                        headerRecyclerView.setVisibility(View.GONE);
 
-                    layout_null.setVisibility(View.GONE);
+                    } else {
+                        //防止刷新已经有头布局 继续添加出现的bug
+                        if (headerRecyclerView != null) {
+                            if (headerRecyclerView.getHeadersCount() == 0) {
+                                headerRecyclerView.addHeaderView(headView);
+                            }
+                        }
+                        headerRecyclerView.setVisibility(View.VISIBLE);
+
+                        layout_null.setVisibility(View.GONE);
+
+                    }
+                } else if (state.equals(FAILURE)) {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
 
                 }
-            } else if (state.equals(FAILURE)) {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
+            });
+        }
 
-            }
-        });
+
 
 
     }
