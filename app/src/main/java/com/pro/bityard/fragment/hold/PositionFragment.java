@@ -19,6 +19,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PositionAdapter;
@@ -45,6 +46,7 @@ import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
@@ -160,7 +162,6 @@ public class PositionFragment extends BaseFragment implements Observer {
             btn_login.setVisibility(View.VISIBLE);
             layout_null.setVisibility(View.GONE);
         }
-        initData();
     }
 
     @SuppressLint("InflateParams")
@@ -1215,18 +1216,21 @@ public class PositionFragment extends BaseFragment implements Observer {
     protected void initData() {
         //余额初始化
         BalanceManger.getInstance().getBalance("USDT");
-        //持仓初始化
-        PositionRealManger.getInstance().getHold();
-        PositionSimulationManger.getInstance().getHold();
+
 
         //合约号
-        TradeListManger.getInstance().tradeList((state, response) -> {
+       /* TradeListManger.getInstance().tradeList((state, response) -> {
             if (state.equals(SUCCESS)) {
             }
-        });
+        });*/
+
+        //持仓初始化
+      //  PositionRealManger.getInstance().getHold();
+     //   PositionSimulationManger.getInstance().getHold();
+        List<PositionEntity.DataBean> dataBeanList = new ArrayList<>();
 
 
-        if (isLogin()){
+        if (isLogin()) {
             NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
                 if (state.equals(BUSY)) {
                     if (swipeRefreshLayout != null) {
@@ -1238,6 +1242,8 @@ public class PositionFragment extends BaseFragment implements Observer {
                     }
                     positionEntity = (PositionEntity) response1;
                     positionAdapter.setDatas(positionEntity.getData(), quoteList);
+
+
                     //这里根据持仓来是否显示头部视图
                     if (positionEntity.getData().size() == 0) {
                         text_incomeAll.setText("");
@@ -1257,6 +1263,22 @@ public class PositionFragment extends BaseFragment implements Observer {
                         layout_null.setVisibility(View.GONE);
 
                     }
+
+
+                    dataBeanList.addAll(positionEntity.getData());
+                    if (tradeType.equals("1")){
+                        NetManger.getInstance().getPending("1", (state1, response3, response4) -> {
+                            if (state1.equals(SUCCESS)) {
+                                PositionEntity positionEntity1 = (PositionEntity) response1;
+                                dataBeanList.addAll(positionEntity1.getData());
+                                PositionRealManger.getInstance().postPosition(dataBeanList);
+                            }
+                        });
+                    }else {
+                        PositionSimulationManger.getInstance().postPosition(dataBeanList);
+                    }
+
+
                 } else if (state.equals(FAILURE)) {
                     if (swipeRefreshLayout != null) {
                         swipeRefreshLayout.setRefreshing(false);
@@ -1265,8 +1287,6 @@ public class PositionFragment extends BaseFragment implements Observer {
                 }
             });
         }
-
-
 
 
     }

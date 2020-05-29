@@ -84,14 +84,12 @@ public class NetManger {
 
     //get 请求
     public void getRequest(String url, ArrayMap map, OnNetResult onNetResult) {
-        Log.d("NetManger ", "getRequest:get请求地址:  " + getURL(url, map));
         OkGo.<String>get(getURL(url, map))
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
                         super.onStart(request);
                         onNetResult.onNetResult(BUSY, null);
-
                     }
 
                     @Override
@@ -218,7 +216,6 @@ public class NetManger {
                 substring_url = append.toString().substring(0, append.toString().length() - 1);
             }
             String url_result = BASE_URL + url + "?" + substring_url;
-            Log.d("NetManger", "getURL:请求地址:  " + url_result);
 
             return url_result;
         }
@@ -242,7 +239,6 @@ public class NetManger {
                 substring_url = append.toString().substring(0, append.toString().length() - 1);
             }
             String url_result = BASE_URL + url + "?" + substring_url;
-            Log.d("transfer", "getURL:请求地址:  " + url_result);
 
             try {
                 onNetResult.onNetResult(SUCCESS, Uri.encode(url_result));
@@ -636,29 +632,26 @@ public class NetManger {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("tradeType", tradeType);
         map.put("_", String.valueOf(new Date().getTime()));
-        getRequest("/api/trade/scheme/holdings", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.setResult(BUSY, null, null);
-                } else if (state.equals(SUCCESS)) {
+        getRequest("/api/trade/scheme/holdings", map, (state, response) -> {
 
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 401) {
-                        onNetResult.setResult(FAILURE, null, null);
-
-                    } else if (tipEntity.getCode() == 200) {
-                        PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
-                        //  List<String> quoteList = QuoteManger.getInstance().getQuoteList();
-                        onNetResult.setResult(SUCCESS, positionEntity, null);
-
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
+            if (state.equals(BUSY)) {
+                onNetResult.setResult(BUSY, null, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "onNetResult644:: "+response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
                     onNetResult.setResult(FAILURE, null, null);
+                } else if (tipEntity.getCode() == 200) {
+                    PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
+                    //  List<String> quoteList = QuoteManger.getInstance().getQuoteList();
+                    onNetResult.setResult(SUCCESS, positionEntity, null);
+
 
                 }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.setResult(FAILURE, null, null);
+
             }
         });
     }

@@ -55,33 +55,29 @@ public class PositionRealManger extends Observable {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("tradeType", "1");
         map.put("_", String.valueOf(new Date().getTime()));
-        NetManger.getInstance().getRequest("/api/trade/scheme/holdings", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                } else if (state.equals(SUCCESS)) {
+        NetManger.getInstance().getRequest("/api/trade/scheme/holdings", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+            } else if (state.equals(SUCCESS)) {
 
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 401) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
 
-                    } else if (tipEntity.getCode() == 200) {
-                        PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
-                        List<PositionEntity.DataBean> data = positionEntity.getData();
-                        dataBeanList.addAll(data);
-                        NetManger.getInstance().getPending("1", (state1, response1, response2) -> {
-                            if (state1.equals(SUCCESS)) {
-                                PositionEntity positionEntity1 = (PositionEntity) response1;
-
-                                dataBeanList.addAll(positionEntity1.getData());
-                                postPosition(dataBeanList);
-                            }
-                        });
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
+                } else if (tipEntity.getCode() == 200) {
+                    PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
+                    List<PositionEntity.DataBean> data = positionEntity.getData();
+                    dataBeanList.addAll(data);
+                    NetManger.getInstance().getPending("1", (state1, response1, response2) -> {
+                        if (state1.equals(SUCCESS)) {
+                            PositionEntity positionEntity1 = (PositionEntity) response1;
+                            dataBeanList.addAll(positionEntity1.getData());
+                            postPosition(dataBeanList);
+                        }
+                    });
 
                 }
+
+            } else if (state.equals(FAILURE)) {
+
             }
         });
 

@@ -321,7 +321,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         } else if (o == NetIncomeManger.getInstance()) {
             netIncomeResult = (String) arg;
-            Log.d("print", "update:273: " + isLogin() + "  --   " + netIncomeResult);
+            Log.d("netIncome", "update:273: " + isLogin() + "  --   " + netIncomeResult);
             String[] NetIncome = netIncomeResult.split(",");
             runOnUiThread(() -> {
                 // 1,2.5,5  类型 整体净盈亏  整体  保证金
