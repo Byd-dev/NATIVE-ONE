@@ -204,11 +204,17 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                         //登录成功 初始化
                                         TagManger.getInstance().tag();
                                         NetManger.getInstance().userDetail((state2, response2) -> {
-                                            if (state.equals(SUCCESS)) {
+                                            if (state2.equals(BUSY)) {
+                                                showProgressDialog();
+                                            } else if (state2.equals(SUCCESS)) {
+                                                dismissProgressDialog();
                                                 UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
                                                 loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
                                                 SPUtils.putData(AppConfig.LOGIN, loginEntity);
                                                 getActivity().finish();
+                                            } else if (state2.equals(FAILURE)) {
+                                                dismissProgressDialog();
+
                                             }
                                         });
 

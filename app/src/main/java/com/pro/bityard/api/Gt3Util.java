@@ -260,7 +260,7 @@ public class Gt3Util {
     }
 
     private static Map<String, Object> jsonToMap(String content) {
-        if (content != null) {
+        if (content != null&&content.length()!=0) {
             content = content.trim();
             Map<String, Object> result = new HashMap<>();
             try {

@@ -104,7 +104,7 @@ public class NetManger {
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        onNetResult.onNetResult(FAILURE, response.body());
+                        onNetResult.onNetResult(FAILURE, null);
                     }
                 });
 
@@ -337,7 +337,7 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
                 if (initEntity.getGroup() != null) {
-                  onNetResult.onNetResult(SUCCESS,initEntity);
+                    onNetResult.onNetResult(SUCCESS, initEntity);
                 }
 
             } else if (state.equals(FAILURE)) {
@@ -368,7 +368,7 @@ public class NetManger {
                                 } else if (state1.equals(SUCCESS)) {
                                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
                                     onNetResult.setResult(SUCCESS, quoteDomain, response1);
-                                    SPUtils.putString(AppConfig.SUPPORT_CURRENCY,initEntity.getBrand().getSupportCurrency());
+                                    SPUtils.putString(AppConfig.SUPPORT_CURRENCY, initEntity.getBrand().getSupportCurrency());
                                 } else if (state1.equals(FAILURE)) {
                                     onNetResult.setResult(FAILURE, null, response1);
                                 }
@@ -1614,9 +1614,14 @@ public class NetManger {
     /*获取个人详情*/
     public void userDetail(OnNetResult onNetResult) {
         getRequest("/api/user/detail", null, (state, response) -> {
-            if (state.equals(SUCCESS)) {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
                 UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
                 onNetResult.onNetResult(SUCCESS, userDetailEntity);
+            }else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
             }
         });
     }

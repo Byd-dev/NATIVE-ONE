@@ -245,6 +245,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
                     if (isLogin()) {
+                        Toast.makeText(this,"行情刷新",Toast.LENGTH_SHORT).show();
                         if (tradeType.equals("1")) {
                             setNetIncome(tradeType, positionRealList, quoteList);
                         } else {

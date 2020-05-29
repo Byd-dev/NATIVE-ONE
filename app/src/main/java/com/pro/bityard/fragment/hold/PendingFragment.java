@@ -20,7 +20,6 @@ import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PendingAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
@@ -28,14 +27,11 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.ChartUtil;
-import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
-import com.pro.switchlibrary.SPUtils;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -50,9 +46,6 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
-import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
-import static com.pro.bityard.utils.TradeUtil.income;
-import static com.pro.bityard.utils.TradeUtil.netIncome;
 import static com.pro.bityard.utils.TradeUtil.price;
 
 public class PendingFragment extends BaseFragment implements Observer {
@@ -71,7 +64,7 @@ public class PendingFragment extends BaseFragment implements Observer {
     private PositionEntity positionEntity;
     @BindView(R.id.btn_login)
     Button btn_login;
-    private String contractCode=null;
+    private String contractCode = null;
     private List<String> quoteList;
     private TextView text_price_pop;
 
@@ -266,7 +259,6 @@ public class PendingFragment extends BaseFragment implements Observer {
         });
 
 
-
         TextView text_margin = view.findViewById(R.id.text_margin);
         text_margin.setText(String.valueOf(margin_pop));
 
@@ -311,28 +303,32 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     protected void initData() {
-        NetManger.getInstance().getPending(tradeType, (state, response1, response2) -> {
-            if (state.equals(BUSY)) {
-                swipeRefreshLayout.setRefreshing(true);
-            } else if (state.equals(SUCCESS)) {
-                swipeRefreshLayout.setRefreshing(false);
-                positionEntity = (PositionEntity) response1;
-                Log.d("print", "initData:挂单:  " + positionEntity);
-                if (positionEntity.getData().size() == 0) {
-                    layout_null.setVisibility(View.VISIBLE);
-                    headerRecyclerView.setVisibility(View.GONE);
 
-                } else {
-                    layout_null.setVisibility(View.GONE);
-                    headerRecyclerView.setVisibility(View.VISIBLE);
+        if (isLogin()) {
+            NetManger.getInstance().getPending(tradeType, (state, response1, response2) -> {
+                if (state.equals(BUSY)) {
+                    swipeRefreshLayout.setRefreshing(true);
+                } else if (state.equals(SUCCESS)) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    positionEntity = (PositionEntity) response1;
+                    Log.d("print", "initData:挂单:  " + positionEntity);
+                    if (positionEntity.getData().size() == 0) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        headerRecyclerView.setVisibility(View.GONE);
+
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        headerRecyclerView.setVisibility(View.VISIBLE);
+                    }
+
+
+                } else if (state.equals(FAILURE)) {
+                    swipeRefreshLayout.setRefreshing(false);
+
                 }
+            });
+        }
 
-
-            } else if (state.equals(FAILURE)) {
-                swipeRefreshLayout.setRefreshing(false);
-
-            }
-        });
     }
 
     @Override
@@ -353,9 +349,9 @@ public class PendingFragment extends BaseFragment implements Observer {
                     }
 
                 }
-                if (contractCode!=null){
+                if (contractCode != null) {
                     price(quoteList, contractCode, response -> {
-                        if (text_price_pop!=null){
+                        if (text_price_pop != null) {
                             text_price_pop.setText(response.toString());
                         }
                     });
