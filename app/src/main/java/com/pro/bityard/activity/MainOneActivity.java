@@ -105,6 +105,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @BindView(R.id.radio_2)
     RadioButton radioButton_2;
 
+    @BindView(R.id.radio_3)
+    RadioButton radioButton_3;
+
 
     /*首页-------------------------------------------------------------*/
     @BindView(R.id.recyclerView_list)
@@ -493,12 +496,17 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             img_edit.setVisibility(View.VISIBLE);
             layout_login_register.setVisibility(View.GONE);
 
+
         } else {
+
+
             text_userName.setText(getResources().getText(R.string.text_unlogin));
             text_uid.setVisibility(View.GONE);
             text_register.setVisibility(View.VISIBLE);
             img_edit.setVisibility(View.GONE);
             layout_login_register.setVisibility(View.VISIBLE);
+
+
 
         }
 
@@ -532,6 +540,26 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
         radioButton_2.setOnClickListener(this);
+        //持仓的监听
+        radioButton_3.setOnClickListener(v -> {
+            if (isLogin()){
+                radioButton_3.setChecked(true);
+                layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.GONE);
+                layout_hold.setVisibility(View.VISIBLE);
+                layout_my.setVisibility(View.GONE);
+                layout_status.setVisibility(View.VISIBLE);
+                if (tradeType.equals("1")) {
+                    layout_real.setVisibility(View.VISIBLE);
+                    layout_simulation.setVisibility(View.GONE);
+                } else {
+                    layout_real.setVisibility(View.GONE);
+                    layout_simulation.setVisibility(View.VISIBLE);
+                }
+            }else {
+                LoginActivity.enter(MainOneActivity.this,IntentConfig.Keys.KEY_LOGIN);
+            }
+        });
 
 
 
@@ -826,24 +854,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 layout_status.setVisibility(View.VISIBLE);
                 layout_real.setVisibility(View.GONE);
                 layout_simulation.setVisibility(View.GONE);
-
-                break;
-
-
-            case R.id.radio_3:
-                layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.GONE);
-                layout_hold.setVisibility(View.VISIBLE);
-                layout_my.setVisibility(View.GONE);
-                layout_status.setVisibility(View.VISIBLE);
-                if (tradeType.equals("1")) {
-                    layout_real.setVisibility(View.VISIBLE);
-                    layout_simulation.setVisibility(View.GONE);
-                } else {
-                    layout_real.setVisibility(View.GONE);
-                    layout_simulation.setVisibility(View.VISIBLE);
-                }
-
 
                 break;
             case R.id.radio_4:
