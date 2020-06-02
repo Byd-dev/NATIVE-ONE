@@ -212,9 +212,9 @@ public class PositionFragment extends BaseFragment implements Observer {
         });
         //平仓监听
         positionAdapter.setCloseClick(id -> {
-            Util.lightOff(Objects.requireNonNull(getActivity()));
             boolean isCloseSure = SPUtils.getBoolean(AppConfig.KEY_CLOSE_SURE, false);
             if (isCloseSure) {
+                Util.lightOff(Objects.requireNonNull(getActivity()));
                 PopUtil.getInstance().showTip(getActivity(), layout_view, true, getResources().getString(R.string.text_are_you_sure), state -> {
                     if (state) {
                         close(id);
