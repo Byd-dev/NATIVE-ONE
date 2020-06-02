@@ -102,10 +102,14 @@ public class QuickAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MyViewHolder) holder).text_currency.setText(currency);
             ChartUtil.setIcon(currency, ((MyViewHolder) holder).img_bg);
             if (isHide) {
-                getRate(currency, money, response -> {
-                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency + "≈"
-                            + response.toString() + "USDT");
-                });
+                if (currency.equals("USDT")) {
+                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency);
+                } else {
+                    getRate(currency, money, response -> {
+                        ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency + "≈"
+                                + response.toString() + "USDT");
+                    });
+                }
 
             } else {
                 ((MyViewHolder) holder).text_balance.setText("***≈***");
@@ -116,7 +120,7 @@ public class QuickAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     private void getRate(String currency, double money, OnResult onResult) {
         RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
-        if (rateListEntity!=null){
+        if (rateListEntity != null) {
             for (RateListEntity.ListBean rateList : rateListEntity.getList()) {
                 if (currency.equals(rateList.getName())) {
 

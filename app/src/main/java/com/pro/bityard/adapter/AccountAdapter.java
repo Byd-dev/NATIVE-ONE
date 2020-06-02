@@ -102,10 +102,16 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((MyViewHolder) holder).text_currency.setText(currency);
             ChartUtil.setIcon(currency, ((MyViewHolder) holder).img_bg);
             if (isHide) {
-                getRate(currency, money, response -> {
-                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency + "≈"
-                            + response.toString() + "USDT");
-                });
+                if (currency.equals("USDT")){
+                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2)+currency);
+                }else {
+                    getRate(currency, money, response -> {
+                        ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency + "≈"
+                                + response.toString() + "USDT");
+                    });
+                }
+
+
 
             } else {
                 ((MyViewHolder) holder).text_balance.setText("***≈***");
