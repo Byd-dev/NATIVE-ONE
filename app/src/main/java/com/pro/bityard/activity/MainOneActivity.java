@@ -505,7 +505,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             text_register.setVisibility(View.VISIBLE);
             img_edit.setVisibility(View.GONE);
             layout_login_register.setVisibility(View.VISIBLE);
-
+            text_byd_balance.setText(getResources().getString(R.string.text_default));
+            text_commissionRate.setText(getResources().getString(R.string.text_default));
 
 
         }

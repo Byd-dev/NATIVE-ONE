@@ -201,8 +201,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                     LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
                                     if (loginEntity.getCode() == 200) {
                                         SPUtils.putString(AppConfig.USER_EMAIL, edit_account.getText().toString());
-                                        //登录成功 初始化
-                                        TagManger.getInstance().tag();
+
                                         NetManger.getInstance().userDetail((state2, response2) -> {
                                             if (state2.equals(BUSY)) {
                                                 showProgressDialog();
@@ -211,6 +210,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                                 UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
                                                 loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
                                                 SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                                                //登录成功 初始化
+                                                TagManger.getInstance().tag();
                                                 getActivity().finish();
                                             } else if (state2.equals(FAILURE)) {
                                                 dismissProgressDialog();

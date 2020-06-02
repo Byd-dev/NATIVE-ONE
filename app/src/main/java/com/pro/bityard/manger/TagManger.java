@@ -37,6 +37,8 @@ public class TagManger extends Observable {
     public void tag() {
         postTag(true);
         BalanceManger.getInstance().getBalance("USDT");
+        UserDetailManger.getInstance().detail();
+
         //UserDetailManger.getInstance().startScheduleJob(AppConfig.QUOTE_SECOND, AppConfig.QUOTE_SECOND);
 
     }
