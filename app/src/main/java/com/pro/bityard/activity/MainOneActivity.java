@@ -285,13 +285,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             });
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
-            Log.d("print", "update:持仓列表实盘:  " + positionRealList.size());
+            Log.d("position", "update:持仓列表实盘:  " + positionRealList);
             if (positionRealList.size() == 0) {
                 text_freeze.setText(getResources().getString(R.string.text_default));
             } else {
                 runOnUiThread(() -> {
                     if (text_freeze != null) {
                         TradeUtil.getMargin(positionRealList, response -> {
+
                             if (response == null) {
                                 text_freeze.setText(getResources().getString(R.string.text_default));
                             } else {
@@ -304,7 +305,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         } else if (o == PositionSimulationManger.getInstance()) {
             positionSimulationList = (List<PositionEntity.DataBean>) arg;
-            Log.d("print", "update:持仓列表模拟:  " + positionSimulationList.size());
+            Log.d("position", "update:持仓列表模拟:  " + positionSimulationList.size());
             if (positionSimulationList.size() == 0) {
                 text_freeze_simulation.setText(getResources().getString(R.string.text_default));
 

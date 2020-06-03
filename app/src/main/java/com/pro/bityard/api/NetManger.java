@@ -733,11 +733,7 @@ public class NetManger {
 
                 } else if (tipEntity.getCode() == 200) {
                     PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
-
-
                     onNetResult.setResult(SUCCESS, positionEntity, null);
-
-
                 }
 
             } else if (state.equals(FAILURE)) {

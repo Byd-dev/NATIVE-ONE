@@ -1264,12 +1264,13 @@ public class PositionFragment extends BaseFragment implements Observer {
 
                     }
 
+                    Log.d("position", "initData:1267 "+positionEntity.getData());
 
                     dataBeanList.addAll(positionEntity.getData());
                     if (tradeType.equals("1")){
                         NetManger.getInstance().getPending("1", (state1, response3, response4) -> {
                             if (state1.equals(SUCCESS)) {
-                                PositionEntity positionEntity1 = (PositionEntity) response1;
+                                PositionEntity positionEntity1 = (PositionEntity) response3;
                                 dataBeanList.addAll(positionEntity1.getData());
                                 PositionRealManger.getInstance().postPosition(dataBeanList);
                             }

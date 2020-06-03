@@ -97,7 +97,6 @@ public class PendingFragment extends BaseFragment implements Observer {
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
                     positionEntity = (PositionEntity) response1;
-                    Log.d("print", "initData:挂单:  " + positionEntity);
                     if (positionEntity.getData().size() == 0) {
                         layout_null.setVisibility(View.VISIBLE);
                         headerRecyclerView.setVisibility(View.GONE);
@@ -311,7 +310,6 @@ public class PendingFragment extends BaseFragment implements Observer {
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
                     positionEntity = (PositionEntity) response1;
-                    Log.d("print", "initData:挂单:  " + positionEntity);
                     if (positionEntity.getData().size() == 0) {
                         layout_null.setVisibility(View.VISIBLE);
                         headerRecyclerView.setVisibility(View.GONE);

@@ -1103,7 +1103,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), stopProfit, stopLoss, serviceCharge,
                 "0", TradeUtil.volume(lever, margin, parseDouble(priceMuchOrEmpty)), "0", "USDT", (state, response) -> {
                     if (state.equals(BUSY)) {
-                        showProgressDialog();
+                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                         dismissProgressDialog();
