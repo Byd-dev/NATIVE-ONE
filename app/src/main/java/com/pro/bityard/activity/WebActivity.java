@@ -201,7 +201,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                 layout_bar.setVisibility(View.VISIBLE);
             } else {
                 layout_bar.setVisibility(View.GONE);
-
             }
 
             if (!TextUtils.isEmpty(html)) {
@@ -231,6 +230,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                     mWebView.setVisibility(View.INVISIBLE);
                 }
             }
+
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
@@ -240,6 +240,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
                 text_err.setVisibility(View.VISIBLE);
                 mWebView.setVisibility(View.INVISIBLE);
             }
+
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(WebActivity.this);
