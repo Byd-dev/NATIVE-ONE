@@ -1142,7 +1142,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             /*法币充值*/
             case R.id.text_fiat:
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_FIAT);
+                    WebActivity.getInstance().openUrl(MainOneActivity.this, "", getResources().getString(R.string.text_fiat));
+
                 } else {
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }

@@ -11,6 +11,8 @@ import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 import android.widget.Toast;
 
+import com.pro.bityard.R;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.utils.DeviceUtil;
 
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
@@ -68,12 +70,111 @@ public class AppJs {
             Toast.makeText(this.activity, "检测到您手机没有安装微信,请安装后使用该功能", Toast.LENGTH_SHORT).show();
         }
     }
+    /*跳转携带参数*/
+    @JavascriptInterface
+    public void openPageParam(String pageName,String data){
+        switch (pageName){
+            case IntentConfig.Keys.KEY_TRADE_LIVE://实盘交易
+                QuoteDetailActivity.enter(this.activity, "1", data);
+                break;
+            case IntentConfig.Keys.KEY_TRADE_DEMO://模拟交易
+                QuoteDetailActivity.enter(this.activity, "2", data);
+                break;
+        }
+    }
+
+
+    /*跳转页面不携带参数*/
+    @JavascriptInterface
+    public void openPage(String pageName) {
+        switch (pageName){
+
+            case IntentConfig.Keys.KEY_LOGIN://登录
+                LoginActivity.enter(this.activity, IntentConfig.Keys.KEY_LOGIN);
+                break;
+            case IntentConfig.Keys.KEY_SET_UP://系统设置
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_SET_UP);
+                break;
+            case IntentConfig.Keys.KEY_LANGUAGE://语言设置
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_LANGUAGE);
+
+                break;
+            case IntentConfig.Keys.KEY_EXCHANGE_RATE://汇率设置
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_EXCHANGE_RATE);
+                break;
+            case IntentConfig.Keys.KEY_FUND_STATEMENT://资金记录
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_FUND_STATEMENT);
+                break;
+            case IntentConfig.Keys.KEY_TRADE_HISTORY://交易记录
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_TRADE_HISTORY);
+                break;
+            case IntentConfig.Keys.KEY_INVITE_HISTORY://邀请记录
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_INVITE_HISTORY);
+                break;
+            case IntentConfig.Keys.KEY_TRADE_SETTINGS://交易设置
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+                break;
+            case IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS://提币地址管理
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS);
+                break;
+            case IntentConfig.Keys.KEY_ADD_ADDRESS://安全中心
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_ADD_ADDRESS);
+                break;
+            case IntentConfig.Keys.KEY_ANNOUNCEMENT://最新公告
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_ANNOUNCEMENT);
+                break;
+            case IntentConfig.Keys.KEY_ACCOUNT://资金账户
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_ACCOUNT);
+                break;
+            case IntentConfig.Keys.KEY_WITHDRAWAL://提币
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_WITHDRAWAL);
+                break;
+            case IntentConfig.Keys.KEY_QUICK_EXCHANGE://币币闪兑
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_QUICK_EXCHANGE);
+                break;
+            case IntentConfig.Keys.KEY_SAFE_CENTER://安全中心
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_SAFE_CENTER);
+                break;
+            case IntentConfig.Keys.KEY_DEPOSIT://充币
+                WebActivity.getInstance().openUrl(this.activity, "", activity.getResources().getString(R.string.text_recharge));
+                break;
+            case IntentConfig.Keys.KEY_HOLD://持仓
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_HOLD);
+                break;
+            case IntentConfig.Keys.KEY_FIAT://法币充值
+                WebActivity.getInstance().openUrl(this.activity, "", activity.getResources().getString(R.string.text_fiat));
+                break;
+            case IntentConfig.Keys.KEY_SAFE_CENTER_LOGIN_PASS://修改登录密码
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_SAFE_CENTER_LOGIN_PASS);
+                break;
+            case IntentConfig.Keys.KEY_SAFE_CENTER_FUNDS_PASS://设置资金密码和修改资金密码
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_SAFE_CENTER_FUNDS_PASS);
+                break;
+            case IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_MOBILE://绑定手机号和修改手机号
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_MOBILE);
+                break;
+            case IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_EMAIL://绑定邮箱和修改邮箱
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_EMAIL);
+                break;
+            case IntentConfig.Keys.KEY_THEME://主题设置
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_THEME);
+                break;
+            case IntentConfig.Keys.KEY_REGISTER:
+                RegisterActivity.enter(this.activity, IntentConfig.Keys.KEY_REGISTER);
+                break;
+            case IntentConfig.Keys.KEY_FORGET:
+                UserActivity.enter(this.activity, IntentConfig.Keys.KEY_FORGET);
+                break;
+            case IntentConfig.Keys.RULE:
+                UserActivity.enter(this.activity, IntentConfig.Keys.RULE,"");
+                break;
+        }
+    }
+
 
     @JavascriptInterface
     public void hello(String msg) {
         Toast.makeText(activity, "调用了方法 hello", Toast.LENGTH_SHORT).show();
-
-
     }
 
     @JavascriptInterface

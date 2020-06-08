@@ -72,6 +72,7 @@ public class NetManger {
     public static String SERVICE_URL = "https://v2.live800.com/live800/chatClient/chatbox.jsp?companyID=1360004&configID=128342&jid=1252134905&s=1&lan=%s&s=1&info=userId=%sname=%s";
 
     // public static String BASE_URL = "https://www.bityard.com";    //正式
+    public static String HOST_H5 = "https://m233.bityard.com";
 
     public static NetManger getInstance() {
 
@@ -637,7 +638,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.setResult(BUSY, null, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "onNetResult644:: "+response.toString());
+                Log.d("print", "onNetResult644:: " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.setResult(FAILURE, null, null);
@@ -1608,7 +1609,7 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
                 onNetResult.onNetResult(SUCCESS, userDetailEntity);
-            }else if (state.equals(FAILURE)) {
+            } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
 
             }

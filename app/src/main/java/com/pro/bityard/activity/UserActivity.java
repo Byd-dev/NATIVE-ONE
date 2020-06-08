@@ -79,7 +79,7 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_LANGUAGE:
                 addLanguageFragment();
                 break;
-            case IntentConfig.Keys.KEY_ASSET:
+            case IntentConfig.Keys.KEY_EXCHANGE_RATE:
                 addAssetFragment();
                 break;
             case IntentConfig.Keys.KEY_SAFE_CENTER:

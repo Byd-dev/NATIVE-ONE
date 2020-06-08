@@ -7,12 +7,18 @@ public class IntentConfig {
 
     /** Intent传递参数的key(包括Bundle/Argument等传递参数的键).*/
     public static class Keys {
+        //交易页面
+        public static final String KEY_TRADE_LIVE = "TRADE_LIVE";
+        public static final String KEY_TRADE_DEMO = "TRADE_DEMO";
 
+        //登录
         public static final String KEY_LOGIN = "LOGIN";
-
-        public static final String KEY_SET_UP = "SETUP";
+        //设置
+        public static final String KEY_SET_UP = "SET_UP";
+        //语言设置
         public static final String KEY_LANGUAGE = "LANGUAGE";
-        public static final String KEY_ASSET = "ASSET";
+        //汇率
+        public static final String KEY_EXCHANGE_RATE = "EXCHANGE_RATE";
         //安全中心
         public static final String KEY_SAFE_CENTER = "SAFE_CENTER";
         //资金记录
@@ -49,11 +55,9 @@ public class IntentConfig {
         public static final String KEY_SAFE_CENTER_BIND_CHANGE_MOBILE = "SAFE_CENTER_BIND_CHANGE_MOBILE";
         //绑定邮箱和修改邮箱
         public static final String KEY_SAFE_CENTER_BIND_CHANGE_EMAIL= "SAFE_CENTER_BIND_CHANGE_EMAIL";
-
-
+        //主题设置
         public static final String KEY_THEME = "THEME";
-
-        //选择地区
+        //注册
         public static final String KEY_REGISTER = "REGISTER";
         //忘记密码
         public static final String KEY_FORGET = "FORGET";

@@ -542,6 +542,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         assert bundle != null;
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
+        Log.d("print", "initData:交易页面获取:  "+itemData);
         if (itemData.equals("")) {
             return;
         }

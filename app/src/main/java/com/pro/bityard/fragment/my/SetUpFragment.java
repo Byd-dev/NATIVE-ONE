@@ -137,7 +137,7 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
 
                 break;
             case R.id.layout_three:
-                UserActivity.enter(getContext(), IntentConfig.Keys.KEY_ASSET);
+                UserActivity.enter(getContext(), IntentConfig.Keys.KEY_EXCHANGE_RATE);
 
                 break;
 

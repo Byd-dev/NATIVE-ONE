@@ -130,13 +130,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
         recyclerView_hot.setAdapter(quoteHomeAdapter);
 
 
-        quoteHomeAdapter.setOnItemClick(new QuoteHomeAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(String data) {
-                QuoteDetailActivity.enter(getContext(), "1", data);
-
-            }
-        });
+        quoteHomeAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(getContext(), "1", data));
 
 
         home_view.findViewById(R.id.img_icon1).setOnClickListener(this);

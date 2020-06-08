@@ -31,15 +31,25 @@ public class LoginEntity implements Serializable {
      * message : 登录成功
      * user : {"principal":"wilde.tomoya@gmail.com","pw_l":1,"phone":"639155106373","refer":"051264","mobile":"639155106373","pw_w":1,"userId":"424288963751051264","email":"wilde.tomoya@gmail.com","tradeQuick":true,"account":"wilde.tomoya@gmail.com"}
      */
-
+    private String access_token;
     private int code;
     private String message;
     private UserBean user;
 
+
+    public String getAccess_token() {
+        return access_token;
+    }
+
+    public void setAccess_token(String access_token) {
+        this.access_token = access_token;
+    }
+
     @Override
     public String toString() {
         return "LoginEntity{" +
-                "code=" + code +
+                "access_token='" + access_token + '\'' +
+                ", code=" + code +
                 ", message='" + message + '\'' +
                 ", user=" + user +
                 '}';
