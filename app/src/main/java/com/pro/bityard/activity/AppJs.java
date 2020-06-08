@@ -70,6 +70,11 @@ public class AppJs {
             Toast.makeText(this.activity, "检测到您手机没有安装微信,请安装后使用该功能", Toast.LENGTH_SHORT).show();
         }
     }
+    @JavascriptInterface
+    public void toast(String message){
+        Toast.makeText(this.activity, message, Toast.LENGTH_SHORT).show();
+    }
+
     /*跳转携带参数*/
     @JavascriptInterface
     public void openPageParam(String pageName,String data){
@@ -82,8 +87,6 @@ public class AppJs {
                 break;
         }
     }
-
-
     /*跳转页面不携带参数*/
     @JavascriptInterface
     public void openPage(String pageName) {

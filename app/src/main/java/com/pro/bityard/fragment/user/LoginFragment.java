@@ -20,12 +20,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
 
 
-
-
-
-
-
-
     @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_login;
