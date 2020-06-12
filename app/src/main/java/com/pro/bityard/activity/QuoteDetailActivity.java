@@ -1138,10 +1138,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_right));
 
         });
+
+
         quotePopAdapter.setOnItemClick(data -> {
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
             // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
+            edit_limit_price.setText(listQuotePrice(data));
 
             Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
             Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
