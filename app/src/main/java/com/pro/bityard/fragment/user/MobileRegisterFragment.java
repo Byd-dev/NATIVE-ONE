@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.user;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -36,9 +37,12 @@ import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -224,22 +228,19 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         //获取国家code
         countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
         if (countryCodeEntity == null) {
-            NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
-                @Override
-                public void onNetResult(String state, Object response) {
-                    if (state.equals(BUSY)) {
-                    } else if (state.equals(SUCCESS)) {
-                        CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                        SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-                        //遍历国家地名 选择区号
-                        for (int i = 0; i < countryCodeEntity.getData().size(); i++) {
-                            if (country_name.startsWith(countryCodeEntity.getData().get(i).getNameCn())) {
-                                text_countryCode.setText(countryCodeEntity.getData().get(i).getCountryCode());
-                            }
+            NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
+                if (state.equals(BUSY)) {
+                } else if (state.equals(SUCCESS)) {
+                    CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
+                    SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
+                    //遍历国家地名 选择区号
+                    for (int i = 0; i < countryCodeEntity.getData().size(); i++) {
+                        if (country_name.startsWith(countryCodeEntity.getData().get(i).getNameCn())) {
+                            text_countryCode.setText(countryCodeEntity.getData().get(i).getCountryCode());
                         }
-                    } else if (state.equals(FAILURE)) {
-
                     }
+                } else if (state.equals(FAILURE)) {
+
                 }
             });
         } else {
@@ -362,7 +363,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response;
-                        if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
+                        if (tipEntity.getCode() == 200 && tipEntity.isCheck()) {
                             //成功了再注册
                             Log.d("print", "onNetResult: 238: " + tipEntity);
                             register(map);
@@ -388,97 +389,40 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
     private void register(ArrayMap<String, String> map) {
 
-        NetManger.getInstance().postRequest("/api/register/submit", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 200) {
-                        getActivity().finish();
-                    }
-
-                    if (tipEntity.getMessage().equals("")) {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_register_success), Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
-
-                    }
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
+        NetManger.getInstance().postRequest("/api/register/submit", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    Objects.requireNonNull(getActivity()).finish();
                 }
+
+                if (tipEntity.getMessage().equals("")) {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_register_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
             }
         });
 
     }
 
-
-    /*获取验证码*/
-    private void getCode(String country_code, String account_value) {
-
-
-        Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
-
-            @Override
-            public void onApi1Result(String result) {
-                geetestToken = result;
-
-            }
-
-            @Override
-            public void onSuccessResult(String result) {
-                ArrayMap<String, String> map = new ArrayMap<>();
-
-                map.put("account", country_code + account_value);
-                map.put("type", "REGISTER");
-                map.put("geetestToken", geetestToken);
-                NetManger.getInstance().postRequest("/api/system/sendSMS", map, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            dismissProgressDialog();
-                            TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                            if (tipEntity.getCode() == 200) {
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
-                            } else if (tipEntity.getCode() == 500) {
-                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
-                Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
 
     /*获取倒计时*/
+    @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    SmsTimeUtils.check(SmsTimeUtils.SETTING_FINANCE_ACCOUNT_TIME, false);
-                    SmsTimeUtils.startCountdown(text_getCode);
-                    break;
-                default:
-                    break;
+            if (msg.what == 0) {
+                SmsTimeUtils.check(SmsTimeUtils.SETTING_FINANCE_ACCOUNT_TIME, false);
+                SmsTimeUtils.startCountdown(text_getCode);
             }
         }
 
@@ -488,7 +432,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     private void showEditPopWindow(CountryCodeEntity data) {
 
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_country_code_layout, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_country_code_layout, null);
 
         TextView text_try = view.findViewById(R.id.text_try);
 
@@ -511,29 +455,21 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
             text_try.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
 
-            text_try.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
-                        @Override
-                        public void onNetResult(String state, Object response) {
-                            if (state.equals(BUSY)) {
-                            } else if (state.equals(SUCCESS)) {
+            text_try.setOnClickListener(v -> NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
+                if (state.equals(BUSY)) {
+                } else if (state.equals(SUCCESS)) {
 
-                                CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                                text_try.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-                                countryCodeAdapter.setDatas(countryCodeEntity.getData());
-                                setEdit(edit_search, countryCodeEntity.getData());
+                    CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
+                    text_try.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
+                    countryCodeAdapter.setDatas(countryCodeEntity.getData());
+                    setEdit(edit_search, countryCodeEntity.getData());
 
-                            } else if (state.equals(FAILURE)) {
+                } else if (state.equals(FAILURE)) {
 
-                            }
-                        }
-                    });
                 }
-            });
+            }));
 
         }
 
@@ -542,21 +478,13 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        view.findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        countryCodeAdapter.setOnItemClick(new CountryCodeAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(CountryCodeEntity.DataBean dataBean) {
-                // TODO: 2020/3/7   中英文切换
-                text_countryName.setText(dataBean.getNameCn());
-                text_countryCode.setText(dataBean.getCountryCode());
-                popupWindow.dismiss();
+        view.findViewById(R.id.img_back).setOnClickListener(v -> popupWindow.dismiss());
+        countryCodeAdapter.setOnItemClick(dataBean -> {
+            // TODO: 2020/3/7   中英文切换
+            text_countryName.setText(dataBean.getNameCn());
+            text_countryCode.setText(dataBean.getCountryCode());
+            popupWindow.dismiss();
 
-            }
         });
 
         popupWindow.setFocusable(true);

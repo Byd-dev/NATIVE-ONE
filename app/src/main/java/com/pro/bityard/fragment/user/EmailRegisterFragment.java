@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.user;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,7 +28,10 @@ import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.Util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
+import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
@@ -278,7 +282,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response;
                         Log.d("print", "onClick:验证验证码: " + tipEntity);
-                        if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
+                        if (tipEntity.getCode() == 200 && tipEntity.isCheck()) {
                             //成功了再注册
                             register(map);
                         } else {
@@ -312,7 +316,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 dismissProgressDialog();
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
-                    getActivity().finish();
+                    Objects.requireNonNull(getActivity()).finish();
                 }
 
 
@@ -331,18 +335,15 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
 
 
     /*获取倒计时*/
+    @SuppressLint("HandlerLeak")
     Handler mHandler = new Handler() {
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    SmsTimeUtils.check(SmsTimeUtils.SETTING_FINANCE_ACCOUNT_TIME, false);
-                    SmsTimeUtils.startCountdown(text_getCode);
-                    break;
-                default:
-                    break;
+            if (msg.what == 0) {
+                SmsTimeUtils.check(SmsTimeUtils.SETTING_FINANCE_ACCOUNT_TIME, false);
+                SmsTimeUtils.startCountdown(text_getCode);
             }
         }
 
