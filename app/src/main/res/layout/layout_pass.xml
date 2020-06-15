@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!--密码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_25"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_pass"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/layout_pass"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit"
+            android:layout_marginTop="@dimen/margin_10"
+            android:background="@drawable/bg_shape_edit"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edit_pass"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/text_input_pass"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textColor="@color/text_main_color"
+                android:textColorHint="@color/color_hint"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/hint_size" />
+
+
+            <ImageView
+                android:id="@+id/img_eye"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_15"
+                android:src="@mipmap/icon_eye_close" />
+
+
+        </LinearLayout>
+
+        <!--错误提示 忘记密码-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_20"
+            >
+
+            <TextView
+                android:id="@+id/text_err_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_err"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="@dimen/size_normal"
+                android:visibility="gone"
+                android:text="@string/text_pass_contain"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

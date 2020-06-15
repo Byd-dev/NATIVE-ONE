@@ -381,5 +381,7 @@
     <string name="text_login_title">Логин</string>
     <string name="text_err_email">Неверный адрес электронной почты</string>
     <string name="text_pass_contain">Пароль из 6-16 символов, состоящий из букв и цифр</string>
+    <string name="text_mobile_err">Неверный мобильный формат</string>
+    <string name="text_err_code">请输入6位验证码</string>
 
 </resources>

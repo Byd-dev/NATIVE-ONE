@@ -381,5 +381,7 @@
     <string name="text_login_title">Đăng nhập</string>
     <string name="text_err_email">Định dạng Email sai</string>
     <string name="text_pass_contain">Mật khẩu gồm 6-16 chữ cái, số và kí hiệu</string>
+    <string name="text_mobile_err">Định dạng số điện thoại sai</string>
+    <string name="text_err_code">请输入6位验证码</string>
 
 </resources>

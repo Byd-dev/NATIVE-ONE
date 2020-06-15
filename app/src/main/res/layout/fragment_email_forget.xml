@@ -3,125 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_maincolor"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginLeft="@dimen/margin_25"
         android:layout_marginTop="@dimen/margin_40"
         android:layout_marginRight="@dimen/margin_25"
         android:layout_marginBottom="@dimen/margin_50"
         android:src="@mipmap/icon_bityard_user"
-        android:layout_gravity="center"
 
         />
 
     <!--账户-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_25"
-        android:layout_marginRight="@dimen/margin_25"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_email"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal"
-
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_edit"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_shape_edit">
-
-            <EditText
-                android:id="@+id/edit_account"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:background="@null"
-                android:hint="@string/text_email_input"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:textColor="@color/text_main_color"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
+    <include layout="@layout/layout_email" />
     <!--邮箱验证码-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_25"
-        android:layout_marginRight="@dimen/margin_25"
-        android:layout_marginTop="@dimen/margin_25"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_email_code"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal"
-
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_edit"
-            android:layout_marginTop="@dimen/margin_10"
-            android:orientation="horizontal"
-            android:background="@drawable/bg_shape_edit">
-
-            <EditText
-                android:id="@+id/edit_code"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:background="@null"
-                android:hint="@string/text_email_code_input"
-                android:inputType="number"
-                android:maxLines="1"
-                android:textColor="@color/text_main_color"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
-
-            <TextView
-                android:id="@+id/text_getCode"
-                android:layout_width="89dp"
-                android:layout_height="match_parent"
-                android:text="@string/text_get_code"
-                android:background="@drawable/bg_shape_code"
-                android:gravity="center"
-                android:textColor="@color/color_code"
-                android:textSize="@dimen/size_normal"
-                />
-
-
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
-
+    <include layout="@layout/layout_code" />
 
 
     <!--登录button-->
@@ -130,16 +31,15 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_btn"
         android:layout_marginLeft="@dimen/margin_25"
-        android:layout_marginTop="@dimen/margin_40"
+        android:layout_marginTop="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
         android:layout_marginBottom="@dimen/margin_15"
-        android:background="@drawable/bg_shape_button"
+        android:background="@drawable/sel_switcher_enabled_bg"
+        android:enabled="false"
         android:padding="10dp"
         android:text="@string/text_next"
         android:textColor="@color/color_btn_text"
-        android:textSize="@dimen/size_big"
-
-        />
+        android:textSize="16sp" />
 
 
     <TextView

@@ -380,5 +380,7 @@
     <string name="text_login_title">Login</string>
     <string name="text_err_email">Incorrect mailbox format</string>
     <string name="text_pass_contain">Password composed of 6-16 letters,numbers and symbols</string>
+    <string name="text_mobile_err">Incorrect mobile format</string>
+    <string name="text_err_code">请输入6位验证码</string>
 
 </resources>

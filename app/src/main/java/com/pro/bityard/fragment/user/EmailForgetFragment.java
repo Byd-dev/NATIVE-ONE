@@ -1,25 +1,22 @@
 package com.pro.bityard.fragment.user;
 
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
-import com.pro.bityard.activity.ForgetActivity;
 import com.pro.bityard.activity.ResetPassActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
@@ -27,7 +24,6 @@ import com.pro.bityard.api.OnGtUtilResult;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
@@ -55,10 +51,20 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
 
     @BindView(R.id.text_getCode)
     TextView text_getCode;
-
+    @BindView(R.id.btn_submit)
+    Button btn_submit;
 
     private String geetestToken = null;
 
+    @BindView(R.id.layout_account)
+    LinearLayout layout_account;
+    @BindView(R.id.layout_code)
+    LinearLayout layout_code;
+
+    @BindView(R.id.text_err_email)
+    TextView text_err_email;
+    @BindView(R.id.text_err_code)
+    TextView text_err_code;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,6 +93,80 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
 
         text_getCode.setOnClickListener(this);
 
+
+        edit_account.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                edit_account.clearFocus();
+            }
+            return false;
+        });
+
+        edit_code.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId== EditorInfo.IME_ACTION_DONE){
+                edit_code.clearFocus();
+            }
+            return false;
+        });
+        //邮箱输入框焦点的监听
+        Util.isEmailEffective(edit_account, response -> {
+            if (response.toString().equals("1")) {
+                text_err_email.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                text_getCode.setEnabled(true);
+            } else if (response.toString().equals("0")) {
+                text_err_email.setVisibility(View.VISIBLE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                text_getCode.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_email.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                text_getCode.setEnabled(false);
+            }
+        });
+
+
+        edit_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length()>4&&Util.isCode(s.toString())&&Util.isEmail(edit_account.getText().toString())){
+                btn_submit.setEnabled(true);
+            }else {
+                btn_submit.setEnabled(false);
+            }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        //验证码输入框焦点的监听
+       /* Util.isCodeEffective(edit_code, response -> {
+            if (response.toString().equals("1")) {
+                text_err_code.setVisibility(View.GONE);
+                layout_code.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                if (Util.isEmail(edit_account.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            } else if (response.toString().equals("0")) {
+                text_err_code.setVisibility(View.VISIBLE);
+                layout_code.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_code.setVisibility(View.GONE);
+                layout_code.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+        });*/
 
     }
 
@@ -126,12 +206,12 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
-               // getCode(account_value);
+                // getCode(account_value);
 
                 NetManger.getInstance().getEmailCode(account_value, "FORGOT_PASSWORD", (state, response1, response2) -> {
-                    if (state.equals(BUSY)){
+                    if (state.equals(BUSY)) {
                         showProgressDialog();
-                    }else if (state.equals(SUCCESS)) {
+                    } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
@@ -139,11 +219,10 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                             Message msg = new Message();
                             mHandler.sendMessage(msg);
                         }
-                    }else if (state.equals(FAILURE)){
+                    } else if (state.equals(FAILURE)) {
                         dismissProgressDialog();
                     }
                 });
-
 
 
                 break;
@@ -161,14 +240,14 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
                 //1验证验证码
-              //  checkCode(account_value, code_value);
+                //  checkCode(account_value, code_value);
 
                 NetManger.getInstance().checkEmailCode(account_value, "REGISTER", code_value, (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
-                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        TipEntity tipEntity = (TipEntity) response;
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
                             //2 验证账号
                             checkAccount(account_value);
@@ -276,26 +355,23 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("account", account_value);
 
-        NetManger.getInstance().postRequest("/api/forgot/account-verify", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 200 && tipEntity.isVerify_email() == true) {
-                        //3 安全验证
-                        checkSafe(account_value);
+        NetManger.getInstance().postRequest("/api/forgot/account-verify", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200 && tipEntity.isVerify_email() == true) {
+                    //3 安全验证
+                    checkSafe(account_value);
 
 
-                    } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
 
-                    }
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
                 }
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
             }
         });
 

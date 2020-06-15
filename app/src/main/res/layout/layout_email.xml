@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!--账户-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginRight="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_10"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_email"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/layout_account"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit"
+            android:layout_marginTop="@dimen/margin_10"
+            android:background="@drawable/bg_shape_edit">
+
+            <EditText
+                android:id="@+id/edit_account"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:background="@null"
+                android:hint="@string/text_email_input"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textColor="@color/text_main_color"
+                android:textColorHint="@color/color_hint"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/hint_size" />
+
+
+        </LinearLayout>
+
+        <!--错误提示 忘记密码-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_20"
+
+            >
+
+            <TextView
+                android:id="@+id/text_err_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_err"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="@dimen/size_normal"
+                android:visibility="gone"
+                android:text="@string/text_err_email"/>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

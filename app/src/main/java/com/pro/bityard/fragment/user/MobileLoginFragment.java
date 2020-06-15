@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -72,8 +73,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
     Button btn_submit;
 
 
-    @BindView(R.id.text_err)
-    TextView text_err;
+
 
     @BindView(R.id.text_forget_pass)
     TextView text_forget_pass;
@@ -82,6 +82,15 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
     @BindView(R.id.img_eye)
     ImageView img_eye;
+
+    @BindView(R.id.layout_account)
+    LinearLayout layout_account;
+    @BindView(R.id.layout_pass)
+    LinearLayout layout_pass;
+    @BindView(R.id.text_err_pass)
+    TextView text_err_pass;
+    @BindView(R.id.text_err_mobile)
+    TextView text_err_mobile;
     //地区的适配器
     private CountryCodeAdapter countryCodeAdapter;
 
@@ -114,24 +123,62 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
         view.findViewById(R.id.btn_login).setOnClickListener(this);
         img_eye.setOnClickListener(this);
 
-        //检测错误提示是否显示
-        edit_password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        //监听软键盘的按钮
+        edit_account.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId== EditorInfo.IME_ACTION_DONE){
+                edit_account.clearFocus();
             }
+            return false;
+        });
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count_pass >= 1 && s.length() != 0) {
-                    text_err.setVisibility(View.GONE);
+        edit_password.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId== EditorInfo.IME_ACTION_DONE){
+                edit_password.clearFocus();
+            }
+            return false;
+        });
+        //手机号输入框焦点的监听
+        Util.isPhoneEffective(edit_account, response -> {
+            if (response.toString().equals("1")) {
+                text_err_mobile.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                if (Util.isPass(edit_password.getText().toString()) && edit_password.getText().toString().length() > 5) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
                 }
+            } else if (response.toString().equals("0")) {
+                text_err_mobile.setVisibility(View.VISIBLE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_mobile.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+        });
+
+
+        //检测错误提示是否显示
+        Util.isPassEffective(edit_password, response -> {
+            if (response.toString().equals("1")) {
+                text_err_pass.setVisibility(View.GONE);
+                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                if (Util.isPhone(edit_account.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            } else if (response.toString().equals("0")) {
+                text_err_pass.setVisibility(View.VISIBLE);
+                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_pass.setVisibility(View.GONE);
+                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
             }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
         });
 
         //忘记密码下划线
@@ -201,8 +248,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             text_countryName.setText(SPUtils.getString(AppConfig.USER_COUNTRY_NAME, null));
             edit_account.setText(SPUtils.getString(AppConfig.USER_MOBILE, null));
         }
-        Util.setTwoUnClick(edit_account, edit_password, btn_submit);
-        Util.setTwoUnClick(edit_password, edit_account, btn_submit);
+       /* Util.setTwoUnClick(edit_account, edit_password, btn_submit);
+        Util.setTwoUnClick(edit_password, edit_account, btn_submit);*/
 
 
     }
@@ -302,7 +349,6 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                                     } else if (loginEntity.getCode() == 401) {
                                         count_pass++;
-                                        text_err.setVisibility(View.VISIBLE);
                                     } else if (loginEntity.getCode() == 500) {
                                         Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                     }

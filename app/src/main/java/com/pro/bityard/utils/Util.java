@@ -7,6 +7,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Rect;
 import android.os.Build;
 import android.os.IBinder;
 import android.text.Editable;
@@ -26,6 +27,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.switchlibrary.SPUtils;
 
@@ -476,6 +478,92 @@ public class Util {
     }
 
 
+    public static void isPassEffective(EditText edit_password, OnResult onResult) {
+        //检测错误提示是否显示
+        edit_password.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (edit_password.getText().toString().length() != 0) {
+                    if (Util.isPass(edit_password.getText().toString()) && edit_password.getText().toString().length() > 5) {
+                        onResult.setResult("1");
+                    } else {
+                        onResult.setResult("0");
+                    }
+                } else {
+                    onResult.setResult("-1");
+                }
+            }
+        });
+    }
+
+    public static void isEmailEffective(EditText edit_account, OnResult onResult) {
+        //检测错误提示是否显示
+        edit_account.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (edit_account.getText().toString().length() != 0) {
+                    if (Util.isEmail(edit_account.getText().toString())) {
+                        onResult.setResult("1");
+                    } else {
+                        onResult.setResult("0");
+                    }
+                } else {
+                    onResult.setResult("-1");
+                }
+            }
+        });
+    }
+
+    public static void isCodeEffective(EditText edit_account, OnResult onResult) {
+        //检测错误提示是否显示
+        edit_account.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (edit_account.getText().toString().length() != 0) {
+                    if (Util.isCode(edit_account.getText().toString())) {
+                        onResult.setResult("1");
+                    } else {
+                        onResult.setResult("0");
+                    }
+                } else {
+                    onResult.setResult("-1");
+                }
+            }
+        });
+    }
+
+    public static void isPhoneEffective(EditText edit_account, OnResult onResult) {
+        //检测错误提示是否显示
+        edit_account.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (edit_account.getText().toString().length() != 0) {
+                    if (Util.isPhone(edit_account.getText().toString())) {
+                        onResult.setResult("1");
+                    } else {
+                        onResult.setResult("0");
+                    }
+                } else {
+                    onResult.setResult("-1");
+                }
+            }
+        });
+    }
+
+    public static boolean isPhone(String phoneStr) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(phoneStr);
+        if (isNum.matches()&&phoneStr.length()>4) {
+            return true;
+        }else {
+            return false;
+        }
+    }
+    public static boolean isCode(String phoneStr) {
+        Pattern pattern = Pattern.compile("[0-9]*");
+        Matcher isNum = pattern.matcher(phoneStr);
+        if (isNum.matches()) {
+            return true;
+        }else {
+            return false;
+        }
+    }
     public static void setThreeUnClick(EditText edit_amount, EditText edit_pass, EditText edit_code, Button btn_submit) {
         edit_amount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -526,10 +614,6 @@ public class Util {
             }
         });
     }
-
-
-
-
 
 
     public static void lightOff(Activity activity) {
@@ -632,12 +716,12 @@ public class Util {
             }
         }
         String regex = "^[a-zA-Z0-9]+$";
-        boolean isRight = isDigit && isLowerCase  && str.matches(regex);
+        boolean isRight = isDigit && isLowerCase && str.matches(regex);
         return isRight;
     }
 
     //隐藏软键盘并让editText失去焦点
-    public static void hideKeyboard(Activity activity,IBinder token, EditText editText) {
+    public static void hideKeyboard(Activity activity, IBinder token, EditText editText) {
         editText.clearFocus();
         if (token != null) {
             //这里先获取InputMethodManager再调用他的方法来关闭软键盘
@@ -648,4 +732,31 @@ public class Util {
             }
         }
     }
+
+    public static boolean isSoftShowing(Activity context) {
+        //获取当前屏幕内容的高度
+        int screenHeight = context.getWindow().getDecorView().getHeight();
+        //获取View可见区域的bottom
+        Rect rect = new Rect();
+        context.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+
+        return screenHeight - rect.bottom - getSoftButtonsBarHeight(context) != 0;
+    }
+
+    public static int getSoftButtonsBarHeight(Activity activity) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        //这个方法获取可能不是真实屏幕的高度
+        activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        int usableHeight = metrics.heightPixels;
+        //获取当前屏幕的真实高度
+        activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        int realHeight = metrics.heightPixels;
+        if (realHeight > usableHeight) {
+            return realHeight - usableHeight;
+        } else {
+            return 0;
+        }
+    }
+
+
 }

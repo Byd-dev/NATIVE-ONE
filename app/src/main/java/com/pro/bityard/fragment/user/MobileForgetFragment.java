@@ -10,6 +10,8 @@ import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -30,6 +32,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -65,6 +68,20 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
 
     @BindView(R.id.text_getCode)
     TextView text_getCode;
+
+    @BindView(R.id.btn_submit)
+    Button btn_submit;
+
+    @BindView(R.id.layout_account)
+    LinearLayout layout_account;
+    @BindView(R.id.layout_code)
+    LinearLayout layout_code;
+    @BindView(R.id.text_err_mobile)
+    TextView text_err_mobile;
+
+    @BindView(R.id.text_err_code)
+    TextView text_err_code;
+
     private CountryCodeEntity countryCodeEntity;
     //地区的适配器
     private CountryCodeAdapter countryCodeAdapter;
@@ -105,7 +122,76 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
 
         text_getCode.setOnClickListener(this);
 
+        edit_account.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                edit_account.clearFocus();
+            }
+            return false;
+        });
 
+        edit_code.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId== EditorInfo.IME_ACTION_DONE){
+                edit_code.clearFocus();
+            }
+            return false;
+        });
+        //手机号码输入框焦点的监听
+        Util.isPhoneEffective(edit_account, response -> {
+            if (response.toString().equals("1")) {
+                text_err_mobile.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                text_getCode.setEnabled(true);
+            } else if (response.toString().equals("0")) {
+                text_err_mobile.setVisibility(View.VISIBLE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                text_getCode.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_mobile.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                text_getCode.setEnabled(false);
+            }
+        });
+
+        edit_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length()>4&&Util.isCode(s.toString())&&Util.isPhone(edit_account.getText().toString())){
+                    btn_submit.setEnabled(true);
+                }else {
+                    btn_submit.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+       /* //验证码输入框焦点的监听
+        Util.isCodeEffective(edit_code, response -> {
+            if (response.toString().equals("1")) {
+                text_err_code.setVisibility(View.GONE);
+                layout_code.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                if (Util.isPhone(edit_account.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            } else if (response.toString().equals("0")) {
+                text_err_code.setVisibility(View.VISIBLE);
+                layout_code.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_code.setVisibility(View.GONE);
+                layout_code.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+        });*/
     }
 
 
@@ -234,7 +320,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
-                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        TipEntity tipEntity = (TipEntity) response;
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
                             //2 验证账号
                             checkAccount(country_code, account_value);

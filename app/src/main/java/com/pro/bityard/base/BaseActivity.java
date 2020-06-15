@@ -17,6 +17,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.google.android.material.textfield.TextInputEditText;
+import com.pro.bityard.R;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -49,6 +51,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
 
+    private EditText editText=null;
+
    /* @Override
     public Resources getResources() {
         // 字体大小不跟随系统
@@ -67,7 +71,7 @@ public abstract class BaseActivity extends AppCompatActivity {
             //获取目前得到焦点的view
             View v = getCurrentFocus();
             //判断是否要收起并进行处理
-            if (isShouldHideInput(v, ev)) {
+            if (isShouldHideKeyboard(v, ev)) {
                 hideKeyboard(v.getWindowToken());
             }
         }
@@ -75,24 +79,44 @@ public abstract class BaseActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
 
     }
-
-    EditText editText = null;
-
-    public boolean isShouldHideInput(View v, MotionEvent event) {
-        if (v != null && (v instanceof EditText)) {
-            editText = (EditText) v;
-            int[] leftTop = {0, 0};
-            //获取输入框当前的location位置
-            v.getLocationInWindow(leftTop);
-            int left = leftTop[0];
-            int top = leftTop[1];
-            int bottom = top + v.getHeight();
-            int right = left + v.getWidth();
-            return !(event.getX() > left && event.getX() < right
-                    && event.getY() > top && event.getY() < bottom);
+    //判断是否要收起键盘
+    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
+        //如果目前得到焦点的这个view是editText的话进行判断点击的位置
+        if (v!=null&&(v instanceof EditText)) {
+            editText= (EditText) v;
+            int[] l = {0, 0};
+            v.getLocationInWindow(l);
+            int left = l[0],
+                    top = l[1],
+                    bottom = top + v.getHeight(),
+                    right = left + v.getWidth();
+            // 点击EditText的事件，忽略它。
+            return !(event.getX() > left) || !(event.getX() < right)
+                    || !(event.getY() > top) || !(event.getY() < bottom);
         }
+        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上
         return false;
     }
+
+    //隐藏软键盘并让editText失去焦点
+    private void hideKeyboard(IBinder token) {
+        if (editText!=null){
+            editText.clearFocus();
+        }
+        if (token != null) {
+            //这里先获取InputMethodManager再调用他的方法来关闭软键盘
+            //InputMethodManager就是一个管理窗口输入的manager
+            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (im != null) {
+                im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
+
+
+
+
+
 
 
     /*多语言的设置*/
@@ -314,42 +338,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
 
-    private boolean isShouldHideKeyboard(View v, MotionEvent event) {
-        //如果目前得到焦点的这个view是editText的话进行判断点击的位置
-        if (v instanceof EditText) {
-            int[] l = {0, 0};
-            v.getLocationInWindow(l);
-            int left = l[0],
-                    top = l[1],
-                    bottom = top + v.getHeight(),
-                    right = left + v.getWidth();
-            // 点击EditText的事件，忽略它。
-            return !(event.getX() > left) || !(event.getX() < right)
-                    || !(event.getY() > top) || !(event.getY() < bottom);
-        }
-        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上
-        return false;
 
-    }
-    /**
-     * 获取InputMethodManager，隐藏软键盘
-     *
-     * @param token
-     */
-    //隐藏软键盘并让editText失去焦点
-    private void hideKeyboard(IBinder token) {
-        if (editText!=null){
-            editText.clearFocus();
-        }
-        if (token != null) {
-            //这里先获取InputMethodManager再调用他的方法来关闭软键盘
-            //InputMethodManager就是一个管理窗口输入的manager
-            InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (im != null) {
-                im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        }
-    }
 
 
 

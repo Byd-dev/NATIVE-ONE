@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <!--短信验证码-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_25"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_mobile_code"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/layout_code"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_edit"
+            android:layout_marginTop="@dimen/margin_10"
+            android:background="@drawable/bg_shape_edit"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edit_code"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_weight="1"
+                android:background="@null"
+                android:hint="@string/text_mobile_code_input"
+                android:inputType="number"
+                android:maxLines="1"
+                android:textColor="@color/text_main_color"
+                android:textColorHint="@color/color_hint"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/hint_size" />
+
+            <TextView
+                android:id="@+id/text_getCode"
+                android:layout_width="89dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/sel_switcher_enabled_bg"
+                android:gravity="center"
+                android:enabled="false"
+                android:text="@string/text_get_code"
+                android:textColor="@color/color_code"
+                android:textSize="@dimen/size_normal" />
+
+
+        </LinearLayout>
+
+        <!--错误提示 -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_20"
+
+            >
+
+            <TextView
+                android:id="@+id/text_err_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_err"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="@dimen/size_normal"
+                android:visibility="gone"
+                android:text="@string/text_email_code_input"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

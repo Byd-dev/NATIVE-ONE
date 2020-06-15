@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,9 +38,7 @@ import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -69,6 +68,24 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     ImageView img_eye;
     private ViewPager viewPager;
 
+
+    @BindView(R.id.btn_submit)
+    Button btn_submit;
+
+    @BindView(R.id.layout_account)
+    LinearLayout layout_account;
+    @BindView(R.id.layout_code)
+    LinearLayout layout_code;
+    @BindView(R.id.text_err_mobile)
+    TextView text_err_mobile;
+
+    @BindView(R.id.text_err_code)
+    TextView text_err_code;
+
+    @BindView(R.id.layout_pass)
+    LinearLayout layout_pass;
+    @BindView(R.id.text_err_pass)
+    TextView text_err_pass;
     //地区的适配器
     private CountryCodeAdapter countryCodeAdapter;
 
@@ -109,11 +126,81 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         view.findViewById(R.id.text_email_login).setOnClickListener(this);
 
         view.findViewById(R.id.layout_country).setOnClickListener(this);
-        view.findViewById(R.id.btn_login).setOnClickListener(this);
+        btn_submit.setOnClickListener(this);
         img_eye.setOnClickListener(this);
 
         text_getCode.setOnClickListener(this);
 
+
+        //手机号码输入框焦点的监听
+        Util.isPhoneEffective(edit_account, response -> {
+            if (response.toString().equals("1")) {
+                text_err_mobile.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                text_getCode.setEnabled(true);
+                if (Util.isCode(edit_code.getText().toString())&&Util.isPass(edit_password.getText().toString())){
+                    btn_submit.setEnabled(true);
+                }else {
+                    btn_submit.setEnabled(false);
+                }
+            } else if (response.toString().equals("0")) {
+                text_err_mobile.setVisibility(View.VISIBLE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                text_getCode.setEnabled(false);
+                btn_submit.setEnabled(false);
+
+            } else if (response.toString().equals("-1")) {
+                text_err_mobile.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                text_getCode.setEnabled(false);
+                btn_submit.setEnabled(false);
+
+            }
+        });
+
+        edit_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 4 && Util.isCode(s.toString()) && Util.isPhone(edit_account.getText().toString())
+                        && Util.isPass(edit_password.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        //检测错误提示是否显示
+        Util.isPassEffective(edit_password, response -> {
+            if (response.toString().equals("1")) {
+                text_err_pass.setVisibility(View.GONE);
+                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                if (Util.isPhone(edit_account.getText().toString())&&Util.isCode(edit_code.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            } else if (response.toString().equals("0")) {
+                text_err_pass.setVisibility(View.VISIBLE);
+                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_pass.setVisibility(View.GONE);
+                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+
+        });
     }
 
     @Override
@@ -228,7 +315,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
                 break;
 
-            case R.id.btn_login:
+            case R.id.btn_submit:
 
                 if (account_value.equals("")) {
                     Toast.makeText(getContext(), getResources().getString(R.string.text_input_number), Toast.LENGTH_SHORT).show();
@@ -252,7 +339,6 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                         countryID = dataBean.getId();
                     }
                 }
-
 
 
                 HashMap<String, String> map1 = new HashMap<>();

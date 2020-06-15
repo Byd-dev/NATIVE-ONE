@@ -381,5 +381,7 @@
     <string name="text_login_title">로그인</string>
     <string name="text_err_email">잘못된 이메일 형식</string>
     <string name="text_pass_contain">비밀번호는 영문, 숫자, 특수문자를 포함하여 6자리 이상 16자리 이하로 만드셔야 합니다.</string>
+    <string name="text_mobile_err">핸드폰 번호가 올바르지 않습니다.</string>
+    <string name="text_err_code">请输入6位验证码</string>
 
 </resources>

@@ -381,5 +381,7 @@
     <string name="text_login_title">登錄</string>
     <string name="text_err_email">郵箱格式錯誤</string>
     <string name="text_pass_contain">6-16位由字母、數字和符號組成的密碼，不能為純數字或字母</string>
+    <string name="text_mobile_err">手機號碼格式錯誤</string>
+    <string name="text_err_code">请输入6位验证码</string>
 
 </resources>

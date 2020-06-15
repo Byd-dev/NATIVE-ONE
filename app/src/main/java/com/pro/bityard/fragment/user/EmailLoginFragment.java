@@ -1,14 +1,12 @@
 package com.pro.bityard.fragment.user;
 
-import android.app.Activity;
-import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,7 +18,6 @@ import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ForgetActivity;
-import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
@@ -34,7 +31,6 @@ import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -46,8 +42,8 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 public class EmailLoginFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.img_eye)
     ImageView img_eye;
-    @BindView(R.id.layout_email)
-    LinearLayout layout_email;
+    @BindView(R.id.layout_account)
+    LinearLayout layout_account;
     @BindView(R.id.layout_pass)
     LinearLayout layout_pass;
 
@@ -58,7 +54,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     EditText edit_account;
     @BindView(R.id.edit_pass)
     EditText edit_password;
-    @BindView(R.id.btn_login)
+    @BindView(R.id.btn_submit)
     Button btn_submit;
 
     @BindView(R.id.text_err_pass)
@@ -71,6 +67,10 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     private int count_pass = 0;
 
     private String geetestToken = null;
+
+    public EmailLoginFragment(){
+
+    }
 
 
     @Override
@@ -100,55 +100,99 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
         img_eye.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
-        //邮箱输入框焦点的监听
-        edit_account.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus) {
-                if (edit_account.getText().toString().length() != 0) {
-                    if (Util.isEmail(edit_account.getText().toString())) {
-                        text_err_email.setVisibility(View.GONE);
-                        layout_email.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-                    } else {
-                        text_err_email.setVisibility(View.VISIBLE);
-                        layout_email.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
-                    }
-                } else {
-                    text_err_email.setVisibility(View.GONE);
-                    layout_email.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
 
+        edit_account.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId== EditorInfo.IME_ACTION_DONE){
+                edit_account.clearFocus();
+            }
+            return false;
+        });
+
+        edit_password.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId== EditorInfo.IME_ACTION_DONE){
+                edit_password.clearFocus();
+            }
+            return false;
+        });
+        //邮箱输入框焦点的监听
+        Util.isEmailEffective(edit_account, response -> {
+            if (response.toString().equals("1")) {
+                text_err_email.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                if (Util.isPass(edit_password.getText().toString()) && edit_password.getText().toString().length() > 5) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
                 }
+            } else if (response.toString().equals("0")) {
+                text_err_email.setVisibility(View.VISIBLE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_email.setVisibility(View.GONE);
+                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
             }
         });
 
 
+
+
         //检测错误提示是否显示
-        edit_password.setOnFocusChangeListener((v, hasFocus) -> {
+        Util.isPassEffective(edit_password, response -> {
+            if (response.toString().equals("1")) {
+                text_err_pass.setVisibility(View.GONE);
+                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                if (Util.isEmail(edit_account.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            } else if (response.toString().equals("0")) {
+                text_err_pass.setVisibility(View.VISIBLE);
+                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_pass.setVisibility(View.GONE);
+                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+
+        });
+
+
+        /*edit_password.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 if (edit_password.getText().toString().length() != 0) {
                     if (Util.isPass(edit_password.getText().toString()) && edit_password.getText().toString().length() > 5) {
                         text_err_pass.setVisibility(View.GONE);
                         layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        if (Util.isEmail(edit_account.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+                        }
                     } else {
                         text_err_pass.setVisibility(View.VISIBLE);
                         layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                        btn_submit.setEnabled(false);
+
                     }
                 } else {
                     text_err_pass.setVisibility(View.GONE);
                     layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                    btn_submit.setEnabled(false);
+
                 }
             }
-        });
+        });*/
 
         //忘记密码下划线
         text_forget_pass.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
         text_forget_pass.getPaint().setAntiAlias(true);//抗锯齿
 
 
-
-
     }
-
-
-
 
 
     @Override
@@ -170,14 +214,10 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         }
 
         //Util.setTwoUnClick(edit_account, edit_password, btn_submit);
-       // Util.setTwoUnClick(edit_password, edit_account, btn_submit);
+        // Util.setTwoUnClick(edit_password, edit_account, btn_submit);
 
 
     }
-
-
-
-
 
 
     @Override
@@ -192,7 +232,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 Util.setEye(getActivity(), edit_password, img_eye);
 
                 break;
-            case R.id.btn_login:
+            case R.id.btn_submit:
 
 
                 String account_value = edit_account.getText().toString();
@@ -257,7 +297,6 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                                     } else if (loginEntity.getCode() == 401) {
                                         count_pass++;
-                                        text_err_pass.setVisibility(View.VISIBLE);
                                     } else if (loginEntity.getCode() == 500) {
                                         Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                     }

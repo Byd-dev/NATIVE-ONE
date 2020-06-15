@@ -3,6 +3,7 @@ package com.pro.bityard.fragment.user;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
@@ -17,6 +18,12 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
     @BindView(R.id.viewPager)
     NoScrollViewPager viewPager;
     private int pageIndex;
+
+    @BindView(R.id.text_title)
+    TextView text_title;
+
+    @BindView(R.id.view_line)
+    View view_line;
 
 
     public ForgetFragment newInstance(int pageIndex){
@@ -56,6 +63,9 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
 
         view.findViewById(R.id.img_back).setOnClickListener(this);
         view.findViewById(R.id.text_right).setOnClickListener(this);
+
+        view_line.setVisibility(View.GONE);
+        text_title.setText(R.string.text_forget);
 
     }
 
