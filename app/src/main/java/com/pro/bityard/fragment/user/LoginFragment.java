@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.user;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.RegisterActivity;
@@ -17,7 +18,13 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     @BindView(R.id.viewPager)
     NoScrollViewPager viewPager;
 
+    @BindView(R.id.text_title)
+    TextView text_title;
 
+    @BindView(R.id.text_right)
+    TextView text_right;
+    @BindView(R.id.view_line)
+    View view_line;
 
 
     @Override
@@ -34,9 +41,13 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     protected void initView(View view) {
 
         initViewPager(viewPager);
+        text_title.setText(R.string.text_login_title);
+        text_right.setVisibility(View.VISIBLE);
+        text_right.setText(R.string.text_register);
+        view_line.setVisibility(View.GONE);
 
         view.findViewById(R.id.img_back).setOnClickListener(this);
-        view.findViewById(R.id.text_right).setOnClickListener(this);
+        text_right.setOnClickListener(this);
 
     }
 
@@ -58,7 +69,6 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     protected void initData() {
 
     }
-
 
 
     @Override

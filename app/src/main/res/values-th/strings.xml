@@ -378,5 +378,8 @@
     <string name="text_o_n_rules">Правила O / N</string>
     <string name="text_o_n_rule">При включении заказ можно удерживать всю ночь (сверх 05:55:00 по Сингапурскому времени), при этом будет начислена комиссия за ночь. Удерживать всю ночь= Маржа*(Рычаг-1)*0.045%. При отключении заказ будет закрыт системой до 05:55:00 по Сингапурскому времени.</string>
     <string name="text_introduction_simple">Введение</string>
+    <string name="text_login_title">Логин</string>
+    <string name="text_err_email">Неверный адрес электронной почты</string>
+    <string name="text_pass_contain">Пароль из 6-16 символов, состоящий из букв и цифр</string>
 
 </resources>

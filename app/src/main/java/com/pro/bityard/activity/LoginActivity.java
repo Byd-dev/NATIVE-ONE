@@ -3,6 +3,7 @@ package com.pro.bityard.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.pro.bityard.R;
@@ -21,8 +22,6 @@ public class LoginActivity extends BaseActivity {
     private FragmentTransaction ft;
     //登录页面
     private LoginFragment loginFragment;
-
-
 
 
 

@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.user;
 
 import android.view.View;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
@@ -14,7 +15,13 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
     @BindView(R.id.viewPager)
     NoScrollViewPager viewPager;
+    @BindView(R.id.text_title)
+    TextView text_title;
 
+    @BindView(R.id.text_right)
+    TextView text_right;
+    @BindView(R.id.view_line)
+    View view_line;
 
     @Override
     protected int setLayoutResourceID() {
@@ -32,7 +39,11 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
         initViewPager(viewPager);
 
         view.findViewById(R.id.img_back).setOnClickListener(this);
-        view.findViewById(R.id.text_right).setOnClickListener(this);
+        text_right.setOnClickListener(this);
+        text_title.setText(R.string.text_register_btn);
+        text_right.setVisibility(View.VISIBLE);
+        text_right.setText(R.string.text_login);
+        view_line.setVisibility(View.GONE);
 
     }
 

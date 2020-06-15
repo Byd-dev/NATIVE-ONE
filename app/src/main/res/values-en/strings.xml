@@ -377,5 +377,8 @@
     <string name="text_o_n_rules">O/N Rules</string>
     <string name="text_o_n_rule">Select on, the order can be held overnight (after Singapore time 05:55:00 ),Overnight Fee will be charged，Overnight Fees=Margin*(Leverage-1)*0.045%，If select off, the order will be closed  by the system at Singapore time 05:55:00</string>
     <string name="text_introduction_simple">Introduction</string>
+    <string name="text_login_title">Login</string>
+    <string name="text_err_email">Incorrect mailbox format</string>
+    <string name="text_pass_contain">Password composed of 6-16 letters,numbers and symbols</string>
 
 </resources>

@@ -36,6 +36,7 @@
             />
 
         <LinearLayout
+            android:id="@+id/layout_email"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_edit"
             android:layout_marginTop="@dimen/margin_10"
@@ -54,10 +55,30 @@
                 android:textColor="@color/text_main_color"
                 android:textColorHint="@color/color_hint"
                 android:textCursorDrawable="@null"
-                android:textSize="@dimen/size_normal" />
+                android:textSize="@dimen/hint_size" />
 
 
         </LinearLayout>
+
+        <!--错误提示 忘记密码-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_20"
+
+            >
+
+            <TextView
+                android:id="@+id/text_err_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_err"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="@dimen/size_normal"
+                android:visibility="gone"
+                android:text="@string/text_err_email"/>
+
+        </RelativeLayout>
 
 
     </LinearLayout>
@@ -67,7 +88,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_25"
-        android:layout_marginTop="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_25"
         android:orientation="vertical">
 
@@ -81,6 +102,7 @@
             />
 
         <LinearLayout
+            android:id="@+id/layout_pass"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_edit"
             android:layout_marginTop="@dimen/margin_10"
@@ -116,43 +138,41 @@
 
         </LinearLayout>
 
+        <!--错误提示 忘记密码-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/text_err_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_err"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/margin_5"
+                android:textSize="@dimen/size_normal"
+                android:visibility="gone"
+                android:text="@string/text_pass_contain"/>
+            <TextView
+                android:id="@+id/text_forget_pass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/maincolor"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_15"
+                android:paddingBottom="@dimen/margin_15"
+                android:layout_alignParentRight="true"
+                android:textSize="@dimen/size_normal"
+                android:text="@string/text_forget_pass"/>
+        </RelativeLayout>
+
 
     </LinearLayout>
 
 
-    <!--错误提示 忘记密码-->
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_25"
-        android:layout_marginRight="@dimen/margin_25"
-        >
 
-        <TextView
-            android:id="@+id/text_err"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/color_err"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_15"
-            android:paddingBottom="@dimen/margin_15"
-            android:layout_centerVertical="true"
-            android:textSize="@dimen/size_normal"
-            android:visibility="gone"
-            android:text="@string/text_pass_err"/>
-        <TextView
-            android:id="@+id/text_forget_pass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/maincolor"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:paddingTop="@dimen/margin_15"
-            android:paddingBottom="@dimen/margin_15"
-            android:layout_alignParentRight="true"
-            android:textSize="@dimen/size_normal"
-            android:text="@string/text_forget_pass"/>
-    </RelativeLayout>
 
     <!--登录button-->
     <Button

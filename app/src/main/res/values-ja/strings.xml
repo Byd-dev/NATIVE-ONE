@@ -378,6 +378,9 @@
     <string name="text_o_n_rules">过夜规则</string>
     <string name="text_o_n_rule">开启后，订单可持仓过夜（超过新加坡时间 05:55:00），但会收取一定的过夜费，过夜费 = 保证金*（杠杆-1） * 0.045% 如未开启，订单会在新加坡时间 05:55:00 被系统强制平仓</string>
     <string name="text_introduction_simple">简介</string>
+    <string name="text_login_title">登录</string>
+    <string name="text_err_email">邮箱格式错误</string>
+    <string name="text_pass_contain">密码至少6位,包含数字，字母，符号任意两种</string>
 
 
 </resources>

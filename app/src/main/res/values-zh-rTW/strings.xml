@@ -378,5 +378,8 @@
     <string name="text_o_n_rules">過夜規則</string>
     <string name="text_o_n_rule">開啟後，訂單可持倉過夜（超過新加坡時間 05:55:00），但會收取一定的過夜費，過夜費 = 保證金（杠桿-1）0.045% 如未開啟，訂單會在新加坡時間 05:55:00 被系統強制平倉</string>
     <string name="text_introduction_simple">簡介</string>
+    <string name="text_login_title">登錄</string>
+    <string name="text_err_email">郵箱格式錯誤</string>
+    <string name="text_pass_contain">6-16位由字母、數字和符號組成的密碼，不能為純數字或字母</string>
 
 </resources>

@@ -59,6 +59,42 @@ public abstract class BaseActivity extends AppCompatActivity {
         return res;
     }*/
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        //如果是点击事件，获取点击的view，并判断是否要收起键盘
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            //获取目前得到焦点的view
+            View v = getCurrentFocus();
+            //判断是否要收起并进行处理
+            if (isShouldHideInput(v, ev)) {
+                hideKeyboard(v.getWindowToken());
+            }
+        }
+        //这个是activity的事件分发，一定要有，不然就不会有任何的点击事件了
+        return super.dispatchTouchEvent(ev);
+
+    }
+
+    EditText editText = null;
+
+    public boolean isShouldHideInput(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            editText = (EditText) v;
+            int[] leftTop = {0, 0};
+            //获取输入框当前的location位置
+            v.getLocationInWindow(leftTop);
+            int left = leftTop[0];
+            int top = leftTop[1];
+            int bottom = top + v.getHeight();
+            int right = left + v.getWidth();
+            return !(event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom);
+        }
+        return false;
+    }
+
+
     /*多语言的设置*/
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -276,49 +312,45 @@ public abstract class BaseActivity extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
-    //隐藏虚拟键盘
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if (isShouldHideKeyboard(v, ev)) {
-                hideKeyboard(v.getWindowToken());
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
+
 
     private boolean isShouldHideKeyboard(View v, MotionEvent event) {
-        if (v != null && (v instanceof EditText)) {
+        //如果目前得到焦点的这个view是editText的话进行判断点击的位置
+        if (v instanceof EditText) {
             int[] l = {0, 0};
             v.getLocationInWindow(l);
             int left = l[0],
                     top = l[1],
                     bottom = top + v.getHeight(),
                     right = left + v.getWidth();
-            if (event.getX() > left && event.getX() < right
-                    && event.getY() > top && event.getY() < bottom) {
-                // 点击EditText的事件，忽略它。
-                return false;
-            } else {
-                return true;
-            }
+            // 点击EditText的事件，忽略它。
+            return !(event.getX() > left) || !(event.getX() < right)
+                    || !(event.getY() > top) || !(event.getY() < bottom);
         }
-        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上，和用户用轨迹球选择其他的焦点
+        // 如果焦点不是EditText则忽略，这个发生在视图刚绘制完，第一个焦点不在EditText上
         return false;
-    }
 
+    }
     /**
      * 获取InputMethodManager，隐藏软键盘
      *
      * @param token
      */
+    //隐藏软键盘并让editText失去焦点
     private void hideKeyboard(IBinder token) {
+        if (editText!=null){
+            editText.clearFocus();
+        }
         if (token != null) {
+            //这里先获取InputMethodManager再调用他的方法来关闭软键盘
+            //InputMethodManager就是一个管理窗口输入的manager
             InputMethodManager im = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+            if (im != null) {
+                im.hideSoftInputFromWindow(token, InputMethodManager.HIDE_NOT_ALWAYS);
+            }
         }
     }
+
 
 
     /**

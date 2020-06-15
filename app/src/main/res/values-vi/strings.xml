@@ -378,5 +378,8 @@
     <string name="text_o_n_rules">Quy tắc O/N</string>
     <string name="text_o_n_rule">Sau khi mở, lệnh có thể được giữ qua đêm ( hơn 05:55:00 giờ Singapore)，tuy nhiên sẽ thu phí qua đêm tiền bảo đảm( đòn bẩy-1)0.045%， Nếu không mở, lệnh sẽ bị buộc đóng trước 05:55:00 giờ Singapore</string>
     <string name="text_introduction_simple">Giới thiệu</string>
+    <string name="text_login_title">Đăng nhập</string>
+    <string name="text_err_email">Định dạng Email sai</string>
+    <string name="text_pass_contain">Mật khẩu gồm 6-16 chữ cái, số và kí hiệu</string>
 
 </resources>

@@ -1,15 +1,18 @@
 package com.pro.bityard.fragment.user;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.os.IBinder;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +20,7 @@ import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ForgetActivity;
+import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
@@ -30,6 +34,7 @@ import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -41,6 +46,10 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 public class EmailLoginFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.img_eye)
     ImageView img_eye;
+    @BindView(R.id.layout_email)
+    LinearLayout layout_email;
+    @BindView(R.id.layout_pass)
+    LinearLayout layout_pass;
 
 
     private ViewPager viewPager;
@@ -52,8 +61,10 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     @BindView(R.id.btn_login)
     Button btn_submit;
 
-    @BindView(R.id.text_err)
-    TextView text_err;
+    @BindView(R.id.text_err_pass)
+    TextView text_err_pass;
+    @BindView(R.id.text_err_email)
+    TextView text_err_email;
 
     @BindView(R.id.text_forget_pass)
     TextView text_forget_pass;
@@ -89,25 +100,41 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
         img_eye.setOnClickListener(this);
         btn_submit.setOnClickListener(this);
+        //邮箱输入框焦点的监听
+        edit_account.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (edit_account.getText().toString().length() != 0) {
+                    if (Util.isEmail(edit_account.getText().toString())) {
+                        text_err_email.setVisibility(View.GONE);
+                        layout_email.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                    } else {
+                        text_err_email.setVisibility(View.VISIBLE);
+                        layout_email.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                    }
+                } else {
+                    text_err_email.setVisibility(View.GONE);
+                    layout_email.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+
+                }
+            }
+        });
 
 
         //检测错误提示是否显示
-        edit_password.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (count_pass >= 1 && s.length() != 0) {
-                    text_err.setVisibility(View.GONE);
+        edit_password.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                if (edit_password.getText().toString().length() != 0) {
+                    if (Util.isPass(edit_password.getText().toString()) && edit_password.getText().toString().length() > 5) {
+                        text_err_pass.setVisibility(View.GONE);
+                        layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                    } else {
+                        text_err_pass.setVisibility(View.VISIBLE);
+                        layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                    }
+                } else {
+                    text_err_pass.setVisibility(View.GONE);
+                    layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
                 }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -116,7 +143,12 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         text_forget_pass.getPaint().setAntiAlias(true);//抗锯齿
 
 
+
+
     }
+
+
+
 
 
     @Override
@@ -137,12 +169,15 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
             edit_account.setText(text_email);
         }
 
-
-        Util.setTwoUnClick(edit_account, edit_password, btn_submit);
-        Util.setTwoUnClick(edit_password, edit_account, btn_submit);
+        //Util.setTwoUnClick(edit_account, edit_password, btn_submit);
+       // Util.setTwoUnClick(edit_password, edit_account, btn_submit);
 
 
     }
+
+
+
+
 
 
     @Override
@@ -222,7 +257,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                                     } else if (loginEntity.getCode() == 401) {
                                         count_pass++;
-                                        text_err.setVisibility(View.VISIBLE);
+                                        text_err_pass.setVisibility(View.VISIBLE);
                                     } else if (loginEntity.getCode() == 500) {
                                         Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                     }
