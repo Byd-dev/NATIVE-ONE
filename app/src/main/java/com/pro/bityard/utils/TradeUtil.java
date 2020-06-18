@@ -9,6 +9,7 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TradeListEntity;
+import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.TradeListManger;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static java.lang.Double.parseDouble;
 
 public class TradeUtil {
     private static String TAG = "TradeUtil";
@@ -438,6 +440,7 @@ public class TradeUtil {
         }
     }
 
+
     /*总计支付*/
     public static String total(String margin, String service, String deduction) {
         double marginDou = Double.parseDouble(margin);
@@ -446,14 +449,14 @@ public class TradeUtil {
 
         double add = TradeUtil.add(marginDou, serviceDou);
         double sub = TradeUtil.sub(add, deductionDou);
-        return TradeUtil.getNumberFormat(sub, 2);
-
-
+        return TradeUtil.numberHalfUp(sub, 2);
     }
 
     /*抵扣*/
-    public static String deduction(String margin, String prizeTrade) {
-        return getNumberFormat(TradeUtil.mul(Double.parseDouble(margin), Double.parseDouble(prizeTrade)), 2);
+    public static String deduction(String margin, String prizeTrade, String service) {
+        String s = numberHalfUp(TradeUtil.mul(Double.parseDouble(margin), Double.parseDouble(prizeTrade)), 2);
+        double add = add(Double.parseDouble(s), Double.parseDouble(service));
+        return numberHalfUp(add, 2);
     }
 
 
@@ -469,7 +472,7 @@ public class TradeUtil {
         }
         double div = div(chargeUnitEntity.getChargeCoinList().get(1), 1000, 10);
         if (coinFormula == 3) {
-            charge = getNumberFormat(mul(mul(Double.parseDouble(margin), sub(lever, 1)), div), 4);
+            charge = numberHalfUp(mul(mul(Double.parseDouble(margin), sub(lever, 1)), div), 2);
         }
         return charge;
 
@@ -1042,4 +1045,29 @@ public class TradeUtil {
         double mul = mul(div, 100);
         return mul;
     }
+
+    /*计算抵扣金额 抵扣金额是=礼金抵扣+红包抵扣 */
+    public static String deductionResult(String service, String margin, String prizeTrade) {
+        double mul = TradeUtil.mul(parseDouble(margin), parseDouble(prizeTrade));
+        double prize = BalanceManger.getInstance().getPrize();
+        double prizeDou, luckyDou;
+        if (prizeTrade != null) {
+            if (mul <= prize) {
+                prizeDou = Double.parseDouble(TradeUtil.numberHalfUp(mul, 2));
+            } else {
+                prizeDou = 0.00;
+            }
+        } else {
+            prizeDou = 0.00;
+        }
+        double lucky = BalanceManger.getInstance().getLucky();
+        if (Double.parseDouble(service) <= lucky) {
+            luckyDou = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(service), 2));
+        } else {
+            luckyDou = 0.00;
+        }
+        String deduction = TradeUtil.numberHalfUp(TradeUtil.add(prizeDou, luckyDou), 2);
+        return deduction;
+    }
+
 }

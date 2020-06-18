@@ -390,5 +390,6 @@
     <string name="text_trading_fees">Used to deduct trading fees</string>
     <string name="text_deduction_amount">Deduction Amount</string>
     <string name="text_usdt">USDT</string>
+    <string name="text_sure_submit">Confirm the order</string>
 
 </resources>

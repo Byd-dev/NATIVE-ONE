@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
@@ -29,7 +27,6 @@ import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.chart.NoVolumeView;
@@ -63,14 +60,13 @@ import com.pro.bityard.manger.QuoteWeekHistoryManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.OnPopResult;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +83,6 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
-import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteIsRange;
@@ -575,8 +570,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         /*获取输入框的范围保证金*/
         TradeListManger.getInstance().tradeList((state, response) -> {
-            if (state.equals(SUCCESS)){
-                tradeListEntityList= (List<TradeListEntity>) response;
+            if (state.equals(SUCCESS)) {
+                tradeListEntityList = (List<TradeListEntity>) response;
                 tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
                 setContent(tradeListEntity);
             }
@@ -584,7 +579,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
-            if (state.equals(SUCCESS)){
+            if (state.equals(SUCCESS)) {
                 chargeUnitEntityList = (List<ChargeUnitEntity>) response;
                 chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
 
@@ -811,64 +806,46 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     return;
                 } else {
                     Util.lightOff(QuoteDetailActivity.this);
-                    String prizeDub;
                     if (prizeTrade != null) {
 
-                        double mul = TradeUtil.mul(parseDouble(edit_market_margin.getText().toString()), parseDouble(prizeTrade));
-                        double prize = BalanceManger.getInstance().getPrize();
-                        if (mul <= prize) {
-                            prizeDub = TradeUtil.getNumberFormat(mul, 2);
-                        } else {
-                            prizeDub = "0.0";
-                        }
-                    } else {
-                        prizeDub = null;
+                        String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
 
+                        String prizeDub = TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade);
+                        Log.d("print", "onClick:813:  "+prizeDub);
+
+                        PopUtil.getInstance().showLongTip(QuoteDetailActivity.this,
+                                layout_view, false,
+                                getString(R.string.text_service_tip),
+                                getString(R.string.text_trade_fees),
+                                getString(R.string.text_deduction_amount),
+                                service,
+                                prizeDub, state -> {
+
+                                });
                     }
 
-                    PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
-                            new StringBuilder().append(getString(R.string.text_service_tip)).append(getString(R.string.text_trade_fees))
-                                    .append(":")
-                                    .append(TradeUtil.serviceCharge(chargeUnitEntity,
-                                            3, edit_market_margin.getText().toString(),
-                                            lever)).append("USDT")
-                                    .append(getString(R.string.text_deduction_amount))
-                                    .append(":").append(prizeDub + R.string.text_usdt).toString(), state -> {
-                            }
-                    );
                 }
                 break;
             case R.id.text_limit_all:
                 if (text_limit_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
                     return;
                 } else {
-                    String prizeDub;
-                    if (prizeTrade != null) {
+                    String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever);
 
-                        double mul = TradeUtil.mul(parseDouble(text_limit_all.getText().toString()), parseDouble(prizeTrade));
-                        double prize = BalanceManger.getInstance().getPrize();
-                        if (mul <= prize) {
-                            prizeDub = TradeUtil.getNumberFormat(mul, 2);
-                        } else {
-                            prizeDub = "0.0";
-                        }
-                    } else {
-                        prizeDub = null;
+                    String prizeDub = TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade);
 
-                    }
                     Util.lightOff(QuoteDetailActivity.this);
-                    PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
-                            new StringBuilder().append(getString(R.string.text_service_tip))
-                                    .append(":")
-                                    .append(getString(R.string.text_trade_fees))
-                                    .append(TradeUtil.serviceCharge(chargeUnitEntity,
-                                            3, edit_limit_margin.getText().toString(),
-                                            lever)).append("USDT")
-                                    .append(getString(R.string.text_deduction_amount))
-                                    .append(":")
-                                    .append(prizeDub + R.string.text_usdt).toString(), state -> {
-                            }
-                    );
+
+                    PopUtil.getInstance().showLongTip(QuoteDetailActivity.this,
+                            layout_view, false,
+                            getString(R.string.text_service_tip),
+                            getString(R.string.text_trade_fees),
+                            getString(R.string.text_deduction_amount),
+                            service,
+                            prizeDub, state -> {
+
+                            });
+
                 }
                 break;
             case R.id.text_position:
@@ -1021,27 +998,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         TextView text_margin = view.findViewById(R.id.text_margin_pop);
         text_margin.setText(margin + " " + getString(R.string.text_usdt));
-        TextView text_service = view.findViewById(R.id.text_service_pop);
-        text_service.setText(service + " " + getString(R.string.text_usdt));
-        TextView text_all = view.findViewById(R.id.text_all_pop);
-        text_all.setText(TradeUtil.add(Double.parseDouble(margin), Double.parseDouble(service)) + " " + getString(R.string.text_usdt));
 
+        TextView text_service = view.findViewById(R.id.text_service_pop);
+        text_service.setText(TradeUtil.numberHalfUp(Double.parseDouble(service), 2) + " " + getString(R.string.text_usdt));
+        TextView text_all = view.findViewById(R.id.text_all_pop);
         text_deduction_amount_pop = view.findViewById(R.id.text_deduction_amount_pop);
 
+        text_deduction_amount_pop.setText(TradeUtil.deductionResult(service, margin, prizeTrade) + " " + getString(R.string.text_usdt));
 
-        if (prizeTrade != null) {
-            double mul = TradeUtil.mul(parseDouble(margin), parseDouble(prizeTrade));
-            double prize = BalanceManger.getInstance().getPrize();
-            if (mul <= prize) {
-                text_deduction_amount_pop.setText(TradeUtil.getNumberFormat(mul, 2) + " " + getString(R.string.text_usdt));
-            } else {
-                text_deduction_amount_pop.setText(getString(R.string.text_default) + " " + getString(R.string.text_usdt));
-            }
-        } else {
-            text_deduction_amount_pop.setText(getString(R.string.text_default) + " " + getString(R.string.text_usdt));
-
-        }
-
+        text_all.setText(TradeUtil.total(margin, service, TradeUtil.deductionResult(service, margin, prizeTrade)) + getString(R.string.text_usdt));
 
         view.findViewById(R.id.text_sure).setOnClickListener(v -> {
             String priceMuch = text_buy_much.getText().toString();
@@ -1363,40 +1328,18 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 //仓位实时更新 服务费
                 if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
                     text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
-
-
-                    double mul = TradeUtil.mul(parseDouble(edit_market_margin.getText().toString()), parseDouble(prizeTrade));
-                    double prize = BalanceManger.getInstance().getPrize();
-                    String total;
-                    if (mul > prize) {
-                        total = TradeUtil.total(edit_market_margin.getText().toString(),
-                                TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever),
-                                "0");
-                    } else {
-                        total = TradeUtil.total(edit_market_margin.getText().toString(),
-                                TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever),
-                                TradeUtil.deduction(edit_market_margin.getText().toString(), prizeTrade));
-                    }
-
-                    text_market_all.setText(total);
+                    String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
+                    text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
+                            service,
+                            TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade)));
 
                 }
                 if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
                     text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
-
-                    double mul = TradeUtil.mul(parseDouble(edit_limit_margin.getText().toString()), parseDouble(prizeTrade));
-                    double prize = BalanceManger.getInstance().getPrize();
-                    String total;
-                    if (mul > prize) {
-                        total = TradeUtil.total(edit_limit_margin.getText().toString(),
-                                TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever),
-                                "0");
-                    } else {
-                        total = TradeUtil.total(edit_limit_margin.getText().toString(),
-                                TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever),
-                                TradeUtil.deduction(edit_limit_margin.getText().toString(), prizeTrade));
-                    }
-                    text_limit_all.setText(total);
+                    String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever);
+                    text_limit_all.setText(TradeUtil.total(edit_limit_margin.getText().toString(),
+                            service,
+                            TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade)));
 
                 }
 

@@ -391,5 +391,6 @@
     <string name="text_trading_fees">Được dùng giảm phí giao dịch</string>
     <string name="text_deduction_amount">Số tiền giảm</string>
     <string name="text_usdt">USDT</string>
+    <string name="text_sure_submit">Xác nhận lệnh</string>
 
 </resources>

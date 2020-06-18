@@ -390,5 +390,6 @@
     <string name="text_trading_fees">用户抵扣交易手续费</string>
     <string name="text_deduction_amount">抵扣金额</string>
     <string name="text_usdt">USDT</string>
+    <string name="text_sure_submit">确认下单</string>
 
 </resources>

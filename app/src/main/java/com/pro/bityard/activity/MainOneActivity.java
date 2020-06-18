@@ -415,7 +415,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 if (userDetailEntity.getUser() != null) {
                     text_userName.setText(userDetailEntity.getUser().getUsername());
                     text_uid.setVisibility(View.VISIBLE);
-                    text_uid.setText(loginEntity.getUser().getUserId());
+                    text_uid.setText("UID:"+loginEntity.getUser().getUserId());
                     text_register.setVisibility(View.GONE);
                     img_edit.setVisibility(View.VISIBLE);
                     if (isEyeOpen) {
@@ -496,7 +496,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             text_userName.setText(loginEntity.getUser().getUserName());
             text_uid.setVisibility(View.VISIBLE);
-            text_uid.setText(loginEntity.getUser().getUserId());
+            text_uid.setText("UID:"+loginEntity.getUser().getUserId());
             text_register.setVisibility(View.GONE);
             img_edit.setVisibility(View.VISIBLE);
             layout_login_register.setVisibility(View.GONE);

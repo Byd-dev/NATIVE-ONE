@@ -73,7 +73,7 @@
                                     android:gravity="center"
                                     android:text="@string/text_unlogin"
                                     android:textColor="@color/text_mainclor_black"
-                                    android:textSize="@dimen/size_big"
+                                    android:textSize="@dimen/size_bigger"
                                     android:typeface="monospace" />
 
                                 <ImageView
@@ -99,8 +99,7 @@
                                 android:layout_marginTop="@dimen/margin_8"
                                 android:text="--"
                                 android:textColor="@color/text_mainclor_black"
-
-                                android:textSize="@dimen/size_normal"
+                                android:textSize="@dimen/size_big"
                                 android:typeface="monospace" />
 
 

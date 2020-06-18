@@ -391,5 +391,6 @@
     <string name="text_trading_fees">Используется для вычета сборов за транзакции</string>
     <string name="text_deduction_amount">Сумма вычета</string>
     <string name="text_usdt">USDT</string>
+    <string name="text_sure_submit">Подтвердить заказ</string>
 
 </resources>

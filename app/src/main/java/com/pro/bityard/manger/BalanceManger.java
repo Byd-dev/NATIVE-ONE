@@ -47,6 +47,15 @@ public class BalanceManger extends Observable {
     private double balanceSim;
 
     private double prize;
+    private double lucky;
+
+    public double getLucky() {
+        return lucky;
+    }
+
+    public void setLucky(double lucky) {
+        this.lucky = lucky;
+    }
 
     public double getPrize() {
         return prize;
@@ -93,7 +102,7 @@ public class BalanceManger extends Observable {
                             setBalanceReal(data.getMoney());
                             setBalanceSim(data.getGame());
                             setPrize(data.getPrize());
-
+                            setLucky(data.getLucky());
 
                         }
                     }

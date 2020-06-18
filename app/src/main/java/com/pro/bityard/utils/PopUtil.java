@@ -90,6 +90,59 @@ public class PopUtil {
 
     }
 
+    public void showLongTip(Activity activity, View layout_view, boolean showCancel, String title, String title2, String title3,
+                            String value, String value2, OnPopResult onPopResult) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_tip_long_pop_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        TextView text_one = view.findViewById(R.id.text_one);
+        text_one.setLineSpacing(1.1f, 1.5f);
+        text_one.setText(title);
+        TextView text_two = view.findViewById(R.id.text_two);
+        text_two.setLineSpacing(1.1f, 1.5f);
+        text_two.setText(title2);
+        TextView text_three = view.findViewById(R.id.text_three);
+        text_three.setLineSpacing(1.1f, 1.5f);
+        text_three.setText(title3);
+
+        TextView text_value = view.findViewById(R.id.text_value);
+        text_value.setLineSpacing(1.1f, 1.5f);
+        text_value.setText(value);
+
+        TextView text_value2 = view.findViewById(R.id.text_value2);
+        text_value2.setLineSpacing(1.1f, 1.5f);
+        text_value2.setText(value2);
+
+
+        view.findViewById(R.id.text_sure).setOnClickListener(v -> {
+            onPopResult.setPopResult(true);
+            popupWindow.dismiss();
+        });
+
+        TextView text_cancel = view.findViewById(R.id.text_cancel);
+        if (showCancel) {
+            text_cancel.setVisibility(View.VISIBLE);
+        } else {
+            text_cancel.setVisibility(View.GONE);
+
+        }
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            onPopResult.setPopResult(false);
+            popupWindow.dismiss();
+        });
+
+
+        Util.dismiss(activity, popupWindow);
+        Util.isShowing(activity, popupWindow);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+
+    }
+
     public void showEdit(Activity activity, View layout_view, boolean showCancel, OnResult onResult) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_edit_pop_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -289,7 +342,6 @@ public class PopUtil {
                         Log.d("jiguang", "setResult:292:  " + response));
             });
         });
-
 
 
         TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,

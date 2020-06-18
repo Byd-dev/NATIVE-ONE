@@ -391,5 +391,6 @@
     <string name="text_trading_fees">거래 수수료 공제용</string>
     <string name="text_deduction_amount">공제금액</string>
     <string name="text_usdt">USDT</string>
+    <string name="text_sure_submit">주문 확인</string>
 
 </resources>
