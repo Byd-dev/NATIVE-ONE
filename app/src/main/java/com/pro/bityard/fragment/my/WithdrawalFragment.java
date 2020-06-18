@@ -31,6 +31,7 @@ import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
+import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.TradeUtil;
@@ -51,7 +52,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class WithdrawalFragment extends BaseFragment implements View.OnClickListener, Observer {
+public class WithdrawalFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.img_record)
@@ -180,13 +181,15 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
-        UserDetailManger.getInstance().addObserver(this);
 
         NetManger.getInstance().withdrawalAddressList((state, response) -> {
             if (state.equals(SUCCESS)) {
                 withdrawalAdressEntity = (WithdrawalAdressEntity) response;
             }
         });
+
+        text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+
 
     }
 
@@ -392,22 +395,5 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     };
 
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o == UserDetailManger.getInstance()) {
-            userDetailEntity = (UserDetailEntity) arg;
-            if (text_balance != null) {
-                if (isAdded()) {
-                    if (userDetailEntity == null) {
-                        return;
-                    }
-                    if (userDetailEntity.getUser() == null) {
-                        return;
-                    }
-                    text_balance.setText(TradeUtil.getNumberFormat(userDetailEntity.getUser().getMoney(), 2));
 
-                }
-            }
-        }
-    }
 }
