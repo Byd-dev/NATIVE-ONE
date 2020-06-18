@@ -178,6 +178,7 @@ public class InitEntity {
         private String iosUrl;
         private String logoUrl;
         private Object nameAuth;
+        private String prizeTrade;
         private String supportCurrency;
         private boolean valid;
         private int withdrawHour1;
@@ -272,6 +273,14 @@ public class InitEntity {
 
         public void setLogoUrl(String logoUrl) {
             this.logoUrl = logoUrl;
+        }
+
+        public String getPrizeTrade() {
+            return prizeTrade;
+        }
+
+        public void setPrizeTrade(String prizeTrade) {
+            this.prizeTrade = prizeTrade;
         }
 
         public Object getNameAuth() {

@@ -72,10 +72,10 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     TextView text_new_invited;
     @BindView(R.id.text_total_volume)
     TextView text_total_volume;
-    @BindView(R.id.text_total_orders)
-    TextView text_total_orders;
-    @BindView(R.id.text_commission_rate)
-    TextView text_commission_rate;
+    @BindView(R.id.text_salary_all)
+    TextView text_salary_all;
+    @BindView(R.id.text_salary_day)
+    TextView text_salary_day;
     @BindView(R.id.text_url)
     TextView text_url;
 
@@ -455,7 +455,9 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 text_number_trader.setText(String.valueOf(inviteEntity.getData().getSubTrade()));
                 text_new_invited.setText(String.valueOf(inviteEntity.getData().getSubCountNew()));
                 text_total_volume.setText(String.valueOf(inviteEntity.getData().getTradeAmount()));
-                text_total_orders.setText(String.valueOf(inviteEntity.getData().getTradeCount()));
+                text_salary_all.setText(String.valueOf(inviteEntity.getData().getSalaryAll()));
+                text_salary_day.setText(String.valueOf(inviteEntity.getData().getSalaryDay()));
+
                 double commission = inviteEntity.getData().getCommission();
                 text_commission.setText(TradeUtil.getNumberFormat(commission, 2) + "(" + inviteEntity.getData().getCurrency() + ")");
                 String string = SPUtils.getString(AppConfig.USD_RATE, null);
@@ -470,18 +472,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 }
             }
         });
-
-        NetManger.getInstance().unionRate((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                unionRateEntity = (UnionRateEntity) response;
-                //退出需要清除
-                SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
-                if (unionRateEntity.getUnion() != null) {
-                    text_commission_rate.setText(TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) + "%");
-                }
-            }
-        });
-
 
         page = 1;
         getInviteList(FIRST, page, null);

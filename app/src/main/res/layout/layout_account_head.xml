@@ -5,106 +5,327 @@
     android:background="@color/background_maincolor"
     android:orientation="vertical">
 
-    <LinearLayout
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_height="120dp"
         android:layout_marginTop="@dimen/margin_15"
-        android:layout_marginRight="@dimen/margin_15"
-        android:background="@mipmap/bg_account"
-        android:orientation="vertical">
+        android:scrollbars="none"
+        >
 
-        <!--余额名称-->
-        <RelativeLayout
-            android:id="@+id/layout_balance"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_15"
-            android:layout_weight="1"
-            android:orientation="horizontal"
-
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/margin_10"
-                android:text="@string/text_all_balance"
-                android:textColor="@color/text_main_color_black"
-                android:textSize="@dimen/size_big"
-                android:textStyle="bold"
-                android:typeface="monospace" />
-
-            <ImageView
-                android:id="@+id/img_eye_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_centerVertical="true"
-                android:layout_marginBottom="@dimen/margin_10"
-                android:paddingLeft="@dimen/margin_20"
-                android:paddingRight="@dimen/margin_20"
-                android:src="@mipmap/icon_eye_open_black" />
-        </RelativeLayout>
-        <!--余额-->
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_15"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
+            <!--总净资产-->
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="110dp"
+                android:background="@mipmap/icon_account_one"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:orientation="vertical">
+
+                <!--余额名称-->
+                <RelativeLayout
+                    android:id="@+id/layout_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:text="@string/text_all_balance"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_big"
+                        android:textStyle="bold"
+                        android:typeface="monospace" />
+
+                    <ImageView
+                        android:id="@+id/img_eye_switch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:paddingLeft="@dimen/margin_20"
+                        android:paddingRight="@dimen/margin_20"
+                        android:src="@mipmap/icon_eye_open_black" />
+                </RelativeLayout>
+                <!--余额-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
 
 
-            <TextView
-                android:id="@+id/text_balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0.00"
-                android:textColor="@color/text_main_color_black"
-                android:textSize="26sp"
-                android:textStyle="bold"
-                android:typeface="monospace" />
+                    <TextView
+                        android:id="@+id/text_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_bigger"
+                        android:textStyle="bold"
+                        android:typeface="monospace" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(USDT)"
-                android:textColor="@color/text_main_color_black"
-                android:textSize="@dimen/size_normal_two"
-                android:typeface="monospace"
-                android:visibility="gone" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(USDT)"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_normal_two"
+                        android:typeface="monospace"
+                        android:visibility="gone" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="≈"
-                android:textColor="@color/text_main_color_black"
-                android:textSize="@dimen/size_big"
-                android:typeface="monospace" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="≈"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_big"
+                        android:typeface="monospace" />
 
-            <TextView
-                android:id="@+id/text_balance_currency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0.0"
-                android:textColor="@color/text_main_color_black"
-                android:textSize="@dimen/size_bigger"
-                android:typeface="monospace" />
+                    <TextView
+                        android:id="@+id/text_balance_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.0"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_bigger"
+                        android:typeface="monospace" />
 
-            <TextView
-                android:id="@+id/text_currency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(CNY)"
-                android:textColor="@color/text_main_color_black"
-                android:textSize="@dimen/size_normal"
-                android:typeface="monospace" />
+                    <TextView
+                        android:id="@+id/text_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(CNY)"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <!--礼金余额-->
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="110dp"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:background="@mipmap/icon_account_two"
+                android:orientation="vertical">
+
+                <!--余额名称-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <TextView
+                        android:id="@+id/stay_bonus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:text="@string/text_bonus_balance"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableRight="@mipmap/icon_account_question"
+                        android:textStyle="bold"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(USDT)"
+                        android:layout_marginLeft="@dimen/margin_5"
+                        android:textSize="@dimen/size_big"
+                        android:layout_toRightOf="@+id/stay_bonus"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/text_main_color"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        />
+
+
+
+                </RelativeLayout>
+                <!--余额-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/text_bonus_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_bigger"
+                        android:textStyle="bold"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(USDT)"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_normal_two"
+                        android:typeface="monospace"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="≈"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_bonus_balance_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.0"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_bigger"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_bonus_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(CNY)"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <!--红包余额-->
+            <LinearLayout
+                android:layout_width="250dp"
+                android:layout_height="110dp"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@mipmap/icon_account_three"
+                android:orientation="vertical">
+
+                <!--余额名称-->
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+
+                    >
+
+                    <TextView
+                        android:id="@+id/stay_gift"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        android:text="@string/text_gift_money"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big"
+                        android:drawableRight="@mipmap/icon_account_question"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:textStyle="bold"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(USDT)"
+                        android:layout_marginLeft="@dimen/margin_5"
+                        android:textSize="@dimen/size_big"
+                        android:layout_toRightOf="@+id/stay_gift"
+                        android:layout_alignParentBottom="true"
+                        android:textColor="@color/text_main_color"
+                        android:layout_marginBottom="@dimen/margin_10"
+                        />
+                </RelativeLayout>
+                <!--余额-->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/margin_15"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/text_gift_balance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.00"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_bigger"
+                        android:textStyle="bold"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(USDT)"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_normal_two"
+                        android:typeface="monospace"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="≈"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_gift_balance_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0.0"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_bigger"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_gift_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="(CNY)"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+                </LinearLayout>
+
+
+            </LinearLayout>
         </LinearLayout>
 
 
-    </LinearLayout>
+    </HorizontalScrollView>
+
 
     <LinearLayout
         android:layout_width="match_parent"

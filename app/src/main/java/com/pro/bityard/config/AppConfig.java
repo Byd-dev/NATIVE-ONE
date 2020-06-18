@@ -54,6 +54,8 @@ public class AppConfig {
     public static final String USD_RATE = "USD_RATE";
     /*可支持的currency*/
     public static final String SUPPORT_CURRENCY = "SUPPORT_CURRENCY";
+    /*抵扣金额*/
+    public static final String PRIZE_TRADE="prizeTrade";
 
     /*汇率*/
     public static final String USDT = "USDT";

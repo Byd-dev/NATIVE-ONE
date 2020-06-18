@@ -90,6 +90,32 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_20"
+                android:layout_marginRight="@dimen/margin_20">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/text_deduction_amount"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal" />
+
+                <TextView
+                    android:id="@+id/text_deduction_amount_pop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"

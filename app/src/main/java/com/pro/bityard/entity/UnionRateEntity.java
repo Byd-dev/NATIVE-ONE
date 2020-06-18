@@ -124,7 +124,7 @@ public class UnionRateEntity {
         private String userId;
         private int visitCount;
         private String visitIp;
-        private int visitTime;
+        private double visitTime;
 
         public String getBrand() {
             return brand;
@@ -198,11 +198,11 @@ public class UnionRateEntity {
             this.visitIp = visitIp;
         }
 
-        public int getVisitTime() {
+        public double getVisitTime() {
             return visitTime;
         }
 
-        public void setVisitTime(int visitTime) {
+        public void setVisitTime(double visitTime) {
             this.visitTime = visitTime;
         }
     }

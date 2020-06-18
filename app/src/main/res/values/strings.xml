@@ -153,7 +153,7 @@
     <string name="text_inall_pop">合计</string>
     <string name="text_service_pop">手续费</string>
     <string name="text_are_you_sure">是否确认平仓?</string>
-    <string name="text_service_tip">手续费=保证金(杠杆-1)*0.15%\n</string>
+    <string name="text_service_tip">手续费=保证金*杠杆*0.05%\n</string>
     <string name="text_tip_login">未登录</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
@@ -382,5 +382,13 @@
     <string name="text_pass_contain">密码至少6位,包含数字，字母，符号任意两种</string>
     <string name="text_mobile_err">手机号码格式错误</string>
     <string name="text_err_code">请输入6位验证码</string>
+    <string name="text_salary_all">累计日工资</string>
+    <string name="text_salary_day">今日工资</string>
+    <string name="text_bonus_balance">礼金余额</string>
+    <string name="text_gift_money">红包余额</string>
+    <string name="text_used_to_deduct">用于抵扣%s交易保证金</string>
+    <string name="text_trading_fees">用户抵扣交易手续费</string>
+    <string name="text_deduction_amount">抵扣金额</string>
+    <string name="text_usdt">USDT</string>
 
 </resources>

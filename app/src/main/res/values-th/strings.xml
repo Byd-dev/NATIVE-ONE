@@ -154,7 +154,7 @@
     <string name="text_inall_pop">合计</string>
     <string name="text_service_pop">Комиссия</string>
     <string name="text_are_you_sure">Вы уверены, что хотите закрыть позицию?</string>
-    <string name="text_service_tip">Комиссия за транзакцию= Маржа*(Рычаг-1)*0.15%\n</string>
+    <string name="text_service_tip">Комиссия за транзакцию= Маржа*Рычаг*0.05%\n</string>
     <string name="text_tip_login">请登录</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
@@ -383,5 +383,13 @@
     <string name="text_pass_contain">Пароль из 6-16 символов, состоящий из букв и цифр</string>
     <string name="text_mobile_err">Неверный мобильный формат</string>
     <string name="text_err_code">请输入6位验证码</string>
+    <string name="text_salary_all">Общая еж-ная оплата</string>
+    <string name="text_salary_day">Сегодня еж-ная оплата</string>
+    <string name="text_bonus_balance">Бонус Баланс</string>
+    <string name="text_gift_money">Баланс подарочных денег</string>
+    <string name="text_used_to_deduct">Используется для вычета %s маржи транзакции</string>
+    <string name="text_trading_fees">Используется для вычета сборов за транзакции</string>
+    <string name="text_deduction_amount">Сумма вычета</string>
+    <string name="text_usdt">USDT</string>
 
 </resources>

@@ -1,126 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/layout_market"
-    android:background="@color/background_maincolor"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
     android:orientation="vertical">
 
 
-        <RelativeLayout
+    <RelativeLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/bar_height"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/text_market_tab"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/title_size" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/color_bg_left">
+
+        <LinearLayout
+            android:id="@+id/layout_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
             android:orientation="horizontal">
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/text_market_tab"
-                android:textColor="@color/text_main_color"
-                android:textSize="@dimen/title_size" />
-
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@color/color_bg_left">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
+                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:text="@string/text_name"
                 android:textColor="@color/color_hint"
                 android:textSize="14sp" />
 
-            <LinearLayout
-                android:id="@+id/layout_new_price"
+            <ImageView
+                android:id="@+id/img_name_triangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:src="@mipmap/market_up_down" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_new_price"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:layout_centerVertical="true"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:text="@string/text_new_price"
+                android:textColor="@color/color_hint"
+                android:textSize="14sp"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/text_new_price"
-                    android:textColor="@color/color_hint"
-                    android:textSize="14sp"
+                />
 
-                    />
+            <ImageView
+                android:id="@+id/img_price_triangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:src="@mipmap/market_up_down" />
 
-                <ImageView
-                    android:id="@+id/img_new_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:src="@mipmap/market_up_down" />
+        </LinearLayout>
 
-            </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layout_up_down"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/layout_up_down"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_15"
-                android:orientation="horizontal">
+                android:gravity="center"
+                android:text="@string/text_up_down"
+                android:textColor="@color/color_hint"
+                android:textSize="14sp"
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/text_up_down"
-                    android:textColor="@color/color_hint"
-                    android:textSize="14sp"
+                />
 
-                    />
+            <ImageView
+                android:id="@+id/img_rate_triangle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:src="@mipmap/market_up_down" />
 
-                <ImageView
-                    android:id="@+id/img_up_down"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:src="@mipmap/market_up_down" />
-
-            </LinearLayout>
+        </LinearLayout>
 
 
-        </RelativeLayout>
+    </RelativeLayout>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout_market"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout_market"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--列表-->
 
-            >
-
-            <LinearLayout
+            <com.pro.bityard.view.HeaderRecyclerView
+                android:id="@+id/recyclerView_market"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <!--列表-->
-
-                <com.pro.bityard.view.HeaderRecyclerView
-                    android:id="@+id/recyclerView_market"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                android:layout_height="match_parent" />
 
 
+        </LinearLayout>
 
-            </LinearLayout>
-
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>

@@ -141,12 +141,16 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     private int flag_new_price = 0;
     private int flag_up_down = 0;
+    private boolean flag_name=false;
 
-    @BindView(R.id.img_new_price)
-    ImageView img_new_price;
+    @BindView(R.id.img_price_triangle)
+    ImageView img_price_triangle;
 
-    @BindView(R.id.img_up_down)
-    ImageView img_up_down;
+    @BindView(R.id.img_rate_triangle)
+    ImageView img_rate_triangle;
+
+    @BindView(R.id.img_name_triangle)
+    ImageView img_name_triangle;
     private String type = "0";
     private ArrayMap<String, List<String>> arrayMap;
 
@@ -616,7 +620,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         findViewById(R.id.layout_new_price).setOnClickListener(this);
         findViewById(R.id.layout_up_down).setOnClickListener(this);
-
+        findViewById(R.id.layout_name).setOnClickListener(this);
         swipeRefreshLayout_market.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout_market.setOnRefreshListener(() -> {
@@ -937,7 +941,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 }
 
                 if (flag_new_price == 0) {
-                    img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_new_price = 1;
                     type = "1";
                     List<String> quoteList = arrayMap.get(type);
@@ -946,14 +950,15 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
                 } else if (flag_new_price == 1) {
 
-                    img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_new_price = 0;
                     type = "2";
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
                 }
-                img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
 
                 break;
             case R.id.layout_up_down:
@@ -961,23 +966,48 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     return;
                 }
                 if (flag_up_down == 0) {
-                    img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_up_down = 1;
                     type = "3";
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
                 } else if (flag_up_down == 1) {
-                    img_up_down.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_up_down = 0;
                     type = "4";
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
                 }
-                img_new_price.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
 
                 break;
+            case R.id.layout_name:
+                if (arrayMap == null) {
+                    return;
+                }
+                if (flag_name) {
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
+                    flag_name = false;
+                    type = "8";
+                    List<String> quoteList = arrayMap.get(type);
+                    quoteAdapter_market.setDatas(quoteList);
+
+                } else {
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
+                    flag_name = true;
+                    type = "7";
+                    List<String> quoteList = arrayMap.get(type);
+                    quoteAdapter_market.setDatas(quoteList);
+
+                }
+                img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+
+                break;
+
             /*我的 -----------------------------------------------------------------------------------*/
             case R.id.layout_login:
                 if (!isLogin()) {

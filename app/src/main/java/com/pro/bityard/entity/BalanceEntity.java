@@ -7,7 +7,7 @@ public class BalanceEntity {
 
     /**
      * code : 200
-     * data : [{"currency":"USDT","frozen":0,"game":100041.0386908,"money":9989781.26269602},{"currency":"ETH","frozen":0,"game":0,"money":0},{"currency":"BTC","frozen":0,"game":0,"money":2.46881574},{"currency":"TRX","frozen":0,"game":0,"money":0}]
+     * data : [{"currency":"USDT","eagle":6.45,"game":99853.19343778,"lucky":0,"money":33100.29985734,"prize":0},{"currency":"BTC","eagle":0,"game":0,"lucky":0,"money":0,"prize":0},{"currency":"ETH","eagle":0,"game":0,"lucky":0,"money":71.996,"prize":0},{"currency":"XRP","eagle":0,"game":0,"lucky":0,"money":10,"prize":0},{"currency":"HT","eagle":0,"game":0,"lucky":0,"money":0.7,"prize":0},{"currency":"TRX","eagle":0,"game":0,"lucky":0,"money":4,"prize":0},{"currency":"EOS","eagle":0,"game":0,"lucky":0,"money":0,"prize":0}]
      * message :
      */
 
@@ -49,27 +49,35 @@ public class BalanceEntity {
     }
 
     public static class DataBean {
-        /**
-         * currency : USDT
-         * frozen : 0.0
-         * game : 100041.0386908
-         * money : 9989781.26269602
-         */
-
-        private String currency;
-        private double frozen;
-        private double game;
-        private double money;
-
         @Override
         public String toString() {
             return "DataBean{" +
                     "currency='" + currency + '\'' +
-                    ", frozen=" + frozen +
+                    ", eagle=" + eagle +
                     ", game=" + game +
+                    ", lucky=" + lucky +
                     ", money=" + money +
+                    ", prize=" + prize +
                     '}';
         }
+
+        /**
+         * currency : USDT
+         * eagle : 6.45
+         * game : 99853.19343778
+         * lucky : 0.0
+         * money : 33100.29985734
+         * prize : 0.0
+         */
+
+
+
+        private String currency;
+        private double eagle;
+        private double game;
+        private double lucky;
+        private double money;
+        private double prize;
 
         public String getCurrency() {
             return currency;
@@ -79,12 +87,12 @@ public class BalanceEntity {
             this.currency = currency;
         }
 
-        public double getFrozen() {
-            return frozen;
+        public double getEagle() {
+            return eagle;
         }
 
-        public void setFrozen(double frozen) {
-            this.frozen = frozen;
+        public void setEagle(double eagle) {
+            this.eagle = eagle;
         }
 
         public double getGame() {
@@ -95,12 +103,28 @@ public class BalanceEntity {
             this.game = game;
         }
 
+        public double getLucky() {
+            return lucky;
+        }
+
+        public void setLucky(double lucky) {
+            this.lucky = lucky;
+        }
+
         public double getMoney() {
             return money;
         }
 
         public void setMoney(double money) {
             this.money = money;
+        }
+
+        public double getPrize() {
+            return prize;
+        }
+
+        public void setPrize(double prize) {
+            this.prize = prize;
         }
     }
 }

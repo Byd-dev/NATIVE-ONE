@@ -154,7 +154,7 @@
     <string name="text_inall_pop">合计</string>
     <string name="text_service_pop">手續費</string>
     <string name="text_are_you_sure">是否確認平倉?</string>
-    <string name="text_service_tip">手續費=保證金(槓桿-1)*0.15%\n</string>
+    <string name="text_service_tip">手續費=保證金*槓桿*0.05%\n</string>
     <string name="text_tip_login">请登錄</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
@@ -383,5 +383,13 @@
     <string name="text_pass_contain">6-16位由字母、數字和符號組成的密碼，不能為純數字或字母</string>
     <string name="text_mobile_err">手機號碼格式錯誤</string>
     <string name="text_err_code">请输入6位验证码</string>
+    <string name="text_salary_all">累計日工資</string>
+    <string name="text_salary_day">今日工資</string>
+    <string name="text_bonus_balance">禮金餘額</string>
+    <string name="text_gift_money">紅包餘額</string>
+    <string name="text_used_to_deduct">用於抵扣%s交易保證金</string>
+    <string name="text_trading_fees">用於抵扣交易手續費</string>
+    <string name="text_deduction_amount">抵扣金額</string>
+    <string name="text_usdt">USDT</string>
 
 </resources>

@@ -5,7 +5,7 @@ public class InviteEntity {
 
     /**
      * code : 200
-     * data : {"commission":39.24225,"currency":"USDT","subCount":3,"subCountNew":0,"subTrade":1,"tradeAmount":529700,"tradeCount":13}
+     * data : {"commission":550.176915,"currency":"USDT","salaryAll":15,"salaryDay":0,"subCount":16,"subCountNew":0,"subTrade":13,"tradeAmount":6122920,"tradeCount":50695}
      * message :
      */
 
@@ -52,6 +52,8 @@ public class InviteEntity {
             return "DataBean{" +
                     "commission=" + commission +
                     ", currency='" + currency + '\'' +
+                    ", salaryAll=" + salaryAll +
+                    ", salaryDay=" + salaryDay +
                     ", subCount=" + subCount +
                     ", subCountNew=" + subCountNew +
                     ", subTrade=" + subTrade +
@@ -61,23 +63,27 @@ public class InviteEntity {
         }
 
         /**
-         * commission : 39.24225
+         * commission : 550.176915
          * currency : USDT
-         * subCount : 3
+         * salaryAll : 15.0
+         * salaryDay : 0
+         * subCount : 16
          * subCountNew : 0
-         * subTrade : 1
-         * tradeAmount : 529700
-         * tradeCount : 13
+         * subTrade : 13
+         * tradeAmount : 6122920.0
+         * tradeCount : 50695
          */
 
 
 
         private double commission;
         private String currency;
+        private double salaryAll;
+        private int salaryDay;
         private int subCount;
         private int subCountNew;
         private int subTrade;
-        private int tradeAmount;
+        private double tradeAmount;
         private int tradeCount;
 
         public double getCommission() {
@@ -94,6 +100,22 @@ public class InviteEntity {
 
         public void setCurrency(String currency) {
             this.currency = currency;
+        }
+
+        public double getSalaryAll() {
+            return salaryAll;
+        }
+
+        public void setSalaryAll(double salaryAll) {
+            this.salaryAll = salaryAll;
+        }
+
+        public int getSalaryDay() {
+            return salaryDay;
+        }
+
+        public void setSalaryDay(int salaryDay) {
+            this.salaryDay = salaryDay;
         }
 
         public int getSubCount() {
@@ -120,11 +142,11 @@ public class InviteEntity {
             this.subTrade = subTrade;
         }
 
-        public int getTradeAmount() {
+        public double getTradeAmount() {
             return tradeAmount;
         }
 
-        public void setTradeAmount(int tradeAmount) {
+        public void setTradeAmount(double tradeAmount) {
             this.tradeAmount = tradeAmount;
         }
 

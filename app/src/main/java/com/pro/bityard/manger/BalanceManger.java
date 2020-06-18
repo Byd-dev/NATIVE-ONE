@@ -1,5 +1,6 @@
 package com.pro.bityard.manger;
 
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -45,6 +46,15 @@ public class BalanceManger extends Observable {
     private double balanceReal;
     private double balanceSim;
 
+    private double prize;
+
+    public double getPrize() {
+        return prize;
+    }
+
+    public void setPrize(double prize) {
+        this.prize = prize;
+    }
 
     public double getBalanceReal() {
         return balanceReal;
@@ -53,6 +63,7 @@ public class BalanceManger extends Observable {
     public void setBalanceReal(double balanceReal) {
         this.balanceReal = balanceReal;
     }
+
 
     public double getBalanceSim() {
         return balanceSim;
@@ -65,21 +76,25 @@ public class BalanceManger extends Observable {
     public void getBalance(String moneyType) {
 
 
-        NetManger.getInstance().getRequest("/api/user/asset/list", null, (state, response) -> {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("type", "1");
+
+        NetManger.getInstance().getRequest("/api/user/asset/list", map, (state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
-                //Log.d("print", "onNetResult:52: "+response.toString());
+                Log.d("print", "onNetResult:52: "+response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
 
                 } else if (tipEntity.getCode() == 200) {
                     BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
-                    Log.d("print", "onNetResult:59:  " + balanceEntity);
 
                     for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                         if (data.getCurrency().equals(moneyType)) {
                             setBalanceReal(data.getMoney());
                             setBalanceSim(data.getGame());
+                            setPrize(data.getPrize());
+
 
                         }
                     }

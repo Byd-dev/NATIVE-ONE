@@ -154,7 +154,7 @@
     <string name="text_inall_pop">合计</string>
     <string name="text_service_pop">Phí xử lý</string>
     <string name="text_are_you_sure">Xác nhận đóng lệnh?</string>
-    <string name="text_service_tip">Phí giao dịch=ký quỹ*(đòn bẩy-1)*0.15%\n</string>
+    <string name="text_service_tip">Phí giao dịch=ký quỹ*đòn bẩy*0.05%\n</string>
     <string name="text_tip_login">请登录</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
@@ -383,5 +383,13 @@
     <string name="text_pass_contain">Mật khẩu gồm 6-16 chữ cái, số và kí hiệu</string>
     <string name="text_mobile_err">Định dạng số điện thoại sai</string>
     <string name="text_err_code">请输入6位验证码</string>
+    <string name="text_salary_all">Tổng thưởng</string>
+    <string name="text_salary_day">Hôm nay</string>
+    <string name="text_bonus_balance">Số dư tiền thưởng</string>
+    <string name="text_gift_money">Số dư hồng bao</string>
+    <string name="text_used_to_deduct">Được dùng giảm %s ký quỹ</string>
+    <string name="text_trading_fees">Được dùng giảm phí giao dịch</string>
+    <string name="text_deduction_amount">Số tiền giảm</string>
+    <string name="text_usdt">USDT</string>
 
 </resources>

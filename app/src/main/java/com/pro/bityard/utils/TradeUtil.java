@@ -438,6 +438,25 @@ public class TradeUtil {
         }
     }
 
+    /*总计支付*/
+    public static String total(String margin, String service, String deduction) {
+        double marginDou = Double.parseDouble(margin);
+        double serviceDou = Double.parseDouble(service);
+        double deductionDou = Double.parseDouble(deduction);
+
+        double add = TradeUtil.add(marginDou, serviceDou);
+        double sub = TradeUtil.sub(add, deductionDou);
+        return TradeUtil.getNumberFormat(sub, 2);
+
+
+    }
+
+    /*抵扣*/
+    public static String deduction(String margin, String prizeTrade) {
+        return getNumberFormat(TradeUtil.mul(Double.parseDouble(margin), Double.parseDouble(prizeTrade)), 2);
+    }
+
+
     /*计算手续费*/
     public static String serviceCharge(ChargeUnitEntity chargeUnitEntity, int coinFormula, String margin, double lever) {
 
@@ -607,6 +626,45 @@ public class TradeUtil {
         return quoteList2;
     }
 
+    /*字母a-z*/
+    public static List<String> nameLowToHigh(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        Collections.sort(quoteList, (o1, o2) -> {
+            String[] split1 = o1.split(",");
+            String[] split2 = o2.split(",");
+            int i = split1[0].compareTo(split2[0]);
+            if (i > 0) {
+                return 1;
+            } else {
+                return -1;
+            }
+        });
+        for (String quote : quoteList) {
+            quoteList2.add(quote);
+        }
+
+        return quoteList2;
+    }
+
+    /*字母z-a*/
+    public static List<String> nameHighToLow(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        Collections.sort(quoteList, (o1, o2) -> {
+            String[] split1 = o1.split(",");
+            String[] split2 = o2.split(",");
+            int i = split1[0].compareTo(split2[0]);
+            if (i > 0) {
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+        for (String quote : quoteList) {
+            quoteList2.add(quote);
+        }
+
+        return quoteList2;
+    }
 
     /*价格从大到小*/
     public static List<String> priceHighToLow(List<String> quoteList) {

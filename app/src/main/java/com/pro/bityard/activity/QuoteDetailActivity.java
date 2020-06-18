@@ -272,6 +272,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     LinearLayout layout_pop_market;
 
     private TradeListEntity tradeListEntity;
+    private TextView text_deduction_amount_pop;
+    private String prizeTrade;
+    private String prizeDub;
 
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, QuoteDetailActivity.class);
@@ -542,7 +545,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         assert bundle != null;
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
-        Log.d("print", "initData:交易页面获取:  "+itemData);
+        //礼金抵扣比例
+        prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
+
+        Log.d("print", "initData:交易页面获取:  " + itemData);
         if (itemData.equals("")) {
             return;
         }
@@ -789,9 +795,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
             case R.id.img_setting:
-                if (isLogin()){
+                if (isLogin()) {
                     UserActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
-                }else {
+                } else {
                     LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
 
@@ -834,8 +840,28 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     return;
                 } else {
                     Util.lightOff(QuoteDetailActivity.this);
+                    String prizeDub;
+                    if (prizeTrade != null) {
+
+                        double mul = TradeUtil.mul(parseDouble(edit_market_margin.getText().toString()), parseDouble(prizeTrade));
+                        double prize = BalanceManger.getInstance().getPrize();
+                        if (mul <= prize) {
+                            prizeDub = TradeUtil.getNumberFormat(mul, 2);
+                        } else {
+                            prizeDub = null;
+                        }
+                    } else {
+                        prizeDub = null;
+
+                    }
+
                     PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
-                            new StringBuilder().append(getString(R.string.text_service_tip)).append(getString(R.string.text_trade_fees)).append(text_market_all.getText().toString()).append("USDT").toString(), state -> {
+                            new StringBuilder().append(getString(R.string.text_service_tip)).append(getString(R.string.text_trade_fees))
+                                    .append(TradeUtil.serviceCharge(chargeUnitEntity,
+                                            3,edit_market_margin.getText().toString(),
+                                            lever)).append("USDT")
+                                    .append(getString(R.string.text_deduction_amount))
+                                    .append(prizeDub).toString(), state -> {
                             }
                     );
                 }
@@ -844,9 +870,28 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 if (text_limit_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
                     return;
                 } else {
+                    String prizeDub;
+                    if (prizeTrade != null) {
+
+                        double mul = TradeUtil.mul(parseDouble(text_limit_all.getText().toString()), parseDouble(prizeTrade));
+                        double prize = BalanceManger.getInstance().getPrize();
+                        if (mul <= prize) {
+                            prizeDub = TradeUtil.getNumberFormat(mul, 2);
+                        } else {
+                            prizeDub = null;
+                        }
+                    } else {
+                        prizeDub = null;
+
+                    }
                     Util.lightOff(QuoteDetailActivity.this);
                     PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
-                            new StringBuilder().append(getString(R.string.text_service_tip)).append(getString(R.string.text_trade_fees)).append(text_limit_all.getText().toString()).append("USDT").toString(), state -> {
+                            new StringBuilder().append(getString(R.string.text_service_tip)).append(getString(R.string.text_trade_fees))
+                                    .append(TradeUtil.serviceCharge(chargeUnitEntity,
+                                            3,edit_limit_margin.getText().toString(),
+                                            lever)).append("USDT")
+                                    .append(getString(R.string.text_deduction_amount))
+                                    .append(prizeDub).toString(), state -> {
                             }
                     );
                 }
@@ -946,7 +991,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             /*规则*/
             case R.id.text_rule:
-                UserActivity.enter(QuoteDetailActivity.this,IntentConfig.Keys.RULE,TradeUtil.itemQuoteContCode(quote));
+                UserActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.RULE, TradeUtil.itemQuoteContCode(quote));
                 break;
         }
     }
@@ -993,25 +1038,40 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
     /*下单提示*/
+    @SuppressLint("SetTextI18n")
     private void showTip(String isBuy, String margin, String service) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_much_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         TextView text_margin = view.findViewById(R.id.text_margin_pop);
-        text_margin.setText(margin);
+        text_margin.setText(margin + " " + getString(R.string.text_usdt));
         TextView text_service = view.findViewById(R.id.text_service_pop);
-        text_service.setText(service);
+        text_service.setText(service + " " + getString(R.string.text_usdt));
         TextView text_all = view.findViewById(R.id.text_all_pop);
-        text_all.setText(String.valueOf(TradeUtil.add(Double.parseDouble(margin), Double.parseDouble(service))));
+        text_all.setText(TradeUtil.add(Double.parseDouble(margin), Double.parseDouble(service)) + " " + getString(R.string.text_usdt));
 
-        view.findViewById(R.id.text_sure).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String priceMuch = text_buy_much.getText().toString();
-                fastOpen(isBuy, priceMuch);
-                popupWindow.dismiss();
+        text_deduction_amount_pop = view.findViewById(R.id.text_deduction_amount_pop);
+
+
+        if (prizeTrade != null) {
+            double mul = TradeUtil.mul(parseDouble(margin), parseDouble(prizeTrade));
+            double prize = BalanceManger.getInstance().getPrize();
+            if (mul <= prize) {
+                text_deduction_amount_pop.setText(TradeUtil.getNumberFormat(mul, 2) + " " + getString(R.string.text_usdt));
+            } else {
+                text_deduction_amount_pop.setText(getString(R.string.text_default) + " " + getString(R.string.text_usdt));
             }
+        } else {
+            text_deduction_amount_pop.setText(getString(R.string.text_default) + " " + getString(R.string.text_usdt));
+
+        }
+
+
+        view.findViewById(R.id.text_sure).setOnClickListener(v -> {
+            String priceMuch = text_buy_much.getText().toString();
+            fastOpen(isBuy, priceMuch);
+            popupWindow.dismiss();
         });
 
 
@@ -1104,7 +1164,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), stopProfit, stopLoss, serviceCharge,
                 "0", TradeUtil.volume(lever, margin, parseDouble(priceMuchOrEmpty)), "0", "USDT", (state, response) -> {
                     if (state.equals(BUSY)) {
-                         showProgressDialog();
+                        showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                         dismissProgressDialog();
@@ -1326,12 +1386,40 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 //仓位实时更新 服务费
                 if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
                     text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
-                    text_market_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever));
+
+
+                    double mul = TradeUtil.mul(parseDouble(edit_market_margin.getText().toString()), parseDouble(prizeTrade));
+                    double prize = BalanceManger.getInstance().getPrize();
+                    String total;
+                    if (mul > prize) {
+                        total = TradeUtil.total(edit_market_margin.getText().toString(),
+                                TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever),
+                                "0");
+                    } else {
+                        total = TradeUtil.total(edit_market_margin.getText().toString(),
+                                TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever),
+                                TradeUtil.deduction(edit_market_margin.getText().toString(), prizeTrade));
+                    }
+
+                    text_market_all.setText(total);
 
                 }
                 if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
                     text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
-                    text_limit_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever));
+
+                    double mul = TradeUtil.mul(parseDouble(edit_limit_margin.getText().toString()), parseDouble(prizeTrade));
+                    double prize = BalanceManger.getInstance().getPrize();
+                    String total;
+                    if (mul > prize) {
+                        total = TradeUtil.total(edit_limit_margin.getText().toString(),
+                                TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever),
+                                "0");
+                    } else {
+                        total = TradeUtil.total(edit_limit_margin.getText().toString(),
+                                TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever),
+                                TradeUtil.deduction(edit_limit_margin.getText().toString(), prizeTrade));
+                    }
+                    text_limit_all.setText(total);
 
                 }
 

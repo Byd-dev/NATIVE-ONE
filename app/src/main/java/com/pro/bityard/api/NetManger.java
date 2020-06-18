@@ -366,6 +366,7 @@ public class NetManger {
                                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
                                     onNetResult.setResult(SUCCESS, quoteDomain, response1);
                                     SPUtils.putString(AppConfig.SUPPORT_CURRENCY, initEntity.getBrand().getSupportCurrency());
+                                    SPUtils.putString(AppConfig.PRIZE_TRADE, initEntity.getBrand().getPrizeTrade());
                                 } else if (state1.equals(FAILURE)) {
                                     onNetResult.setResult(FAILURE, null, response1);
                                 }
@@ -1049,15 +1050,21 @@ public class NetManger {
             List<RateListEntity.ListBean> list = rateListEntity.getList();
             for (RateListEntity.ListBean rateList : list) {
                 if (src.equals(rateList.getName())) {
+
+
                     if (moneyType.equals("1")) {
                         double mul = TradeUtil.mul(dataBean.getMoney(), rateList.getValue());
                         onNetResult.onNetResult(SUCCESS, mul);
-
-                    } else {
+                    } else if (moneyType.equals("0")) {
                         double mul = TradeUtil.mul(dataBean.getGame(), rateList.getValue());
                         onNetResult.onNetResult(SUCCESS, mul);
+                    } else if (moneyType.equals("2")) {
+                        double mul = TradeUtil.mul(dataBean.getPrize(), rateList.getValue());
+                        onNetResult.onNetResult(SUCCESS, mul);
+                    } else if (moneyType.equals("3")) {
+                        double mul = TradeUtil.mul(dataBean.getLucky(), rateList.getValue());
+                        onNetResult.onNetResult(SUCCESS, mul);
                     }
-
                 }
             }
 
@@ -1555,6 +1562,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("print", "inviteTopHistory:1558:  " + response);
                 InviteEntity inviteEntity = new Gson().fromJson(response.toString(), InviteEntity.class);
                 onNetResult.onNetResult(SUCCESS, inviteEntity);
             } else if (state.equals(FAILURE)) {

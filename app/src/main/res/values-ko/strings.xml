@@ -154,7 +154,7 @@
     <string name="text_inall_pop">合计</string>
     <string name="text_service_pop">수수료</string>
     <string name="text_are_you_sure">청산하시겠습니까?</string>
-    <string name="text_service_tip">수수료 = 마진 x (레버리지 - 1) x 0.15%\n</string>
+    <string name="text_service_tip">수수료 = 마진 x 레버리지  x 0.05%\n</string>
     <string name="text_tip_login">请登录</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
@@ -383,5 +383,13 @@
     <string name="text_pass_contain">비밀번호는 영문, 숫자, 특수문자를 포함하여 6자리 이상 16자리 이하로 만드셔야 합니다.</string>
     <string name="text_mobile_err">핸드폰 번호가 올바르지 않습니다.</string>
     <string name="text_err_code">请输入6位验证码</string>
+    <string name="text_salary_all">총 일급</string>
+    <string name="text_salary_day">금일 일급</string>
+    <string name="text_bonus_balance">보너스 잔액</string>
+    <string name="text_gift_money">상여금 잔액</string>
+    <string name="text_used_to_deduct">%s 거래마진 공제용</string>
+    <string name="text_trading_fees">거래 수수료 공제용</string>
+    <string name="text_deduction_amount">공제금액</string>
+    <string name="text_usdt">USDT</string>
 
 </resources>

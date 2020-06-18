@@ -194,8 +194,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/text_total_orders"
-
+                            android:id="@+id/text_salary_all"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_default"
@@ -206,7 +205,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_5"
-                            android:text="@string/text_total_orders"
+                            android:text="@string/text_salary_all"
                             android:textColor="@color/text_second_color"
                             android:textSize="@dimen/size_normal" />
 
@@ -220,8 +219,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/text_commission_rate"
-
+                            android:id="@+id/text_salary_day"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_default"
@@ -232,7 +230,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_5"
-                            android:text="@string/text_commission_rate"
+                            android:text="@string/text_salary_day"
                             android:textColor="@color/text_second_color"
                             android:textSize="@dimen/size_normal" />
 

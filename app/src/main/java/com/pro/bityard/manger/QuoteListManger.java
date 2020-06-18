@@ -111,6 +111,10 @@ public class QuoteListManger extends Observable {
                         List<String> stringList4 = TradeUtil.homeHot(strings);
                         //除去 BTC BCH ETH
                         List<String> stringList5 = TradeUtil.homeList(strings);
+                        //字母a-z
+                        List<String> stringList6 = TradeUtil.nameLowToHigh(strings);
+                        //字母z-a
+                        List<String> stringList7 = TradeUtil.nameHighToLow(strings);
                         arrayMap.put("0", strings);
                         arrayMap.put("1", stringList);
                         arrayMap.put("2", stringList1);
@@ -118,7 +122,8 @@ public class QuoteListManger extends Observable {
                         arrayMap.put("4", stringList3);
                         arrayMap.put("5", stringList4);
                         arrayMap.put("6", stringList5);
-
+                        arrayMap.put("7", stringList6);
+                        arrayMap.put("8", stringList7);
                         postQuote(arrayMap);
 
                     } else if (state.equals(FAILURE)) {

@@ -153,7 +153,7 @@
     <string name="text_inall_pop">合计</string>
     <string name="text_service_pop">Fee</string>
     <string name="text_are_you_sure">Are you sure to close position?</string>
-    <string name="text_service_tip">Trading Fee=Margin*(leverage-1)*0.15%\n</string>
+    <string name="text_service_tip">Trading Fee=Margin*leverage*0.05%\n</string>
     <string name="text_tip_login">请登录</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
@@ -382,5 +382,13 @@
     <string name="text_pass_contain">Password composed of 6-16 letters,numbers and symbols</string>
     <string name="text_mobile_err">Incorrect mobile format</string>
     <string name="text_err_code">请输入6位验证码</string>
+    <string name="text_salary_all">Total Daily Pay</string>
+    <string name="text_salary_day">Today Pay</string>
+    <string name="text_bonus_balance">Bonus Balance</string>
+    <string name="text_gift_money">Gift Money Balance</string>
+    <string name="text_used_to_deduct">%s of trading mUsed to deduct margin</string>
+    <string name="text_trading_fees">Used to deduct trading fees</string>
+    <string name="text_deduction_amount">Deduction Amount</string>
+    <string name="text_usdt">USDT</string>
 
 </resources>
