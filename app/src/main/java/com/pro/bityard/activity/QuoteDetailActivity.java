@@ -595,6 +595,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         text_name.setText(split1[0]);
         text_name_usdt.setText(split1[1]);
         text_lastPrice.setText(listQuotePrice(itemData));
+        edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(itemData)));//根据不同的小数位限制
         edit_limit_price.setText(listQuotePrice(itemData));
         if (tradeType.equals("1")) {
             text_switch.setText(getResources().getText(R.string.text_real_trade));
@@ -645,7 +646,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
     }
-    
+
 
     /*设置 保证金和杠杆*/
     public void setContent(TradeListEntity tradeListEntity) {
@@ -1178,6 +1179,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
             // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
+
+            edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
             edit_limit_price.setText(listQuotePrice(data));
 
             Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
