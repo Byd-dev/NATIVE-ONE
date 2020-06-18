@@ -232,7 +232,7 @@ public class FundTransferFragment extends BaseFragment implements View.OnClickLi
                 if (swipeRefreshLayout != null) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
-                fundItemEntity = new Gson().fromJson(response.toString(), FundItemEntity.class);
+                fundItemEntity = (FundItemEntity) response;
                 if (fundItemEntity==null){
                     return;
                 }

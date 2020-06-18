@@ -472,7 +472,14 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 }
             }
         });
+        NetManger.getInstance().unionRate((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                unionRateEntity = (UnionRateEntity) response;
+                //退出需要清除
+                SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
 
+            }
+        });
         page = 1;
         getInviteList(FIRST, page, null);
 
@@ -504,21 +511,30 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     layout_null.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
+
+
                 if (unionRateEntity == null) {
-                    return;
-                }
 
-                if (type.equals(LOAD)) {
-                    inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
+                    if (type.equals(LOAD)) {
+                        inviteRecordAdapter.addDatas(inviteListEntity.getData(), 0.0);
+
+                    } else {
+                        inviteRecordAdapter.setDatas(inviteListEntity.getData(), 0.0);
+
+                    }
+                }else {
+                    if (type.equals(LOAD)) {
+                        inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
+
+                    } else {
+                        inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
+
+                    }
                     if (unionRateEntity.getUnion() != null) {
                     }
-
-                } else {
-                    inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
-                    if (unionRateEntity.getUnion() != null) {
-                    }
-
                 }
+
+
 
 
             } else if (state.equals(FAILURE)) {

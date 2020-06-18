@@ -41,7 +41,12 @@ public class ChargeUnitManger extends Observable {
             if (state.equals(SUCCESS)) {
                 chargeUnit(response.toString(), (state1, response1) -> {
                     if (state1.equals(SUCCESS)) {
-                        onNetResult.onNetResult(SUCCESS, response1.toString());
+                        chargeUnit(response1.toString(), (state2, response2) -> {
+                            if (state2.equals(SUCCESS)) {
+                                onNetResult.onNetResult(SUCCESS, response2);
+                            }
+
+                        });
                     }
                 });
             }

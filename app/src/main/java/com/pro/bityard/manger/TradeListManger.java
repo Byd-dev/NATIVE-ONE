@@ -52,6 +52,7 @@ public class TradeListManger extends Observable {
     public void tradeList(OnNetResult onNetResult) {
 
         NetManger.getInstance().codeList((state, response) -> {
+            Log.d("print", "tradeList: 55:"+response);
             if (state.equals(SUCCESS)) {
                 getTradeList(response.toString(), (state1, response1) -> {
                     if (state1.equals(SUCCESS)) {
@@ -104,8 +105,9 @@ public class TradeListManger extends Observable {
 
                         }
                         setTradeListEntityList(tradeListEntityList);
-                        onNetResult.onNetResult(SUCCESS, tradeListEntity);
+                        onNetResult.onNetResult(SUCCESS, tradeListEntityList);
                         postTradeList(tradeListEntityList);
+
 
                     } catch (Exception e) {
                         e.printStackTrace();

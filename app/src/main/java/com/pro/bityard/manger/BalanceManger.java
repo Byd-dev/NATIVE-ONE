@@ -82,7 +82,6 @@ public class BalanceManger extends Observable {
         NetManger.getInstance().getRequest("/api/user/asset/list", map, (state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "onNetResult:52: "+response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
 

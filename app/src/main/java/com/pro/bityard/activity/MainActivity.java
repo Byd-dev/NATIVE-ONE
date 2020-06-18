@@ -154,11 +154,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             }
         });
         //合约号初始化
-        TradeListManger.getInstance().tradeList((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                Toast.makeText(MainActivity.this, "合约号获取成功", Toast.LENGTH_SHORT).show();
-            }
-        });
 
 
         /*手续费*/

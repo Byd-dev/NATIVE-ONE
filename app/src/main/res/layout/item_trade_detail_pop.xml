@@ -332,6 +332,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/margin_setup">
 
                 <TextView
@@ -360,10 +361,12 @@
 
             </RelativeLayout>
 
-            <include layout="@layout/layout_line" />
+            <include layout="@layout/layout_line"
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/margin_setup">
 
                 <TextView
@@ -392,11 +395,13 @@
 
             </RelativeLayout>
 
-            <include layout="@layout/layout_line" />
+            <include layout="@layout/layout_line"
+                android:visibility="gone"/>
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="@dimen/margin_setup">
 
                 <TextView

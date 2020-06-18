@@ -29,6 +29,7 @@ import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.chart.NoVolumeView;
@@ -572,26 +573,23 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
         QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        /*获取输入框的范围保证金*/
+        TradeListManger.getInstance().tradeList((state, response) -> {
+            if (state.equals(SUCCESS)){
+                tradeListEntityList= (List<TradeListEntity>) response;
+                tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+                setContent(tradeListEntity);
+            }
+        });
 
-        //合约号
-        tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
-        //手续费
-        chargeUnitEntityList = ChargeUnitManger.getInstance().getChargeUnitEntityList();
-        if (tradeListEntityList == null) {
-            startHandler(handler, 0, QUOTE_SECOND, QUOTE_SECOND);
-        } else {
-            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-            // Log.d("print", "initData:258:合约号:  " + tradeListEntity);
-            setContent(tradeListEntity);
-        }
 
-        if (chargeUnitEntityList == null) {
-            startHandler(handler, 1, QUOTE_SECOND, QUOTE_SECOND);
-        } else {
-            chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
-            // Log.d("print", "initData:259:手续费: " + chargeUnitEntity);
-        }
+        ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
+            if (state.equals(SUCCESS)){
+                chargeUnitEntityList = (List<ChargeUnitEntity>) response;
+                chargeUnitEntity = (ChargeUnitEntity) TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityList);
 
+            }
+        });
 
         String[] split1 = Util.quoteList(itemQuoteContCode(itemData)).split(",");
         text_name.setText(split1[0]);
@@ -647,35 +645,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
     }
-
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(@NotNull Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case 0:
-                    TradeListManger.getInstance().tradeList((state, response) -> {
-                        if (state.equals(SUCCESS)) {
-                            cancelTimer();
-                        }
-                    });
-                    break;
-                case 1:
-                    ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
-                        if (state.equals(SUCCESS)) {
-                            cancelTimer();
-                        }
-                    });
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + msg.what);
-            }
-
-
-        }
-    };
-
+    
 
     /*设置 保证金和杠杆*/
     public void setContent(TradeListEntity tradeListEntity) {
@@ -857,11 +827,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                     PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
                             new StringBuilder().append(getString(R.string.text_service_tip)).append(getString(R.string.text_trade_fees))
+                                    .append(":")
                                     .append(TradeUtil.serviceCharge(chargeUnitEntity,
-                                            3,edit_market_margin.getText().toString(),
+                                            3, edit_market_margin.getText().toString(),
                                             lever)).append("USDT")
                                     .append(getString(R.string.text_deduction_amount))
-                                    .append(prizeDub).toString(), state -> {
+                                    .append(":").append(prizeDub + R.string.text_usdt).toString(), state -> {
                             }
                     );
                 }
@@ -886,12 +857,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     }
                     Util.lightOff(QuoteDetailActivity.this);
                     PopUtil.getInstance().showTip(QuoteDetailActivity.this, layout_view, false,
-                            new StringBuilder().append(getString(R.string.text_service_tip)).append(getString(R.string.text_trade_fees))
+                            new StringBuilder().append(getString(R.string.text_service_tip))
+                                    .append(":")
+                                    .append(getString(R.string.text_trade_fees))
                                     .append(TradeUtil.serviceCharge(chargeUnitEntity,
-                                            3,edit_limit_margin.getText().toString(),
+                                            3, edit_limit_margin.getText().toString(),
                                             lever)).append("USDT")
                                     .append(getString(R.string.text_deduction_amount))
-                                    .append(prizeDub).toString(), state -> {
+                                    .append(":")
+                                    .append(prizeDub + R.string.text_usdt).toString(), state -> {
                             }
                     );
                 }

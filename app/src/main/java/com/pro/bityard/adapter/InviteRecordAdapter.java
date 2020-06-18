@@ -115,6 +115,7 @@ public class InviteRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             }*/
 
+
             if (rate >= 5) {
                 ((MyViewHolder) holder).text_buy_tip.setText(R.string.text_trransfer);
             } else {

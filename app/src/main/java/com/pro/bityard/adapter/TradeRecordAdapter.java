@@ -114,7 +114,7 @@ public class TradeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
 
 
-            ((MyViewHolder) holder).text_time.setText(context.getString(R.string.text_close_time) + ChartUtil.getDate(datas.get(position).getTime()));
+            ((MyViewHolder) holder).text_time.setText(context.getString(R.string.text_close_time) + ChartUtil.getDate(datas.get(position).getTradeTime()));
             ((MyViewHolder) holder).text_amount.setText(String.valueOf(datas.get(position).getOpVolume()));
             ((MyViewHolder) holder).text_currency.setText(datas.get(position).getCurrency());
             double income = datas.get(position).getIncome();

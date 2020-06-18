@@ -86,7 +86,7 @@ public class CurrencyRateFragment extends BaseFragment {
         } else {
             NetManger.getInstance().currencyList("0",(state, response) -> {
                 if (state.equals(SUCCESS)) {
-                    CurrencyListEntity currencyListEntity = new Gson().fromJson(response.toString(), CurrencyListEntity.class);
+                    CurrencyListEntity currencyListEntity = (CurrencyListEntity) response;
                     SPUtils.putData(AppConfig.CURRENCY_LIST, currencyListEntity);
                     currencyListAdapter.setDatas(currencyListEntity.getData());
                 }

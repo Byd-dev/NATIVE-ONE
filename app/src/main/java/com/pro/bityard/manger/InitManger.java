@@ -116,19 +116,11 @@ public class InitManger extends Observable {
         });
 
 
-        //合约号初始化
-        TradeListManger.getInstance().tradeList((state, response) -> {
-            if (state.equals(SUCCESS)) {
-            }
 
-        });
 
 
         /*手续费*/
-        ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
-            if (state.equals(SUCCESS)) {
-            }
-        });
+
         //行情
         String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
         String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);

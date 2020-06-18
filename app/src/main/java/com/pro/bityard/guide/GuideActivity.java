@@ -9,12 +9,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.MainActivity;
 import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
+import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.TradeListEntity;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
 
@@ -23,6 +24,10 @@ import java.util.List;
 
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
+
+import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
+import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class GuideActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.banner)
@@ -112,6 +117,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         /*初始化获取行情 合约号 行情地址*/
         // TODO: 2020/3/13    这里到时候再判断是先有了行情再跳入主页还是另外判断
         NetManger.getInstance().initQuote();
+
+
 
     }
 

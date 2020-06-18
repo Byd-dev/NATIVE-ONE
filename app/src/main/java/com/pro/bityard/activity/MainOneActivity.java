@@ -754,10 +754,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         getBanner();
 
         //合约号
-        TradeListManger.getInstance().tradeList((state, response) -> {
-            if (state.equals(SUCCESS)) {
-            }
-        });
+
         if (isLogin()) {
             UserDetailManger.getInstance().detail();
         }

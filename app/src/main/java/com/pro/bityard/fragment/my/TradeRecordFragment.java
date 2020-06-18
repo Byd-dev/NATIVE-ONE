@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.adapter.FundSelectAdapter;
 import com.pro.bityard.adapter.TradeRecordAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
@@ -217,13 +219,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                 if (swipeRefreshLayout != null) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
-                fundItemEntity = new Gson().fromJson(response.toString(), FundItemEntity.class);
-                if (fundItemEntity==null){
-                    return;
-                }
-                if (fundItemEntity.getData()==null){
-                    return;
-                }
+                fundItemEntity = (FundItemEntity) response;
                 if (!fundItemEntity.getData().get(0).getName().equals("ALL")) {
                     fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));
                 }
@@ -234,6 +230,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                 }
             }
         });
+
 
 
         page = 0;
