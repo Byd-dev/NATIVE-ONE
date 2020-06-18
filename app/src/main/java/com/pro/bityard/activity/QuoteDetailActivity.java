@@ -848,7 +848,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         if (mul <= prize) {
                             prizeDub = TradeUtil.getNumberFormat(mul, 2);
                         } else {
-                            prizeDub = null;
+                            prizeDub = "0.0";
                         }
                     } else {
                         prizeDub = null;
@@ -878,7 +878,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         if (mul <= prize) {
                             prizeDub = TradeUtil.getNumberFormat(mul, 2);
                         } else {
-                            prizeDub = null;
+                            prizeDub = "0.0";
                         }
                     } else {
                         prizeDub = null;
