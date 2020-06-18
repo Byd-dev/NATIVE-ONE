@@ -392,5 +392,6 @@
     <string name="text_deduction_amount">Сумма вычета</string>
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">Подтвердить заказ</string>
+    <string name="text_new_pass">Новый пароль</string>
 
 </resources>

@@ -1,7 +1,6 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +11,11 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.DepositWithdrawAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
+import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.FundItemEntity;
@@ -37,7 +35,7 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class FundStatementItemFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
-    private FundSelectAdapter fundSelectAdapter;
+    private FundSelectAdapter tradeSelectAdapter;
 
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
@@ -98,7 +96,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
     protected void initView(View view) {
 
         layout_select.setOnClickListener(this);
-        fundSelectAdapter = new FundSelectAdapter(getActivity());
+        tradeSelectAdapter = new FundSelectAdapter(getActivity());
 
 
         radioGroup.setOnCheckedChangeListener(this);
@@ -321,18 +319,18 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        recyclerView.setAdapter(fundSelectAdapter);
+        recyclerView.setAdapter(tradeSelectAdapter);
         if (fundItemEntity != null) {
             List<FundItemEntity.DataBean> fundItemEntityData = fundItemEntity.getData();
-            fundSelectAdapter.setDatas(fundItemEntityData);
+            tradeSelectAdapter.setDatas(fundItemEntityData);
 
-            fundSelectAdapter.select(oldSelect);
+            tradeSelectAdapter.select(oldSelect);
             /*监听*/
-            fundSelectAdapter.setOnItemClick((position, data) -> {
+            tradeSelectAdapter.setOnItemClick((position, data) -> {
                 oldSelect = position;
-                fundSelectAdapter.select(position);
-                recyclerView.setAdapter(fundSelectAdapter);
-                fundSelectAdapter.notifyDataSetChanged();
+                tradeSelectAdapter.select(position);
+                recyclerView.setAdapter(tradeSelectAdapter);
+                tradeSelectAdapter.notifyDataSetChanged();
                 text_select.setText(data.getName());
                 String code = data.getCode();
                 ChartUtil.setIcon(code,img_bg);

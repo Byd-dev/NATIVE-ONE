@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -72,6 +74,22 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
     private int pw_w;
     private LoginEntity loginEntity;
 
+
+    @BindView(R.id.layout_pass_old)
+    LinearLayout layout_pass_old;
+    @BindView(R.id.text_err_pass)
+    TextView text_err_pass;
+
+    @BindView(R.id.layout_pass_new)
+    LinearLayout layout_pass_new;
+    @BindView(R.id.text_err_pass_new)
+    TextView text_err_pass_new;
+
+    @BindView(R.id.layout_pass_sure)
+    LinearLayout layout_pass_sure;
+    @BindView(R.id.text_err_pass_sure)
+    TextView text_err_pass_sure;
+
     @Override
     protected void onLazyLoad() {
 
@@ -96,7 +114,117 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
         img_eye_new.setOnClickListener(this);
         img_eye_sure.setOnClickListener(this);
 
+        //旧密码
+        Util.isPassEffective(edit_pass_old, response -> {
+            if (response.toString().equals("1")) {
+                text_err_pass.setVisibility(View.GONE);
+                layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
 
+
+                if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                        && Util.isPass(edit_pass_old.getText().toString())) {
+                    text_getCode.setEnabled(true);
+                    if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                            && Util.isCode(edit_code.getText().toString())) {
+                        btn_submit.setEnabled(true);
+                    } else {
+                        btn_submit.setEnabled(false);
+                    }
+                } else {
+                    text_getCode.setEnabled(false);
+                }
+
+            } else if (response.toString().equals("0")) {
+                text_err_pass.setVisibility(View.VISIBLE);
+                layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_pass.setVisibility(View.GONE);
+                layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+
+        });
+        //新密码
+        Util.isPassEffective(edit_pass_new, response -> {
+            if (response.toString().equals("1")) {
+                text_err_pass_new.setVisibility(View.GONE);
+                layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                if (Util.isPass(edit_pass_sure.getText().toString())
+                        && Util.isPass(edit_pass_old.getText().toString())) {
+                    text_getCode.setEnabled(true);
+                    if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                            && Util.isCode(edit_code.getText().toString())) {
+                        btn_submit.setEnabled(true);
+                    } else {
+                        btn_submit.setEnabled(false);
+                    }
+                } else {
+                    text_getCode.setEnabled(false);
+                }
+            } else if (response.toString().equals("0")) {
+                text_err_pass_new.setVisibility(View.VISIBLE);
+                layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_pass_new.setVisibility(View.GONE);
+                layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+
+        });
+        //确认新密码
+        Util.isPassEffective(edit_pass_sure, response -> {
+            if (response.toString().equals("1")) {
+                text_err_pass_sure.setVisibility(View.GONE);
+                layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+
+                if (Util.isPass(edit_pass_new.getText().toString()) &&Util.isPass(edit_pass_old.getText().toString())){
+                    text_getCode.setEnabled(true);
+                    if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
+                            && Util.isCode(edit_code.getText().toString())) {
+                        btn_submit.setEnabled(true);
+                    } else {
+                        btn_submit.setEnabled(false);
+                    }
+                } else{
+                    text_getCode.setEnabled(false);
+                }
+            } else if (response.toString().equals("0")) {
+                text_err_pass_sure.setVisibility(View.VISIBLE);
+                layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_pass_sure.setVisibility(View.GONE);
+                layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+
+        });
+
+        edit_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 4 && Util.isCode(s.toString())
+                        && Util.isPass(edit_pass_old.getText().toString())
+                        && Util.isPass(edit_pass_new.getText().toString())
+                        && Util.isPass(edit_pass_sure.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
@@ -141,10 +269,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
             edit_code.setHint(getResources().getString(R.string.text_mobile_code_input));
 
         }
-        Util.setFourUnClick(edit_pass_old,edit_pass_new,edit_pass_sure,edit_code,btn_submit);
-        Util.setFourUnClick(edit_pass_new,edit_pass_old,edit_pass_sure,edit_code,btn_submit);
-        Util.setFourUnClick(edit_pass_sure,edit_pass_new,edit_pass_old,edit_code,btn_submit);
-        Util.setFourUnClick(edit_code,edit_pass_new,edit_pass_sure,edit_pass_old,btn_submit);
+
     }
 
     /*获取倒计时*/

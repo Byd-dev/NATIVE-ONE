@@ -30,6 +30,7 @@ import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserDetailEntity;
+import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.SmsTimeUtils;
@@ -37,7 +38,6 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
-import java.util.Observable;
 import java.util.Observer;
 
 import androidx.annotation.Nullable;
@@ -50,7 +50,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class InviteFragment extends BaseFragment implements View.OnClickListener, Observer {
+public class InviteFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
 
@@ -101,21 +101,24 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     private UserDetailEntity userDetailEntity;
     private TextView text_balance;
     private PopupWindow popupWindow;
+
     @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_invite;
     }
+
     @Override
     protected void onLazyLoad() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onResume() {
         super.onResume();
         loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity != null) {
-            text_url.setText(NetManger.QUOTE_HISTORY+"/?ru=" + loginEntity.getUser().getRefer());
+            text_url.setText(NetManger.QUOTE_HISTORY + "/?ru=" + loginEntity.getUser().getRefer());
         }
 
     }
@@ -130,7 +133,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     @Override
     protected void initView(View view) {
 
-        UserDetailManger.getInstance().addObserver(this);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         swipeRefreshLayout.setOnRefreshListener(() -> initData());
         text_title.setText(R.string.text_affiliate_stats);
@@ -257,6 +259,10 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         text_name.setText(dataBean.getUsername());
 
         text_balance = view.findViewById(R.id.text_balance);
+
+
+        text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+
 
         EditText edit_code = view.findViewById(R.id.edit_code);
         String account = loginEntity.getUser().getPrincipal();
@@ -425,8 +431,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     };
 
 
-
-
     @Override
     protected void intPresenter() {
 
@@ -434,6 +438,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
     @Override
     protected void initData() {
+
 
 
         NetManger.getInstance().inviteTopHistory("USDT", (state, response) -> {
@@ -501,7 +506,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 if (inviteListEntity == null) {
                     return;
                 }
-                if (inviteListEntity.getData()==null){
+                if (inviteListEntity.getData() == null) {
                     return;
                 }
                 if (inviteListEntity.getData().size() == 0) {
@@ -522,7 +527,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                         inviteRecordAdapter.setDatas(inviteListEntity.getData(), 0.0);
 
                     }
-                }else {
+                } else {
                     if (type.equals(LOAD)) {
                         inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
 
@@ -533,8 +538,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     if (unionRateEntity.getUnion() != null) {
                     }
                 }
-
-
 
 
             } else if (state.equals(FAILURE)) {
@@ -561,20 +564,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 getInviteList(REFRESH, 1, edit_content);
                 break;
 
-        }
-    }
-
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o == UserDetailManger.getInstance()) {
-            userDetailEntity = (UserDetailEntity) arg;
-            if (text_balance != null) {
-                if (isAdded()) {
-                    if (userDetailEntity != null) {
-                        text_balance.setText(TradeUtil.getNumberFormat(userDetailEntity.getUser().getMoney(), 2));
-                    }
-                }
-            }
         }
     }
 

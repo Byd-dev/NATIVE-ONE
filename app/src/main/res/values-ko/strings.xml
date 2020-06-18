@@ -392,5 +392,6 @@
     <string name="text_deduction_amount">공제금액</string>
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">주문 확인</string>
+    <string name="text_new_pass">새 비밀번호</string>
 
 </resources>

@@ -4,241 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_maincolor"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
     <!--bar-->
     <include layout="@layout/layout_bar" />
 
 
-
     <!--新密码-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_20"
-        android:layout_marginRight="@dimen/margin_15"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/text_pin_old"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_pin_pass"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal_two"
-
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_edit"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_shape_edit"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edit_pass_old"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/text_login_pass_input"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textColor="@color/text_main_color"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
-
-
-            <ImageView
-                android:id="@+id/img_eye_old"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/margin_15"
-                android:paddingRight="@dimen/margin_15"
-                android:src="@mipmap/icon_eye_close" />
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
-
+    <include layout="@layout/layout_old_pass" />
     <!--新密码-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_20"
-        android:layout_marginRight="@dimen/margin_15"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="新密码"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal_two"
-
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_edit"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_shape_edit"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edit_pass_new"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/text_edit_pass_new"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textColor="@color/text_main_color"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
-
-
-            <ImageView
-                android:id="@+id/img_eye_new"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/margin_15"
-                android:paddingRight="@dimen/margin_15"
-                android:src="@mipmap/icon_eye_close" />
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
+    <include layout="@layout/layout_new_pass" />
     <!--密码-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_20"
-        android:layout_marginRight="@dimen/margin_15"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_pass_new_sure"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal_two"
-
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_edit"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_shape_edit"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edit_pass_sure"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/text_edit_pass_new_sure"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:textColor="@color/text_main_color"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
-
-
-            <ImageView
-                android:id="@+id/img_eye_sure"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="@dimen/margin_15"
-                android:paddingRight="@dimen/margin_15"
-                android:src="@mipmap/icon_eye_close" />
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
+    <include layout="@layout/layout_ensure_pass" />
     <!--邮箱验证码-->
-    <LinearLayout
-        android:id="@+id/layout_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginTop="@dimen/margin_20"
-        android:layout_marginRight="@dimen/margin_15"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <TextView
-            android:id="@+id/text_email_mobile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_email_code"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal_two"
-
-            />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/height_edit"
-            android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_shape_edit"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edit_code"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
-                android:layout_weight="1"
-                android:background="@null"
-                android:hint="@string/text_email_code_input"
-                android:inputType="text"
-                android:maxLines="1"
-                android:textColor="@color/text_main_color"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
-                android:textSize="@dimen/hint_size" />
-
-            <TextView
-                android:id="@+id/text_getCode"
-                android:layout_width="89dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_shape_code"
-                android:gravity="center"
-                android:text="@string/text_get_code"
-                android:textColor="@color/color_code"
-                android:textSize="@dimen/size_normal" />
-
-
-        </LinearLayout>
-
-
-    </LinearLayout>
+    <include layout="@layout/layout_code" />
 
 
     <!--登录button-->
@@ -251,8 +31,8 @@
         android:layout_marginRight="@dimen/margin_15"
         android:layout_marginBottom="@dimen/margin_15"
         android:background="@drawable/sel_switcher_enabled_bg"
-        android:padding="10dp"
         android:enabled="false"
+        android:padding="10dp"
         android:text="@string/text_sure"
         android:textColor="@color/color_btn_text"
         android:textSize="16sp"

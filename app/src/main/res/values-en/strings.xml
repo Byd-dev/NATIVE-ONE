@@ -391,5 +391,6 @@
     <string name="text_deduction_amount">Deduction Amount</string>
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">Confirm the order</string>
+    <string name="text_new_pass">New Password</string>
 
 </resources>

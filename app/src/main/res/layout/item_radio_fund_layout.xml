@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_5"
-                android:text="USDT"
+                android:text="ALL"
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal_two" />
 

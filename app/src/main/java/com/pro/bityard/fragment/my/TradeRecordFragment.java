@@ -12,18 +12,21 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.FundSelectAdapter;
 import com.pro.bityard.adapter.TradeRecordAdapter;
+import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.FundItemEntity;
+import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.switchlibrary.SPUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -41,7 +44,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
     @BindView(R.id.text_title)
     TextView text_title;
 
-    private FundSelectAdapter fundSelectAdapter;
+    private TradeSelectAdapter fundSelectAdapter;
 
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
@@ -66,7 +69,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
     private int lastVisibleItem;
     private LinearLayoutManager linearLayoutManager;
 
-    private FundItemEntity fundItemEntity;
+   // private FundItemEntity fundItemEntity;
 
     private TradeRecordAdapter tradeRecordAdapter;
 
@@ -85,6 +88,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
     private int page = 0;
     private String commodity = null;
+    private List<String> contractList;
 
 
     @Override
@@ -105,7 +109,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         text_title.setText(R.string.text_orders);
 
         layout_select.setOnClickListener(this);
-        fundSelectAdapter = new FundSelectAdapter(getActivity());
+        fundSelectAdapter = new TradeSelectAdapter(getActivity());
 
 
         radioGroup.setOnCheckedChangeListener(this);
@@ -155,40 +159,39 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         }
         text_income.setText(TradeUtil.getNumberFormat(income, 2));
 
-        TextView text_side=view.findViewById(R.id.text_side);
+        TextView text_side = view.findViewById(R.id.text_side);
         boolean isBuy = dataBean.isIsBuy();
-        if (isBuy){
+        if (isBuy) {
             text_side.setText(R.string.text_buy_much);
-        }else {
+        } else {
             text_side.setText(R.string.text_buy_empty);
         }
 
-        TextView text_margin=view.findViewById(R.id.text_margin);
+        TextView text_margin = view.findViewById(R.id.text_margin);
         text_margin.setText(String.valueOf(dataBean.getMargin()));
 
-        TextView text_lever=view.findViewById(R.id.text_lever);
+        TextView text_lever = view.findViewById(R.id.text_lever);
         text_lever.setText(String.valueOf(dataBean.getLever()));
-        TextView text_orders=view.findViewById(R.id.text_order);
+        TextView text_orders = view.findViewById(R.id.text_order);
         text_orders.setText(String.valueOf(dataBean.getCpVolume()));
-        TextView text_opPrice=view.findViewById(R.id.text_open_price);
+        TextView text_opPrice = view.findViewById(R.id.text_open_price);
         text_opPrice.setText(String.valueOf(dataBean.getOpPrice()));
-        TextView text_clPrice=view.findViewById(R.id.text_close_price);
+        TextView text_clPrice = view.findViewById(R.id.text_close_price);
         text_clPrice.setText(String.valueOf(dataBean.getCpPrice()));
-        TextView text_fee=view.findViewById(R.id.text_fee);
+        TextView text_fee = view.findViewById(R.id.text_fee);
         text_fee.setText(String.valueOf(serviceCharge));
-        TextView text_o_n=view.findViewById(R.id.text_o_n);
+        TextView text_o_n = view.findViewById(R.id.text_o_n);
         text_o_n.setText(String.valueOf(dataBean.getDeferDays()));
-        TextView text_o_n_fee=view.findViewById(R.id.text_o_n_fee);
+        TextView text_o_n_fee = view.findViewById(R.id.text_o_n_fee);
         text_o_n_fee.setText(String.valueOf(dataBean.getDeferFee()));
-        TextView text_currency=view.findViewById(R.id.text_currency_type);
+        TextView text_currency = view.findViewById(R.id.text_currency_type);
         text_currency.setText(dataBean.getCurrency());
-        TextView text_open_time=view.findViewById(R.id.text_open_time);
+        TextView text_open_time = view.findViewById(R.id.text_open_time);
         text_open_time.setText(ChartUtil.getDate(dataBean.getTime()));
-        TextView text_close_time=view.findViewById(R.id.text_close_time);
+        TextView text_close_time = view.findViewById(R.id.text_close_time);
         text_close_time.setText(ChartUtil.getDate(dataBean.getTradeTime()));
-        TextView text_order_id=view.findViewById(R.id.text_order_id);
+        TextView text_order_id = view.findViewById(R.id.text_order_id);
         text_order_id.setText(dataBean.getId());
-
 
 
         view.findViewById(R.id.img_back).setOnClickListener(v -> {
@@ -210,29 +213,40 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     protected void initData() {
-        NetManger.getInstance().currencyList("1", (state, response) -> {
-            if (state.equals(BUSY)) {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(true);
-                }
-            } else if (state.equals(SUCCESS)) {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-                fundItemEntity = (FundItemEntity) response;
-                if (!fundItemEntity.getData().get(0).getName().equals("ALL")) {
-                    fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));
+
+        String list = SPUtils.getString(AppConfig.CONTRACT_ID, null);
+
+        if (list == null) {
+            NetManger.getInstance().getInit((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    InitEntity initEntity = (InitEntity) response;
+                    if (initEntity.getGroup() != null) {
+                        List<InitEntity.GroupBean> group = initEntity.getGroup();
+                        // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
+                        for (InitEntity.GroupBean data : group) {
+                            if (data.getName().equals("数字货币")) {
+                                String list2 = data.getList();
+                                String[] contract = list2.split(";");
+
+                                contractList = new ArrayList<>();
+                                contractList.addAll(Arrays.asList(contract));
+                                contractList.add(0, "ALL");
+                                SPUtils.putString(AppConfig.CONTRACT_ID, list2);
+                            }
+                        }
+                    }
                 }
 
-            } else if (state.equals(FAILURE)) {
-                if (swipeRefreshLayout != null) {
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-            }
-        });
+            });
+        } else {
+            String[] contract = list.split(";");
+
+            contractList = new ArrayList<>();
+            contractList.addAll(Arrays.asList(contract));
+            contractList.add(0, "ALL");
 
 
-
+        }
         page = 0;
         getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe);
 
@@ -260,10 +274,10 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                         if (tradeHistoryEntity == null) {
                             return;
                         }
-                        if (tradeHistoryEntity.getData()==null){
+                        if (tradeHistoryEntity.getData() == null) {
                             return;
                         }
-                        if(isAdded()){
+                        if (isAdded()) {
                             if (tradeHistoryEntity.getData().size() == 0) {
                                 layout_null.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
@@ -290,7 +304,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.layout_select:
-                showFundWindow(fundItemEntity);
+                showFundWindow(contractList);
                 break;
             case R.id.img_back:
                 getActivity().finish();
@@ -301,7 +315,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
     private int oldSelect = 0;
 
     //选择
-    private void showFundWindow(FundItemEntity fundItemEntity) {
+    private void showFundWindow(List<String> contractList) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_fund_pop_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -314,16 +328,9 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         popupWindow.setOutsideTouchable(false);
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_select, Gravity.CENTER, 0, 0);
-        if (fundItemEntity==null){
-            return;
-        }
-        if (fundItemEntity.getData()==null){
-            return;
-        }
-        if (fundItemEntity != null) {
-            List<FundItemEntity.DataBean> fundItemEntityData = fundItemEntity.getData();
-            fundSelectAdapter.setDatas(fundItemEntityData);
 
+        if (contractList != null) {
+            fundSelectAdapter.setDatas(contractList);
             fundSelectAdapter.select(oldSelect);
             /*监听*/
             fundSelectAdapter.setOnItemClick((position, data) -> {
@@ -331,22 +338,18 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                 fundSelectAdapter.select(position);
                 recyclerView.setAdapter(fundSelectAdapter);
                 fundSelectAdapter.notifyDataSetChanged();
-                text_select.setText(data.getName());
-                String code = data.getCode();
-                ChartUtil.setIcon(code, img_bg);
-
-
                 if (position == 0) {
                     commodity = null;
+                    text_select.setText("ALL");
+                    ChartUtil.setIcon("", img_bg);
                 } else {
-                    commodity = data.getCode() + "USDT";
-
+                    String code = data.substring(0, data.length() - 4);
+                    commodity = code + "USDT";
+                    text_select.setText(code);
+                    ChartUtil.setIcon(code, img_bg);
                 }
                 getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe);
-
                 popupWindow.dismiss();
-
-
             });
         }
 

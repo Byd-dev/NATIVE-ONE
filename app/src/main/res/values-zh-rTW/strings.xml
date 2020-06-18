@@ -392,5 +392,6 @@
     <string name="text_deduction_amount">抵扣金額</string>
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">確認下單</string>
+    <string name="text_new_pass">新密碼</string>
 
 </resources>

@@ -12,6 +12,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/text_email_mobile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_email_code"

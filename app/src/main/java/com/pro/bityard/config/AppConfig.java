@@ -75,6 +75,9 @@ public class AppConfig {
     //用户修改手机
     public static final String CHANGE_MOBILE = "CHANGE_MOBILE";
     public static final String CHANGE_EMAIL = "CHANGE_EMAIL";
+    //合约号
+    public static final String CONTRACT_ID = "CONTRACT_ID";
+
 
 
 
