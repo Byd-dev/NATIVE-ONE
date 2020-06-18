@@ -557,12 +557,17 @@ public class Util {
     }
     public static boolean isCode(String phoneStr) {
         Pattern pattern = Pattern.compile("[0-9]*");
-        Matcher isNum = pattern.matcher(phoneStr);
-        if (isNum.matches()) {
-            return true;
-        }else {
+        if (phoneStr.equals("")){
             return false;
+        }else {
+            Matcher isNum = pattern.matcher(phoneStr);
+            if (isNum.matches()) {
+                return true;
+            }else {
+                return false;
+            }
         }
+
     }
     public static void setThreeUnClick(EditText edit_amount, EditText edit_pass, EditText edit_code, Button btn_submit) {
         edit_amount.addTextChangedListener(new TextWatcher() {

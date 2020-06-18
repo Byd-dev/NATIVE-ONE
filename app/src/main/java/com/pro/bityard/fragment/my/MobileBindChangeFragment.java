@@ -72,8 +72,10 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
 
     @BindView(R.id.text_title)
     TextView text_title;
-
-
+    @BindView(R.id.text_err_mobile)
+    TextView text_err_mobile;
+    @BindView(R.id.layout_account)
+    LinearLayout layout_account;
     //地区的适配器
     private CountryCodeAdapter countryCodeAdapter;
 
@@ -119,6 +121,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
 
         text_getCode.setOnClickListener(this);
 
+
     }
 
     @Override
@@ -130,6 +133,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
     protected void intPresenter() {
 
     }
+
 
     @Override
     public void onResume() {
@@ -144,8 +148,54 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                 layout_country_code.setVisibility(View.VISIBLE);
                 layout_mobile.setVisibility(View.VISIBLE);
                 btn_submit.setText(R.string.text_sure);
-                Util.setTwoUnClick(edit_account, edit_code, btn_submit);
-                Util.setTwoUnClick(edit_code, edit_account, btn_submit);
+                //手机号码输入框焦点的监听
+                Util.isPhoneEffective(edit_account, response -> {
+                    if (response.toString().equals("1")) {
+                        text_err_mobile.setVisibility(View.GONE);
+                        layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        text_getCode.setEnabled(true);
+                        if (Util.isCode(edit_code.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+                        }
+                    } else if (response.toString().equals("0")) {
+                        text_err_mobile.setVisibility(View.VISIBLE);
+                        layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                        text_getCode.setEnabled(false);
+                        btn_submit.setEnabled(false);
+
+                    } else if (response.toString().equals("-1")) {
+                        text_err_mobile.setVisibility(View.GONE);
+                        layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        text_getCode.setEnabled(false);
+                        btn_submit.setEnabled(false);
+
+                    }
+                });
+
+                edit_code.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (s.length() > 4 && Util.isCode(s.toString()) && Util.isPhone(edit_account.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
+
             } else {
                 mobile = SPUtils.getBoolean(AppConfig.CHANGE_MOBILE, true);
                 if (mobile == true) {
@@ -153,15 +203,78 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                     layout_country_code.setVisibility(View.GONE);
                     layout_mobile.setVisibility(View.GONE);
                     btn_submit.setText(R.string.text_next);
-                    Util.setOneUnClick(edit_code, btn_submit);
+                    text_getCode.setEnabled(true);
+                    edit_code.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            if (s.length() > 4 && Util.isCode(s.toString())) {
+                                btn_submit.setEnabled(true);
+                            } else {
+                                btn_submit.setEnabled(false);
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
                 } else {
                     text_title.setText(R.string.text_mobile_change);
                     layout_country_code.setVisibility(View.VISIBLE);
                     layout_mobile.setVisibility(View.VISIBLE);
                     btn_submit.setText(R.string.text_sure);
-                    Util.setTwoUnClick(edit_account, edit_code, btn_submit);
-                    Util.setTwoUnClick(edit_code, edit_account, btn_submit);
+                    //手机号码输入框焦点的监听
+                    Util.isPhoneEffective(edit_account, response -> {
+                        if (response.toString().equals("1")) {
+                            text_err_mobile.setVisibility(View.GONE);
+                            layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                            text_getCode.setEnabled(true);
+                            if (Util.isCode(edit_code.getText().toString())) {
+                                btn_submit.setEnabled(true);
+                            } else {
+                                btn_submit.setEnabled(false);
+                            }
+                        } else if (response.toString().equals("0")) {
+                            text_err_mobile.setVisibility(View.VISIBLE);
+                            layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                            text_getCode.setEnabled(false);
+                            btn_submit.setEnabled(false);
+
+                        } else if (response.toString().equals("-1")) {
+                            text_err_mobile.setVisibility(View.GONE);
+                            layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                            text_getCode.setEnabled(false);
+                            btn_submit.setEnabled(false);
+
+                        }
+                    });
+
+                    edit_code.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            if (s.length() > 4 && Util.isCode(s.toString()) && Util.isPhone(edit_account.getText().toString())) {
+                                btn_submit.setEnabled(true);
+                            } else {
+                                btn_submit.setEnabled(false);
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
 
                 }
 
@@ -517,7 +630,6 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
             popupWindow.dismiss();
 
         });
-
 
 
         popupWindow.setFocusable(true);

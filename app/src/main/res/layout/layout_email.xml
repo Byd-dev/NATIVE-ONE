@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
     <!--账户-->
     <LinearLayout
+        android:id="@+id/layout_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_25"
