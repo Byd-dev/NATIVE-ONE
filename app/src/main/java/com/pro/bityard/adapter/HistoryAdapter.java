@@ -104,7 +104,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((MyViewHolder) holder).text_name.setText(split[0]);
             ((MyViewHolder) holder).text_volume.setText("×" + datas.get(position).getVolume());
 
-            ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getTime()));
+            ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getTradeTime()));
 
             ((MyViewHolder) holder).text_tag.setText(datas.get(position).getTradeMode());
 
