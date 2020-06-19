@@ -114,6 +114,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
             }
             return false;
         });
+
         //邮箱输入框焦点的监听
         Util.isEmailEffective(edit_account, response -> {
             if (response.toString().equals("1")) {
@@ -134,6 +135,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 btn_submit.setEnabled(false);
             }
         });
+
+
 
 
 
@@ -296,6 +299,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
 
                                     } else if (loginEntity.getCode() == 401) {
+                                        Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
                                         count_pass++;
                                     } else if (loginEntity.getCode() == 500) {
                                         Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();

@@ -40,6 +40,7 @@
                 android:hint="@string/text_old_pass_input"
                 android:inputType="textPassword"
                 android:maxLines="1"
+                android:maxLength="16"
                 android:textColor="@color/text_main_color"
                 android:textColorHint="@color/color_hint"
                 android:textCursorDrawable="@null"

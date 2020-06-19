@@ -37,6 +37,7 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:hint="@string/text_input_pass"
+                android:maxLength="16"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="@color/text_main_color"

@@ -348,6 +348,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                                         });
 
                                     } else if (loginEntity.getCode() == 401) {
+                                        Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
                                         count_pass++;
                                     } else if (loginEntity.getCode() == 500) {
                                         Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();

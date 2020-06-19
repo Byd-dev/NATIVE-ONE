@@ -11,6 +11,8 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.os.IBinder;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
@@ -454,6 +456,7 @@ public class Util {
     }
 
     public static void setTwoUnClick(EditText edit_account, EditText edit_pass, Button btn_submit) {
+
         edit_account.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -479,7 +482,44 @@ public class Util {
 
 
     public static void isPassEffective(EditText edit_password, OnResult onResult) {
-        //检测错误提示是否显示
+
+        edit_password.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if (charSequence.toString().contains(" ")) {
+                    String[] str = charSequence.toString().split(" ");
+                    StringBuffer sb = new StringBuffer();
+                    for (int i = 0; i < str.length; i++) {
+                        sb.append(str[i]);
+                    }
+                    edit_password.setText(sb.toString());
+                    edit_password.setSelection(start);
+                }
+
+                if (charSequence.length() != 0) {
+                    if (Util.isPass(edit_password.getText().toString()) && edit_password.getText().toString().length() > 5) {
+                        onResult.setResult("1");
+                    } else {
+                        onResult.setResult("0");
+                    }
+                } else {
+                    onResult.setResult("-1");
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+       /* //检测错误提示是否显示
         edit_password.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 if (edit_password.getText().toString().length() != 0) {
@@ -491,11 +531,15 @@ public class Util {
                 } else {
                     onResult.setResult("-1");
                 }
+            } else {
+
             }
-        });
+        });*/
     }
 
     public static void isEmailEffective(EditText edit_account, OnResult onResult) {
+
+        setEditTextInhibitInputSpaChat(edit_account);
         //检测错误提示是否显示
         edit_account.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -513,6 +557,8 @@ public class Util {
     }
 
     public static void isCodeEffective(EditText edit_account, OnResult onResult) {
+        setEditTextInhibitInputSpaChat(edit_account);
+
         //检测错误提示是否显示
         edit_account.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -530,6 +576,8 @@ public class Util {
     }
 
     public static void isPhoneEffective(EditText edit_account, OnResult onResult) {
+        setEditTextInhibitInputSpaChat(edit_account);
+
         //检测错误提示是否显示
         edit_account.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -549,26 +597,28 @@ public class Util {
     public static boolean isPhone(String phoneStr) {
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(phoneStr);
-        if (isNum.matches()&&phoneStr.length()>4) {
+        if (isNum.matches() && phoneStr.length() > 4) {
             return true;
-        }else {
+        } else {
             return false;
         }
     }
+
     public static boolean isCode(String phoneStr) {
         Pattern pattern = Pattern.compile("[0-9]*");
-        if (phoneStr.equals("")){
+        if (phoneStr.equals("")) {
             return false;
-        }else {
+        } else {
             Matcher isNum = pattern.matcher(phoneStr);
             if (isNum.matches()) {
                 return true;
-            }else {
+            } else {
                 return false;
             }
         }
 
     }
+
     public static void setThreeUnClick(EditText edit_amount, EditText edit_pass, EditText edit_code, Button btn_submit) {
         edit_amount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -707,21 +757,10 @@ public class Util {
         }
     }
 
+    /*数字和字母可以有特殊符号*/
     public static boolean isPass(String str) {
-        boolean isDigit = false;//定义一个boolean值，用来表示是否包含数字
-        boolean isLowerCase = false;//定义一个boolean值，用来表示是否包含字母
-        boolean isUpperCase = false;
-        for (int i = 0; i < str.length(); i++) {
-            if (Character.isDigit(str.charAt(i))) {   //用char包装类中的判断数字的方法判断每一个字符
-                isDigit = true;
-            } else if (Character.isLowerCase(str.charAt(i))) {  //用char包装类中的判断字母的方法判断每一个字符
-                isLowerCase = true;
-            } else if (Character.isUpperCase(str.charAt(i))) {
-                isUpperCase = true;
-            }
-        }
-        String regex = "^[a-zA-Z0-9]+$";
-        boolean isRight = isDigit && isLowerCase && str.matches(regex);
+        String regex = "^.*(?=.{6,16})(?=.*\\d)(?=.*[a-z])[A-Za-z0-9!@#$%^&*?].*$";
+        boolean isRight = str.matches(regex);
         return isRight;
     }
 
@@ -761,6 +800,20 @@ public class Util {
         } else {
             return 0;
         }
+    }
+
+    /**
+     * 禁止EditText输入空格
+     *今天遇到个情况这个InputFilter不好使了，找了半天原因是冲突在android:inputType="textPassword"这个属性上了
+     * @param editText
+     */
+    public static void setEditTextInhibitInputSpaChat(EditText editText) {
+        //过滤空格
+        editText.setFilters(new InputFilter[]{(source, start, end, dest, dstart, dend) -> {
+            if (source.equals(" ")) return "";
+            else return source;
+        }, new InputFilter.LengthFilter(16)});
+
     }
 
 
