@@ -403,7 +403,6 @@
                             android:inputType="numberDecimal"
                             android:textColor="@color/text_main_color"
                             android:textColorHint="@color/text_second_color"
-
                             android:textCursorDrawable="@null"
                             android:textSize="@dimen/size_normal" />
 

@@ -65,7 +65,7 @@ public class TradeUtil {
 
     public static String numberHalfUp(double value, int scale) {
         BigDecimal bd = new BigDecimal(value);
-        String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五入
+        String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五
         return mon;
     }
 
@@ -460,9 +460,8 @@ public class TradeUtil {
     }
 
 
-    /*计算手续费*/
+    /*计算手续费  保证金*杠杆*费率**/
     public static String serviceCharge(ChargeUnitEntity chargeUnitEntity, int coinFormula, String margin, double lever) {
-
         String charge = null;
         if (chargeUnitEntity == null) {
             return null;
@@ -472,10 +471,9 @@ public class TradeUtil {
         }
         double div = div(chargeUnitEntity.getChargeCoinList().get(1), 1000, 10);
         if (coinFormula == 3) {
-            charge = numberHalfUp(mul(mul(Double.parseDouble(margin), sub(lever, 1)), div), 2);
+            charge = numberHalfUp(mul(mul(Double.parseDouble(margin), lever), div), 2);
         }
         return charge;
-
     }
 
     /*是否递延*/
@@ -523,14 +521,14 @@ public class TradeUtil {
         return priceOrder;
     }
 
-    /*计算递延费*/
+    /*计算递延费   保证金*杠杆*费率 *0.00045*/
     public static String deferFee(String defer, double deferBase, String margin, double lever) {
         if (margin == null) {
             return null;
         }
         String deferFee;
         if (defer.equals("true")) {
-            deferFee = String.valueOf(mul(mul(Double.parseDouble(margin), sub(lever, 1)), deferBase));
+            deferFee = String.valueOf(mul(mul(Double.parseDouble(margin), lever), deferBase));
         } else {
             deferFee = "0";
         }

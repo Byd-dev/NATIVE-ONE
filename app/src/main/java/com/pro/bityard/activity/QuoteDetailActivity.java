@@ -650,8 +650,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
 
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
-            lever = leverShowList.get(0);
-
+            lever = leverShowList.get(oldSelect);
+            text_lever_market.setText(lever + "X");
+            text_lever_limit.setText(lever + "X");
            /* recyclerView_market.setLayoutManager(new GridLayoutManager(this, 3));
             recyclerView_limit.setLayoutManager(new GridLayoutManager(this, 3));
 
@@ -1141,6 +1142,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         quotePopAdapter.setOnItemClick(data -> {
+
+
+
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
             // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));

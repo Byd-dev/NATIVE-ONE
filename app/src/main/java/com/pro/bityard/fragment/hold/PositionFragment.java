@@ -632,19 +632,19 @@ public class PositionFragment extends BaseFragment implements Observer {
         text_open_price.setText(String.valueOf(data.getOpPrice()));
 
 
-        double profit_max_amount = TradeUtil.mul(margin, 5.00);
-        double profit_min_amount = TradeUtil.mul(margin, 0.05);
+        double profit_max_amount = Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 5.00),priceDigit));
+        double profit_min_amount =  Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 0.05),priceDigit));
 
-        double loss_max_amount = TradeUtil.mul(margin, 0.90);
+        double loss_max_amount =  Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 0.90),priceDigit));
 
-        double loss_min_amount = TradeUtil.mul(margin, 0.05);
+        double loss_min_amount =  Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 0.05),priceDigit));
 
 
-        double profit_max_price = Double.parseDouble(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_max_amount));
-        double profit_min_price = Double.parseDouble(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_min_amount));
+        double profit_max_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_max_amount)),priceDigit));
+        double profit_min_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_min_amount)),priceDigit));
 
-        double loss_max_price = Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max_amount));
-        double loss_min_price = Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_min_amount));
+        double loss_max_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max_amount)),priceDigit));
+        double loss_min_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_min_amount)),priceDigit));
 
         /* -----------------------------------------------------------金额---------------------------------------------------------------------------*/
 
