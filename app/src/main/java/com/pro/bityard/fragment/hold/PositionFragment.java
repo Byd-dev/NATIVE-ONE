@@ -19,7 +19,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PositionAdapter;
@@ -632,19 +631,19 @@ public class PositionFragment extends BaseFragment implements Observer {
         text_open_price.setText(String.valueOf(data.getOpPrice()));
 
 
-        double profit_max_amount = Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 5.00),priceDigit));
-        double profit_min_amount =  Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 0.05),priceDigit));
+        double profit_max_amount = Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 5.00), priceDigit));
+        double profit_min_amount = Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 0.05), priceDigit));
 
-        double loss_max_amount =  Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 0.90),priceDigit));
+        double loss_max_amount = Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 0.90), priceDigit));
 
-        double loss_min_amount =  Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 0.05),priceDigit));
+        double loss_min_amount = Double.parseDouble(TradeUtil.numberHalfUp(TradeUtil.mul(margin, 0.05), priceDigit));
 
 
-        double profit_max_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_max_amount)),priceDigit));
-        double profit_min_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_min_amount)),priceDigit));
+        double profit_max_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_max_amount)), priceDigit));
+        double profit_min_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, profit_min_amount)), priceDigit));
 
-        double loss_max_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max_amount)),priceDigit));
-        double loss_min_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_min_amount)),priceDigit));
+        double loss_max_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_max_amount)), priceDigit));
+        double loss_min_price = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, loss_min_amount)), priceDigit));
 
         /* -----------------------------------------------------------金额---------------------------------------------------------------------------*/
 
@@ -1178,6 +1177,7 @@ public class PositionFragment extends BaseFragment implements Observer {
             } else {
                 text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
             }
+            Log.d("print", "setIncome:总盈亏:  " + response.toString());
             text_incomeAll.setText(getNumberFormat(Double.parseDouble(response.toString()), 2));
 
         });
@@ -1225,8 +1225,8 @@ public class PositionFragment extends BaseFragment implements Observer {
         });*/
 
         //持仓初始化
-      //  PositionRealManger.getInstance().getHold();
-     //   PositionSimulationManger.getInstance().getHold();
+        //  PositionRealManger.getInstance().getHold();
+        //   PositionSimulationManger.getInstance().getHold();
         List<PositionEntity.DataBean> dataBeanList = new ArrayList<>();
 
 
@@ -1264,10 +1264,9 @@ public class PositionFragment extends BaseFragment implements Observer {
 
                     }
 
-                    Log.d("position", "initData:1267 "+positionEntity.getData());
 
                     dataBeanList.addAll(positionEntity.getData());
-                    if (tradeType.equals("1")){
+                    if (tradeType.equals("1")) {
                         NetManger.getInstance().getPending("1", (state1, response3, response4) -> {
                             if (state1.equals(SUCCESS)) {
                                 PositionEntity positionEntity1 = (PositionEntity) response3;
@@ -1275,7 +1274,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                                 PositionRealManger.getInstance().postPosition(dataBeanList);
                             }
                         });
-                    }else {
+                    } else {
                         PositionSimulationManger.getInstance().postPosition(dataBeanList);
                     }
 
@@ -1312,7 +1311,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                         //整体盈亏
                         setIncome(quoteList, positionEntity);
                         //整体净值
-                        //  setNetIncome(tradeType, positionEntity.getData(), quoteList);
+                        // setNetIncome(tradeType, positionEntity.getData(), quoteList);
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
                     } else {
                         positionEntity.getData().clear();

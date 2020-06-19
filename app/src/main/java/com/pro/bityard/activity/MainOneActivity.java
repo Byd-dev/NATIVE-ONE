@@ -28,6 +28,7 @@ import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -252,6 +253,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
                     if (isLogin()) {
+
+
+
+
+
                         Toast.makeText(this,"行情刷新",Toast.LENGTH_SHORT).show();
                         if (tradeType.equals("1")) {
                             setNetIncome(tradeType, positionRealList, quoteList);
@@ -267,7 +273,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         } else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
-            Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
 
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_available != null) {
@@ -329,12 +334,16 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
         } else if (o == NetIncomeManger.getInstance()) {
             netIncomeResult = (String) arg;
+
             Log.d("netIncome", "update:273: " + isLogin() + "  --   " + netIncomeResult);
+
             String[] NetIncome = netIncomeResult.split(",");
             runOnUiThread(() -> {
                 // 1,2.5,5  类型 整体净盈亏  整体  保证金
                 String netIncome = NetIncome[1];
                 String margin = NetIncome[2];
+
+                Log.d("print", "update:339: "+netIncome+  "    保证金:"+margin);
 
                 if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
@@ -1201,6 +1210,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     double money1 = data.getMoney();//可用余额
                     double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
                     double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
+                    Log.d("print", "setMyNetIncome:1205: "+money1+"  "+add2+"   "+ad3);
                     text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
                     //账户净值=可用余额+占用保证金+浮动盈亏
                     double money = Double.parseDouble(response.toString());//所有钱包的和
@@ -1251,6 +1261,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                         .append(",").append(margin);
                 //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
                 //账户净值=可用余额+占用保证金+浮动盈亏
+
+
                 Log.d("hold", "setNetIncome:发送的数据 220:  " + append.toString());
                 NetIncomeManger.getInstance().postNetIncome(append.toString());
             }));

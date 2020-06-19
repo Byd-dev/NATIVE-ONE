@@ -232,27 +232,31 @@ public class TradeUtil {
         }
         List<Double> incomeList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionList) {
-            if (dataBean.getServiceCharge() != 0.0) {
+            //这里判断的原因是这里增加了挂单的列表 需要过滤
+            if (dataBean.getOpPrice() != 0.0) {
                 boolean isBuy = dataBean.isIsBuy();
                 double opPrice = dataBean.getOpPrice();
                 double volume = dataBean.getVolume();
                 double serviceCharge = dataBean.getServiceCharge();
                 TradeUtil.price(quoteList, dataBean.getContractCode(), response -> {
                     String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume);
-                    String s = netIncome(Double.parseDouble(income1), serviceCharge);
-                    incomeList.add(Double.parseDouble(s));
+                   // String s = netIncome(Double.parseDouble(income1), serviceCharge);
+                    Log.d("hold", "getNetIncome:253:  "+income1);
+
+                    incomeList.add(Double.parseDouble(income1));
                 });
             } else {
                 incomeList.add(0.0);
             }
 
         }
+
+        Log.d("hold", "getNetIncome:253:  "+incomeList);
         if (incomeList.size() > 0) {
             double income = 0.0;
             for (int i = 0; i < incomeList.size(); i++) {
                 income = TradeUtil.add(income, incomeList.get(i));
             }
-            Log.d("hold", "getNetIncome:收入: " + income);
             tradeResult.setResult(income);
         }
     }
@@ -282,17 +286,14 @@ public class TradeUtil {
     }
 
 
-    /*全部浮动盈亏*/
+    /*总盈亏算法 持仓列表的盈亏之和*/
     public static void getIncome(List<String> quoteList, PositionEntity positionEntity, TradeResult tradeResult) {
         List<Double> incomeList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
             boolean isBuy = dataBean.isIsBuy();
-            TradeUtil.price(quoteList, dataBean.getContractCode(), new TradeResult() {
-                @Override
-                public void setResult(Object response) {
-                    Double income = Double.valueOf(TradeUtil.incomeAdd(isBuy, Double.parseDouble(response.toString()), dataBean.getOpPrice(), dataBean.getVolume()));
-                    incomeList.add(income);
-                }
+            TradeUtil.price(quoteList, dataBean.getContractCode(), response -> {
+                Double income = Double.valueOf(TradeUtil.incomeAdd(isBuy, Double.parseDouble(response.toString()), dataBean.getOpPrice(), dataBean.getVolume()));
+                incomeList.add(income);
             });
         }
         if (incomeList.size() > 0) {
