@@ -199,6 +199,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     /*我的  ---------------------------------------------------*/
     @BindView(R.id.text_userName)
     TextView text_userName;
+    @BindView(R.id.img_service_my)
+    ImageView img_service_my;
 
     @BindView(R.id.text_uid)
     TextView text_uid;
@@ -423,7 +425,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 if (userDetailEntity.getUser() != null) {
                     text_userName.setText(userDetailEntity.getUser().getUsername());
                     text_uid.setVisibility(View.VISIBLE);
-                    if (loginEntity!=null){
+                    if (loginEntity != null) {
                         text_uid.setText("UID:" + loginEntity.getUser().getUserId());
                     }
                     text_register.setVisibility(View.GONE);
@@ -507,6 +509,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             text_register.setVisibility(View.GONE);
             img_edit.setVisibility(View.VISIBLE);
             layout_login_register.setVisibility(View.GONE);
+            img_service_my.setVisibility(View.VISIBLE);
 
 
         } else {
@@ -519,6 +522,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             layout_login_register.setVisibility(View.VISIBLE);
             text_byd_balance.setText(getResources().getString(R.string.text_default));
             text_commissionRate.setText(getResources().getString(R.string.text_default));
+            img_service_my.setVisibility(View.GONE);
 
 
         }
@@ -687,6 +691,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         findViewById(R.id.text_quick_exchange).setOnClickListener(this);
         findViewById(R.id.text_fiat).setOnClickListener(this);
         findViewById(R.id.img_edit).setOnClickListener(this);
+        img_service_my.setOnClickListener(this);
 
     }
 
@@ -1157,8 +1162,10 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 }
                 break;
             /*客服系统*/
+
             case R.id.img_service:
             case R.id.layout_seven:
+            case R.id.img_service_my:
 
                 String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, "zh_cn");
                 String url;
