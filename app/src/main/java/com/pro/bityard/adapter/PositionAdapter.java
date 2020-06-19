@@ -159,10 +159,10 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 //盈亏比
                 ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(Double.parseDouble(income),margin));
 
-                String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
-                double netIncomeDouble = Double.parseDouble(netIncome);
+                /*String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
+                double netIncomeDouble = Double.parseDouble(netIncome);*/
 
-                ((MyViewHolder) holder).text_worth.setText(netIncome);
+                ((MyViewHolder) holder).text_worth.setText(TradeUtil.numberHalfUp(incomeDouble,2));
                 if (incomeDouble > 0) {
                     ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
                     ((MyViewHolder) holder).text_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
@@ -173,7 +173,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
                 }
 
-                if (netIncomeDouble > 0) {
+                if (incomeDouble > 0) {
                     ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_green));
                 } else {
                     ((MyViewHolder) holder).text_worth.setTextColor(context.getResources().getColor(R.color.text_quote_red));
