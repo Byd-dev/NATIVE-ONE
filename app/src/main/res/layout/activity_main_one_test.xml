@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/layout_view"
+    android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
+    android:orientation="vertical"
+    tools:context=".activity.MainOneActivity">
+
+    <RelativeLayout
+        android:id="@+id/layout_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.pro.bityard.view.StatusBarHeightView
+            android:id="@+id/layout_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:use_type="use_padding_top">
+
+
+            <!--首页-->
+            <include layout="@layout/tab_home" />
+
+            <!--行情-->
+            <include layout="@layout/tab_market" />
+
+            <!--持仓-->
+            <include layout="@layout/tab_hold" />
+
+
+        </com.pro.bityard.view.StatusBarHeightView>
+        <!--我的-->
+        <LinearLayout
+            android:id="@+id/layout_my"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <include layout="@layout/tab_my" />
+
+        </LinearLayout>
+
+
+        <!-- <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="70dp"
+             android:layout_alignParentBottom="true"
+             android:orientation="vertical"
+             android:visibility="gone">
+
+
+             <com.pro.bityard.view.TabView
+                 android:id="@+id/tabView"
+                 android:layout_width="match_parent"
+                 android:layout_height="20dp"
+                 android:background="@null"
+                 app:outViewDistance="60dp"
+                 app:outViewLineColor="@color/color_bg_left"
+                 app:outViewLineHeight="0.5dp"
+                 app:outViewOffsetAngle="30" />
+
+             <RadioGroup
+                 android:id="@+id/radioGroup"
+                 android:layout_width="match_parent"
+                 android:layout_height="@dimen/margin_50"
+                 android:layout_alignParentBottom="true"
+                 android:layout_marginBottom="@dimen/margin_10"
+                 android:background="@color/color_bg_left"
+                 android:orientation="horizontal">
+
+                 <RadioButton
+                     android:id="@+id/radio_0"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:button="@null"
+                     android:checked="true"
+                     android:drawableTop="@drawable/tab_one"
+                     android:drawablePadding="@dimen/margin_2"
+                     android:gravity="center"
+                     android:maxLines="1"
+                     android:text="@string/tab_one"
+                     android:textColor="@color/sel_switcher_txt_night"
+                     android:textSize="10sp"
+                     android:textStyle="bold" />
+
+                 <RadioButton
+                     android:id="@+id/radio_1"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:button="@null"
+                     android:checked="false"
+                     android:drawableTop="@drawable/tab_two"
+                     android:drawablePadding="@dimen/margin_2"
+                     android:gravity="center"
+                     android:maxLines="1"
+                     android:text="@string/tab_two"
+                     android:textColor="@color/sel_switcher_txt_night"
+                     android:textSize="10sp"
+                     android:textStyle="bold"
+                     android:visibility="visible" />
+
+                 <RadioButton
+                     android:id="@+id/radio_2"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:button="@null"
+                     android:checked="false"
+                     android:drawableTop="@mipmap/tab_three"
+                     android:drawablePadding="@dimen/margin_2"
+                     android:gravity="center"
+                     android:maxLines="1"
+                     android:text="@string/tab_three"
+                     android:textColor="@color/tab_color_normal"
+                     android:textSize="10sp"
+                     android:textStyle="bold"
+                     android:visibility="visible" />
+
+
+                 <RadioButton
+                     android:id="@+id/radio_3"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:button="@null"
+                     android:checked="false"
+                     android:drawableTop="@drawable/tab_four"
+                     android:drawablePadding="@dimen/margin_2"
+                     android:gravity="center"
+                     android:maxLines="1"
+                     android:text="@string/tab_four"
+                     android:textColor="@color/sel_switcher_txt_night"
+                     android:textSize="10sp"
+                     android:textStyle="bold"
+                     android:visibility="visible" />
+
+                 <RadioButton
+                     android:id="@+id/radio_4"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_weight="1"
+                     android:button="@null"
+                     android:checked="false"
+                     android:drawableTop="@drawable/tab_five"
+                     android:drawablePadding="@dimen/margin_2"
+                     android:gravity="center"
+                     android:maxLines="1"
+                     android:text="@string/tab_five"
+                     android:textColor="@color/sel_switcher_txt_night"
+                     android:textSize="10sp"
+                     android:textStyle="bold"
+                     android:visibility="visible" />
+
+
+             </RadioGroup>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="@dimen/margin_10"
+                 android:layout_alignParentBottom="true"
+                 android:background="@color/color_bg_left" />
+
+
+         </RelativeLayout>-->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@mipmap/tab_bg"
+            android:layout_alignParentBottom="true"
+            >
+
+            <LinearLayout
+                android:id="@+id/radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_50"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/margin_8"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableTop="@drawable/tab_one"
+                    android:drawablePadding="@dimen/margin_2"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/tab_one"
+                    android:textColor="@color/sel_switcher_txt_night"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <RadioButton
+                    android:id="@+id/radio_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="false"
+                    android:drawableTop="@drawable/tab_two"
+                    android:drawablePadding="@dimen/margin_2"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/tab_two"
+                    android:textColor="@color/sel_switcher_txt_night"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <RadioButton
+                    android:id="@+id/radio_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="false"
+                    android:drawableTop="@mipmap/tab_three"
+                    android:drawablePadding="@dimen/margin_2"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/tab_three"
+                    android:textColor="@color/tab_color_normal"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+
+                <RadioButton
+                    android:id="@+id/radio_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="false"
+                    android:drawableTop="@drawable/tab_four"
+                    android:drawablePadding="@dimen/margin_2"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/tab_four"
+                    android:textColor="@color/sel_switcher_txt_night"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+                <RadioButton
+                    android:id="@+id/radio_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="false"
+                    android:drawableTop="@drawable/tab_five"
+                    android:drawablePadding="@dimen/margin_2"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/tab_five"
+                    android:textColor="@color/sel_switcher_txt_night"
+                    android:textSize="10sp"
+                    android:textStyle="bold"
+                    android:visibility="visible" />
+
+
+            </LinearLayout>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

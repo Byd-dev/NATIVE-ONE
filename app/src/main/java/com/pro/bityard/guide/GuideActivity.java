@@ -2,7 +2,6 @@ package com.pro.bityard.guide;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -14,8 +13,6 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
-import com.pro.bityard.entity.InitEntity;
-import com.pro.bityard.entity.TradeListEntity;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
 
@@ -24,10 +21,6 @@ import java.util.List;
 
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
-
-import static com.pro.bityard.api.NetManger.BUSY;
-import static com.pro.bityard.api.NetManger.FAILURE;
-import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class GuideActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.banner)

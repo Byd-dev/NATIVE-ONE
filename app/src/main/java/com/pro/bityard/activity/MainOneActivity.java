@@ -28,7 +28,6 @@ import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -47,7 +46,6 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
-import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
@@ -81,7 +79,7 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 
-public class MainOneActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, Observer, View.OnClickListener {
+public class MainOneActivity extends BaseActivity implements Observer, View.OnClickListener {
 
     public static boolean isForeground = false;
     public static final String MESSAGE_RECEIVED_ACTION = "${applicationId}.MESSAGE_RECEIVED_ACTION";
@@ -102,12 +100,19 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     StatusBarHeightView layout_status;
     @BindView(R.id.layout_login_register)
     RelativeLayout layout_login_register;
+    @BindView(R.id.radioGroup)
+    LinearLayout radioGroup;
 
+    @BindView(R.id.radio_0)
+    RadioButton radioButton_0;
+    @BindView(R.id.radio_1)
+    RadioButton radioButton_1;
     @BindView(R.id.radio_2)
     RadioButton radioButton_2;
-
     @BindView(R.id.radio_3)
     RadioButton radioButton_3;
+    @BindView(R.id.radio_4)
+    RadioButton radioButton_4;
 
 
     /*首页-------------------------------------------------------------*/
@@ -142,7 +147,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     private int flag_new_price = 0;
     private int flag_up_down = 0;
-    private boolean flag_name=false;
+    private boolean flag_name = false;
 
     @BindView(R.id.img_price_triangle)
     ImageView img_price_triangle;
@@ -230,14 +235,11 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
     @Override
     protected int setContentLayout() {
-        return R.layout.activity_main_one;
+        return R.layout.activity_main_one_test;
 
     }
 
     private List<String> quoteList;
-
-
-
 
 
     @Override
@@ -255,10 +257,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     if (isLogin()) {
 
 
-
-
-
-                        Toast.makeText(this,"行情刷新",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "行情刷新", Toast.LENGTH_SHORT).show();
                         if (tradeType.equals("1")) {
                             setNetIncome(tradeType, positionRealList, quoteList);
                         } else {
@@ -343,7 +342,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 String netIncome = NetIncome[1];
                 String margin = NetIncome[2];
 
-                Log.d("print", "update:339: "+netIncome+  "    保证金:"+margin);
+                Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
 
                 if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
@@ -424,7 +423,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 if (userDetailEntity.getUser() != null) {
                     text_userName.setText(userDetailEntity.getUser().getUsername());
                     text_uid.setVisibility(View.VISIBLE);
-                    text_uid.setText("UID:"+loginEntity.getUser().getUserId());
+                    if (loginEntity!=null){
+                        text_uid.setText("UID:" + loginEntity.getUser().getUserId());
+                    }
                     text_register.setVisibility(View.GONE);
                     img_edit.setVisibility(View.VISIBLE);
                     if (isEyeOpen) {
@@ -474,9 +475,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     }
 
 
-    @BindView(R.id.radioGroup)
-    RadioGroup radioGroup;
-
     public static void enter(Context context, int tabIndex) {
 
         Intent intent = new Intent(context, MainOneActivity.class);
@@ -505,7 +503,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             text_userName.setText(loginEntity.getUser().getUserName());
             text_uid.setVisibility(View.VISIBLE);
-            text_uid.setText("UID:"+loginEntity.getUser().getUserId());
+            text_uid.setText("UID:" + loginEntity.getUser().getUserId());
             text_register.setVisibility(View.GONE);
             img_edit.setVisibility(View.VISIBLE);
             layout_login_register.setVisibility(View.GONE);
@@ -541,6 +539,14 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     @Override
     protected void initView(View view) {
         Toast.makeText(this, "执行了initView", Toast.LENGTH_SHORT).show();
+        //首页监听
+
+        radioButton_0.setOnClickListener(this);
+        radioButton_1.setOnClickListener(this);
+        radioButton_2.setOnClickListener(this);
+        radioButton_3.setOnClickListener(this);
+        radioButton_4.setOnClickListener(this);
+
 
         //主题是深色的标题
         StatusBarUtil.setStatusBarDarkTheme(this, false);
@@ -552,29 +558,8 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
         //个人信息初始化
         UserDetailManger.getInstance().addObserver(this);
         //初始化 交易设置
-        radioGroup.setOnCheckedChangeListener(this);
-        radioGroup.getChildAt(0).performClick();
         radioButton_2.setOnClickListener(this);
-       /* //持仓的监听
-        radioButton_3.setOnClickListener(v -> {
-            if (isLogin()){
-                radioButton_3.setChecked(true);
-                layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.GONE);
-                layout_hold.setVisibility(View.VISIBLE);
-                layout_my.setVisibility(View.GONE);
-                layout_status.setVisibility(View.VISIBLE);
-                if (tradeType.equals("1")) {
-                    layout_real.setVisibility(View.VISIBLE);
-                    layout_simulation.setVisibility(View.GONE);
-                } else {
-                    layout_real.setVisibility(View.GONE);
-                    layout_simulation.setVisibility(View.VISIBLE);
-                }
-            }else {
-                LoginActivity.enter(MainOneActivity.this,IntentConfig.Keys.KEY_LOGIN);
-            }
-        });*/
+
 
 
 
@@ -846,58 +831,6 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
 
     @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (checkedId) {
-            case R.id.radio_0:
-                layout_home.setVisibility(View.VISIBLE);
-                layout_market.setVisibility(View.GONE);
-                layout_hold.setVisibility(View.GONE);
-                layout_my.setVisibility(View.GONE);
-                layout_status.setVisibility(View.VISIBLE);
-                layout_real.setVisibility(View.GONE);
-                layout_simulation.setVisibility(View.GONE);
-
-                break;
-            case R.id.radio_1:
-                layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.VISIBLE);
-                layout_hold.setVisibility(View.GONE);
-                layout_my.setVisibility(View.GONE);
-                layout_status.setVisibility(View.VISIBLE);
-                layout_real.setVisibility(View.GONE);
-                layout_simulation.setVisibility(View.GONE);
-
-                break;
-            case R.id.radio_3:
-                layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.GONE);
-                layout_hold.setVisibility(View.VISIBLE);
-                layout_my.setVisibility(View.GONE);
-                layout_status.setVisibility(View.VISIBLE);
-                if (tradeType.equals("1")) {
-                    layout_real.setVisibility(View.VISIBLE);
-                    layout_simulation.setVisibility(View.GONE);
-                } else {
-                    layout_real.setVisibility(View.GONE);
-                    layout_simulation.setVisibility(View.VISIBLE);
-                }
-                break;
-            case R.id.radio_4:
-                layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.GONE);
-                layout_hold.setVisibility(View.GONE);
-                layout_my.setVisibility(View.VISIBLE);
-                layout_status.setVisibility(View.GONE);
-                layout_real.setVisibility(View.GONE);
-                layout_simulation.setVisibility(View.GONE);
-
-
-                break;
-        }
-    }
-
-
-    @Override
     protected void onDestroy() {
         super.onDestroy();
         Log.d("print", "onDestroy:912:  " + "执行了Ondestory");
@@ -915,17 +848,111 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
     public void onClick(View v) {
         switch (v.getId()) {
 
-            case R.id.text_login_register:
-                LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+            case R.id.radio_0:
+                layout_home.setVisibility(View.VISIBLE);
+                layout_market.setVisibility(View.GONE);
+                layout_hold.setVisibility(View.GONE);
+                layout_my.setVisibility(View.GONE);
+                layout_status.setVisibility(View.VISIBLE);
+                layout_real.setVisibility(View.GONE);
+                layout_simulation.setVisibility(View.GONE);
+                radioButton_0.setChecked(true);
+                radioButton_1.setChecked(false);
+                radioButton_2.setChecked(false);
+                radioButton_3.setChecked(false);
+                radioButton_4.setChecked(false);
 
                 break;
-
+            case R.id.radio_1:
+                layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.VISIBLE);
+                layout_hold.setVisibility(View.GONE);
+                layout_my.setVisibility(View.GONE);
+                layout_status.setVisibility(View.VISIBLE);
+                layout_real.setVisibility(View.GONE);
+                layout_simulation.setVisibility(View.GONE);
+                radioButton_0.setChecked(false);
+                radioButton_1.setChecked(true);
+                radioButton_2.setChecked(false);
+                radioButton_3.setChecked(false);
+                radioButton_4.setChecked(false);
+                break;
             case R.id.radio_2:
                 if (quoteList == null) {
                     return;
                 }
                 QuoteDetailActivity.enter(MainOneActivity.this, "1", quoteList.get(0));
                 break;
+
+            case R.id.radio_3:
+                radioButton_3.setChecked(false);
+                if (isLogin()) {
+                    radioButton_0.setChecked(false);
+                    radioButton_1.setChecked(false);
+                    radioButton_2.setChecked(false);
+                    radioButton_3.setChecked(true);
+                    radioButton_4.setChecked(false);
+                    layout_home.setVisibility(View.GONE);
+                    layout_market.setVisibility(View.GONE);
+                    layout_hold.setVisibility(View.VISIBLE);
+                    layout_my.setVisibility(View.GONE);
+                    layout_status.setVisibility(View.VISIBLE);
+                    if (tradeType.equals("1")) {
+                        layout_real.setVisibility(View.VISIBLE);
+                        layout_simulation.setVisibility(View.GONE);
+                    } else {
+                        layout_real.setVisibility(View.GONE);
+                        layout_simulation.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+
+
+
+
+
+               /* layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.GONE);
+                layout_hold.setVisibility(View.VISIBLE);
+                layout_my.setVisibility(View.GONE);
+                layout_status.setVisibility(View.VISIBLE);
+                radioButton_0.setChecked(false);
+                radioButton_1.setChecked(false);
+                radioButton_2.setChecked(false);
+                radioButton_3.setChecked(true);
+                radioButton_4.setChecked(false);
+
+                if (tradeType.equals("1")) {
+                    layout_real.setVisibility(View.VISIBLE);
+                    layout_simulation.setVisibility(View.GONE);
+                } else {
+                    layout_real.setVisibility(View.GONE);
+                    layout_simulation.setVisibility(View.VISIBLE);
+                }*/
+                break;
+            case R.id.radio_4:
+                layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.GONE);
+                layout_hold.setVisibility(View.GONE);
+                layout_my.setVisibility(View.VISIBLE);
+                layout_status.setVisibility(View.GONE);
+                layout_real.setVisibility(View.GONE);
+                layout_simulation.setVisibility(View.GONE);
+                radioButton_0.setChecked(false);
+                radioButton_1.setChecked(false);
+                radioButton_2.setChecked(false);
+                radioButton_3.setChecked(false);
+                radioButton_4.setChecked(true);
+
+                break;
+
+            case R.id.text_login_register:
+                LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+
+                break;
+
+
             /*首页 -----------------------------------------------------------------------------------*/
             case R.id.layout_announcement:
                 /*最新公告*/
@@ -1114,9 +1141,9 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                 break;
             /*交易设置*/
             case R.id.layout_five:
-                if (isLogin()){
+                if (isLogin()) {
                     UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
-                }else {
+                } else {
                     LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
@@ -1210,7 +1237,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
                     double money1 = data.getMoney();//可用余额
                     double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
                     double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
-                    Log.d("print", "setMyNetIncome:1205: "+money1+"  "+add2+"   "+ad3);
+                    Log.d("print", "setMyNetIncome:1205: " + money1 + "  " + add2 + "   " + ad3);
                     text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
                     //账户净值=可用余额+占用保证金+浮动盈亏
                     double money = Double.parseDouble(response.toString());//所有钱包的和
@@ -1226,6 +1253,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
             }
         }
     }
+
     public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
         Log.d("hold", "setNetIncome:204:  " + positionList);
         if (positionList == null) {
@@ -1270,6 +1298,7 @@ public class MainOneActivity extends BaseActivity implements RadioGroup.OnChecke
 
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();

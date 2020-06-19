@@ -80,7 +80,6 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
 
         </activity>
-        <activity android:name=".activity.MainOneActivity" />
         <activity android:name=".activity.WebActivity" />
         <activity android:name=".activity.TestActivity" />
         <!--微信分享-->
@@ -88,6 +87,7 @@
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".activity.MainOneActivity" />
 
         <!-- Optional facebook配置,authorities必须为com.facebook.app.FacebookContentProvider+APP_ID-->
 
