@@ -620,7 +620,7 @@ public class NetManger {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
                             Log.d("print", "onNetResult:338:  " + list);
-                            SPUtils.putString(AppConfig.CONTRACT_ID,list);
+                            SPUtils.putString(AppConfig.CONTRACT_ID, list);
                             NetManger.getInstance().getTradeList(list, (state1, response1) -> {
                                 if (state1.equals(BUSY)) {
                                 } else if (state1.equals(SUCCESS)) {
@@ -1359,7 +1359,7 @@ public class NetManger {
         map.put("account", account);
         map.put("type", sendType);
         map.put("code", code_value);
-        NetManger.getInstance().postRequest("/api/system/checkEmail", map, (state, response) -> {
+        postRequest("/api/system/checkEmail", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
@@ -1404,6 +1404,25 @@ public class NetManger {
         map.put("password", loginPass);
         map.put("withdrawPw", newPass);
         postRequest("/api/user/init-withdrawPw", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipEntity);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+
+
+    }
+
+    /*忘记资金密码*/
+    public void widthDrawPasswordForget(String account, String withdrawPw, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("account", account);
+        map.put("withdrawPw", withdrawPw);
+        postRequest("/api/user/update-withdrawPw", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
@@ -1476,12 +1495,12 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                TipEntity tipEntity=new Gson().fromJson(response.toString(),TipEntity.class);
-                if (tipEntity.getCode()==200){
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
                     DepositWithdrawEntity depositWithdrawEntity = new Gson().fromJson(response.toString(), DepositWithdrawEntity.class);
 
                     onNetResult.onNetResult(SUCCESS, depositWithdrawEntity);
-                }else {
+                } else {
                     onNetResult.onNetResult(FAILURE, null);
                 }
 
@@ -1532,12 +1551,12 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                TipEntity tipEntity=new Gson().fromJson(response.toString(),TipEntity.class);
-                if (tipEntity.getCode()==200){
-                    Log.d("print", "getWithdrawal:273:  "+response);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    Log.d("print", "getWithdrawal:273:  " + response);
                     ExchangeRecordEntity exchangeRecordEntity = new Gson().fromJson(response.toString(), ExchangeRecordEntity.class);
                     onNetResult.onNetResult(SUCCESS, exchangeRecordEntity);
-                }else {
+                } else {
                     onNetResult.onNetResult(FAILURE, null);
                 }
             } else if (state.equals(FAILURE)) {
@@ -1580,13 +1599,13 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                TipEntity tipEntity=new Gson().fromJson(response.toString(),TipEntity.class);
-                if (tipEntity.getCode()==200){
-                    Log.d("print", "getWithdrawal:273:  "+response);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    Log.d("print", "getWithdrawal:273:  " + response);
                     TradeHistoryEntity tradeHistoryEntity = new Gson().fromJson(response.toString(), TradeHistoryEntity.class);
 
                     onNetResult.onNetResult(SUCCESS, tradeHistoryEntity);
-                }else {
+                } else {
                     onNetResult.onNetResult(FAILURE, null);
                 }
 
@@ -1611,13 +1630,13 @@ public class NetManger {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
 
-                TipEntity tipEntity=new Gson().fromJson(response.toString(),TipEntity.class);
-                if (tipEntity.getCode()==200){
-                    Log.d("print", "getWithdrawal:273:  "+response);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    Log.d("print", "getWithdrawal:273:  " + response);
                     InviteEntity inviteEntity = new Gson().fromJson(response.toString(), InviteEntity.class);
 
                     onNetResult.onNetResult(SUCCESS, inviteEntity);
-                }else {
+                } else {
                     onNetResult.onNetResult(FAILURE, null);
                 }
             } else if (state.equals(FAILURE)) {
@@ -1640,11 +1659,11 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                TipEntity tipEntity=new Gson().fromJson(response.toString(),TipEntity.class);
-                if (tipEntity.getCode()==200){
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
                     InviteListEntity inviteListEntity = new Gson().fromJson(response.toString(), InviteListEntity.class);
                     onNetResult.onNetResult(SUCCESS, inviteListEntity);
-                }else {
+                } else {
                     onNetResult.onNetResult(FAILURE, null);
                 }
             } else if (state.equals(FAILURE)) {

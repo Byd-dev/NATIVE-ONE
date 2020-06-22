@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
     <!--邮箱验证码-->
     <LinearLayout
+        android:id="@+id/layout_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/margin_25"
@@ -22,7 +23,6 @@
             />
 
         <LinearLayout
-            android:id="@+id/layout_code"
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_edit"
             android:layout_marginTop="@dimen/margin_10"

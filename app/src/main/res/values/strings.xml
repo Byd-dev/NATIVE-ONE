@@ -399,5 +399,8 @@
     <string name="text_exchange_fee">闪兑手续费</string>
     <string name="text_coin_out">兑出币种</string>
     <string name="text_out_amount">兑出数量</string>
+    <string name="text_tin_input">请输入资金密码</string>
+    <string name="text_tin_ensure">确认资金密码</string>
+    <string name="text_input_ensure">请再次输入资金密码</string>
 
 </resources>

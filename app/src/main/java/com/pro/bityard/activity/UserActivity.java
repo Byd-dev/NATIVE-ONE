@@ -13,6 +13,7 @@ import com.pro.bityard.fragment.my.AccountFragment;
 import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.AnnouncementFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
+import com.pro.bityard.fragment.my.FundsPassFrogetFragment;
 import com.pro.bityard.fragment.my.QuickFragment;
 import com.pro.bityard.fragment.my.WithdrawalFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;
@@ -94,6 +95,9 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_MOBILE:
                 addBindChangePhoneFragment();
                 break;
+            case IntentConfig.Keys.KEY_SAFE_CENTER_FUNDS_FORGET_PASS:
+                addFundsPassForgetFragment();
+                break;
             case IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_EMAIL:
                 addBindChangeEmailFragment();
                 break;
@@ -136,6 +140,16 @@ public class UserActivity extends BaseActivity {
         }
 
 
+    }
+
+    private void addFundsPassForgetFragment() {
+        String name = FundsPassFrogetFragment.class.getSimpleName();
+        //持仓
+        FundsPassFrogetFragment fragment = new FundsPassFrogetFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addRuleFragment(String value) {

@@ -49,6 +49,6 @@
         android:paddingBottom="@dimen/margin_10"
         android:paddingTop="@dimen/margin_10"
         android:textColor="@color/maincolor"
-        android:textSize="@dimen/size_normal" />
+        android:textSize="@dimen/size_normal_two" />
 
 </LinearLayout>

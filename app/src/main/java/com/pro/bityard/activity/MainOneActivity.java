@@ -344,7 +344,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 String netIncome = NetIncome[1];
                 String margin = NetIncome[2];
 
-                Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
+               // Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
 
                 if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
@@ -1244,7 +1244,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     double money1 = data.getMoney();//可用余额
                     double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
                     double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
-                    Log.d("print", "setMyNetIncome:1205: " + money1 + "  " + add2 + "   " + ad3);
+                  //  Log.d("print", "setMyNetIncome:1205: " + money1 + "  " + add2 + "   " + ad3);
                     text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
                     //账户净值=可用余额+占用保证金+浮动盈亏
                     double money = Double.parseDouble(response.toString());//所有钱包的和

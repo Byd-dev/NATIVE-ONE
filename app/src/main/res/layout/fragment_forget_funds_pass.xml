@@ -3,24 +3,20 @@
     android:id="@+id/layout_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:background="@color/background_maincolor"
     android:orientation="vertical">
     <!--bar-->
     <include layout="@layout/layout_bar" />
 
-    <!--旧密码-->
-    <include layout="@layout/layout_old_pass"/>
 
     <!--新密码-->
-    <include layout="@layout/layout_new_pass"/>
-
+    <include layout="@layout/layout_new_pass" />
     <!--密码-->
-    <include layout="@layout/layout_ensure_pass"/>
-
+    <include layout="@layout/layout_ensure_pass" />
     <!--邮箱验证码-->
-    <include layout="@layout/layout_code"/>
+    <include layout="@layout/layout_code" />
 
 
     <!--登录button-->
@@ -41,17 +37,5 @@
 
         />
 
-    <TextView
-        android:id="@+id/text_forget_pass"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/text_forget_pass"
-        android:layout_marginLeft="@dimen/margin_25"
-        android:gravity="center"
-        android:layout_marginRight="@dimen/margin_25"
-        android:paddingBottom="@dimen/margin_10"
-        android:paddingTop="@dimen/margin_10"
-        android:visibility="gone"
-        android:textColor="@color/maincolor"
-        android:textSize="@dimen/size_normal_two" />
+
 </LinearLayout>

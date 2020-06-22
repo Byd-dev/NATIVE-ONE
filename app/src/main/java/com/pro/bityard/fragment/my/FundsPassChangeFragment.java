@@ -17,10 +17,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
@@ -73,6 +75,11 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
 
     @BindView(R.id.text_forget_pass)
     TextView text_forget_pass;
+    @BindView(R.id.text_tin_name)
+    TextView text_tin_name;
+
+    @BindView(R.id.text_tin_ensure)
+    TextView text_tin_ensure;
 
     private int pw_w;
     private LoginEntity loginEntity;
@@ -110,7 +117,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
-        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass)+" ->");
+        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass) + " ->");
 
         text_getCode.setOnClickListener(this);
 
@@ -118,117 +125,9 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
         img_eye_new.setOnClickListener(this);
         img_eye_sure.setOnClickListener(this);
 
-        //旧密码
-        Util.isPassEffective(edit_pass_old, response -> {
-            if (response.toString().equals("1")) {
-                text_err_pass.setVisibility(View.GONE);
-                layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+        text_forget_pass.setOnClickListener(this);
 
 
-                if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
-                        && Util.isPass(edit_pass_old.getText().toString())) {
-                    text_getCode.setEnabled(true);
-                    if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
-                            && Util.isCode(edit_code.getText().toString())) {
-                        btn_submit.setEnabled(true);
-                    } else {
-                        btn_submit.setEnabled(false);
-                    }
-                } else {
-                    text_getCode.setEnabled(false);
-                }
-
-            } else if (response.toString().equals("0")) {
-                text_err_pass.setVisibility(View.VISIBLE);
-                layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
-                btn_submit.setEnabled(false);
-            } else if (response.toString().equals("-1")) {
-                text_err_pass.setVisibility(View.GONE);
-                layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-                btn_submit.setEnabled(false);
-            }
-
-        });
-        //新密码
-        Util.isPassEffective(edit_pass_new, response -> {
-            if (response.toString().equals("1")) {
-                text_err_pass_new.setVisibility(View.GONE);
-                layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-                if (Util.isPass(edit_pass_sure.getText().toString())
-                        && Util.isPass(edit_pass_old.getText().toString())) {
-                    text_getCode.setEnabled(true);
-                    if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
-                            && Util.isCode(edit_code.getText().toString())) {
-                        btn_submit.setEnabled(true);
-                    } else {
-                        btn_submit.setEnabled(false);
-                    }
-                } else {
-                    text_getCode.setEnabled(false);
-                }
-            } else if (response.toString().equals("0")) {
-                text_err_pass_new.setVisibility(View.VISIBLE);
-                layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
-                btn_submit.setEnabled(false);
-            } else if (response.toString().equals("-1")) {
-                text_err_pass_new.setVisibility(View.GONE);
-                layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-                btn_submit.setEnabled(false);
-            }
-
-        });
-        //确认新密码
-        Util.isPassEffective(edit_pass_sure, response -> {
-            if (response.toString().equals("1")) {
-                text_err_pass_sure.setVisibility(View.GONE);
-                layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-
-                if (Util.isPass(edit_pass_new.getText().toString()) &&Util.isPass(edit_pass_old.getText().toString())){
-                    text_getCode.setEnabled(true);
-                    if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
-                            && Util.isCode(edit_code.getText().toString())) {
-                        btn_submit.setEnabled(true);
-                    } else {
-                        btn_submit.setEnabled(false);
-                    }
-                } else{
-                    text_getCode.setEnabled(false);
-                }
-            } else if (response.toString().equals("0")) {
-                text_err_pass_sure.setVisibility(View.VISIBLE);
-                layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
-                btn_submit.setEnabled(false);
-            } else if (response.toString().equals("-1")) {
-                text_err_pass_sure.setVisibility(View.GONE);
-                layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-                btn_submit.setEnabled(false);
-            }
-
-        });
-
-        edit_code.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() > 4 && Util.isCode(s.toString())
-                        && Util.isPass(edit_pass_old.getText().toString())
-                        && Util.isPass(edit_pass_new.getText().toString())
-                        && Util.isPass(edit_pass_sure.getText().toString())) {
-                    btn_submit.setEnabled(true);
-                } else {
-                    btn_submit.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
     }
 
     @Override
@@ -245,6 +144,8 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
     protected void initData() {
         loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity != null) {
+
+
             LoginEntity.UserBean user = loginEntity.getUser();
             account = user.getPrincipal();
             email = user.getEmail();
@@ -252,15 +153,213 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
 
             pw_w = user.getPw_w();
             if (pw_w == 0) {
+                //旧密码
+                Util.isPassEffective(edit_pass_old, response -> {
+                    if (response.toString().equals("1")) {
+                        text_err_pass.setVisibility(View.GONE);
+                        layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+
+
+                        if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                        ) {
+                            btn_submit.setEnabled(true);
+
+                        } else {
+                            btn_submit.setEnabled(false);
+
+                        }
+
+                    } else if (response.toString().equals("0")) {
+                        text_err_pass.setVisibility(View.VISIBLE);
+                        layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                        btn_submit.setEnabled(false);
+                    } else if (response.toString().equals("-1")) {
+                        text_err_pass.setVisibility(View.GONE);
+                        layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        btn_submit.setEnabled(false);
+                    }
+
+                });
+                //新密码
+                Util.isPassEffective(edit_pass_new, response -> {
+                    if (response.toString().equals("1")) {
+                        text_err_pass_new.setVisibility(View.GONE);
+                        layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                        ) {
+                            btn_submit.setEnabled(true);
+
+                        } else {
+                            btn_submit.setEnabled(false);
+
+                        }
+                    } else if (response.toString().equals("0")) {
+                        text_err_pass_new.setVisibility(View.VISIBLE);
+                        layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                        btn_submit.setEnabled(false);
+                    } else if (response.toString().equals("-1")) {
+                        text_err_pass_new.setVisibility(View.GONE);
+                        layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        btn_submit.setEnabled(false);
+                    }
+
+                });
+                //确认新密码
+                Util.isPassEffective(edit_pass_sure, response -> {
+                    if (response.toString().equals("1")) {
+                        text_err_pass_sure.setVisibility(View.GONE);
+                        layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+
+                        if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
+                        ) {
+                            btn_submit.setEnabled(true);
+
+                        } else {
+                            btn_submit.setEnabled(false);
+
+                        }
+                    } else if (response.toString().equals("0")) {
+                        text_err_pass_sure.setVisibility(View.VISIBLE);
+                        layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                        btn_submit.setEnabled(false);
+                    } else if (response.toString().equals("-1")) {
+                        text_err_pass_sure.setVisibility(View.GONE);
+                        layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        btn_submit.setEnabled(false);
+                    }
+
+                });
+
                 layout_code.setVisibility(View.GONE);
-                text_pin_old.setText(getResources().getString(R.string.text_pin_pass));
+                text_pin_old.setText(getResources().getString(R.string.text_pass));
                 edit_pass_old.setHint(getResources().getString(R.string.text_login_pass_input));
+                text_tin_name.setText(getResources().getText(R.string.text_pin));
                 text_title.setText(getResources().getString(R.string.text_pin_set));
+                edit_pass_new.setHint(R.string.text_tin_input);
+                text_tin_ensure.setText(R.string.text_tin_ensure);
+                edit_pass_sure.setHint(R.string.text_input_ensure);
+                text_forget_pass.setVisibility(View.GONE);
+
+
             } else {
+
+                //旧密码
+                Util.isPassEffective(edit_pass_old, response -> {
+                    if (response.toString().equals("1")) {
+                        text_err_pass.setVisibility(View.GONE);
+                        layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+
+
+                        if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                                && Util.isPass(edit_pass_old.getText().toString())) {
+                            text_getCode.setEnabled(true);
+                            if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                                    && Util.isCode(edit_code.getText().toString())) {
+                                btn_submit.setEnabled(true);
+                            } else {
+                                btn_submit.setEnabled(false);
+                            }
+                        } else {
+                            text_getCode.setEnabled(false);
+                        }
+
+                    } else if (response.toString().equals("0")) {
+                        text_err_pass.setVisibility(View.VISIBLE);
+                        layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                        btn_submit.setEnabled(false);
+                    } else if (response.toString().equals("-1")) {
+                        text_err_pass.setVisibility(View.GONE);
+                        layout_pass_old.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        btn_submit.setEnabled(false);
+                    }
+
+                });
+                //新密码
+                Util.isPassEffective(edit_pass_new, response -> {
+                    if (response.toString().equals("1")) {
+                        text_err_pass_new.setVisibility(View.GONE);
+                        layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        if (Util.isPass(edit_pass_sure.getText().toString())
+                                && Util.isPass(edit_pass_old.getText().toString())) {
+                            text_getCode.setEnabled(true);
+                            if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                                    && Util.isCode(edit_code.getText().toString())) {
+                                btn_submit.setEnabled(true);
+                            } else {
+                                btn_submit.setEnabled(false);
+                            }
+                        } else {
+                            text_getCode.setEnabled(false);
+                        }
+                    } else if (response.toString().equals("0")) {
+                        text_err_pass_new.setVisibility(View.VISIBLE);
+                        layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                        btn_submit.setEnabled(false);
+                    } else if (response.toString().equals("-1")) {
+                        text_err_pass_new.setVisibility(View.GONE);
+                        layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        btn_submit.setEnabled(false);
+                    }
+
+                });
+                //确认新密码
+                Util.isPassEffective(edit_pass_sure, response -> {
+                    if (response.toString().equals("1")) {
+                        text_err_pass_sure.setVisibility(View.GONE);
+                        layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+
+                        if (Util.isPass(edit_pass_new.getText().toString()) &&Util.isPass(edit_pass_old.getText().toString())){
+                            text_getCode.setEnabled(true);
+                            if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
+                                    && Util.isCode(edit_code.getText().toString())) {
+                                btn_submit.setEnabled(true);
+                            } else {
+                                btn_submit.setEnabled(false);
+                            }
+                        } else{
+                            text_getCode.setEnabled(false);
+                        }
+                    } else if (response.toString().equals("0")) {
+                        text_err_pass_sure.setVisibility(View.VISIBLE);
+                        layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                        btn_submit.setEnabled(false);
+                    } else if (response.toString().equals("-1")) {
+                        text_err_pass_sure.setVisibility(View.GONE);
+                        layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                        btn_submit.setEnabled(false);
+                    }
+
+                });
+
+                edit_code.addTextChangedListener(new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+                        if (s.length() > 4 && Util.isCode(s.toString())
+                                && Util.isPass(edit_pass_old.getText().toString())
+                                && Util.isPass(edit_pass_new.getText().toString())
+                                && Util.isPass(edit_pass_sure.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+                        }
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+
+                    }
+                });
+
                 layout_code.setVisibility(View.VISIBLE);
                 text_pin_old.setText(getResources().getString(R.string.text_old_pass));
                 edit_pass_old.setHint(getResources().getString(R.string.text_old_pass_input));
                 text_title.setText(R.string.text_pin_change);
+                text_forget_pass.setVisibility(View.VISIBLE);
 
             }
 
@@ -268,10 +367,55 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
         if (account.contains("@")) {
             text_email_mobile.setText(getResources().getString(R.string.text_email_code));
             edit_code.setHint(getResources().getString(R.string.text_email_code_input));
+            edit_code.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (s.length() > 4 && Util.isCode(s.toString())
+                            && Util.isPass(edit_pass_old.getText().toString())
+                            && Util.isPass(edit_pass_new.getText().toString())
+                            && Util.isPass(edit_pass_sure.getText().toString())) {
+                        btn_submit.setEnabled(true);
+                    } else {
+                        btn_submit.setEnabled(false);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
         } else {
             text_email_mobile.setText(getResources().getString(R.string.text_mobile_code));
             edit_code.setHint(getResources().getString(R.string.text_mobile_code_input));
+            edit_code.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (s.length() > 4 && Util.isCode(s.toString())
+                            && Util.isPass(edit_pass_old.getText().toString())
+                            && Util.isPass(edit_pass_new.getText().toString())
+                            && Util.isPass(edit_pass_sure.getText().toString())) {
+                        btn_submit.setEnabled(true);
+                    } else {
+                        btn_submit.setEnabled(false);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
         }
 
     }
@@ -450,7 +594,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                         return;
                     }
 
-                    if (account.equals("@")) {
+                    if (account.contains("@")) {
                         NetManger.getInstance().checkEmailCode(account, "CHANGE_WITHDRAW", value_code, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
@@ -490,6 +634,10 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
 
                 break;
 
+            case R.id.text_forget_pass:
+                UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SAFE_CENTER_FUNDS_FORGET_PASS);
+                break;
+
 
         }
     }
@@ -503,9 +651,9 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                 if (tipEntity.getCode() == 200) {
                     getActivity().finish();
                 }
-                if (tipEntity.getMessage().equals("")){
+                if (tipEntity.getMessage().equals("")) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.text_success), Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
