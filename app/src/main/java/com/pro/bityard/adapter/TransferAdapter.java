@@ -95,10 +95,22 @@ public class TransferAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof MyViewHolder) {
             String explain = datas.get(position).getExplain();
 
+
+            int status = datas.get(position).getStatus();
+
+
             if (explain.contains("取出")){
                 ((MyViewHolder) holder).text_explain.setText(R.string.text_out);
             }else if (explain.contains("入")){
                 ((MyViewHolder) holder).text_explain.setText(R.string.text_in);
+            }
+
+            if (status==1){
+                ((MyViewHolder) holder).text_money.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                ((MyViewHolder) holder).text_currency.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+            }else {
+                ((MyViewHolder) holder).text_money.setTextColor(context.getResources().getColor(R.color.text_main_color));
+                ((MyViewHolder) holder).text_currency.setTextColor(context.getResources().getColor(R.color.text_main_color));
             }
 
 

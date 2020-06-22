@@ -392,5 +392,12 @@
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">Confirm the order</string>
     <string name="text_new_pass">New Password</string>
+    <string name="text_exchange_time">Time</string>
+    <string name="text_coin_in">Coin In</string>
+    <string name="text_exchange_amount">Amount</string>
+    <string name="text_exchange_price">Price</string>
+    <string name="text_exchange_fee">Fee</string>
+    <string name="text_coin_out">兑出币种</string>
+    <string name="text_out_amount">兑出数量</string>
 
 </resources>

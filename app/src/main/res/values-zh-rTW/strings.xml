@@ -393,5 +393,12 @@
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">確認下單</string>
     <string name="text_new_pass">新密碼</string>
+    <string name="text_exchange_time">兑入時間</string>
+    <string name="text_coin_in">兌入幣種</string>
+    <string name="text_exchange_amount">兌入數量</string>
+    <string name="text_exchange_price">閃兌報價</string>
+    <string name="text_exchange_fee">閃兌手續費</string>
+    <string name="text_coin_out">兑出币种</string>
+    <string name="text_out_amount">兑出数量</string>
 
 </resources>

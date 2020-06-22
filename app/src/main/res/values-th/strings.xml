@@ -393,5 +393,12 @@
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">Подтвердить заказ</string>
     <string name="text_new_pass">Новый пароль</string>
+    <string name="text_exchange_time">Время</string>
+    <string name="text_coin_in">Полу. монета</string>
+    <string name="text_exchange_amount">Объем</string>
+    <string name="text_exchange_price">Цена</string>
+    <string name="text_exchange_fee">Сборы</string>
+    <string name="text_coin_out">兑出币种</string>
+    <string name="text_out_amount">兑出数量</string>
 
 </resources>

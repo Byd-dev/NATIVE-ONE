@@ -9,7 +9,7 @@ import java.util.TimerTask;
 
 public class SmsTimeUtils {
     /*倒计时时长  单位：秒*/
-    private final static int COUNT = 60;
+    private final static int COUNT = 90;
     /*当前做*/
     private static int CURR_COUNT = 0;
     /*设置提现账户  标识

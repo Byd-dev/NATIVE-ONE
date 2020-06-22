@@ -5,6 +5,7 @@ import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.base.AppContext;
@@ -621,4 +622,62 @@ public class ChartUtil {
         }
     }
 
+    public static void setLeftImage(String code, TextView img_bg) {
+        switch (code) {
+            case "":
+                break;
+            case "EOS":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eos),null,null,null);
+                break;
+            case "LTC":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ltc),null,null,null);
+
+                break;
+            case "BCH":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bch),null,null,null);
+
+                break;
+            case "ETC":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_etc),null,null,null);
+
+                break;
+            case "USDT":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt),null,null,null);
+
+                break;
+            case "BTC":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btc),null,null,null);
+
+                break;
+            case "ETH":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eth),null,null,null);
+
+                break;
+            case "XRP":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xrp),null,null,null);
+
+                break;
+            case "TRX":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_trx),null,null,null);
+
+                break;
+            case "HT":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ht),null,null,null);
+
+                break;
+            case "LINK":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link),null,null,null);
+
+                break;
+            case "DASH":
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dash),null,null,null);
+
+                break;
+            default:
+                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt),null,null,null);
+
+                break;
+
+        }
+    }
 }

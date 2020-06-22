@@ -393,5 +393,12 @@
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">Xác nhận lệnh</string>
     <string name="text_new_pass">Mật khẩu mới</string>
+    <string name="text_exchange_time">Thời gian</string>
+    <string name="text_coin_in">Loại tiền thu vào</string>
+    <string name="text_exchange_amount">Số lượng</string>
+    <string name="text_exchange_price">Báo giá</string>
+    <string name="text_exchange_fee">Phí</string>
+    <string name="text_coin_out">兑出币种</string>
+    <string name="text_out_amount">兑出数量</string>
 
 </resources>

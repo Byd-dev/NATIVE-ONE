@@ -129,6 +129,13 @@ public class DepositWithdrawAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     break;
             }
 
+            if (status==1){
+                ((MyViewHolder) holder).text_state.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+            }else {
+                ((MyViewHolder) holder).text_state.setTextColor(context.getResources().getColor(R.color.text_main_color));
+
+            }
+
             ((MyViewHolder) holder).text_time.setText(ChartUtil.getDate(datas.get(position).getCreateTime()));
             ((MyViewHolder) holder).text_money.setText(String.valueOf(datas.get(position).getMoney()));
             ((MyViewHolder) holder).text_currency.setText(datas.get(position).getCurrency());

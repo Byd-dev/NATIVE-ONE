@@ -393,5 +393,12 @@
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">주문 확인</string>
     <string name="text_new_pass">새 비밀번호</string>
+    <string name="text_exchange_time">시간</string>
+    <string name="text_coin_in">입금할 코인</string>
+    <string name="text_exchange_amount">수량</string>
+    <string name="text_exchange_price">변환 가격</string>
+    <string name="text_exchange_fee">변환 수수료</string>
+    <string name="text_coin_out">兑出币种</string>
+    <string name="text_out_amount">兑出数量</string>
 
 </resources>

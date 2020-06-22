@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.InviteListEntity;
-import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 
@@ -48,7 +47,7 @@ public class InviteRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<InviteListEntity.DataBean> datas,double rate) {
+    public void addDatas(List<InviteListEntity.DataBean> datas, double rate) {
         this.rate = rate;
         this.datas.addAll(datas);
         isLoadMore = false;
@@ -117,7 +116,7 @@ public class InviteRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
             if (rate >= 5) {
-                ((MyViewHolder) holder).text_buy_tip.setText(R.string.text_trransfer);
+                ((MyViewHolder) holder).text_buy_tip.setVisibility(View.VISIBLE);
             } else {
                 ((MyViewHolder) holder).text_buy_tip.setVisibility(View.GONE);
             }

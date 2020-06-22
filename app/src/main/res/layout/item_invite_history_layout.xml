@@ -43,7 +43,7 @@
                     android:gravity="center"
                     android:paddingLeft="@dimen/margin_10"
                     android:paddingRight="@dimen/margin_10"
-                    android:text="@string/text_default"
+                    android:text="@string/text_transfer"
                     android:visibility="visible"
                     android:textColor="@color/white"
                     android:textSize="11sp" />

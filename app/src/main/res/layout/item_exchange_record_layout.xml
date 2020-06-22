@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background_maincolor"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_42">
+
+            <TextView
+                android:id="@+id/stay_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:gravity="center"
+                android:text="@string/text_exchange_time"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/size_normal_two" />
+
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_toRightOf="@+id/stay_time"
+                android:text="@string/text_default"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/size_big" />
+
+
+        </RelativeLayout>
+        <include layout="@layout/layout_line" />
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="left|center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_coin_in"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:text="@string/text_coin_in"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/size_line"
+                android:layout_height="@dimen/margin_20"
+                android:layout_gravity="center"
+                android:background="@color/home_line" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_in_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:gravity="center"
+                    android:text="@string/text_exchange_amount"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/size_line"
+                android:layout_height="@dimen/margin_20"
+                android:layout_gravity="center"
+                android:background="@color/home_line" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/text_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_exchange_price"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@color/home_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|left"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/text_coin_out"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:text="@string/text_coin_out"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/size_line"
+                android:layout_height="@dimen/margin_20"
+                android:layout_gravity="center"
+                android:background="@color/home_line" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text_out_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:gravity="center"
+                    android:text="@string/text_out_amount"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="@dimen/size_line"
+                android:layout_height="@dimen/margin_20"
+                android:layout_gravity="center"
+                android:background="@color/home_line" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/text_exchange_fee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_5"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:gravity="center"
+                    android:text="@string/text_exchange_fee"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+        <include layout="@layout/layout_line" />
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_42">
+
+
+            <TextView
+                android:id="@+id/stay_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:text="@string/text_order_id"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal_two" />
+
+
+            <TextView
+                android:id="@+id/text_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/stay_id"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_15"
+                android:text="@string/text_default"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_big" />
+
+
+        </RelativeLayout>
+
+
+
+
+
+
+    </LinearLayout>
+
+  <include layout="@layout/layout_line_big"/>
+
+
+</LinearLayout>

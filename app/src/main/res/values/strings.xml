@@ -392,5 +392,12 @@
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">确认下单</string>
     <string name="text_new_pass">新密码</string>
+    <string name="text_exchange_time">兑入时间</string>
+    <string name="text_coin_in">兑入币种</string>
+    <string name="text_exchange_amount">兑入数量</string>
+    <string name="text_exchange_price">闪兑报价</string>
+    <string name="text_exchange_fee">闪兑手续费</string>
+    <string name="text_coin_out">兑出币种</string>
+    <string name="text_out_amount">兑出数量</string>
 
 </resources>

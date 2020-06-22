@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,11 +14,13 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.DepositWithdrawAdapter;
+import com.pro.bityard.adapter.ExchangeRecordAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
 import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.DepositWithdrawEntity;
+import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.utils.ChartUtil;
 
@@ -62,7 +65,7 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
 
     private FundItemEntity fundItemEntity;
 
-    private DepositWithdrawAdapter depositWithdrawAdapter;
+    private ExchangeRecordAdapter exchangeRecordAdapter;
 
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
@@ -70,8 +73,8 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
 
-    private String createTimeGe = "";
-    private String createTimeLe = "";
+    private String createTimeGe = null;
+    private String createTimeLe = null;
 
     private String FIRST = "first";
     private String REFRESH = "refresh";
@@ -101,10 +104,10 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
 
         radioGroup.setOnCheckedChangeListener(this);
 
-        depositWithdrawAdapter = new DepositWithdrawAdapter(getActivity());
+        exchangeRecordAdapter = new ExchangeRecordAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(depositWithdrawAdapter);
+        recyclerView.setAdapter(exchangeRecordAdapter);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -117,11 +120,11 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (swipeRefreshLayout.isRefreshing()) return;
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == depositWithdrawAdapter.getItemCount() - 1) {
-                    depositWithdrawAdapter.startLoad();
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == exchangeRecordAdapter.getItemCount() - 1) {
+                    exchangeRecordAdapter.startLoad();
                     page = page + 1;
-                    getWithdrawal(LOAD, null, transfer, "1", srcCurrency, "USDT", null,
-                            null, String.valueOf(page), "10");
+                    getWithdrawal(LOAD, null, transfer, null, null, "USDT", createTimeGe,
+                            createTimeLe, String.valueOf(page), "10");
                 }
             }
 
@@ -133,87 +136,13 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
         });
 
         //监听
-        depositWithdrawAdapter.setOnItemClick(data -> {
-            showDetailPopWindow(data);
+        exchangeRecordAdapter.setOnItemClick(data -> {
+
         });
 
     }
 
-    /*显示详情*/
-    private void showDetailPopWindow(DepositWithdrawEntity.DataBean dataBean) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_fund_detail_pop, null);
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
 
-        TextView text_title = view.findViewById(R.id.text_title);
-        text_title.setText(R.string.text_exchange);
-
-        TextView text_name = view.findViewById(R.id.text_name);
-        text_name.setText(dataBean.getCurrency());
-        TextView text_type = view.findViewById(R.id.text_type);
-        ImageView img_bg = view.findViewById(R.id.img_bg);
-        ChartUtil.setIcon(dataBean.getCurrency(), img_bg);
-
-        String explain = dataBean.getExplain();
-        switch (explain) {
-            case "提款取出":
-                text_type.setText(R.string.text_withdrawal);
-                break;
-            case "充值存入":
-                text_type.setText(R.string.text_recharge);
-                break;
-        }
-
-        TextView text_status = view.findViewById(R.id.text_status);
-        int status = dataBean.getStatus();
-        switch (status) {
-            case 0:
-            case -1:
-                text_status.setText(R.string.text_pending);
-                break;
-            case 1:
-                text_status.setText(R.string.text_tip_success);
-                break;
-            case 2:
-                text_status.setText(R.string.text_failure);
-                break;
-            case 3:
-                text_status.setText(R.string.text_tip_cancel);
-                break;
-            case 4:
-                text_status.setText(R.string.text_processing);
-                break;
-            case 5:
-                text_status.setText(R.string.text_in_progress);
-                break;
-            case 6:
-                text_status.setText(R.string.text_refunded);
-                break;
-        }
-
-
-        TextView text_time = view.findViewById(R.id.text_time);
-        text_time.setText(ChartUtil.getDate(dataBean.getCreateTime()));
-
-        TextView text_amount = view.findViewById(R.id.text_amount);
-        text_amount.setText(dataBean.getMoney() + dataBean.getCurrency());
-
-        TextView text_id = view.findViewById(R.id.text_id);
-        text_id.setText(dataBean.getId());
-        TextView text_address = view.findViewById(R.id.text_address);
-        text_address.setText(dataBean.getAddress());
-
-
-        view.findViewById(R.id.img_back).setOnClickListener(v -> {
-            popupWindow.dismiss();
-
-        });
-
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setContentView(view);
-        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
-    }
 
 
     @Override
@@ -246,7 +175,7 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
 
 
         page = 0;
-        getWithdrawal(FIRST, null, null, "1", srcCurrency, "USDT", createTimeGe,
+        getWithdrawal(FIRST, null, null, null, null, "USDT", createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
     }
@@ -269,9 +198,9 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
                         if (swipeRefreshLayout != null) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
-                        DepositWithdrawEntity depositWithdrawEntity = (DepositWithdrawEntity) response;
+                        ExchangeRecordEntity exchangeRecordEntity = (ExchangeRecordEntity) response;
                         if (layout_null != null && recyclerView != null) {
-                            if (depositWithdrawEntity.getData().size() == 0) {
+                            if (exchangeRecordEntity.getData().size() == 0) {
                                 layout_null.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
                             } else {
@@ -281,9 +210,9 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
                         }
 
                         if (loadType.equals(LOAD)) {
-                            depositWithdrawAdapter.addDatas(depositWithdrawEntity.getData());
+                            exchangeRecordAdapter.addDatas(exchangeRecordEntity.getData());
                         } else {
-                            depositWithdrawAdapter.setDatas(depositWithdrawEntity.getData());
+                            exchangeRecordAdapter.setDatas(exchangeRecordEntity.getData());
                         }
                     } else if (state.equals(FAILURE)) {
                         if (swipeRefreshLayout != null) {
@@ -345,7 +274,7 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
 
             page = 0;
             srcCurrency = data.getCode();
-            getWithdrawal(FIRST, null, null, "1", srcCurrency, "USDT", createTimeGe,
+            getWithdrawal(FIRST, null, null, null, null, "USDT", createTimeGe,
                     createTimeLe, String.valueOf(page), "10");
             popupWindow.dismiss();
 
@@ -374,7 +303,7 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
 
         }
 
-        getWithdrawal(FIRST, null, null, "1", srcCurrency, "USDT", createTimeGe,
+        getWithdrawal(FIRST, null, null, null, null, "USDT", createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
     }

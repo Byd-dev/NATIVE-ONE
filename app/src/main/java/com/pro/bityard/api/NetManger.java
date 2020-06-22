@@ -19,6 +19,7 @@ import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
+import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
@@ -1527,8 +1528,10 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                DepositWithdrawEntity depositWithdrawEntity = new Gson().fromJson(response.toString(), DepositWithdrawEntity.class);
-                onNetResult.onNetResult(SUCCESS, depositWithdrawEntity);
+                Log.d("print", "getWithdrawal:273:  "+response);
+
+                ExchangeRecordEntity exchangeRecordEntity = new Gson().fromJson(response.toString(), ExchangeRecordEntity.class);
+                onNetResult.onNetResult(SUCCESS, exchangeRecordEntity);
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
 
