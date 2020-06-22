@@ -14,21 +14,49 @@ public class SmsTimeUtils {
     private static int CURR_COUNT = 0;
     /*设置提现账户  标识
       发送验证码*/
-    public final static int SETTING_FINANCE_ACCOUNT_TIME = 1;
-    public final static int REGISTER_TIME = 2;
-    public final static int FORGET_PASSWORD_TIME = 3;
-    public final static int WITHDRAW_CASH = 4;
+    public final static int EMAIL_REGISTER = 1;
+    public final static int MOBILE_REGISTER = 2;
+
+    public final static int EMAIL_FORGET = 3;
+    public final static int MOBILE_FORGET = 4;
+
+    public final static int EMAIL_BIND = 5;
+    public final static int MOBILE_BIND = 6;
+
+    public final static int FUND_PASS_CHANGE = 7;
+    public final static int FUND_PASS_FORGET = 8;
+
+    public final static int INVITE = 9;
+
+    public final static int LOGIN_PASS_CHANGE = 10;
+    public final static int LOGIN_PASS_FORGET = 11;
+
+    public final static int WITHDRAWAL = 12;
+
+
 
     /*设置提现账户
       预计结束的时间*/
-    private static long SETTING_FINANCE_ACCOUNT_TIME_END = 0;
     /*注册*/
-    private static long REGISTER_TIME_END = 0;
-    /*忘记密码*/
-    private static long FORGET_PASSWORD_TIME_END = 0;
-    /*提现*/
-    private static long WITHDRAW_CASH_END = 0;
+    private static long EMAIL_REGISTER_TIME_END = 0;
+    private static long MOBILE_REGISTER_TIME_END = 0;
 
+    /*邮箱忘记密码*/
+    private static long EMAIL_FORGET_TIME_END = 0;
+    private static long MOBILE_FORGET_TIME_END = 0;
+
+    private static long EMAIL_BIND_TIME_END = 0;
+    private static long MOBILE_BIND_TIME_END = 0;
+
+    private static long FUND_PASS_CHANGE_TIME_END = 0;
+    private static long FUND_PASS_FORGET_TIME_END = 0;
+
+    private static long INVITE_TIME_END = 0;
+
+    private static long LOGIN_PASS_CHANGE_TIME_END = 0;
+    private static long LOGIN_PASS_FORGET_TIME_END = 0;
+
+    private static long WITHDRAWAL_TIME_END = 0;
 
     private static Timer countdownTimer;
     private static TextView tvSendCode;
@@ -46,11 +74,41 @@ public class SmsTimeUtils {
         long data = System.currentTimeMillis();
         long time = 0;
         switch (type) {
-            case SETTING_FINANCE_ACCOUNT_TIME:
-                time = SETTING_FINANCE_ACCOUNT_TIME_END;
+            case EMAIL_REGISTER:
+                time = EMAIL_REGISTER_TIME_END;
                 break;
-            case WITHDRAW_CASH:
-                time = WITHDRAW_CASH_END;
+            case MOBILE_REGISTER:
+                time = MOBILE_REGISTER_TIME_END;
+                break;
+            case EMAIL_FORGET:
+                time = EMAIL_FORGET_TIME_END;
+                break;
+            case MOBILE_FORGET:
+                time = MOBILE_FORGET_TIME_END;
+                break;
+            case EMAIL_BIND:
+                time = EMAIL_BIND_TIME_END;
+                break;
+            case MOBILE_BIND:
+                time = MOBILE_BIND_TIME_END;
+                break;
+            case FUND_PASS_CHANGE:
+                time = FUND_PASS_CHANGE_TIME_END;
+                break;
+            case FUND_PASS_FORGET:
+                time = FUND_PASS_FORGET_TIME_END;
+                break;
+            case INVITE:
+                time=INVITE_TIME_END;
+                break;
+            case LOGIN_PASS_CHANGE:
+                time = LOGIN_PASS_CHANGE_TIME_END;
+                break;
+            case LOGIN_PASS_FORGET:
+                time = LOGIN_PASS_FORGET_TIME_END;
+                break;
+            case WITHDRAWAL:
+                time=WITHDRAWAL_TIME_END;
                 break;
         }
         if (data > time) {
@@ -59,11 +117,41 @@ public class SmsTimeUtils {
                 CURR_COUNT = COUNT;
                 time = data + COUNT * 1000;
                 switch (type) {
-                    case SETTING_FINANCE_ACCOUNT_TIME:
-                        SETTING_FINANCE_ACCOUNT_TIME_END = time;
+                    case EMAIL_REGISTER:
+                        EMAIL_REGISTER_TIME_END = time;
                         break;
-                    case WITHDRAW_CASH:
-                        WITHDRAW_CASH_END = time;
+                    case MOBILE_REGISTER:
+                        MOBILE_REGISTER_TIME_END = time;
+                        break;
+                    case EMAIL_FORGET:
+                        EMAIL_FORGET_TIME_END = time;
+                        break;
+                    case MOBILE_FORGET:
+                        MOBILE_FORGET_TIME_END = time;
+                        break;
+                    case EMAIL_BIND:
+                       EMAIL_BIND_TIME_END=time;
+                        break;
+                    case MOBILE_BIND:
+                          MOBILE_BIND_TIME_END=time;
+                        break;
+                    case FUND_PASS_CHANGE:
+                          FUND_PASS_CHANGE_TIME_END=time;
+                        break;
+                    case FUND_PASS_FORGET:
+                        FUND_PASS_FORGET_TIME_END=time;
+                        break;
+                    case INVITE:
+                        INVITE_TIME_END=time;
+                        break;
+                    case LOGIN_PASS_CHANGE:
+                        LOGIN_PASS_CHANGE_TIME_END=time;
+                        break;
+                    case LOGIN_PASS_FORGET:
+                        LOGIN_PASS_FORGET_TIME_END=time;
+                        break;
+                    case WITHDRAWAL:
+                        WITHDRAWAL_TIME_END=time;
                         break;
                 }
             }

@@ -503,7 +503,7 @@ public class EmailBindChangeFragment extends BaseFragment implements View.OnClic
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    SmsTimeUtils.check(SmsTimeUtils.SETTING_FINANCE_ACCOUNT_TIME, false);
+                    SmsTimeUtils.check(SmsTimeUtils.EMAIL_BIND, false);
                     SmsTimeUtils.startCountdown(text_getCode);
                     break;
                 default:

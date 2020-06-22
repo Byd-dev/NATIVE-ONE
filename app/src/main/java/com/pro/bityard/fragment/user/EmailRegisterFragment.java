@@ -342,7 +342,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
         public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                SmsTimeUtils.check(SmsTimeUtils.SETTING_FINANCE_ACCOUNT_TIME, false);
+                SmsTimeUtils.check(SmsTimeUtils.EMAIL_REGISTER, false);
                 SmsTimeUtils.startCountdown(text_getCode);
             }
         }

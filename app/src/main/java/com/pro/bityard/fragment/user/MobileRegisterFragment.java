@@ -421,7 +421,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
             if (msg.what == 0) {
-                SmsTimeUtils.check(SmsTimeUtils.SETTING_FINANCE_ACCOUNT_TIME, false);
+                SmsTimeUtils.check(SmsTimeUtils.MOBILE_REGISTER, false);
                 SmsTimeUtils.startCountdown(text_getCode);
             }
         }
