@@ -175,7 +175,6 @@ public class HistoryFragment extends BaseFragment implements Observer {
         //盈利
         TextView text_income = view.findViewById(R.id.text_income);
         //净收入
-        TextView text_worth = view.findViewById(R.id.text_worth);
         //开盘价
         double opPrice = dataBean.getOpPrice();
         double cpPrice = dataBean.getCpPrice();
@@ -201,15 +200,14 @@ public class HistoryFragment extends BaseFragment implements Observer {
 
         String netIncome = netIncome(income, serviceCharge);
 
-        text_worth.setText(netIncome);
 
         if (income > 0) {
             text_income.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
-            //   text_worth.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+            text_rate.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
 
         } else {
             text_income.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
-            //  text_worth.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
+            text_rate.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
 
         }
 
