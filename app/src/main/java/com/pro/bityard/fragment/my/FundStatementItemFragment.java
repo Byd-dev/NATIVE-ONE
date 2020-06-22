@@ -278,18 +278,19 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                         if (depositWithdrawEntity.getData()==null){
                             return;
                         }
-                        if (depositWithdrawEntity.getData().size() == 0) {
-                            layout_null.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        } else {
-                            layout_null.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
-                        }
+
 
                         if (loadType.equals(LOAD)) {
                             depositWithdrawAdapter.addDatas(depositWithdrawEntity.getData());
                         } else {
                             depositWithdrawAdapter.setDatas(depositWithdrawEntity.getData());
+                            if (depositWithdrawEntity.getData().size() == 0) {
+                                layout_null.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            } else {
+                                layout_null.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
                         }
                     } else if (state.equals(FAILURE)) {
                         if (swipeRefreshLayout != null) {

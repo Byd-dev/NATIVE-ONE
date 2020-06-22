@@ -241,6 +241,8 @@
                     android:background="@null"
                     android:hint="@string/text_email_code"
                     android:maxLines="1"
+                    android:maxLength="6"
+                    android:inputType="number"
                     android:textColor="@color/text_main_color"
                     android:textColorHint="@color/color_hint"
                     android:textCursorDrawable="@null"

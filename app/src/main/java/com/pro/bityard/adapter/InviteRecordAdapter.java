@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
+import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InviteListEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -169,25 +170,39 @@ public class InviteRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             text_amount = itemView.findViewById(R.id.text_amount);
 
 
-            itemView.setOnClickListener(view -> {
-                if (onItemClick != null) {
-                    onItemClick.onClickListener(datas.get(getPosition()));
+            itemView.findViewById(R.id.layout_transfer).setOnClickListener(view -> {
+                if (onTransferClick != null) {
+                    onTransferClick.onClickListener(datas.get(getPosition()));
                 }
             });
-
+            itemView.findViewById(R.id.layout_detail).setOnClickListener(view -> {
+                if (onDetailClick != null) {
+                    onDetailClick.onClickListener(datas.get(getPosition()));
+                }
+            });
 
         }
     }
 
-    private OnItemClick onItemClick;
+    private OnTransferClick onTransferClick;
 
-    public void setOnItemClick(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
+    public void setOnTransferClick(OnTransferClick onTransferClick) {
+        this.onTransferClick = onTransferClick;
     }
 
-    public interface OnItemClick {
+    public interface OnTransferClick {
         void onClickListener(InviteListEntity.DataBean data);
 
+    }
 
+    //查看详情的监听
+    private OnDetailClick onDetailClick;
+
+    public void setOnDetailClick(OnDetailClick onDetailClick) {
+        this.onDetailClick = onDetailClick;
+    }
+
+    public interface OnDetailClick {
+        void onClickListener(InviteListEntity.DataBean data);
     }
 }

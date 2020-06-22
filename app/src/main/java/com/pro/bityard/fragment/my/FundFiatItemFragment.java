@@ -262,18 +262,19 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
                             swipeRefreshLayout.setRefreshing(false);
                         }
                         DepositWithdrawEntity depositWithdrawEntity = (DepositWithdrawEntity) response;
-                        if (depositWithdrawEntity.getData().size() == 0) {
-                            layout_null.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        } else {
-                            layout_null.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
-                        }
+
 
                         if (loadType.equals(LOAD)) {
                             fiatAdapter.addDatas(depositWithdrawEntity.getData());
                         } else {
                             fiatAdapter.setDatas(depositWithdrawEntity.getData());
+                            if (depositWithdrawEntity.getData().size() == 0) {
+                                layout_null.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            } else {
+                                layout_null.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
                         }
                     } else if (state.equals(FAILURE)) {
                         if (swipeRefreshLayout != null) {

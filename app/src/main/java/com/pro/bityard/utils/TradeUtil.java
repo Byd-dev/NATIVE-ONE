@@ -843,7 +843,18 @@ public class TradeUtil {
         }
         return deposit;
     }
-
+    public static String depositMin(List<Integer> depositList) {
+        Log.d("print", "depositMin:847: "+depositList);
+        String deposit = null;
+        if (depositList.size() == 0) {
+            deposit = null;
+        } else if (depositList.size() == 1) {
+            deposit = depositList.get(0) + "";
+        }else if (depositList.size() == 2) {
+            deposit = depositList.get(0) +"";
+        }
+        return deposit;
+    }
     public static String marginMin(List<Integer> depositList) {
         String deposit = null;
         if (depositList.size() == 0) {

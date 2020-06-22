@@ -281,18 +281,19 @@ public class FundTransferFragment extends BaseFragment implements View.OnClickLi
                         if (depositWithdrawEntity.getData()==null){
                             return;
                         }
-                        if (depositWithdrawEntity.getData().size() == 0) {
-                            layout_null.setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        } else {
-                            layout_null.setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
-                        }
+
 
                         if (loadType.equals(LOAD)) {
                             transferAdapter.addDatas(depositWithdrawEntity.getData());
                         } else {
                             transferAdapter.setDatas(depositWithdrawEntity.getData());
+                            if (depositWithdrawEntity.getData().size() == 0) {
+                                layout_null.setVisibility(View.VISIBLE);
+                                recyclerView.setVisibility(View.GONE);
+                            } else {
+                                layout_null.setVisibility(View.GONE);
+                                recyclerView.setVisibility(View.VISIBLE);
+                            }
                         }
                     } else if (state.equals(FAILURE)) {
                         if (swipeRefreshLayout != null) {

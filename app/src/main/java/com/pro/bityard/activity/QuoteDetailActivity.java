@@ -60,7 +60,6 @@ import com.pro.bityard.manger.QuoteWeekHistoryManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
-import com.pro.bityard.utils.OnPopResult;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -271,6 +270,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private TextView text_deduction_amount_pop;
     private String prizeTrade;
     private String prizeDub;
+
+    @BindView(R.id.text_market_currency)
+    TextView text_market_currency;
+
+    @BindView(R.id.text_limit_currency)
+    TextView text_limit_currency;
 
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, QuoteDetailActivity.class);
@@ -549,6 +554,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             return;
         }
 
+        text_market_currency.setText(TradeUtil.listQuoteName(itemData));
+        text_limit_currency.setText(TradeUtil.listQuoteName(itemData));
+
+
         Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -1);
         Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
         Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
@@ -633,11 +642,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         //可用余额
         if (tradeType.equals("1")) {
-            text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
-            text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+            text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+            text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
         } else {
-            text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
-            text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+            text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
+            text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
         }
 
     }
@@ -645,47 +654,24 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     /*设置 保证金和杠杆*/
     public void setContent(TradeListEntity tradeListEntity) {
+        Log.d("print", "setContent:659:  " + tradeListEntity);
         if (tradeListEntity != null) {
-            edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
-            edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+
 
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
             lever = leverShowList.get(oldSelect);
             text_lever_market.setText(lever + "X");
             text_lever_limit.setText(lever + "X");
-           /* recyclerView_market.setLayoutManager(new GridLayoutManager(this, 3));
-            recyclerView_limit.setLayoutManager(new GridLayoutManager(this, 3));
-
-            radioGroupAdapter.setDatas(leverShowList);
-            radioGroupAdapter.select(0);
-            lever = leverShowList.get(0);
-
-            radioGroupAdapter.setOnItemClick((position, data) -> {
-                lever = data;
-                radioGroupAdapter.select(position);
-                recyclerView_market.setAdapter(radioGroupAdapter);
-                recyclerView_limit.setAdapter(radioGroupAdapter);
-                radioGroupAdapter.notifyDataSetChanged();
-                text_lever_market.setText(lever + "X");
-                text_lever_limit.setText(lever + "X");
-                if (layout_market.isShown()) {
-                    layout_market.setVisibility(View.GONE);
-                    layout_lever_market.setVisibility(View.VISIBLE);
-                } else {
-                    layout_market.setVisibility(View.VISIBLE);
-                    layout_lever_market.setVisibility(View.GONE);
-                }
-
-                if (layout_limit.isShown()) {
-                    layout_limit.setVisibility(View.GONE);
-                    layout_lever_limit.setVisibility(View.VISIBLE);
-                } else {
-                    layout_limit.setVisibility(View.VISIBLE);
-                    layout_lever_limit.setVisibility(View.GONE);
-                }
-
-            });*/
-
+            double maxHoldOne = tradeListEntity.getMaxHoldOne();
+            if (maxHoldOne > 0) {
+                edit_market_margin.setHint(TradeUtil.depositMin(tradeListEntity.getDepositList()) +
+                        "~" + TradeUtil.div(maxHoldOne, lever, 0));
+                edit_limit_margin.setHint(TradeUtil.depositMin(tradeListEntity.getDepositList()) +
+                        "~" + TradeUtil.div(maxHoldOne, lever, 0));
+            } else {
+                edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+                edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+            }
             edit_market_margin.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -812,7 +798,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
 
                         String prizeDub = TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade);
-                        Log.d("print", "onClick:813:  "+prizeDub);
+                        Log.d("print", "onClick:813:  " + prizeDub);
 
                         PopUtil.getInstance().showLongTip(QuoteDetailActivity.this,
                                 layout_view, false,
@@ -979,6 +965,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 text_lever_limit.setText(lever + "X");
                 popupWindow.dismiss();
 
+                setContent(tradeListEntity);
+
 
             });
         }
@@ -1135,6 +1123,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         }
 
+
         popupWindow.setOnDismissListener(() -> {
             img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_right));
 
@@ -1143,7 +1132,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         quotePopAdapter.setOnItemClick(data -> {
 
-
+            text_market_currency.setText(TradeUtil.listQuoteName(data));
+            text_limit_currency.setText(TradeUtil.listQuoteName(data));
 
             text_name.setText(listQuoteName(data));
             text_name_usdt.setText(listQuoteUSD(data));
@@ -1335,7 +1325,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
                     text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
                             service,
-                            TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade)));
+                            TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
 
                 }
                 if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
@@ -1343,7 +1333,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever);
                     text_limit_all.setText(TradeUtil.total(edit_limit_margin.getText().toString(),
                             service,
-                            TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade)));
+                            TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
 
                 }
 

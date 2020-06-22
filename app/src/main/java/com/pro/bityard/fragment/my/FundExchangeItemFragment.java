@@ -200,6 +200,17 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
                         }
                         ExchangeRecordEntity exchangeRecordEntity = (ExchangeRecordEntity) response;
                         if (layout_null != null && recyclerView != null) {
+                            if (exchangeRecordEntity==null){
+                                return;
+                            }
+                            if (exchangeRecordEntity.getData()==null){
+                                return;
+                            }
+                        }
+                        if (loadType.equals(LOAD)) {
+                            exchangeRecordAdapter.addDatas(exchangeRecordEntity.getData());
+                        } else {
+                            exchangeRecordAdapter.setDatas(exchangeRecordEntity.getData());
                             if (exchangeRecordEntity.getData().size() == 0) {
                                 layout_null.setVisibility(View.VISIBLE);
                                 recyclerView.setVisibility(View.GONE);
@@ -207,12 +218,6 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
                                 layout_null.setVisibility(View.GONE);
                                 recyclerView.setVisibility(View.VISIBLE);
                             }
-                        }
-
-                        if (loadType.equals(LOAD)) {
-                            exchangeRecordAdapter.addDatas(exchangeRecordEntity.getData());
-                        } else {
-                            exchangeRecordAdapter.setDatas(exchangeRecordEntity.getData());
                         }
                     } else if (state.equals(FAILURE)) {
                         if (swipeRefreshLayout != null) {

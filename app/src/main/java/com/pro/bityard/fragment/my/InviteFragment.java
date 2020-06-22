@@ -163,10 +163,18 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
             }
         });
-
-        inviteRecordAdapter.setOnItemClick(data -> {
+        /*查看详情*/
+        inviteRecordAdapter.setOnDetailClick(data -> {
             showDetailPopWindow(data);
+
         });
+
+        /*转账*/
+        inviteRecordAdapter.setOnTransferClick(data -> {
+            showTransferPopWindow(data);
+        });
+
+
 
 
         view.findViewById(R.id.img_search).setOnClickListener(this);
@@ -265,6 +273,8 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
 
         EditText edit_code = view.findViewById(R.id.edit_code);
+
+
         String account = loginEntity.getUser().getPrincipal();
         Log.d("print", "showTransferPopWindow:241:  " + account);
         if (account.contains("@")) {
@@ -509,13 +519,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 if (inviteListEntity.getData() == null) {
                     return;
                 }
-                if (inviteListEntity.getData().size() == 0) {
-                    layout_null.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                } else {
-                    layout_null.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
 
 
                 if (unionRateEntity == null) {
@@ -525,14 +528,28 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
                     } else {
                         inviteRecordAdapter.setDatas(inviteListEntity.getData(), 0.0);
+                        if (inviteListEntity.getData().size() == 0) {
+                            layout_null.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        } else {
+                            layout_null.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
 
                     }
                 } else {
                     if (type.equals(LOAD)) {
                         inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
 
-                    } else {
+                    } else  {
                         inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
+                        if (inviteListEntity.getData().size() == 0) {
+                            layout_null.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        } else {
+                            layout_null.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
 
                     }
                     if (unionRateEntity.getUnion() != null) {
@@ -561,7 +578,9 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
             case R.id.img_search:
                 String edit_content = edit_search.getText().toString();
-                getInviteList(REFRESH, 1, edit_content);
+                if (!edit_content.equals("")){
+                    getInviteList(REFRESH, 1, edit_content);
+                }
                 break;
 
         }

@@ -52,10 +52,10 @@ public class TradeListManger extends Observable {
     public void tradeList(OnNetResult onNetResult) {
 
         NetManger.getInstance().codeList((state, response) -> {
-            Log.d("print", "tradeList: 55:"+response);
             if (state.equals(SUCCESS)) {
                 getTradeList(response.toString(), (state1, response1) -> {
                     if (state1.equals(SUCCESS)) {
+                        Log.d("print", "tradeList: 55:"+response);
                         onNetResult.onNetResult(SUCCESS, response1);
                     }
                 });
@@ -89,6 +89,7 @@ public class TradeListManger extends Observable {
                     onNetResult.onNetResult(BUSY, null);
 
                 } else if (state.equals(SUCCESS)) {
+
                     JSONObject jsonObject;
                     try {
                         jsonObject = new JSONObject(response.toString());
@@ -101,8 +102,6 @@ public class TradeListManger extends Observable {
                                 tradeListEntity = new Gson().fromJson(trxusdt.toString(), TradeListEntity.class);
                             }
                             tradeListEntityList.add(tradeListEntity);
-
-
                         }
                         setTradeListEntityList(tradeListEntityList);
                         onNetResult.onNetResult(SUCCESS, tradeListEntityList);

@@ -40,6 +40,11 @@ public class TradeListEntity {
     private int spread;
     private String type;
     private boolean valid;
+
+    private double maxHoldAll;
+    private double maxHoldOne;
+    private double maxHoldWay;
+
     private List<Long> closeTime;
     private List<Integer> depositList;
     private List<Integer> leverList;
@@ -49,6 +54,7 @@ public class TradeListEntity {
     private List<Double> stopLossList;
     private List<Double> stopProfitList;
     private List<Double> volumeList;
+
 
     @Override
     public String toString() {
@@ -90,6 +96,9 @@ public class TradeListEntity {
                 ", spread=" + spread +
                 ", type='" + type + '\'' +
                 ", valid=" + valid +
+                ", maxHoldAll=" + maxHoldAll +
+                ", maxHoldOne=" + maxHoldOne +
+                ", maxHoldWay=" + maxHoldWay +
                 ", closeTime=" + closeTime +
                 ", depositList=" + depositList +
                 ", leverList=" + leverList +
@@ -100,6 +109,30 @@ public class TradeListEntity {
                 ", stopProfitList=" + stopProfitList +
                 ", volumeList=" + volumeList +
                 '}';
+    }
+
+    public double getMaxHoldAll() {
+        return maxHoldAll;
+    }
+
+    public void setMaxHoldAll(double maxHoldAll) {
+        this.maxHoldAll = maxHoldAll;
+    }
+
+    public double getMaxHoldOne() {
+        return maxHoldOne;
+    }
+
+    public void setMaxHoldOne(double maxHoldOne) {
+        this.maxHoldOne = maxHoldOne;
+    }
+
+    public double getMaxHoldWay() {
+        return maxHoldWay;
+    }
+
+    public void setMaxHoldWay(double maxHoldWay) {
+        this.maxHoldWay = maxHoldWay;
     }
 
     public String getAmClearingTime() {

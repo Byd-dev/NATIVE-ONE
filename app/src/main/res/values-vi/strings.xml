@@ -130,7 +130,7 @@
     <string name="text_simulation_trade">(Demo)</string>
     <string name="text_market_price">Thị trường</string>
     <string name="text_limit_price">Giới hạn</string>
-    <string name="text_market_price_edit">Lệnh thị trường:</string>
+    <string name="text_market_price_edit">Lệnh thị trường</string>
     <string name="text_margin_edit">Ký quỹ:</string>
     <string name="text_volume_edit">Vị thế:</string>
     <string name="text_market_price_input_edit">以当前最优价格成交</string>

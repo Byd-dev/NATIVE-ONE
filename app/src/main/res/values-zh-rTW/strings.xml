@@ -130,7 +130,7 @@
     <string name="text_simulation_trade">(模擬)</string>
     <string name="text_market_price">市價</string>
     <string name="text_limit_price">限價</string>
-    <string name="text_market_price_edit">市價委託:</string>
+    <string name="text_market_price_edit">市價委託</string>
     <string name="text_margin_edit">保證金:</string>
     <string name="text_volume_edit">倉位:</string>
     <string name="text_market_price_input_edit">以当前最优价格成交</string>

@@ -627,54 +627,54 @@ public class ChartUtil {
             case "":
                 break;
             case "EOS":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eos),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eos),null,null,null);
                 break;
             case "LTC":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ltc),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ltc),null,null,null);
 
                 break;
             case "BCH":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bch),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bch),null,null,null);
 
                 break;
             case "ETC":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_etc),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_etc),null,null,null);
 
                 break;
             case "USDT":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt),null,null,null);
 
                 break;
             case "BTC":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btc),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btc),null,null,null);
 
                 break;
             case "ETH":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eth),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eth),null,null,null);
 
                 break;
             case "XRP":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xrp),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xrp),null,null,null);
 
                 break;
             case "TRX":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_trx),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_trx),null,null,null);
 
                 break;
             case "HT":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ht),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ht),null,null,null);
 
                 break;
             case "LINK":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link),null,null,null);
 
                 break;
             case "DASH":
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dash),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dash),null,null,null);
 
                 break;
             default:
-                img_bg.setCompoundDrawables(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt),null,null,null);
 
                 break;
 

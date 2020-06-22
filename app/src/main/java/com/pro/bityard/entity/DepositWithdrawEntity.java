@@ -172,7 +172,7 @@ public class DepositWithdrawEntity {
         private Object device;
         private long disposeTime;
         private String explain;
-        private int exrate;
+        private double exrate;
         private long finishTime;
         private String id;
         private String idStr;
@@ -297,11 +297,11 @@ public class DepositWithdrawEntity {
             this.explain = explain;
         }
 
-        public int getExrate() {
+        public double getExrate() {
             return exrate;
         }
 
-        public void setExrate(int exrate) {
+        public void setExrate(double exrate) {
             this.exrate = exrate;
         }
 
