@@ -83,8 +83,13 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     LinearLayout layout_pass_sure;
     @BindView(R.id.text_err_pass_sure)
     TextView text_err_pass_sure;
-    @BindView(R.id.text_forget_pass)
-    TextView text_forget_pass;
+    @BindView(R.id.text_confirm)
+    TextView text_confirm;
+    private String value;
+
+    private boolean isEmail = true;
+
+
     @Override
     protected void onLazyLoad() {
 
@@ -100,16 +105,18 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     @Override
     protected void initView(View view) {
         text_title.setText(getResources().getString(R.string.text_change_login_pass));
+
+
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
-        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass)+" ->");
 
         text_getCode.setOnClickListener(this);
 
         img_eye_old.setOnClickListener(this);
         img_eye_new.setOnClickListener(this);
         img_eye_sure.setOnClickListener(this);
+        text_confirm.setOnClickListener(this);
 
 
         //旧密码
@@ -177,7 +184,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                 text_err_pass_sure.setVisibility(View.GONE);
                 layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
 
-                if (Util.isPass(edit_pass_new.getText().toString()) &&Util.isPass(edit_pass_old.getText().toString())){
+                if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_old.getText().toString())) {
                     text_getCode.setEnabled(true);
                     if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
                             && Util.isCode(edit_code.getText().toString())) {
@@ -185,7 +192,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     } else {
                         btn_submit.setEnabled(false);
                     }
-                } else{
+                } else {
                     text_getCode.setEnabled(false);
                 }
             } else if (response.toString().equals("0")) {
@@ -238,21 +245,40 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     }
 
     @Override
-    protected void initData() {
+    public void onResume() {
+        super.onResume();
         LoginEntity data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+
         if (data != null) {
             account = data.getUser().getPrincipal();
             email = data.getUser().getEmail();
             phone = data.getUser().getPhone();
         }
+
         if (account.contains("@")) {
+            isEmail = true;
             text_email_mobile.setText(getResources().getString(R.string.text_email_code));
             edit_code.setHint(getResources().getString(R.string.text_email_code_input));
+            text_confirm.setText(getResources().getText(R.string.text_verify_by_mobile) + " ->");
+
         } else {
+            isEmail = false;
             text_email_mobile.setText(getResources().getString(R.string.text_mobile_code));
             edit_code.setHint(getResources().getString(R.string.text_mobile_code_input));
+            text_confirm.setText(getString(R.string.text_verify_by_email) + " ->");
+        }
+        if (email.equals("")) {
+            text_confirm.setVisibility(View.GONE);
+        } else if (phone.equals("")) {
+            text_confirm.setVisibility(View.GONE);
 
         }
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
+    protected void initData() {
+
 
 
     }
@@ -321,7 +347,8 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.text_getCode:
 
-                if (account.contains("@")) {
+
+                if (isEmail) {
                     NetManger.getInstance().getEmailCode(email, "CHANGE_PASSWORD", (state, response1, response2) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
@@ -361,6 +388,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             dismissProgressDialog();
                         }
                     });
+
                 }
 
 
@@ -394,17 +422,15 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     Toast.makeText(getActivity(), R.string.text_pass_different, Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
-                if (account.equals("@")) {
-                    NetManger.getInstance().checkEmailCode(account, "CHANGE_PASSWORD", value_code, (state, response) -> {
+                if (isEmail) {
+                    NetManger.getInstance().checkEmailCode(email, "CHANGE_PASSWORD", value_code, (state, response) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
                         } else if (state.equals(SUCCESS)) {
                             dismissProgressDialog();
                             TipEntity tipEntity = (TipEntity) response;
                             if (tipEntity.getCode() == 200) {
-                                changePass(account, value_pass_old, value_pass_new);
+                                changePass(email, value_pass_old, value_pass_new);
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -412,15 +438,16 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             dismissProgressDialog();
                         }
                     });
+
                 } else {
-                    NetManger.getInstance().checkMobileCode(account, "CHANGE_PASSWORD", value_code, (state, response) -> {
+                    NetManger.getInstance().checkMobileCode(phone, "CHANGE_PASSWORD", value_code, (state, response) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
                         } else if (state.equals(SUCCESS)) {
                             dismissProgressDialog();
                             TipEntity tipEntity = (TipEntity) response;
                             if (tipEntity.getCode() == 200) {
-                                changePass(account, value_pass_old, value_pass_new);
+                                changePass(phone, value_pass_old, value_pass_new);
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -428,7 +455,25 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             dismissProgressDialog();
                         }
                     });
+
                 }
+
+
+                break;
+
+            case R.id.text_confirm:
+                if (isEmail) {
+                    text_email_mobile.setText(getResources().getString(R.string.text_mobile_code));
+                    edit_code.setHint(getResources().getString(R.string.text_mobile_code_input));
+                    text_confirm.setText(getString(R.string.text_verify_by_email) + " ->");
+                    isEmail = false;
+                } else {
+                    text_email_mobile.setText(getResources().getString(R.string.text_email_code));
+                    edit_code.setHint(getResources().getString(R.string.text_email_code_input));
+                    text_confirm.setText(getResources().getText(R.string.text_verify_by_mobile) + " ->");
+                    isEmail = true;
+                }
+
 
                 break;
 

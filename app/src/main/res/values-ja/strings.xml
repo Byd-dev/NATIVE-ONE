@@ -403,6 +403,8 @@
     <string name="text_tin_input">PINコードをご入力下さい。</string>
     <string name="text_tin_ensure">PINコードをご確認下さい。</string>
     <string name="text_input_ensure">新しいパスワードを再入力して下さい</string>
+    <string name="text_verify_by_mobile">SMS認証</string>
+    <string name="text_verify_by_email">電子メールを検証します</string>
 
 
 </resources>

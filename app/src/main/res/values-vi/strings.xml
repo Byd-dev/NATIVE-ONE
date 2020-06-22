@@ -403,5 +403,7 @@
     <string name="text_tin_input">Nhập mật khẩu đăng nhập</string>
     <string name="text_tin_ensure">Xác nhận mật khẩu</string>
     <string name="text_input_ensure">Nhập lại mật khẩu mới</string>
+    <string name="text_verify_by_mobile">Xác thực qua số điện thoại</string>
+    <string name="text_verify_by_email">Xác thực qua Email</string>
 
 </resources>

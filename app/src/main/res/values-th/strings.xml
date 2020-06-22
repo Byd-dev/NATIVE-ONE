@@ -403,5 +403,7 @@
     <string name="text_tin_input">Пароль</string>
     <string name="text_tin_ensure">Подтвердите пароль</string>
     <string name="text_input_ensure">Введите новый пароль</string>
+    <string name="text_verify_by_mobile">Подтвердить по номеру мобильного</string>
+    <string name="text_verify_by_email">Подтвердить по электронной почте</string>
 
 </resources>

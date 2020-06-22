@@ -402,5 +402,7 @@
     <string name="text_tin_input">PIN</string>
     <string name="text_tin_ensure">Confirm PIN</string>
     <string name="text_input_ensure">Confirm New Password</string>
+    <string name="text_verify_by_mobile">Verify By Mobile</string>
+    <string name="text_verify_by_email">Verify By Email</string>
 
 </resources>

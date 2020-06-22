@@ -403,5 +403,7 @@
     <string name="text_tin_input">비밀번호를 입력해 주세요.</string>
     <string name="text_tin_ensure">비밀번호 확인</string>
     <string name="text_input_ensure">새 비밀번호를 확인해 주세요.</string>
+    <string name="text_verify_by_mobile">핸드폰 인증</string>
+    <string name="text_verify_by_email">이메일 인증</string>
 
 </resources>

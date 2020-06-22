@@ -403,5 +403,7 @@
     <string name="text_tin_input">請輸入資金密碼</string>
     <string name="text_tin_ensure">確認資金密碼</string>
     <string name="text_input_ensure">請再次輸入資金密碼</string>
+    <string name="text_verify_by_mobile">使用手機驗證</string>
+    <string name="text_verify_by_email">使用郵箱驗證</string>
 
 </resources>

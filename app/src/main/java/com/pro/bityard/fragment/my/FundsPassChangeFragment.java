@@ -595,14 +595,14 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                     }
 
                     if (account.contains("@")) {
-                        NetManger.getInstance().checkEmailCode(account, "CHANGE_WITHDRAW", value_code, (state, response) -> {
+                        NetManger.getInstance().checkEmailCode(email, "CHANGE_WITHDRAW", value_code, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
                                 dismissProgressDialog();
                                 TipEntity tipEntity = (TipEntity) response;
                                 if (tipEntity.getCode() == 200) {
-                                    widthDrawPassChange(account, value_pass_old, value_pass_new);
+                                    widthDrawPassChange(email, value_pass_old, value_pass_new);
                                 } else {
                                     Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -611,14 +611,14 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                             }
                         });
                     } else {
-                        NetManger.getInstance().checkMobileCode(account, "CHANGE_WITHDRAW", value_code, (state, response) -> {
+                        NetManger.getInstance().checkMobileCode(phone, "CHANGE_WITHDRAW", value_code, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
                                 dismissProgressDialog();
                                 TipEntity tipEntity = (TipEntity) response;
                                 if (tipEntity.getCode() == 200) {
-                                    widthDrawPassChange(account, value_pass_old, value_pass_new);
+                                    widthDrawPassChange(phone, value_pass_old, value_pass_new);
                                 } else {
                                     Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                                 }

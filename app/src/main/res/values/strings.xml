@@ -402,5 +402,7 @@
     <string name="text_tin_input">请输入资金密码</string>
     <string name="text_tin_ensure">确认资金密码</string>
     <string name="text_input_ensure">请再次输入资金密码</string>
+    <string name="text_verify_by_mobile">使用手机验证</string>
+    <string name="text_verify_by_email">使用邮箱验证</string>
 
 </resources>

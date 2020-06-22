@@ -506,6 +506,8 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                     loginEntity.getUser().setMobile(account);
                     SPUtils.putData(AppConfig.LOGIN, loginEntity);
                     getActivity().finish();
+
+
                 }
                 if (tipEntity.getMessage().equals("")) {
                     Toast.makeText(getContext(), R.string.text_success_bind, Toast.LENGTH_SHORT).show();
