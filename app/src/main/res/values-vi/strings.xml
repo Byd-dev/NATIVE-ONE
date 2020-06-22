@@ -16,7 +16,7 @@
     <string name="text_input_pass">Nhập mật khẩu đăng nhập</string>
     <string name="text_pass">Mật khẩu đăng nhập</string>
     <string name="text_pass_err">您输入的密码有误</string>
-    <string name="text_forget_pass">Quên mật khẩu?</string>
+    <string name="text_forget_pass">Quên mật khẩu</string>
     <string name="text_number">Điện thoại</string>
     <string name="text_input_number">Nhập số điện thoại</string>
     <string name="text_select">Quốc gia ( vùng)</string>

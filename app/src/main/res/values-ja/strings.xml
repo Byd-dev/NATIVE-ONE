@@ -16,7 +16,7 @@
     <string name="text_input_pass">请输入密码</string>
     <string name="text_pass">登录密码</string>
     <string name="text_pass_err">您输入的密码有误</string>
-    <string name="text_forget_pass">忘记密码?</string>
+    <string name="text_forget_pass">忘记密码</string>
     <string name="text_number">手机号码</string>
     <string name="text_input_number">请输入手机号</string>
     <string name="text_select">选择国家</string>

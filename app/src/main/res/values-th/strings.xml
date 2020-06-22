@@ -16,7 +16,7 @@
     <string name="text_input_pass">Пароль</string>
     <string name="text_pass">Логин Пароль</string>
     <string name="text_pass_err">您输入的密码有误</string>
-    <string name="text_forget_pass">Забыли пароль?</string>
+    <string name="text_forget_pass">Забыли пароль</string>
     <string name="text_number">Номер телефона</string>
     <string name="text_input_number">Номер телефона</string>
     <string name="text_select">Выберите свою страну или регион</string>

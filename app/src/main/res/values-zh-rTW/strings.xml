@@ -16,7 +16,7 @@
     <string name="text_input_pass">請輸入密碼</string>
     <string name="text_pass">登錄密碼</string>
     <string name="text_pass_err">您輸入的密碼有誤</string>
-    <string name="text_forget_pass">忘記密碼?</string>
+    <string name="text_forget_pass">忘記密碼</string>
     <string name="text_number">手機號碼</string>
     <string name="text_input_number">請輸入手機號碼</string>
     <string name="text_select">選擇國家或地區</string>

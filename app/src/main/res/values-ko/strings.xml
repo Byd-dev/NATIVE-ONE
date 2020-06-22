@@ -16,7 +16,7 @@
     <string name="text_input_pass">비밀번호를 입력해 주세요.</string>
     <string name="text_pass">로그인 비밀번호</string>
     <string name="text_pass_err">您输入的密码有误</string>
-    <string name="text_forget_pass">비밀번호 찾기?</string>
+    <string name="text_forget_pass">비밀번호 찾기</string>
     <string name="text_number">핸드폰 번호</string>
     <string name="text_input_number">핸드폰 번호을 입력해 주세요</string>
     <string name="text_select">국가/지역 선택</string>

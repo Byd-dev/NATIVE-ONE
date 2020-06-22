@@ -15,7 +15,7 @@
     <string name="text_input_pass">Password</string>
     <string name="text_pass">Login Password</string>
     <string name="text_pass_err">您输入的密码有误</string>
-    <string name="text_forget_pass">Forgot Password?</string>
+    <string name="text_forget_pass">Forgot Password</string>
     <string name="text_number">Mobile Phone No.</string>
     <string name="text_input_number">Mobile</string>
     <string name="text_select">Country or region</string>

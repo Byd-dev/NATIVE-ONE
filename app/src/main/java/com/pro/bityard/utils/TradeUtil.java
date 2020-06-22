@@ -523,13 +523,13 @@ public class TradeUtil {
     }
 
     /*计算递延费   保证金*杠杆*费率 *0.00045*/
-    public static String deferFee(String defer, double deferBase, String margin, double lever) {
+    public static String deferFee(int priceDigit,String defer, double deferBase, String margin, double lever) {
         if (margin == null) {
             return null;
         }
         String deferFee;
         if (defer.equals("true")) {
-            deferFee = String.valueOf(mul(mul(Double.parseDouble(margin), lever), deferBase));
+            deferFee = TradeUtil.numberHalfUp(mul(mul(Double.parseDouble(margin), lever), deferBase),priceDigit);
         } else {
             deferFee = "0";
         }

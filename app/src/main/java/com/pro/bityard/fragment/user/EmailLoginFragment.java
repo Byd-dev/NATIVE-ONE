@@ -96,6 +96,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
         view.findViewById(R.id.text_mobile_login).setOnClickListener(this);
 
+        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass)+"?");
+
         view.findViewById(R.id.text_forget_pass).setOnClickListener(this);
 
         img_eye.setOnClickListener(this);

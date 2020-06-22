@@ -865,19 +865,16 @@ public class NetManger {
         map.put("moneyType", moneyType);
         map.put("platform", "Android");
         map.put("currency", currency);
-        postRequest("/api/trade/open.htm", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.onNetResult(BUSY, null);
-                } else if (state.equals(SUCCESS)) {
-                    OrderEntity orderEntity = new Gson().fromJson(response.toString(), OrderEntity.class);
-                    onNetResult.onNetResult(SUCCESS, orderEntity.getMessage());
+        postRequest("/api/trade/open.htm", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                OrderEntity orderEntity = new Gson().fromJson(response.toString(), OrderEntity.class);
+                onNetResult.onNetResult(SUCCESS, orderEntity.getMessage());
 
-                } else if (state.equals(FAILURE)) {
-                    onNetResult.onNetResult(FAILURE, null);
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
 
-                }
             }
         });
     }

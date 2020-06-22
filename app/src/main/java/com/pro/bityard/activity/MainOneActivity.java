@@ -259,7 +259,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     if (isLogin()) {
 
 
-                        Toast.makeText(this, "行情刷新", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(this, "行情刷新", Toast.LENGTH_SHORT).show();
                         if (tradeType.equals("1")) {
                             setNetIncome(tradeType, positionRealList, quoteList);
                         } else {

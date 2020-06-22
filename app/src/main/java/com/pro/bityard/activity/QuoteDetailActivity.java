@@ -1063,6 +1063,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         String marginMarket = Objects.requireNonNull(edit_market_margin.getText()).toString();
         String marginLimit = Objects.requireNonNull(edit_limit_margin.getText()).toString();
 
+        int priceDigit = tradeListEntity.getPriceDigit();
         String margin = marginOrder(orderType, marginMarket, marginLimit);
         String priceOrder = TradeUtil.priceOrder(orderType, Objects.requireNonNull(edit_limit_price.getText()).toString());
         String defer = TradeUtil.defer(tradeType, isDefer);
@@ -1090,7 +1091,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         String stopLoss = SPUtils.getString(AppConfig.VALUE_LOSS, "-0.9");
         NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
                 tradeListEntity.getContractCode(), isBuy, margin, String.valueOf(lever), priceOrder, defer,
-                TradeUtil.deferFee(defer, tradeListEntity.getDeferFee(), margin, lever), stopProfit, stopLoss, serviceCharge,
+                TradeUtil.deferFee(priceDigit,defer, tradeListEntity.getDeferFee(), margin, lever), stopProfit, stopLoss, serviceCharge,
                 "0", TradeUtil.volume(lever, margin, parseDouble(priceMuchOrEmpty)), "0", "USDT", (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();

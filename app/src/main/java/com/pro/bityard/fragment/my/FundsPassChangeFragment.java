@@ -71,6 +71,9 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
     @BindView(R.id.text_pin_old)
     TextView text_pin_old;
 
+    @BindView(R.id.text_forget_pass)
+    TextView text_forget_pass;
+
     private int pw_w;
     private LoginEntity loginEntity;
 
@@ -107,6 +110,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
+        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass)+" ->");
 
         text_getCode.setOnClickListener(this);
 

@@ -122,7 +122,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
         view.findViewById(R.id.btn_login).setOnClickListener(this);
         img_eye.setOnClickListener(this);
-
+        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass)+"?");
         //监听软键盘的按钮
         edit_account.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId== EditorInfo.IME_ACTION_DONE){
