@@ -43,6 +43,7 @@ public class InitManger extends Observable {
 
 
     public void init() {
+        NetManger.getInstance().initQuote();
 
         //判断是否登录
         NetManger.getInstance().isLogin(response -> {

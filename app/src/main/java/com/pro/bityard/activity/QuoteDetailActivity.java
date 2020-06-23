@@ -268,8 +268,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     private TradeListEntity tradeListEntity;
     private TextView text_deduction_amount_pop;
-    private String prizeTrade;
-    private String prizeDub;
+    private String prizeTrade=null;
 
     @BindView(R.id.text_market_currency)
     TextView text_market_currency;
@@ -796,9 +795,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 Util.lightOff(QuoteDetailActivity.this);
                 if (prizeTrade != null) {
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, value_margin, lever);
-
                     String prizeDub = TradeUtil.deductionResult(service, value_margin, prizeTrade);
-
                     PopUtil.getInstance().showLongTip(QuoteDetailActivity.this,
                             layout_view, false,
                             getString(R.string.text_service_tip),

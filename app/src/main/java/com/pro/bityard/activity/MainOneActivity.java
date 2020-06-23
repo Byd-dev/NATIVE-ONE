@@ -776,6 +776,11 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
                     swipeRefreshLayout.setRefreshing(false);
                 }
+                String s = response.toString().replaceAll(" ", "");
+                if (s.startsWith("error")){
+                    return;
+                }
+
                 BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
                 if (bannerEntity == null) {
                     return;
@@ -1253,7 +1258,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     if (isEyeOpen) {
                         text_balance.setText(TradeUtil.getNumberFormat(add, 2));
                         String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                        Log.d("print", "setMyNetIncome:1256: "+add+"   "+string);
                         text_balance_currency.setText(TradeUtil.numberHalfUp(TradeUtil.mul(add, Double.parseDouble(string)), 2));
                     }
                 });

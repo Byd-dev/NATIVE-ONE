@@ -355,9 +355,21 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
-                if (initEntity.getGroup() != null) {
-                    onNetResult.onNetResult(SUCCESS, initEntity);
+                String s = response.toString().replaceAll(" ", "");
+                Log.d("print", "getInit:初始化: " + s + "      " + response.toString());
+                if (s.startsWith("error")) {
+                    onNetResult.onNetResult(FAILURE, response);
+                } else {
+                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                    if (tipEntity.getCode() == 200) {
+                        InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
+                        if (initEntity.getGroup() != null) {
+                            onNetResult.onNetResult(SUCCESS, initEntity);
+                        }
+                    } else {
+                        onNetResult.onNetResult(FAILURE, null);
+
+                    }
                 }
 
             } else if (state.equals(FAILURE)) {
@@ -640,15 +652,6 @@ public class NetManger {
             }
         });
 
-
-        /*  *//*初始化获取行情 合约号 行情地址*//*
-        getHostCodeTradeList((state, response1, response2, response3) -> {
-            if (state.equals(SUCCESS)) {
-                SPUtils.putString(AppConfig.QUOTE_HOST, response1.toString());
-                SPUtils.putString(AppConfig.QUOTE_CODE, response2.toString());
-                SPUtils.putString(AppConfig.QUOTE_DETAIL, response3.toString());
-            }
-        });*/
     }
 
     /*持仓列表*/

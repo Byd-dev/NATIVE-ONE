@@ -2,29 +2,29 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/background_maincolor"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_maincolor">
 
     <com.stx.xhb.xbanner.XBanner
         android:id="@+id/banner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
-        app:pageChangeDuration="800"
         android:layout_centerInParent="true"
-        app:pointNormal="@mipmap/ic_point_gray"
-        app:pointSelect="@mipmap/ic_point_blue"
+        android:visibility="visible"
         app:isAutoPlay="false"
-        />
+        app:pageChangeDuration="800"
+        app:pointNormal="@mipmap/ic_point_gray"
+        app:pointSelect="@mipmap/ic_point_blue" />
 
     <TextView
         android:id="@+id/text_jump"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:gravity="center"
-        android:padding="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_10"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="@dimen/margin_20"
         android:text="@string/text_jump"
         android:textColor="@color/white"
         android:textSize="17sp" />
@@ -39,6 +39,24 @@
         android:background="@drawable/shape_kuang_white_transparent"
         android:gravity="center"
         android:text="立即进入"
-        android:visibility="gone"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:visibility="gone" />
+
+
+
+
+
+
+    <TextView
+        android:id="@+id/text_err"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Error"
+        android:textColor="@color/text_main_color"
+        android:textSize="@dimen/size_bigger"
+        android:visibility="gone" />
+
+
+
 </RelativeLayout>
