@@ -42,41 +42,50 @@ public class SafeCenterFragment extends BaseFragment implements View.OnClickList
         if (data != null) {
             LoginEntity.UserBean user = data.getUser();
             int pw_w = user.getPw_w();
-            if (pw_w == 0) {
-                text_pin_tip.setText(getResources().getString(R.string.text_not_set));
+            int pw_l = user.getPw_l();
+            String mobile = user.getMobile();
+            String email = user.getEmail();
+
+
+            if (pw_w==1&&pw_l==1){
+                lever=3;
+            }else if (pw_w==1&&pw_l==0){
+                lever=2;
+            }else if (pw_w==0&&pw_l==1){
+                lever=2;
+            }else if (pw_w==0&&pw_l==0){
                 lever=1;
-            } else {
-                text_pin_tip.setText(getResources().getString(R.string.text_change));
-                lever=2;
-
-            }
-            Log.d("print", "onResume:42:  " + user.getMobile() + " --    " + user.getEmail());
-            if (user.getMobile().equals("")) {
-                text_mobile_tip.setText(R.string.text_unbond);
-                lever=2;
-            } else {
-                text_mobile_tip.setText(R.string.text_change);
-                lever=3;
-
-            }
-
-            if (user.getEmail().equals("")) {
-                text_email_tip.setText(getResources().getString(R.string.text_not_set));
-                lever=2;
-            } else {
-                text_email_tip.setText(R.string.text_change);
-                lever=3;
-            }
-
-            if (!user.getEmail().equals("")&&!user.getMobile().equals("")){
+            }else if (pw_w==1&&pw_l==1&&!email.equals("")&&!mobile.equals("")){
                 lever=4;
             }
+
+            if (pw_w == 0) {
+                text_pin_tip.setText(getResources().getString(R.string.text_not_set));
+            } else {
+                text_pin_tip.setText(getResources().getString(R.string.text_change));
+
+            }
+            if (mobile.equals("")) {
+                text_mobile_tip.setText(R.string.text_unbond);
+            } else {
+                text_mobile_tip.setText(R.string.text_change);
+
+            }
+
+            if (email.equals("")) {
+                text_email_tip.setText(getResources().getString(R.string.text_not_set));
+            } else {
+                text_email_tip.setText(R.string.text_change);
+            }
+
+
             switch (lever){
                 case 1:
+                case 2:
                     img_lever.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_one));
                     text_lever.setText(R.string.text_low);
                     break;
-                case 2:
+
                 case 3:
                     img_lever.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_three));
                     text_lever.setText(R.string.text_mid);

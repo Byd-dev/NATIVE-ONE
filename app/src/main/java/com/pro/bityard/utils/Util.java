@@ -538,8 +538,36 @@ public class Util {
     }
 
     public static void isEmailEffective(EditText edit_account, OnResult onResult) {
-
         setEditTextInhibitInputSpaChat(edit_account);
+        edit_account.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if (charSequence.length() != 0) {
+                    if (Util.isEmail(edit_account.getText().toString())) {
+                        onResult.setResult("1");
+                    } else {
+                        onResult.setResult("0");
+                    }
+                } else {
+                    onResult.setResult("-1");
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+       /* setEditTextInhibitInputSpaChat(edit_account);
         //检测错误提示是否显示
         edit_account.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
@@ -553,7 +581,7 @@ public class Util {
                     onResult.setResult("-1");
                 }
             }
-        });
+        });*/
     }
 
     public static void isCodeEffective(EditText edit_account, OnResult onResult) {
@@ -578,8 +606,36 @@ public class Util {
     public static void isPhoneEffective(EditText edit_account, OnResult onResult) {
         setEditTextInhibitInputSpaChat(edit_account);
 
+        edit_account.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                if (charSequence.length() != 0) {
+                    if (Util.isPhone(edit_account.getText().toString())) {
+                        onResult.setResult("1");
+                    } else {
+                        onResult.setResult("0");
+                    }
+                } else {
+                    onResult.setResult("-1");
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         //检测错误提示是否显示
-        edit_account.setOnFocusChangeListener((v, hasFocus) -> {
+       /* edit_account.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 if (edit_account.getText().toString().length() != 0) {
                     if (Util.isPhone(edit_account.getText().toString())) {
@@ -591,7 +647,7 @@ public class Util {
                     onResult.setResult("-1");
                 }
             }
-        });
+        });*/
     }
 
     public static boolean isPhone(String phoneStr) {
@@ -812,9 +868,16 @@ public class Util {
         editText.setFilters(new InputFilter[]{(source, start, end, dest, dstart, dend) -> {
             if (source.equals(" ")) return "";
             else return source;
-        }, new InputFilter.LengthFilter(16)});
+        },});
 
     }
 
+    public static void setEditTextPassSpaChat(EditText editText) {
+        //过滤空格
+        editText.setFilters(new InputFilter[]{(source, start, end, dest, dstart, dend) -> {
+            if (source.equals(" ")) return "";
+            else return source;
+        }, new InputFilter.LengthFilter(16)});
 
+    }
 }
