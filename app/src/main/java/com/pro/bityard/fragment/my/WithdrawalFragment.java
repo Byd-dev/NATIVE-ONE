@@ -24,7 +24,6 @@ import com.pro.bityard.adapter.ChainListAdapter;
 import com.pro.bityard.adapter.WithdrawalAddressSelectAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -183,13 +182,11 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
         userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
 
-        if (userDetailEntity!=null){
-            
-        }else {
+        if (userDetailEntity == null) {
             NetManger.getInstance().userDetail((state, response) -> {
-                if (state.equals(SUCCESS)){
-                    userDetailEntity= (UserDetailEntity) response;
-                    SPUtils.putData(AppConfig.DETAIL,userDetailEntity);
+                if (state.equals(SUCCESS)) {
+                    userDetailEntity = (UserDetailEntity) response;
+                    SPUtils.putData(AppConfig.DETAIL, userDetailEntity);
 
                 }
             });
