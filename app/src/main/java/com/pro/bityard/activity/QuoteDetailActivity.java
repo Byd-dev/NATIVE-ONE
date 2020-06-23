@@ -789,39 +789,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
             case R.id.text_market_all:
-                if (text_market_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
-                    return;
-                } else {
-                    Util.lightOff(QuoteDetailActivity.this);
-                    if (prizeTrade != null) {
-
-                        String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
-
-                        String prizeDub = TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade);
-                        Log.d("print", "onClick:813:  " + prizeDub);
-
-                        PopUtil.getInstance().showLongTip(QuoteDetailActivity.this,
-                                layout_view, false,
-                                getString(R.string.text_service_tip),
-                                getString(R.string.text_trade_fees),
-                                getString(R.string.text_deduction_amount),
-                                service,
-                                prizeDub, state -> {
-
-                                });
-                    }
-
+                String value_margin = edit_market_margin.getText().toString();
+                if (value_margin.equals("")) {
+                    value_margin = "0.0";
                 }
-                break;
-            case R.id.text_limit_all:
-                if (text_limit_all.getText().toString().equals(getResources().getString(R.string.text_default))) {
-                    return;
-                } else {
-                    String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever);
+                Util.lightOff(QuoteDetailActivity.this);
+                if (prizeTrade != null) {
+                    String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, value_margin, lever);
 
-                    String prizeDub = TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade);
-
-                    Util.lightOff(QuoteDetailActivity.this);
+                    String prizeDub = TradeUtil.deductionResult(service, value_margin, prizeTrade);
 
                     PopUtil.getInstance().showLongTip(QuoteDetailActivity.this,
                             layout_view, false,
@@ -832,7 +808,26 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                             prizeDub, state -> {
 
                             });
+                }
+                break;
+            case R.id.text_limit_all:
+                String value_margin_limit = edit_limit_margin.getText().toString();
+                if (value_margin_limit.equals("")) {
+                    value_margin_limit = "0.0";
+                }
+                if (prizeTrade != null) {
+                    String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, value_margin_limit, lever);
+                    String prizeDub = TradeUtil.deductionResult(service, value_margin_limit, prizeTrade);
+                    Util.lightOff(QuoteDetailActivity.this);
+                    PopUtil.getInstance().showLongTip(QuoteDetailActivity.this,
+                            layout_view, false,
+                            getString(R.string.text_service_tip),
+                            getString(R.string.text_trade_fees),
+                            getString(R.string.text_deduction_amount),
+                            service,
+                            prizeDub, state -> {
 
+                            });
                 }
                 break;
             case R.id.text_position:
@@ -1091,7 +1086,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         String stopLoss = SPUtils.getString(AppConfig.VALUE_LOSS, "-0.9");
         NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
                 tradeListEntity.getContractCode(), isBuy, margin, String.valueOf(lever), priceOrder, defer,
-                TradeUtil.deferFee(priceDigit,defer, tradeListEntity.getDeferFee(), margin, lever), stopProfit, stopLoss, serviceCharge,
+                TradeUtil.deferFee(priceDigit, defer, tradeListEntity.getDeferFee(), margin, lever), stopProfit, stopLoss, serviceCharge,
                 "0", TradeUtil.volume(lever, margin, parseDouble(priceMuchOrEmpty)), "0", "USDT", (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();

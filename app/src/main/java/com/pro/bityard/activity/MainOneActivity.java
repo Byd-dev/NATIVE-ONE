@@ -1253,7 +1253,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     if (isEyeOpen) {
                         text_balance.setText(TradeUtil.getNumberFormat(add, 2));
                         String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                        text_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(add, Double.parseDouble(string)), 2));
+                        Log.d("print", "setMyNetIncome:1256: "+add+"   "+string);
+                        text_balance_currency.setText(TradeUtil.numberHalfUp(TradeUtil.mul(add, Double.parseDouble(string)), 2));
                     }
                 });
 

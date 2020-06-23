@@ -108,11 +108,11 @@ public class PopUtil {
 
         TextView text_value = view.findViewById(R.id.text_value);
         text_value.setLineSpacing(1.1f, 1.5f);
-        text_value.setText(value);
+        text_value.setText(value+" "+activity.getResources().getString(R.string.text_usdt));
 
         TextView text_value2 = view.findViewById(R.id.text_value2);
         text_value2.setLineSpacing(1.1f, 1.5f);
-        text_value2.setText(value2);
+        text_value2.setText(value2+" "+activity.getResources().getString(R.string.text_usdt));
 
 
         view.findViewById(R.id.text_sure).setOnClickListener(v -> {
