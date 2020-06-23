@@ -33,6 +33,9 @@ public class SmsTimeUtils {
 
     public final static int WITHDRAWAL = 12;
 
+    public final static int MOBILE_CHANGE = 13;
+    public final static int EMAIL_CHANGE = 14;
+
 
 
     /*设置提现账户
@@ -60,6 +63,8 @@ public class SmsTimeUtils {
 
     private static Timer countdownTimer;
     private static TextView tvSendCode;
+    private static long MOBILE_CHANGE_TIME_END = 0;
+    private static long EMAIL_CHANGE_TIME_END = 0;
 
     /**
      * 检查是否超过60秒
@@ -110,6 +115,12 @@ public class SmsTimeUtils {
             case WITHDRAWAL:
                 time=WITHDRAWAL_TIME_END;
                 break;
+            case MOBILE_CHANGE:
+                time=MOBILE_CHANGE_TIME_END;
+                break;
+            case EMAIL_CHANGE:
+                time=EMAIL_CHANGE_TIME_END;
+                break;
         }
         if (data > time) {
             /*主要是区别于是否是第一次进入。第一次进入不需要赋值*/
@@ -152,6 +163,12 @@ public class SmsTimeUtils {
                         break;
                     case WITHDRAWAL:
                         WITHDRAWAL_TIME_END=time;
+                        break;
+                    case MOBILE_CHANGE:
+                        MOBILE_CHANGE_TIME_END=time;
+                        break;
+                    case EMAIL_CHANGE:
+                        EMAIL_CHANGE_TIME_END=time;
                         break;
                 }
             }

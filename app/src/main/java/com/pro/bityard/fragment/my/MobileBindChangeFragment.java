@@ -365,7 +365,6 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
 
                     } else {
                         sendType = "BIND_PHONE";
-
                         if (account_value.equals("")) {
                             Toast.makeText(getContext(), getResources().getString(R.string.text_input_number), Toast.LENGTH_SHORT).show();
                             return;
@@ -383,9 +382,15 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                         TipEntity tipEntity = (TipEntity) response2;
                         googleToken = (String) response1;
                         if (tipEntity.getCode() == 200) {
-                            mHandler.sendEmptyMessage(0);
-                            Message msg = new Message();
-                            mHandler.sendMessage(msg);
+                            Log.d("print", "onClick:377: " + sendType);
+
+                            if (sendType.equals("BIND_PHONE")) {
+                                mHandler.obtainMessage(0).sendToTarget();
+                            } else if (sendType.equals("CHANGE_PHONE")) {
+                                mHandler.obtainMessage(1).sendToTarget();
+
+                            }
+
                         } else if (tipEntity.getCode() == 500) {
                             Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -559,17 +564,24 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            Log.d("print", "handleMessage:569: " + msg.what);
             switch (msg.what) {
                 case 0:
                     SmsTimeUtils.check(SmsTimeUtils.MOBILE_BIND, false);
                     SmsTimeUtils.startCountdown(text_getCode);
                     break;
+                case 1:
+                    SmsTimeUtils.check(SmsTimeUtils.MOBILE_CHANGE, false);
+                    SmsTimeUtils.startCountdown(text_getCode);
+                    break;
+
                 default:
                     break;
             }
         }
 
     };
+
 
     //国际区号选择
     private void showEditPopWindow(CountryCodeEntity data) {

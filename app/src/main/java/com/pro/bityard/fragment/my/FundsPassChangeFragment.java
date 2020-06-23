@@ -493,9 +493,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                             TipEntity tipEntity = (TipEntity) response2;
                             if (tipEntity.getCode() == 200) {
                                 googleToken = (String) response1;
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
+                                mHandler.obtainMessage(0).sendToTarget();
                             } else if (tipEntity.getCode() == 500) {
                                 Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -513,9 +511,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                             TipEntity tipEntity = (TipEntity) response2;
                             if (tipEntity.getCode() == 200) {
                                 googleToken = (String) response1;
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
+                                mHandler.obtainMessage(0).sendToTarget();
                             } else if (tipEntity.getCode() == 500) {
                                 Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
