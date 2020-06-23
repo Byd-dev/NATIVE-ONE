@@ -1,6 +1,8 @@
 package com.pro.bityard.entity;
 
-public class UserDetailEntity {
+import java.io.Serializable;
+
+public class UserDetailEntity implements Serializable {
 
 
     /**
@@ -46,7 +48,7 @@ public class UserDetailEntity {
         this.user = user;
     }
 
-    public static class UserBean {
+    public static class UserBean implements Serializable{
         @Override
         public String toString() {
             return "UserBean{" +

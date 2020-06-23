@@ -5,7 +5,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.UserDetailEntity;
+import com.pro.switchlibrary.SPUtils;
 
 import java.util.Observable;
 import java.util.Timer;
@@ -72,7 +76,6 @@ public class UserDetailManger extends Observable {
         NetManger.getInstance().userDetail((state, response) -> {
             if (state.equals(SUCCESS)) {
                 postDetail(response);
-                Log.d("print", "userDetail:初始化个人信息: 75: "+response.toString());
 
             }
         });

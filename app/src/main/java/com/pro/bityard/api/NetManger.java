@@ -1699,8 +1699,17 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
-                onNetResult.onNetResult(SUCCESS, userDetailEntity);
+                TipEntity tipEntity= new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode()==200){
+                    UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
+                    SPUtils.putData(AppConfig.DETAIL,userDetailEntity);
+                    onNetResult.onNetResult(SUCCESS, userDetailEntity);
+                }else {
+                    onNetResult.onNetResult(FAILURE, null);
+
+                }
+
+
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
 

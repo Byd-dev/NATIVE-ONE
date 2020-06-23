@@ -77,6 +77,8 @@ public class AppConfig {
     public static final String CHANGE_EMAIL = "CHANGE_EMAIL";
     //合约号
     public static final String CONTRACT_ID = "CONTRACT_ID";
+    //个人详情
+    public static final String DETAIL = "DETAIL";
 
 
 

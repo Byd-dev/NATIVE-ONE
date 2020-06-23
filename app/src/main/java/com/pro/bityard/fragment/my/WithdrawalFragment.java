@@ -24,6 +24,7 @@ import com.pro.bityard.adapter.ChainListAdapter;
 import com.pro.bityard.adapter.WithdrawalAddressSelectAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -32,7 +33,6 @@ import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.manger.BalanceManger;
-import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -40,8 +40,6 @@ import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -140,6 +138,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         img_record.setVisibility(View.VISIBLE);
         img_record.setOnClickListener(this);
 
+
         chainListAdapter = new ChainListAdapter(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         recyclerView.setAdapter(chainListAdapter);
@@ -181,6 +180,21 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     @Override
     protected void initData() {
+
+        userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
+
+        if (userDetailEntity!=null){
+            
+        }else {
+            NetManger.getInstance().userDetail((state, response) -> {
+                if (state.equals(SUCCESS)){
+                    userDetailEntity= (UserDetailEntity) response;
+                    SPUtils.putData(AppConfig.DETAIL,userDetailEntity);
+
+                }
+            });
+        }
+
 
         NetManger.getInstance().withdrawalAddressList((state, response) -> {
             if (state.equals(SUCCESS)) {

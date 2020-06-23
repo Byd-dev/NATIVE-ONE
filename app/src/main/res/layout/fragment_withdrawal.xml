@@ -253,8 +253,9 @@
                     android:layout_width="89dp"
                     android:layout_height="@dimen/margin_30"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:background="@drawable/bg_circle_main_color"
+                    android:background="@drawable/sel_switcher_round_bg"
                     android:gravity="center"
+                    android:enabled="true"
                     android:text="@string/text_get_code"
                     android:textColor="@color/color_code"
                     android:textSize="@dimen/size_normal" />
