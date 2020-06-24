@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -145,14 +144,14 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                         && Util.isPass(edit_pass_old.getText().toString())) {
                     text_getCode.setEnabled(true);
                     text_getCode_mobile.setEnabled(true);
-                    if (isEmail){
+                    if (isEmail) {
                         if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
                                 && Util.isCode(edit_code.getText().toString())) {
                             btn_submit.setEnabled(true);
                         } else {
                             btn_submit.setEnabled(false);
                         }
-                    }else {
+                    } else {
                         if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
                                 && Util.isCode(edit_code_mobile.getText().toString())) {
                             btn_submit.setEnabled(true);
@@ -160,7 +159,6 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             btn_submit.setEnabled(false);
                         }
                     }
-
                 } else {
                     text_getCode.setEnabled(false);
                     text_getCode_mobile.setEnabled(false);
@@ -187,7 +185,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                         && Util.isPass(edit_pass_old.getText().toString())) {
                     text_getCode.setEnabled(true);
                     text_getCode_mobile.setEnabled(true);
-                    if (isEmail){
+                    if (isEmail) {
                         if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
                                 && Util.isCode(edit_code.getText().toString())) {
                             btn_submit.setEnabled(true);
@@ -195,7 +193,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             btn_submit.setEnabled(false);
 
                         }
-                    }else {
+                    } else {
                         if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
                                 && Util.isCode(edit_code_mobile.getText().toString())) {
                             btn_submit.setEnabled(true);
@@ -229,14 +227,14 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                 if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_old.getText().toString())) {
                     text_getCode.setEnabled(true);
                     text_getCode_mobile.setEnabled(true);
-                    if (isEmail){
+                    if (isEmail) {
                         if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
                                 && Util.isCode(edit_code.getText().toString())) {
                             btn_submit.setEnabled(true);
                         } else {
                             btn_submit.setEnabled(false);
                         }
-                    }else {
+                    } else {
                         if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
                                 && Util.isCode(edit_code_mobile.getText().toString())) {
                             btn_submit.setEnabled(true);
@@ -501,18 +499,17 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     return;
                 }
 
-                if (isEmail){
+                if (isEmail) {
                     if (value_code.equals("")) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.text_email_code_input), Toast.LENGTH_SHORT).show();
                         return;
                     }
-                }else {
+                } else {
                     if (value_code_mobile.equals("")) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.text_mobile_code_input), Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
-
 
 
                 if (!value_pass_new.equals(value_pass_sure)) {

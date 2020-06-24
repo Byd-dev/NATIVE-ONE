@@ -319,7 +319,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
         text_getCode.setOnClickListener(v -> {
             if (account.contains("@")) {
-                NetManger.getInstance().getEmailCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -338,7 +338,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     }
                 });
             } else {
-                NetManger.getInstance().getMobileCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", (state, response1, response2) -> {
+                NetManger.getInstance().getMobileCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -373,7 +373,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
             if (account.contains("@")) {
 
-                NetManger.getInstance().checkEmailCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", value_code, (state, response) -> {
+                NetManger.getInstance().checkEmailCode(loginEntity.getUser().getEmail(), "CREATE_WITHDRAW", value_code, (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -381,7 +381,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                         TipEntity tipEntity = (TipEntity) response;
                         Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
                         if (tipEntity.isCheck() == true) {
-                            transfer(user.getCurrency(), value_amount, URLEncoder.encode(value_pass), dataBean.getUsername(), loginEntity.getUser().getAccount());
+                            transfer(user.getCurrency(), value_amount,value_pass, dataBean.getUsername(), loginEntity.getUser().getEmail());
                         } else {
                             Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -392,14 +392,16 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
             } else {
 
-                NetManger.getInstance().checkMobileCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", value_code, (state, response) -> {
+                NetManger.getInstance().checkMobileCode(loginEntity.getUser().getPhone(), "CREATE_WITHDRAW", value_code, (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response;
+                        Log.d("print", "showTransferPopWindow:401:  " + tipEntity);
+
                         if (tipEntity.isCheck() == true) {
-                            transfer(user.getCurrency(), value_amount, URLEncoder.encode(value_pass), dataBean.getUsername(), loginEntity.getUser().getAccount());
+                            transfer(user.getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getPhone());
 
                         } else {
                             Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -421,7 +423,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         NetManger.getInstance().transfer(currency, money, pass, subName, account, (state, response) -> {
             if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = (TipEntity) response;
-                Log.d("print", "transfer:转账结果:  " + response);
                 if (tipEntity.getCode() == 200) {
                     popupWindow.dismiss();
                 }

@@ -27,7 +27,6 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UnionRateEntity;
@@ -39,7 +38,6 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -427,7 +425,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
                             if (tipEntity.isCheck() == true) {
                                 withdrawal(value_amount, user.getCurrency(),
-                                        chain, addressId, account, URLEncoder.encode(value_pass));
+                                        chain, addressId, account, value_pass);
 
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -447,7 +445,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             TipEntity tipEntity = (TipEntity) response;
                             if (tipEntity.isCheck() == true) {
                                 withdrawal(value_amount, user.getCurrency(),
-                                        chain, addressId, account, URLEncoder.encode(value_pass));
+                                        chain, addressId, account, value_pass);
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -474,7 +472,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             TipEntity tipEntity = (TipEntity) response;
                             Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
                             if (tipEntity.isCheck() == true) {
-                                transfer(user.getCurrency(), value_amount_transfer, URLEncoder.encode(value_pass_transfer), user_name, loginEntity.getUser().getAccount());
+                                transfer(user.getCurrency(), value_amount_transfer, value_pass_transfer, user_name, loginEntity.getUser().getAccount());
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -492,7 +490,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             dismissProgressDialog();
                             TipEntity tipEntity = (TipEntity) response;
                             if (tipEntity.isCheck() == true) {
-                                transfer(user.getCurrency(), value_amount_transfer, URLEncoder.encode(value_pass_transfer), user_name, loginEntity.getUser().getAccount());
+                                transfer(user.getCurrency(), value_amount_transfer, value_pass_transfer, user_name, loginEntity.getUser().getAccount());
 
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -569,8 +567,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     private void withdrawal(String money, String currency, String chain, String addressId, String email, String password) {
         NetManger.getInstance().withdrawal(money, currency, chain, addressId, email, password, (state, response) -> {
             if (state.equals(SUCCESS)) {
-                AddAddressItemEntity addAddressItemEntity = (AddAddressItemEntity) response;
-                Toast.makeText(getActivity(), addAddressItemEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                TipEntity tipEntity = (TipEntity) response;
+                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -602,9 +600,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         NetManger.getInstance().transfer(currency, money, pass, subName, account, (state, response) -> {
             if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = (TipEntity) response;
-                if (tipEntity.getCode() == 200) {
-                }
                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }

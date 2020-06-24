@@ -48,6 +48,7 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -356,7 +357,6 @@ public class NetManger {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 String s = response.toString().replaceAll(" ", "");
-                Log.d("print", "getInit:初始化: " + s + "      " + response.toString());
                 if (s.startsWith("error")) {
                     onNetResult.onNetResult(FAILURE, response);
                 } else {
@@ -1368,11 +1368,8 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
-
-
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
-
             }
         });
 
@@ -1390,8 +1387,6 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity);
-
-
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
 
@@ -1699,12 +1694,12 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                TipEntity tipEntity= new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode()==200){
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
                     UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
-                    SPUtils.putData(AppConfig.DETAIL,userDetailEntity);
+                    SPUtils.putData(AppConfig.DETAIL, userDetailEntity);
                     onNetResult.onNetResult(SUCCESS, userDetailEntity);
-                }else {
+                } else {
                     onNetResult.onNetResult(FAILURE, null);
 
                 }
@@ -1735,16 +1730,14 @@ public class NetManger {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("currency", currency);
         map.put("money", money);
-        map.put("password", pass);
+        map.put("password", URLEncoder.encode(pass));
         map.put("subName", subName);
         if (account.contains("@")) {
-            map.put("email", account);
+            map.put("email", URLEncoder.encode(account));
         } else {
             map.put("mobile", account);
         }
-
-        Log.d("transfer", "transfer:1557: " + map);
-        postRequest2("/api/pay/withdraw/transfer", map, (state, response) -> {
+        postRequest("/api/pay/withdraw/transfer", map, (state, response) -> {
             Log.d("transfer", "transfer: 1586: " + response);
             if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
@@ -1756,7 +1749,6 @@ public class NetManger {
     public void postRequest2(String url, ArrayMap map, OnNetResult onNetResult) {
         getURL2(url, map, (state, response) -> {
             if (state.equals(SUCCESS)) {
-                Log.d("transfer", "postRequest2: " + response.toString());
                 OkGo.<String>post(response.toString())
                         .execute(new StringCallback() {
                             @Override
@@ -1898,19 +1890,15 @@ public class NetManger {
         map.put("chain", chain);
         map.put("addressId", addressId);
         map.put("email", email);
-
-        map.put("password", password);
+        map.put("password", URLEncoder.encode(password));
         postRequest("/api/pay/withdraw/create", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("withdrawal", "withdrawal: " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode() == 200) {
-                    AddAddressItemEntity entity = new Gson().fromJson(response.toString(), AddAddressItemEntity.class);
-                    onNetResult.onNetResult(SUCCESS, entity);
-                } else {
-                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
-                }
+                onNetResult.onNetResult(SUCCESS, tipEntity);
+
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
 
@@ -1942,6 +1930,7 @@ public class NetManger {
         });
     }
 
+
     public void updateNickName(String username, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("username", username);
@@ -1957,7 +1946,6 @@ public class NetManger {
                 }
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
-
             }
         });
     }
