@@ -149,29 +149,34 @@ public class TradeUtil {
     /*订单盈亏*/
     public static String income(boolean isBuy, double price, double opPrice, double volume) {
         String income;
-
-        if (isBuy) {
-            income = getNumberFormat(mul(sub(price, opPrice), volume), 2);
+        if (opPrice == 0) {
+            return "0";
         } else {
-            income = getNumberFormat(mul(sub(opPrice, price), volume), 2);
-
+            if (isBuy) {
+                income = getNumberFormat(mul(sub(price, opPrice), volume), 2);
+            } else {
+                income = getNumberFormat(mul(sub(opPrice, price), volume), 2);
+            }
+            return income;
         }
 
-        return income;
+
     }
 
     /*浮动盈亏 需要的订单盈亏*/
     public static String incomeAdd(boolean isBuy, double price, double opPrice, double volume) {
         String income;
-
-        if (isBuy) {
-            income = getNumberFormat(mul(sub(price, opPrice), volume), 10);
-        } else {
-            income = getNumberFormat(mul(sub(opPrice, price), volume), 10);
-
+        if (opPrice==0){
+            return "0";
+        }else {
+            if (isBuy) {
+                income = getNumberFormat(mul(sub(price, opPrice), volume), 10);
+            } else {
+                income = getNumberFormat(mul(sub(opPrice, price), volume), 10);
+            }
+            return income;
         }
 
-        return income;
     }
 
 
@@ -240,8 +245,8 @@ public class TradeUtil {
                 double serviceCharge = dataBean.getServiceCharge();
                 TradeUtil.price(quoteList, dataBean.getContractCode(), response -> {
                     String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume);
-                   // String s = netIncome(Double.parseDouble(income1), serviceCharge);
-                    Log.d("hold", "getNetIncome:253:  "+income1);
+                    // String s = netIncome(Double.parseDouble(income1), serviceCharge);
+                    Log.d("hold", "getNetIncome:253:  " + income1);
 
                     incomeList.add(Double.parseDouble(income1));
                 });
@@ -251,7 +256,7 @@ public class TradeUtil {
 
         }
 
-        Log.d("hold", "getNetIncome:253:  "+incomeList);
+        Log.d("hold", "getNetIncome:253:  " + incomeList);
         if (incomeList.size() > 0) {
             double income = 0.0;
             for (int i = 0; i < incomeList.size(); i++) {
@@ -523,13 +528,13 @@ public class TradeUtil {
     }
 
     /*计算递延费   保证金*杠杆*费率 *0.00045*/
-    public static String deferFee(int priceDigit,String defer, double deferBase, String margin, double lever) {
+    public static String deferFee(int priceDigit, String defer, double deferBase, String margin, double lever) {
         if (margin == null) {
             return null;
         }
         String deferFee;
         if (defer.equals("true")) {
-            deferFee = TradeUtil.numberHalfUp(mul(mul(Double.parseDouble(margin), lever), deferBase),priceDigit);
+            deferFee = TradeUtil.numberHalfUp(mul(mul(Double.parseDouble(margin), lever), deferBase), priceDigit);
         } else {
             deferFee = "0";
         }
@@ -843,18 +848,20 @@ public class TradeUtil {
         }
         return deposit;
     }
+
     public static String depositMin(List<Integer> depositList) {
-        Log.d("print", "depositMin:847: "+depositList);
+        Log.d("print", "depositMin:847: " + depositList);
         String deposit = null;
         if (depositList.size() == 0) {
             deposit = null;
         } else if (depositList.size() == 1) {
             deposit = depositList.get(0) + "";
-        }else if (depositList.size() == 2) {
-            deposit = depositList.get(0) +"";
+        } else if (depositList.size() == 2) {
+            deposit = depositList.get(0) + "";
         }
         return deposit;
     }
+
     public static String marginMin(List<Integer> depositList) {
         String deposit = null;
         if (depositList.size() == 0) {

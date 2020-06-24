@@ -1240,6 +1240,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                         swipeRefreshLayout.setRefreshing(false);
                     }
                     positionEntity = (PositionEntity) response1;
+                    Log.d("print", "initData:持仓:  "+positionEntity.getData());
                     positionAdapter.setDatas(positionEntity.getData(), quoteList);
 
 
