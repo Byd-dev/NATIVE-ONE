@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_setup"
+        android:orientation="horizontal"
+
+        >
+
+        <EditText
+            android:id="@+id/edit_code"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_weight="1"
+            android:background="@null"
+            android:hint="@string/text_email_code"
+            android:inputType="number"
+            android:maxLength="6"
+            android:maxLines="1"
+            android:textColor="@color/text_main_color"
+            android:textColorHint="@color/color_hint"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/hint_size" />
+
+        <TextView
+            android:id="@+id/text_getCode"
+            android:layout_width="89dp"
+            android:layout_height="@dimen/margin_30"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@drawable/sel_switcher_round_bg"
+            android:gravity="center"
+            android:text="@string/text_get_code"
+            android:textColor="@color/color_code"
+            android:textSize="@dimen/size_normal" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

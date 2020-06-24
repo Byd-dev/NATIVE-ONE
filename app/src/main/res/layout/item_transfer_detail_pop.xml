@@ -57,171 +57,22 @@
         android:layout_height="@dimen/size_line"
         android:background="@color/home_line" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_setup">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:drawableLeft="@mipmap/icon_usdt"
-            android:drawablePadding="@dimen/margin_16"
-            android:gravity="center"
-            android:text="USDT"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal_two" />
-
-
-        <TextView
-            android:id="@+id/text_commission"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_15"
-            android:text="@string/text_default"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_big"
-            android:visibility="gone" />
-
-
-    </RelativeLayout>
+    <include layout="@layout/bar_usdt" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line"
         android:background="@color/home_line" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_setup"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edit_amount"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="@string/text_transfer_amount"
-            android:inputType="number"
-            android:maxLines="1"
-            android:textColor="@color/text_main_color"
-            android:textColorHint="@color/color_hint"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/hint_size" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginRight="@dimen/margin_15"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/text_available_money"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_big" />
-
-            <TextView
-                android:id="@+id/text_balance"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/text_default"
-                android:textColor="@color/maincolor"
-                android:textSize="@dimen/size_big" />
-
-        </LinearLayout>
-
-
-
-
-
-    </LinearLayout>
+    <include layout="@layout/bar_amount" />
 
     <include layout="@layout/layout_line" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_setup"
-        android:orientation="horizontal">
-
-        <EditText
-            android:id="@+id/edit_pass_withdraw"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="@string/text_pin"
-            android:inputType="textPassword"
-            android:maxLines="1"
-            android:textColor="@color/text_main_color"
-            android:textColorHint="@color/color_hint"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/hint_size" />
-
-
-        <ImageView
-            android:id="@+id/img_eye"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:paddingLeft="@dimen/margin_15"
-            android:paddingRight="@dimen/margin_15"
-            android:src="@mipmap/icon_eye_close" />
-
-
-    </LinearLayout>
+    <include layout="@layout/bar_fund_pass" />
 
     <include layout="@layout/layout_line" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_setup"
-        android:orientation="horizontal"
-
-        >
-
-        <EditText
-            android:id="@+id/edit_code"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginRight="@dimen/margin_10"
-            android:layout_weight="1"
-            android:background="@null"
-            android:hint="@string/text_email_code"
-            android:maxLines="1"
-            android:maxLength="6"
-            android:inputType="number"
-            android:textColor="@color/text_main_color"
-            android:textColorHint="@color/color_hint"
-            android:textCursorDrawable="@null"
-            android:textSize="@dimen/hint_size" />
-
-        <TextView
-            android:id="@+id/text_getCode"
-            android:layout_width="89dp"
-            android:layout_height="@dimen/margin_30"
-            android:layout_marginRight="@dimen/margin_15"
-            android:background="@drawable/bg_circle_main_color"
-            android:gravity="center"
-            android:text="@string/text_get_code"
-            android:textColor="@color/color_code"
-            android:textSize="@dimen/size_normal" />
-
-
-    </LinearLayout>
+    <include layout="@layout/bar_email_mobile_code" />
 
     <include layout="@layout/layout_line" />
 
@@ -248,7 +99,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
-            android:text="50-100000 USDT"
+            android:text="10-100000 USDT"
             android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_big" />
 

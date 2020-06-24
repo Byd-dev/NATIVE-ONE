@@ -31,14 +31,11 @@ import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.BalanceManger;
-import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
-
-import java.util.Observer;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -98,9 +95,9 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     private String LOAD = "load";
     private UnionRateEntity unionRateEntity;
     private TextView text_getCode;
-    private UserDetailEntity userDetailEntity;
     private TextView text_balance;
     private PopupWindow popupWindow;
+    private UserDetailEntity.UserBean user;
 
     @Override
     protected int setLayoutResourceID() {
@@ -173,8 +170,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         inviteRecordAdapter.setOnTransferClick(data -> {
             showTransferPopWindow(data);
         });
-
-
 
 
         view.findViewById(R.id.img_search).setOnClickListener(this);
@@ -299,6 +294,18 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
 
         EditText edit_amount = view.findViewById(R.id.edit_amount);
+
+        edit_amount.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                String value_amount = edit_amount.getText().toString();
+                if (value_amount.length()!=0){
+                    if (Double.parseDouble(value_amount)<10){
+                        edit_amount.setText("10");
+                    }
+                }
+            }
+        });
+
         EditText edit_pass = view.findViewById(R.id.edit_pass_withdraw);
         ImageView img_eye = view.findViewById(R.id.img_eye);
         img_eye.setOnClickListener(v -> {
@@ -372,7 +379,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                         TipEntity tipEntity = (TipEntity) response;
                         Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
                         if (tipEntity.isCheck() == true) {
-                            transfer(userDetailEntity.getUser().getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getAccount());
+                            transfer(user.getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getAccount());
                         } else {
                             Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -390,7 +397,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response;
                         if (tipEntity.isCheck() == true) {
-                            transfer(userDetailEntity.getUser().getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getAccount());
+                            transfer(user.getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getAccount());
 
                         } else {
                             Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -449,7 +456,19 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     @Override
     protected void initData() {
 
+        UserDetailEntity userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
 
+        if (userDetailEntity == null) {
+            NetManger.getInstance().userDetail((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    UserDetailEntity userDetailEntity2 = (UserDetailEntity) response;
+                    SPUtils.putData(AppConfig.DETAIL, userDetailEntity2);
+
+                }
+            });
+        } else {
+            user = userDetailEntity.getUser();
+        }
 
         NetManger.getInstance().inviteTopHistory("USDT", (state, response) -> {
             if (state.equals(BUSY)) {
@@ -541,7 +560,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                     if (type.equals(LOAD)) {
                         inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
 
-                    } else  {
+                    } else {
                         inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                         if (inviteListEntity.getData().size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
@@ -578,7 +597,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
             case R.id.img_search:
                 String edit_content = edit_search.getText().toString();
-                if (!edit_content.equals("")){
+                if (!edit_content.equals("")) {
                     getInviteList(REFRESH, 1, edit_content);
                 }
                 break;

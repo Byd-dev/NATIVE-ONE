@@ -54,7 +54,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     RecyclerView recyclerView;
     @BindView(R.id.img_record)
     ImageView img_record;
-    private UserDetailEntity userDetailEntity;
     @BindView(R.id.text_balance)
     TextView text_balance;
     @BindView(R.id.layout_view)
@@ -94,6 +93,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     private WithdrawalAddressSelectAdapter withdrawalAddressSelectAdapter;
     private WithdrawalAdressEntity withdrawalAdressEntity;
+    private UserDetailEntity.UserBean user;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -127,7 +127,16 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         img_right.setOnClickListener(this);
 
         withdrawalAddressSelectAdapter = new WithdrawalAddressSelectAdapter(getActivity());
-
+        edit_amount.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus){
+                String value_amount = edit_amount.getText().toString();
+                if (value_amount.length()!=0){
+                    if (Double.parseDouble(value_amount)<50){
+                        edit_amount.setText("50");
+                    }
+                }
+            }
+        });
 
         Util.setFourUnClick(edit_amount, edit_pass_withdraw, edit_address, edit_code, btn_submit);
         Util.setFourUnClick(edit_pass_withdraw, edit_amount, edit_address, edit_code, btn_submit);
@@ -180,16 +189,18 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initData() {
 
-        userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
+        UserDetailEntity userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
 
         if (userDetailEntity == null) {
             NetManger.getInstance().userDetail((state, response) -> {
                 if (state.equals(SUCCESS)) {
-                    userDetailEntity = (UserDetailEntity) response;
-                    SPUtils.putData(AppConfig.DETAIL, userDetailEntity);
+                    UserDetailEntity userDetailEntity2 = (UserDetailEntity) response;
+                    SPUtils.putData(AppConfig.DETAIL, userDetailEntity2);
 
                 }
             });
+        } else {
+            user = userDetailEntity.getUser();
         }
 
 
@@ -296,7 +307,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             TipEntity tipEntity = (TipEntity) response;
                             Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
                             if (tipEntity.isCheck() == true) {
-                                withdrawal(value_amount, userDetailEntity.getUser().getCurrency(),
+                                withdrawal(value_amount, user.getCurrency(),
                                         chain, addressId, account, value_pass);
 
                             } else {
@@ -316,7 +327,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             dismissProgressDialog();
                             TipEntity tipEntity = (TipEntity) response;
                             if (tipEntity.isCheck() == true) {
-                                withdrawal(value_amount, userDetailEntity.getUser().getCurrency(),
+                                withdrawal(value_amount, user.getCurrency(),
                                         chain, addressId, account, value_pass);
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
