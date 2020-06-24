@@ -1938,7 +1938,6 @@ public class NetManger {
                 }
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
-
             }
         });
     }
