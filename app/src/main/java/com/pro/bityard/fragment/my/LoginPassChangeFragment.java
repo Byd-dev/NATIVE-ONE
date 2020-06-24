@@ -537,7 +537,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     });
 
                 } else {
-                    NetManger.getInstance().checkMobileCode(phone, "CHANGE_PASSWORD", value_code, (state, response) -> {
+                    NetManger.getInstance().checkMobileCode(phone, "CHANGE_PASSWORD", value_code_mobile, (state, response) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
                         } else if (state.equals(SUCCESS)) {
