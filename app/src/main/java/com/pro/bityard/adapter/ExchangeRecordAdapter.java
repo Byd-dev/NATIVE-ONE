@@ -108,13 +108,13 @@ public class ExchangeRecordAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ChartUtil.setLeftImage(srcCurrency,((MyViewHolder) holder).text_coin_in);
             ChartUtil.setLeftImage(desCurrency,((MyViewHolder) holder).text_coin_out);
 
-            ((MyViewHolder) holder).text_price.setText(TradeUtil.getNumberFormat(datas.get(position).getPrice(),4));
+            ((MyViewHolder) holder).text_price.setText(TradeUtil.numberHalfUp(datas.get(position).getPrice(),4));
 
-            ((MyViewHolder) holder).text_exchange_fee.setText(TradeUtil.getNumberFormat(datas.get(position).getFee(),2));
+            ((MyViewHolder) holder).text_exchange_fee.setText(TradeUtil.numberHalfUp(datas.get(position).getFee(),2));
 
             ((MyViewHolder) holder).text_in_amount.setText(datas.get(position).getSrcMoney()+srcCurrency);
 
-            ((MyViewHolder) holder).text_out_amount.setText(datas.get(position).getDesMoney()+desCurrency);
+            ((MyViewHolder) holder).text_out_amount.setText(TradeUtil.numberHalfUp(datas.get(position).getDesMoney(),2)+desCurrency);
 
             ((MyViewHolder) holder).text_time.setText(ChartUtil.getDate(datas.get(position).getCreateTime()));
 

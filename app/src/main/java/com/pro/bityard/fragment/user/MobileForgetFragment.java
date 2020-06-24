@@ -18,14 +18,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ResetPassActivity;
 import com.pro.bityard.adapter.CountryCodeAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnGtUtilResult;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -48,7 +46,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class MobileForgetFragment extends BaseFragment implements View.OnClickListener{
+public class MobileForgetFragment extends BaseFragment implements View.OnClickListener {
 
 
     private ViewPager viewPager;
@@ -63,10 +61,10 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     @BindView(R.id.edit_account)
     EditText edit_account;
 
-    @BindView(R.id.edit_code)
+    @BindView(R.id.edit_code_mobile)
     EditText edit_code;
 
-    @BindView(R.id.text_getCode)
+    @BindView(R.id.text_getCode_mobile)
     TextView text_getCode;
 
     @BindView(R.id.btn_submit)
@@ -91,8 +89,6 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     private String geetestToken = null;
 
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +99,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     public MobileForgetFragment(ViewPager viewPager) {
         this.viewPager = viewPager;
     }
+
     public MobileForgetFragment() {
     }
 
@@ -130,7 +127,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
         });
 
         edit_code.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId== EditorInfo.IME_ACTION_DONE){
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 edit_code.clearFocus();
             }
             return false;
@@ -160,9 +157,9 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length()>4&&Util.isCode(s.toString())&&Util.isPhone(edit_account.getText().toString())){
+                if (s.length() > 4 && Util.isCode(s.toString()) && Util.isPhone(edit_account.getText().toString())) {
                     btn_submit.setEnabled(true);
-                }else {
+                } else {
                     btn_submit.setEnabled(false);
                 }
             }
@@ -209,7 +206,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     protected void initData() {
 
         //获取默认的国家区号 如果没有地理位置 就默认中国
-        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME,"中国");
+        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME, "中国");
 
         text_countryName.setText(country_name);
 
@@ -244,16 +241,15 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
             }
         }
 
-        String text_mobile = SPUtils.getString(AppConfig.USER_MOBILE,null);
-        if (text_mobile!=null) {
-            text_countryCode.setText(SPUtils.getString(AppConfig.USER_COUNTRY_CODE,null));
-            text_countryName.setText(SPUtils.getString(AppConfig.USER_COUNTRY_NAME,null));
-            edit_account.setText(SPUtils.getString(AppConfig.USER_MOBILE,null));
+        String text_mobile = SPUtils.getString(AppConfig.USER_MOBILE, null);
+        if (text_mobile != null) {
+            text_countryCode.setText(SPUtils.getString(AppConfig.USER_COUNTRY_CODE, null));
+            text_countryName.setText(SPUtils.getString(AppConfig.USER_COUNTRY_NAME, null));
+            edit_account.setText(SPUtils.getString(AppConfig.USER_MOBILE, null));
         }
 
 
     }
-
 
 
     @Override
@@ -276,21 +272,21 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                     return;
                 }
 
-             //   getCode(account_value, country_code);
+                //   getCode(account_value, country_code);
 
-                NetManger.getInstance().getMobileCode(country_code+account_value, "FORGOT_PASSWORD", (state, response1, response2) -> {
-                    if (state.equals(BUSY)){
+                NetManger.getInstance().getMobileCode(country_code + account_value, "FORGOT_PASSWORD", (state, response1, response2) -> {
+                    if (state.equals(BUSY)) {
                         showProgressDialog();
-                    }else if (state.equals(SUCCESS)) {
+                    } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
-                           mHandler.obtainMessage(0).sendToTarget();
-                        }else if (tipEntity.getCode()==500){
+                            mHandler.obtainMessage(0).sendToTarget();
+                        } else if (tipEntity.getCode() == 500) {
                             Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
-                    }else if (state.equals(FAILURE)){
+                    } else if (state.equals(FAILURE)) {
                         dismissProgressDialog();
                     }
                 });
@@ -298,7 +294,6 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
 
             case R.id.btn_submit:
                 //1  人机  2 发送验证码  3 验证验证码 4 验证账号 5改密
-
 
 
                 String code_value = edit_code.getText().toString();
@@ -311,7 +306,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                     return;
                 }
                 //1验证验证码
-              //  checkCode(country_code, account_value, code_value);
+                //  checkCode(country_code, account_value, code_value);
 
                 NetManger.getInstance().checkMobileCode(country_code + account_value, "FORGOT_PASSWORD", code_value, (state, response) -> {
                     if (state.equals(BUSY)) {
@@ -454,10 +449,6 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     }
 
 
-
-
-
-
     /*3账号验证*/
     private void checkAccount(String country_code, String account_value) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -502,9 +493,8 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 200) {
                         String token = tipEntity.getToken();
-                        ResetPassActivity.enter(getContext(),token);
+                        ResetPassActivity.enter(getContext(), token);
                         getActivity().finish();
-
 
 
                     } else {
@@ -544,7 +534,6 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
         super.onDestroy();
         Gt3Util.getInstance().destroy();
     }
-
 
 
 }

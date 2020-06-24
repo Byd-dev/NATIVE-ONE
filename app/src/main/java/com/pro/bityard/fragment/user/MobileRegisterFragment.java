@@ -65,7 +65,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     EditText edit_account;
     @BindView(R.id.edit_pass)
     EditText edit_password;
-    @BindView(R.id.edit_code)
+    @BindView(R.id.edit_code_mobile)
     EditText edit_code;
     @BindView(R.id.text_countryCode)
     TextView text_countryCode;
@@ -98,7 +98,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
     private CountryCodeEntity countryCodeEntity;
 
-    @BindView(R.id.text_getCode)
+    @BindView(R.id.text_getCode_mobile)
     TextView text_getCode;
     private String countryID;
 

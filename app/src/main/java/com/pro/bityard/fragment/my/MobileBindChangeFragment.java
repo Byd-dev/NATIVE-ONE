@@ -57,7 +57,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
     EditText edit_account;
 
 
-    @BindView(R.id.edit_code)
+    @BindView(R.id.edit_code_mobile)
     EditText edit_code;
     @BindView(R.id.text_countryCode)
     TextView text_countryCode;
@@ -83,7 +83,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
 
     private CountryCodeEntity countryCodeEntity;
 
-    @BindView(R.id.text_getCode)
+    @BindView(R.id.text_getCode_mobile)
     TextView text_getCode;
     private String googleToken;
     private LoginEntity loginEntity;

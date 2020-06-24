@@ -28,7 +28,6 @@ public class SmsTimeUtils {
 
     public final static int INVITE = 9;
 
-    public final static int LOGIN_PASS_CHANGE = 10;
     public final static int LOGIN_PASS_FORGET = 11;
 
     public final static int WITHDRAWAL = 12;
@@ -37,6 +36,8 @@ public class SmsTimeUtils {
     public final static int EMAIL_CHANGE = 14;
     public final static int TRANSFER = 15;
 
+    public final static int LOGIN_PASS_CHANGE_EMAIL = 16;
+    public final static int LOGIN_PASS_CHANGE_MOBILE = 17;
 
     /*设置提现账户
       预计结束的时间*/
@@ -66,6 +67,10 @@ public class SmsTimeUtils {
     private static long MOBILE_CHANGE_TIME_END = 0;
     private static long EMAIL_CHANGE_TIME_END = 0;
     private static long TRANSFER_TIME_END = 0;
+
+    private static long LOGIN_PASS_CHANGE_EMAIL_TIME_END = 0;
+    private static long LOGIN_PASS_CHANGE_MOBILE_TIME_END = 0;
+
 
     /**
      * 检查是否超过60秒
@@ -107,9 +112,6 @@ public class SmsTimeUtils {
             case INVITE:
                 time = INVITE_TIME_END;
                 break;
-            case LOGIN_PASS_CHANGE:
-                time = LOGIN_PASS_CHANGE_TIME_END;
-                break;
             case LOGIN_PASS_FORGET:
                 time = LOGIN_PASS_FORGET_TIME_END;
                 break;
@@ -123,7 +125,13 @@ public class SmsTimeUtils {
                 time = EMAIL_CHANGE_TIME_END;
                 break;
             case TRANSFER:
-                time=TRANSFER_TIME_END;
+                time = TRANSFER_TIME_END;
+                break;
+            case LOGIN_PASS_CHANGE_EMAIL:
+                time = LOGIN_PASS_CHANGE_EMAIL_TIME_END;
+                break;
+            case LOGIN_PASS_CHANGE_MOBILE:
+                time = LOGIN_PASS_CHANGE_MOBILE_TIME_END;
                 break;
         }
         if (data > time) {
@@ -159,9 +167,6 @@ public class SmsTimeUtils {
                     case INVITE:
                         INVITE_TIME_END = time;
                         break;
-                    case LOGIN_PASS_CHANGE:
-                        LOGIN_PASS_CHANGE_TIME_END = time;
-                        break;
                     case LOGIN_PASS_FORGET:
                         LOGIN_PASS_FORGET_TIME_END = time;
                         break;
@@ -175,7 +180,13 @@ public class SmsTimeUtils {
                         EMAIL_CHANGE_TIME_END = time;
                         break;
                     case TRANSFER:
-                        TRANSFER_TIME_END=time;
+                        TRANSFER_TIME_END = time;
+                        break;
+                    case LOGIN_PASS_CHANGE_EMAIL:
+                        LOGIN_PASS_CHANGE_EMAIL_TIME_END = time;
+                        break;
+                    case LOGIN_PASS_CHANGE_MOBILE:
+                        LOGIN_PASS_CHANGE_MOBILE_TIME_END = time;
                         break;
                 }
             }

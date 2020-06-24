@@ -3,24 +3,30 @@
     android:id="@+id/layout_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:background="@color/background_maincolor"
     android:orientation="vertical">
     <!--bar-->
     <include layout="@layout/layout_bar" />
 
     <!--旧密码-->
-    <include layout="@layout/layout_old_pass"/>
+    <include layout="@layout/layout_old_pass" />
 
     <!--新密码-->
-    <include layout="@layout/layout_new_pass"/>
+    <include layout="@layout/layout_new_pass" />
 
     <!--密码-->
-    <include layout="@layout/layout_ensure_pass"/>
+    <include layout="@layout/layout_ensure_pass" />
 
     <!--邮箱验证码-->
-    <include layout="@layout/layout_code"/>
+    <include layout="@layout/layout_code" />
+
+    <!--短信验证码-->
+    <include
+        android:id="@+id/layout_mobile"
+        layout="@layout/layout_code_very"
+        android:visibility="gone" />
 
 
     <!--登录button-->
@@ -45,13 +51,13 @@
         android:id="@+id/text_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/text_verify_by_mobile"
         android:layout_marginLeft="@dimen/margin_25"
-        android:gravity="center"
         android:layout_marginRight="@dimen/margin_25"
-        android:paddingBottom="@dimen/margin_10"
+        android:gravity="center"
         android:paddingTop="@dimen/margin_10"
-        android:visibility="visible"
+        android:paddingBottom="@dimen/margin_10"
+        android:text="@string/text_verify_by_mobile"
         android:textColor="@color/maincolor"
-        android:textSize="@dimen/size_normal_two" />
+        android:textSize="@dimen/size_normal_two"
+        android:visibility="visible" />
 </LinearLayout>

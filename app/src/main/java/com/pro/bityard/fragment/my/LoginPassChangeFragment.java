@@ -6,8 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +28,8 @@ import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
+import java.net.URLEncoder;
+
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 
@@ -47,6 +48,8 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     EditText edit_pass_sure;
     @BindView(R.id.edit_code)
     EditText edit_code;
+    @BindView(R.id.edit_code_mobile)
+    EditText edit_code_mobile;
 
     @BindView(R.id.btn_submit)
     Button btn_submit;
@@ -87,12 +90,23 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     TextView text_confirm;
     private String value;
 
+    @BindView(R.id.layout_mobile)
+    LinearLayout layout_mobile;
+    @BindView(R.id.layout_code)
+    LinearLayout layout_code;
+    @BindView(R.id.text_getCode_mobile)
+    TextView text_getCode_mobile;
     private boolean isEmail = true;
 
 
     @Override
     protected void onLazyLoad() {
 
+    }
+
+    @Override
+    protected int setLayoutResourceID() {
+        return R.layout.fragment_change_login_pass;
     }
 
     @Override
@@ -112,6 +126,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
 
         text_getCode.setOnClickListener(this);
+        text_getCode_mobile.setOnClickListener(this);
 
         img_eye_old.setOnClickListener(this);
         img_eye_new.setOnClickListener(this);
@@ -129,14 +144,27 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                 if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
                         && Util.isPass(edit_pass_old.getText().toString())) {
                     text_getCode.setEnabled(true);
-                    if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
-                            && Util.isCode(edit_code.getText().toString())) {
-                        btn_submit.setEnabled(true);
-                    } else {
-                        btn_submit.setEnabled(false);
+                    text_getCode_mobile.setEnabled(true);
+                    if (isEmail){
+                        if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                                && Util.isCode(edit_code.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+                        }
+                    }else {
+                        if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                                && Util.isCode(edit_code_mobile.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+                        }
                     }
+
                 } else {
                     text_getCode.setEnabled(false);
+                    text_getCode_mobile.setEnabled(false);
+
                 }
 
             } else if (response.toString().equals("0")) {
@@ -158,14 +186,28 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                 if (Util.isPass(edit_pass_sure.getText().toString())
                         && Util.isPass(edit_pass_old.getText().toString())) {
                     text_getCode.setEnabled(true);
-                    if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
-                            && Util.isCode(edit_code.getText().toString())) {
-                        btn_submit.setEnabled(true);
-                    } else {
-                        btn_submit.setEnabled(false);
+                    text_getCode_mobile.setEnabled(true);
+                    if (isEmail){
+                        if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                                && Util.isCode(edit_code.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+
+                        }
+                    }else {
+                        if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_sure.getText().toString())
+                                && Util.isCode(edit_code_mobile.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+                        }
                     }
+
                 } else {
                     text_getCode.setEnabled(false);
+                    text_getCode_mobile.setEnabled(false);
+
                 }
             } else if (response.toString().equals("0")) {
                 text_err_pass_new.setVisibility(View.VISIBLE);
@@ -186,14 +228,27 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
 
                 if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_old.getText().toString())) {
                     text_getCode.setEnabled(true);
-                    if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
-                            && Util.isCode(edit_code.getText().toString())) {
-                        btn_submit.setEnabled(true);
-                    } else {
-                        btn_submit.setEnabled(false);
+                    text_getCode_mobile.setEnabled(true);
+                    if (isEmail){
+                        if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
+                                && Util.isCode(edit_code.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+                        }
+                    }else {
+                        if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
+                                && Util.isCode(edit_code_mobile.getText().toString())) {
+                            btn_submit.setEnabled(true);
+                        } else {
+                            btn_submit.setEnabled(false);
+                        }
                     }
+
                 } else {
                     text_getCode.setEnabled(false);
+                    text_getCode_mobile.setEnabled(false);
+
                 }
             } else if (response.toString().equals("0")) {
                 text_err_pass_sure.setVisibility(View.VISIBLE);
@@ -231,13 +286,31 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
             }
         });
 
+        edit_code_mobile.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 4 && Util.isCode(s.toString())
+                        && Util.isPass(edit_pass_old.getText().toString())
+                        && Util.isPass(edit_pass_new.getText().toString())
+                        && Util.isPass(edit_pass_sure.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_change_login_pass;
-    }
 
     @Override
     protected void intPresenter() {
@@ -257,14 +330,14 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
 
         if (account.contains("@")) {
             isEmail = true;
-            text_email_mobile.setText(getResources().getString(R.string.text_email_code));
-            edit_code.setHint(getResources().getString(R.string.text_email_code_input));
+            layout_code.setVisibility(View.VISIBLE);
+            layout_mobile.setVisibility(View.GONE);
             text_confirm.setText(getResources().getText(R.string.text_verify_by_mobile) + " ->");
 
         } else {
             isEmail = false;
-            text_email_mobile.setText(getResources().getString(R.string.text_mobile_code));
-            edit_code.setHint(getResources().getString(R.string.text_mobile_code_input));
+            layout_code.setVisibility(View.GONE);
+            layout_mobile.setVisibility(View.VISIBLE);
             text_confirm.setText(getString(R.string.text_verify_by_email) + " ->");
         }
         if (email.equals("")) {
@@ -280,7 +353,6 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
     protected void initData() {
 
 
-
     }
 
     /*获取倒计时*/
@@ -292,8 +364,12 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
             super.handleMessage(msg);
             switch (msg.what) {
                 case 0:
-                    SmsTimeUtils.check(SmsTimeUtils.LOGIN_PASS_CHANGE, false);
+                    SmsTimeUtils.check(SmsTimeUtils.LOGIN_PASS_CHANGE_EMAIL, false);
                     SmsTimeUtils.startCountdown(text_getCode);
+                    break;
+                case 1:
+                    SmsTimeUtils.check(SmsTimeUtils.LOGIN_PASS_CHANGE_MOBILE, false);
+                    SmsTimeUtils.startCountdown(text_getCode_mobile);
                     break;
                 default:
                     break;
@@ -313,42 +389,37 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                 getActivity().finish();
                 break;
             case R.id.img_eye_old:
-                if (eyeOld) {
-                    edit_pass_old.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye_old.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-                    eyeOld = false;
-                } else {
-                    edit_pass_old.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    img_eye_old.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                    eyeOld = true;
-                }
+                Util.setEye(getActivity(), edit_pass_old, img_eye_old);
+
                 break;
             case R.id.img_eye_new:
-                if (eyeNew) {
-                    edit_pass_new.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-                    eyeNew = false;
-                } else {
-                    edit_pass_new.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                    eyeNew = true;
-                }
+                Util.setEye(getActivity(), edit_pass_new, img_eye_new);
+
                 break;
             case R.id.img_eye_sure:
-                if (eyeSure) {
-                    edit_pass_sure.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-                    eyeSure = false;
-                } else {
-                    edit_pass_sure.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                    eyeSure = true;
-                }
+                Util.setEye(getActivity(), edit_pass_sure, img_eye_sure);
+
                 break;
             case R.id.text_getCode:
+                NetManger.getInstance().getEmailCode(email, "CHANGE_PASSWORD", (state, response1, response2) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = (TipEntity) response2;
+                        if (tipEntity.getCode() == 200) {
+                            googleToken = (String) response1;
+                            mHandler.obtainMessage(0).sendToTarget();
+                        } else if (tipEntity.getCode() == 500) {
+                            Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
+                        }
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
 
-                if (isEmail) {
+            /*    if (isEmail) {
                     NetManger.getInstance().getEmailCode(email, "CHANGE_PASSWORD", (state, response1, response2) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
@@ -357,9 +428,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             TipEntity tipEntity = (TipEntity) response2;
                             if (tipEntity.getCode() == 200) {
                                 googleToken = (String) response1;
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
+                                mHandler.obtainMessage(0).sendToTarget();
                             } else if (tipEntity.getCode() == 500) {
                                 Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -377,9 +446,8 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             TipEntity tipEntity = (TipEntity) response2;
                             if (tipEntity.getCode() == 200) {
                                 googleToken = (String) response1;
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
+                                mHandler.obtainMessage(1).sendToTarget();
+
                             } else if (tipEntity.getCode() == 500) {
                                 Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -389,16 +457,36 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                         }
                     });
 
-                }
+                }*/
 
 
                 break;
+            case R.id.text_getCode_mobile:
+                NetManger.getInstance().getMobileCode(phone, "CHANGE_PASSWORD", (state, response1, response2) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = (TipEntity) response2;
+                        if (tipEntity.getCode() == 200) {
+                            googleToken = (String) response1;
+                            mHandler.obtainMessage(1).sendToTarget();
 
+                        } else if (tipEntity.getCode() == 500) {
+                            Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
+                break;
             case R.id.btn_submit:
                 String value_pass_old = edit_pass_old.getText().toString();
                 String value_pass_new = edit_pass_new.getText().toString();
                 String value_pass_sure = edit_pass_sure.getText().toString();
                 String value_code = edit_code.getText().toString();
+                String value_code_mobile = edit_code_mobile.getText().toString();
 
                 if (value_pass_old.equals("")) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.text_old_pass_input), Toast.LENGTH_SHORT).show();
@@ -413,10 +501,19 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     return;
                 }
 
-                if (value_code.equals("")) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.text_email_code_input), Toast.LENGTH_SHORT).show();
-                    return;
+                if (isEmail){
+                    if (value_code.equals("")) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.text_email_code_input), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                }else {
+                    if (value_code_mobile.equals("")) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.text_mobile_code_input), Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
+
+
 
                 if (!value_pass_new.equals(value_pass_sure)) {
                     Toast.makeText(getActivity(), R.string.text_pass_different, Toast.LENGTH_SHORT).show();
@@ -430,7 +527,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             dismissProgressDialog();
                             TipEntity tipEntity = (TipEntity) response;
                             if (tipEntity.getCode() == 200) {
-                                changePass(email, value_pass_old, value_pass_new);
+                                changePass(email, URLEncoder.encode(value_pass_old), URLEncoder.encode(value_pass_new));
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -447,7 +544,7 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                             dismissProgressDialog();
                             TipEntity tipEntity = (TipEntity) response;
                             if (tipEntity.getCode() == 200) {
-                                changePass(phone, value_pass_old, value_pass_new);
+                                changePass(phone, URLEncoder.encode(value_pass_old), URLEncoder.encode(value_pass_new));
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -463,13 +560,13 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
 
             case R.id.text_confirm:
                 if (isEmail) {
-                    text_email_mobile.setText(getResources().getString(R.string.text_mobile_code));
-                    edit_code.setHint(getResources().getString(R.string.text_mobile_code_input));
+                    layout_code.setVisibility(View.GONE);
+                    layout_mobile.setVisibility(View.VISIBLE);
                     text_confirm.setText(getString(R.string.text_verify_by_email) + " ->");
                     isEmail = false;
                 } else {
-                    text_email_mobile.setText(getResources().getString(R.string.text_email_code));
-                    edit_code.setHint(getResources().getString(R.string.text_email_code_input));
+                    layout_code.setVisibility(View.VISIBLE);
+                    layout_mobile.setVisibility(View.GONE);
                     text_confirm.setText(getResources().getText(R.string.text_verify_by_mobile) + " ->");
                     isEmail = true;
                 }
