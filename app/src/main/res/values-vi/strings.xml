@@ -405,5 +405,7 @@
     <string name="text_input_ensure">Nhập lại mật khẩu mới</string>
     <string name="text_verify_by_mobile">Xác thực qua số điện thoại</string>
     <string name="text_verify_by_email">Xác thực qua Email</string>
+    <string name="text_recipient">Tài khoản đích</string>
+    <string name="text_enter_user_name">Nhập tên người dùng</string>
 
 </resources>

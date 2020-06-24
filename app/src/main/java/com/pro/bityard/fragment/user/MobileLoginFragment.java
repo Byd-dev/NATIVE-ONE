@@ -39,6 +39,7 @@ import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -309,7 +310,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                         map.put("vHash", Util.Random32());
                         map.put("username", (code_value + account_value));//默认加上区号
-                        map.put("password", pass_value);
+                        map.put("password", URLEncoder.encode(pass_value));
                         map.put("contryCode", code_value);
                         map.put("geetestToken", geetestToken);
                         map.put("terminal", "Android");

@@ -147,26 +147,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
         });
 
 
-        //验证码输入框焦点的监听
-       /* Util.isCodeEffective(edit_code, response -> {
-            if (response.toString().equals("1")) {
-                text_err_code.setVisibility(View.GONE);
-                layout_code.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-                if (Util.isEmail(edit_account.getText().toString())) {
-                    btn_submit.setEnabled(true);
-                } else {
-                    btn_submit.setEnabled(false);
-                }
-            } else if (response.toString().equals("0")) {
-                text_err_code.setVisibility(View.VISIBLE);
-                layout_code.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
-                btn_submit.setEnabled(false);
-            } else if (response.toString().equals("-1")) {
-                text_err_code.setVisibility(View.GONE);
-                layout_code.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-                btn_submit.setEnabled(false);
-            }
-        });*/
+
 
     }
 
@@ -215,9 +196,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
-                            mHandler.sendEmptyMessage(0);
-                            Message msg = new Message();
-                            mHandler.sendMessage(msg);
+                            mHandler.obtainMessage(0).sendToTarget();
                         }
                     } else if (state.equals(FAILURE)) {
                         dismissProgressDialog();
@@ -242,7 +221,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                 //1验证验证码
                 //  checkCode(account_value, code_value);
 
-                NetManger.getInstance().checkEmailCode(account_value, "REGISTER", code_value, (state, response) -> {
+                NetManger.getInstance().checkEmailCode(account_value, "FORGOT_PASSWORD", code_value, (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -266,89 +245,6 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
-    /*1获取验证码*/
-    private void getCode(String account_value) {
-
-
-        Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
-
-            @Override
-            public void onApi1Result(String result) {
-                geetestToken = result;
-
-            }
-
-            @Override
-            public void onSuccessResult(String result) {
-                ArrayMap<String, String> map = new ArrayMap<>();
-
-                map.put("account", account_value);
-                map.put("type", "FORGOT_PASSWORD");
-                map.put("geetestToken", geetestToken);
-                NetManger.getInstance().postRequest("/api/system/sendEmail", map, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            dismissProgressDialog();
-                            TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                            if (tipEntity.getCode() == 200) {
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
-                            } else if (tipEntity.getCode() == 500) {
-                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
-                Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
-
-    /*2校验验证码*/
-    private void checkCode(String account_value, String code_value) {
-        ArrayMap<String, String> map = new ArrayMap<>();
-
-        map.put("account", account_value);
-        map.put("type", "FORGOT_PASSWORD");
-        map.put("code", code_value);
-
-        NetManger.getInstance().postRequest("/api/system/checkEmail", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
-                        //2 验证账号
-                        checkAccount(account_value);
-
-                    } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
-                }
-            }
-        });
-
-    }
 
     /*3账号验证*/
     private void checkAccount(String account_value) {

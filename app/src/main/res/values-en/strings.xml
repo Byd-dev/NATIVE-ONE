@@ -404,5 +404,7 @@
     <string name="text_input_ensure">Confirm New Password</string>
     <string name="text_verify_by_mobile">Verify By Mobile</string>
     <string name="text_verify_by_email">Verify By Email</string>
+    <string name="text_recipient">Recipient</string>
+    <string name="text_enter_user_name">Enter User Name</string>
 
 </resources>

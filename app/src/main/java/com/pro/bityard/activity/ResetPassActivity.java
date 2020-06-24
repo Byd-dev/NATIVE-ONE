@@ -3,14 +3,13 @@ package com.pro.bityard.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -18,12 +17,11 @@ import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
-import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.TipEntity;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -35,21 +33,32 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
     LinearLayout layout_view;
 
 
-    @BindView(R.id.edit_pass)
-    EditText edit_password;
+    @BindView(R.id.edit_pass_sure)
+    EditText edit_pass_sure;
 
     @BindView(R.id.edit_pass_new)
-    EditText edit_password_new;
+    EditText edit_pass_new;
 
 
+    @BindView(R.id.btn_submit)
+    Button btn_submit;
 
-    @BindView(R.id.img_eye)
-    ImageView img_eye;
+
+    @BindView(R.id.img_eye_sure)
+    ImageView img_eye_sure;
 
     @BindView(R.id.img_eye_new)
     ImageView img_eye_new;
     private String token;
 
+    @BindView(R.id.layout_pass_new)
+    LinearLayout layout_pass_new;
+    @BindView(R.id.text_err_pass_new)
+    TextView text_err_pass_new;
+    @BindView(R.id.layout_pass_sure)
+    LinearLayout layout_pass_sure;
+    @BindView(R.id.text_err_pass_sure)
+    TextView text_err_pass_sure;
 
     public static void enter(Context context, String token) {
         Intent intent = new Intent(context, ResetPassActivity.class);
@@ -63,13 +72,63 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
 
         StatusBarUtil.setStatusBarDarkTheme(this, false);
 
-
-        findViewById(R.id.btn_submit).setOnClickListener(this);
+        edit_pass_sure.setHint(getResources().getString(R.string.text_edit_pass_new_sure));
+        btn_submit.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.text_right).setOnClickListener(this);
-        img_eye.setOnClickListener(this);
+        img_eye_sure.setOnClickListener(this);
         img_eye_new.setOnClickListener(this);
 
+        Util.isPassEffective(edit_pass_new, response -> {
+            if (response.toString().equals("1")) {
+                text_err_pass_new.setVisibility(View.GONE);
+                layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                if (Util.isPass(edit_pass_sure.getText().toString())) {
+                    btn_submit.setEnabled(true);
+
+                } else {
+                    btn_submit.setEnabled(false);
+
+                }
+
+            } else if (response.toString().equals("0")) {
+                text_err_pass_new.setVisibility(View.VISIBLE);
+                layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_pass_new.setVisibility(View.GONE);
+                layout_pass_new.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+
+        });
+
+
+        //确认新密码
+        Util.isPassEffective(edit_pass_sure, response -> {
+            if (response.toString().equals("1")) {
+                text_err_pass_sure.setVisibility(View.GONE);
+                layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+
+                if (Util.isPass(edit_pass_new.getText().toString())
+                ) {
+                    btn_submit.setEnabled(true);
+
+                } else {
+                    btn_submit.setEnabled(false);
+
+                }
+            } else if (response.toString().equals("0")) {
+                text_err_pass_sure.setVisibility(View.VISIBLE);
+                layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                btn_submit.setEnabled(false);
+            } else if (response.toString().equals("-1")) {
+                text_err_pass_sure.setVisibility(View.GONE);
+                layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                btn_submit.setEnabled(false);
+            }
+
+        });
 
     }
 
@@ -109,64 +168,49 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.img_eye:
-                if (eye) {
-                    edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-                    eye = false;
-                } else  {
-                    edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                    eye = true;
-                }
+            case R.id.img_eye_sure:
+                Util.setEye(this, edit_pass_sure, img_eye_sure);
                 break;
             case R.id.img_eye_new:
-                if (eyeNew) {
-                    edit_password_new.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
-                    eyeNew = false;
-                } else  {
-                    edit_password_new.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
-                    eyeNew = true;
-                }
-                break;
+                Util.setEye(this, edit_pass_new, img_eye_new);
 
+
+                break;
 
 
             case R.id.btn_submit:
 
-                String pass_new_value = edit_password_new.getText().toString();
+                String pass_new_value = edit_pass_new.getText().toString();
 
-                if (pass_new_value.equals("")){
-                    Toast.makeText(ResetPassActivity.this,getResources().getString(R.string.text_edit_pass_new),Toast.LENGTH_SHORT).show();
+                if (pass_new_value.equals("")) {
+                    Toast.makeText(ResetPassActivity.this, getResources().getString(R.string.text_edit_pass_new), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String pass_confirm_value = edit_password.getText().toString();
+                String pass_confirm_value = edit_pass_sure.getText().toString();
 
-                if (pass_confirm_value.equals("")){
-                    Toast.makeText(ResetPassActivity.this,getResources().getString(R.string.text_edit_pass_new_sure),Toast.LENGTH_SHORT).show();
+                if (pass_confirm_value.equals("")) {
+                    Toast.makeText(ResetPassActivity.this, getResources().getString(R.string.text_edit_pass_new_sure), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("token", token);
-                map.put("newPassword",pass_new_value);
-                map.put("cfmPassword",pass_confirm_value);
+                map.put("newPassword", pass_new_value);
+                map.put("cfmPassword", pass_confirm_value);
 
                 NetManger.getInstance().postRequest("/api/forgot/reset-password", map, new OnNetResult() {
                     @Override
                     public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)){
+                        if (state.equals(BUSY)) {
                             showProgressDialog();
-                        }else if (state.equals(SUCCESS)){
+                        } else if (state.equals(SUCCESS)) {
                             dismissProgressDialog();
                             TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                            if (tipEntity.getCode()==200){
-                                Toast.makeText(ResetPassActivity.this,"修改成功!",Toast.LENGTH_SHORT).show();
+                            if (tipEntity.getCode() == 200) {
+                                Toast.makeText(ResetPassActivity.this, "修改成功!", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
-                        }else if (state.equals(FAILURE)){
+                        } else if (state.equals(FAILURE)) {
                             dismissProgressDialog();
                         }
                     }

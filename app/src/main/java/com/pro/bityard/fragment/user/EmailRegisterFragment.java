@@ -30,6 +30,7 @@ import com.pro.bityard.utils.Util;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -272,7 +273,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 Log.d("print", "onClick:加密后:  " + value_sign);
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("email", account_value);
-                map.put("password", pass_value);
+                map.put("password", URLEncoder.encode(pass_value));
                 map.put("sign", value_sign);
 
                 NetManger.getInstance().checkEmailCode(account_value, "REGISTER", code_value, (state, response) -> {

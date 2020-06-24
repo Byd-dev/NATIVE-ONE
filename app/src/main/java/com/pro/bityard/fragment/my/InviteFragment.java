@@ -37,6 +37,8 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
+import java.net.URLEncoder;
+
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -379,7 +381,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                         TipEntity tipEntity = (TipEntity) response;
                         Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
                         if (tipEntity.isCheck() == true) {
-                            transfer(user.getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getAccount());
+                            transfer(user.getCurrency(), value_amount, URLEncoder.encode(value_pass), dataBean.getUsername(), loginEntity.getUser().getAccount());
                         } else {
                             Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -397,7 +399,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response;
                         if (tipEntity.isCheck() == true) {
-                            transfer(user.getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getAccount());
+                            transfer(user.getCurrency(), value_amount, URLEncoder.encode(value_pass), dataBean.getUsername(), loginEntity.getUser().getAccount());
 
                         } else {
                             Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -506,14 +508,19 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 }
             }
         });
-        NetManger.getInstance().unionRate((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                unionRateEntity = (UnionRateEntity) response;
-                //退出需要清除
-                SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
 
-            }
-        });
+       unionRateEntity= SPUtils.getData(AppConfig.KEY_UNION,UnionRateEntity.class);
+        Log.d("print", "initData:513:  "+unionRateEntity);
+       if (unionRateEntity==null){
+           NetManger.getInstance().unionRate((state, response) -> {
+               if (state.equals(SUCCESS)) {
+                   unionRateEntity = (UnionRateEntity) response;
+                   //退出需要清除
+                   SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+               }
+           });
+       }
+
         page = 1;
         getInviteList(FIRST, page, null);
 

@@ -35,7 +35,7 @@ public class SmsTimeUtils {
 
     public final static int MOBILE_CHANGE = 13;
     public final static int EMAIL_CHANGE = 14;
-
+    public final static int TRANSFER = 15;
 
 
     /*设置提现账户
@@ -65,6 +65,7 @@ public class SmsTimeUtils {
     private static TextView tvSendCode;
     private static long MOBILE_CHANGE_TIME_END = 0;
     private static long EMAIL_CHANGE_TIME_END = 0;
+    private static long TRANSFER_TIME_END = 0;
 
     /**
      * 检查是否超过60秒
@@ -104,7 +105,7 @@ public class SmsTimeUtils {
                 time = FUND_PASS_FORGET_TIME_END;
                 break;
             case INVITE:
-                time=INVITE_TIME_END;
+                time = INVITE_TIME_END;
                 break;
             case LOGIN_PASS_CHANGE:
                 time = LOGIN_PASS_CHANGE_TIME_END;
@@ -113,13 +114,16 @@ public class SmsTimeUtils {
                 time = LOGIN_PASS_FORGET_TIME_END;
                 break;
             case WITHDRAWAL:
-                time=WITHDRAWAL_TIME_END;
+                time = WITHDRAWAL_TIME_END;
                 break;
             case MOBILE_CHANGE:
-                time=MOBILE_CHANGE_TIME_END;
+                time = MOBILE_CHANGE_TIME_END;
                 break;
             case EMAIL_CHANGE:
-                time=EMAIL_CHANGE_TIME_END;
+                time = EMAIL_CHANGE_TIME_END;
+                break;
+            case TRANSFER:
+                time=TRANSFER_TIME_END;
                 break;
         }
         if (data > time) {
@@ -141,34 +145,37 @@ public class SmsTimeUtils {
                         MOBILE_FORGET_TIME_END = time;
                         break;
                     case EMAIL_BIND:
-                       EMAIL_BIND_TIME_END=time;
+                        EMAIL_BIND_TIME_END = time;
                         break;
                     case MOBILE_BIND:
-                          MOBILE_BIND_TIME_END=time;
+                        MOBILE_BIND_TIME_END = time;
                         break;
                     case FUND_PASS_CHANGE:
-                          FUND_PASS_CHANGE_TIME_END=time;
+                        FUND_PASS_CHANGE_TIME_END = time;
                         break;
                     case FUND_PASS_FORGET:
-                        FUND_PASS_FORGET_TIME_END=time;
+                        FUND_PASS_FORGET_TIME_END = time;
                         break;
                     case INVITE:
-                        INVITE_TIME_END=time;
+                        INVITE_TIME_END = time;
                         break;
                     case LOGIN_PASS_CHANGE:
-                        LOGIN_PASS_CHANGE_TIME_END=time;
+                        LOGIN_PASS_CHANGE_TIME_END = time;
                         break;
                     case LOGIN_PASS_FORGET:
-                        LOGIN_PASS_FORGET_TIME_END=time;
+                        LOGIN_PASS_FORGET_TIME_END = time;
                         break;
                     case WITHDRAWAL:
-                        WITHDRAWAL_TIME_END=time;
+                        WITHDRAWAL_TIME_END = time;
                         break;
                     case MOBILE_CHANGE:
-                        MOBILE_CHANGE_TIME_END=time;
+                        MOBILE_CHANGE_TIME_END = time;
                         break;
                     case EMAIL_CHANGE:
-                        EMAIL_CHANGE_TIME_END=time;
+                        EMAIL_CHANGE_TIME_END = time;
+                        break;
+                    case TRANSFER:
+                        TRANSFER_TIME_END=time;
                         break;
                 }
             }

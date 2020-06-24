@@ -405,5 +405,7 @@
     <string name="text_input_ensure">새 비밀번호를 확인해 주세요.</string>
     <string name="text_verify_by_mobile">핸드폰 인증</string>
     <string name="text_verify_by_email">이메일 인증</string>
+    <string name="text_recipient">수령인</string>
+    <string name="text_enter_user_name">사용자 이름을 입력하십시오.</string>
 
 </resources>

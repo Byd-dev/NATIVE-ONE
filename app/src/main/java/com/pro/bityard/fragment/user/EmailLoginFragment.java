@@ -4,7 +4,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -30,6 +29,8 @@ import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
+
+import java.net.URLEncoder;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
@@ -68,7 +69,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
     private String geetestToken = null;
 
-    public EmailLoginFragment(){
+    public EmailLoginFragment() {
 
     }
 
@@ -96,7 +97,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
         view.findViewById(R.id.text_mobile_login).setOnClickListener(this);
 
-        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass)+"?");
+        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass) + "?");
 
         view.findViewById(R.id.text_forget_pass).setOnClickListener(this);
 
@@ -104,14 +105,14 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         btn_submit.setOnClickListener(this);
 
         edit_account.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId== EditorInfo.IME_ACTION_DONE){
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 edit_account.clearFocus();
             }
             return false;
         });
 
         edit_password.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId== EditorInfo.IME_ACTION_DONE){
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 edit_password.clearFocus();
             }
             return false;
@@ -137,10 +138,6 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 btn_submit.setEnabled(false);
             }
         });
-
-
-
-
 
 
         //检测错误提示是否显示
@@ -265,54 +262,51 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                         map.put("vHash", Util.Random32());
                         map.put("username", account_value);
-                        map.put("password", pass_value);
+                        map.put("password", URLEncoder.encode(pass_value));
                         map.put("geetestToken", geetestToken);
                         map.put("terminal", "Android");
 
-                        NetManger.getInstance().postRequest("/api/sso/user_login_check", map, new OnNetResult() {
-                            @Override
-                            public void onNetResult(String state, Object response) {
-                                if (state.equals(BUSY)) {
-                                    showProgressDialog();
-                                } else if (state.equals(SUCCESS)) {
-                                    Log.d("print", "onNetResult:196:  " + response.toString());
+                        NetManger.getInstance().postRequest("/api/sso/user_login_check", map, (state, response) -> {
+                            if (state.equals(BUSY)) {
+                                showProgressDialog();
+                            } else if (state.equals(SUCCESS)) {
+                                Log.d("print", "onNetResult:196:  " + response.toString());
 
-                                    dismissProgressDialog();
-                                    LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
-                                    if (loginEntity.getCode() == 200) {
-                                        SPUtils.putString(AppConfig.USER_EMAIL, edit_account.getText().toString());
+                                dismissProgressDialog();
+                                LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
+                                if (loginEntity.getCode() == 200) {
+                                    SPUtils.putString(AppConfig.USER_EMAIL, edit_account.getText().toString());
 
-                                        NetManger.getInstance().userDetail((state2, response2) -> {
-                                            if (state2.equals(BUSY)) {
-                                                showProgressDialog();
-                                            } else if (state2.equals(SUCCESS)) {
-                                                dismissProgressDialog();
-                                                UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
-                                                loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
-                                                SPUtils.putData(AppConfig.LOGIN, loginEntity);
-                                                //登录成功 初始化
-                                                TagManger.getInstance().tag();
-                                                getActivity().finish();
-                                            } else if (state2.equals(FAILURE)) {
-                                                dismissProgressDialog();
+                                    NetManger.getInstance().userDetail((state2, response2) -> {
+                                        if (state2.equals(BUSY)) {
+                                            showProgressDialog();
+                                        } else if (state2.equals(SUCCESS)) {
+                                            dismissProgressDialog();
+                                            UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
+                                            loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
+                                            SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                                            //登录成功 初始化
+                                            TagManger.getInstance().tag();
+                                            getActivity().finish();
+                                        } else if (state2.equals(FAILURE)) {
+                                            dismissProgressDialog();
 
-                                            }
-                                        });
+                                        }
+                                    });
 
 
-                                    } else if (loginEntity.getCode() == 401) {
-                                        Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                        count_pass++;
-                                    } else if (loginEntity.getCode() == 500) {
-                                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
-                                    }
-                                } else if (state.equals(FAILURE)) {
-                                    dismissProgressDialog();
+                                } else if (loginEntity.getCode() == 500) {
                                     Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
-
+                                    count_pass++;
                                 }
+                            } else if (state.equals(FAILURE)) {
+                                dismissProgressDialog();
+                                Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+
+
                             }
                         });
 

@@ -404,5 +404,7 @@
     <string name="text_input_ensure">请再次输入资金密码</string>
     <string name="text_verify_by_mobile">使用手机验证</string>
     <string name="text_verify_by_email">使用邮箱验证</string>
+    <string name="text_recipient">接收账户</string>
+    <string name="text_enter_user_name">请输入用户昵称</string>
 
 </resources>

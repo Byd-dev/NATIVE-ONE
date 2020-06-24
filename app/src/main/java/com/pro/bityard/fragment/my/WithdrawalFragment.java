@@ -27,8 +27,10 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
+import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.manger.BalanceManger;
@@ -37,6 +39,7 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,16 +69,25 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     EditText edit_address;
     @BindView(R.id.edit_pass_withdraw)
     EditText edit_pass_withdraw;
-    @BindView(R.id.edit_code)
-    EditText edit_code;
     @BindView(R.id.btn_submit)
     Button btn_submit;
+    @BindView(R.id.edit_code)
+    EditText edit_code;
     @BindView(R.id.img_eye)
     ImageView img_eye;
     @BindView(R.id.text_getCode)
     TextView text_getCode;
     @BindView(R.id.img_right)
     ImageView img_right;
+
+    @BindView(R.id.text_transfer_title)
+    TextView text_transfer_title;
+
+    @BindView(R.id.layout_withdrawal)
+    LinearLayout layout_withdrawal;
+
+    @BindView(R.id.layout_transfer)
+    LinearLayout layout_transfer;
 
     private ChainListAdapter chainListAdapter;//杠杆适配器
     private List<String> dataList;
@@ -94,6 +106,26 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     private WithdrawalAddressSelectAdapter withdrawalAddressSelectAdapter;
     private WithdrawalAdressEntity withdrawalAdressEntity;
     private UserDetailEntity.UserBean user;
+
+    private UnionRateEntity unionRateEntity;
+
+    /*转账*/
+    @BindView(R.id.edit_amount_transfer)
+    EditText edit_amount_transfer;
+    @BindView(R.id.text_balance_transfer)
+    TextView text_balance_transfer;
+    @BindView(R.id.edit_username)
+    EditText edit_username;
+    @BindView(R.id.edit_pass_transfer)
+    EditText edit_pass_transfer;
+    @BindView(R.id.edit_code_transfer)
+    EditText edit_code_transfer;
+    @BindView(R.id.img_eye_transfer)
+    ImageView img_eye_transfer;
+    @BindView(R.id.text_getCode_transfer)
+    TextView text_getCode_transfer;
+    @BindView(R.id.btn_submit_transfer)
+    Button btn_submit_transfer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -120,19 +152,41 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         text_title.setText(getResources().getString(R.string.text_withdrawal));
         view.findViewById(R.id.img_back).setOnClickListener(this);
         view.findViewById(R.id.text_address_manage).setOnClickListener(this);
+
+        text_title.setOnClickListener(this);
+        text_transfer_title.setOnClickListener(this);
+
+
         img_eye.setOnClickListener(this);
+        img_eye_transfer.setOnClickListener(this);
+
         text_getCode.setOnClickListener(this);
-        view.findViewById(R.id.btn_submit).setOnClickListener(this);
+        text_getCode_transfer.setOnClickListener(this);
+
+        btn_submit.setOnClickListener(this);
+        btn_submit_transfer.setOnClickListener(this);
+
         layout_address.setOnClickListener(this);
         img_right.setOnClickListener(this);
 
         withdrawalAddressSelectAdapter = new WithdrawalAddressSelectAdapter(getActivity());
         edit_amount.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus){
+            if (!hasFocus) {
                 String value_amount = edit_amount.getText().toString();
-                if (value_amount.length()!=0){
-                    if (Double.parseDouble(value_amount)<50){
+                if (value_amount.length() != 0) {
+                    if (Double.parseDouble(value_amount) < 50) {
                         edit_amount.setText("50");
+                    }
+                }
+            }
+        });
+
+        edit_amount_transfer.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                String value_amount = edit_amount_transfer.getText().toString();
+                if (value_amount.length() != 0) {
+                    if (Double.parseDouble(value_amount) < 10) {
+                        edit_amount_transfer.setText("10");
                     }
                 }
             }
@@ -142,6 +196,12 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         Util.setFourUnClick(edit_pass_withdraw, edit_amount, edit_address, edit_code, btn_submit);
         Util.setFourUnClick(edit_address, edit_pass_withdraw, edit_amount, edit_code, btn_submit);
         Util.setFourUnClick(edit_code, edit_pass_withdraw, edit_address, edit_amount, btn_submit);
+
+
+        Util.setFourUnClick(edit_amount_transfer, edit_pass_transfer, edit_username, edit_code_transfer, btn_submit_transfer);
+        Util.setFourUnClick(edit_pass_transfer, edit_username, edit_code_transfer, edit_amount_transfer, btn_submit_transfer);
+        Util.setFourUnClick(edit_username, edit_code_transfer, edit_pass_transfer, edit_amount_transfer, btn_submit_transfer);
+        Util.setFourUnClick(edit_code_transfer, edit_username, edit_pass_transfer, edit_amount_transfer, btn_submit_transfer);
 
         img_record.setVisibility(View.VISIBLE);
         img_record.setOnClickListener(this);
@@ -204,6 +264,27 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         }
 
 
+        unionRateEntity = SPUtils.getData(AppConfig.KEY_UNION, UnionRateEntity.class);
+        Log.d("print", "initData:513:  " + unionRateEntity);
+        if (unionRateEntity == null) {
+            NetManger.getInstance().unionRate((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    unionRateEntity = (UnionRateEntity) response;
+                    //退出需要清除
+                    SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+                }
+            });
+        } else {
+            if (TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) > 5) {
+                text_transfer_title.setVisibility(View.VISIBLE);
+                text_title.setTextColor(getResources().getColor(R.color.maincolor));
+            } else {
+                text_transfer_title.setVisibility(View.GONE);
+
+            }
+        }
+
+
         NetManger.getInstance().withdrawalAddressList((state, response) -> {
             if (state.equals(SUCCESS)) {
                 withdrawalAdressEntity = (WithdrawalAdressEntity) response;
@@ -211,6 +292,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         });
 
         text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+        text_balance_transfer.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
 
 
     }
@@ -250,6 +332,9 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
                 Util.setEye(getActivity(), edit_pass_withdraw, img_eye);
                 break;
+            case R.id.img_eye_transfer:
+                Util.setEye(getActivity(), edit_pass_transfer, img_eye_transfer);
+                break;
             case R.id.text_getCode:
                 if (account.contains("@")) {
                     NetManger.getInstance().getEmailCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", (state, response1, response2) -> {
@@ -259,9 +344,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             dismissProgressDialog();
                             TipEntity tipEntity = (TipEntity) response2;
                             if (tipEntity.getCode() == 200) {
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
+                                mHandler.obtainMessage(0).sendToTarget();
                             } else if (tipEntity.getCode() == 500) {
                                 Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -278,9 +361,45 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             dismissProgressDialog();
                             TipEntity tipEntity = (TipEntity) response2;
                             if (tipEntity.getCode() == 200) {
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
+                                mHandler.obtainMessage(0).sendToTarget();
+                            } else if (tipEntity.getCode() == 500) {
+                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                        }
+                    });
+                }
+                break;
+            case R.id.text_getCode_transfer:
+                if (account.contains("@")) {
+                    NetManger.getInstance().getEmailCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", (state, response1, response2) -> {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            TipEntity tipEntity = (TipEntity) response2;
+                            if (tipEntity.getCode() == 200) {
+                                mHandler.obtainMessage(1).sendToTarget();
+                            } else if (tipEntity.getCode() == 500) {
+                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                            }
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                        }
+                    });
+                } else {
+                    NetManger.getInstance().getMobileCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", (state, response1, response2) -> {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            TipEntity tipEntity = (TipEntity) response2;
+                            if (tipEntity.getCode() == 200) {
+                                mHandler.obtainMessage(1).sendToTarget();
+
                             } else if (tipEntity.getCode() == 500) {
                                 Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -308,7 +427,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
                             if (tipEntity.isCheck() == true) {
                                 withdrawal(value_amount, user.getCurrency(),
-                                        chain, addressId, account, value_pass);
+                                        chain, addressId, account, URLEncoder.encode(value_pass));
 
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -328,7 +447,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                             TipEntity tipEntity = (TipEntity) response;
                             if (tipEntity.isCheck() == true) {
                                 withdrawal(value_amount, user.getCurrency(),
-                                        chain, addressId, account, value_pass);
+                                        chain, addressId, account, URLEncoder.encode(value_pass));
                             } else {
                                 Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
@@ -338,6 +457,67 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                     });
                 }
 
+                break;
+            case R.id.btn_submit_transfer:
+                String value_amount_transfer = edit_amount_transfer.getText().toString();
+                String value_pass_transfer = edit_pass_transfer.getText().toString();
+                String value_code_transfer = edit_code_transfer.getText().toString();
+                String user_name = edit_username.getText().toString();
+
+                if (account.contains("@")) {
+
+                    NetManger.getInstance().checkEmailCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", value_code_transfer, (state, response) -> {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            TipEntity tipEntity = (TipEntity) response;
+                            Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
+                            if (tipEntity.isCheck() == true) {
+                                transfer(user.getCurrency(), value_amount_transfer, URLEncoder.encode(value_pass_transfer), user_name, loginEntity.getUser().getAccount());
+                            } else {
+                                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                        }
+                    });
+
+                } else {
+
+                    NetManger.getInstance().checkMobileCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", value_code_transfer, (state, response) -> {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            TipEntity tipEntity = (TipEntity) response;
+                            if (tipEntity.isCheck() == true) {
+                                transfer(user.getCurrency(), value_amount_transfer, URLEncoder.encode(value_pass_transfer), user_name, loginEntity.getUser().getAccount());
+
+                            } else {
+                                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                        }
+                    });
+                }
+
+                break;
+
+            case R.id.text_title:
+                layout_withdrawal.setVisibility(View.VISIBLE);
+                layout_transfer.setVisibility(View.GONE);
+                text_title.setTextColor(getResources().getColor(R.color.maincolor));
+                text_transfer_title.setTextColor(getResources().getColor(R.color.text_main_color));
+
+
+                break;
+            case R.id.text_transfer_title:
+                layout_withdrawal.setVisibility(View.GONE);
+                layout_transfer.setVisibility(View.VISIBLE);
+                text_title.setTextColor(getResources().getColor(R.color.text_main_color));
+                text_transfer_title.setTextColor(getResources().getColor(R.color.maincolor));
                 break;
         }
     }
@@ -389,11 +569,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     private void withdrawal(String money, String currency, String chain, String addressId, String email, String password) {
         NetManger.getInstance().withdrawal(money, currency, chain, addressId, email, password, (state, response) -> {
             if (state.equals(SUCCESS)) {
-                TipEntity tipEntity = (TipEntity) response;
-                Log.d("print", "transfer:提币结果:  " + response);
-                if (tipEntity.getCode() == 200) {
-                }
-                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                AddAddressItemEntity addAddressItemEntity = (AddAddressItemEntity) response;
+                Toast.makeText(getActivity(), addAddressItemEntity.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -410,6 +587,10 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                     SmsTimeUtils.check(SmsTimeUtils.WITHDRAWAL, false);
                     SmsTimeUtils.startCountdown(text_getCode);
                     break;
+                case 1:
+                    SmsTimeUtils.check(SmsTimeUtils.TRANSFER, false);
+                    SmsTimeUtils.startCountdown(text_getCode_transfer);
+                    break;
                 default:
                     break;
             }
@@ -417,5 +598,14 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     };
 
-
+    private void transfer(String currency, String money, String pass, String subName, String account) {
+        NetManger.getInstance().transfer(currency, money, pass, subName, account, (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = (TipEntity) response;
+                if (tipEntity.getCode() == 200) {
+                }
+                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
 }

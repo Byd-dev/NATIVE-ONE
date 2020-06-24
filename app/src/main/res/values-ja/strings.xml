@@ -405,6 +405,8 @@
     <string name="text_input_ensure">新しいパスワードを再入力して下さい</string>
     <string name="text_verify_by_mobile">SMS認証</string>
     <string name="text_verify_by_email">電子メールを検証します</string>
+    <string name="text_recipient">受取人</string>
+    <string name="text_enter_user_name">ニックネームをご入力下さい</string>
 
 
 </resources>

@@ -285,9 +285,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
-                            mHandler.sendEmptyMessage(0);
-                            Message msg = new Message();
-                            mHandler.sendMessage(msg);
+                           mHandler.obtainMessage(0).sendToTarget();
                         }else if (tipEntity.getCode()==500){
                             Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
@@ -370,29 +368,24 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
             text_try.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
 
-            text_try.setOnClickListener(new View.OnClickListener() {
+            text_try.setOnClickListener(v -> NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
                 @Override
-                public void onClick(View v) {
-                    NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
-                        @Override
-                        public void onNetResult(String state, Object response) {
-                            if (state.equals(BUSY)) {
-                            } else if (state.equals(SUCCESS)) {
+                public void onNetResult(String state, Object response) {
+                    if (state.equals(BUSY)) {
+                    } else if (state.equals(SUCCESS)) {
 
-                                CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                                text_try.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-                                countryCodeAdapter.setDatas(countryCodeEntity.getData());
-                                setEdit(edit_search, countryCodeEntity.getData());
+                        CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
+                        text_try.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
+                        countryCodeAdapter.setDatas(countryCodeEntity.getData());
+                        setEdit(edit_search, countryCodeEntity.getData());
 
-                            } else if (state.equals(FAILURE)) {
+                    } else if (state.equals(FAILURE)) {
 
-                            }
-                        }
-                    });
+                    }
                 }
-            });
+            }));
 
         }
 
@@ -461,89 +454,9 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     }
 
 
-    /*1获取验证码*/
-    private void getCode(String account_value, String country_code) {
 
 
-        Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
 
-            @Override
-            public void onApi1Result(String result) {
-                geetestToken = result;
-
-            }
-
-            @Override
-            public void onSuccessResult(String result) {
-                ArrayMap<String, String> map = new ArrayMap<>();
-
-                map.put("account", country_code + account_value);
-                map.put("type", "FORGOT_PASSWORD");
-                map.put("geetestToken", geetestToken);
-                NetManger.getInstance().postRequest("/api/system/sendSMS", map, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            dismissProgressDialog();
-                            TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                            if (tipEntity.getCode() == 200) {
-                                mHandler.sendEmptyMessage(0);
-                                Message msg = new Message();
-                                mHandler.sendMessage(msg);
-                            } else if (tipEntity.getCode() == 500) {
-                                Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
-                Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
-
-    /*2校验手机验证码*/
-    private void checkCode(String country_code, String account_value, String code_value) {
-        ArrayMap<String, String> map = new ArrayMap<>();
-
-        map.put("account", country_code + account_value);
-        map.put("type", "FORGOT_PASSWORD");
-        map.put("code", code_value);
-
-        NetManger.getInstance().postRequest("/api/system/checkSMS", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 200 && tipEntity.isCheck() == true) {
-                        //2 验证账号
-                        checkAccount(country_code, account_value);
-
-                    } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_code_lose), Toast.LENGTH_SHORT).show();
-
-                    }
-
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
-                }
-            }
-        });
-
-    }
 
     /*3账号验证*/
     private void checkAccount(String country_code, String account_value) {

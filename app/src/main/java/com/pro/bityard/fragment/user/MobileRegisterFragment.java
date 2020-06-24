@@ -39,6 +39,7 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -344,7 +345,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
                 HashMap<String, String> map1 = new HashMap<>();
                 map1.put("contryId", countryID);
-                map1.put("password", pass_value);
+                map1.put("password", URLEncoder.encode(pass_value));
                 map1.put("phone", country_code + account_value);
 
                 String value_sign = Util.getSign(map1, AppConfig.SIGN_KEY);
@@ -353,7 +354,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("contryId", countryID);
                 map.put("phone", country_code + account_value);
-                map.put("password", pass_value);
+                map.put("password", URLEncoder.encode(pass_value));
                 map.put("sign", value_sign);
                 //校验验证码
 
