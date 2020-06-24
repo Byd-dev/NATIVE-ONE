@@ -170,9 +170,9 @@ public class TradeUtil {
             return "0";
         }else {
             if (isBuy) {
-                income = getNumberFormat(mul(sub(price, opPrice), volume), 10);
+                income = getNumberFormat(mul(sub(price, opPrice), volume), 2);
             } else {
-                income = getNumberFormat(mul(sub(opPrice, price), volume), 10);
+                income = getNumberFormat(mul(sub(opPrice, price), volume), 2);
             }
             return income;
         }
