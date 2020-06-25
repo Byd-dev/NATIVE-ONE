@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
@@ -93,6 +91,7 @@ import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteUSD;
 import static com.pro.bityard.utils.TradeUtil.marginMax;
+import static com.pro.bityard.utils.TradeUtil.marginMin;
 import static com.pro.bityard.utils.TradeUtil.marginOrder;
 import static java.lang.Double.parseDouble;
 
@@ -268,7 +267,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     private TradeListEntity tradeListEntity;
     private TextView text_deduction_amount_pop;
-    private String prizeTrade=null;
+    private String prizeTrade = null;
 
     @BindView(R.id.text_market_currency)
     TextView text_market_currency;
@@ -663,15 +662,80 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_lever_limit.setText(lever + "X");
             double maxHoldOne = tradeListEntity.getMaxHoldOne();
             if (maxHoldOne > 0) {
-                edit_market_margin.setHint(TradeUtil.depositMin(tradeListEntity.getDepositList()) +
-                        "~" + TradeUtil.div(maxHoldOne, lever, 0));
-                edit_limit_margin.setHint(TradeUtil.depositMin(tradeListEntity.getDepositList()) +
-                        "~" + TradeUtil.div(maxHoldOne, lever, 0));
+                String min_margin = TradeUtil.depositMin(tradeListEntity.getDepositList());
+                double max_margin = TradeUtil.div(maxHoldOne, lever, 0);
+
+                edit_market_margin.setHint(min_margin +
+                        "~" + max_margin);
+                edit_limit_margin.setHint(min_margin +
+                        "~" + max_margin);
+                edit_market_margin.setOnFocusChangeListener((v, hasFocus) -> {
+                    String value_margin = edit_market_margin.getText().toString();
+                    Log.d("print", "setContent:669:  " + value_margin + "        " + max_margin);
+
+                    if (!hasFocus) {
+                        if (value_margin.length() != 0) {
+                            if (Double.parseDouble(value_margin) < Double.parseDouble(min_margin)) {
+                                edit_market_margin.setText(min_margin);
+                            } else if (Double.parseDouble(value_margin) > max_margin) {
+                                edit_market_margin.setText(String.valueOf(max_margin));
+
+                            }
+                        }
+                    }
+                });
+
+
+                edit_limit_margin.setOnFocusChangeListener((v, hasFocus) -> {
+                    String value_margin = edit_limit_margin.getText().toString();
+                    if (!hasFocus) {
+                        if (value_margin.length() != 0) {
+                            if (Double.parseDouble(value_margin) < Double.parseDouble(min_margin)) {
+                                edit_limit_margin.setText(min_margin);
+                            } else if (Double.parseDouble(value_margin) > max_margin) {
+                                edit_limit_margin.setText(String.valueOf(max_margin));
+
+                            }
+                        }
+                    }
+                });
+
             } else {
                 edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
                 edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+                edit_market_margin.setOnFocusChangeListener((v, hasFocus) -> {
+                    String value_margin = edit_market_margin.getText().toString();
+                    if (!hasFocus) {
+                        if (value_margin.length() != 0) {
+                            if (Double.parseDouble(value_margin) < Double.parseDouble(marginMin(tradeListEntity.getDepositList()))) {
+                                edit_market_margin.setText(marginMin(tradeListEntity.getDepositList()));
+                            } else if (Double.parseDouble(value_margin) > Double.parseDouble(marginMax(tradeListEntity.getDepositList()))) {
+                                edit_market_margin.setText(marginMax(tradeListEntity.getDepositList()));
+
+                            }
+                        }
+                    }
+                });
+
+                edit_limit_margin.setOnFocusChangeListener((v, hasFocus) -> {
+                    String value_margin = edit_limit_margin.getText().toString();
+                    if (!hasFocus) {
+                        if (value_margin.length() != 0) {
+                            if (Double.parseDouble(value_margin) < Double.parseDouble(marginMin(tradeListEntity.getDepositList()))) {
+                                edit_limit_margin.setText(marginMin(tradeListEntity.getDepositList()));
+                            } else if (Double.parseDouble(value_margin) > Double.parseDouble(marginMax(tradeListEntity.getDepositList()))) {
+                                edit_limit_margin.setText(marginMax(tradeListEntity.getDepositList()));
+
+                            }
+                        }
+                    }
+                });
             }
-            edit_market_margin.addTextChangedListener(new TextWatcher() {
+
+
+
+
+            /*edit_market_margin.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -684,9 +748,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         if (!s.toString().startsWith(".")) {
                             if (parseDouble(s.toString()) > parseDouble(marginMax(tradeListEntity.getDepositList()))) {
                                 edit_market_margin.setText(marginMax(tradeListEntity.getDepositList()));
-                            } /*else if (parseDouble(s.toString()) < parseDouble(marginMin(tradeListEntity.getDepositList()))) {
+                            } *//*else if (parseDouble(s.toString()) < parseDouble(marginMin(tradeListEntity.getDepositList()))) {
                                 edit_market_margin.postDelayed(() -> edit_market_margin.setText(marginMin(tradeListEntity.getDepositList())), 1000);
-                            }*/
+                            }*//*
                         }
                     }
                 }
@@ -710,9 +774,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         if (!s.toString().startsWith(".")) {
                             if (parseDouble(s.toString()) > parseDouble(marginMax(tradeListEntity.getDepositList()))) {
                                 edit_limit_margin.setText(marginMax(tradeListEntity.getDepositList()));
-                            }/* else if (parseDouble(s.toString()) < parseDouble(marginMin(tradeListEntity.getDepositList()))) {
+                            }*//* else if (parseDouble(s.toString()) < parseDouble(marginMin(tradeListEntity.getDepositList()))) {
                                 edit_limit_margin.postDelayed(() -> edit_limit_margin.setText(marginMin(tradeListEntity.getDepositList())), 1000);
-                            }*/
+                            }*//*
                         }
                     }
                 }
@@ -721,7 +785,40 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 public void afterTextChanged(Editable s) {
 
                 }
-            });
+            });*/
+        }
+    }
+
+
+    /*设置 保证金和杠杆*/
+    public void setLeverContent(TradeListEntity tradeListEntity) {
+        if (tradeListEntity != null) {
+            List<Integer> leverShowList = tradeListEntity.getLeverShowList();
+            lever = leverShowList.get(oldSelect);
+            text_lever_market.setText(lever + "X");
+            text_lever_limit.setText(lever + "X");
+            double maxHoldOne = tradeListEntity.getMaxHoldOne();
+            edit_limit_margin.setText("");
+            edit_market_margin.setText("");
+            text_market_volume.setText(getString(R.string.text_default));
+            text_limit_volume.setText(getString(R.string.text_default));
+            text_market_all.setText(getString(R.string.text_default));
+            text_limit_all.setText(getString(R.string.text_default));
+            if (maxHoldOne > 0) {
+                String min_margin = TradeUtil.depositMin(tradeListEntity.getDepositList());
+                double max_margin = TradeUtil.div(maxHoldOne, lever, 0);
+                edit_market_margin.setHint(min_margin +
+                        "~" + max_margin);
+                edit_limit_margin.setHint(min_margin +
+                        "~" + max_margin);
+
+            } else {
+                edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+                edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+
+
+            }
+
         }
     }
 
@@ -957,7 +1054,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 text_lever_limit.setText(lever + "X");
                 popupWindow.dismiss();
 
-                setContent(tradeListEntity);
+                setLeverContent(tradeListEntity);
 
 
             });
