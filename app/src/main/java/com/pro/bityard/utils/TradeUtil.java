@@ -534,7 +534,7 @@ public class TradeUtil {
         }
         String deferFee;
         if (defer.equals("true")) {
-            deferFee = TradeUtil.numberHalfUp(mul(mul(Double.parseDouble(margin), lever), deferBase), priceDigit);
+            deferFee = TradeUtil.numberHalfUp(mul(mul(Double.parseDouble(margin), lever), deferBase), 4);
         } else {
             deferFee = "0";
         }
