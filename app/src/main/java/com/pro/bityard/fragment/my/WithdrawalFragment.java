@@ -372,7 +372,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.text_getCode_transfer:
                 if (account.contains("@")) {
-                    NetManger.getInstance().getEmailCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", (state, response1, response2) -> {
+                    NetManger.getInstance().getEmailCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", (state, response1, response2) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
                         } else if (state.equals(SUCCESS)) {
@@ -389,7 +389,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                         }
                     });
                 } else {
-                    NetManger.getInstance().getMobileCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", (state, response1, response2) -> {
+                    NetManger.getInstance().getMobileCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", (state, response1, response2) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
                         } else if (state.equals(SUCCESS)) {
@@ -464,7 +464,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
                 if (account.contains("@")) {
 
-                    NetManger.getInstance().checkEmailCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", value_code_transfer, (state, response) -> {
+                    NetManger.getInstance().checkEmailCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", value_code_transfer, (state, response) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
                         } else if (state.equals(SUCCESS)) {
@@ -483,7 +483,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
                 } else {
 
-                    NetManger.getInstance().checkMobileCode(loginEntity.getUser().getAccount(), "CREATE_TRANSFER", value_code_transfer, (state, response) -> {
+                    NetManger.getInstance().checkMobileCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", value_code_transfer, (state, response) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
                         } else if (state.equals(SUCCESS)) {
@@ -600,7 +600,12 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         NetManger.getInstance().transfer(currency, money, pass, subName, account, (state, response) -> {
             if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = (TipEntity) response;
-                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                if (tipEntity.getMessage().equals("")){
+                    Toast.makeText(getActivity(), getResources().getText(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+
+                }else {
+                    Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
             }
         });

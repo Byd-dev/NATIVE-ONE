@@ -693,6 +693,9 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         findViewById(R.id.img_edit).setOnClickListener(this);
         img_service_my.setOnClickListener(this);
 
+
+        String string = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+
     }
 
     @SuppressLint("HandlerLeak")

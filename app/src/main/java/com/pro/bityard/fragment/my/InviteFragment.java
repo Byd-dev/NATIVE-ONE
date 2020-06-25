@@ -426,7 +426,11 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 if (tipEntity.getCode() == 200) {
                     popupWindow.dismiss();
                 }
-                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                if (tipEntity.getMessage().equals("")){
+                    Toast.makeText(getActivity(), getResources().getText(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

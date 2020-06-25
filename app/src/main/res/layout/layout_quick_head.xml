@@ -50,121 +50,138 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/img_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:src="@mipmap/icon_quick_up"
+
+                />
 
             <LinearLayout
-                android:id="@+id/layout_address"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/edit_amount"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/text_exchangeable_amount"
-                    android:maxLines="1"
-                    android:textColor="@color/text_main_color"
-                    android:textColorHint="@color/color_hint"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/hint_size" />
-
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/layout_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
+                    android:id="@+id/layout_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/img_bg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_15" />
-
-
-                    <TextView
-                        android:id="@+id/text_currency"
-                        android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/edit_amount"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_marginRight="@dimen/margin_10"
-                        android:gravity="center"
-                        android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_big" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="@dimen/margin_15"
-                        android:src="@mipmap/icon_market_open" />
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:background="@color/background_maincolor" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/edit_amount_transfer"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/text_amount_input"
-                    android:maxLines="1"
-                    android:textColor="@color/text_main_color"
-                    android:textColorHint="@color/color_hint"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/hint_size" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_marginLeft="@dimen/margin_15"
-                        android:src="@mipmap/icon_usdt" />
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/text_exchangeable_amount"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:textColor="@color/text_main_color"
+                        android:textColorHint="@color/color_hint"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/hint_size" />
 
 
-                    <TextView
+                    <LinearLayout
+                        android:id="@+id/layout_switch"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/margin_10"
-                        android:layout_marginRight="@dimen/margin_15"
                         android:gravity="center"
-                        android:text="USDT"
-                        android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_big" />
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/img_bg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_15" />
+
+
+                        <TextView
+                            android:id="@+id/text_currency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginRight="@dimen/margin_10"
+                            android:gravity="center"
+                            android:textColor="@color/text_main_color"
+                            android:textSize="@dimen/size_big" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/margin_15"
+                            android:src="@mipmap/icon_market_open" />
+
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_line"
+                    android:background="@color/background_maincolor" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/edit_amount_transfer"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/margin_15"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:hint="@string/text_amount_input"
+                        android:inputType="numberDecimal"
+                        android:maxLines="1"
+                        android:textColor="@color/text_main_color"
+                        android:textColorHint="@color/color_hint"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/hint_size" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_15"
+                            android:src="@mipmap/icon_usdt" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_marginRight="@dimen/margin_15"
+                            android:gravity="center"
+                            android:text="USDT"
+                            android:textColor="@color/text_main_color"
+                            android:textSize="@dimen/size_big" />
+
+
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
+
         </LinearLayout>
 
 

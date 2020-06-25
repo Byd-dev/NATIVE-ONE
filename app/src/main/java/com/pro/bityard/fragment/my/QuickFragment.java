@@ -22,7 +22,6 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.RateListEntity;
-import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -65,6 +64,9 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
     private TextView text_balance;
     private TextView text_all_exchange;
     private String rate = "1.00";
+
+    @BindView(R.id.img_line)
+    ImageView img_line;
 
     private boolean isEdit_amount = true;
     private boolean isEdit_amount_transfer = true;
@@ -112,15 +114,21 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
         selectQuickAdapter = new SelectQuickAdapter(getActivity());
 
+
+        img_line.setImageDrawable(getResources().getDrawable(R.mipmap.icon_quick_up));
+
+
         edit_amount.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 isEdit_amount = true;
+                img_line.setImageDrawable(getResources().getDrawable(R.mipmap.icon_quick_up));
             }
         });
 
         edit_amount_transfer.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 isEdit_amount_transfer = true;
+                img_line.setImageDrawable(getResources().getDrawable(R.mipmap.icon_quick_down));
             }
         });
 
@@ -221,12 +229,12 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
-                        Toast.makeText(getActivity(), R.string.text_exchange_success,Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.text_exchange_success, Toast.LENGTH_SHORT).show();
 
 
                     } else if (state.equals(FAILURE)) {
                         dismissProgressDialog();
-                        Toast.makeText(getActivity(),"FAILURE",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "FAILURE", Toast.LENGTH_SHORT).show();
 
                     }
                 });
