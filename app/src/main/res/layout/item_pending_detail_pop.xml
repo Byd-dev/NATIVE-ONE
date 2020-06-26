@@ -266,7 +266,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup">
 
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
@@ -308,7 +307,6 @@
             </RelativeLayout>
 
             <include layout="@layout/layout_line" />
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -359,7 +357,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_setup">
+                android:layout_height="@dimen/margin_setup"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -387,11 +386,14 @@
 
             </RelativeLayout>
 
-            <include layout="@layout/layout_line" />
+            <include
+                layout="@layout/layout_line"
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_setup">
+                android:layout_height="@dimen/margin_setup"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -419,9 +421,42 @@
 
             </RelativeLayout>
 
-            <include layout="@layout/layout_line" />
+            <include layout="@layout/layout_line"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_setup"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_is_o_n"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
 
 
+                <TextView
+                    android:id="@+id/text_is_o_n"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:text="@string/text_default"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <include
+                layout="@layout/layout_line"
+                android:visibility="gone" />
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup"
@@ -487,7 +522,6 @@
             </RelativeLayout>
 
             <include layout="@layout/layout_line" />
-
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -407,5 +407,12 @@
     <string name="text_verify_by_email">Подтвердить по электронной почте</string>
     <string name="text_recipient">Получатель</string>
     <string name="text_enter_user_name">Введите имя пользователя</string>
+    <string name="text_is_o_n">Удерживать всю ночь</string>
+    <string name="text_yes">Да</string>
+    <string name="text_no">Нет</string>
+    <string name="text_gift_money_history">Вычет подарочных денег</string>
+    <string name="text_bonus_history">Бонусный вычет</string>
+    <string name="text_un_withdrawal_pass">Пожалуйста, сначала установите PIN-код</string>
+    <string name="text_un_email_bind">Непривязанная</string>
 
 </resources>

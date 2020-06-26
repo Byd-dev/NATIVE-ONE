@@ -615,7 +615,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
                 text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
                 text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
-
                 img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_down));
 
                 break;
@@ -623,12 +622,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
                 text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
                 text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
-
                 img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_up));
 
                 break;
             case "0":
-
                 text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_main_color));
                 text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_main_color));
                 text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_main_color));
@@ -637,8 +634,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             default:
                 throw new IllegalStateException("Unexpected value: " + listQuoteIsRange(itemData));
         }
-
-
         //可用余额
         if (tradeType.equals("1")) {
             text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
@@ -693,12 +688,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                                 edit_limit_margin.setText(min_margin);
                             } else if (Double.parseDouble(value_margin) > max_margin) {
                                 edit_limit_margin.setText(String.valueOf(max_margin));
-
                             }
                         }
                     }
                 });
-
             } else {
                 edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
                 edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
@@ -710,12 +703,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                                 edit_market_margin.setText(marginMin(tradeListEntity.getDepositList()));
                             } else if (Double.parseDouble(value_margin) > Double.parseDouble(marginMax(tradeListEntity.getDepositList()))) {
                                 edit_market_margin.setText(marginMax(tradeListEntity.getDepositList()));
-
                             }
                         }
                     }
                 });
-
                 edit_limit_margin.setOnFocusChangeListener((v, hasFocus) -> {
                     String value_margin = edit_limit_margin.getText().toString();
                     if (!hasFocus) {
@@ -724,7 +715,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                                 edit_limit_margin.setText(marginMin(tradeListEntity.getDepositList()));
                             } else if (Double.parseDouble(value_margin) > Double.parseDouble(marginMax(tradeListEntity.getDepositList()))) {
                                 edit_limit_margin.setText(marginMax(tradeListEntity.getDepositList()));
-
                             }
                         }
                     }
@@ -1418,13 +1408,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
 
-                    if (prizeTrade!=null){
+                    if (prizeTrade != null) {
                         text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
                                 service,
                                 TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
                     }
 
-                }else {
+                } else {
                     text_market_volume.setText(getResources().getText(R.string.text_default));
                     text_market_all.setText(getResources().getText(R.string.text_default));
 
@@ -1432,13 +1422,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
                     text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever);
-                    if (prizeTrade!=null){
+                    if (prizeTrade != null) {
                         text_limit_all.setText(TradeUtil.total(edit_limit_margin.getText().toString(),
                                 service,
                                 TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
                     }
 
-                }else {
+                } else {
                     text_limit_volume.setText(getResources().getText(R.string.text_default));
                     text_limit_all.setText(getResources().getText(R.string.text_default));
 

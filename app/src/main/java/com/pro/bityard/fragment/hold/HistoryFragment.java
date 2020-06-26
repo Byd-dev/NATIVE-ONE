@@ -3,7 +3,6 @@ package com.pro.bityard.fragment.hold;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,6 @@ import butterknife.BindView;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
-import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.netIncome;
 import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
 
@@ -129,7 +127,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
         //分享监听
         historyAdapter.setOnShareClick(data -> {
             Util.lightOff(getActivity());
-            PopUtil.getInstance().showSharePlatform(getActivity(),layout_view,data);
+            PopUtil.getInstance().showSharePlatform(getActivity(), layout_view, data);
 
         });
 
@@ -162,6 +160,14 @@ public class HistoryFragment extends BaseFragment implements Observer {
         text_title.setText(R.string.text_history_detail);
 
         TextView text_name = view.findViewById(R.id.text_name);
+
+        TextView text_gift_money = view.findViewById(R.id.text_gift_money);
+
+        text_gift_money.setText(TradeUtil.getNumberFormat(dataBean.getLuckyDeduction(),2));
+
+        TextView text_bonus = view.findViewById(R.id.text_bonus);
+        text_bonus.setText(TradeUtil.getNumberFormat(dataBean.getMarginPrize(),2));
+
 
         String[] split = Util.quoteList(dataBean.getContractCode()).split(",");
         text_name.setText(split[0]);
@@ -223,8 +229,8 @@ public class HistoryFragment extends BaseFragment implements Observer {
 
         TextView text_fee = view.findViewById(R.id.text_fee);
         text_fee.setText(String.valueOf(serviceCharge));
-        TextView text_o_n = view.findViewById(R.id.text_o_n);
-        text_o_n.setText(String.valueOf(dataBean.getDeferDays()));
+        /*TextView text_o_n = view.findViewById(R.id.text_o_n);
+        text_o_n.setText(String.valueOf(dataBean.getDeferDays()));*/
         TextView text_o_n_fee = view.findViewById(R.id.text_o_n_fee);
         text_o_n_fee.setText(String.valueOf(dataBean.getDeferFee()));
         TextView text_close_time = view.findViewById(R.id.text_close_time);

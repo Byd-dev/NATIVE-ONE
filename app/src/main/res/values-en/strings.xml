@@ -406,5 +406,12 @@
     <string name="text_verify_by_email">Verify By Email</string>
     <string name="text_recipient">Recipient</string>
     <string name="text_enter_user_name">Enter User Name</string>
+    <string name="text_is_o_n">O/N</string>
+    <string name="text_yes">Yes</string>
+    <string name="text_no">No</string>
+    <string name="text_gift_money_history">Gift Money</string>
+    <string name="text_bonus_history">Bonus</string>
+    <string name="text_un_withdrawal_pass">Please set PIN first</string>
+    <string name="text_un_email_bind">Unbound</string>
 
 </resources>

@@ -406,5 +406,12 @@
     <string name="text_verify_by_email">使用邮箱验证</string>
     <string name="text_recipient">接收账户</string>
     <string name="text_enter_user_name">请输入用户昵称</string>
+    <string name="text_is_o_n">过夜</string>
+    <string name="text_yes">是</string>
+    <string name="text_no">否</string>
+    <string name="text_gift_money_history">红包抵扣</string>
+    <string name="text_bonus_history">礼金抵扣</string>
+    <string name="text_un_withdrawal_pass">未设置资金密码</string>
+    <string name="text_un_email_bind">邮箱未绑定</string>
 
 </resources>

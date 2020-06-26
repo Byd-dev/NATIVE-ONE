@@ -407,5 +407,12 @@
     <string name="text_verify_by_email">Xác thực qua Email</string>
     <string name="text_recipient">Tài khoản đích</string>
     <string name="text_enter_user_name">Nhập tên người dùng</string>
+    <string name="text_is_o_n">Qua đêm</string>
+    <string name="text_yes">Có</string>
+    <string name="text_no">Không</string>
+    <string name="text_gift_money_history">Trừ hồng bao</string>
+    <string name="text_bonus_history">Trừ tiền thưởng</string>
+    <string name="text_un_withdrawal_pass">Chưa cài đặt mật mã tài sản</string>
+    <string name="text_un_email_bind">Chưa liên kết Email</string>
 
 </resources>

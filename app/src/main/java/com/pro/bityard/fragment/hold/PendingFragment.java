@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -197,6 +196,15 @@ public class PendingFragment extends BaseFragment implements Observer {
         text_currency.setText(dataBean.getCurrency());
         boolean isBuy_pop = dataBean.isIsBuy();
 
+        String deferFee = dataBean.getDeferFee();
+        TextView text_is_o_n = view.findViewById(R.id.text_is_o_n);
+
+        if (Double.parseDouble(deferFee) == 0) {
+            text_is_o_n.setText(R.string.text_no);
+        } else {
+            text_is_o_n.setText(R.string.text_yes);
+        }
+
 
         //当前价
         text_price_pop = view.findViewById(R.id.text_price);
@@ -271,7 +279,7 @@ public class PendingFragment extends BaseFragment implements Observer {
         TextView text_o_n = view.findViewById(R.id.text_o_n);
         text_o_n.setText(String.valueOf(dataBean.getDeferDays()));
         TextView text_o_n_fee = view.findViewById(R.id.text_o_n_fee);
-        text_o_n_fee.setText(String.valueOf(dataBean.getDeferFee()));
+        text_o_n_fee.setText(String.valueOf(deferFee));
         TextView text_open_time = view.findViewById(R.id.text_open_time);
         text_open_time.setText(ChartUtil.getDate(dataBean.getTime()));
         TextView text_order_id = view.findViewById(R.id.text_order_id);

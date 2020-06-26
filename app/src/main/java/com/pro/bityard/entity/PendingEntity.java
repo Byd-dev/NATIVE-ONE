@@ -256,11 +256,9 @@ public class PendingEntity {
         }
 
         public String getDeferDays() {
-            if (Double.parseDouble(deferDays) == 0) {
-                return "N/A";
-            } else {
+
                 return deferDays;
-            }
+
         }
 
         public void setDeferDays(String deferDays) {

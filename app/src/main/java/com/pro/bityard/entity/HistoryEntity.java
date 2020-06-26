@@ -116,6 +116,8 @@ public class HistoryEntity {
         private int priceDigit;
         private double priceRate;
         private double priceVolume;
+        private double luckyDeduction;
+        private double marginPrize;
         private double serviceCharge;
         private boolean shared;
         private double stopLoss;
@@ -129,6 +131,7 @@ public class HistoryEntity {
         private long tradeTime;
         private double volume;
 
+
         @Override
         public String toString() {
             return "DataBean{" +
@@ -141,8 +144,8 @@ public class HistoryEntity {
                     ", cpPrice=" + cpPrice +
                     ", cpVolume=" + cpVolume +
                     ", currency='" + currency + '\'' +
-                    ", deferDays=" + deferDays +
-                    ", deferFee=" + deferFee +
+                    ", deferDays='" + deferDays + '\'' +
+                    ", deferFee='" + deferFee + '\'' +
                     ", eagleDeduction=" + eagleDeduction +
                     ", followId='" + followId + '\'' +
                     ", id='" + id + '\'' +
@@ -160,6 +163,8 @@ public class HistoryEntity {
                     ", priceDigit=" + priceDigit +
                     ", priceRate=" + priceRate +
                     ", priceVolume=" + priceVolume +
+                    ", luckyDeduction=" + luckyDeduction +
+                    ", marginPrize=" + marginPrize +
                     ", serviceCharge=" + serviceCharge +
                     ", shared=" + shared +
                     ", stopLoss=" + stopLoss +
@@ -173,6 +178,30 @@ public class HistoryEntity {
                     ", tradeTime=" + tradeTime +
                     ", volume=" + volume +
                     '}';
+        }
+
+        public boolean isBuy() {
+            return isBuy;
+        }
+
+        public void setBuy(boolean buy) {
+            isBuy = buy;
+        }
+
+        public double getLuckyDeduction() {
+            return luckyDeduction;
+        }
+
+        public void setLuckyDeduction(double luckyDeduction) {
+            this.luckyDeduction = luckyDeduction;
+        }
+
+        public double getMarginPrize() {
+            return marginPrize;
+        }
+
+        public void setMarginPrize(double marginPrize) {
+            this.marginPrize = marginPrize;
         }
 
         public String getCommodity() {
@@ -248,11 +277,9 @@ public class HistoryEntity {
         }
 
         public String getDeferDays() {
-            if (Double.parseDouble(deferDays) == 0) {
-                return "N/A";
-            } else {
+
                 return deferDays;
-            }
+
         }
 
         public void setDeferDays(String deferDays) {

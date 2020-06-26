@@ -141,7 +141,6 @@ public class TradeHistoryEntity {
          */
 
 
-
         private String commodity;
         private String commodityCode;
         private String commodityType;
@@ -256,11 +255,9 @@ public class TradeHistoryEntity {
         }
 
         public String getDeferDays() {
-            if (Double.parseDouble(deferDays) == 0) {
-                return "N/A";
-            } else {
-                return deferDays;
-            }
+
+            return deferDays;
+
         }
 
         public void setDeferDays(String deferDays) {
@@ -271,7 +268,7 @@ public class TradeHistoryEntity {
             if (Double.parseDouble(deferFee) == 0) {
                 return "N/A";
             } else {
-                return TradeUtil.getNumberFormat(Double.parseDouble(deferFee),2);
+                return TradeUtil.getNumberFormat(Double.parseDouble(deferFee), 2);
             }
         }
 

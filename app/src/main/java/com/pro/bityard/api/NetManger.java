@@ -854,6 +854,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("print", "getHistory:857:   "+response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -1484,6 +1485,7 @@ public class NetManger {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+
                 onNetResult.onNetResult(SUCCESS, tipEntity);
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);

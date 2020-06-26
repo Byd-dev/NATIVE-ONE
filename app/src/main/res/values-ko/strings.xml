@@ -407,5 +407,12 @@
     <string name="text_verify_by_email">이메일 인증</string>
     <string name="text_recipient">수령인</string>
     <string name="text_enter_user_name">사용자 이름을 입력하십시오.</string>
+    <string name="text_is_o_n">오버나이트</string>
+    <string name="text_yes">예</string>
+    <string name="text_no">아니다</string>
+    <string name="text_gift_money_history">상여금 공제</string>
+    <string name="text_bonus_history">보너스 공제</string>
+    <string name="text_un_withdrawal_pass">PIN 코드가 설정되지 않음.</string>
+    <string name="text_un_email_bind">연동되지 않음</string>
 
 </resources>

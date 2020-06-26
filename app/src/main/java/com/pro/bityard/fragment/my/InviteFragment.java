@@ -37,8 +37,6 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
-import java.net.URLEncoder;
-
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -274,11 +272,13 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
         String account = loginEntity.getUser().getPrincipal();
         Log.d("print", "showTransferPopWindow:241:  " + account);
-        if (account.contains("@")) {
+        edit_code.setHint(getResources().getString(R.string.text_email_code));
+
+       /* if (account.contains("@")) {
             edit_code.setHint(getResources().getString(R.string.text_email_code));
         } else {
             edit_code.setHint(getResources().getString(R.string.text_mobile_code));
-        }
+        }*/
 
 
         view.findViewById(R.id.img_back).setOnClickListener(v -> {
@@ -298,10 +298,10 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         EditText edit_amount = view.findViewById(R.id.edit_amount);
 
         edit_amount.setOnFocusChangeListener((v, hasFocus) -> {
-            if (!hasFocus){
+            if (!hasFocus) {
                 String value_amount = edit_amount.getText().toString();
-                if (value_amount.length()!=0){
-                    if (Double.parseDouble(value_amount)<10){
+                if (value_amount.length() != 0) {
+                    if (Double.parseDouble(value_amount) < 10) {
                         edit_amount.setText("10");
                     }
                 }
@@ -318,7 +318,27 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         text_getCode = view.findViewById(R.id.text_getCode);
 
         text_getCode.setOnClickListener(v -> {
-            if (account.contains("@")) {
+            NetManger.getInstance().getEmailCode(loginEntity.getUser().getEmail(), "CREATE_WITHDRAW", (state, response1, response2) -> {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    TipEntity tipEntity = (TipEntity) response2;
+                    if (tipEntity.getCode() == 200) {
+                        mHandler.sendEmptyMessage(0);
+                        Message msg = new Message();
+                        mHandler.sendMessage(msg);
+                    } else if (tipEntity.getCode() == 500) {
+                        Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
+            });
+
+
+            /*if (account.contains("@")) {
                 NetManger.getInstance().getEmailCode(loginEntity.getUser().getAccount(), "CREATE_WITHDRAW", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
@@ -356,7 +376,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                         dismissProgressDialog();
                     }
                 });
-            }
+            }*/
         });
 
 
@@ -370,8 +390,23 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
             String value_amount = edit_amount.getText().toString();
             String value_pass = edit_pass.getText().toString();
             String value_code = edit_code.getText().toString();
-
-            if (account.contains("@")) {
+            NetManger.getInstance().checkEmailCode(loginEntity.getUser().getEmail(), "CREATE_WITHDRAW", value_code, (state, response) -> {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    TipEntity tipEntity = (TipEntity) response;
+                    Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
+                    if (tipEntity.isCheck() == true) {
+                        transfer(user.getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getEmail());
+                    } else {
+                        Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
+            });
+            /*if (account.contains("@")) {
 
                 NetManger.getInstance().checkEmailCode(loginEntity.getUser().getEmail(), "CREATE_WITHDRAW", value_code, (state, response) -> {
                     if (state.equals(BUSY)) {
@@ -381,7 +416,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                         TipEntity tipEntity = (TipEntity) response;
                         Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
                         if (tipEntity.isCheck() == true) {
-                            transfer(user.getCurrency(), value_amount,value_pass, dataBean.getUsername(), loginEntity.getUser().getEmail());
+                            transfer(user.getCurrency(), value_amount, value_pass, dataBean.getUsername(), loginEntity.getUser().getEmail());
                         } else {
                             Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                         }
@@ -410,7 +445,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                         dismissProgressDialog();
                     }
                 });
-            }
+            }*/
 
         });
         popupWindow.setFocusable(true);
@@ -426,9 +461,9 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 if (tipEntity.getCode() == 200) {
                     popupWindow.dismiss();
                 }
-                if (tipEntity.getMessage().equals("")){
+                if (tipEntity.getMessage().equals("")) {
                     Toast.makeText(getActivity(), getResources().getText(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -500,11 +535,15 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 text_salary_day.setText(String.valueOf(inviteEntity.getData().getSalaryDay()));
 
                 double commission = inviteEntity.getData().getCommission();
-                text_commission.setText(TradeUtil.getNumberFormat(commission, 2) + "(" + inviteEntity.getData().getCurrency() + ")");
+                if (inviteEntity.getData().getCurrency() == null) {
+                    text_commission.setText(TradeUtil.getNumberFormat(commission, 2) + " " + getResources().getString(R.string.text_default) + " ");
+                } else {
+                    text_commission.setText(TradeUtil.getNumberFormat(commission, 2) + " " + inviteEntity.getData().getCurrency() + " ");
+                }
                 String string = SPUtils.getString(AppConfig.USD_RATE, null);
                 //我的页面 火币结算单位
                 String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
-                text_commission_transfer.setText("≈" + TradeUtil.getNumberFormat(TradeUtil.mul(commission, Double.parseDouble(string)), 2) + "(" + cny + ")");
+                text_commission_transfer.setText("≈" + TradeUtil.getNumberFormat(TradeUtil.mul(commission, Double.parseDouble(string)), 2) + " " + cny + " ");
 
 
             } else if (state.equals(FAILURE)) {
@@ -514,22 +553,19 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
             }
         });
 
-       unionRateEntity= SPUtils.getData(AppConfig.KEY_UNION,UnionRateEntity.class);
-        Log.d("print", "initData:513:  "+unionRateEntity);
-       if (unionRateEntity==null){
-           NetManger.getInstance().unionRate((state, response) -> {
-               if (state.equals(SUCCESS)) {
-                   unionRateEntity = (UnionRateEntity) response;
-                   //退出需要清除
-                   SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
-               }
-           });
-       }
-
+        unionRateEntity = SPUtils.getData(AppConfig.KEY_UNION, UnionRateEntity.class);
+        Log.d("print", "initData:513:  " + unionRateEntity);
+        if (unionRateEntity == null) {
+            NetManger.getInstance().unionRate((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    unionRateEntity = (UnionRateEntity) response;
+                    //退出需要清除
+                    SPUtils.putData(AppConfig.KEY_UNION, unionRateEntity);
+                }
+            });
+        }
         page = 1;
         getInviteList(FIRST, page, null);
-
-
     }
 
     private void getInviteList(String type, int page, String content) {
@@ -550,13 +586,9 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 if (inviteListEntity.getData() == null) {
                     return;
                 }
-
-
                 if (unionRateEntity == null) {
-
                     if (type.equals(LOAD)) {
                         inviteRecordAdapter.addDatas(inviteListEntity.getData(), 0.0);
-
                     } else {
                         inviteRecordAdapter.setDatas(inviteListEntity.getData(), 0.0);
                         if (inviteListEntity.getData().size() == 0) {
@@ -566,12 +598,10 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                             layout_null.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
                         }
-
                     }
                 } else {
                     if (type.equals(LOAD)) {
                         inviteRecordAdapter.addDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
-
                     } else {
                         inviteRecordAdapter.setDatas(inviteListEntity.getData(), TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100));
                         if (inviteListEntity.getData().size() == 0) {
@@ -581,7 +611,6 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                             layout_null.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);
                         }
-
                     }
                     if (unionRateEntity.getUnion() != null) {
                     }
@@ -606,14 +635,12 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 Util.copy(getActivity(), text_url.getText().toString());
                 Toast.makeText(getActivity(), R.string.text_copied, Toast.LENGTH_SHORT).show();
                 break;
-
             case R.id.img_search:
                 String edit_content = edit_search.getText().toString();
                 if (!edit_content.equals("")) {
                     getInviteList(REFRESH, 1, edit_content);
                 }
                 break;
-
         }
     }
 

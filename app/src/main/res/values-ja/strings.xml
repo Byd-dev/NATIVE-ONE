@@ -407,6 +407,13 @@
     <string name="text_verify_by_email">電子メールを検証します</string>
     <string name="text_recipient">受取人</string>
     <string name="text_enter_user_name">ニックネームをご入力下さい</string>
+    <string name="text_is_o_n">オーバーナイト</string>
+    <string name="text_yes">はい</string>
+    <string name="text_no">いいえ</string>
+    <string name="text_gift_money_history">ギフトマネールールで控除</string>
+    <string name="text_bonus_history">ボーナスで控除</string>
+    <string name="text_un_withdrawal_pass">PINコードは未設定です</string>
+    <string name="text_un_email_bind">E-メール認証は未設定です</string>
 
 
 </resources>

@@ -79,6 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_default"
+                        android:visibility="gone"
                         android:textColor="@color/text_quote_green"
                         android:textSize="@dimen/size_normal" />
 
