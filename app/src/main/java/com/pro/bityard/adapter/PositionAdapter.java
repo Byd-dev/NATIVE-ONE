@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
+import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.income;
 import static com.pro.bityard.utils.TradeUtil.netIncome;
 import static com.pro.bityard.utils.TradeUtil.price;
@@ -154,11 +155,11 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             //现价和盈亏
             price(quoteList, datas.get(position).getContractCode(), response -> {
                 ((MyViewHolder) holder).text_price.setText(response.toString());
-                String income = income(isBuy, Double.parseDouble(response.toString()), opPrice, datas.get(position).getVolume());
-                ((MyViewHolder) holder).text_income.setText(income);
+                String income = income(isBuy, Double.parseDouble(response.toString()), opPrice, datas.get(position).getVolume(),4);
+                ((MyViewHolder) holder).text_income.setText(getNumberFormat(Double.parseDouble(income),2));
                 double incomeDouble = Double.parseDouble(income);
                 //盈亏比
-                ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(Double.parseDouble(income),margin));
+                ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(incomeDouble,margin));
 
                 /*String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
                 double netIncomeDouble = Double.parseDouble(netIncome);*/

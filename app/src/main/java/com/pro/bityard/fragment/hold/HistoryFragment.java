@@ -3,6 +3,7 @@ package com.pro.bityard.fragment.hold;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,6 +43,7 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.netIncome;
+import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
 
 public class HistoryFragment extends BaseFragment implements Observer {
     @BindView(R.id.layout_null)
@@ -193,8 +195,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
 
         double income = dataBean.getIncome();
 
-        text_income.setText(getNumberFormat(income, 2));
-
+        text_income.setText(numberHalfUp(income, 2));
         TextView text_rate = view.findViewById(R.id.text_rate);
         text_rate.setText(TradeUtil.ratio(income, margin));
 

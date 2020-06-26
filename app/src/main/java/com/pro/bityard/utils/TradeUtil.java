@@ -147,28 +147,27 @@ public class TradeUtil {
 
 
     /*订单盈亏*/
-    public static String income(boolean isBuy, double price, double opPrice, double volume) {
+    public static String income(boolean isBuy, double price, double opPrice, double volume, int priceDigit) {
         String income;
         if (opPrice == 0) {
             return "0";
         } else {
             if (isBuy) {
-                income = getNumberFormat(mul(sub(price, opPrice), volume), 2);
+                income = getNumberFormat(mul(sub(price, opPrice), volume), priceDigit);
             } else {
-                income = getNumberFormat(mul(sub(opPrice, price), volume), 2);
+                income = getNumberFormat(mul(sub(opPrice, price), volume), priceDigit);
             }
             return income;
         }
-
-
     }
+
 
     /*浮动盈亏 需要的订单盈亏*/
     public static String incomeAdd(boolean isBuy, double price, double opPrice, double volume) {
         String income;
-        if (opPrice==0){
+        if (opPrice == 0) {
             return "0";
-        }else {
+        } else {
             if (isBuy) {
                 income = getNumberFormat(mul(sub(price, opPrice), volume), 2);
             } else {
@@ -244,7 +243,7 @@ public class TradeUtil {
                 double volume = dataBean.getVolume();
                 double serviceCharge = dataBean.getServiceCharge();
                 TradeUtil.price(quoteList, dataBean.getContractCode(), response -> {
-                    String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume);
+                    String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume,2);
                     // String s = netIncome(Double.parseDouble(income1), serviceCharge);
                     Log.d("hold", "getNetIncome:253:  " + income1);
 

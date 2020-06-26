@@ -1,6 +1,7 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
+import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.income;
 import static com.pro.bityard.utils.TradeUtil.netIncome;
 
@@ -141,12 +143,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //止盈价格
             ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, opPrice, priceDigit, lever, margin, stopProfit));
 
-            String income = income(isBuy, cpPrice, opPrice, datas.get(position).getVolume());
-            ((MyViewHolder) holder).text_income.setText(income);
+            String income = income(isBuy, cpPrice, opPrice, datas.get(position).getVolume(),4);
+            ((MyViewHolder) holder).text_income.setText(getNumberFormat(Double.parseDouble(income),2));
             double incomeDouble = Double.parseDouble(income);
             //盈亏比
-
-            ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(Double.parseDouble(income),margin));
+            Log.d("print", "onBindViewHolder:149:  "+incomeDouble+"    "+margin);
+            ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(incomeDouble, margin));
 
             String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
             double netIncomeDouble = Double.parseDouble(netIncome);
@@ -200,7 +202,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_volume, text_open_price,
                 text_loss_price, text_close_price, text_profit_price,
-                text_income, text_worth, text_time, text_tag,text_rate;
+                text_income, text_worth, text_time, text_tag, text_rate;
         ImageView img_buy;
 
         public MyViewHolder(View itemView) {
@@ -216,7 +218,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             img_buy = itemView.findViewById(R.id.img_buy);
             text_time = itemView.findViewById(R.id.text_time);
             text_tag = itemView.findViewById(R.id.text_tag);
-            text_rate=itemView.findViewById(R.id.text_rate);
+            text_rate = itemView.findViewById(R.id.text_rate);
 
 
             itemView.findViewById(R.id.text_detail).setOnClickListener(view -> {
