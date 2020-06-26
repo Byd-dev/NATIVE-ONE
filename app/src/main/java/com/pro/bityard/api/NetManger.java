@@ -18,6 +18,7 @@ import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.entity.FundItemEntity;
@@ -475,6 +476,48 @@ public class NetManger {
 
     }
 
+
+    /*获取行情*/
+    public void getCustomizeQuote(String quoteDomain, String url, String codeList, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("callback", "?");
+        map.put("code", codeList);
+        map.put("customize", "code,isUp,price,prev,buyPrice,sellPrice");
+
+        try {
+            String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
+
+            String[] split = urlList.split(";");
+            int length = split.length;
+            Log.d("NetManger", "getQuote:324: 请求次数: " + count + "请求地址长度: " + length + "  --   " + urlList);
+            if (count < length) {
+                getHostRequest(split[count], url, map, new OnNetResult() {
+                    @Override
+                    public void onNetResult(String state, Object response) {
+                        if (state.equals(BUSY)) {
+
+                        } else if (state.equals(SUCCESS)) {
+                            onNetResult.onNetResult(SUCCESS, response.toString());
+                        } else if (state.equals(FAILURE)) {
+                            if (length == 0) {
+
+                            } else {
+                                count++;
+                            }
+                        }
+                    }
+                });
+            } else {
+                count = 0;//这里是重置
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
 
     /*获取单个行情*/
     public void getItemQuote(String quoteDomain, String url, String code, OnNetResult onNetResult) {
@@ -1314,6 +1357,41 @@ public class NetManger {
 
 
     }
+
+
+    public void getMobileCountryCode(OnNetResult onNetResult){
+        //获取国家code
+        NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
+                    List<CountryCodeEntity.DataBean> data = countryCodeEntity.getData();
+                    for (int i = 0; i < data.size(); i++) {
+                        if (data.get(i).getNameCn().equals("中国") ||
+                                data.get(i).getNameCn().equals("中国香港") ||
+                                data.get(i).getNameCn().equals("美国") ||
+                                data.get(i).getNameCn().equals("韩国") ||
+                                data.get(i).getNameCn().equals("日本") ||
+                                data.get(i).getNameCn().equals("泰国") ||
+                                data.get(i).getNameCn().equals("越南") ||
+                                data.get(i).getNameCn().equals("印度尼西亚") ||
+                                data.get(i).getNameCn().equals("土耳其") ||
+                                data.get(i).getNameCn().equals("俄罗斯")) {
+                            data.get(i).setUsed(true);
+                        }
+                    }
+                    SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
+                    onNetResult.onNetResult(SUCCESS,countryCodeEntity);
+                }else {
+                    onNetResult.onNetResult(FAILURE,null);
+                }
+
+
+            }
+        });
+    }
+
 
     /*获取手机验证码*/
     public void getMobileCode(String account, String sendType, OnNetTwoResult onNetTwoResult) {

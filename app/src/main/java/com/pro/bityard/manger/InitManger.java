@@ -1,14 +1,20 @@
 package com.pro.bityard.manger;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.RateListEntity;
+import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.switchlibrary.SPUtils;
 
+import java.util.List;
 import java.util.Observable;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
@@ -94,14 +100,11 @@ public class InitManger extends Observable {
         });
 
         //获取国家code
-        NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
-            if (state.equals(SUCCESS)) {
+        NetManger.getInstance().getMobileCountryCode((state, response) -> {
 
-                CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-
-            }
         });
+
+
 
 
 

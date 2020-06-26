@@ -220,6 +220,24 @@ public class TradeUtil {
 
 
     }
+    /*持仓价格*/
+    public static void positionPrice(boolean isBuy,List<String> quoteList, String contractCode, TradeResult result) {
+        if (quoteList != null) {
+            for (String value : quoteList) {
+                String[] split1 = value.split(",");
+                if (contractCode.equals(split1[0])) {
+                    if (isBuy){
+                        result.setResult(split1[4]);
+                    }else {
+                        result.setResult(split1[5]);
+
+                    }
+                }
+            }
+        }
+
+
+    }
 
     /*净盈亏*/
     public static String netIncome(double income, double service) {

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -146,12 +147,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         QuoteListManger.getInstance().addObserver(this);
 
         //获取国家code
-        NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
-            if (state.equals(SUCCESS)) {
-                CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
 
-            }
+        NetManger.getInstance().getMobileCountryCode((state, response) -> {
+
         });
         //合约号初始化
 

@@ -34,7 +34,7 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
-import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.QuoteCustomizeListManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -148,7 +148,8 @@ public class PositionFragment extends BaseFragment implements Observer {
     public void onResume() {
         super.onResume();
         //行情的注册
-        QuoteListManger.getInstance().addObserver(this);
+        // QuoteListManger.getInstance().addObserver(this);
+        QuoteCustomizeListManger.getInstance().addObserver(this);
         //标签
         TagManger.getInstance().addObserver(this);
 
@@ -294,7 +295,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         //现价和盈亏
         price(quoteList, dataBean.getContractCode(), response -> {
             text_price_pop.setText(response.toString());
-            String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop,2);
+            String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop, 2);
             text_income_pop.setText(income + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
             double incomeDouble = Double.parseDouble(income);
             String netIncome = netIncome(incomeDouble, serviceCharge_pop);
@@ -364,7 +365,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         TextView text_fee = view.findViewById(R.id.text_fee);
         text_fee.setText(String.valueOf(serviceCharge_pop));
         TextView text_o_n = view.findViewById(R.id.text_o_n);
-        text_o_n.setText(String.valueOf(dataBean.getDeferDays()));
+        text_o_n.setText(dataBean.getDeferDays());
         TextView text_o_n_fee = view.findViewById(R.id.text_o_n_fee);
         text_o_n_fee.setText(String.valueOf(dataBean.getDeferFee()));
         TextView text_open_time = view.findViewById(R.id.text_open_time);
@@ -1300,7 +1301,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        if (o == QuoteListManger.getInstance()) {
+        if (o == QuoteCustomizeListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("0");
             //OpenPositionEntity{code=200, message='', data=[]}    或者是null
@@ -1329,7 +1330,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                         if (isAdded()) {
                             price(quoteList, contractCode, response -> {
                                 text_price_pop.setText(response.toString());
-                                String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop,2);
+                                String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop, 2);
                                 text_income_pop.setText(income + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
 
                                 double incomeDouble = Double.parseDouble(income);

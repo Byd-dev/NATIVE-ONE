@@ -44,6 +44,7 @@ import com.pro.bityard.manger.InitManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
+import com.pro.bityard.manger.QuoteCustomizeListManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.UserDetailManger;
@@ -259,7 +260,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     if (isLogin()) {
 
 
-                       // Toast.makeText(this, "行情刷新", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(this, "行情刷新", Toast.LENGTH_SHORT).show();
                         if (tradeType.equals("1")) {
                             setNetIncome(tradeType, positionRealList, quoteList);
                         } else {
@@ -344,7 +345,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 String netIncome = NetIncome[1];
                 String margin = NetIncome[2];
 
-               // Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
+                // Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
 
                 if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
@@ -558,6 +559,9 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         StatusBarUtil.setRootViewFitsSystemWindows(this, false);
         //行情初始化
         QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+
+        QuoteCustomizeListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+
         TabManger.getInstance().addObserver(this);
         //个人信息初始化
         UserDetailManger.getInstance().addObserver(this);
@@ -780,7 +784,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 String s = response.toString().replaceAll(" ", "");
-                if (s.startsWith("error")){
+                if (s.startsWith("error")) {
                     return;
                 }
 
@@ -1252,7 +1256,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     double money1 = data.getMoney();//可用余额
                     double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
                     double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
-                  //  Log.d("print", "setMyNetIncome:1205: " + money1 + "  " + add2 + "   " + ad3);
+                    //  Log.d("print", "setMyNetIncome:1205: " + money1 + "  " + add2 + "   " + ad3);
                     text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
                     //账户净值=可用余额+占用保证金+浮动盈亏
                     double money = Double.parseDouble(response.toString());//所有钱包的和

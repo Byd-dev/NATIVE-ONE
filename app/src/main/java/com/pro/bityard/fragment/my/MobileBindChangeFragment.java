@@ -117,10 +117,8 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
 
         view.findViewById(R.id.layout_country).setOnClickListener(this);
         btn_submit.setOnClickListener(this);
-        view.findViewById(R.id.img_back).setOnClickListener(this);
-
         text_getCode.setOnClickListener(this);
-
+        view.findViewById(R.id.img_back).setOnClickListener(this);
 
     }
 
@@ -198,12 +196,14 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
 
             } else {
                 mobile = SPUtils.getBoolean(AppConfig.CHANGE_MOBILE, true);
+
                 if (mobile == true) {
                     text_title.setText(R.string.text_mobile_change);
                     layout_country_code.setVisibility(View.GONE);
                     layout_mobile.setVisibility(View.GONE);
                     btn_submit.setText(R.string.text_next);
                     text_getCode.setEnabled(true);
+
                     edit_code.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -233,8 +233,9 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                     Util.isPhoneEffective(edit_account, response -> {
                         if (response.toString().equals("1")) {
                             text_err_mobile.setVisibility(View.GONE);
-                            layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
                             text_getCode.setEnabled(true);
+
+                            layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
                             if (Util.isCode(edit_code.getText().toString())) {
                                 btn_submit.setEnabled(true);
                             } else {
@@ -243,13 +244,11 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                         } else if (response.toString().equals("0")) {
                             text_err_mobile.setVisibility(View.VISIBLE);
                             layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
-                            text_getCode.setEnabled(false);
                             btn_submit.setEnabled(false);
 
                         } else if (response.toString().equals("-1")) {
                             text_err_mobile.setVisibility(View.GONE);
                             layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-                            text_getCode.setEnabled(false);
                             btn_submit.setEnabled(false);
 
                         }
@@ -297,21 +296,16 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
         //获取国家code
         countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
         if (countryCodeEntity == null) {
-            NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
-                @Override
-                public void onNetResult(String state, Object response) {
-                    if (state.equals(BUSY)) {
-                    } else if (state.equals(SUCCESS)) {
-                        CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                        SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-                        //遍历国家地名 选择区号
-                        for (int i = 0; i < countryCodeEntity.getData().size(); i++) {
-                            if (country_name.startsWith(countryCodeEntity.getData().get(i).getNameCn())) {
-                                text_countryCode.setText(countryCodeEntity.getData().get(i).getCountryCode());
-                            }
-                        }
-                    } else if (state.equals(FAILURE)) {
 
+            NetManger.getInstance().getMobileCountryCode((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    CountryCodeEntity countryCodeEntity = (CountryCodeEntity) response;
+                    SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
+                    //遍历国家地名 选择区号
+                    for (int i = 0; i < countryCodeEntity.getData().size(); i++) {
+                        if (country_name.startsWith(countryCodeEntity.getData().get(i).getNameCn())) {
+                            text_countryCode.setText(countryCodeEntity.getData().get(i).getCountryCode());
+                        }
                     }
                 }
             });
@@ -346,7 +340,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                 showEditPopWindow(countryCodeEntity);
                 break;
 
-            case R.id.text_getCode:
+            case R.id.text_getCode_mobile:
                 /*1首先判断是否绑定手机 没有的话就绑定手机
                  * 2再判断当前是设置手机号码 还是修改手机号码
                  * 3 设置手机号码就直接设置 修改是下一步*/
@@ -610,24 +604,19 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
             text_try.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
 
-            text_try.setOnClickListener(v -> NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
-                @Override
-                public void onNetResult(String state, Object response) {
-                    if (state.equals(BUSY)) {
-                    } else if (state.equals(SUCCESS)) {
+            text_try.setOnClickListener(v -> NetManger.getInstance().getMobileCountryCode((state, response) -> {
+                if (state.equals(SUCCESS)) {
 
-                        CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                        text_try.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-                        countryCodeAdapter.setDatas(countryCodeEntity.getData());
-                        setEdit(edit_search, countryCodeEntity.getData());
+                    CountryCodeEntity countryCodeEntity = (CountryCodeEntity) response;
+                    text_try.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
+                    countryCodeAdapter.setDatas(countryCodeEntity.getData());
+                    setEdit(edit_search, countryCodeEntity.getData());
 
-                    } else if (state.equals(FAILURE)) {
-
-                    }
                 }
             }));
+
 
         }
 

@@ -74,8 +74,6 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
     Button btn_submit;
 
 
-
-
     @BindView(R.id.text_forget_pass)
     TextView text_forget_pass;
     private int count_pass = 0;
@@ -123,17 +121,17 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
         view.findViewById(R.id.btn_login).setOnClickListener(this);
         img_eye.setOnClickListener(this);
-        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass)+"?");
+        text_forget_pass.setText(getResources().getText(R.string.text_forget_pass) + "?");
         //监听软键盘的按钮
         edit_account.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId== EditorInfo.IME_ACTION_DONE){
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 edit_account.clearFocus();
             }
             return false;
         });
 
         edit_password.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId== EditorInfo.IME_ACTION_DONE){
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 edit_password.clearFocus();
             }
             return false;
@@ -215,24 +213,19 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
         //获取国家code
         countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
         if (countryCodeEntity == null) {
-            NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
-                @Override
-                public void onNetResult(String state, Object response) {
-                    if (state.equals(BUSY)) {
-                    } else if (state.equals(SUCCESS)) {
-                        CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                        SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-                        //遍历国家地名 选择区号
-                        for (int i = 0; i < countryCodeEntity.getData().size(); i++) {
-                            if (country_name.startsWith(countryCodeEntity.getData().get(i).getNameCn())) {
-                                text_countryCode.setText(countryCodeEntity.getData().get(i).getCountryCode());
-                            }
+            NetManger.getInstance().getMobileCountryCode((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    CountryCodeEntity countryCodeEntity = (CountryCodeEntity) response;
+                    SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
+                    //遍历国家地名 选择区号
+                    for (int i = 0; i < countryCodeEntity.getData().size(); i++) {
+                        if (country_name.startsWith(countryCodeEntity.getData().get(i).getNameCn())) {
+                            text_countryCode.setText(countryCodeEntity.getData().get(i).getCountryCode());
                         }
-                    } else if (state.equals(FAILURE)) {
-
                     }
                 }
             });
+
         } else {
             //遍历国家地名 选择区号
             for (int i = 0; i < countryCodeEntity.getData().size(); i++) {
@@ -407,28 +400,19 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             text_try.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
 
-            text_try.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NetManger.getInstance().getRequest("/api/home/country/list", null, new OnNetResult() {
-                        @Override
-                        public void onNetResult(String state, Object response) {
-                            if (state.equals(BUSY)) {
-                            } else if (state.equals(SUCCESS)) {
+            text_try.setOnClickListener(v -> {
+                NetManger.getInstance().getMobileCountryCode((state, response) -> {
+                    if (state.equals(SUCCESS)) {
 
-                                CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
-                                text_try.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
-                                SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-                                countryCodeAdapter.setDatas(countryCodeEntity.getData());
-                                setEdit(edit_search, countryCodeEntity.getData());
+                        CountryCodeEntity countryCodeEntity = (CountryCodeEntity) response;
+                        text_try.setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                        SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
+                        countryCodeAdapter.setDatas(countryCodeEntity.getData());
+                        setEdit(edit_search, countryCodeEntity.getData());
 
-                            } else if (state.equals(FAILURE)) {
-
-                            }
-                        }
-                    });
-                }
+                    }
+                });
             });
 
         }

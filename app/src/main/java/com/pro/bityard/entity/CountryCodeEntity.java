@@ -78,6 +78,7 @@ public class CountryCodeEntity implements Serializable {
         private Object language;
         private String nameCn;
         private String nameEn;
+        private boolean isUsed;
 
         @Override
         public String toString() {
@@ -89,8 +90,19 @@ public class CountryCodeEntity implements Serializable {
                     ", language=" + language +
                     ", nameCn='" + nameCn + '\'' +
                     ", nameEn='" + nameEn + '\'' +
+                    ", isUsed=" + isUsed +
                     '}';
         }
+
+        public boolean isUsed() {
+            return isUsed;
+        }
+
+        public void setUsed(boolean used) {
+            isUsed = used;
+        }
+
+
 
         public Object getCode() {
             return code;

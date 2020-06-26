@@ -3,6 +3,7 @@ package com.pro.bityard.manger;
 import android.os.Handler;
 import android.os.Message;
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
@@ -21,17 +22,17 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class QuoteListManger extends Observable {
+public class QuoteCustomizeListManger extends Observable {
 
 
-    private static QuoteListManger quoteListManger;
+    private static QuoteCustomizeListManger quoteListManger;
 
 
-    public static QuoteListManger getInstance() {
+    public static QuoteCustomizeListManger getInstance() {
         if (quoteListManger == null) {
-            synchronized (QuoteListManger.class) {
+            synchronized (QuoteCustomizeListManger.class) {
                 if (quoteListManger == null) {
-                    quoteListManger = new QuoteListManger();
+                    quoteListManger = new QuoteCustomizeListManger();
                 }
             }
 
@@ -87,7 +88,7 @@ public class QuoteListManger extends Observable {
         if (quote_host == null && quote_code == null) {
             NetManger.getInstance().initQuote();
         } else {
-            NetManger.getInstance().getQuote(quote_host, "/quote.jsp", quote_code, (state, response) -> {
+            NetManger.getInstance().getCustomizeQuote(quote_host, "/customize.jsp", quote_code, (state, response) -> {
                 if (state.equals(BUSY)) {
 
                 } else if (state.equals(SUCCESS)) {
@@ -95,7 +96,6 @@ public class QuoteListManger extends Observable {
                     QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
                     String data = quoteEntity.getData();
                     List<String> strings = Util.quoteResult(data);
-
                     //价格从高到低
                     List<String> stringList = TradeUtil.priceHighToLow(strings);
                     //价格从低到高
@@ -127,8 +127,6 @@ public class QuoteListManger extends Observable {
 
                 }
             });
-
-
 
         }
 
