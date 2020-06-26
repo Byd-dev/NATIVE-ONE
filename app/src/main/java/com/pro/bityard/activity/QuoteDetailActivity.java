@@ -605,6 +605,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_switch.setText(getResources().getText(R.string.text_simulation_trade));
 
         }
+
         text_change.setText(TradeUtil.quoteChange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
         text_range.setText(TradeUtil.quoteRange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
 
@@ -654,8 +655,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     public void setContent(TradeListEntity tradeListEntity) {
         Log.d("print", "setContent:659:  " + tradeListEntity);
         if (tradeListEntity != null) {
-
-
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
             lever = leverShowList.get(oldSelect);
             text_lever_market.setText(lever + "X");
@@ -1076,11 +1075,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         TextView text_margin = view.findViewById(R.id.text_margin_pop);
         text_margin.setText(margin + " " + getString(R.string.text_usdt));
+        RelativeLayout layout_deduction = view.findViewById(R.id.layout_deduction);
 
         TextView text_service = view.findViewById(R.id.text_service_pop);
         text_service.setText(TradeUtil.numberHalfUp(Double.parseDouble(service), 2) + " " + getString(R.string.text_usdt));
         TextView text_all = view.findViewById(R.id.text_all_pop);
         text_deduction_amount_pop = view.findViewById(R.id.text_deduction_amount_pop);
+        if (Double.parseDouble(TradeUtil.deductionResult(service, margin, prizeTrade)) == 0) {
+            layout_deduction.setVisibility(View.GONE);
+        }
+
 
         text_deduction_amount_pop.setText(TradeUtil.deductionResult(service, margin, prizeTrade) + " " + getString(R.string.text_usdt));
 
@@ -1413,17 +1417,30 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
                     text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
-                    text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
-                            service,
-                            TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
+
+                    if (prizeTrade!=null){
+                        text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
+                                service,
+                                TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
+                    }
+
+                }else {
+                    text_market_volume.setText(getResources().getText(R.string.text_default));
+                    text_market_all.setText(getResources().getText(R.string.text_default));
 
                 }
                 if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
                     text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever);
-                    text_limit_all.setText(TradeUtil.total(edit_limit_margin.getText().toString(),
-                            service,
-                            TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
+                    if (prizeTrade!=null){
+                        text_limit_all.setText(TradeUtil.total(edit_limit_margin.getText().toString(),
+                                service,
+                                TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
+                    }
+
+                }else {
+                    text_limit_volume.setText(getResources().getText(R.string.text_default));
+                    text_limit_all.setText(getResources().getText(R.string.text_default));
 
                 }
 
