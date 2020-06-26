@@ -3,6 +3,7 @@ package com.pro.bityard.fragment.my;
 import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,7 +146,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                     if (isEdit_amount) {
                         isEdit_amount_transfer = false;
                         double input_amount = Double.parseDouble(s.toString());
-                        edit_amount_transfer.setText(TradeUtil.getNumberFormat(TradeUtil.mul(input_amount, Double.parseDouble(rate)), 2));
+                        edit_amount_transfer.setText(TradeUtil.numberHalfUp(TradeUtil.mul(input_amount, Double.parseDouble(rate)), 2));
                         if (input_amount > money) {
                             edit_amount.setText(String.valueOf(money));
                         }
@@ -175,10 +176,13 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                     if (isEdit_amount_transfer) {
                         isEdit_amount = false;
                         double input_amount_transfer = Double.parseDouble(s.toString());
-                        edit_amount.setText(TradeUtil.getNumberFormat(TradeUtil.div(input_amount_transfer, Double.parseDouble(rate), 10), 2));
+                        Log.d("print", "onTextChanged:179:  " + input_amount_transfer + "   " + rate + "    " + TradeUtil.div(input_amount_transfer, Double.parseDouble(rate), 4));
                         if (input_amount_transfer > amount_transfer) {
                             edit_amount_transfer.setText(String.valueOf(amount_transfer));
-
+                        } else if (input_amount_transfer < amount_transfer) {
+                            edit_amount.setText(TradeUtil.numberHalfUp(TradeUtil.div(input_amount_transfer, Double.parseDouble(rate), 10), 8));
+                        } else if (input_amount_transfer == amount_transfer) {
+                            edit_amount.setText(String.valueOf(money));
                         }
                     }
 
@@ -255,10 +259,14 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
         recyclerView.setAdapter(selectQuickAdapter);
 
         selectQuickAdapter.setOnItemClick(data -> {
+            //防止输入框的监听
+            isEdit_amount_transfer = false;
+            isEdit_amount = false;
             money = data.getMoney();
-            edit_amount.setText(TradeUtil.getNumberFormat(money, 2));
+            Log.d("print", "showSwitchPopWindow: " + money + "    " + TradeUtil.numberHalfUp(money, 8));
+            edit_amount.setText(TradeUtil.numberHalfUp(money, 8));
             currency = data.getCurrency();
-            text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency);
+            text_balance.setText(TradeUtil.numberHalfUp(money, 8) + currency);
             text_currency.setText(currency);
             ChartUtil.setIcon(currency, img_bg);
             popupWindow.dismiss();
