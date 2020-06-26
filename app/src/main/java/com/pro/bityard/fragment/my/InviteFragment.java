@@ -19,11 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.InviteRecordAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.InviteEntity;
 import com.pro.bityard.entity.InviteListEntity;
 import com.pro.bityard.entity.LoginEntity;
@@ -32,6 +34,7 @@ import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -43,6 +46,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
@@ -116,7 +120,9 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity != null) {
             text_url.setText(NetManger.QUOTE_HISTORY + "/?ru=" + loginEntity.getUser().getRefer());
+
         }
+
 
     }
 
@@ -168,7 +174,46 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
 
         /*转账*/
         inviteRecordAdapter.setOnTransferClick(data -> {
-            showTransferPopWindow(data);
+            String email = loginEntity.getUser().getEmail();
+            if (loginEntity.getUser().getPw_w() == 0) {
+                runOnUiThread(() -> {
+                    Util.lightOff(getActivity());
+                    PopUtil.getInstance().showTip(getActivity(),
+                            layout_view,
+                            true,
+                            getString(R.string.text_un_withdrawal_pass),
+                            state -> {
+                                if (state) {
+                                    UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SAFE_CENTER_FUNDS_PASS);
+                                } else {
+                                    getActivity().finish();
+                                }
+
+                            });
+                });
+
+            } else {
+                if (email.equals("")) {
+                    runOnUiThread(() -> {
+                        Util.lightOff(getActivity());
+                        PopUtil.getInstance().showTip(getActivity(),
+                                layout_view,
+                                true,
+                                getString(R.string.text_un_email_bind),
+                                state -> {
+                                    if (state) {
+                                        UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_EMAIL);
+                                    } else {
+                                        getActivity().finish();
+                                    }
+
+                                });
+                    });
+                } else {
+                    showTransferPopWindow(data);
+                }
+            }
+
         });
 
 
