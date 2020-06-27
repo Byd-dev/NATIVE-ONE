@@ -864,6 +864,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         Log.d("print", "onDestroy:912:  " + "执行了Ondestory");
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
+        QuoteCustomizeListManger.getInstance().cancelTimer();
+        QuoteCustomizeListManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);
         UserDetailManger.getInstance().clear();
         //  UserDetailManger.getInstance().cancelTimer();

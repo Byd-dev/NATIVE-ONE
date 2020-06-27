@@ -1178,7 +1178,7 @@ public class PositionFragment extends BaseFragment implements Observer {
             } else {
                 text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
             }
-            text_incomeAll.setText(getNumberFormat(Double.parseDouble(response.toString()), 2));
+            text_incomeAll.setText(response.toString());
 
         });
     }

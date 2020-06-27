@@ -163,15 +163,15 @@ public class TradeUtil {
 
 
     /*浮动盈亏 需要的订单盈亏*/
-    public static String incomeAdd(boolean isBuy, double price, double opPrice, double volume) {
+    public static String incomeAdd(boolean isBuy, double price, double opPrice, double volume, int priceDigit) {
         String income;
         if (opPrice == 0) {
             return "0";
         } else {
             if (isBuy) {
-                income = getNumberFormat(mul(sub(price, opPrice), volume), 2);
+                income = getNumberFormat(mul(sub(price, opPrice), volume), priceDigit);
             } else {
-                income = getNumberFormat(mul(sub(opPrice, price), volume), 2);
+                income = getNumberFormat(mul(sub(opPrice, price), volume), priceDigit);
             }
             return income;
         }
@@ -313,10 +313,10 @@ public class TradeUtil {
         List<Double> incomeList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
             boolean isBuy = dataBean.isIsBuy();
+            int priceDigit = dataBean.getPriceDigit();
             TradeUtil.positionPrice(isBuy, quoteList, dataBean.getContractCode(), response -> {
-                String valueIncome = TradeUtil.incomeAdd(isBuy, parseDouble(response.toString()), dataBean.getOpPrice(), dataBean.getVolume());
-                String income = getNumberFormat(parseDouble(valueIncome), 2);
-                incomeList.add(Double.parseDouble(income));
+                String valueIncome = TradeUtil.incomeAdd(isBuy, parseDouble(response.toString()), dataBean.getOpPrice(), dataBean.getVolume(), priceDigit);
+                incomeList.add(Double.parseDouble(valueIncome));
             });
         }
         if (incomeList.size() > 0) {
@@ -324,6 +324,7 @@ public class TradeUtil {
             for (int i = 0; i < incomeList.size(); i++) {
                 income = TradeUtil.add(income, incomeList.get(i));
             }
+            Log.d("print", "getIncome: 总盈亏: "+income);
             tradeResult.setResult(income);
         }
     }
