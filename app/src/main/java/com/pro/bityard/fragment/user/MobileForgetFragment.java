@@ -228,7 +228,6 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
             });
 
 
-
         } else {
             //遍历国家地名 选择区号
             for (int i = 0; i < countryCodeEntity.getData().size(); i++) {
@@ -263,7 +262,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
             case R.id.text_email_forget:
                 viewPager.setCurrentItem(0);
                 break;
-            case R.id.edit_code_mobile:
+            case R.id.text_getCode_mobile:
                 if (account_value.equals("")) {
                     Toast.makeText(getContext(), getResources().getString(R.string.text_input_number), Toast.LENGTH_SHORT).show();
                     return;
@@ -279,7 +278,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
                             mHandler.obtainMessage(0).sendToTarget();
-                        } else if (tipEntity.getCode() == 500) {
+                        } else {
                             Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                         }
@@ -291,10 +290,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
 
             case R.id.btn_submit:
                 //1  人机  2 发送验证码  3 验证验证码 4 验证账号 5改密
-
-
                 String code_value = edit_code.getText().toString();
-
                 if (account_value.equals("")) {
                     Toast.makeText(getContext(), getResources().getString(R.string.text_input_number), Toast.LENGTH_SHORT).show();
                     return;
@@ -304,7 +300,6 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                 }
                 //1验证验证码
                 //  checkCode(country_code, account_value, code_value);
-
                 NetManger.getInstance().checkMobileCode(country_code + account_value, "FORGOT_PASSWORD", code_value, (state, response) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
@@ -456,10 +451,8 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                     if (tipEntity.getCode() == 200 && tipEntity.isVerify_email() == true) {
                         //3 安全验证
                         checkSafe(country_code, account_value);
-
-
                     } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else if (state.equals(FAILURE)) {
@@ -487,9 +480,8 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                         ResetPassActivity.enter(getContext(), token);
                         getActivity().finish();
 
-
                     } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else if (state.equals(FAILURE)) {

@@ -14,13 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ResetPassActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnGtUtilResult;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -102,7 +100,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
         });
 
         edit_code.setOnEditorActionListener((v, actionId, event) -> {
-            if (actionId== EditorInfo.IME_ACTION_DONE){
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
                 edit_code.clearFocus();
             }
             return false;
@@ -133,11 +131,11 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (s.length()>4&&Util.isCode(s.toString())&&Util.isEmail(edit_account.getText().toString())){
-                btn_submit.setEnabled(true);
-            }else {
-                btn_submit.setEnabled(false);
-            }
+                if (s.length() > 4 && Util.isCode(s.toString()) && Util.isEmail(edit_account.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
             }
 
             @Override
@@ -145,8 +143,6 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
 
             }
         });
-
-
 
 
     }
@@ -197,6 +193,9 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
                             mHandler.obtainMessage(0).sendToTarget();
+                        } else {
+                            Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
                         }
                     } else if (state.equals(FAILURE)) {
                         dismissProgressDialog();
@@ -263,7 +262,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
 
 
                 } else {
-                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
             } else if (state.equals(FAILURE)) {
@@ -289,10 +288,8 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
                         String token = tipEntity.getToken();
                         ResetPassActivity.enter(getContext(), token);
                         getActivity().finish();
-
-
                     } else {
-                        Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 } else if (state.equals(FAILURE)) {
