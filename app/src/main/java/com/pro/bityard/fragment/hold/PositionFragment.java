@@ -293,7 +293,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         }
         //现价和盈亏
-        price(quoteList, dataBean.getContractCode(), response -> {
+        TradeUtil.positionPrice(isBuy_pop,quoteList, dataBean.getContractCode(), response -> {
             text_price_pop.setText(response.toString());
             String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop, 2);
             text_income_pop.setText(income + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
@@ -1323,12 +1323,12 @@ public class PositionFragment extends BaseFragment implements Observer {
                     //pop 实时价格也是同步刷新
                     if (text_price != null) {
                         if (isAdded()) {
-                            price(quoteList, contractCode, response -> text_price.setText(response.toString()));
+                            TradeUtil.positionPrice(isBuy_pop,quoteList, contractCode, response -> text_price.setText(response.toString()));
                         }
                     }
                     if (text_price_pop != null) {
                         if (isAdded()) {
-                            price(quoteList, contractCode, response -> {
+                            TradeUtil.positionPrice(isBuy_pop,quoteList, contractCode, response -> {
                                 text_price_pop.setText(response.toString());
                                 String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop, 2);
                                 text_income_pop.setText(income + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");

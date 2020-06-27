@@ -220,17 +220,17 @@ public class TradeUtil {
 
 
     }
+
     /*持仓价格*/
-    public static void positionPrice(boolean isBuy,List<String> quoteList, String contractCode, TradeResult result) {
+    public static void positionPrice(boolean isBuy, List<String> quoteList, String contractCode, TradeResult result) {
         if (quoteList != null) {
             for (String value : quoteList) {
                 String[] split1 = value.split(",");
                 if (contractCode.equals(split1[0])) {
-                    if (isBuy){
+                    if (isBuy) {
                         result.setResult(split1[4]);
-                    }else {
+                    } else {
                         result.setResult(split1[5]);
-
                     }
                 }
             }
@@ -260,8 +260,8 @@ public class TradeUtil {
                 double opPrice = dataBean.getOpPrice();
                 double volume = dataBean.getVolume();
                 double serviceCharge = dataBean.getServiceCharge();
-                TradeUtil.price(quoteList, dataBean.getContractCode(), response -> {
-                    String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume,2);
+                TradeUtil.positionPrice(isBuy, quoteList, dataBean.getContractCode(), response -> {
+                    String income1 = income(isBuy, Double.parseDouble(response.toString()), opPrice, volume, 2);
                     // String s = netIncome(Double.parseDouble(income1), serviceCharge);
                     Log.d("hold", "getNetIncome:253:  " + income1);
 
@@ -313,9 +313,10 @@ public class TradeUtil {
         List<Double> incomeList = new ArrayList<>();
         for (PositionEntity.DataBean dataBean : positionEntity.getData()) {
             boolean isBuy = dataBean.isIsBuy();
-            TradeUtil.price(quoteList, dataBean.getContractCode(), response -> {
-                Double income = Double.valueOf(TradeUtil.incomeAdd(isBuy, Double.parseDouble(response.toString()), dataBean.getOpPrice(), dataBean.getVolume()));
-                incomeList.add(income);
+            TradeUtil.positionPrice(isBuy, quoteList, dataBean.getContractCode(), response -> {
+                String valueIncome = TradeUtil.incomeAdd(isBuy, parseDouble(response.toString()), dataBean.getOpPrice(), dataBean.getVolume());
+                String income = getNumberFormat(parseDouble(valueIncome), 2);
+                incomeList.add(Double.parseDouble(income));
             });
         }
         if (incomeList.size() > 0) {

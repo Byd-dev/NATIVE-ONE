@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
 import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
+import static com.pro.bityard.utils.TradeUtil.positionPrice;
 import static com.pro.bityard.utils.TradeUtil.price;
 
 public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -137,7 +138,7 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             //止盈价格
             ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, price, priceDigit, lever, margin, stopProfit));
             //现价和盈亏
-            price(quoteList, datas.get(position).getContractCode(), response -> ((MyViewHolder) holder).text_price.setText(response.toString()));
+            positionPrice(isBuy,quoteList, datas.get(position).getContractCode(), response -> ((MyViewHolder) holder).text_price.setText(response.toString()));
 
 
         }

@@ -257,10 +257,19 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     quoteHomeAdapter.setDatas(arrayMap.get("5"));
                     quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
+
+
+                }
+            });
+
+
+        } else if (o == QuoteCustomizeListManger.getInstance()) {
+            ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
+            List<String> quoteList = arrayMap.get(type);
+            runOnUiThread(() -> {
+                assert quoteList != null;
+                if (quoteList.size() >= 3) {
                     if (isLogin()) {
-
-
-                        // Toast.makeText(this, "行情刷新", Toast.LENGTH_SHORT).show();
                         if (tradeType.equals("1")) {
                             setNetIncome(tradeType, positionRealList, quoteList);
                         } else {
@@ -561,7 +570,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
 
         QuoteCustomizeListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
-
+        QuoteListManger.getInstance().addObserver(this);
+        QuoteCustomizeListManger.getInstance().addObserver(this);
         TabManger.getInstance().addObserver(this);
         //个人信息初始化
         UserDetailManger.getInstance().addObserver(this);
@@ -573,7 +583,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
 
         /*首页 分割线-----------------------------------------------------------------------------*/
-        QuoteListManger.getInstance().addObserver(this);
+
+
         textSwitcher.setFactory(() -> {
             TextView textView = new TextView(this);
             textView.setMaxLines(1);

@@ -45,6 +45,7 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
+import static com.pro.bityard.utils.TradeUtil.positionPrice;
 import static com.pro.bityard.utils.TradeUtil.price;
 
 public class PendingFragment extends BaseFragment implements Observer {
@@ -66,6 +67,7 @@ public class PendingFragment extends BaseFragment implements Observer {
     private String contractCode = null;
     private List<String> quoteList;
     private TextView text_price_pop;
+    private boolean isBuy_pop;
 
     public PendingFragment newInstance(String type) {
         PendingFragment fragment = new PendingFragment();
@@ -194,7 +196,7 @@ public class PendingFragment extends BaseFragment implements Observer {
         text_name.setText(split[0]);
         TextView text_currency = view.findViewById(R.id.text_currency);
         text_currency.setText(dataBean.getCurrency());
-        boolean isBuy_pop = dataBean.isIsBuy();
+        isBuy_pop = dataBean.isIsBuy();
 
         String deferFee = dataBean.getDeferFee();
         TextView text_is_o_n = view.findViewById(R.id.text_is_o_n);
@@ -236,7 +238,7 @@ public class PendingFragment extends BaseFragment implements Observer {
 
         }
         //现价和盈亏
-        price(quoteList, contractCode, response -> {
+        positionPrice(isBuy_pop,quoteList, contractCode, response -> {
             text_price_pop.setText(response.toString());
 
 
@@ -356,7 +358,7 @@ public class PendingFragment extends BaseFragment implements Observer {
 
                 }
                 if (contractCode != null) {
-                    price(quoteList, contractCode, response -> {
+                    TradeUtil.positionPrice(isBuy_pop,quoteList, contractCode, response -> {
                         if (text_price_pop != null) {
                             text_price_pop.setText(response.toString());
                         }

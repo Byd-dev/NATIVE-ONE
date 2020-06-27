@@ -142,42 +142,45 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         email = loginEntity.getUser().getEmail();
         edit_code.setHint(getResources().getString(R.string.text_email_code));
         Log.d("print", "initView:229:  " + loginEntity);
-        if (loginEntity.getUser().getPw_w() == 0) {
+
+        if (email.equals("")) {
             runOnUiThread(() -> {
                 Util.lightOff(getActivity());
                 PopUtil.getInstance().showTip(getActivity(),
                         layout_view,
                         true,
-                        getString(R.string.text_un_withdrawal_pass),
+                        getString(R.string.text_un_email_bind),
                         state -> {
                             if (state) {
-                                UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SAFE_CENTER_FUNDS_PASS);
+                                UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_EMAIL);
                             } else {
                                 getActivity().finish();
                             }
 
                         });
             });
-
-        } else {
-            if (email.equals("")) {
+        }else {
+            if (loginEntity.getUser().getPw_w() == 0) {
                 runOnUiThread(() -> {
                     Util.lightOff(getActivity());
                     PopUtil.getInstance().showTip(getActivity(),
                             layout_view,
                             true,
-                            getString(R.string.text_un_email_bind),
+                            getString(R.string.text_un_withdrawal_pass),
                             state -> {
                                 if (state) {
-                                    UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_EMAIL);
+                                    UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SAFE_CENTER_FUNDS_PASS);
                                 } else {
                                     getActivity().finish();
                                 }
 
                             });
                 });
+
             }
         }
+
+
     }
 
     @Override
