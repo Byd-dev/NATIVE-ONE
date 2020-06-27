@@ -28,6 +28,7 @@ import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetThreeResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -271,9 +272,9 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 if (quoteList.size() >= 3) {
                     if (isLogin()) {
                         if (tradeType.equals("1")) {
-                            setNetIncome(tradeType, positionRealList, quoteList);
+                            TradeUtil.setNetIncome(tradeType, positionRealList, quoteList);
                         } else {
-                            setNetIncome(tradeType, positionSimulationList, quoteList);
+                            TradeUtil.setNetIncome(tradeType, positionSimulationList, quoteList);
 
                         }
                     }

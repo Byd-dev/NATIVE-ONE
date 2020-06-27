@@ -22,6 +22,7 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
+import com.pro.bityard.manger.QuoteCustomizeListManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.utils.TradeUtil;
 
@@ -106,7 +107,7 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     protected void initData() {
         //行情初始化
-        QuoteListManger.getInstance().addObserver(this);
+        QuoteCustomizeListManger.getInstance().addObserver(this);
         //余额注册
         BalanceManger.getInstance().addObserver(this);
         //净值注册
@@ -165,27 +166,26 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        if (o == QuoteListManger.getInstance()) {
-            arrayMap = (ArrayMap<String, List<String>>) arg;
-            quoteList = arrayMap.get(type);
+         if (o == QuoteCustomizeListManger.getInstance()) {
+            ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
+            List<String> quoteList = arrayMap.get(type);
             runOnUiThread(() -> {
                 assert quoteList != null;
                 if (quoteList.size() >= 3) {
                     if (isLogin()) {
-                       // Toast.makeText(getActivity(),"持仓行情",Toast.LENGTH_SHORT).show();
-
                         if (tradeType.equals("1")) {
-
-                            setNetIncome(tradeType, positionRealList, quoteList);
+                            TradeUtil.setNetIncome(tradeType, positionRealList, quoteList);
                         } else {
-                            setNetIncome(tradeType, positionSimulationList, quoteList);
+                            TradeUtil.setNetIncome(tradeType, positionSimulationList, quoteList);
+
                         }
                     }
+
                 }
             });
 
 
-        } else if (o == BalanceManger.getInstance()) {
+        }else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
             Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
 
@@ -209,7 +209,6 @@ public class HoldFragment extends BaseFragment implements Observer {
             });
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
-            Log.d("print", "update:持仓列表实盘:  " + positionRealList.size());
             if (positionRealList.size() == 0) {
                 text_freeze.setText(getResources().getString(R.string.text_default));
             } else {
@@ -265,11 +264,13 @@ public class HoldFragment extends BaseFragment implements Observer {
                         if (text_worth != null) {
                             text_worth.setText(getResources().getString(R.string.text_default));
                         }
-                        text_worth_simulation.setText(getResources().getString(R.string.text_default));
-                        text_available.setText(getResources().getString(R.string.text_default));
-                        text_available_simulation.setText(getResources().getString(R.string.text_default));
-                        text_freeze.setText(getResources().getString(R.string.text_default));
-                        text_freeze_simulation.setText(getResources().getString(R.string.text_default));
+                        if (isAdded()){
+                            text_worth_simulation.setText(getResources().getString(R.string.text_default));
+                            text_available.setText(getResources().getString(R.string.text_default));
+                            text_available_simulation.setText(getResources().getString(R.string.text_default));
+                            text_freeze.setText(getResources().getString(R.string.text_default));
+                            text_freeze_simulation.setText(getResources().getString(R.string.text_default));
+                        }
                     }
                 }
             });
@@ -327,42 +328,4 @@ public class HoldFragment extends BaseFragment implements Observer {
         }
     }
 
-    public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
-        if (positionList == null) {
-            StringBuilder stringBuilder = new StringBuilder();
-            StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
-                    .append(",").append(0.0);
-            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
-            //账户净值=可用余额+占用保证金+浮动盈亏
-            NetIncomeManger.getInstance().postNetIncome(append.toString());
-        } else if (positionList.size() == 0) {
-            StringBuilder stringBuilder = new StringBuilder();
-            StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
-                    .append(",").append(0.0);
-            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
-            //账户净值=可用余额+占用保证金+浮动盈亏
-            NetIncomeManger.getInstance().postNetIncome(append.toString());
-        } else {
-            TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
-                double margin;
-                double income;
-                //    Log.d("print", "setNetIncome: 207: "+positionList+"    "+response1+"    "+response2);
-                if (positionList == null) {
-                    margin = 0.0;
-                    income = 0.0;
-                } else {
-                    margin = Double.parseDouble(response2.toString());
-                    income = Double.parseDouble(response1.toString());
-                }
-                StringBuilder stringBuilder = new StringBuilder();
-                StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
-                        .append(",").append(margin);
-                //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
-                //账户净值=可用余额+占用保证金+浮动盈亏
-                NetIncomeManger.getInstance().postNetIncome(append.toString());
-            }));
-        }
-
-
-    }
 }

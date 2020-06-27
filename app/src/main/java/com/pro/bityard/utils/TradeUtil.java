@@ -10,6 +10,7 @@ import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.TradeListManger;
 
 import java.math.BigDecimal;
@@ -1105,5 +1106,52 @@ public class TradeUtil {
         String deduction = TradeUtil.numberHalfUp(TradeUtil.add(prizeDou, luckyDou), 2);
         return deduction;
     }
+
+
+    public static void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
+        Log.d("hold", "setNetIncome:204:  " + positionList);
+        if (positionList == null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
+                    .append(",").append(0.0);
+            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+            //账户净值=可用余额+占用保证金+浮动盈亏
+            Log.d("hold", "setNetIncome:发送的数据 210:  " + append.toString());
+            NetIncomeManger.getInstance().postNetIncome(append.toString());
+        } else if (positionList.size() == 0) {
+            StringBuilder stringBuilder = new StringBuilder();
+            StringBuilder append = stringBuilder.append(tradeType).append(",").append(0.0)
+                    .append(",").append(0.0);
+            //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+            //账户净值=可用余额+占用保证金+浮动盈亏
+            Log.d("hold", "setNetIncome:发送的数据 219:  " + append.toString());
+            NetIncomeManger.getInstance().postNetIncome(append.toString());
+        } else {
+            TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
+                double margin;
+                double income;
+                //    Log.d("print", "setNetIncome: 207: "+positionList+"    "+response1+"    "+response2);
+                if (positionList == null) {
+                    margin = 0.0;
+                    income = 0.0;
+                } else {
+                    margin = Double.parseDouble(response2.toString());
+                    income = Double.parseDouble(response1.toString());
+                }
+                StringBuilder stringBuilder = new StringBuilder();
+                StringBuilder append = stringBuilder.append(tradeType).append(",").append(income)
+                        .append(",").append(margin);
+                //总净值=可用余额-冻结资金+总净盈亏+其他钱包换算成USDT额
+                //账户净值=可用余额+占用保证金+浮动盈亏
+
+
+                Log.d("hold", "setNetIncome:发送的数据 220:  " + append.toString());
+                NetIncomeManger.getInstance().postNetIncome(append.toString());
+            }));
+        }
+
+
+    }
+
 
 }
