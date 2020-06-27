@@ -30,61 +30,10 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line"
-        android:background="@color/home_line" />
+    <include layout="@layout/layout_line" />
 
     <RelativeLayout
         android:id="@+id/layout_one"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_setup">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/text_english"
-                android:textColor="@color/text_main_color"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/text_english"
-                android:textColor="@color/text_second_color"
-                android:textSize="13sp" />
-
-
-        </LinearLayout>
-
-
-        <ImageView
-            android:id="@+id/img_one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_15" />
-
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line"
-        android:background="@color/home_line" />
-
-    <RelativeLayout
-        android:id="@+id/layout_two"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
@@ -106,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/text_chinese_second"
+                android:text="zh-CN"
                 android:textColor="@color/text_second_color"
                 android:textSize="13sp" />
 
@@ -115,7 +64,7 @@
 
 
         <ImageView
-            android:id="@+id/img_two"
+            android:id="@+id/img_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -124,13 +73,10 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line"
-        android:background="@color/home_line" />
+    <include layout="@layout/layout_line" />
 
     <RelativeLayout
-        android:id="@+id/layout_three"
+        android:id="@+id/layout_two"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
@@ -152,7 +98,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/text_traditional_second"
+                android:text="zh-TW"
+                android:textColor="@color/text_second_color"
+                android:textSize="13sp" />
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/img_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
+
+    <RelativeLayout
+        android:id="@+id/layout_three"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_setup">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/text_english"
+                android:textColor="@color/text_main_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="en-US"
                 android:textColor="@color/text_second_color"
                 android:textSize="13sp" />
 
@@ -168,12 +158,11 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15" />
 
+
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line"
-        android:background="@color/home_line" />
+    <include layout="@layout/layout_line" />
+
 
     <RelativeLayout
         android:id="@+id/layout_four"
@@ -190,7 +179,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/text_japan"
+                android:gravity="center"
+                android:text="Tiếng Việt"
                 android:textColor="@color/text_main_color"
                 android:textSize="15sp" />
 
@@ -198,7 +188,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/text_japan_second"
+                android:text="vi-VN"
                 android:textColor="@color/text_second_color"
                 android:textSize="13sp" />
 
@@ -214,16 +204,59 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15" />
 
+
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line"
-        android:background="@color/home_line" />
+    <include layout="@layout/layout_line" />
 
 
     <RelativeLayout
         android:id="@+id/layout_five"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_setup">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Bahasa"
+                android:textColor="@color/text_main_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="in-ID"
+                android:textColor="@color/text_second_color"
+                android:textSize="13sp" />
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/img_five"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
+
+    <RelativeLayout
+        android:id="@+id/layout_six"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
@@ -254,7 +287,7 @@
 
 
         <ImageView
-            android:id="@+id/img_five"
+            android:id="@+id/img_six"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -263,8 +296,93 @@
 
     </RelativeLayout>
 
-    <View
+    <include layout="@layout/layout_line" />
+
+    <RelativeLayout
+        android:id="@+id/layout_seven"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line"
-        android:background="@color/home_line" />
+        android:layout_height="@dimen/margin_setup">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Pусский"
+                android:textColor="@color/text_main_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="ru-RU"
+                android:textColor="@color/text_second_color"
+                android:textSize="13sp" />
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/img_seven"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15" />
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
+
+    <RelativeLayout
+        android:id="@+id/layout_eight"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_setup">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_japan"
+                android:textColor="@color/text_main_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/text_japan_second"
+                android:textColor="@color/text_second_color"
+                android:textSize="13sp" />
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/img_eight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
 </LinearLayout>

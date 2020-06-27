@@ -251,6 +251,15 @@ public class Util {
             case "zh_traditional":
                 locale = Locale.TRADITIONAL_CHINESE;
                 break;
+            case "vi":
+                locale = new Locale("vi");
+                break;
+            case "ru":
+                locale = new Locale("ru");
+                break;
+            case "in":
+                locale = new Locale("in");
+                break;
             case "ja":
                 locale = Locale.JAPANESE;
                 break;

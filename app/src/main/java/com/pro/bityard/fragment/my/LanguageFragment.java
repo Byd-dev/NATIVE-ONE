@@ -16,17 +16,20 @@ import butterknife.BindView;
 public class LanguageFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.img_one)
     ImageView img_one;
-
     @BindView(R.id.img_two)
     ImageView img_two;
     @BindView(R.id.img_three)
     ImageView img_three;
-
     @BindView(R.id.img_four)
     ImageView img_four;
     @BindView(R.id.img_five)
     ImageView img_five;
-
+    @BindView(R.id.img_six)
+    ImageView img_six;
+    @BindView(R.id.img_seven)
+    ImageView img_seven;
+    @BindView(R.id.img_eight)
+    ImageView img_eight;
 
     @Override
     protected void onLazyLoad() {
@@ -41,6 +44,9 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
         view.findViewById(R.id.layout_three).setOnClickListener(this);
         view.findViewById(R.id.layout_four).setOnClickListener(this);
         view.findViewById(R.id.layout_five).setOnClickListener(this);
+        view.findViewById(R.id.layout_six).setOnClickListener(this);
+        view.findViewById(R.id.layout_seven).setOnClickListener(this);
+        view.findViewById(R.id.layout_eight).setOnClickListener(this);
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
     }
@@ -66,37 +72,82 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
             img_three.setBackgroundResource(R.mipmap.icon_check_false);
             img_four.setBackgroundResource(R.mipmap.icon_check_false);
             img_five.setBackgroundResource(R.mipmap.icon_check_false);
+            img_six.setBackgroundResource(R.mipmap.icon_check_false);
+            img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+            img_eight.setBackgroundResource(R.mipmap.icon_check_false);
         } else {
-            if (language.equals("en")) {
+            if (language.equals("zh_simple")) {
                 img_one.setBackgroundResource(R.mipmap.icon_check_true);
                 img_two.setBackgroundResource(R.mipmap.icon_check_false);
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-            } else if (language.equals("zh_simple")) {
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+            } else if (language.equals("zh_traditional")) {
                 img_one.setBackgroundResource(R.mipmap.icon_check_false);
                 img_two.setBackgroundResource(R.mipmap.icon_check_true);
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-            } else if (language.equals("zh_traditional")) {
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+            } else if (language.equals("en")) {
                 img_one.setBackgroundResource(R.mipmap.icon_check_false);
                 img_two.setBackgroundResource(R.mipmap.icon_check_false);
                 img_three.setBackgroundResource(R.mipmap.icon_check_true);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-            } else if (language.equals("ja")) {
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+            } else if (language.equals("vi")) {
                 img_one.setBackgroundResource(R.mipmap.icon_check_false);
                 img_two.setBackgroundResource(R.mipmap.icon_check_false);
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_true);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-            } else if (language.equals("ko")) {
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+            } else if (language.equals("ru")) {
                 img_one.setBackgroundResource(R.mipmap.icon_check_false);
                 img_two.setBackgroundResource(R.mipmap.icon_check_false);
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_true);
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+            }else if (language.equals("ko")){
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+                img_six.setBackgroundResource(R.mipmap.icon_check_true);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+            }else if (language.equals("in")){
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_true);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+            }else if (language.equals("ja")){
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_true);
             }
         }
 
@@ -119,8 +170,10 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-
-                Util.switchLanguage(getContext(), "en");
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+                Util.switchLanguage(getContext(), "zh_simple");
                 finish();
 
 
@@ -133,8 +186,10 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-
-                Util.switchLanguage(getContext(), "zh_simple");
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+                Util.switchLanguage(getContext(), "zh_traditional");
                 finish();
 
 
@@ -147,8 +202,10 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_true);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-
-                Util.switchLanguage(getContext(), "zh_traditional");
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+                Util.switchLanguage(getContext(), "en");
                 finish();
 
 
@@ -161,8 +218,10 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_true);
                 img_five.setBackgroundResource(R.mipmap.icon_check_false);
-
-                Util.switchLanguage(getContext(), "ja");
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+                Util.switchLanguage(getContext(), "vi");
                 finish();
 
 
@@ -175,12 +234,55 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
                 img_three.setBackgroundResource(R.mipmap.icon_check_false);
                 img_four.setBackgroundResource(R.mipmap.icon_check_false);
                 img_five.setBackgroundResource(R.mipmap.icon_check_true);
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+                Util.switchLanguage(getContext(), "ru");
 
+                finish();
+
+
+                break;
+            case R.id.layout_six:
+
+
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+                img_six.setBackgroundResource(R.mipmap.icon_check_true);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
                 Util.switchLanguage(getContext(), "ko");
 
                 finish();
 
 
+                break;
+            case R.id.layout_seven:
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_true);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_false);
+                Util.switchLanguage(getContext(), "in");
+                finish();
+                break;
+            case R.id.layout_eight:
+                img_one.setBackgroundResource(R.mipmap.icon_check_false);
+                img_two.setBackgroundResource(R.mipmap.icon_check_false);
+                img_three.setBackgroundResource(R.mipmap.icon_check_false);
+                img_four.setBackgroundResource(R.mipmap.icon_check_false);
+                img_five.setBackgroundResource(R.mipmap.icon_check_false);
+                img_six.setBackgroundResource(R.mipmap.icon_check_false);
+                img_seven.setBackgroundResource(R.mipmap.icon_check_false);
+                img_eight.setBackgroundResource(R.mipmap.icon_check_true);
+                Util.switchLanguage(getContext(), "ja");
+                finish();
                 break;
         }
     }
