@@ -414,5 +414,8 @@
     <string name="text_bonus_history">Бонусный вычет</string>
     <string name="text_un_withdrawal_pass">Пожалуйста, сначала установите PIN-код</string>
     <string name="text_un_email_bind">Непривязанная</string>
+    <string name="text_omni_err">Omni USDT адрес начинается с 1 или 3</string>
+    <string name="text_erc_err">ERC20 USDT адрес начинается с 0 или буквы x</string>
+    <string name="text_trc_err">TRC20 USDT адрес начинается с T</string>
 
 </resources>

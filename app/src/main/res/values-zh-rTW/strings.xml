@@ -414,5 +414,8 @@
     <string name="text_bonus_history">禮金抵扣</string>
     <string name="text_un_withdrawal_pass">未設置資金密碼</string>
     <string name="text_un_email_bind">郵箱未綁定</string>
+    <string name="text_omni_err">OMNI鏈地址必須以數字1或者3開頭</string>
+    <string name="text_erc_err">ERC20鏈地址必須以數字0和小寫x開頭</string>
+    <string name="text_trc_err">TRC20鏈地址必須以大寫字母T開頭</string>
 
 </resources>

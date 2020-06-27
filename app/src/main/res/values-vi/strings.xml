@@ -414,5 +414,8 @@
     <string name="text_bonus_history">Trừ tiền thưởng</string>
     <string name="text_un_withdrawal_pass">Chưa cài đặt mật mã tài sản</string>
     <string name="text_un_email_bind">Chưa liên kết Email</string>
+    <string name="text_omni_err">Omni USDT address starts with 1 or 3</string>
+    <string name="text_erc_err">ERC20 USDT address starts with 0x</string>
+    <string name="text_trc_err">TRC20 USDT address starts with T</string>
 
 </resources>

@@ -414,5 +414,8 @@
     <string name="text_bonus_history">보너스 공제</string>
     <string name="text_un_withdrawal_pass">PIN 코드가 설정되지 않음.</string>
     <string name="text_un_email_bind">연동되지 않음</string>
+    <string name="text_omni_err">Omni USDT 주소는 1 또는 3으로 시작됩니다.</string>
+    <string name="text_erc_err">ERC20 USDT 주소는 0x로 시작됩니다.</string>
+    <string name="text_trc_err">TRC20 주소는 영문 대문자 T로 시작됩니다.</string>
 
 </resources>

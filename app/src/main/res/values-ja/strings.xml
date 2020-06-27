@@ -414,6 +414,9 @@
     <string name="text_bonus_history">ボーナスで控除</string>
     <string name="text_un_withdrawal_pass">PINコードは未設定です</string>
     <string name="text_un_email_bind">E-メール認証は未設定です</string>
+    <string name="text_omni_err">Omni USDTアドレスは数字の1または3で始まらなければなりません。</string>
+    <string name="text_erc_err">ERC20 USDTアドレスは0または小文字のxで始まらなければなりません。</string>
+    <string name="text_trc_err">TRC20 USDTアドレスは大文字のTで始まらなければなりません。</string>
 
 
 </resources>

@@ -413,5 +413,8 @@
     <string name="text_bonus_history">礼金抵扣</string>
     <string name="text_un_withdrawal_pass">未设置资金密码</string>
     <string name="text_un_email_bind">邮箱未绑定</string>
+    <string name="text_omni_err">OMNI链地址必须以数字1或者3开头</string>
+    <string name="text_erc_err">ERC20链地址必须以数字0和小写x开头</string>
+    <string name="text_trc_err">TRC20链地址必须以大写字母T开头</string>
 
 </resources>

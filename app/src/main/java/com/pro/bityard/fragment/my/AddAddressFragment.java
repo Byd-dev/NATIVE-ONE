@@ -1,5 +1,7 @@
 package com.pro.bityard.fragment.my;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +48,8 @@ public class AddAddressFragment extends BaseFragment implements View.OnClickList
 
     @BindView(R.id.btn_submit)
     Button btn_submit;
+    @BindView(R.id.text_err)
+    TextView text_err;
 
     private ChainListAdapter chainListAdapter;//杠杆适配器
     private List<String> dataList;
@@ -81,18 +85,106 @@ public class AddAddressFragment extends BaseFragment implements View.OnClickList
         dataList.add("ERC20");
         dataList.add("TRC20");
         chainListAdapter.setDatas(dataList);
+        chainListAdapter.select("OMNI");
         edit_address.setHint(getString(R.string.text_enter) + " OMNI " + getString(R.string.text_add_address));
-
         chainListAdapter.setOnItemClick((position, data) -> {
+            String value_address = edit_address.getText().toString();
             chainListAdapter.select(data);
             recyclerView.setAdapter(chainListAdapter);
             edit_address.setHint(getString(R.string.text_enter) + " " + data + " " + getString(R.string.text_add_address));
             chain = data;
+            if (value_address.equals("")){
+                text_err.setVisibility(View.GONE);
+            }else {
+                switch (chain) {
+                    case "OMNI":
+                        if (value_address.startsWith("1")) {
+                            text_err.setVisibility(View.GONE);
+                        } else if (value_address.startsWith("3")) {
+                            text_err.setVisibility(View.GONE);
+                        } else {
+                            text_err.setVisibility(View.VISIBLE);
+                            text_err.setText(getResources().getText(R.string.text_omni_err));
+                        }
+                        break;
+                    case "ERC20":
+                        if (value_address.startsWith("0")) {
+                            text_err.setVisibility(View.GONE);
+                        } else if (value_address.startsWith("x")) {
+                            text_err.setVisibility(View.GONE);
+                        } else {
+                            text_err.setVisibility(View.VISIBLE);
+                            text_err.setText(getResources().getText(R.string.text_erc_err));
+                        }
+                        break;
+                    case "TRC20":
+                        if (value_address.startsWith("T")) {
+                            text_err.setVisibility(View.GONE);
+                        } else {
+                            text_err.setVisibility(View.VISIBLE);
+                            text_err.setText(getResources().getText(R.string.text_trc_err));
+                        }
+                        break;
+                }
+            }
+
+
+
         });
 
         btn_submit.setOnClickListener(this);
         Util.setTwoUnClick(edit_address, edit_remark, btn_submit);
         Util.setTwoUnClick(edit_remark, edit_address, btn_submit);
+
+        edit_address.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    switch (chain) {
+                        case "OMNI":
+                            if (s.toString().startsWith("1")) {
+                                text_err.setVisibility(View.GONE);
+                            } else if (s.toString().startsWith("3")) {
+                                text_err.setVisibility(View.GONE);
+                            } else {
+                                text_err.setVisibility(View.VISIBLE);
+                                text_err.setText(getResources().getText(R.string.text_omni_err));
+                            }
+                            break;
+                        case "ERC20":
+                            if (s.toString().startsWith("0")) {
+                                text_err.setVisibility(View.GONE);
+                            } else if (s.toString().startsWith("x")) {
+                                text_err.setVisibility(View.GONE);
+                            } else {
+                                text_err.setVisibility(View.VISIBLE);
+                                text_err.setText(getResources().getText(R.string.text_erc_err));
+                            }
+                            break;
+                        case "TRC20":
+                            if (s.toString().startsWith("T")) {
+                                text_err.setVisibility(View.GONE);
+                            } else {
+                                text_err.setVisibility(View.VISIBLE);
+                                text_err.setText(getResources().getText(R.string.text_trc_err));
+                            }
+                            break;
+                    }
+                } else {
+                    text_err.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
     }
