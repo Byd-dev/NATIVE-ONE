@@ -1295,6 +1295,7 @@ public class NetManger {
 
 
     private String geetestToken = null;
+    private String resultStr=null;
 
     /*获取邮箱验证码*/
     public void getEmailCode(String account, String sendType, OnNetTwoResult onNetTwoResult) {
@@ -1302,8 +1303,10 @@ public class NetManger {
         Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
             @Override
             public void onApi1Result(String result) {
-                geetestToken = result;
-
+                String[] split = result.split(",");
+                geetestToken = split[0];
+                Log.d("print", "onApi1Result:gt:  "+split[1]);
+                resultStr=result;
             }
 
             @Override
@@ -1318,7 +1321,7 @@ public class NetManger {
                         onNetTwoResult.setResult(BUSY, null, null);
                     } else if (state.equals(SUCCESS)) {
                         TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                        onNetTwoResult.setResult(SUCCESS, geetestToken, tipEntity);
+                        onNetTwoResult.setResult(SUCCESS, resultStr, tipEntity);
 
                     } else if (state.equals(FAILURE)) {
                         onNetTwoResult.setResult(FAILURE, null, null);
@@ -1379,8 +1382,8 @@ public class NetManger {
         Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
             @Override
             public void onApi1Result(String result) {
-                geetestToken = result;
-
+                String[] split = result.split(",");
+                geetestToken = split[0];
             }
 
             @Override

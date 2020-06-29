@@ -332,7 +332,8 @@ public class EmailBindChangeFragment extends BaseFragment implements View.OnClic
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response2;
-                        googleToken = (String) response1;
+                        String[] split = response1.toString().split(",");
+                        googleToken = split[0];
                         if (tipEntity.getCode() == 200) {
                             if (sendType.equals("BIND_EMAIL")){
                                 mHandler.obtainMessage(0).sendToTarget();

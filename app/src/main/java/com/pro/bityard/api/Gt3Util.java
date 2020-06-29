@@ -41,7 +41,7 @@ public class Gt3Util {
      * api2，需替换成自己的服务器URL
      */
     private static final String URL_API2 = NetManger.BASE_URL + "/api/geetest/api2";
-    private String TAG = "abcdefghijklmn";
+    private String TAG = "register";
 
 
     private GT3GeetestUtils gt3GeetestUtils;
@@ -84,7 +84,12 @@ public class Gt3Util {
                 if (null != result) {
                     Map<String, Object> stringObjectMap = Util.jsonToMap(result);
                     String geetestToken = (String) stringObjectMap.get("geetestToken");
-                    onGtUtilResult.onApi1Result(geetestToken);
+
+                    StringBuilder stringBuilder=new StringBuilder();
+                    Map<String, Object> data = (Map<String, Object>) stringObjectMap.get("data");
+                    String gt = (String) data.get("gt");
+                    StringBuilder append = stringBuilder.append(geetestToken).append(",").append(gt);
+                    onGtUtilResult.onApi1Result(append.toString());
                     Log.e(TAG, "onApi1Result-->" + result);
                 }
 

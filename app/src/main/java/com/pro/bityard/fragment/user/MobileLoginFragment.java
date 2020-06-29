@@ -294,7 +294,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                     @Override
                     public void onApi1Result(String result) {
-                        geetestToken = result;
+                        String[] split = result.split(",");
+                        geetestToken = split[0];
                     }
 
                     @Override

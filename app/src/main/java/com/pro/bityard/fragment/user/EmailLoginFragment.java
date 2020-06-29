@@ -253,7 +253,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                     @Override
                     public void onApi1Result(String result) {
-                        geetestToken = result;
+                        String[] split = result.split(",");
+                        geetestToken = split[0];
                     }
 
                     @Override

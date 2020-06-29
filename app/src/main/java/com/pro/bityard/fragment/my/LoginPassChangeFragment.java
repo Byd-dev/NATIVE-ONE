@@ -406,7 +406,8 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                         dismissProgressDialog();
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
-                            googleToken = (String) response1;
+                            String[] split = response1.toString().split(",");
+                            googleToken = split[0];
                             mHandler.obtainMessage(0).sendToTarget();
                         } else if (tipEntity.getCode() == 500) {
                             Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();

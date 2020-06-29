@@ -344,7 +344,8 @@ public class FundsPassFrogetFragment extends BaseFragment implements View.OnClic
                             dismissProgressDialog();
                             TipEntity tipEntity = (TipEntity) response2;
                             if (tipEntity.getCode() == 200) {
-                                googleToken = (String) response1;
+                                String[] split = response1.toString().split(",");
+                                googleToken = split[0];
                                 mHandler.sendEmptyMessage(0);
                                 Message msg = new Message();
                                 mHandler.sendMessage(msg);
