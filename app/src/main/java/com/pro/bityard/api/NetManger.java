@@ -10,6 +10,7 @@ import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
@@ -41,12 +42,13 @@ import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
-import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
@@ -54,10 +56,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
+import okhttp3.Headers;
 
 public class NetManger {
     private String TAG = "NetManger";
@@ -158,6 +163,9 @@ public class NetManger {
 
                     @Override
                     public void onSuccess(Response<String> response) {
+                        Headers headers = response.headers();
+                        String s = headers.get("Set-Cookie");
+                        Log.d("cookie", "onSuccess: " + s);
                         if (!TextUtils.isEmpty(response.body())) {
                             onNetResult.onNetResult(SUCCESS, response.body());
                         }
@@ -172,6 +180,37 @@ public class NetManger {
 
     }
 
+    //post 请求
+    public void postRequestWithCookie(String url, String cookie, ArrayMap map, OnNetResult onNetResult) {
+        CookieJarImpl cookieJar = OkGo.getInstance().getCookieJar();
+
+        OkGo.<String>post(getURL(url, map))
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, null);
+
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        Headers headers = response.headers();
+                        String s = headers.get("Set-Cookie");
+                        Log.d("cookie", "onSuccess: " + s);
+                        if (!TextUtils.isEmpty(response.body())) {
+                            onNetResult.onNetResult(SUCCESS, response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, response.body());
+                    }
+                });
+
+    }
 
     //动态host get 请求
     public void getHostRequest(String host, String url, ArrayMap map, OnNetResult onNetResult) {
@@ -854,7 +893,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "getHistory:857:   "+response);
+                Log.d("print", "getHistory:857:   " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -1295,7 +1334,7 @@ public class NetManger {
 
 
     private String geetestToken = null;
-    private String resultStr=null;
+    private String resultStr = null;
 
     /*获取邮箱验证码*/
     public void getEmailCode(String account, String sendType, OnNetTwoResult onNetTwoResult) {
@@ -1305,8 +1344,8 @@ public class NetManger {
             public void onApi1Result(String result) {
                 String[] split = result.split(",");
                 geetestToken = split[0];
-                Log.d("print", "onApi1Result:gt:  "+split[1]);
-                resultStr=result;
+                Log.d("print", "onApi1Result:gt:  " + split[1]);
+                resultStr = result;
             }
 
             @Override
@@ -1342,7 +1381,7 @@ public class NetManger {
     }
 
 
-    public void getMobileCountryCode(OnNetResult onNetResult){
+    public void getMobileCountryCode(OnNetResult onNetResult) {
         //获取国家code
         NetManger.getInstance().getRequest("/api/home/country/list", null, (state, response) -> {
             if (state.equals(SUCCESS)) {
@@ -1365,9 +1404,9 @@ public class NetManger {
                         }
                     }
                     SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-                    onNetResult.onNetResult(SUCCESS,countryCodeEntity);
-                }else {
-                    onNetResult.onNetResult(FAILURE,null);
+                    onNetResult.onNetResult(SUCCESS, countryCodeEntity);
+                } else {
+                    onNetResult.onNetResult(FAILURE, null);
                 }
 
 
@@ -2033,4 +2072,49 @@ public class NetManger {
             }
         });
     }
+
+    /*验证码获取的*/
+    public void Gt3GetRequest(String url, OnNetResult onNetResult) {
+        OkGo.<String>get(url)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        onNetResult.onNetResult(SUCCESS, response.body());
+                    }
+                });
+    }
+
+    private static List<String> listKey;
+    private static List<String> listValue;
+
+    public void Gt3PostRequest(String url, String geetestToken, String postParam, OnNetResult onNetResult) {
+        Map<String, Object> stringObjectMap = Gt3Util.jsonToMap(postParam);
+        Iterator<Map.Entry<String, Object>> iterator = stringObjectMap.entrySet().iterator();
+
+        listKey = new ArrayList<>();
+        listValue = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            Map.Entry<String, Object> next = iterator.next();
+            String key = next.getKey();
+            String value = (String) next.getValue();
+            listKey.add(key);
+            listValue.add(value);
+        }
+        OkGo.<String>post(url)
+                .params("geetestToken", geetestToken)
+                .params("clientType", "native")
+                .params(listKey.get(0), listValue.get(0))
+                .params(listKey.get(1), listValue.get(1))
+                .params(listKey.get(2), listValue.get(2))
+                .params("_", String.valueOf(new Date().getTime()))
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        onNetResult.onNetResult(SUCCESS, response.body());
+                    }
+                });
+    }
+
+
 }

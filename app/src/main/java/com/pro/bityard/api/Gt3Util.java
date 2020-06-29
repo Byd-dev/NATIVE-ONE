@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import static com.pro.bityard.api.NetManger.SUCCESS;
+
 public class Gt3Util {
 
     public static Gt3Util instance;
@@ -81,16 +83,20 @@ public class Gt3Util {
              */
             @Override
             public void onApi1Result(String result) {
+                Log.e(TAG, "onApi1Result-->" + result);
+
                 if (null != result) {
                     Map<String, Object> stringObjectMap = Util.jsonToMap(result);
-                    String geetestToken = (String) stringObjectMap.get("geetestToken");
+                    String code = (String) stringObjectMap.get("code");
+                    if (code.equals("200")) {
+                        String geetestToken = (String) stringObjectMap.get("geetestToken");
+                        StringBuilder stringBuilder = new StringBuilder();
+                        Map<String, Object> data = (Map<String, Object>) stringObjectMap.get("data");
+                        String gt = (String) data.get("gt");
+                        StringBuilder append = stringBuilder.append(geetestToken).append(",").append(gt);
+                        onGtUtilResult.onApi1Result(append.toString());
+                    }
 
-                    StringBuilder stringBuilder=new StringBuilder();
-                    Map<String, Object> data = (Map<String, Object>) stringObjectMap.get("data");
-                    String gt = (String) data.get("gt");
-                    StringBuilder append = stringBuilder.append(geetestToken).append(",").append(gt);
-                    onGtUtilResult.onApi1Result(append.toString());
-                    Log.e(TAG, "onApi1Result-->" + result);
                 }
 
             }
@@ -115,8 +121,11 @@ public class Gt3Util {
                 // onGtUtilResult.onGtResult(result);
 
                 Log.e(TAG, "onDialogResult-->" + result);
-                // 开启api2逻辑
-                new RequestAPI2().execute(result);
+                requestAPI2(result);
+
+              //  new RequestAPI2().execute(result);
+
+
             }
 
             /**
@@ -180,7 +189,8 @@ public class Gt3Util {
              */
             @Override
             public void onButtonClick() {
-                new RequestAPI1().execute();
+
+                requestAPI1();
 
             }
         });
@@ -188,84 +198,57 @@ public class Gt3Util {
         // 开启验证
         gt3GeetestUtils.startCustomFlow();
     }
-
-
     /**
      * 请求api1
      */
-    class RequestAPI1 extends AsyncTask<Void, Void, JSONObject> {
-
-        @Override
-        protected JSONObject doInBackground(Void... params) {
-            String string = HttpUtils.requestGet(URL_API1);
-
-            stringObjectMap = jsonToMap(string);
-
-
-            Log.e(TAG, "doInBackground: " + string);
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = new JSONObject(string);
-            } catch (Exception e) {
-                e.printStackTrace();
+    void requestAPI1() {
+        NetManger.getInstance().Gt3GetRequest(URL_API1, (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                stringObjectMap = jsonToMap(response.toString());
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = new JSONObject(response.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                gt3ConfigBean.setApi1Json(jsonObject);
+                // 继续api验证
+                gt3GeetestUtils.getGeetest();
             }
-            return jsonObject;
-        }
-
-        @Override
-        protected void onPostExecute(JSONObject parmas) {
-
-
-            // 继续验证
-            Log.e(TAG, "RequestAPI1-->onPostExecute: " + parmas);
-            // SDK可识别格式为
-            // {"success":1,"challenge":"06fbb267def3c3c9530d62aa2d56d018","gt":"019924a82c70bb123aae90d483087f94"}
-            // TODO 将api1请求结果传入此方法，即使为null也要传入，SDK内部已处理，否则易出现无限loading
-            gt3ConfigBean.setApi1Json(parmas);
-            // 继续api验证
-            gt3GeetestUtils.getGeetest();
-        }
+        });
     }
-
     /**
      * 请求api2
      */
-    class RequestAPI2 extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... params) {
-            if (!TextUtils.isEmpty(params[0])) {
-                Log.d(TAG, "RequestAPI2-->doInBackground: " + params[0]);
-                return HttpUtils.requestPost(URL_API2, params[0], (String) stringObjectMap.get("geetestToken"));
-            } else {
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e(TAG, "RequestAPI2-->onPostExecute: " + result);
-            if (!TextUtils.isEmpty(result)) {
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    String status = jsonObject.getString("status");
-                    if ("success".equals(status)) {
-                        gt3GeetestUtils.showSuccessDialog();
-                    } else {
+    void requestAPI2(String postParam){
+        NetManger.getInstance().Gt3PostRequest(URL_API2,(String) stringObjectMap.get("geetestToken"), postParam, (state, response) -> {
+            if (state.equals(SUCCESS)){
+                if (!TextUtils.isEmpty(response.toString())) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.toString());
+                        String status = jsonObject.getString("status");
+                        if ("success".equals(status)) {
+                            gt3GeetestUtils.showSuccessDialog();
+                        } else {
+                            gt3GeetestUtils.showFailedDialog();
+                        }
+                    } catch (Exception e) {
                         gt3GeetestUtils.showFailedDialog();
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
+                } else {
                     gt3GeetestUtils.showFailedDialog();
-                    e.printStackTrace();
                 }
-            } else {
-                gt3GeetestUtils.showFailedDialog();
             }
-        }
+        });
     }
 
-    private static Map<String, Object> jsonToMap(String content) {
-        if (content != null&&content.length()!=0) {
+
+
+
+
+    public static Map<String, Object> jsonToMap(String content) {
+        if (content != null && content.length() != 0) {
             content = content.trim();
             Map<String, Object> result = new HashMap<>();
             try {

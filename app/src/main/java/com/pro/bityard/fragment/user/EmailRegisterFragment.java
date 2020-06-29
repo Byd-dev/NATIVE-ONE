@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.api.Gt3Util;
+import com.pro.bityard.api.HttpUtils;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -72,6 +73,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     TextView text_err_email;
     @BindView(R.id.btn_submit)
     Button btn_submit;
+    private String gt;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -227,6 +229,8 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
+                        String[] split = response1.toString().split(",");
+                        gt = split[1];
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
                             mHandler.sendEmptyMessage(0);
@@ -309,7 +313,9 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
 
     private void register(ArrayMap<String, String> map) {
 
-        NetManger.getInstance().postRequest("/api/register/submit", map, (state, response) -> {
+
+
+        NetManger.getInstance().postRequestWithCookie("/api/register/submit", gt,map, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {

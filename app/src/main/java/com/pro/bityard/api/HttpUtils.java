@@ -187,6 +187,8 @@ public class HttpUtils {
         Request request = new Request.Builder().url(urlString).build();
         try {
             Response response = okHttpClient.newCall(request).execute();
+            String header = response.header("Set-Cookie");
+            Log.d("print", "requestGet:191: "+ header);
             return response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
