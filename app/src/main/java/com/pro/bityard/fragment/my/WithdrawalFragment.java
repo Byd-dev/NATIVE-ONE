@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +9,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,9 +24,10 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.ChainListAdapter;
-import com.pro.bityard.adapter.WithdrawalAddressSelectAdapter;
+import com.pro.bityard.adapter.WithdrawalAddressAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -45,6 +49,7 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
@@ -65,8 +70,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     TextView text_title;
     @BindView(R.id.edit_amount)
     EditText edit_amount;
-    @BindView(R.id.edit_address)
-    EditText edit_address;
+    @BindView(R.id.text_address)
+    TextView text_address;
     @BindView(R.id.edit_pass_withdraw)
     EditText edit_pass_withdraw;
     @BindView(R.id.btn_submit)
@@ -77,8 +82,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     ImageView img_eye;
     @BindView(R.id.text_getCode)
     TextView text_getCode;
-    @BindView(R.id.img_right)
-    ImageView img_right;
+
 
     @BindView(R.id.text_transfer_title)
     TextView text_transfer_title;
@@ -103,7 +107,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     private String addressId;
 
-    private WithdrawalAddressSelectAdapter withdrawalAddressSelectAdapter;
+    private WithdrawalAddressAdapter withdrawalAddressAdapter;
     private WithdrawalAdressEntity withdrawalAdressEntity;
     private UserDetailEntity.UserBean user;
 
@@ -159,7 +163,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
                         });
             });
-        }else {
+        } else {
             if (loginEntity.getUser().getPw_w() == 0) {
                 runOnUiThread(() -> {
                     Util.lightOff(getActivity());
@@ -210,9 +214,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         btn_submit_transfer.setOnClickListener(this);
 
         layout_address.setOnClickListener(this);
-        img_right.setOnClickListener(this);
 
-        withdrawalAddressSelectAdapter = new WithdrawalAddressSelectAdapter(getActivity());
+        withdrawalAddressAdapter = new WithdrawalAddressAdapter(getActivity());
         edit_amount.setOnFocusChangeListener((v, hasFocus) -> {
             if (!hasFocus) {
                 String value_amount = edit_amount.getText().toString();
@@ -235,10 +238,10 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             }
         });
 
-        Util.setFourUnClick(edit_amount, edit_pass_withdraw, edit_address, edit_code, btn_submit);
-        Util.setFourUnClick(edit_pass_withdraw, edit_amount, edit_address, edit_code, btn_submit);
-        Util.setFourUnClick(edit_address, edit_pass_withdraw, edit_amount, edit_code, btn_submit);
-        Util.setFourUnClick(edit_code, edit_pass_withdraw, edit_address, edit_amount, btn_submit);
+        Util.setThreeUnClick(edit_amount, edit_pass_withdraw, edit_code, btn_submit);
+        Util.setThreeUnClick(edit_pass_withdraw, edit_amount, edit_code, btn_submit);
+        Util.setThreeUnClick(edit_pass_withdraw, edit_amount, edit_code, btn_submit);
+        Util.setThreeUnClick(edit_code, edit_pass_withdraw, edit_amount, btn_submit);
 
 
         Util.setFourUnClick(edit_amount_transfer, edit_pass_transfer, edit_username, edit_code_transfer, btn_submit_transfer);
@@ -290,6 +293,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
 
@@ -335,8 +339,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             }
         });
 
-        text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
-        text_balance_transfer.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+        text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+        text_balance_transfer.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
 
 
     }
@@ -346,13 +350,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         switch (v.getId()) {
             case R.id.img_back:
                 getActivity().finish();
-                break;
-            case R.id.img_right:
-                img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_open));
-
-                showAddressPopWindow(withdrawalAdressEntity);
-
-
                 break;
             case R.id.layout_address:
 
@@ -367,7 +364,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.text_address_manage:
                 if (isLogin()) {
-                    UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS);
+                    showAddressPopWindow(withdrawalAdressEntity);
+
                 } else {
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                 }
@@ -494,7 +492,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 String value_amount = edit_amount.getText().toString();
                 String value_pass = edit_pass_withdraw.getText().toString();
                 String value_code = edit_code.getText().toString();
-                String value_address = edit_address.getText().toString();
+                String value_address = text_address.getText().toString();
 
                 NetManger.getInstance().checkEmailCode(email, "CREATE_WITHDRAW", value_code, (state, response) -> {
                     if (state.equals(BUSY)) {
@@ -640,32 +638,67 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         }
     }
 
-    private void showAddressPopWindow(WithdrawalAdressEntity withdrawalAdressEntity) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_address_pop, null);
+    private void showAddressPopWindow(WithdrawalAdressEntity withdrawalAdressEntity2) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_withdrawal_address, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-       /* animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0.0f,
-                Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-                -1.0f, Animation.RELATIVE_TO_SELF, 0.0f);
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        TextView text_title = view.findViewById(R.id.text_title);
+        text_title.setText(getResources().getString(R.string.text_withdrawal_address));
+        SwipeRefreshLayout swipeRefreshLayout=view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        swipeRefreshLayout.setOnRefreshListener(() -> {
 
-        animation.setInterpolator(new AccelerateInterpolator());
-        animation.setDuration(100);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());*/
+            NetManger.getInstance().withdrawalAddressList((state, response) -> {
 
-        popupWindow.setOnDismissListener(() -> {
-            img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_right));
+                refreshAddress((state1, response1) -> {
+                    if (state1.equals(BUSY)) {
+                        swipeRefreshLayout.setRefreshing(true);
+                    } else if (state1.equals(SUCCESS)) {
+                        swipeRefreshLayout.setRefreshing(false);
+                        withdrawalAdressEntity = (WithdrawalAdressEntity) response1;
+                        if (withdrawalAdressEntity != null) {
+                            withdrawalAddressAdapter.setDatas(withdrawalAdressEntity.getData());
+                        }
+                    } else if (state1.equals(FAILURE)) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+
+
+            });
+        });
+
+        RecyclerView recyclerView_address = view.findViewById(R.id.recyclerView_address);
+        recyclerView_address.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView_address.setAdapter(withdrawalAddressAdapter);
+        if (withdrawalAdressEntity2 != null) {
+            withdrawalAddressAdapter.setDatas(withdrawalAdressEntity2.getData());
+        }
+
+        view.findViewById(R.id.img_back).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+
+
+        view.findViewById(R.id.btn_submit).setOnClickListener(v -> {
+            UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_ADD_ADDRESS);
 
         });
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(withdrawalAddressSelectAdapter);
-        if (withdrawalAdressEntity != null) {
-            withdrawalAddressSelectAdapter.setDatas(withdrawalAdressEntity.getData());
-        }
+        withdrawalAddressAdapter.setOnEditClick(data -> {
+            Util.lightOff(getActivity());
+            showEditPopWindow(data);
+        });
 
-        withdrawalAddressSelectAdapter.setOnItemClick(data -> {
-            edit_address.setText(data.getAddress());
+        withdrawalAddressAdapter.setCopyClick(data -> {
+            Util.copy(getActivity(), data.getAddress());
+            Toast.makeText(getActivity(), R.string.text_copied, Toast.LENGTH_SHORT).show();
+
+        });
+
+
+        withdrawalAddressAdapter.setOnItemClick(data -> {
+            text_address.setText(data.getAddress());
             addressId = data.getId();
             popupWindow.dismiss();
             chain = data.getChain();
@@ -683,6 +716,69 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     }
 
+
+    private void refreshAddress(OnNetResult onNetResult){
+        NetManger.getInstance().withdrawalAddressList((state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY,null);
+            } else if (state.equals(SUCCESS)) {
+                withdrawalAdressEntity = (WithdrawalAdressEntity) response;
+                onNetResult.onNetResult(SUCCESS,withdrawalAdressEntity);
+                if (withdrawalAdressEntity != null) {
+                    withdrawalAddressAdapter.setDatas(withdrawalAdressEntity.getData());
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE,null);
+            }
+        });
+    }
+
+    /*显示删除的按钮*/
+    private void showEditPopWindow(WithdrawalAdressEntity.DataBean data) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.layout_edit_pop, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        view.findViewById(R.id.text_delete).setOnClickListener(v -> {
+            NetManger.getInstance().deleteAddress(data.getId(), (state, response) -> {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    popupWindow.dismiss();
+
+                    refreshAddress((state1, response1) -> {
+
+                    });
+
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
+            });
+        });
+
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+
+
+        Util.dismiss(getActivity(), popupWindow);
+        Util.isShowing(getActivity(), popupWindow);
+
+
+        animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+        animation.setInterpolator(new AccelerateInterpolator());
+        animation.setDuration(100);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setContentView(view);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        view.startAnimation(animation);
+
+    }
 
     private void withdrawal(String money, String currency, String chain, String addressId, String email, String password) {
         NetManger.getInstance().withdrawal(money, currency, chain, addressId, email, password, (state, response) -> {

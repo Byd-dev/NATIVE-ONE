@@ -161,6 +161,12 @@ public class WithdrawalAddressAdapter extends RecyclerView.Adapter<RecyclerView.
             });
 
 
+            itemView.setOnClickListener(v -> {
+                if (onItemClick!=null){
+                    onItemClick.onClickListener(datas.get(getAdapterPosition()));
+                }
+            });
+
         }
     }
 
@@ -183,5 +189,16 @@ public class WithdrawalAddressAdapter extends RecyclerView.Adapter<RecyclerView.
     public interface OnEditClick {
         void onClickListener(WithdrawalAdressEntity.DataBean data);
 
+    }
+
+    private OnItemClick onItemClick;
+
+
+    public void setOnItemClick(OnItemClick onItemClick) {
+        this.onItemClick = onItemClick;
+    }
+
+    public interface OnItemClick {
+        void onClickListener(WithdrawalAdressEntity.DataBean data);
     }
 }
