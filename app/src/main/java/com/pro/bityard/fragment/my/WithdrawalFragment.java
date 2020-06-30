@@ -147,6 +147,12 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         edit_code.setHint(getResources().getString(R.string.text_email_code));
         Log.d("print", "initView:229:  " + loginEntity);
 
+        NetManger.getInstance().withdrawalAddressList((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                withdrawalAdressEntity = (WithdrawalAdressEntity) response;
+            }
+        });
+
         if (email.equals("")) {
             runOnUiThread(() -> {
                 Util.lightOff(getActivity());
@@ -199,6 +205,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         text_title.setText(getResources().getString(R.string.text_withdrawal));
         view.findViewById(R.id.img_back).setOnClickListener(this);
         view.findViewById(R.id.text_address_manage).setOnClickListener(this);
+        text_address.setOnClickListener(this);
 
         text_title.setOnClickListener(this);
         text_transfer_title.setOnClickListener(this);
@@ -333,11 +340,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         }
 
 
-        NetManger.getInstance().withdrawalAddressList((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                withdrawalAdressEntity = (WithdrawalAdressEntity) response;
-            }
-        });
+
 
         text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
         text_balance_transfer.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
@@ -362,6 +365,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
+            case R.id.text_address:
             case R.id.text_address_manage:
                 if (isLogin()) {
                     showAddressPopWindow(withdrawalAdressEntity);
@@ -644,7 +648,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 LinearLayout.LayoutParams.MATCH_PARENT);
         TextView text_title = view.findViewById(R.id.text_title);
         text_title.setText(getResources().getString(R.string.text_withdrawal_address));
-        SwipeRefreshLayout swipeRefreshLayout=view.findViewById(R.id.swipeRefreshLayout);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         swipeRefreshLayout.setOnRefreshListener(() -> {
 
@@ -717,18 +721,18 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     }
 
 
-    private void refreshAddress(OnNetResult onNetResult){
+    private void refreshAddress(OnNetResult onNetResult) {
         NetManger.getInstance().withdrawalAddressList((state, response) -> {
             if (state.equals(BUSY)) {
-                onNetResult.onNetResult(BUSY,null);
+                onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 withdrawalAdressEntity = (WithdrawalAdressEntity) response;
-                onNetResult.onNetResult(SUCCESS,withdrawalAdressEntity);
+                onNetResult.onNetResult(SUCCESS, withdrawalAdressEntity);
                 if (withdrawalAdressEntity != null) {
                     withdrawalAddressAdapter.setDatas(withdrawalAdressEntity.getData());
                 }
             } else if (state.equals(FAILURE)) {
-                onNetResult.onNetResult(FAILURE,null);
+                onNetResult.onNetResult(FAILURE, null);
             }
         });
     }
