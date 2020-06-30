@@ -18,22 +18,24 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.pro.bityard.R;
+import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.api.Gt3Util;
-import com.pro.bityard.api.HttpUtils;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
+import com.pro.bityard.entity.UserDetailEntity;
+import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.Util;
+import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
@@ -109,9 +111,9 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 text_err_email.setVisibility(View.GONE);
                 layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
                 text_getCode.setEnabled(true);
-                if (Util.isCode(edit_code.getText().toString())&&Util.isPass(edit_password.getText().toString())){
+                if (Util.isCode(edit_code.getText().toString()) && Util.isPass(edit_password.getText().toString())) {
                     btn_submit.setEnabled(true);
-                }else {
+                } else {
                     btn_submit.setEnabled(false);
                 }
             } else if (response.toString().equals("0")) {
@@ -137,7 +139,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 4 && Util.isCode(s.toString()) && Util.isEmail(edit_account.getText().toString())
-                &&Util.isPass(edit_password.getText().toString())) {
+                        && Util.isPass(edit_password.getText().toString())) {
                     btn_submit.setEnabled(true);
                 } else {
                     btn_submit.setEnabled(false);
@@ -157,7 +159,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
             if (response.toString().equals("1")) {
                 text_err_pass.setVisibility(View.GONE);
                 layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
-                if (Util.isEmail(edit_account.getText().toString())&&Util.isCode(edit_code.getText().toString())) {
+                if (Util.isEmail(edit_account.getText().toString()) && Util.isCode(edit_code.getText().toString())) {
                     btn_submit.setEnabled(true);
                 } else {
                     btn_submit.setEnabled(false);
@@ -289,7 +291,9 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                         Log.d("print", "onClick:验证验证码: " + tipEntity);
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck()) {
                             //成功了再注册
-                            register(map);
+                            register(account_value, pass_value, value_sign);
+
+
                         } else {
                             if (tipEntity.getMessage().equals("")) {
                                 Toast.makeText(getContext(), R.string.text_correct_email_code, Toast.LENGTH_SHORT).show();
@@ -311,21 +315,19 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    private void register(ArrayMap<String, String> map) {
+    private void register(String account_value, String pass_value, String value_sign) {
 
 
-
-        NetManger.getInstance().postRequestWithCookie("/api/register/submit", gt,map, (state, response) -> {
+        NetManger.getInstance().register(true,null,null,account_value, pass_value, value_sign, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "onNetResult:176: " + response.toString());
                 dismissProgressDialog();
-                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                TipEntity tipEntity = (TipEntity) response;
                 if (tipEntity.getCode() == 200) {
-                    Objects.requireNonNull(getActivity()).finish();
+                    //注册成功登录
+                    login(account_value, pass_value, "undefined");
                 }
-
 
                 if (tipEntity.getMessage().equals("")) {
                     Toast.makeText(getContext(), getResources().getString(R.string.text_register_success), Toast.LENGTH_SHORT).show();
@@ -335,6 +337,46 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 }
             } else if (state.equals(FAILURE)) {
                 dismissProgressDialog();
+            }
+        });
+
+
+    }
+
+    private void login(String account_value, String pass_value, String geetestToken) {
+        NetManger.getInstance().login(account_value, pass_value, geetestToken, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                LoginEntity loginEntity = (LoginEntity) response;
+                SPUtils.putString(AppConfig.USER_EMAIL, account_value);
+                NetManger.getInstance().userDetail((state2, response2) -> {
+                    if (state2.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state2.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
+                        loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
+                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                        //登录成功 初始化
+                        TagManger.getInstance().tag();
+                        getActivity().finish();
+                        MainOneActivity.enter(getActivity(), MainOneActivity.TAB_TYPE.TAB_HOME);
+                        SPUtils.putString(AppConfig.POP_LOGIN,"pop_login");
+                    } else if (state2.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
+
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
+                if (response != null) {
+                    LoginEntity loginEntity = (LoginEntity) response;
+                    Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

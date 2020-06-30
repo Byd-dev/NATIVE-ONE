@@ -17,7 +17,7 @@ public class AppConfig {
     /*用户登录*/
     public static final String LOGIN = "login";
     /*佣金比例*/
-    public static final  String KEY_UNION="KEY_UNION";
+    public static final String KEY_UNION = "KEY_UNION";
     /*用户区号*/
     public static final String USER_COUNTRY_CODE = "user_country_code";
     /*用户国家*/
@@ -55,7 +55,7 @@ public class AppConfig {
     /*可支持的currency*/
     public static final String SUPPORT_CURRENCY = "SUPPORT_CURRENCY";
     /*抵扣金额*/
-    public static final String PRIZE_TRADE="prizeTrade";
+    public static final String PRIZE_TRADE = "prizeTrade";
 
     /*汇率*/
     public static final String USDT = "USDT";
@@ -79,10 +79,8 @@ public class AppConfig {
     public static final String CONTRACT_ID = "CONTRACT_ID";
     //个人详情
     public static final String DETAIL = "DETAIL";
-
-
-
-
+    //注册成功弹窗
+    public static final String POP_LOGIN = "POP_LOGIN";
 
 
 }

@@ -417,5 +417,8 @@
     <string name="text_omni_err">OMNI鏈地址必須以數字1或者3開頭</string>
     <string name="text_erc_err">ERC20鏈地址必須以數字0和小寫x開頭</string>
     <string name="text_trc_err">TRC20鏈地址必須以大寫字母T開頭</string>
+    <string name="text_register_success_pop">恭喜您註冊成功!</string>
+    <string name="text_welcome">歡迎加入Bityard，立即領取贈金體驗交易!</string>
+    <string name="text_get_bonus">領取贈金</string>
 
 </resources>

@@ -10,7 +10,6 @@ import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.cookie.CookieJarImpl;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
@@ -28,6 +27,7 @@ import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.InviteEntity;
 import com.pro.bityard.entity.InviteListEntity;
 import com.pro.bityard.entity.IsLoginEntity;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.MarginHistoryEntity;
 import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
@@ -47,8 +47,6 @@ import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URLEncoder;
@@ -56,7 +54,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -180,37 +177,6 @@ public class NetManger {
 
     }
 
-    //post 请求
-    public void postRequestWithCookie(String url, String cookie, ArrayMap map, OnNetResult onNetResult) {
-        CookieJarImpl cookieJar = OkGo.getInstance().getCookieJar();
-
-        OkGo.<String>post(getURL(url, map))
-                .execute(new StringCallback() {
-                    @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                        onNetResult.onNetResult(BUSY, null);
-
-                    }
-
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        Headers headers = response.headers();
-                        String s = headers.get("Set-Cookie");
-                        Log.d("cookie", "onSuccess: " + s);
-                        if (!TextUtils.isEmpty(response.body())) {
-                            onNetResult.onNetResult(SUCCESS, response.body());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        onNetResult.onNetResult(FAILURE, response.body());
-                    }
-                });
-
-    }
 
     //动态host get 请求
     public void getHostRequest(String host, String url, ArrayMap map, OnNetResult onNetResult) {
@@ -2116,5 +2082,62 @@ public class NetManger {
                 });
     }
 
+    /*登录*/
+    public void login(String account, String pass, String geetestToken, OnNetResult onNetResult) {
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+
+        map.put("vHash", Util.Random32());
+        map.put("username", account);
+        map.put("password", URLEncoder.encode(pass));
+        map.put("geetestToken", geetestToken);
+        map.put("terminal", "Android");
+
+        NetManger.getInstance().postRequest("/api/sso/user_login_check", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+
+                LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
+                if (loginEntity.getCode() == 200) {
+                    onNetResult.onNetResult(SUCCESS, loginEntity);
+                } else {
+                    onNetResult.onNetResult(FAILURE, loginEntity);
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+
+    /*注册*/
+    public void register(boolean isEmail, String countryID, String country_code, String account, String pass, String sign, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        if (isEmail) {
+            map.put("email", account);
+        } else {
+            map.put("contryId", countryID);
+            map.put("phone", country_code + account);
+        }
+        map.put("password", URLEncoder.encode(pass));
+        map.put("sign", sign);
+        postRequest("/api/register/submit", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "onNetResult:176: " + response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    onNetResult.onNetResult(SUCCESS, tipEntity);
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
 
 }

@@ -90,6 +90,35 @@ public class PopUtil {
 
     }
 
+    public void showSuccessTip(Activity activity, View layout_view, OnPopResult onPopResult) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_tip_pop_register_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+
+
+
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            onPopResult.setPopResult(false);
+            popupWindow.dismiss();
+        });
+
+        view.findViewById(R.id.text_sure).setOnClickListener(v -> {
+            onPopResult.setPopResult(true);
+            popupWindow.dismiss();
+        });
+
+        Util.dismiss(activity, popupWindow);
+        Util.isShowing(activity, popupWindow);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+
+    }
+
     public void showLongTip(Activity activity, View layout_view, boolean showCancel, String title, String title2, String title3,
                             String value, String value2, OnPopResult onPopResult) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_tip_long_pop_layout, null);

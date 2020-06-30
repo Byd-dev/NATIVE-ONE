@@ -23,13 +23,17 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pro.bityard.R;
+import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.adapter.CountryCodeAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
+import com.pro.bityard.entity.UserDetailEntity;
+import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
@@ -365,7 +369,8 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck()) {
                             //成功了再注册
                             Log.d("print", "onNetResult: 238: " + tipEntity);
-                            register(map);
+                            //  register(map);
+                            register(countryID, country_code, account_value, pass_value, value_sign);
 
 
                         } else {
@@ -383,6 +388,30 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 });
                 break;
         }
+    }
+
+    private void register(String countryID, String country_code, String account_value, String pass_value, String value_sign) {
+        NetManger.getInstance().register(false, countryID, country_code, account_value, pass_value, value_sign, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                TipEntity tipEntity = (TipEntity) response;
+                if (tipEntity.getCode() == 200) {
+                    //注册成功登录
+                    login(country_code + account_value, pass_value, "undefined");
+                }
+
+                if (tipEntity.getMessage().equals("")) {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_register_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
+            }
+        });
     }
 
 
@@ -406,6 +435,50 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 }
             } else if (state.equals(FAILURE)) {
                 dismissProgressDialog();
+            }
+        });
+
+    }
+
+    private void login(String account_value, String pass_value, String geetestToken) {
+        NetManger.getInstance().login(account_value, pass_value, geetestToken, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "onNetResult:196:  " + response.toString());
+                dismissProgressDialog();
+                LoginEntity loginEntity = (LoginEntity) response;
+                //缓存上一次登录成功的区号和地址
+                SPUtils.putString(AppConfig.USER_COUNTRY_CODE, text_countryCode.getText().toString());
+                SPUtils.putString(AppConfig.USER_COUNTRY_NAME, text_countryName.getText().toString());
+                SPUtils.putString(AppConfig.USER_MOBILE, edit_account.getText().toString());
+                NetManger.getInstance().userDetail((state2, response2) -> {
+                    if (state2.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state2.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
+                        loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
+                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                        //登录成功 初始化
+                        TagManger.getInstance().tag();
+                        getActivity().finish();
+                        MainOneActivity.enter(getActivity(), MainOneActivity.TAB_TYPE.TAB_HOME);
+                        SPUtils.putString(AppConfig.POP_LOGIN,"pop_login");
+
+                    } else if (state2.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
+
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
+                if (response != null) {
+                    LoginEntity loginEntity = (LoginEntity) response;
+                    Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

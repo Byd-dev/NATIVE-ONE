@@ -28,7 +28,6 @@ import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetThreeResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -543,7 +542,19 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         text_currency.setText("(" + cny + ")");
 
+        String register_success = SPUtils.getString(AppConfig.POP_LOGIN, null);
+        if (register_success != null) {
+            SPUtils.remove(AppConfig.POP_LOGIN);
+            Handler handler = new Handler();
+            handler.postDelayed(() -> {
+                Util.lightOff(MainOneActivity.this);
+                PopUtil.getInstance().showSuccessTip(MainOneActivity.this, layout_view, state -> {
+                    if (state) {
+                    }
+                });
+            }, 1000);
 
+        }
     }
 
     @Override
@@ -554,6 +565,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     @Override
     protected void initView(View view) {
         Toast.makeText(this, "执行了initView", Toast.LENGTH_SHORT).show();
+
+
         //首页监听
 
         radioButton_0.setOnClickListener(this);

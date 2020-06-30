@@ -416,5 +416,8 @@
     <string name="text_omni_err">Omni USDT address starts with 1 or 3</string>
     <string name="text_erc_err">ERC20 USDT address starts with 0x</string>
     <string name="text_trc_err">TRC20 USDT address starts with T</string>
+    <string name="text_register_success_pop">Successfully Signed Up !</string>
+    <string name="text_welcome">Welcome to join Bityard and get the bonus to start your trading!</string>
+    <string name="text_get_bonus">Get Bonus</string>
 
 </resources>

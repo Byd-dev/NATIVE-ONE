@@ -65,7 +65,6 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
     @BindView(R.id.text_forget_pass)
     TextView text_forget_pass;
-    private int count_pass = 0;
 
     private String geetestToken = null;
 
@@ -267,50 +266,40 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                         map.put("geetestToken", geetestToken);
                         map.put("terminal", "Android");
 
-                        NetManger.getInstance().postRequest("/api/sso/user_login_check", map, (state, response) -> {
+                        NetManger.getInstance().login(account_value, pass_value, geetestToken, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
                                 Log.d("print", "onNetResult:196:  " + response.toString());
-
                                 dismissProgressDialog();
-                                LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
-                                if (loginEntity.getCode() == 200) {
-                                    SPUtils.putString(AppConfig.USER_EMAIL, edit_account.getText().toString());
+                                LoginEntity loginEntity = (LoginEntity) response;
+                                SPUtils.putString(AppConfig.USER_EMAIL, account_value);
+                                NetManger.getInstance().userDetail((state2, response2) -> {
+                                    if (state2.equals(BUSY)) {
+                                        showProgressDialog();
+                                    } else if (state2.equals(SUCCESS)) {
+                                        dismissProgressDialog();
+                                        UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
+                                        loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
+                                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                                        //登录成功 初始化
+                                        TagManger.getInstance().tag();
+                                        getActivity().finish();
+                                    } else if (state2.equals(FAILURE)) {
+                                        dismissProgressDialog();
+                                    }
+                                });
 
-                                    NetManger.getInstance().userDetail((state2, response2) -> {
-                                        if (state2.equals(BUSY)) {
-                                            showProgressDialog();
-                                        } else if (state2.equals(SUCCESS)) {
-                                            dismissProgressDialog();
-                                            UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
-                                            loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
-                                            SPUtils.putData(AppConfig.LOGIN, loginEntity);
-                                            //登录成功 初始化
-                                            TagManger.getInstance().tag();
-                                            getActivity().finish();
-                                        } else if (state2.equals(FAILURE)) {
-                                            dismissProgressDialog();
-
-                                        }
-                                    });
-
-
-                                } else if (loginEntity.getCode() == 500) {
-                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
-
-                                    count_pass++;
-                                }
                             } else if (state.equals(FAILURE)) {
                                 dismissProgressDialog();
-                                Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
-
-
+                                if (response!=null){
+                                    LoginEntity loginEntity = (LoginEntity) response;
+                                    Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                                }
                             }
                         });
-
 
                     }
 
