@@ -325,7 +325,7 @@ public class TradeUtil {
             for (int i = 0; i < incomeList.size(); i++) {
                 income = TradeUtil.add(income, incomeList.get(i));
             }
-            Log.d("print", "getIncome: 总盈亏: "+income);
+         //   Log.d("print", "getIncome: 总盈亏: "+income);
             tradeResult.setResult(income);
         }
     }

@@ -425,5 +425,6 @@
     <string name="text_withdrawal_address_record">출금 지갑 주소:</string>
     <string name="text_withdrawal_time">입금 시간:</string>
     <string name="text_withdrawal_amount">입금 수량:</string>
+    <string name="text_send">인증요청</string>
 
 </resources>

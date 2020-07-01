@@ -425,6 +425,7 @@
     <string name="text_withdrawal_address_record">出金アドレス:</string>
     <string name="text_withdrawal_time">出金時間:</string>
     <string name="text_withdrawal_amount">出金残高:</string>
+    <string name="text_send">送信</string>
 
 
 </resources>

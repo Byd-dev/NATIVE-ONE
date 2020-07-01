@@ -82,6 +82,8 @@ public class DepositWithdrawEntity {
     }
 
     public static class DataBean {
+
+
         @Override
         public String toString() {
             return "DataBean{" +
@@ -118,6 +120,8 @@ public class DepositWithdrawEntity {
                     ", userId='" + userId + '\'' +
                     ", username=" + username +
                     ", white=" + white +
+                    ", timeFlag=" + timeFlag +
+                    ", useTime=" + useTime +
                     '}';
         }
 
@@ -159,6 +163,8 @@ public class DepositWithdrawEntity {
 
 
 
+
+
         private String address;
         private Object admin;
         private Object adminName;
@@ -192,6 +198,25 @@ public class DepositWithdrawEntity {
         private String userId;
         private Object username;
         private boolean white;
+
+        private boolean timeFlag;
+        private long useTime;
+
+        public long getUseTime() {
+            return useTime;
+        }
+
+        public void setUseTime(long useTime) {
+            this.useTime = useTime;
+        }
+
+        public boolean isTimeFlag() {
+            return timeFlag;
+        }
+
+        public void setTimeFlag(boolean timeFlag) {
+            this.timeFlag = timeFlag;
+        }
 
         public String getAddress() {
             return address;

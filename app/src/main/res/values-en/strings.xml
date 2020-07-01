@@ -424,5 +424,6 @@
     <string name="text_withdrawal_address_record">Withdrawal Address:</string>
     <string name="text_withdrawal_time">Time:</string>
     <string name="text_withdrawal_amount">Amount:</string>
+    <string name="text_send">Send</string>
 
 </resources>

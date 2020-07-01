@@ -1560,6 +1560,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("print", "depositWithdraw:1563:  "+response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     DepositWithdrawEntity depositWithdrawEntity = new Gson().fromJson(response.toString(), DepositWithdrawEntity.class);

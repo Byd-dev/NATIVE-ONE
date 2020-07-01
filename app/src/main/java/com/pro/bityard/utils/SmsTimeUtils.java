@@ -1,8 +1,11 @@
 package com.pro.bityard.utils;
 
+import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 import android.widget.TextView;
+
+import com.pro.bityard.R;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,6 +42,8 @@ public class SmsTimeUtils {
     public final static int LOGIN_PASS_CHANGE_EMAIL = 16;
     public final static int LOGIN_PASS_CHANGE_MOBILE = 17;
 
+    public final static int WITHDRAWAL_HISTORY = 18;
+
     /*设置提现账户
       预计结束的时间*/
     /*注册*/
@@ -71,6 +76,7 @@ public class SmsTimeUtils {
     private static long LOGIN_PASS_CHANGE_EMAIL_TIME_END = 0;
     private static long LOGIN_PASS_CHANGE_MOBILE_TIME_END = 0;
 
+    private static long WITHDRAWAL_HISTORY_TIME_END = 0;
 
     /**
      * 检查是否超过60秒
@@ -133,12 +139,21 @@ public class SmsTimeUtils {
             case LOGIN_PASS_CHANGE_MOBILE:
                 time = LOGIN_PASS_CHANGE_MOBILE_TIME_END;
                 break;
+
+            case WITHDRAWAL_HISTORY:
+                time = WITHDRAWAL_HISTORY_TIME_END;
+                break;
         }
         if (data > time) {
             /*主要是区别于是否是第一次进入。第一次进入不需要赋值*/
             if (!first) {
                 CURR_COUNT = COUNT;
-                time = data + COUNT * 1000;
+                if (type == WITHDRAWAL_HISTORY) {
+                    time = data + 10 * 60 * 1000;
+                } else {
+                    time = data + COUNT * 1000;
+
+                }
                 switch (type) {
                     case EMAIL_REGISTER:
                         EMAIL_REGISTER_TIME_END = time;
@@ -188,6 +203,9 @@ public class SmsTimeUtils {
                     case LOGIN_PASS_CHANGE_MOBILE:
                         LOGIN_PASS_CHANGE_MOBILE_TIME_END = time;
                         break;
+                    case WITHDRAWAL_HISTORY:
+                        WITHDRAWAL_HISTORY_TIME_END = time;
+                        break;
                 }
             }
             return false;
@@ -220,16 +238,17 @@ public class SmsTimeUtils {
 
 
     private static Handler handler = new Handler() {
+        @SuppressLint("HandlerLeak")
         public void handleMessage(Message msg) {
             if (msg.what == 0) {
                 if (countdownTimer != null) {
                     countdownTimer.cancel();
                     countdownTimer = null;
                 }
-                tvSendCode.setText("立即获取");
+                tvSendCode.setText(R.string.text_send);
                 tvSendCode.setEnabled(true);
             } else {
-                tvSendCode.setText(msg.what + "s重新获取");
+                tvSendCode.setText(msg.what + "s");
                 tvSendCode.setEnabled(false);
 
             }

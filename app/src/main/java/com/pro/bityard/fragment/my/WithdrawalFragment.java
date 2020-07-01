@@ -46,11 +46,13 @@ import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
@@ -317,7 +319,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 if (state.equals(SUCCESS)) {
                     UserDetailEntity userDetailEntity2 = (UserDetailEntity) response;
                     SPUtils.putData(AppConfig.DETAIL, userDetailEntity2);
-
                 }
             });
         } else {
@@ -353,6 +354,24 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 depositWithdrawEntity = (DepositWithdrawEntity) response;
                 Log.d("print", "initData: " + depositWithdrawEntity);
                 List<DepositWithdrawEntity.DataBean> data = depositWithdrawEntity.getData();
+                Iterator<DepositWithdrawEntity.DataBean> iterator = data.iterator();
+                while (iterator.hasNext()) {
+                    DepositWithdrawEntity.DataBean value = iterator.next();
+                    long createTime = value.getCreateTime();
+                    long time = System.currentTimeMillis();
+                    long l = time - createTime;
+                    if (l < 10 * 60 * 1000) {
+                        value.setUseTime(l);
+                    } else {
+                        value.setUseTime(0);
+                    }
+
+                    if (value.getStatus() >= 1) {
+                        iterator.remove();
+                    }
+                }
+
+
                 if (data.size() == 0) {
                     text_record.setVisibility(View.GONE);
                 } else {
@@ -363,8 +382,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         });
 
 
-
-
         text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
         text_balance_transfer.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
 
@@ -372,17 +389,17 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     }
 
 
-    private void getWithdrawalHistory(OnNetResult onNetResult){
+    private void getWithdrawalHistory(OnNetResult onNetResult) {
         NetManger.getInstance().depositWithdraw("200", "false", "1", null, "USDT", null,
-                null, "1", "4", (state, response) -> {
+                null, "1", null, (state, response) -> {
                     if (state.equals(SUCCESS)) {
-                        onNetResult.onNetResult(SUCCESS,response);
+                        onNetResult.onNetResult(SUCCESS, response);
                     }
                 });
     }
 
 
-
+    /*提币明细弹窗*/
     private void showWithdrawalPopWindow() {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_withdrawal_history, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
@@ -400,20 +417,34 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
                     depositWithdrawEntity = (DepositWithdrawEntity) response;
-                    Log.d("print", "initData: " + depositWithdrawEntity);
                     List<DepositWithdrawEntity.DataBean> data = depositWithdrawEntity.getData();
+                    Iterator<DepositWithdrawEntity.DataBean> iterator = data.iterator();
+                    while (iterator.hasNext()) {
+                        DepositWithdrawEntity.DataBean value = iterator.next();
+                        long createTime = value.getCreateTime();
+                        long time = System.currentTimeMillis();
+                        long l = time - createTime;
+                        if (l < 10 * 60 * 1000) {
+                            value.setUseTime(l);
+                        } else {
+                            value.setUseTime(0);
+
+                        }
+                        if (value.getStatus() >= 1) {
+                            iterator.remove();
+                        }
+                    }
                     if (data.size() == 0) {
                         text_record.setVisibility(View.GONE);
                     } else {
                         text_record.setVisibility(View.VISIBLE);
                         text_record.setText(data.size() + getString(R.string.text_withdrawal_history));
                     }
-                }else if (state.equals(FAILURE)){
+                } else if (state.equals(FAILURE)) {
                     swipeRefreshLayout.setRefreshing(false);
 
                 }
             });
-
 
 
         });
@@ -421,6 +452,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         RecyclerView recyclerView_history = view.findViewById(R.id.recyclerView_history);
         recyclerView_history.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_history.setAdapter(withdrawHistoryAdapter);
+        //  防止更新item时防止抖动
+        ((SimpleItemAnimator) recyclerView_history.getItemAnimator()).setSupportsChangeAnimations(false);
         if (depositWithdrawEntity != null) {
             withdrawHistoryAdapter.setDatas(depositWithdrawEntity.getData());
         }
@@ -881,8 +914,14 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     private void withdrawal(String money, String currency, String chain, String addressId, String email, String password) {
         NetManger.getInstance().withdrawal(money, currency, chain, addressId, email, password, (state, response) -> {
             if (state.equals(SUCCESS)) {
+                initData();
                 TipEntity tipEntity = (TipEntity) response;
-                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                if (tipEntity.getMessage().equals("")) {
+                    Toast.makeText(getActivity(), getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                }
             }
         });
     }

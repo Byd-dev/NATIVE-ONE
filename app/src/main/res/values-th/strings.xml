@@ -425,5 +425,6 @@
     <string name="text_withdrawal_address_record">Адрес снятия:</string>
     <string name="text_withdrawal_time">Время:</string>
     <string name="text_withdrawal_amount">Объем:</string>
+    <string name="text_send">Отправить</string>
 
 </resources>

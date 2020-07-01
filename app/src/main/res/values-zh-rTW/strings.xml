@@ -425,5 +425,6 @@
     <string name="text_withdrawal_address_record">提幣地址:</string>
     <string name="text_withdrawal_time">提幣時間:</string>
     <string name="text_withdrawal_amount">提幣數量:</string>
+    <string name="text_send">獲取驗證碼</string>
 
 </resources>

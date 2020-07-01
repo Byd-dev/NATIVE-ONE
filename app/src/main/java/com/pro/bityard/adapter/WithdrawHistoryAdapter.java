@@ -1,10 +1,12 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
@@ -14,8 +16,12 @@ import com.pro.bityard.utils.ChartUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 
 public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -36,6 +42,7 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public WithdrawHistoryAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
+        startTime();
     }
 
     public void setDatas(List<DepositWithdrawEntity.DataBean> datas) {
@@ -121,21 +128,116 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     break;
             }
 
-            if (status == 1) {
-                ((MyViewHolder) holder).text_status.setTextColor(context.getResources().getColor(R.color.text_quote_green));
-            } else {
-                ((MyViewHolder) holder).text_status.setTextColor(context.getResources().getColor(R.color.text_main_color));
 
+            long createTime = datas.get(position).getCreateTime();
+            long time = System.currentTimeMillis();
+            long l = time - createTime;
+            Log.d("print", "onBindViewHolder:136:  " + createTime + "    " + time + "    差值:   " + l);
+
+            if (l < 10 * 60 * 1000) {
+                ((MyViewHolder) holder).text_status.setText(R.string.text_cancel_position);
+                ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.bg_shape_main_color));
+                ((MyViewHolder) holder).text_status.setTextColor(context.getResources().getColor(R.color.text_main_color_black));
+                ((MyViewHolder) holder).text_time_min.setBackground(context.getResources().getDrawable(R.drawable.bg_shape_red));
+                ((MyViewHolder) holder).text_time_second.setBackground(context.getResources().getDrawable(R.drawable.bg_shape_red));
+                setTimeShow(datas.get(position).getUseTime(), ((MyViewHolder) holder));
+
+
+            } else {
+                ((MyViewHolder) holder).text_time_min.setText("00");
+                ((MyViewHolder) holder).text_time_second.setText("00");
+                ((MyViewHolder) holder).layout_bg.setBackgroundColor(context.getResources().getColor(R.color.color_bg_left));
+                ((MyViewHolder) holder).text_status.setTextColor(context.getResources().getColor(R.color.text_main_color));
+                ((MyViewHolder) holder).text_time_min.setBackgroundColor(context.getResources().getColor(R.color.color_bg_left));
+                ((MyViewHolder) holder).text_time_second.setBackgroundColor(context.getResources().getColor(R.color.color_bg_left));
             }
 
-            ((MyViewHolder) holder).text_address.setText( datas.get(position).getBankCard() );
-            ((MyViewHolder) holder).text_amount.setText(datas.get(position).getMoney() + " " + context.getResources().getString(R.string.text_usdt));
 
-            ((MyViewHolder) holder).text_time.setText(ChartUtil.getDate(datas.get(position).getCreateTime()));
+            ((MyViewHolder) holder).text_address.setText(datas.get(position).getBankCard());
+            ((MyViewHolder) holder).text_amount.setText(datas.get(position).getMoney() + " " + context.getResources().getString(R.string.text_usdt));
+            ((MyViewHolder) holder).text_time.setText(ChartUtil.getDate(createTime));
 
 
         }
     }
+
+
+    /**
+     * 列表倒计时
+     */
+    private void startTime() {
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(() -> {
+                    for (int i = 0; i < datas.size(); i++) {
+                        long useTime = datas.get(i).getUseTime();
+                        if (useTime > 1000) {
+                            useTime -= 1000;
+                            datas.get(i).setUseTime(useTime);
+                            long createTime = datas.get(i).getCreateTime();
+                            long time = System.currentTimeMillis();
+                            long l = time - createTime;
+                            if (l < 10 * 60 * 1000) {
+                                datas.get(i).setTimeFlag(true);
+                            } else {
+                                datas.get(i).setTimeFlag(false);
+                            }
+                            if (useTime <= 1000 && !datas.get(i).isTimeFlag()) {
+                                datas.get(i).setTimeFlag(false);
+                                WithdrawHistoryAdapter.this.notifyItemChanged(i);
+                            } else {
+                                datas.get(i).setTimeFlag(true);
+                                WithdrawHistoryAdapter.this.notifyItemChanged(i);
+                            }
+
+                        }
+
+                    }
+
+                });
+            }
+        }, 0, 1000);
+    }
+
+
+    private void setTimeShow(long useTime, MyViewHolder holder) {
+        int hour = (int) (useTime / 3600 );
+        int min = (int) (useTime/1000 / 60 % 60);
+        int second = (int) (useTime/1000 % 60);
+        int day = (int) (useTime / 3600 / 24);
+        String mDay, mHour, mMin, mSecond;//天，小时，分钟，秒
+        second--;
+        if (second < 0) {
+            min--;
+            second = 59;
+            if (min < 0) {
+                min = 59;
+                hour--;
+            }
+        }
+        if (hour < 10) {
+            mHour = "0" + hour;
+        } else {
+            mHour = "" + hour;
+        }
+        if (min < 10) {
+            mMin = "0" + min;
+        } else {
+            mMin = "" + min;
+        }
+        if (second < 10) {
+            mSecond = "0" + second;
+        } else {
+            mSecond = "" + second;
+        }
+        String strTime = mMin + ":" + mSecond + "";
+        Log.d("print", "setTimeShow:233:  "+strTime);
+        holder.text_time_min.setText(mMin);
+        holder.text_time_second.setText(mSecond);
+
+    }
+
 
     @Override
     public int getItemViewType(int position) {
@@ -164,8 +266,9 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_address, text_time, text_amount,
+        TextView text_address, text_time, text_time_min, text_time_second, text_amount,
                 text_status;
+        RelativeLayout layout_bg;
 
 
         public MyViewHolder(View itemView) {
@@ -174,8 +277,10 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             text_amount = itemView.findViewById(R.id.text_amount);
             text_time = itemView.findViewById(R.id.text_time);
             text_status = itemView.findViewById(R.id.text_status);
+            text_time_min = itemView.findViewById(R.id.text_time_min);
+            text_time_second = itemView.findViewById(R.id.text_time_second);
 
-
+            layout_bg = itemView.findViewById(R.id.layout_bg);
             itemView.setOnClickListener(view -> {
                 if (onItemClick != null) {
                     onItemClick.onClickListener(datas.get(getPosition()));

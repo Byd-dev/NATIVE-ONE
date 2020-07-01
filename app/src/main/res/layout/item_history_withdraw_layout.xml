@@ -8,10 +8,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/color_bg_left"
-        android:layout_marginRight="@dimen/margin_15"
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:background="@color/color_bg_left"
         android:orientation="vertical">
 
         <LinearLayout
@@ -38,14 +38,14 @@
 
                 <TextView
                     android:id="@+id/text_address"
-                    android:layout_toRightOf="@+id/stay_address"
                     android:layout_width="match_parent"
-                    android:layout_marginLeft="@dimen/margin_10"
                     android:layout_height="wrap_content"
-                    android:singleLine="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/stay_address"
                     android:ellipsize="end"
                     android:gravity="right"
-                    android:layout_centerVertical="true"
+                    android:singleLine="true"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal_two" />
 
@@ -108,34 +108,72 @@
             </RelativeLayout>
         </LinearLayout>
 
-       <View
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/size_line"
-            android:background="@color/background_maincolor"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:background="@color/background_maincolor" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:text="00:00"
-                android:textColor="@color/text_main_color" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/text_time_min"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_shape_red"
+                    android:paddingLeft="@dimen/margin_5"
+                    android:paddingRight="@dimen/margin_5"
+                    android:text="00"
+                    android:textColor="@color/text_main_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_marginRight="@dimen/margin_5"
+                    android:text=":"
+                    android:textColor="@color/text_main_color" />
+
+                <TextView
+                    android:id="@+id/text_time_second"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_shape_red"
+                    android:paddingLeft="@dimen/margin_5"
+                    android:paddingRight="@dimen/margin_5"
+                    android:text="00"
+                    android:textColor="@color/text_main_color" />
+            </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/text_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:id="@+id/layout_bg"
+                android:layout_width="70dp"
+                android:layout_height="@dimen/margin_28"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/margin_15"
-                android:text="待处理"
-                android:textColor="@color/text_main_color" />
+                android:background="@drawable/bg_shape_main_color"
+                android:gravity="center"
 
+                >
+
+
+                <TextView
+                    android:id="@+id/text_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_cancel_position"
+                    android:textColor="@color/text_main_color_black" />
+            </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 
