@@ -420,5 +420,10 @@
     <string name="text_register_success_pop">Đăng ký thành công!</string>
     <string name="text_welcome">Chào mừng đến với Bityard, nhận ngay tiền thưởng trải nghiệm giao dịch!</string>
     <string name="text_get_bonus">Nhận thưởng</string>
+    <string name="text_withdrawal_history">Lịch sử rút tiền gần đây</string>
+    <string name="text_withdrawal_history_detail">Lịch sử rút tiền</string>
+    <string name="text_withdrawal_address_record">Địa chỉ rút tiền:</string>
+    <string name="text_withdrawal_time">Thời gian :</string>
+    <string name="text_withdrawal_amount">Số lượng :</string>
 
 </resources>

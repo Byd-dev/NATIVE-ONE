@@ -419,5 +419,10 @@
     <string name="text_register_success_pop">Successfully Signed Up !</string>
     <string name="text_welcome">Welcome to join Bityard and get the bonus to start your trading!</string>
     <string name="text_get_bonus">Get Bonus</string>
+    <string name="text_withdrawal_history">Withdrawal History</string>
+    <string name="text_withdrawal_history_detail">Withdrawal History</string>
+    <string name="text_withdrawal_address_record">Withdrawal Address:</string>
+    <string name="text_withdrawal_time">Time:</string>
+    <string name="text_withdrawal_amount">Amount:</string>
 
 </resources>

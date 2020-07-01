@@ -419,5 +419,10 @@
     <string name="text_register_success_pop">恭喜您注册成功!</string>
     <string name="text_welcome">欢迎加入Bityard,立即领取赠金体验交易!</string>
     <string name="text_get_bonus">领取赠金</string>
+    <string name="text_withdrawal_history">最新提币记录</string>
+    <string name="text_withdrawal_history_detail">提币明细</string>
+    <string name="text_withdrawal_address_record">提币地址:</string>
+    <string name="text_withdrawal_time">提币时间:</string>
+    <string name="text_withdrawal_amount">提币数量:</string>
 
 </resources>

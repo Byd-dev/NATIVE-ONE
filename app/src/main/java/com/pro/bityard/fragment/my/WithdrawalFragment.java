@@ -24,6 +24,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.ChainListAdapter;
+import com.pro.bityard.adapter.WithdrawHistoryAdapter;
 import com.pro.bityard.adapter.WithdrawalAddressAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
@@ -31,6 +32,7 @@ import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UnionRateEntity;
@@ -92,6 +94,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     @BindView(R.id.layout_transfer)
     LinearLayout layout_transfer;
+    @BindView(R.id.text_record)
+    TextView text_record;
 
     private ChainListAdapter chainListAdapter;//杠杆适配器
     private List<String> dataList;
@@ -131,6 +135,9 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     @BindView(R.id.btn_submit_transfer)
     Button btn_submit_transfer;
     private String email;
+    private DepositWithdrawEntity depositWithdrawEntity;
+
+    private WithdrawHistoryAdapter withdrawHistoryAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -183,14 +190,10 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                                 } else {
                                     getActivity().finish();
                                 }
-
                             });
                 });
-
             }
         }
-
-
     }
 
     @Override
@@ -206,6 +209,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         view.findViewById(R.id.img_back).setOnClickListener(this);
         view.findViewById(R.id.text_address_manage).setOnClickListener(this);
         text_address.setOnClickListener(this);
+        text_record.setOnClickListener(this);
 
         text_title.setOnClickListener(this);
         text_transfer_title.setOnClickListener(this);
@@ -278,6 +282,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         });
 
 
+        withdrawHistoryAdapter = new WithdrawHistoryAdapter(getActivity());
+
 
 
         /* account = loginEntity.getUser().getPrincipal();*/
@@ -340,6 +346,23 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         }
 
 
+        //查看当前有记录
+
+        getWithdrawalHistory((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                depositWithdrawEntity = (DepositWithdrawEntity) response;
+                Log.d("print", "initData: " + depositWithdrawEntity);
+                List<DepositWithdrawEntity.DataBean> data = depositWithdrawEntity.getData();
+                if (data.size() == 0) {
+                    text_record.setVisibility(View.GONE);
+                } else {
+                    text_record.setVisibility(View.VISIBLE);
+                    text_record.setText(data.size() + getString(R.string.text_withdrawal_history));
+                }
+            }
+        });
+
+
 
 
         text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
@@ -348,15 +371,81 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     }
 
+
+    private void getWithdrawalHistory(OnNetResult onNetResult){
+        NetManger.getInstance().depositWithdraw("200", "false", "1", null, "USDT", null,
+                null, "1", "4", (state, response) -> {
+                    if (state.equals(SUCCESS)) {
+                        onNetResult.onNetResult(SUCCESS,response);
+                    }
+                });
+    }
+
+
+
+    private void showWithdrawalPopWindow() {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_withdrawal_history, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        TextView text_title = view.findViewById(R.id.text_title);
+        text_title.setText(R.string.text_withdrawal_history_detail);
+        SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+
+
+            getWithdrawalHistory((state, response) -> {
+                if (state.equals(BUSY)) {
+                    swipeRefreshLayout.setRefreshing(true);
+                } else if (state.equals(SUCCESS)) {
+                    swipeRefreshLayout.setRefreshing(false);
+                    depositWithdrawEntity = (DepositWithdrawEntity) response;
+                    Log.d("print", "initData: " + depositWithdrawEntity);
+                    List<DepositWithdrawEntity.DataBean> data = depositWithdrawEntity.getData();
+                    if (data.size() == 0) {
+                        text_record.setVisibility(View.GONE);
+                    } else {
+                        text_record.setVisibility(View.VISIBLE);
+                        text_record.setText(data.size() + getString(R.string.text_withdrawal_history));
+                    }
+                }else if (state.equals(FAILURE)){
+                    swipeRefreshLayout.setRefreshing(false);
+
+                }
+            });
+
+
+
+        });
+
+        RecyclerView recyclerView_history = view.findViewById(R.id.recyclerView_history);
+        recyclerView_history.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView_history.setAdapter(withdrawHistoryAdapter);
+        if (depositWithdrawEntity != null) {
+            withdrawHistoryAdapter.setDatas(depositWithdrawEntity.getData());
+        }
+
+        view.findViewById(R.id.img_back).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+
+
+        popupWindow.setContentView(view);
+        popupWindow.setOutsideTouchable(true);
+
+        popupWindow.showAsDropDown(layout_address, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        //view.startAnimation(animation);
+
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:
                 getActivity().finish();
                 break;
-            case R.id.layout_address:
 
-                break;
             case R.id.img_record:
 
                 if (isLogin()) {
@@ -364,6 +453,11 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 } else {
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                 }
+                break;
+            case R.id.text_record:
+
+                showWithdrawalPopWindow();
+
                 break;
             case R.id.text_address:
             case R.id.text_address_manage:

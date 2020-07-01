@@ -110,16 +110,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:gravity="center|left"
                         android:layout_marginLeft="@dimen/margin_15"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:text="@string/text_usdt_address"
+                        android:gravity="center|left"
                         android:maxLines="2"
+                        android:text="@string/text_usdt_address"
                         android:textColor="@color/text_second_color"
                         android:textSize="@dimen/hint_size" />
-
-
 
 
                     <TextView
@@ -216,7 +214,7 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:layout_marginTop="@dimen/margin_15"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:layout_marginBottom="@dimen/margin_40"
+                    android:layout_marginBottom="@dimen/margin_20"
                     android:background="@drawable/sel_switcher_enabled_bg"
                     android:enabled="false"
                     android:padding="10dp"
@@ -225,6 +223,19 @@
                     android:textSize="16sp"
 
                     />
+
+
+                <TextView
+                    android:id="@+id/text_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:paddingBottom="@dimen/margin_15"
+                    android:text="最新提币记录"
+                    android:visibility="gone"
+                    android:textColor="@color/text_quote_red"
+                    android:textSize="@dimen/size_normal_two" />
+
 
                 <View
                     android:layout_width="match_parent"

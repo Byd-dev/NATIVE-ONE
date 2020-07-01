@@ -420,5 +420,10 @@
     <string name="text_register_success_pop">회원 가입하신 것을 감사드립니다!</string>
     <string name="text_welcome">Bityard 가입하신 것을 환영합니다!증정금을 수령하고 트레이딩을 시작하세요!</string>
     <string name="text_get_bonus">증정금을 수령하기</string>
+    <string name="text_withdrawal_history">최근 출금 내역</string>
+    <string name="text_withdrawal_history_detail">출금 내역</string>
+    <string name="text_withdrawal_address_record">출금 지갑 주소:</string>
+    <string name="text_withdrawal_time">입금 시간:</string>
+    <string name="text_withdrawal_amount">입금 수량:</string>
 
 </resources>

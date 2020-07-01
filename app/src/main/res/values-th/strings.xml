@@ -420,5 +420,10 @@
     <string name="text_register_success_pop">Успешно Зарегистрирован!</string>
     <string name="text_welcome">Добро пожаловать в Bityard и получите бонус, чтобы начать свою торговлю!</string>
     <string name="text_get_bonus">Получить бонус</string>
+    <string name="text_withdrawal_history">История вывода средств</string>
+    <string name="text_withdrawal_history_detail">История снятия</string>
+    <string name="text_withdrawal_address_record">Адрес снятия:</string>
+    <string name="text_withdrawal_time">Время:</string>
+    <string name="text_withdrawal_amount">Объем:</string>
 
 </resources>

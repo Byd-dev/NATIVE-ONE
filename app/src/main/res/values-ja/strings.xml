@@ -420,6 +420,11 @@
     <string name="text_register_success_pop">登録完了!</string>
     <string name="text_welcome">Bityard新規でご登録いただいたユーザー様にボーナスを贈呈します。</string>
     <string name="text_get_bonus">ボーナスをゲットしましょう</string>
+    <string name="text_withdrawal_history">アドレスタグを入力して下さい</string>
+    <string name="text_withdrawal_history_detail">出金履歴</string>
+    <string name="text_withdrawal_address_record">出金アドレス:</string>
+    <string name="text_withdrawal_time">出金時間:</string>
+    <string name="text_withdrawal_amount">出金残高:</string>
 
 
 </resources>
