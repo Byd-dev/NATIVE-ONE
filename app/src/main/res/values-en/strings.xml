@@ -425,5 +425,6 @@
     <string name="text_withdrawal_time">Time:</string>
     <string name="text_withdrawal_amount">Amount:</string>
     <string name="text_send">Send</string>
+    <string name="text_cancel_success">Success</string>
 
 </resources>

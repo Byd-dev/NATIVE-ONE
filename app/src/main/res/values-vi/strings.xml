@@ -426,5 +426,6 @@
     <string name="text_withdrawal_time">Thời gian :</string>
     <string name="text_withdrawal_amount">Số lượng :</string>
     <string name="text_send">Lấy mã</string>
+    <string name="text_cancel_success">Đã hủy</string>
 
 </resources>

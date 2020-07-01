@@ -849,6 +849,25 @@ public class NetManger {
         });
     }
 
+    /*撤销提币*/
+    public void cancelWithdrawal(String id, String action, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("id", id);
+        map.put("action", action);
+        getRequest("/api/pay/withdraw.htm", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipCloseEntity tipCloseEntity = new Gson().fromJson(response.toString(), TipCloseEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipCloseEntity);
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
     /*持仓历史*/
     public void getHistory(String tradeType, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -1560,7 +1579,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "depositWithdraw:1563:  "+response.toString());
+                Log.d("print", "depositWithdraw:1563:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     DepositWithdrawEntity depositWithdrawEntity = new Gson().fromJson(response.toString(), DepositWithdrawEntity.class);

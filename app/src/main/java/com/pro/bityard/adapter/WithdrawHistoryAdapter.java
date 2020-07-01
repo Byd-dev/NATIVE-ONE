@@ -10,9 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.TradeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +71,6 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         isLoadMore = false;
         this.notifyDataSetChanged();
     }
-
-
 
 
     @Override
@@ -178,7 +176,7 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                             long createTime = datas.get(i).getCreateTime();
                             long time = System.currentTimeMillis();
                             long l = time - createTime;
-                            if (l < 10 * 60 * 1000) {
+                            if (l < TradeUtil.tenMin) {
                                 datas.get(i).setTimeFlag(true);
                             } else {
                                 datas.get(i).setTimeFlag(false);
@@ -283,9 +281,11 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             text_time_second = itemView.findViewById(R.id.text_time_second);
 
             layout_bg = itemView.findViewById(R.id.layout_bg);
-            itemView.setOnClickListener(view -> {
-                if (onItemClick != null) {
-                    onItemClick.onClickListener(datas.get(getPosition()));
+
+
+            itemView.findViewById(R.id.layout_bg).setOnClickListener(v -> {
+                if (onCancelItemClick != null) {
+                    onCancelItemClick.onClickListener(datas.get(getPosition()));
                 }
             });
 
@@ -293,17 +293,18 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
-    private OnItemClick onItemClick;
+    private OnCancelItemClick onCancelItemClick;
 
-    public void setOnItemClick(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
+    public void setOnCancelItemClick(OnCancelItemClick onCancelItemClick) {
+        this.onCancelItemClick = onCancelItemClick;
     }
 
-    public interface OnItemClick {
+    public interface OnCancelItemClick {
         void onClickListener(DepositWithdrawEntity.DataBean data);
 
 
     }
+
 
     public void cancelTimer() {
         if (timer != null) {

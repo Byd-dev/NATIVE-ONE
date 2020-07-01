@@ -27,6 +27,9 @@ import static java.lang.Double.parseDouble;
 public class TradeUtil {
     private static String TAG = "TradeUtil";
 
+    public static long tenMin = 10 * 60 * 1000;
+
+
     public static double scale(int priceDigit) {
         if (priceDigit == 1) {
             return 0.1;

@@ -426,5 +426,6 @@
     <string name="text_withdrawal_time">提幣時間:</string>
     <string name="text_withdrawal_amount">提幣數量:</string>
     <string name="text_send">獲取驗證碼</string>
+    <string name="text_cancel_success">取消成功</string>
 
 </resources>

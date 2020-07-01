@@ -337,13 +337,16 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 }
             });
         } else {
-            if (TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) > 5) {
-                text_transfer_title.setVisibility(View.VISIBLE);
-                text_title.setTextColor(getResources().getColor(R.color.maincolor));
-            } else {
-                text_transfer_title.setVisibility(View.GONE);
+            if (unionRateEntity.getUnion() != null) {
+                if (TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) > 5) {
+                    text_transfer_title.setVisibility(View.VISIBLE);
+                    text_title.setTextColor(getResources().getColor(R.color.maincolor));
+                } else {
+                    text_transfer_title.setVisibility(View.GONE);
 
+                }
             }
+
         }
 
 
@@ -360,9 +363,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                     long createTime = value.getCreateTime();
                     long time = System.currentTimeMillis();
                     long l = time - createTime;
-                    int tenMin = 10 * 60 * 1000;
-                    if (l < tenMin) {
-                        value.setUseTime(tenMin-l);
+                    if (l < TradeUtil.tenMin) {
+                        value.setUseTime(TradeUtil.tenMin - l);
                     } else {
                         value.setUseTime(0);
                     }
@@ -425,9 +427,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                         long createTime = value.getCreateTime();
                         long time = System.currentTimeMillis();
                         long l = time - createTime;
-                        int tenMin = 10 * 60 * 1000;
-                        if (l < tenMin) {
-                            value.setUseTime(tenMin-l);
+                        if (l < TradeUtil.tenMin) {
+                            value.setUseTime(TradeUtil.tenMin - l);
                         } else {
                             value.setUseTime(0);
                         }
@@ -458,6 +459,28 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         if (depositWithdrawEntity != null) {
             withdrawHistoryAdapter.setDatas(depositWithdrawEntity.getData());
         }
+
+        withdrawHistoryAdapter.setOnCancelItemClick(data -> {
+            runOnUiThread(() -> {
+                NetManger.getInstance().cancelWithdrawal(data.getId(), "cancel", (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        initData();
+                        PopUtil.getInstance().showTip(getActivity(),
+                                layout_view,
+                                false,
+                                getString(R.string.text_cancel_success), state1 -> {
+
+                                });
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
+            });
+
+        });
 
         view.findViewById(R.id.img_back).setOnClickListener(v -> {
             popupWindow.dismiss();
