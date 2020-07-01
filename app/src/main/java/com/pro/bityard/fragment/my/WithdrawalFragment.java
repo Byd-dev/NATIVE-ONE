@@ -963,4 +963,10 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        withdrawHistoryAdapter.cancelTimer();
+    }
 }

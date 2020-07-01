@@ -36,7 +36,8 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public boolean isLoadMore = false;
 
 
-    private List<Double> incomeList;
+    private Timer timer;
+    private TimerTask timerTask;
 
 
     public WithdrawHistoryAdapter(Context context) {
@@ -72,9 +73,6 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
 
-    public void getIncome(TradeResult tradeResult) {
-        tradeResult.setResult(incomeList);
-    }
 
 
     @Override
@@ -166,7 +164,9 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
      * 列表倒计时
      */
     private void startTime() {
-        new Timer().schedule(new TimerTask() {
+
+        timer = new Timer();
+        timerTask = new TimerTask() {
             @Override
             public void run() {
                 runOnUiThread(() -> {
@@ -197,14 +197,17 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
                 });
             }
-        }, 0, 1000);
+        };
+        timer.schedule(timerTask, 0, 1000);
+
+
     }
 
 
     private void setTimeShow(long useTime, MyViewHolder holder) {
-        int hour = (int) (useTime / 3600 );
-        int min = (int) (useTime/1000 / 60 % 60);
-        int second = (int) (useTime/1000 % 60);
+        int hour = (int) (useTime / 3600);
+        int min = (int) (useTime / 1000 / 60 % 60);
+        int second = (int) (useTime / 1000 % 60);
         int day = (int) (useTime / 3600 / 24);
         String mDay, mHour, mMin, mSecond;//天，小时，分钟，秒
         second--;
@@ -232,7 +235,7 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mSecond = "" + second;
         }
         String strTime = mMin + ":" + mSecond + "";
-        Log.d("print", "setTimeShow:233:  "+strTime);
+        Log.d("print", "setTimeShow:233:  " + strTime);
         holder.text_time_min.setText(mMin);
         holder.text_time_second.setText(mSecond);
 
@@ -301,5 +304,16 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         void onClickListener(DepositWithdrawEntity.DataBean data);
 
 
+    }
+
+    public void cancelTimer() {
+        if (timer != null) {
+            timer.cancel();
+            timer = null;
+        }
+        if (timerTask != null) {
+            timerTask.cancel();
+            timerTask = null;
+        }
     }
 }
