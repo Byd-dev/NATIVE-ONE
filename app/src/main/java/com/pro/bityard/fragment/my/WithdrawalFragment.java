@@ -360,8 +360,9 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                     long createTime = value.getCreateTime();
                     long time = System.currentTimeMillis();
                     long l = time - createTime;
-                    if (l < 10 * 60 * 1000) {
-                        value.setUseTime(l);
+                    int tenMin = 10 * 60 * 1000;
+                    if (l < tenMin) {
+                        value.setUseTime(tenMin-l);
                     } else {
                         value.setUseTime(0);
                     }
@@ -424,11 +425,11 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                         long createTime = value.getCreateTime();
                         long time = System.currentTimeMillis();
                         long l = time - createTime;
-                        if (l < 10 * 60 * 1000) {
-                            value.setUseTime(l);
+                        int tenMin = 10 * 60 * 1000;
+                        if (l < tenMin) {
+                            value.setUseTime(tenMin-l);
                         } else {
                             value.setUseTime(0);
-
                         }
                         if (value.getStatus() >= 1) {
                             iterator.remove();

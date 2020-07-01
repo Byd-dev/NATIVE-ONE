@@ -264,8 +264,11 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
                         }
                     } else {
                         if (isEyeOpen) {
-                            text_balance.setText(getResources().getString(R.string.text_default));
-                            text_balance_currency.setText(getResources().getString(R.string.text_default));
+                            if (isAdded()){
+                                text_balance.setText(getResources().getString(R.string.text_default));
+                                text_balance_currency.setText(getResources().getString(R.string.text_default));
+                            }
+
                         }
 
                     }

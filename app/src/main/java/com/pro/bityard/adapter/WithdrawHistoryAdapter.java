@@ -190,7 +190,6 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                                 datas.get(i).setTimeFlag(true);
                                 WithdrawHistoryAdapter.this.notifyItemChanged(i);
                             }
-
                         }
 
                     }
