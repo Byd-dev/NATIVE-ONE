@@ -196,6 +196,22 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 });
             }
         }
+
+
+        NetManger.getInstance().withdrawalAddressList((state, response) -> {
+            refreshAddress((state1, response1) -> {
+                if (state1.equals(BUSY)) {
+                } else if (state1.equals(SUCCESS)) {
+                    withdrawalAdressEntity = (WithdrawalAdressEntity) response1;
+                    if (withdrawalAdressEntity != null) {
+                        withdrawalAddressAdapter.setDatas(withdrawalAdressEntity.getData());
+                    }
+                } else if (state1.equals(FAILURE)) {
+                }
+            });
+
+
+        });
     }
 
     @Override
@@ -803,7 +819,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         swipeRefreshLayout.setOnRefreshListener(() -> {
 
             NetManger.getInstance().withdrawalAddressList((state, response) -> {
-
                 refreshAddress((state1, response1) -> {
                     if (state1.equals(BUSY)) {
                         swipeRefreshLayout.setRefreshing(true);

@@ -503,6 +503,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     loginEntity.getUser().setMobile(account);
+                    loginEntity.getUser().setPhone(account);
                     SPUtils.putData(AppConfig.LOGIN, loginEntity);
                     getActivity().finish();
 
