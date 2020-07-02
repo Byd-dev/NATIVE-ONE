@@ -35,6 +35,8 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     public boolean isLoadMore = false;
 
+    private boolean cancel=false;
+
 
     private Timer timer;
     private TimerTask timerTask;
@@ -44,6 +46,11 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.context = context;
         datas = new ArrayList<>();
         startTime();
+    }
+
+    public void cancel(boolean cancel){
+        this.cancel=cancel;
+        this.notifyDataSetChanged();
     }
 
     public void setDatas(List<DepositWithdrawEntity.DataBean> datas) {
@@ -138,7 +145,6 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((MyViewHolder) holder).text_time_second.setBackground(context.getResources().getDrawable(R.drawable.bg_shape_red));
                 setTimeShow(datas.get(position).getUseTime(), ((MyViewHolder) holder));
 
-
             } else {
                 ((MyViewHolder) holder).text_time_min.setText("00");
                 ((MyViewHolder) holder).text_time_second.setText("00");
@@ -146,6 +152,17 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((MyViewHolder) holder).text_status.setTextColor(context.getResources().getColor(R.color.text_main_color));
                 ((MyViewHolder) holder).text_time_min.setBackgroundColor(context.getResources().getColor(R.color.color_bg_left));
                 ((MyViewHolder) holder).text_time_second.setBackgroundColor(context.getResources().getColor(R.color.color_bg_left));
+            }
+
+            if (cancel){
+                ((MyViewHolder) holder).text_time_min.setText("00");
+                ((MyViewHolder) holder).text_time_second.setText("00");
+                ((MyViewHolder) holder).layout_bg.setBackgroundColor(context.getResources().getColor(R.color.color_bg_left));
+                ((MyViewHolder) holder).text_status.setTextColor(context.getResources().getColor(R.color.text_main_color));
+                ((MyViewHolder) holder).text_time_min.setBackgroundColor(context.getResources().getColor(R.color.color_bg_left));
+                ((MyViewHolder) holder).text_time_second.setBackgroundColor(context.getResources().getColor(R.color.color_bg_left));
+                ((MyViewHolder) holder).text_status.setText(R.string.text_pending);
+
             }
 
 

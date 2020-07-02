@@ -412,8 +412,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         swipeRefreshLayout.setOnRefreshListener(() -> {
-
-
             getWithdrawalHistory((state, response) -> {
                 if (state.equals(BUSY)) {
                     swipeRefreshLayout.setRefreshing(true);
@@ -467,6 +465,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
+                        withdrawHistoryAdapter.cancel(true);
                         initData();
                         PopUtil.getInstance().showTip(getActivity(),
                                 layout_view,
