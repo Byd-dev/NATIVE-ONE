@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,10 +42,17 @@ public class CountryCodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
-            ((MyViewHolder) holder).text_name.setText(datas.get(position).getNameCn()+"("+datas.get(position).getNameEn()+")");
+
+            String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, "zh_cn");
+            if (language.contains("zh")) {
+                ((MyViewHolder) holder).text_name.setText(datas.get(position).getNameCn() + "(" + datas.get(position).getNameEn() + ")");
+            } else {
+                ((MyViewHolder) holder).text_name.setText(datas.get(position).getNameEn());
+            }
+
 
             // TODO: 2020/3/7   英文切换
-            ((MyViewHolder) holder).text_code.setText("+"+datas.get(position).getCountryCode());
+            ((MyViewHolder) holder).text_code.setText("+" + datas.get(position).getCountryCode());
 
         }
     }
@@ -59,13 +68,13 @@ public class CountryCodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            text_name =  itemView.findViewById(R.id.text_name);
+            text_name = itemView.findViewById(R.id.text_name);
             text_code = (TextView) itemView.findViewById(R.id.text_code);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (onItemClick!=null){
+                    if (onItemClick != null) {
                         onItemClick.onSuccessListener(datas.get(getPosition()));
                     }
                 }
@@ -79,7 +88,7 @@ public class CountryCodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         this.onItemClick = onItemClick;
     }
 
-    public  interface OnItemClick{
+    public interface OnItemClick {
         void onSuccessListener(CountryCodeEntity.DataBean dataBean);
 
     }

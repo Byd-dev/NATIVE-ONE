@@ -22,26 +22,26 @@
     <string name="text_select">Quốc gia ( vùng)</string>
     <string name="text_login">Đăng nhập</string>
     <string name="text_register_title">Đăng ký</string>
-    <string name="text_mobile_register"><![CDATA[手机号码注册->]]></string>
+    <string name="text_mobile_register"><![CDATA[Đăng ký số điện thoại->]]></string>
     <string name="text_email_code">Mã Email</string>
     <string name="text_email_code_input">Nhập mã Email</string>
     <string name="text_register_btn">注册</string>
     <string name="text_mobile_code">Mã SMS</string>
     <string name="text_mobile_code_input">Nhập mã SMS</string>
-    <string name="text_email_register">邮箱注册-?</string>
+    <string name="text_email_register">Đăng ký Email-></string>
     <string name="text_try">点击重试</string>
     <string name="text_register_success">注册成功!</string>
     <string name="text_err_tip">系统错误,请稍后尝试</string>
     <string name="text_code_lose">验证码已失效,请重新输入</string>
-    <string name="text_forget">找回密码</string>
-    <string name="text_mobile_forget"><![CDATA[手机号找回->]]></string>
+    <string name="text_forget">Quên mật khẩu</string>
+    <string name="text_mobile_forget"><![CDATA[Thông qua SĐT->]]></string>
     <string name="text_next">Tiếp theo</string>
     <string name="text_pass_new">新密码</string>
     <string name="text_edit_pass_new">Nhập mật khẩu mới</string>
     <string name="text_pass_new_sure">Xác nhận mật khẩu</string>
     <string name="text_edit_pass_new_sure">Nhập mật khẩu mới</string>
     <string name="text_sure">Xác nhận</string>
-    <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
+    <string name="text_email_forget"><![CDATA[Thông qua Email->]]></string>
     <string name="text_recommend">Đề xuất</string>
     <string name="text_trade_bonus">258U Bonus</string>
     <string name="text_trade_simulation">Demo</string>
@@ -151,15 +151,15 @@
     <string name="text_close_sure">Đóng xác nhận</string>
     <string name="text_order_sure">Mở xác nhận</string>
     <string name="text_defer_sure">Thế qua đêm</string>
-    <string name="text_inall_pop">合计</string>
+    <string name="text_inall_pop">Tổng</string>
     <string name="text_service_pop">Phí xử lý</string>
     <string name="text_are_you_sure">Xác nhận đóng lệnh?</string>
     <string name="text_service_tip">Phí giao dịch=ký quỹ*đòn bẩy*0.05%\n</string>
     <string name="text_tip_login">请登录</string>
-    <string name="kline_open">开:</string>
-    <string name="kline_max">高:</string>
-    <string name="kline_min">低:</string>
-    <string name="kline_close">收:</string>
+    <string name="kline_open">O:</string>
+    <string name="kline_max">H:</string>
+    <string name="kline_min">L:</string>
+    <string name="kline_close">C:</string>
     <string name="kline_time">时间</string>
     <string name="kline_open_detail">开</string>
     <string name="kline_max_detail">高</string>
@@ -427,5 +427,6 @@
     <string name="text_withdrawal_amount">Số lượng :</string>
     <string name="text_send">Lấy mã</string>
     <string name="text_cancel_success">Đã hủy</string>
+    <string name="text_search">tìm kiếm</string>
 
 </resources>

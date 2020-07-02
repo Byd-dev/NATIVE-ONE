@@ -364,7 +364,33 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
             }
 
         }
-        if (account.contains("@")) {
+        text_email_mobile.setText(getResources().getString(R.string.text_email_code));
+        edit_code.setHint(getResources().getString(R.string.text_email_code_input));
+        edit_code.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 4 && Util.isCode(s.toString())
+                        && Util.isPass(edit_pass_old.getText().toString())
+                        && Util.isPass(edit_pass_new.getText().toString())
+                        && Util.isPass(edit_pass_sure.getText().toString())) {
+                    btn_submit.setEnabled(true);
+                } else {
+                    btn_submit.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        /*if (account.contains("@")) {
             text_email_mobile.setText(getResources().getString(R.string.text_email_code));
             edit_code.setHint(getResources().getString(R.string.text_email_code_input));
             edit_code.addTextChangedListener(new TextWatcher() {
@@ -416,7 +442,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
 
                 }
             });
-        }
+        }*/
 
     }
 
@@ -484,7 +510,26 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.text_getCode:
 
-                if (account.contains("@")) {
+                NetManger.getInstance().getEmailCode(email, "CHANGE_WITHDRAW", (state, response1, response2) -> {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
+                        TipEntity tipEntity = (TipEntity) response2;
+                        if (tipEntity.getCode() == 200) {
+                            String[] split = response1.toString().split(",");
+                            googleToken = split[0];
+                            mHandler.obtainMessage(0).sendToTarget();
+                        } else if (tipEntity.getCode() == 500) {
+                            Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
+                    }
+                });
+
+              /*  if (account.contains("@")) {
                     NetManger.getInstance().getEmailCode(email, "CHANGE_WITHDRAW", (state, response1, response2) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
@@ -521,7 +566,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                             dismissProgressDialog();
                         }
                     });
-                }
+                }*/
 
 
                 break;
@@ -591,7 +636,23 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                         return;
                     }
 
-                    if (account.contains("@")) {
+                    NetManger.getInstance().checkEmailCode(email, "CHANGE_WITHDRAW", value_code, (state, response) -> {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            TipEntity tipEntity = (TipEntity) response;
+                            if (tipEntity.getCode() == 200) {
+                                widthDrawPassChange(email, value_pass_old, value_pass_new);
+                            } else {
+                                Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                        }
+                    });
+
+                    /*if (account.contains("@")) {
                         NetManger.getInstance().checkEmailCode(email, "CHANGE_WITHDRAW", value_code, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
@@ -623,7 +684,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                                 dismissProgressDialog();
                             }
                         });
-                    }
+                    }*/
 
 
                 }

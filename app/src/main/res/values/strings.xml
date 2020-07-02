@@ -426,5 +426,6 @@
     <string name="text_withdrawal_amount">提币数量:</string>
     <string name="text_send">立即获取</string>
     <string name="text_cancel_success">取消成功</string>
+    <string name="text_search">搜索</string>
 
 </resources>

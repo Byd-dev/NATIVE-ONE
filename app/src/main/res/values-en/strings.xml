@@ -21,26 +21,26 @@
     <string name="text_select">Country or region</string>
     <string name="text_login">Login Now</string>
     <string name="text_register_title">Get Started Bityard</string>
-    <string name="text_mobile_register"><![CDATA[手机号码注册->]]></string>
+    <string name="text_mobile_register"><![CDATA[Mobile Registration->]]></string>
     <string name="text_email_code">Captcha</string>
     <string name="text_email_code_input">Verification Code</string>
     <string name="text_register_btn">Get Started</string>
     <string name="text_mobile_code">Captcha</string>
     <string name="text_mobile_code_input">Verification Code</string>
-    <string name="text_email_register">邮箱注册-?</string>
+    <string name="text_email_register">Email Registration-></string>
     <string name="text_try">点击重试</string>
     <string name="text_register_success">注册成功!</string>
     <string name="text_err_tip">系统错误,请稍后尝试</string>
     <string name="text_code_lose">验证码已失效,请重新输入</string>
-    <string name="text_forget">找回密码</string>
-    <string name="text_mobile_forget"><![CDATA[手机号找回->]]></string>
+    <string name="text_forget">Forgot Password</string>
+    <string name="text_mobile_forget"><![CDATA[Reset your password via SMS->]]></string>
     <string name="text_next">Next</string>
     <string name="text_pass_new">新密码</string>
     <string name="text_edit_pass_new">New Password</string>
     <string name="text_pass_new_sure">Confirm Password</string>
     <string name="text_edit_pass_new_sure">New Password</string>
     <string name="text_sure">Confirm</string>
-    <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
+    <string name="text_email_forget"><![CDATA[Reset your password via Email->]]></string>
     <string name="text_recommend">Recommended</string>
     <string name="text_trade_bonus">258U Bonus</string>
     <string name="text_trade_simulation">Demo</string>
@@ -150,15 +150,15 @@
     <string name="text_close_sure">Close order confirm</string>
     <string name="text_order_sure">Open order confirm</string>
     <string name="text_defer_sure">Overnight</string>
-    <string name="text_inall_pop">合计</string>
+    <string name="text_inall_pop">Total</string>
     <string name="text_service_pop">Fee</string>
     <string name="text_are_you_sure">Are you sure to close position?</string>
     <string name="text_service_tip">Trading Fee=Margin*leverage*0.05%\n</string>
     <string name="text_tip_login">请登录</string>
-    <string name="kline_open">开:</string>
-    <string name="kline_max">高:</string>
-    <string name="kline_min">低:</string>
-    <string name="kline_close">收:</string>
+    <string name="kline_open">O:</string>
+    <string name="kline_max">H:</string>
+    <string name="kline_min">L:</string>
+    <string name="kline_close">C:</string>
     <string name="kline_time">时间</string>
     <string name="kline_open_detail">开</string>
     <string name="kline_max_detail">高</string>
@@ -426,5 +426,6 @@
     <string name="text_withdrawal_amount">Amount:</string>
     <string name="text_send">Send</string>
     <string name="text_cancel_success">Success</string>
+    <string name="text_search">Search</string>
 
 </resources>

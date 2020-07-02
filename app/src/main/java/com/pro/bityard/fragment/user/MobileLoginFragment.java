@@ -300,16 +300,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                     @Override
                     public void onSuccessResult(String result) {
-                        ArrayMap<String, String> map = new ArrayMap<>();
 
-                        map.put("vHash", Util.Random32());
-                        map.put("username", (code_value + account_value));//默认加上区号
-                        map.put("password", URLEncoder.encode(pass_value));
-                        map.put("contryCode", code_value);
-                        map.put("geetestToken", geetestToken);
-                        map.put("terminal", "Android");
-
-                        NetManger.getInstance().login(account_value, pass_value, geetestToken, (state, response) -> {
+                        NetManger.getInstance().login( (code_value + account_value), pass_value, geetestToken, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {

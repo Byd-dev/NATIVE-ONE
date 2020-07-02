@@ -22,26 +22,26 @@
     <string name="text_select">选择国家</string>
     <string name="text_login">立即登录</string>
     <string name="text_register_title">注册Bityard</string>
-    <string name="text_mobile_register"><![CDATA[手机号码注册->]]></string>
+    <string name="text_mobile_register"><![CDATA[携帯電話番号登録->]]></string>
     <string name="text_email_code">邮箱验证码</string>
     <string name="text_email_code_input">请输入邮箱验证码</string>
     <string name="text_register_btn">注册</string>
     <string name="text_mobile_code">手机验证码</string>
     <string name="text_mobile_code_input">请输入手机验证码</string>
-    <string name="text_email_register">邮箱注册-?</string>
+    <string name="text_email_register">E-メール登録-></string>
     <string name="text_try">点击重试</string>
     <string name="text_register_success">注册成功!</string>
     <string name="text_err_tip">系统错误,请稍后尝试</string>
     <string name="text_code_lose">验证码已失效,请重新输入</string>
-    <string name="text_forget">找回密码</string>
-    <string name="text_mobile_forget"><![CDATA[手机号找回->]]></string>
+    <string name="text_forget">パスワードをお忘れですか?</string>
+    <string name="text_mobile_forget"><![CDATA[SMSでパスワードをリセットします->]]></string>
     <string name="text_next">下一步</string>
     <string name="text_pass_new">新密码</string>
     <string name="text_edit_pass_new">请输入新密码</string>
     <string name="text_pass_new_sure">确认新密码</string>
     <string name="text_edit_pass_new_sure">请确认新密码</string>
     <string name="text_sure">确定</string>
-    <string name="text_email_forget"><![CDATA[邮箱找回->]]></string>
+    <string name="text_email_forget"><![CDATA[E-メールでパスワードをリセットします->]]></string>
     <string name="text_recommend">推荐榜单</string>
     <string name="text_trade_bonus">交易赠金</string>
     <string name="text_trade_simulation">模拟交易</string>
@@ -151,15 +151,15 @@
     <string name="text_close_sure">平仓确认</string>
     <string name="text_order_sure">下单确认</string>
     <string name="text_defer_sure">持仓过夜</string>
-    <string name="text_inall_pop">合计</string>
+    <string name="text_inall_pop">合計</string>
     <string name="text_service_pop">手续费</string>
     <string name="text_are_you_sure">是否确认平仓?</string>
     <string name="text_service_tip">手续费=保证金(杠杆-1)×0.15%\n</string>
     <string name="text_tip_login">请登录</string>
-    <string name="kline_open">开:</string>
-    <string name="kline_max">高:</string>
-    <string name="kline_min">低:</string>
-    <string name="kline_close">收:</string>
+    <string name="kline_open">O:</string>
+    <string name="kline_max">H:</string>
+    <string name="kline_min">L:</string>
+    <string name="kline_close">C:</string>
     <string name="kline_time">时间</string>
     <string name="kline_open_detail">开</string>
     <string name="kline_max_detail">高</string>
@@ -427,6 +427,7 @@
     <string name="text_withdrawal_amount">出金残高:</string>
     <string name="text_send">送信</string>
     <string name="text_cancel_success">キャンセルしました</string>
+    <string name="text_search">検索する</string>
 
 
 </resources>

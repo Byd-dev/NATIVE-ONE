@@ -68,6 +68,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     @BindView(R.id.text_getCode_mobile)
     TextView text_getCode;
 
+
     @BindView(R.id.btn_submit)
     Button btn_submit;
 

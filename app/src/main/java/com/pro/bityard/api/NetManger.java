@@ -2151,6 +2151,8 @@ public class NetManger {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     onNetResult.onNetResult(SUCCESS, tipEntity);
+                }else {
+                    onNetResult.onNetResult(FAILURE, null);
                 }
 
             } else if (state.equals(FAILURE)) {
