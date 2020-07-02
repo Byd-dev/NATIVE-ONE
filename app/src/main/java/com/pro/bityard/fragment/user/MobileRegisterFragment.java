@@ -28,6 +28,7 @@ import com.pro.bityard.adapter.CountryCodeAdapter;
 import com.pro.bityard.adapter.CountryCodeHeadAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
@@ -35,6 +36,7 @@ import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.TagManger;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -96,7 +98,6 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     TextView text_err_pass;
     //地区的适配器
     private CountryCodeAdapter countryCodeAdapter;
-
     private CountryCodeHeadAdapter countryCodeHeadAdapter, countryCodeSearchAdapter;
     private List<CountryCodeEntity.DataBean> searchData;
 
@@ -543,6 +544,8 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
             final List<CountryCodeEntity.DataBean> dataData = data.getData();
             countryCodeAdapter.setDatas(dataData);
             setEdit(edit_search, text_used, dataData, recyclerView_search, recyclerView);
+
+
 
 
             List<CountryCodeEntity.DataBean> dataBeanList = new ArrayList<>();

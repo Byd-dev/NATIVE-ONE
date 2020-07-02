@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.user;
 
+import android.annotation.SuppressLint;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,6 +26,7 @@ import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ForgetActivity;
 import com.pro.bityard.adapter.CountryCodeAdapter;
+import com.pro.bityard.adapter.CountryCodeHeadAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
@@ -37,6 +39,7 @@ import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
+import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
 import java.net.URLEncoder;
@@ -90,8 +93,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
     TextView text_err_pass;
     @BindView(R.id.text_err_mobile)
     TextView text_err_mobile;
-    //地区的适配器
     private CountryCodeAdapter countryCodeAdapter;
+    private CountryCodeHeadAdapter countryCodeHeadAdapter, countryCodeSearchAdapter;
 
     private List<CountryCodeEntity.DataBean> searchData;
 
@@ -362,14 +365,32 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
     private void showEditPopWindow(CountryCodeEntity data) {
 
 
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_country_code_layout, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_country_code_layout, null);
 
         TextView text_try = view.findViewById(R.id.text_try);
 
+        TextView text_used = view.findViewById(R.id.text_used);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+
+        HeaderRecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+
+        RecyclerView recyclerView_search = view.findViewById(R.id.recyclerView_search);
+
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.item_head_country_code_layout, null);
         countryCodeAdapter = new CountryCodeAdapter(getActivity());
+        countryCodeHeadAdapter = new CountryCodeHeadAdapter(getActivity());
+        countryCodeSearchAdapter = new CountryCodeHeadAdapter(getActivity());
+        RecyclerView recyclerViewHead = headView.findViewById(R.id.recyclerview_head);
+        recyclerViewHead.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewHead.setAdapter(countryCodeHeadAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+        recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView_search.setAdapter(countryCodeSearchAdapter);
+        recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        recyclerView.addHeaderView(headView);
         recyclerView.setAdapter(countryCodeAdapter);
 
         EditText edit_search = view.findViewById(R.id.edit_search);
@@ -379,26 +400,38 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             recyclerView.setVisibility(View.VISIBLE);
             final List<CountryCodeEntity.DataBean> dataData = data.getData();
             countryCodeAdapter.setDatas(dataData);
-            setEdit(edit_search, dataData);
+            setEdit(edit_search, text_used, dataData, recyclerView_search, recyclerView);
+
+
+
+
+            List<CountryCodeEntity.DataBean> dataBeanList = new ArrayList<>();
+            for (CountryCodeEntity.DataBean dataBean : dataData) {
+                if (dataBean.isUsed()) {
+                    dataBeanList.add(dataBean);
+                }
+            }
+
+            countryCodeHeadAdapter.setDatas(dataBeanList);
+
 
         } else {
             text_try.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+            recyclerView_search.setVisibility(View.GONE);
 
-            text_try.setOnClickListener(v -> {
-                NetManger.getInstance().getMobileCountryCode((state, response) -> {
-                    if (state.equals(SUCCESS)) {
+            text_try.setOnClickListener(v -> NetManger.getInstance().getMobileCountryCode((state, response) -> {
+                        if (state.equals(SUCCESS)) {
+                            CountryCodeEntity countryCodeEntity = (CountryCodeEntity) response;
+                            text_try.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                            SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
+                            countryCodeAdapter.setDatas(countryCodeEntity.getData());
+                            setEdit(edit_search, text_used, countryCodeEntity.getData(), recyclerView_search, recyclerView);
 
-                        CountryCodeEntity countryCodeEntity = (CountryCodeEntity) response;
-                        text_try.setVisibility(View.GONE);
-                        recyclerView.setVisibility(View.VISIBLE);
-                        SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
-                        countryCodeAdapter.setDatas(countryCodeEntity.getData());
-                        setEdit(edit_search, countryCodeEntity.getData());
-
+                        }
                     }
-                });
-            });
+            ));
 
         }
 
@@ -407,25 +440,31 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        view.findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        countryCodeAdapter.setOnItemClick(new CountryCodeAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(CountryCodeEntity.DataBean dataBean) {
-                // TODO: 2020/3/7   中英文切换
-                text_countryName.setText(dataBean.getNameCn());
-                text_countryCode.setText(dataBean.getCountryCode());
-                popupWindow.dismiss();
+        view.findViewById(R.id.img_back).setOnClickListener(v -> popupWindow.dismiss());
 
-            }
+        countryCodeAdapter.setOnItemClick(dataBean -> {
+            text_countryName.setText(dataBean.getNameCn());
+            text_countryCode.setText(dataBean.getCountryCode());
+            popupWindow.dismiss();
+
         });
+
+        countryCodeHeadAdapter.setOnItemHeadClick(dataBean -> {
+            text_countryName.setText(dataBean.getNameCn());
+            text_countryCode.setText(dataBean.getCountryCode());
+            popupWindow.dismiss();
+        });
+
+
+        countryCodeSearchAdapter.setOnItemHeadClick(dataBean -> {
+            text_countryName.setText(dataBean.getNameCn());
+            text_countryCode.setText(dataBean.getCountryCode());
+            popupWindow.dismiss();
+        });
+
 
         popupWindow.setFocusable(true);
-        // popupWindow.setAnimationStyle(R.style.pop_anim);
+        //popupWindow.setAnimationStyle(R.style.pop_anim);
         popupWindow.setContentView(view);
         popupWindow.setOutsideTouchable(false);
         popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -433,7 +472,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
     }
 
     /*输入框的监听*/
-    private void setEdit(EditText edit_search, List<CountryCodeEntity.DataBean> dataData) {
+    private void setEdit(EditText edit_search, TextView text_used, List<CountryCodeEntity.DataBean> dataData, RecyclerView recyclerView_search, HeaderRecyclerView recyclerView) {
         edit_search.addTextChangedListener(new TextWatcher() {
 
 
@@ -449,14 +488,21 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                     for (int i = 0; i < dataData.size(); i++) {
                         if (dataData.get(i).getNameCn().contains(s)
                                 || dataData.get(i).getCountryCode().contains(s)
-                                || dataData.get(i).getNameEn().contains(s)
-                        ) {
+                                || dataData.get(i).getNameEn().contains(s)) {
                             searchData.add(dataData.get(i));
                         }
                     }
-                    countryCodeAdapter.setDatas(searchData);
-
+                    recyclerView_search.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    countryCodeSearchAdapter.setDatas(searchData);
+                    text_used.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView_search.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    countryCodeAdapter.setDatas(dataData);
+                    text_used.setVisibility(View.GONE);
                 }
+
             }
 
             @Override
@@ -465,6 +511,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             }
         });
     }
+
 
     @Override
     public void onDestroy() {

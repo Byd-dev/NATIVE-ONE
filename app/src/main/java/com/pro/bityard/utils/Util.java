@@ -12,7 +12,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
@@ -29,8 +28,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONArray;
@@ -53,6 +55,8 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class Util {
 
@@ -337,7 +341,7 @@ public class Util {
         if (second > 3600) {
             h = second / 3600;
         }
-        return h+"";
+        return h + "";
     }
 
     public static String getMins(long second) {//计算秒有多少分
@@ -353,12 +357,13 @@ public class Util {
             d = second / 60;
         }
 
-        if (d<10){
-            return "0"+d;
-        }else {
+        if (d < 10) {
+            return "0" + d;
+        } else {
             return d + "";
         }
     }
+
     public static String getSeconds(long second) {//计算秒有多少秒
         long s = 0;
         long temp = second % 3600;
@@ -377,9 +382,9 @@ public class Util {
                 s = second % 60;
             }
         }
-        if (s<10){
-            return "0"+s;
-        }else {
+        if (s < 10) {
+            return "0" + s;
+        } else {
             return s + "";
         }
     }
@@ -921,7 +926,8 @@ public class Util {
 
     /**
      * 禁止EditText输入空格
-     *今天遇到个情况这个InputFilter不好使了，找了半天原因是冲突在android:inputType="textPassword"这个属性上了
+     * 今天遇到个情况这个InputFilter不好使了，找了半天原因是冲突在android:inputType="textPassword"这个属性上了
+     *
      * @param editText
      */
     public static void setEditTextInhibitInputSpaChat(EditText editText) {
@@ -941,4 +947,8 @@ public class Util {
         }, new InputFilter.LengthFilter(16)});
 
     }
+
+    List<CountryCodeEntity.DataBean> searchData;
+
+
 }
