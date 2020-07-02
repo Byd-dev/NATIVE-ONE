@@ -296,7 +296,8 @@ public class PositionFragment extends BaseFragment implements Observer {
         TradeUtil.positionPrice(isBuy_pop,quoteList, dataBean.getContractCode(), response -> {
             text_price_pop.setText(response.toString());
             String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop, 4);
-            text_income_pop.setText(income + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
+            text_income_pop.setText(TradeUtil.getNumberFormat(Double.parseDouble(income),2)
+                    + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
             double incomeDouble = Double.parseDouble(income);
             String netIncome = netIncome(incomeDouble, serviceCharge_pop);
             double netIncomeDouble = Double.parseDouble(netIncome);
@@ -1178,6 +1179,7 @@ public class PositionFragment extends BaseFragment implements Observer {
             } else {
                 text_incomeAll.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
             }
+
             text_incomeAll.setText(response.toString());
 
         });
@@ -1331,7 +1333,9 @@ public class PositionFragment extends BaseFragment implements Observer {
                             TradeUtil.positionPrice(isBuy_pop,quoteList, contractCode, response -> {
                                 text_price_pop.setText(response.toString());
                                 String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop, 4);
-                                text_income_pop.setText(income + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
+
+                                text_income_pop.setText(TradeUtil.getNumberFormat(Double.parseDouble(income),2)
+                                        + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
 
                                 double incomeDouble = Double.parseDouble(income);
                                 String netIncome = netIncome(incomeDouble, serviceCharge_pop);

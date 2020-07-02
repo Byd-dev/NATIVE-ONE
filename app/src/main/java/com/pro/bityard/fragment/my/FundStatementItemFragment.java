@@ -233,7 +233,6 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                     swipeRefreshLayout.setRefreshing(false);
                 }
 
-
                 fundItemEntity = (FundItemEntity) response;
                 if (!fundItemEntity.getData().get(0).getName().equals("ALL")) {
                     fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));

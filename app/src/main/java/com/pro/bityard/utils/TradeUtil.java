@@ -329,7 +329,7 @@ public class TradeUtil {
                 income = TradeUtil.add(income, incomeList.get(i));
             }
          //   Log.d("print", "getIncome: 总盈亏: "+income);
-            tradeResult.setResult(income);
+            tradeResult.setResult(Double.parseDouble(getNumberFormat(income, 2)));
         }
     }
 

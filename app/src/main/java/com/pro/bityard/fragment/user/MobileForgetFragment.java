@@ -7,6 +7,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -375,21 +376,13 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        view.findViewById(R.id.img_back).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                popupWindow.dismiss();
-            }
-        });
-        countryCodeAdapter.setOnItemClick(new CountryCodeAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(CountryCodeEntity.DataBean dataBean) {
-                // TODO: 2020/3/7   中英文切换
-                text_countryName.setText(dataBean.getNameCn());
-                text_countryCode.setText(dataBean.getCountryCode());
-                popupWindow.dismiss();
+        view.findViewById(R.id.img_back).setOnClickListener(v -> popupWindow.dismiss());
+        countryCodeAdapter.setOnItemClick(dataBean -> {
+            // TODO: 2020/3/7   中英文切换
+            text_countryName.setText(dataBean.getNameCn());
+            text_countryCode.setText(dataBean.getCountryCode());
+            popupWindow.dismiss();
 
-            }
         });
 
         popupWindow.setFocusable(true);
@@ -438,26 +431,24 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     /*3账号验证*/
     private void checkAccount(String country_code, String account_value) {
         ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("account", account_value);
+        map.put("account", country_code+account_value);
 
-        NetManger.getInstance().postRequest("/api/forgot/account-verify", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                    if (tipEntity.getCode() == 200 && tipEntity.isVerify_email() == true) {
-                        //3 安全验证
-                        checkSafe(country_code, account_value);
-                    } else {
-                        Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
+        NetManger.getInstance().postRequest("/api/forgot/account-verify", map, (state, response) -> {
+            Log.d("print", "onNetResult:439:  "+response);
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200 && tipEntity.isVerify_phone() == true) {
+                    //3 安全验证
+                    checkSafe(country_code, account_value);
+                } else {
+                    Toast.makeText(getContext(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
 
-                    }
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
                 }
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
             }
         });
 
@@ -470,6 +461,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
         NetManger.getInstance().postRequest("/api/forgot/securify-verify", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {
+                Log.d("print", "onNetResult:467:  "+response);
                 if (state.equals(BUSY)) {
                     showProgressDialog();
                 } else if (state.equals(SUCCESS)) {

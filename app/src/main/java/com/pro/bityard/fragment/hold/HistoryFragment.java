@@ -232,7 +232,11 @@ public class HistoryFragment extends BaseFragment implements Observer {
         /*TextView text_o_n = view.findViewById(R.id.text_o_n);
         text_o_n.setText(String.valueOf(dataBean.getDeferDays()));*/
         TextView text_o_n_fee = view.findViewById(R.id.text_o_n_fee);
-        text_o_n_fee.setText(String.valueOf(dataBean.getDeferFee()));
+        String deferDays = dataBean.getDeferDays();
+        String deferFee = dataBean.getDeferFee();
+        double mul = TradeUtil.mul(Double.parseDouble(deferDays), Double.parseDouble(deferFee));
+
+        text_o_n_fee.setText(TradeUtil.numberHalfUp(mul,2));
         TextView text_close_time = view.findViewById(R.id.text_close_time);
         text_close_time.setText(ChartUtil.getDate(dataBean.getTradeTime()));
 

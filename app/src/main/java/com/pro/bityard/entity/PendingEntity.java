@@ -266,12 +266,13 @@ public class PendingEntity {
         }
 
         public String getDeferFee() {
-            if (Double.parseDouble(deferFee) == 0) {
+            return  deferFee;
+           /* if (Double.parseDouble(deferFee) == 0) {
                 return "N/A";
             } else {
                 return TradeUtil.getNumberFormat(Double.parseDouble(deferFee),2);
 
-            }
+            }*/
         }
 
         public void setDeferFee(String deferFee) {
