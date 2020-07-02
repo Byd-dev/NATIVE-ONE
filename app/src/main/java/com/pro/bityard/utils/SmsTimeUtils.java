@@ -88,7 +88,7 @@ public class SmsTimeUtils {
      * @return 是否需要调用startCountdown(TextView textView)，主要用于判断在重新打开页，需不需要继续倒计时
      */
     public static boolean check(int type, boolean first) {
-        long data = System.currentTimeMillis();
+        long nowTime = System.currentTimeMillis();
         long time = 0;
         switch (type) {
             case EMAIL_REGISTER:
@@ -144,16 +144,13 @@ public class SmsTimeUtils {
                 time = WITHDRAWAL_HISTORY_TIME_END;
                 break;
         }
-        if (data > time) {
+        if (nowTime > time) {
             /*主要是区别于是否是第一次进入。第一次进入不需要赋值*/
             if (!first) {
                 CURR_COUNT = COUNT;
-                if (type == WITHDRAWAL_HISTORY) {
-                    time = data + 10 * 60 * 1000;
-                } else {
-                    time = data + COUNT * 1000;
+                //time = nowTime + COUNT * 1000;//会继续倒计时
+                time = COUNT * 1000;//从90S开始倒计时
 
-                }
                 switch (type) {
                     case EMAIL_REGISTER:
                         EMAIL_REGISTER_TIME_END = time;
@@ -210,7 +207,7 @@ public class SmsTimeUtils {
             }
             return false;
         } else {
-            int the_difference = ((int) (time - data)) / 1000;
+            int the_difference = ((int) (time - nowTime)) / 1000;
             CURR_COUNT = the_difference;
             return true;
         }
@@ -245,7 +242,7 @@ public class SmsTimeUtils {
                     countdownTimer.cancel();
                     countdownTimer = null;
                 }
-                tvSendCode.setText(R.string.text_send);
+                tvSendCode.setText(R.string.text_get_code);
                 tvSendCode.setEnabled(true);
             } else {
                 tvSendCode.setText(msg.what + "s");
@@ -255,5 +252,11 @@ public class SmsTimeUtils {
             super.handleMessage(msg);
         }
     };
+
+
+    public void stop(){
+
+    }
+
 
 }

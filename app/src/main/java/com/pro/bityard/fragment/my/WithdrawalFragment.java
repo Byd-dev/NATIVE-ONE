@@ -146,6 +146,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         super.onCreate(savedInstanceState);
         //初始化G3util
         Gt3Util.getInstance().init(getContext());
+
+
     }
 
     @Override
@@ -311,7 +313,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             edit_code.setHint(getResources().getString(R.string.text_mobile_code));
         }*/
 
-
     }
 
     @Override
@@ -475,6 +476,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         }
 
         withdrawHistoryAdapter.setOnCancelItemClick(data -> {
+
             runOnUiThread(() -> {
                 NetManger.getInstance().cancelWithdrawal(data.getId(), "cancel", (state, response) -> {
                     if (state.equals(BUSY)) {
@@ -483,6 +485,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                         dismissProgressDialog();
                         withdrawHistoryAdapter.cancel(true);
                         initData();
+                        Util.lightOff(getActivity());
                         PopUtil.getInstance().showTip(getActivity(),
                                 layout_view,
                                 false,
@@ -1006,5 +1009,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     public void onDestroy() {
         super.onDestroy();
         withdrawHistoryAdapter.cancelTimer();
+
+
     }
 }
