@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.adapter.CountryCodeAdapter;
+import com.pro.bityard.adapter.CountryCodeHeadAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
@@ -36,6 +37,7 @@ import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.Util;
+import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -95,6 +97,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     //地区的适配器
     private CountryCodeAdapter countryCodeAdapter;
 
+    private CountryCodeHeadAdapter countryCodeHeadAdapter, countryCodeSearchAdapter;
     private List<CountryCodeEntity.DataBean> searchData;
 
     private CountryCodeEntity countryCodeEntity;
@@ -222,7 +225,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     @Override
     protected void initData() {
         //获取默认的国家区号 如果没有地理位置 就默认中国
-        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME, "中国");
+        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME, getString(R.string.text_china));
 
         text_countryName.setText(country_name);
 
@@ -464,7 +467,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                         TagManger.getInstance().tag();
                         getActivity().finish();
                         MainOneActivity.enter(getActivity(), MainOneActivity.TAB_TYPE.TAB_HOME);
-                        SPUtils.putString(AppConfig.POP_LOGIN,"pop_login");
+                        SPUtils.putString(AppConfig.POP_LOGIN, "pop_login");
 
                     } else if (state2.equals(FAILURE)) {
                         dismissProgressDialog();
@@ -508,10 +511,28 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
         TextView text_try = view.findViewById(R.id.text_try);
 
+        TextView text_used = view.findViewById(R.id.text_used);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+
+        HeaderRecyclerView recyclerView = view.findViewById(R.id.recyclerview);
+
+        RecyclerView recyclerView_search = view.findViewById(R.id.recyclerView_search);
+
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.item_head_country_code_layout, null);
         countryCodeAdapter = new CountryCodeAdapter(getActivity());
+        countryCodeHeadAdapter = new CountryCodeHeadAdapter(getActivity());
+        countryCodeSearchAdapter = new CountryCodeHeadAdapter(getActivity());
+        RecyclerView recyclerViewHead = headView.findViewById(R.id.recyclerview_head);
+        recyclerViewHead.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewHead.setAdapter(countryCodeHeadAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+        recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView_search.setAdapter(countryCodeSearchAdapter);
+        recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        recyclerView.addHeaderView(headView);
         recyclerView.setAdapter(countryCodeAdapter);
 
         EditText edit_search = view.findViewById(R.id.edit_search);
@@ -521,11 +542,23 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
             recyclerView.setVisibility(View.VISIBLE);
             final List<CountryCodeEntity.DataBean> dataData = data.getData();
             countryCodeAdapter.setDatas(dataData);
-            setEdit(edit_search, dataData);
+            setEdit(edit_search, text_used, dataData, recyclerView_search, recyclerView);
+
+
+            List<CountryCodeEntity.DataBean> dataBeanList = new ArrayList<>();
+            for (CountryCodeEntity.DataBean dataBean : dataData) {
+                if (dataBean.isUsed()) {
+                    dataBeanList.add(dataBean);
+                }
+            }
+
+            countryCodeHeadAdapter.setDatas(dataBeanList);
+
 
         } else {
             text_try.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
+            recyclerView_search.setVisibility(View.GONE);
 
             text_try.setOnClickListener(v -> NetManger.getInstance().getMobileCountryCode((state, response) -> {
                         if (state.equals(SUCCESS)) {
@@ -534,7 +567,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                             recyclerView.setVisibility(View.VISIBLE);
                             SPUtils.putData(AppConfig.COUNTRY_CODE, countryCodeEntity);
                             countryCodeAdapter.setDatas(countryCodeEntity.getData());
-                            setEdit(edit_search, countryCodeEntity.getData());
+                            setEdit(edit_search, text_used, countryCodeEntity.getData(), recyclerView_search, recyclerView);
 
                         }
                     }
@@ -548,13 +581,27 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
 
         view.findViewById(R.id.img_back).setOnClickListener(v -> popupWindow.dismiss());
+
         countryCodeAdapter.setOnItemClick(dataBean -> {
-            // TODO: 2020/3/7   中英文切换
             text_countryName.setText(dataBean.getNameCn());
             text_countryCode.setText(dataBean.getCountryCode());
             popupWindow.dismiss();
 
         });
+
+        countryCodeHeadAdapter.setOnItemHeadClick(dataBean -> {
+            text_countryName.setText(dataBean.getNameCn());
+            text_countryCode.setText(dataBean.getCountryCode());
+            popupWindow.dismiss();
+        });
+
+
+        countryCodeSearchAdapter.setOnItemHeadClick(dataBean -> {
+            text_countryName.setText(dataBean.getNameCn());
+            text_countryCode.setText(dataBean.getCountryCode());
+            popupWindow.dismiss();
+        });
+
 
         popupWindow.setFocusable(true);
         //popupWindow.setAnimationStyle(R.style.pop_anim);
@@ -565,7 +612,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     }
 
     /*输入框的监听*/
-    private void setEdit(EditText edit_search, List<CountryCodeEntity.DataBean> dataData) {
+    private void setEdit(EditText edit_search, TextView text_used, List<CountryCodeEntity.DataBean> dataData, RecyclerView recyclerView_search, HeaderRecyclerView recyclerView) {
         edit_search.addTextChangedListener(new TextWatcher() {
 
 
@@ -581,14 +628,21 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                     for (int i = 0; i < dataData.size(); i++) {
                         if (dataData.get(i).getNameCn().contains(s)
                                 || dataData.get(i).getCountryCode().contains(s)
-                                || dataData.get(i).getNameEn().contains(s)
-                        ) {
+                                || dataData.get(i).getNameEn().contains(s)) {
                             searchData.add(dataData.get(i));
                         }
                     }
-                    countryCodeAdapter.setDatas(searchData);
-
+                    recyclerView_search.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.GONE);
+                    countryCodeSearchAdapter.setDatas(searchData);
+                    text_used.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView_search.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    countryCodeAdapter.setDatas(dataData);
+                    text_used.setVisibility(View.GONE);
                 }
+
             }
 
             @Override

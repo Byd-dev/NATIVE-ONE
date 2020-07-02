@@ -428,6 +428,8 @@
     <string name="text_send">送信</string>
     <string name="text_cancel_success">キャンセルしました</string>
     <string name="text_search">検索する</string>
+    <string name="text_china">CHINA</string>
+    <string name="text_all_country_code">全部</string>
 
 
 </resources>

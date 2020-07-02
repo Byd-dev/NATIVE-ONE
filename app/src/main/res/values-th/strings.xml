@@ -428,5 +428,7 @@
     <string name="text_send">Отправить</string>
     <string name="text_cancel_success">Успешно</string>
     <string name="text_search">ищи</string>
+    <string name="text_china">CHINA</string>
+    <string name="text_all_country_code">全部</string>
 
 </resources>

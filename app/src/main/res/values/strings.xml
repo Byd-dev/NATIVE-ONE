@@ -427,5 +427,7 @@
     <string name="text_send">立即获取</string>
     <string name="text_cancel_success">取消成功</string>
     <string name="text_search">搜索</string>
+    <string name="text_china">中国大陆</string>
+    <string name="text_all_country_code">全部</string>
 
 </resources>

@@ -428,5 +428,7 @@
     <string name="text_send">인증요청</string>
     <string name="text_cancel_success">취소되었습니다.</string>
     <string name="text_search">검색</string>
+    <string name="text_china">CHINA</string>
+    <string name="text_all_country_code">全部</string>
 
 </resources>

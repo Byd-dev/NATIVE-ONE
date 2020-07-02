@@ -16,11 +16,11 @@ import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CountryCodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CountryCodeHeadAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<CountryCodeEntity.DataBean> datas;
 
-    public CountryCodeAdapter(Context context) {
+    public CountryCodeHeadAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
     }
@@ -71,26 +71,26 @@ public class CountryCodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             text_name = itemView.findViewById(R.id.text_name);
             text_code = itemView.findViewById(R.id.text_code);
 
-            itemView.setOnClickListener(view -> {
-                if (onItemClick != null) {
-                    onItemClick.onSuccessListener(datas.get(getPosition() - 1));
+
+
+            itemView.setOnClickListener(v -> {
+                if (onItemHeadClick != null) {
+                    onItemHeadClick.onSuccessListener(datas.get(getPosition()));
                 }
             });
-
-
         }
     }
 
-    private OnItemClick onItemClick;
 
-    public void setOnItemClick(OnItemClick onItemClick) {
-        this.onItemClick = onItemClick;
+
+    private OnItemHeadClick onItemHeadClick;
+
+    public void setOnItemHeadClick(OnItemHeadClick onItemHeadClick) {
+        this.onItemHeadClick = onItemHeadClick;
     }
 
-    public interface OnItemClick {
+    public interface OnItemHeadClick {
         void onSuccessListener(CountryCodeEntity.DataBean dataBean);
     }
-
-
 
 }
