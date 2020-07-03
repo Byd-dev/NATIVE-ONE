@@ -35,6 +35,7 @@ public class QuickAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public boolean isLoadMore = false;
 
     private boolean isHide = true;
+    private int scale;
 
 
     public QuickAccountAdapter(Context context) {
@@ -101,12 +102,17 @@ public class QuickAccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             ((MyViewHolder) holder).text_currency.setText(currency);
             ChartUtil.setIcon(currency, ((MyViewHolder) holder).img_bg);
+
+            TradeUtil.getScale(datas.get(position).getCurrency(), response -> {
+                scale = (int) response;
+            });
+
             if (isHide) {
                 if (currency.equals("USDT")) {
-                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency);
+                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, 2) + currency);
                 } else {
                     getRate(currency, money, response -> {
-                        ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency + "≈"
+                        ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, scale) + currency + "≈"
                                 + response.toString() + "USDT");
                     });
                 }

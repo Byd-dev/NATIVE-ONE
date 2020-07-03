@@ -195,7 +195,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
 
                 if (!pass_new_value.equals(pass_confirm_value)) {
                     text_err_pass_sure.setVisibility(View.VISIBLE);
-                    text_err_pass_sure.setText("两次输入的密码不一致");
+                    text_err_pass_sure.setText(R.string.text_pass_different_err);
 
                 } else {
                     text_err_pass_sure.setVisibility(View.GONE);

@@ -263,10 +263,15 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
             isEdit_amount_transfer = false;
             isEdit_amount = false;
             money = data.getMoney();
-            Log.d("print", "showSwitchPopWindow: " + money + "    " + TradeUtil.numberHalfUp(money, 8));
-            edit_amount.setText(TradeUtil.numberHalfUp(money, 8));
+
+
             currency = data.getCurrency();
-            text_balance.setText(TradeUtil.numberHalfUp(money, 8) + currency);
+
+            TradeUtil.getScale(currency, response -> {
+                int scale = (int) response;
+                edit_amount.setText(TradeUtil.numberHalfUp(money, scale));
+                text_balance.setText(TradeUtil.numberHalfUp(money, scale) + currency);
+            });
             text_currency.setText(currency);
             ChartUtil.setIcon(currency, img_bg);
             popupWindow.dismiss();

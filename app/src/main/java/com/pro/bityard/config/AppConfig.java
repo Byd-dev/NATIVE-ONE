@@ -81,6 +81,7 @@ public class AppConfig {
     public static final String DETAIL = "DETAIL";
     //注册成功弹窗
     public static final String POP_LOGIN = "POP_LOGIN";
-
+    //小数位
+    public static final String SCALE = "SCALE";
 
 }

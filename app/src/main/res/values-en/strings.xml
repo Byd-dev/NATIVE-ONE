@@ -428,6 +428,7 @@
     <string name="text_cancel_success">Success</string>
     <string name="text_search">Search</string>
     <string name="text_china">CHINA</string>
-    <string name="text_all_country_code">全部</string>
+    <string name="text_all_country_code">All</string>
+    <string name="text_pass_different_err">The password confirmation does not match</string>
 
 </resources>

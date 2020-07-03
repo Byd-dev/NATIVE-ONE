@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -234,6 +235,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
                 }
 
                 fundItemEntity = (FundItemEntity) response;
+                Log.d("print", "initData:238:  "+response.toString());
                 if (!fundItemEntity.getData().get(0).getName().equals("ALL")) {
                     fundItemEntity.getData().add(0, new FundItemEntity.DataBean("", true, "", "", false, "ALL", 0, 0, 0, ""));
                 }

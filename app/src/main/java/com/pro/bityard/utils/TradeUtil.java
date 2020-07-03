@@ -5,13 +5,16 @@ import android.util.Log;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.api.TradeResult;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
+import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.TradeListManger;
+import com.pro.switchlibrary.SPUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -328,8 +331,8 @@ public class TradeUtil {
             for (int i = 0; i < incomeList.size(); i++) {
                 income = TradeUtil.add(income, incomeList.get(i));
             }
-         //   Log.d("print", "getIncome: 总盈亏: "+income);
-            tradeResult.setResult(Double.parseDouble(getNumberFormat(income, 2)));
+            //   Log.d("print", "getIncome: 总盈亏: "+income);
+            tradeResult.setResult(Double.parseDouble(numberHalfUp(income, 2)));
         }
     }
 
@@ -1154,6 +1157,22 @@ public class TradeUtil {
         }
 
 
+    }
+
+
+    public static void getScale(String name, OnResult onResult) {
+        FundItemEntity fundItemEntity = SPUtils.getData(AppConfig.SCALE, FundItemEntity.class);
+        if (fundItemEntity != null) {
+            List<FundItemEntity.DataBean> data = fundItemEntity.getData();
+            for (FundItemEntity.DataBean dataBean : data) {
+                if (name.equals(dataBean.getName())) {
+                    onResult.setResult(dataBean.getScale());
+                }
+            }
+        } else {
+            onResult.setResult(8);
+
+        }
     }
 
 

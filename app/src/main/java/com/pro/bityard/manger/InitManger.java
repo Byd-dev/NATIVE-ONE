@@ -1,22 +1,21 @@
 package com.pro.bityard.manger;
 
-import android.util.Log;
+import android.util.ArrayMap;
 
-import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
-import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.RateListEntity;
-import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.switchlibrary.SPUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class InitManger extends Observable {
@@ -58,6 +57,21 @@ public class InitManger extends Observable {
                 PositionSimulationManger.getInstance().getHold();*/
             } else {
                 SPUtils.remove(AppConfig.LOGIN);
+            }
+        });
+
+
+        /*获取币种*/
+        NetManger.getInstance().currencyList("1", (state, response) -> {
+            if (state.equals(BUSY)) {
+
+            } else if (state.equals(SUCCESS)) {
+
+                FundItemEntity fundItemEntity = (FundItemEntity) response;
+                SPUtils.putData(AppConfig.SCALE, fundItemEntity);
+
+            } else if (state.equals(FAILURE)) {
+
             }
         });
 

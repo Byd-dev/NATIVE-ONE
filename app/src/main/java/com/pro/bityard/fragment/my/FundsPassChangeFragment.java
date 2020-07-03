@@ -308,7 +308,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                         text_err_pass_sure.setVisibility(View.GONE);
                         layout_pass_sure.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
 
-                        if (Util.isPass(edit_pass_new.getText().toString()) &&Util.isPass(edit_pass_old.getText().toString())){
+                        if (Util.isPass(edit_pass_new.getText().toString()) && Util.isPass(edit_pass_old.getText().toString())) {
                             text_getCode.setEnabled(true);
                             if (Util.isPass(edit_pass_old.getText().toString()) && Util.isPass(edit_pass_new.getText().toString())
                                     && Util.isCode(edit_code.getText().toString())) {
@@ -316,7 +316,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                             } else {
                                 btn_submit.setEnabled(false);
                             }
-                        } else{
+                        } else {
                             text_getCode.setEnabled(false);
                         }
                     } else if (response.toString().equals("0")) {
@@ -592,8 +592,12 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                         return;
                     }
                     if (!value_pass_new.equals(value_pass_sure)) {
-                        Toast.makeText(getActivity(), R.string.text_pass_different, Toast.LENGTH_SHORT).show();
+                        text_err_pass_sure.setVisibility(View.VISIBLE);
+                        text_err_pass_sure.setText(getResources().getText(R.string.text_pass_different));
                         return;
+                    } else {
+                        text_err_pass_sure.setVisibility(View.GONE);
+
                     }
 
                     NetManger.getInstance().widthDrawPasswordSet(value_pass_old, value_pass_new, (state, response) -> {
@@ -628,8 +632,12 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                         return;
                     }
                     if (!value_pass_new.equals(value_pass_sure)) {
-                        Toast.makeText(getActivity(), R.string.text_pass_different, Toast.LENGTH_SHORT).show();
+                        text_err_pass_sure.setVisibility(View.VISIBLE);
+                        text_err_pass_sure.setText(getResources().getText(R.string.text_pass_different));
                         return;
+                    } else {
+                        text_err_pass_sure.setVisibility(View.GONE);
+
                     }
                     if (value_code.equals("")) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.text_email_code_input), Toast.LENGTH_SHORT).show();

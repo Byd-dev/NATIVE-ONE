@@ -430,6 +430,7 @@
     <string name="text_search">検索する</string>
     <string name="text_china">CHINA</string>
     <string name="text_all_country_code">全部</string>
+    <string name="text_pass_different_err">現在のパスワードが一致しません。</string>
 
 
 </resources>

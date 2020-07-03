@@ -791,7 +791,6 @@ public class NetManger {
                     onNetResult.onNetResult(SUCCESS, fundItemEntity);
                 } else {
                     onNetResult.onNetResult(FAILURE, null);
-
                 }
             }
         });
@@ -2151,7 +2150,7 @@ public class NetManger {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     onNetResult.onNetResult(SUCCESS, tipEntity);
-                }else {
+                } else {
                     onNetResult.onNetResult(FAILURE, null);
                 }
 

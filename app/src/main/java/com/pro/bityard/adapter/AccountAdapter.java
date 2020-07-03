@@ -13,6 +13,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -35,6 +36,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public boolean isLoadMore = false;
 
     private boolean isHide = true;
+    private int scale;
 
 
     public AccountAdapter(Context context) {
@@ -101,16 +103,22 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             ((MyViewHolder) holder).text_currency.setText(currency);
             ChartUtil.setIcon(currency, ((MyViewHolder) holder).img_bg);
+
+            TradeUtil.getScale(datas.get(position).getCurrency(), response -> {
+                scale = (int) response;
+            });
+
+
+
             if (isHide) {
-                if (currency.equals("USDT")){
-                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2)+currency);
-                }else {
+                if (currency.equals("USDT")) {
+                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, 2) + currency);
+                } else {
                     getRate(currency, money, response -> {
-                        ((MyViewHolder) holder).text_balance.setText(TradeUtil.getNumberFormat(money, 2) + currency + "≈"
+                        ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, scale) + currency + "≈"
                                 + response.toString() + "USDT");
                     });
                 }
-
 
 
             } else {
@@ -122,7 +130,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     private void getRate(String currency, double money, OnResult onResult) {
         RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
-        if (rateListEntity!=null){
+        if (rateListEntity != null) {
             for (RateListEntity.ListBean rateList : rateListEntity.getList()) {
                 if (currency.equals(rateList.getName())) {
 

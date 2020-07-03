@@ -429,6 +429,7 @@
     <string name="text_cancel_success">Đã hủy</string>
     <string name="text_search">tìm kiếm</string>
     <string name="text_china">CHINA</string>
-    <string name="text_all_country_code">全部</string>
+    <string name="text_all_country_code">Tất cả</string>
+    <string name="text_pass_different_err">Nhập lại mật khẩu không đúng</string>
 
 </resources>
