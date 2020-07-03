@@ -1,301 +1,351 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/layout_share"
-        android:layout_width="324dp"
-        android:layout_height="469dp"
-        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="629dp"
+        android:gravity="center"
         android:orientation="vertical">
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:id="@+id/layout_share"
+            android:layout_width="324dp"
             android:layout_height="0dp"
-            android:layout_weight="4"
-            android:background="@mipmap/bg_share">
-
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginTop="60dp"
-                android:layout_marginRight="@dimen/margin_15"
-                android:layout_marginBottom="@dimen/margin_15"
-                android:background="@drawable/bg_radius_white"
-                android:orientation="vertical">
+                android:layout_height="0dp"
+                android:layout_weight="4"
+                android:background="@mipmap/bg_share">
 
-                <TextView
-                    android:id="@+id/text_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:layout_marginTop="60dp"
-                    android:text="@string/text_wonderful_unrivalled"
-                    android:textColor="@color/text_main_color_black"
-                    android:textSize="@dimen/size_bigger"
-
-                    />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/margin_15"
+                    android:background="@drawable/bg_radius_white"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/text_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/text_my_rate_return"
+                        android:layout_marginLeft="@dimen/margin_15"
+                        android:layout_marginTop="60dp"
+                        android:text="@string/text_wonderful_unrivalled"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_bigger"
 
-                        android:textColor="@color/color_pop"
-                        android:textSize="@dimen/size_normal_two" />
+                        />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/text_rate"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginRight="@dimen/margin_15"
-                            android:text="@string/text_default"
-                            android:textColor="@color/text_quote_green"
-                            android:textSize="30sp"
-
-                            />
-
-                        <TextView
-                            android:id="@+id/text_lever"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:background="@drawable/bg_circle_main_half_color"
-                            android:paddingLeft="@dimen/margin_8"
-                            android:paddingRight="@dimen/margin_8"
-                            android:text="@string/text_default"
-                            android:textColor="@color/maincolor"
-                            android:textSize="@dimen/size_big" />
-
-                    </LinearLayout>
-
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/size_line"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:layout_marginBottom="80dp"
-                    android:background="@color/color_line_light" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_alignParentBottom="true"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center|left"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_15"
                         android:orientation="vertical">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/margin_15"
-                            android:text="@string/text_product"
-                            android:textColor="@color/maincolor"
+                            android:text="@string/text_my_rate_return"
+
+                            android:textColor="@color/color_pop"
                             android:textSize="@dimen/size_normal_two" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginLeft="@dimen/margin_15"
-                            android:layout_marginTop="@dimen/margin_5"
-
                             android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/text_name"
+                                android:id="@+id/text_rate"
                                 android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="BTC"
-                                android:textColor="@color/text_main_color_black"
-                                android:textSize="@dimen/size_normal_two"
+                                android:layout_marginRight="@dimen/margin_15"
+                                android:text="@string/text_default"
+                                android:textColor="@color/text_quote_green"
+                                android:textSize="30sp"
 
                                 />
 
                             <TextView
-                                android:id="@+id/text_currency"
+                                android:id="@+id/text_lever"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="/USDT"
-                                android:textColor="@color/text_main_color_black"
-                                android:textSize="@dimen/size_normal_two"
-                                />
+                                android:background="@drawable/bg_circle_main_half_color"
+                                android:paddingLeft="@dimen/margin_8"
+                                android:paddingRight="@dimen/margin_8"
+                                android:text="@string/text_default"
+                                android:textColor="@color/maincolor"
+                                android:textSize="@dimen/size_big" />
 
                         </LinearLayout>
 
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/text_o_price"
-                            android:textColor="@color/color_pop"
-                            android:textSize="@dimen/size_normal_two" />
-
-                        <TextView
-                            android:id="@+id/text_open_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_5"
-                            android:text="@string/text_default"
-                            android:textColor="@color/text_main_color_black"
-                            android:textSize="@dimen/size_normal_two"
-                            />
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="center|right"
-                        android:orientation="vertical">
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_line"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginLeft="@dimen/margin_15"
+                        android:layout_marginBottom="80dp"
+                        android:background="@color/color_line_light" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/margin_15"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center|left"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_15"
+                                android:text="@string/text_product"
+                                android:textColor="@color/maincolor"
+                                android:textSize="@dimen/size_normal_two" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerVertical="true"
+                                android:layout_marginLeft="@dimen/margin_15"
+                                android:layout_marginTop="@dimen/margin_5"
+
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/text_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center"
+                                    android:text="BTC"
+                                    android:textColor="@color/text_main_color_black"
+                                    android:textSize="@dimen/size_normal_two"
+
+                                    />
+
+                                <TextView
+                                    android:id="@+id/text_currency"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="/USDT"
+                                    android:textColor="@color/text_main_color_black"
+                                    android:textSize="@dimen/size_normal_two" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@string/text_close_price"
-                            android:textColor="@color/color_pop"
-                            android:textSize="@dimen/size_normal_two" />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/text_o_price"
+                                android:textColor="@color/color_pop"
+                                android:textSize="@dimen/size_normal_two" />
+
+                            <TextView
+                                android:id="@+id/text_open_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_5"
+                                android:text="@string/text_default"
+                                android:textColor="@color/text_main_color_black"
+                                android:textSize="@dimen/size_normal_two" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center|right"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/margin_15"
+                                android:gravity="center"
+                                android:text="@string/text_close_price"
+                                android:textColor="@color/color_pop"
+                                android:textSize="@dimen/size_normal_two" />
 
 
-                        <TextView
-                            android:id="@+id/text_close_price"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_5"
-                            android:layout_marginRight="@dimen/margin_15"
-                            android:text="@string/text_default"
-                            android:textColor="@color/text_main_color_black"
-                            android:textSize="@dimen/size_normal_two"
-                            />
+                            <TextView
+                                android:id="@+id/text_close_price"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_5"
+                                android:layout_marginRight="@dimen/margin_15"
+                                android:text="@string/text_default"
+                                android:textColor="@color/text_main_color_black"
+                                android:textSize="@dimen/size_normal_two" />
 
+                        </LinearLayout>
                     </LinearLayout>
-                </LinearLayout>
 
 
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/img_person"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_15"
-                android:layout_marginLeft="@dimen/margin_20"
-                android:src="@mipmap/icon_win" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.2"
-            android:background="@color/white">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginTop="@dimen/margin_15"
-                android:orientation="horizontal">
-
+                </RelativeLayout>
 
                 <ImageView
-                    android:id="@+id/stay_scan"
+                    android:id="@+id/img_person"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:src="@mipmap/icon_code" />
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_toRightOf="@+id/stay_scan"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_download_app"
-                        android:textColor="@color/text_main_color_black"
-                        android:textSize="@dimen/size_bigger"
-                        />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/text_trade_anytime"
-                        android:textColor="@color/text_main_color_black"
-                        android:textSize="@dimen/size_big"
-                        />
-
-                </LinearLayout>
+                    android:layout_marginLeft="@dimen/margin_20"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:src="@mipmap/icon_win" />
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.2"
+                android:background="@color/white">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:orientation="horizontal">
+
+
+                    <ImageView
+                        android:id="@+id/stay_scan"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:src="@mipmap/icon_code" />
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_toRightOf="@+id/stay_scan"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_download_app"
+                            android:textColor="@color/text_main_color_black"
+                            android:textSize="@dimen/size_bigger" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_trade_anytime"
+                            android:textColor="@color/text_main_color_black"
+                            android:textSize="@dimen/size_big" />
+
+                    </LinearLayout>
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:gravity="center"
+                    android:text="@string/text_scan_download"
+                    android:textColor="@color/color_pop"
+                    android:textSize="@dimen/size_normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:layout_marginBottom="@dimen/margin_10"
+                    android:text="BITYARD"
+                    android:textColor="@color/maincolor"
+                    android:textSize="@dimen/size_big"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="@dimen/margin_15"
+            android:background="@drawable/bg_share"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="18dp"
-                android:layout_marginBottom="@dimen/margin_10"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/text_save"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableTop="@mipmap/icon_save"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:gravity="center"
+                    android:text="@string/text_save_img"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal"
+
+                    />
+
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line_big"
+                android:background="@color/background_maincolor" />
+
+            <TextView
+                android:id="@+id/text_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_50"
                 android:gravity="center"
-                android:text="@string/text_scan_download"
-                android:textColor="@color/color_pop"
-                android:textSize="@dimen/size_normal" />
+                android:text="@string/text_tip_cancel"
+                android:textColor="@color/text_second_color" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="@dimen/margin_15"
-                android:layout_marginBottom="@dimen/margin_10"
-                android:text="BITYARD"
-                android:textColor="@color/maincolor"
-                android:textSize="@dimen/size_big"
-                android:textStyle="bold" />
-
-
-        </RelativeLayout>
+        </LinearLayout>
 
 
     </LinearLayout>
+
+
 </RelativeLayout>

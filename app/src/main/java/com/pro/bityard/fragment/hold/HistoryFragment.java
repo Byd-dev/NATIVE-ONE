@@ -16,6 +16,7 @@ import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.HistoryAdapter;
 import com.pro.bityard.adapter.MarginHistoryAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.PopResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.HistoryEntity;
@@ -127,7 +128,9 @@ public class HistoryFragment extends BaseFragment implements Observer {
         //分享监听
         historyAdapter.setOnShareClick(data -> {
             Util.lightOff(getActivity());
-            PopUtil.getInstance().showSharePlatform(getActivity(), layout_view, data);
+            PopUtil.getInstance().showShare(getActivity(), layout_view, data, (response1, reponse2) -> {
+
+            });
 
         });
 

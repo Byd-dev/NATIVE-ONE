@@ -96,9 +96,6 @@ public class PopUtil {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
 
-
-
-
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             onPopResult.setPopResult(false);
             popupWindow.dismiss();
@@ -137,11 +134,11 @@ public class PopUtil {
 
         TextView text_value = view.findViewById(R.id.text_value);
         text_value.setLineSpacing(1.1f, 1.5f);
-        text_value.setText(value+" "+activity.getResources().getString(R.string.text_usdt));
+        text_value.setText(value + " " + activity.getResources().getString(R.string.text_usdt));
 
         TextView text_value2 = view.findViewById(R.id.text_value2);
         text_value2.setLineSpacing(1.1f, 1.5f);
-        text_value2.setText(value2+" "+activity.getResources().getString(R.string.text_usdt));
+        text_value2.setText(value2 + " " + activity.getResources().getString(R.string.text_usdt));
 
 
         view.findViewById(R.id.text_sure).setOnClickListener(v -> {
@@ -233,7 +230,7 @@ public class PopUtil {
     /*显示分享详情*/
     public void showShare(Activity activity, View layout_view, HistoryEntity.DataBean dataBean, PopResult popResult) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_share_pop, null);
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         LinearLayout layout_share = view.findViewById(R.id.layout_share);
@@ -252,6 +249,21 @@ public class PopUtil {
         text_name.setText(split[0]);
         TextView text_currency = view.findViewById(R.id.text_currency);
         text_currency.setText("/" + dataBean.getCurrency());
+
+        TextView text_save = view.findViewById(R.id.text_save);
+
+        text_save.setOnClickListener(v -> {
+            if (PermissionUtil.readAndWrite(activity)) {
+                ImageUtil.SaveBitmapFromView(activity, layout_share);
+                Toast.makeText(activity, activity.getResources().getString(R.string.text_save), Toast.LENGTH_SHORT).show();
+                popupWindow.dismiss();
+            } else {
+                String[] PERMISSIONS = {
+                        "android.permission.READ_EXTERNAL_STORAGE",
+                        "android.permission.WRITE_EXTERNAL_STORAGE"};
+                ActivityCompat.requestPermissions(activity, PERMISSIONS, 1);
+            }
+        });
         //开仓价
         TextView text_open_price = view.findViewById(R.id.text_open_price);
         text_open_price.setText(String.valueOf(opPrice));
@@ -265,7 +277,9 @@ public class PopUtil {
             text_lever.setText(activity.getString(R.string.text_empty) + lever + "×");
 
         }
-
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
         TextView text_rate = view.findViewById(R.id.text_rate);
         text_rate.setText(TradeUtil.ratio(income, margin));
 
@@ -312,7 +326,10 @@ public class PopUtil {
             img_person.setImageDrawable(activity.getResources().getDrawable(R.mipmap.icon_loss));
 
         }
-
+        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+        animation.setInterpolator(new AccelerateInterpolator());
+        animation.setDuration(300);
 
         Util.dismiss(activity, popupWindow);
         Util.isShowing(activity, popupWindow);
@@ -320,10 +337,10 @@ public class PopUtil {
         popResult.setResult(layout_share, popupWindow);
 
         popupWindow.setFocusable(true);
-        popupWindow.setAnimationStyle(R.style.AnimBottom);
-        popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
-        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        view.startAnimation(animation);
 
 
     }
