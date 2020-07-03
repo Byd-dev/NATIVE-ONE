@@ -193,6 +193,15 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
                     return;
                 }
 
+                if (!pass_new_value.equals(pass_confirm_value)) {
+                    text_err_pass_sure.setVisibility(View.VISIBLE);
+                    text_err_pass_sure.setText("两次输入的密码不一致");
+
+                } else {
+                    text_err_pass_sure.setVisibility(View.GONE);
+
+                }
+
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("token", token);
                 map.put("newPassword", pass_new_value);
