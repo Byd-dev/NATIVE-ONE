@@ -303,6 +303,8 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/bg_share"
             android:orientation="vertical">
 
@@ -331,7 +333,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line_big"
+                android:layout_height="@dimen/size_line"
                 android:background="@color/background_maincolor" />
 
             <TextView
