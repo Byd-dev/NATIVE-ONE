@@ -512,10 +512,13 @@ public class LoginPassChangeFragment extends BaseFragment implements View.OnClic
                     }
                 }
 
-
                 if (!value_pass_new.equals(value_pass_sure)) {
-                    Toast.makeText(getActivity(), R.string.text_pass_different, Toast.LENGTH_SHORT).show();
+                    text_err_pass_sure.setVisibility(View.VISIBLE);
+                    text_err_pass_sure.setText(getResources().getText(R.string.text_pass_different));
                     return;
+                } else {
+                    text_err_pass_sure.setVisibility(View.GONE);
+
                 }
                 if (isEmail) {
                     NetManger.getInstance().checkEmailCode(email, "CHANGE_PASSWORD", value_code, (state, response) -> {
