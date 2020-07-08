@@ -2,6 +2,7 @@ package com.pro.bityard.guide;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,17 +13,20 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeListEntity;
+import com.pro.bityard.utils.PermissionUtil;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
@@ -31,6 +35,9 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class GuideActivity extends BaseActivity implements View.OnClickListener {
+    private static final int MY_PERMISSION_REQUEST_CODE = 10000;
+
+
     @BindView(R.id.banner)
     XBanner banner;
 
@@ -66,6 +73,17 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initView(View view) {
+
+        PermissionUtil.getInstance().initPermission(this, response -> {
+            if (response == SUCCESS) {
+                init();
+            }
+        });
+
+
+    }
+
+    private void init() {
         NetManger.getInstance().getInit((state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
@@ -107,7 +125,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 }
             }
         });
-
     }
 
     @Override
@@ -189,7 +206,35 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 GuideActivity.this.finish();
                 break;
         }
+
+
     }
 
+    int count = 1;
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MY_PERMISSION_REQUEST_CODE) {
+            boolean isAllGranted = true;
+            // 判断是否所有的权限都已经授予了
+            for (int grant : grantResults) {
+                if (grant != PackageManager.PERMISSION_GRANTED) {
+                    isAllGranted = false;
+                    break;
+                }
+            }
+            if (isAllGranted) {
+                init();
+                // 如果所有的权限都授予了, 跳转到主页
+            } else {
+                // 弹出对话框告诉用户需要权限的原因, 并引导用户去应用权限管理中手动打开权限按钮
+                //只调用一次
+                if (count == 1) {
+                    init();
+                    count++;
+                }
+            }
+        }
+    }
 }

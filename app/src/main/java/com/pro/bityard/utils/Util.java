@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -28,11 +30,9 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
-import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONArray;
@@ -55,8 +55,6 @@ import java.util.TimeZone;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class Util {
 
@@ -949,6 +947,22 @@ public class Util {
     }
 
     List<CountryCodeEntity.DataBean> searchData;
+
+    /*判断是否要更新*/
+    public static boolean updateJudge(Context context, int versionCode) {
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packInfo = null;
+        try {
+            packInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (versionCode > packInfo.versionCode) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 
 }

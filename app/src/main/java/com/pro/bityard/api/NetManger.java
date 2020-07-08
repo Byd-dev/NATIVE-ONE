@@ -1,6 +1,7 @@
 package com.pro.bityard.api;
 
 
+import android.app.Activity;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.ArrayMap;
@@ -13,6 +14,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
+import com.pro.bityard.BuildConfig;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.AddScoreEntity;
@@ -42,6 +44,7 @@ import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
@@ -2160,5 +2163,36 @@ public class NetManger {
             }
         });
     }
+
+
+    //版本更新
+    public void updateCheck(Activity activity) {
+
+
+        int versionCode = 2;
+        String message="修复了bug";
+        if (Util.updateJudge(activity, versionCode)) {
+            PopUtil.getInstance().dialogUp(activity,message,"https://static.bityard.com/APP-apk/bityard_test_1.0.0.apk");
+        }
+
+
+        OkGo.<String>post("")
+                .execute(new StringCallback() {
+                    @Override
+                    public void onSuccess(Response<String> response) {
+
+                        int versionCode = 1;
+                        String message="修复了bug";
+                        if (Util.updateJudge(activity, versionCode)) {
+                            PopUtil.getInstance().dialogUp(activity,message,"");
+                        }
+
+
+                    }
+                });
+
+
+    }
+
 
 }

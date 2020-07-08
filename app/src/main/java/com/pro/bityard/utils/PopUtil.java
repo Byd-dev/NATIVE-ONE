@@ -1,8 +1,14 @@
 package com.pro.bityard.utils;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,20 +23,31 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.FileCallback;
+import com.lzy.okgo.model.Progress;
+import com.lzy.okgo.model.Response;
+import com.lzy.okgo.request.base.Request;
+import com.pro.bityard.BuildConfig;
 import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.api.PopResult;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.manger.QuoteListManger;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
 import cn.jiguang.share.wechat.Wechat;
 
+import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
@@ -401,6 +418,106 @@ public class PopUtil {
         popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         view.startAnimation(animation);
+    }
+
+    public void dialogUp(Activity activity, String versionMessage, String url) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+//		alertDialogBuilder.setIcon(R.drawable.)
+        alertDialogBuilder.setTitle("版本更新");
+        alertDialogBuilder.setMessage(versionMessage);
+        alertDialogBuilder.setPositiveButton("确定", (dialog, which) -> {
+
+            //更新应用提醒
+            ProgressDialog progressDialog;
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(true);
+            progressDialog.show();
+            getFile(activity, url, (state, response) -> {
+                if (state.equals(BUSY)) {
+                    progressDialog.setMessage("软件下载中~");
+                } else if (state.equals(SUCCESS)) {
+                    progressDialog.setMessage("下载成功~");
+                    progressDialog.dismiss();
+
+                } else if (state.equals(FAILURE)) {
+                    progressDialog.setMessage("下载失败~");
+                    progressDialog.dismiss();
+                }
+            }); //下载apk
+        });
+
+        alertDialogBuilder.setCancelable(false);
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();//将dialog显示出来
+    }
+
+
+    public void getFile(Activity activity, String versionUrl, OnNetResult onNetResult) {
+
+        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/download";
+        final String fileName = "bityard.apk";
+        final File file = new File(filePath + "/" + fileName);
+        if (file.exists()) {
+            file.delete();
+        }
+        OkGo.<File>get(versionUrl)
+                .tag(this)
+                .execute(new FileCallback(filePath, fileName) {
+                    @Override
+                    public void onStart(Request<File, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, "start");
+                        Log.e("MainActivity", "开始下载");
+                    }
+
+                    @Override
+                    public void onSuccess(Response<File> response) {
+                        onNetResult.onNetResult(SUCCESS, "success");
+
+                        Log.e("MainActivity", "file--" + file);
+                        openFile(activity, file);  //安装apk
+                    }
+
+                    @Override
+                    public void onError(Response<File> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, "failure");
+                        Log.e("MainActivity", "onError: " + response.message());
+                    }
+
+                    @Override
+                    public void downloadProgress(Progress progress) {
+                        super.downloadProgress(progress);
+                        Log.e("MainActivity", "progress" + progress.fraction * 100);
+                    }
+                });
+    }
+
+    private void openFile(Activity activity, File file) {
+
+        //Android 7.0及以上
+        if (Build.VERSION.SDK_INT >= 24) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                boolean hasInstallPermission = activity.getPackageManager().canRequestPackageInstalls();
+                if (!hasInstallPermission) {
+                    //请求安装未知应用来源的权限
+                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, 6666);
+                }
+            }
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            Uri apkUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID+".MyFileProvider", file);
+            intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            activity.startActivity(intent);
+        } else {
+            Log.e("MainActivity", "小于24");
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+            activity.startActivity(intent);
+        }
     }
 
 
