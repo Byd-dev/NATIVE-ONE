@@ -31,6 +31,7 @@ import com.pro.bityard.chart.NoVolumeView;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.AddScoreEntity;
+import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 import com.pro.bityard.entity.TradeListEntity;
@@ -287,6 +288,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onResume() {
         super.onResume();
+        BalanceManger.getInstance().getBalance("USDT");
+
         if (isLogin()) {
             layout_trade.setVisibility(View.VISIBLE);
             stay_view.setVisibility(View.VISIBLE);
@@ -356,6 +359,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         QuoteListManger.getInstance().addObserver(this);
+        BalanceManger.getInstance().addObserver(this);
         //QuoteItemManger.getInstance().addObserver(this);
 
         Quote1MinCurrentManger.getInstance().addObserver(this);//1min 实时
@@ -377,7 +381,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         QuoteWeekHistoryManger.getInstance().addObserver(this);
         QuoteMonthHistoryManger.getInstance().addObserver(this);
 
-        BalanceManger.getInstance().getBalance("USDT");
 
         TradeListManger.getInstance().addObserver(this);
 
@@ -1185,6 +1188,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         dismissProgressDialog();
                         PositionRealManger.getInstance().getHold();
                         PositionSimulationManger.getInstance().getHold();
+                        BalanceManger.getInstance().getBalance("USDT");
+
                     } else if (state.equals(FAILURE)) dismissProgressDialog();
                 }
 
@@ -1324,7 +1329,34 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 quotePopAdapter.setDatas(quoteList);
             }
 
-        } /*else if (o == QuoteItemManger.getInstance()) {
+        } else if (o == BalanceManger.getInstance()) {
+
+            BalanceEntity balanceEntity = (BalanceEntity) arg;
+            if (balanceEntity == null) {
+                return;
+            }
+            for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                if (data.getCurrency().equals(tradeType)) {
+                    BalanceManger.getInstance().setBalanceReal(data.getMoney());
+                    BalanceManger.getInstance().setBalanceSim(data.getGame());
+                    BalanceManger.getInstance().setPrize(data.getPrize());
+                    BalanceManger.getInstance().setLucky(data.getLucky());
+                }
+            }
+            //可用余额
+            if (tradeType.equals("1")) {
+                text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+                text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+            } else {
+                text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
+                text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
+            }
+
+        }
+
+
+
+        /*else if (o == QuoteItemManger.getInstance()) {
             quote = (String) arg;
 
             if (quote != null) {
@@ -1385,7 +1417,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             }
 
-        }*/ else if (o == TradeListManger.getInstance()) {
+        }*/
+        else if (o == TradeListManger.getInstance()) {
             tradeListEntityList = (List<TradeListEntity>) arg;
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
             //  Log.d("print", "initData:510:  " + tradeListEntity);

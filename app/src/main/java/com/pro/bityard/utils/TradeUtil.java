@@ -18,6 +18,7 @@ import com.pro.switchlibrary.SPUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,9 +72,31 @@ public class TradeUtil {
     }
 
     public static String numberHalfUp(double value, int scale) {
-        BigDecimal bd = new BigDecimal(value);
-        String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五
-        return mon;
+        if (value!=0){
+            BigDecimal bd = new BigDecimal(value);
+            String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五
+            Log.d("print", "numberHalfUp: " + value + "    " + bd + "     " + mon + "    ");
+            return mon;
+        }else {
+            if (scale == 7) {
+                DecimalFormat format = new DecimalFormat("0.0000000");
+                BigDecimal bigDecimal = new BigDecimal(value);
+                String mon = format.format(bigDecimal);//保留两位数字，四舍五
+                return mon;
+            } else if (scale == 8) {
+                DecimalFormat format = new DecimalFormat("0.00000000");
+                BigDecimal bigDecimal = new BigDecimal(value);
+                String mon = format.format(bigDecimal);//保留两位数字，四舍五
+                return mon;
+            } else {
+                BigDecimal bd = new BigDecimal(value);
+                String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五
+                Log.d("print", "numberHalfUp: " + value + "    " + bd + "     " + mon + "    ");
+                return mon;
+            }
+        }
+
+
     }
 
     /*止损价*/

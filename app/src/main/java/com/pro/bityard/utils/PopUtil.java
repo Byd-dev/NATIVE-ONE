@@ -431,7 +431,7 @@ public class PopUtil {
             ProgressDialog progressDialog;
             progressDialog = new ProgressDialog(activity);
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setCancelable(true);
+            progressDialog.setCancelable(false);
             progressDialog.show();
             getFile(activity, url, (state, response) -> {
                 if (state.equals(BUSY)) {
@@ -446,6 +446,7 @@ public class PopUtil {
                 }
             }); //下载apk
         });
+
 
         alertDialogBuilder.setCancelable(false);
         AlertDialog alertDialog = alertDialogBuilder.create();

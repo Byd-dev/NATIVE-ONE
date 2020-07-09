@@ -103,7 +103,6 @@ public class BalanceManger extends Observable {
                             setBalanceSim(data.getGame());
                             setPrize(data.getPrize());
                             setLucky(data.getLucky());
-
                         }
                     }
                     postBalance(balanceEntity);
