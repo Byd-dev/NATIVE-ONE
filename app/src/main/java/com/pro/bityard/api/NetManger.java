@@ -14,7 +14,6 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
-import com.pro.bityard.BuildConfig;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.AddScoreEntity;
@@ -41,6 +40,7 @@ import com.pro.bityard.entity.TipSPSLMarginEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.entity.UnionRateEntity;
+import com.pro.bityard.entity.UpdateEntity;
 import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
@@ -82,6 +82,8 @@ public class NetManger {
 
     // public static String BASE_URL = "https://www.bityard.com";    //正式
     public static String HOST_H5 = "https://m233.bityard.com";
+
+    public static String UPDATE_URL = "https://static.bityard.com/APP-apk/test.txt";
 
     public static NetManger getInstance() {
 
@@ -2168,26 +2170,18 @@ public class NetManger {
     //版本更新
     public void updateCheck(Activity activity) {
 
-
-        int versionCode = 2;
-        String message="修复了bug";
-        if (Util.updateJudge(activity, versionCode)) {
-            PopUtil.getInstance().dialogUp(activity,message,"https://static.bityard.com/APP-apk/bityard_test_1.0.0.apk");
-        }
-
-
-        OkGo.<String>post("")
+        OkGo.<String>get(UPDATE_URL)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-
-                        int versionCode = 1;
-                        String message="修复了bug";
-                        if (Util.updateJudge(activity, versionCode)) {
-                            PopUtil.getInstance().dialogUp(activity,message,"");
+                        Log.d("print", "onSuccess:2177: " + response.body());
+                        UpdateEntity updateEntity = new Gson().fromJson(response.body(), UpdateEntity.class);
+                        String versionCode = updateEntity.getUpdate().getVersionCode();
+                        String versionMessage = updateEntity.getUpdate().getVersionMessage();
+                        String versionUrl = updateEntity.getUpdate().getVersionUrl();
+                        if (Util.updateJudge(activity, Integer.parseInt(versionCode))) {
+                            PopUtil.getInstance().dialogUp(activity, versionMessage, versionUrl);
                         }
-
-
                     }
                 });
 
