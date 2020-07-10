@@ -233,7 +233,7 @@ public class AddAddressFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.img_service:
-                String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, "zh_cn");
+                String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, Util.ZH_SIMPLE);
                 String url;
                 if (isLogin()) {
                     url = String.format(NetManger.SERVICE_URL, language, loginEntity.getUser().getUserId(), loginEntity.getUser().getAccount());

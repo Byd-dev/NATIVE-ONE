@@ -431,5 +431,8 @@
     <string name="text_china">CHINA</string>
     <string name="text_all_country_code">Tất cả</string>
     <string name="text_pass_different_err">Nhập lại mật khẩu không đúng</string>
+    <string name="text_vi">Tiếng Việt</string>
+    <string name="text_id">Bahasa</string>
+    <string name="text_ru">Pусский</string>
 
 </resources>

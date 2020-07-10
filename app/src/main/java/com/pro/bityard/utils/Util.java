@@ -58,6 +58,17 @@ import java.util.regex.Pattern;
 
 public class Util {
 
+    public  static String EN_US="en-US";
+    public static  String ZH_SIMPLE="zh_simple";
+    public static  String ZH_TRADITIONAL="zh_traditional";
+    public static  String VI_VN="vi-VN";
+    public static  String RU_RU="ru-RU";
+    public static  String JA_JP="ja-JP";
+    public static  String KO_KR="ko-KR";
+    public static  String IN_ID="in-ID";
+
+
+
     private static boolean eye = true;
 
     public static Map<String, Object> jsonToMap(String content) {

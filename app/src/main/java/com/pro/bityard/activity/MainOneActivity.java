@@ -1208,7 +1208,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             case R.id.layout_seven:
             case R.id.img_service_my:
 
-                String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, "zh_cn");
+                String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, Util.ZH_SIMPLE);
                 String url;
                 if (isLogin()) {
                     url = String.format(NetManger.SERVICE_URL, language, loginEntity.getUser().getUserId(), loginEntity.getUser().getAccount());

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class CountryCodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
-            String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, "zh_cn");
+            String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, Util.ZH_SIMPLE);
             if (language.contains("zh")) {
                 ((MyViewHolder) holder).text_name.setText(datas.get(position).getNameCn() + "(" + datas.get(position).getNameEn() + ")");
             } else {

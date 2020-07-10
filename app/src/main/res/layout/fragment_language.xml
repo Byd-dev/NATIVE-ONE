@@ -180,7 +180,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Tiếng Việt"
+                android:text="@string/text_vi"
                 android:textColor="@color/text_main_color"
                 android:textSize="15sp" />
 
@@ -226,7 +226,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Bahasa"
+                android:text="@string/text_ru"
                 android:textColor="@color/text_main_color"
                 android:textSize="15sp" />
 
@@ -234,7 +234,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="in-ID"
+                android:text="ru-RU"
                 android:textColor="@color/text_second_color"
                 android:textSize="13sp" />
 
@@ -278,7 +278,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/text_korean_second"
+                android:text="ko-KR"
                 android:textColor="@color/text_second_color"
                 android:textSize="13sp" />
 
@@ -314,7 +314,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Pусский"
+                android:text="@string/text_id"
                 android:textColor="@color/text_main_color"
                 android:textSize="15sp" />
 
@@ -322,7 +322,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="ru-RU"
+                android:text="in-ID"
                 android:textColor="@color/text_second_color"
                 android:textSize="13sp" />
 
@@ -366,7 +366,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/text_japan_second"
+                android:text="ja-JP"
                 android:textColor="@color/text_second_color"
                 android:textSize="13sp" />
 

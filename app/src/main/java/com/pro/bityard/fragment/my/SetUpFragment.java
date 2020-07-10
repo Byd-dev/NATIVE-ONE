@@ -14,10 +14,8 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LogoutTipEntity;
-import com.pro.bityard.manger.BalanceManger;
-import com.pro.bityard.manger.PositionRealManger;
-import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.TagManger;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import butterknife.BindView;
@@ -53,26 +51,28 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
             text_theme.setText(getResources().getText(R.string.text_day));
         }
 
-        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-        Log.d("print", "onResume:57设置页面: "+language);
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, Util.ZH_SIMPLE);
+        Log.d("print", "onResume:57设置页面: " + language);
         if (language.equals(AppConfig.KEY_LANGUAGE)) {
             text_language.setText(getResources().getText(R.string.text_chinese));
 
         } else {
-            if (language.equals("en")) {
+            if (language.equals(Util.EN_US)) {
                 text_language.setText(getResources().getText(R.string.text_english));
-            } else if (language.equals("zh_simple")) {
+            } else if (language.equals(Util.ZH_SIMPLE)) {
                 text_language.setText(getResources().getText(R.string.text_chinese));
-
-            } else if (language.equals("zh_traditional")) {
+            } else if (language.equals(Util.ZH_TRADITIONAL)) {
                 text_language.setText(getResources().getText(R.string.text_traditional));
-
-            } else if (language.equals("ja")) {
+            } else if (language.equals(Util.JA_JP)) {
                 text_language.setText(getResources().getText(R.string.text_japan));
-
-            } else if (language.equals("ko")) {
+            } else if (language.equals(Util.KO_KR)) {
                 text_language.setText(getResources().getText(R.string.text_korean));
-
+            } else if (language.equals(Util.VI_VN)) {
+                text_language.setText(getResources().getText(R.string.text_vi));
+            } else if (language.equals(Util.RU_RU)) {
+                text_language.setText(getResources().getText(R.string.text_ru));
+            } else if (language.equals(Util.IN_ID)) {
+                text_language.setText(getResources().getText(R.string.text_id));
             }
         }
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
@@ -159,7 +159,6 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
                                 //余额初始化
                                 TagManger.getInstance().clear();
                                 getActivity().finish();
-
 
 
                             }

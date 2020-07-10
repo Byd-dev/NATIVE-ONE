@@ -75,7 +75,6 @@ public class TradeUtil {
         if (value!=0){
             BigDecimal bd = new BigDecimal(value);
             String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五
-            Log.d("print", "numberHalfUp: " + value + "    " + bd + "     " + mon + "    ");
             return mon;
         }else {
             if (scale == 7) {
@@ -91,7 +90,6 @@ public class TradeUtil {
             } else {
                 BigDecimal bd = new BigDecimal(value);
                 String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五
-                Log.d("print", "numberHalfUp: " + value + "    " + bd + "     " + mon + "    ");
                 return mon;
             }
         }
