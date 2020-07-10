@@ -1,8 +1,9 @@
 package com.pro.bityard.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FundItemEntity {
+public class FundItemEntity implements Serializable {
 
 
     /**
@@ -59,7 +60,7 @@ public class FundItemEntity {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         @Override
         public String toString() {
             return "DataBean{" +

@@ -10,6 +10,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CurrencyListEntity;
+import com.pro.bityard.entity.FundItemEntity;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.Objects;
@@ -80,15 +81,15 @@ public class CurrencyRateFragment extends BaseFragment {
     @Override
     protected void initData() {
 
-        CurrencyListEntity data = SPUtils.getData(AppConfig.CURRENCY_LIST, CurrencyListEntity.class);
+        FundItemEntity data = SPUtils.getData(AppConfig.CURRENCY_LIST, FundItemEntity.class);
         if (data != null) {
             currencyListAdapter.setDatas(data.getData());
         } else {
             NetManger.getInstance().currencyList("0",(state, response) -> {
                 if (state.equals(SUCCESS)) {
-                    CurrencyListEntity currencyListEntity = (CurrencyListEntity) response;
-                    SPUtils.putData(AppConfig.CURRENCY_LIST, currencyListEntity);
-                    currencyListAdapter.setDatas(currencyListEntity.getData());
+                    FundItemEntity fundItemEntity = (FundItemEntity) response;
+                    SPUtils.putData(AppConfig.CURRENCY_LIST, fundItemEntity);
+                    currencyListAdapter.setDatas(fundItemEntity.getData());
                 }
             });
         }

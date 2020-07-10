@@ -129,6 +129,7 @@ public class InitManger extends Observable {
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         //获取USDT兑换CNY汇率
         NetManger.getInstance().getItemRate("1", cny, response -> {
+
             SPUtils.putString(AppConfig.USD_RATE, response.toString());
         });
 

@@ -60,7 +60,7 @@ public class CurrencyListEntity implements Serializable {
         this.data = data;
     }
 
-    public static class DataBean implements Serializable{
+    public static class DataBean implements Serializable {
         @Override
         public String toString() {
             return "DataBean{" +
@@ -89,7 +89,6 @@ public class CurrencyListEntity implements Serializable {
          * type : 0
          * unit : 美元
          */
-
 
 
         private String code;

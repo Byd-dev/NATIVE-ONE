@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.CurrencyListEntity;
+import com.pro.bityard.entity.FundItemEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CurrencyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<CurrencyListEntity.DataBean> datas;
+    private List<FundItemEntity.DataBean> datas;
 
     private List<String> quoteList;
 
@@ -37,12 +38,12 @@ public class CurrencyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<CurrencyListEntity.DataBean> datas) {
+    public void setDatas(List<FundItemEntity.DataBean> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<CurrencyListEntity.DataBean> datas) {
+    public void addDatas(List<FundItemEntity.DataBean> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -158,7 +159,7 @@ public class CurrencyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     public interface OnItemClick {
-        void onClickListener(CurrencyListEntity.DataBean data, int position);
+        void onClickListener(FundItemEntity.DataBean data, int position);
 
 
     }
