@@ -58,15 +58,14 @@ import java.util.regex.Pattern;
 
 public class Util {
 
-    public  static String EN_US="en-US";
-    public static  String ZH_SIMPLE="zh_simple";
-    public static  String ZH_TRADITIONAL="zh_traditional";
-    public static  String VI_VN="vi-VN";
-    public static  String RU_RU="ru-RU";
-    public static  String JA_JP="ja-JP";
-    public static  String KO_KR="ko-KR";
-    public static  String IN_ID="in-ID";
-
+    public static String EN_US = "en_US";
+    public static String ZH_SIMPLE = "zh_simple";
+    public static String ZH_TRADITIONAL = "zh_traditional";
+    public static String JA_JP = "ja_JP";
+    public static String KO_KR = "ko_KR";
+    public static String VI_VN = "vi_VN";
+    public static String RU_RU = "ru_RU";
+    public static String IN_ID = "in_ID";
 
 
     private static boolean eye = true;
@@ -226,7 +225,7 @@ public class Util {
         Configuration configuration = resources.getConfiguration();
         Locale locale;
         switch (language) {
-            case "en":
+            case "en_US":
                 locale = Locale.ENGLISH;
                 break;
             case "zh_simple":
@@ -235,10 +234,10 @@ public class Util {
             case "zh_traditional":
                 locale = Locale.TRADITIONAL_CHINESE;
                 break;
-            case "ja":
+            case "ja_JP":
                 locale = Locale.JAPANESE;
                 break;
-            case "ko":
+            case "ko_KR":
                 locale = Locale.KOREAN;
                 break;
             default:
