@@ -18,6 +18,8 @@ import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -51,10 +53,20 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
             text_theme.setText(getResources().getText(R.string.text_day));
         }
 
-        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, Util.ZH_SIMPLE);
+        Locale locale = getResources().getConfiguration().locale;
+
+        String language2 = locale.getLanguage();
+
+        String local = Locale.getDefault().toString();
+
+        String country =getResources().getConfiguration().locale.getCountry();
+
+        Log.d("zxy", "tjCountry: language:"+ language2+",local:"+local+",country:"+country);
+
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
         Log.d("print", "onResume:57设置页面: " + language);
         if (language.equals(AppConfig.KEY_LANGUAGE)) {
-            text_language.setText(getResources().getText(R.string.text_chinese));
+            text_language.setText(local);
 
         } else {
             if (language.equals(Util.EN_US)) {

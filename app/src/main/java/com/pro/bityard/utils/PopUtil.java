@@ -449,6 +449,7 @@ public class PopUtil {
 
 
         alertDialogBuilder.setCancelable(false);
+
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();//将dialog显示出来
     }

@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.my;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -66,9 +67,10 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
 
 
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, "null");
+        Log.d("print", "initData:70:  "+language);
         if (language.equals(AppConfig.KEY_LANGUAGE)) {
             img_one.setBackgroundResource(R.mipmap.icon_check_false);
-            img_two.setBackgroundResource(R.mipmap.icon_check_true);
+            img_two.setBackgroundResource(R.mipmap.icon_check_false);
             img_three.setBackgroundResource(R.mipmap.icon_check_false);
             img_four.setBackgroundResource(R.mipmap.icon_check_false);
             img_five.setBackgroundResource(R.mipmap.icon_check_false);
