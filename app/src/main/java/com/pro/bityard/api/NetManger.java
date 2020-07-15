@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.view.View;
 
 import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
@@ -2168,7 +2169,7 @@ public class NetManger {
 
 
     //版本更新
-    public void updateCheck(Activity activity) {
+    public void updateCheck(Activity activity, View layout_view) {
 
         OkGo.<String>get(UPDATE_URL)
                 .execute(new StringCallback() {
@@ -2179,7 +2180,7 @@ public class NetManger {
                         String versionMessage = updateEntity.getUpdate().getVersionMessage();
                         String versionUrl = updateEntity.getUpdate().getVersionUrl();
                         if (Util.updateJudge(activity, Integer.parseInt(versionCode))) {
-                            PopUtil.getInstance().dialogUp(activity, versionMessage, versionUrl);
+                            PopUtil.getInstance().dialogUp(activity,layout_view, versionMessage, versionUrl);
                         }
                     }
                 });

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -420,12 +421,63 @@ public class PopUtil {
         view.startAnimation(animation);
     }
 
-    public void dialogUp(Activity activity, String versionMessage, String url) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+    public void dialogUp(Activity activity,View layout_view, String versionMessage, String url) {
+        Util.lightOff(activity);
+
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_tip_pop_update_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        TextView text_content = view.findViewById(R.id.text_content);
+
+        text_content.setText(versionMessage);
+
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+
+        view.findViewById(R.id.text_sure).setOnClickListener(v -> {
+            //更新应用提醒
+            ProgressDialog progressDialog;
+            progressDialog = new ProgressDialog(activity);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            getFile(activity, url, (state, response) -> {
+                if (state.equals(BUSY)) {
+                    progressDialog.setMessage("软件下载中~");
+                } else if (state.equals(SUCCESS)) {
+                    progressDialog.setMessage("下载成功~");
+                    progressDialog.dismiss();
+
+                } else if (state.equals(FAILURE)) {
+                    progressDialog.setMessage("下载失败~");
+                    progressDialog.dismiss();
+                }
+            }); //下载apk
+
+            popupWindow.dismiss();
+        });
+
+        Util.dismiss(activity, popupWindow);
+        Util.isShowing(activity, popupWindow);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+
+
+
+
+
+
+      /*  AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 //		alertDialogBuilder.setIcon(R.drawable.)
         alertDialogBuilder.setTitle("版本更新");
         alertDialogBuilder.setMessage(versionMessage);
-        alertDialogBuilder.setPositiveButton("确定", (dialog, which) -> {
+        alertDialogBuilder.setPositiveButton(activity.getResources().getText(R.string.text_sure), (dialog, which) -> {
 
             //更新应用提醒
             ProgressDialog progressDialog;
@@ -446,12 +498,14 @@ public class PopUtil {
                 }
             }); //下载apk
         });
+        alertDialogBuilder.setNegativeButton(activity.getResources().getText(R.string.text_cancel_position), (dialog, which) -> {
 
+        });
 
         alertDialogBuilder.setCancelable(false);
 
         AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();//将dialog显示出来
+        alertDialog.show();//将dialog显示出来*/
     }
 
 
@@ -510,7 +564,7 @@ public class PopUtil {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri apkUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID+".MyFileProvider", file);
+            Uri apkUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".MyFileProvider", file);
             intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
             activity.startActivity(intent);
         } else {

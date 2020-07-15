@@ -484,7 +484,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         super.onCreate(savedInstanceState);
 
 
-        NetManger.getInstance().updateCheck(this);
+        NetManger.getInstance().updateCheck(this, layout_view);
 
     }
 
