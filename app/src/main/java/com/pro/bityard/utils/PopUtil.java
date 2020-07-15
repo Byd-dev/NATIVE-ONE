@@ -446,13 +446,12 @@ public class PopUtil {
             progressDialog.show();
             getFile(activity, url, (state, response) -> {
                 if (state.equals(BUSY)) {
-                    progressDialog.setMessage("软件下载中~");
+                    progressDialog.setMessage(activity.getString(R.string.text_progressing));
                 } else if (state.equals(SUCCESS)) {
-                    progressDialog.setMessage("下载成功~");
+                    progressDialog.setMessage(activity.getResources().getText(R.string.text_success));
                     progressDialog.dismiss();
-
                 } else if (state.equals(FAILURE)) {
-                    progressDialog.setMessage("下载失败~");
+                    progressDialog.setMessage(activity.getResources().getText(R.string.text_failure));
                     progressDialog.dismiss();
                 }
             }); //下载apk
