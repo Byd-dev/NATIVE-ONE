@@ -340,8 +340,8 @@
     <string name="text_just_case">Chuyện nhỏ, lần tới chiến tiếp</string>
     <string name="text_much">Mua</string>
     <string name="text_empty">Bán</string>
-    <string name="text_save">已保存</string>
-    <string name="text_save_img">保存图片</string>
+    <string name="text_save">Success</string>
+    <string name="text_save_img">Save</string>
     <string name="text_records">Lịch sử</string>
     <string name="text_additional_amount">Thêm số dư</string>
     <string name="text_spsl">TP/SL</string>

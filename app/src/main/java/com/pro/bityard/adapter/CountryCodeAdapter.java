@@ -44,7 +44,7 @@ public class CountryCodeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
-            String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, Util.ZH_SIMPLE);
+            String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, AppConfig.ZH_SIMPLE);
             if (language.contains("zh")) {
                 ((MyViewHolder) holder).text_name.setText(datas.get(position).getNameCn() + "(" + datas.get(position).getNameEn() + ")");
             } else {

@@ -340,8 +340,8 @@
     <string name="text_just_case">Ничего старшного, мы ещё держимся</string>
     <string name="text_much">Купить</string>
     <string name="text_empty">Продать</string>
-    <string name="text_save">已保存</string>
-    <string name="text_save_img">保存图片</string>
+    <string name="text_save">Success</string>
+    <string name="text_save_img">Save</string>
     <string name="text_records">История</string>
     <string name="text_additional_amount">Дополнительная сумма</string>
     <string name="text_spsl">TP/SL</string>

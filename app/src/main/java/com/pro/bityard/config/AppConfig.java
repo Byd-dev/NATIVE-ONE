@@ -84,4 +84,13 @@ public class AppConfig {
     //小数位
     public static final String SCALE = "SCALE";
 
+
+    public static final String EN_US = "en_US";
+    public static final String ZH_SIMPLE = "zh_simple";
+    public static final String ZH_TRADITIONAL = "zh_traditional";
+    public static final String JA_JP = "ja_JP";
+    public static final String KO_KR = "ko_KR";
+    public static final String VI_VN = "vi_VN";
+    public static final String RU_RU = "ru_RU";
+    public static final String IN_ID = "in_ID";
 }

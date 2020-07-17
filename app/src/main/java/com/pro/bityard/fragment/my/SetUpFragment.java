@@ -69,21 +69,21 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
             text_language.setText(local);
 
         } else {
-            if (language.equals(Util.EN_US)) {
+            if (language.equals(AppConfig.EN_US)) {
                 text_language.setText(getResources().getText(R.string.text_english));
-            } else if (language.equals(Util.ZH_SIMPLE)) {
+            } else if (language.equals(AppConfig.ZH_SIMPLE)) {
                 text_language.setText(getResources().getText(R.string.text_chinese));
-            } else if (language.equals(Util.ZH_TRADITIONAL)) {
+            } else if (language.equals(AppConfig.ZH_TRADITIONAL)) {
                 text_language.setText(getResources().getText(R.string.text_traditional));
-            } else if (language.equals(Util.JA_JP)) {
+            } else if (language.equals(AppConfig.JA_JP)) {
                 text_language.setText(getResources().getText(R.string.text_japan));
-            } else if (language.equals(Util.KO_KR)) {
+            } else if (language.equals(AppConfig.KO_KR)) {
                 text_language.setText(getResources().getText(R.string.text_korean));
-            } else if (language.equals(Util.VI_VN)) {
+            } else if (language.equals(AppConfig.VI_VN)) {
                 text_language.setText(getResources().getText(R.string.text_vi));
-            } else if (language.equals(Util.RU_RU)) {
+            } else if (language.equals(AppConfig.RU_RU)) {
                 text_language.setText(getResources().getText(R.string.text_ru));
-            } else if (language.equals(Util.IN_ID)) {
+            } else if (language.equals(AppConfig.IN_ID)) {
                 text_language.setText(getResources().getText(R.string.text_id));
             }
         }

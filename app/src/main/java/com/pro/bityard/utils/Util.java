@@ -58,14 +58,7 @@ import java.util.regex.Pattern;
 
 public class Util {
 
-    public static String EN_US = "en_US";
-    public static String ZH_SIMPLE = "zh_simple";
-    public static String ZH_TRADITIONAL = "zh_traditional";
-    public static String JA_JP = "ja_JP";
-    public static String KO_KR = "ko_KR";
-    public static String VI_VN = "vi_VN";
-    public static String RU_RU = "ru_RU";
-    public static String IN_ID = "in_ID";
+
 
 
     private static boolean eye = true;
@@ -252,18 +245,37 @@ public class Util {
         //设置语言类型
         Resources resources = context.getResources();
         Configuration configuration = resources.getConfiguration();
-        Locale locale;
-        switch (language) {
-            case "en":
+        Locale locale = null;
+        if (language.equals(AppConfig.EN_US)){
+            locale=Locale.ENGLISH;
+        }else if (language.equals(AppConfig.ZH_SIMPLE)){
+            locale=Locale.SIMPLIFIED_CHINESE;
+        }else if (language.equals(AppConfig.ZH_TRADITIONAL)){
+            locale = Locale.TRADITIONAL_CHINESE;
+        }else if (language.equals(AppConfig.VI_VN)){
+            locale = Locale.ENGLISH;
+        }else if (language.equals(AppConfig.RU_RU)){
+            locale = Locale.ENGLISH;
+        }else if (language.equals(AppConfig.IN_ID)){
+            locale = Locale.ENGLISH;
+        }else if (language.equals(AppConfig.JA_JP)){
+            locale = Locale.JAPAN;
+        }
+        else if (language.equals(AppConfig.KO_KR)){
+            locale = Locale.KOREA;
+        }
+        /*switch (language) {
+
+            case AppConfig.EN_US:
                 locale = Locale.ENGLISH;
                 break;
-            case "zh_simple":
+            case "zh-simple":
                 locale = Locale.SIMPLIFIED_CHINESE;
                 break;
-            case "zh_traditional":
+            case "zh-traditional":
                 locale = Locale.TRADITIONAL_CHINESE;
                 break;
-            case "vi":
+            case "vi-VN":
                 locale = new Locale("vi");
                 break;
             case "ru":
@@ -281,7 +293,7 @@ public class Util {
             default:
                 locale = Locale.getDefault();
                 break;
-        }
+        }*/
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // apply locale
             configuration.setLocale(locale);

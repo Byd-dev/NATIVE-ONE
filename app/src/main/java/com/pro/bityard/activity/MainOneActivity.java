@@ -725,7 +725,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         img_service_my.setOnClickListener(this);
 
 
-        String string = SPUtils.getString(AppConfig.QUOTE_CODE, null);
 
     }
 
@@ -1208,7 +1207,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             case R.id.layout_seven:
             case R.id.img_service_my:
 
-                String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, Util.ZH_SIMPLE);
+                String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, AppConfig.ZH_SIMPLE);
                 String url;
                 if (isLogin()) {
                     url = String.format(NetManger.SERVICE_URL, language, loginEntity.getUser().getUserId(), loginEntity.getUser().getAccount());

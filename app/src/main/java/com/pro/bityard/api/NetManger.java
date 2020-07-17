@@ -97,7 +97,40 @@ public class NetManger {
 
     //get 请求
     public void getRequest(String url, ArrayMap map, OnNetResult onNetResult) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        switch (language){
+            case AppConfig.KEY_LANGUAGE:
+            case AppConfig.EN_US:
+                language="en-US";
+                break;
+            case AppConfig.ZH_SIMPLE:
+                language="zh-CN";
+                break;
+            case AppConfig.ZH_TRADITIONAL:
+                language="zh-TW";
+                break;
+            case AppConfig.RU_RU:
+                language="ru-RU";
+                break;
+            case AppConfig.JA_JP:
+                language="ja-JP";
+                break;
+            case AppConfig.KO_KR:
+                language="ko-KR";
+                break;
+            case AppConfig.VI_VN:
+                language="vi-VN";
+                break;
+            case AppConfig.IN_ID:
+                language="in-ID";
+                break;
+
+        }
+
+
+        Log.d("print", "getRequest:语言:  "+language);
         OkGo.<String>get(getURL(url, map))
+                .headers("Accept-Language", language)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
@@ -121,41 +154,41 @@ public class NetManger {
 
     }
 
-    //get 请求
-    public void getHeadRequest(String url, String head, ArrayMap map, OnNetResult onNetResult) {
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.put("accept-language", head);
-        OkGo.<String>get(getURL(url, map))
-                .headers(httpHeaders)
-                .execute(new StringCallback() {
-                    @Override
-                    public void onStart(Request<String, ? extends Request> request) {
-                        super.onStart(request);
-                        onNetResult.onNetResult(BUSY, null);
-
-                    }
-
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        if (!TextUtils.isEmpty(response.body())) {
-                            onNetResult.onNetResult(SUCCESS, response.body());
-                        }
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        onNetResult.onNetResult(FAILURE, response.body());
-                    }
-                });
-
-    }
 
     //post 请求
     public void postRequest(String url, ArrayMap map, OnNetResult onNetResult) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        switch (language){
+            case AppConfig.KEY_LANGUAGE:
+            case AppConfig.EN_US:
+                language="en-US";
+                break;
+            case AppConfig.ZH_SIMPLE:
+                language="zh-CN";
+                break;
+            case AppConfig.ZH_TRADITIONAL:
+                language="zh-TW";
+                break;
+            case AppConfig.RU_RU:
+                language="ru-RU";
+                break;
+            case AppConfig.JA_JP:
+                language="ja-JP";
+                break;
+            case AppConfig.KO_KR:
+                language="ko-KR";
+                break;
+            case AppConfig.VI_VN:
+                language="vi-VN";
+                break;
+            case AppConfig.IN_ID:
+                language="in-ID";
+                break;
+
+        }
 
         OkGo.<String>post(getURL(url, map))
+                .headers("Accept-Language", language)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
@@ -187,7 +220,37 @@ public class NetManger {
     //动态host get 请求
     public void getHostRequest(String host, String url, ArrayMap map, OnNetResult onNetResult) {
         Log.d("NetManger", "getHostRequest:动态:  " + getHostURL(host, url, map));
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        switch (language){
+            case AppConfig.KEY_LANGUAGE:
+            case AppConfig.EN_US:
+                language="en-US";
+                break;
+            case AppConfig.ZH_SIMPLE:
+                language="zh-CN";
+                break;
+            case AppConfig.ZH_TRADITIONAL:
+                language="zh-TW";
+                break;
+            case AppConfig.RU_RU:
+                language="ru-RU";
+                break;
+            case AppConfig.JA_JP:
+                language="ja-JP";
+                break;
+            case AppConfig.KO_KR:
+                language="ko-KR";
+                break;
+            case AppConfig.VI_VN:
+                language="vi-VN";
+                break;
+            case AppConfig.IN_ID:
+                language="in-ID";
+                break;
+
+        }
         OkGo.<String>get(getHostURL(host, url, map))
+                .headers("Accept-Language", language)
                 .execute(new StringCallback() {
                     @Override
                     public void onStart(Request<String, ? extends Request> request) {
@@ -791,7 +854,7 @@ public class NetManger {
         map.put("type", type);//0是货币 1是法币
         getRequest("/api/home/currency/list", map, (state, response) -> {
             if (state.equals(SUCCESS)) {
-                Log.d("print", "currencyList:793:  "+response.toString());
+                Log.d("print", "currencyList:793:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     FundItemEntity fundItemEntity = new Gson().fromJson(response.toString(), FundItemEntity.class);
@@ -1260,7 +1323,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "ItemRate:1263:  "+response);
+                Log.d("print", "ItemRate:1263:  " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -1934,8 +1997,8 @@ public class NetManger {
 
 
     /*最新公告*/
-    public void discover(String language, OnNetResult onNetResult) {
-        getHeadRequest("/api/discover/index.htm", language, null, (state, response) -> {
+    public void discover( OnNetResult onNetResult) {
+        getRequest("/api/discover/index.htm", null, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
@@ -1953,25 +2016,7 @@ public class NetManger {
         });
     }
 
-    /*最新公告*/
-    public void depositAddress(String language, OnNetResult onNetResult) {
-        getHeadRequest("/api/pay/recharge/getAddress", language, null, (state, response) -> {
-            if (state.equals(BUSY)) {
-                onNetResult.onNetResult(BUSY, null);
-            } else if (state.equals(SUCCESS)) {
-                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode() == 500) {
-                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
-                } else {
-                    AnnouncementEntity entity = new Gson().fromJson(response.toString(), AnnouncementEntity.class);
-                    onNetResult.onNetResult(SUCCESS, entity);
-                }
-            } else if (state.equals(FAILURE)) {
-                onNetResult.onNetResult(FAILURE, null);
 
-            }
-        });
-    }
 
 
     /*提币*/
@@ -2066,7 +2111,37 @@ public class NetManger {
 
     /*验证码获取的*/
     public void Gt3GetRequest(String url, OnNetResult onNetResult) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        switch (language){
+            case AppConfig.KEY_LANGUAGE:
+            case AppConfig.EN_US:
+                language="en-US";
+                break;
+            case AppConfig.ZH_SIMPLE:
+                language="zh-CN";
+                break;
+            case AppConfig.ZH_TRADITIONAL:
+                language="zh-TW";
+                break;
+            case AppConfig.RU_RU:
+                language="ru-RU";
+                break;
+            case AppConfig.JA_JP:
+                language="ja-JP";
+                break;
+            case AppConfig.KO_KR:
+                language="ko-KR";
+                break;
+            case AppConfig.VI_VN:
+                language="vi-VN";
+                break;
+            case AppConfig.IN_ID:
+                language="in-ID";
+                break;
+
+        }
         OkGo.<String>get(url)
+                .headers("Accept-Language", language)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -2092,7 +2167,37 @@ public class NetManger {
             listKey.add(key);
             listValue.add(value);
         }
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        switch (language){
+            case AppConfig.KEY_LANGUAGE:
+            case AppConfig.EN_US:
+                language="en-US";
+                break;
+            case AppConfig.ZH_SIMPLE:
+                language="zh-CN";
+                break;
+            case AppConfig.ZH_TRADITIONAL:
+                language="zh-TW";
+                break;
+            case AppConfig.RU_RU:
+                language="ru-RU";
+                break;
+            case AppConfig.JA_JP:
+                language="ja-JP";
+                break;
+            case AppConfig.KO_KR:
+                language="ko-KR";
+                break;
+            case AppConfig.VI_VN:
+                language="vi-VN";
+                break;
+            case AppConfig.IN_ID:
+                language="in-ID";
+                break;
+
+        }
         OkGo.<String>post(url)
+                .headers("Accept-Language", language)
                 .params("geetestToken", geetestToken)
                 .params("clientType", "native")
                 .params(listKey.get(0), listValue.get(0))
@@ -2170,8 +2275,37 @@ public class NetManger {
 
     //版本更新
     public void updateCheck(Activity activity, View layout_view) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        switch (language){
+            case AppConfig.KEY_LANGUAGE:
+            case AppConfig.EN_US:
+                language="en-US";
+                break;
+            case AppConfig.ZH_SIMPLE:
+                language="zh-CN";
+                break;
+            case AppConfig.ZH_TRADITIONAL:
+                language="zh-TW";
+                break;
+            case AppConfig.RU_RU:
+                language="ru-RU";
+                break;
+            case AppConfig.JA_JP:
+                language="ja-JP";
+                break;
+            case AppConfig.KO_KR:
+                language="ko-KR";
+                break;
+            case AppConfig.VI_VN:
+                language="vi-VN";
+                break;
+            case AppConfig.IN_ID:
+                language="in-ID";
+                break;
 
+        }
         OkGo.<String>get(UPDATE_URL)
+                .headers("Accept-Language", language)
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
@@ -2180,7 +2314,7 @@ public class NetManger {
                         String versionMessage = updateEntity.getUpdate().getVersionMessage();
                         String versionUrl = updateEntity.getUpdate().getVersionUrl();
                         if (Util.updateJudge(activity, Integer.parseInt(versionCode))) {
-                            PopUtil.getInstance().dialogUp(activity,layout_view, versionMessage, versionUrl);
+                            PopUtil.getInstance().dialogUp(activity, layout_view, versionMessage, versionUrl);
                         }
                     }
                 });

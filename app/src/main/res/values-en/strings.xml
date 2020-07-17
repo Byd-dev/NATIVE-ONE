@@ -339,8 +339,8 @@
     <string name="text_just_case">Just a piece of cake</string>
     <string name="text_much">Buy</string>
     <string name="text_empty">Sell</string>
-    <string name="text_save">已保存</string>
-    <string name="text_save_img">保存图片</string>
+    <string name="text_save">Success</string>
+    <string name="text_save_img">Save</string>
     <string name="text_records">Records</string>
     <string name="text_additional_amount">Additional Amount</string>
     <string name="text_spsl">TP/SL</string>
