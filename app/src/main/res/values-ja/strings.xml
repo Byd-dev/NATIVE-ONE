@@ -82,7 +82,7 @@
     <string name="text_detail">詳細</string>
     <string name="text_stoploss_price">損切</string>
     <string name="text_close_out_color">決済注文</string>
-    <string name="text_profit_loss">利食/損切設定</string>
+    <string name="text_profit_loss">TP/SL設定</string>
     <string name="text_price">直近価格</string>
     <string name="text_profit_price">利食</string>
     <string name="text_total_profit_loss">総損益:</string>
