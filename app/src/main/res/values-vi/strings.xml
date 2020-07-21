@@ -398,8 +398,8 @@
     <string name="text_exchange_amount">Số lượng</string>
     <string name="text_exchange_price">Báo giá</string>
     <string name="text_exchange_fee">Phí</string>
-    <string name="text_coin_out">兑出币种</string>
-    <string name="text_out_amount">兑出数量</string>
+    <string name="text_coin_out">Loại tiền đổi ra</string>
+    <string name="text_out_amount">Số lượng trao đổi</string>
     <string name="text_tin_input">Nhập mật khẩu đăng nhập</string>
     <string name="text_tin_ensure">Xác nhận mật khẩu</string>
     <string name="text_input_ensure">Nhập lại mật khẩu mới</string>

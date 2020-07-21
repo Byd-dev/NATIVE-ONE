@@ -128,7 +128,6 @@ public class NetManger {
         }
 
 
-        Log.d("print", "getRequest:语言:  "+language);
         OkGo.<String>get(getURL(url, map))
                 .headers("Accept-Language", language)
                 .execute(new StringCallback() {
@@ -781,7 +780,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.setResult(BUSY, null, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "onNetResult644:: " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.setResult(FAILURE, null, null);
@@ -854,7 +852,6 @@ public class NetManger {
         map.put("type", type);//0是货币 1是法币
         getRequest("/api/home/currency/list", map, (state, response) -> {
             if (state.equals(SUCCESS)) {
-                Log.d("print", "currencyList:793:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     FundItemEntity fundItemEntity = new Gson().fromJson(response.toString(), FundItemEntity.class);

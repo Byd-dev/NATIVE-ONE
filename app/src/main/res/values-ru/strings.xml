@@ -398,8 +398,8 @@
     <string name="text_exchange_amount">Объем</string>
     <string name="text_exchange_price">Цена</string>
     <string name="text_exchange_fee">Сборы</string>
-    <string name="text_coin_out">兑出币种</string>
-    <string name="text_out_amount">兑出数量</string>
+    <string name="text_coin_out">Обмениваемая</string>
+    <string name="text_out_amount">Объем обмениваемых</string>
     <string name="text_tin_input">Пароль</string>
     <string name="text_tin_ensure">Подтвердите пароль</string>
     <string name="text_input_ensure">Введите новый пароль</string>

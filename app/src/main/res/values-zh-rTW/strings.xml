@@ -398,8 +398,8 @@
     <string name="text_exchange_amount">兌入數量</string>
     <string name="text_exchange_price">閃兌報價</string>
     <string name="text_exchange_fee">閃兌手續費</string>
-    <string name="text_coin_out">兑出币种</string>
-    <string name="text_out_amount">兑出数量</string>
+    <string name="text_coin_out">兌出幣種</string>
+    <string name="text_out_amount">兌出數量</string>
     <string name="text_tin_input">請輸入資金密碼</string>
     <string name="text_tin_ensure">確認資金密碼</string>
     <string name="text_input_ensure">請再次輸入資金密碼</string>

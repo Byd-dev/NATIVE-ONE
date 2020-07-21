@@ -398,8 +398,8 @@
     <string name="text_exchange_amount">交換する数</string>
     <string name="text_exchange_price">クイック交換価額</string>
     <string name="text_exchange_fee">クイック交換手数料</string>
-    <string name="text_coin_out">兑出币种</string>
-    <string name="text_out_amount">兑出数量</string>
+    <string name="text_coin_out">交換した通貨</string>
+    <string name="text_out_amount">交換した数</string>
     <string name="text_tin_input">PINコードをご入力下さい。</string>
     <string name="text_tin_ensure">PINコードをご確認下さい。</string>
     <string name="text_input_ensure">新しいパスワードを再入力して下さい</string>

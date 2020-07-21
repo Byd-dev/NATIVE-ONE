@@ -59,8 +59,6 @@ import java.util.regex.Pattern;
 public class Util {
 
 
-
-
     private static boolean eye = true;
 
     public static Map<String, Object> jsonToMap(String content) {
@@ -216,25 +214,31 @@ public class Util {
         //设置语言类型
         Resources resources = context.getResources();
         Configuration configuration = resources.getConfiguration();
-        Locale locale;
+        Locale locale=null;
         switch (language) {
-            case "en_US":
+            case AppConfig.EN_US:
                 locale = Locale.ENGLISH;
                 break;
-            case "zh_simple":
+            case AppConfig.ZH_SIMPLE:
                 locale = Locale.SIMPLIFIED_CHINESE;
                 break;
-            case "zh_traditional":
+            case AppConfig.ZH_TRADITIONAL:
                 locale = Locale.TRADITIONAL_CHINESE;
                 break;
-            case "ja_JP":
-                locale = Locale.JAPANESE;
+            case AppConfig.VI_VN:
+                locale = new Locale("vi", "VN");
                 break;
-            case "ko_KR":
-                locale = Locale.KOREAN;
+            case AppConfig.RU_RU:
+                locale = new Locale("ru", "RU");
                 break;
-            default:
-                locale = Locale.getDefault();
+            case AppConfig.IN_ID:
+                locale = new Locale("in", "ID");
+                break;
+            case AppConfig.JA_JP:
+                locale = Locale.JAPAN;
+                break;
+            case AppConfig.KO_KR:
+                locale = Locale.KOREA;
                 break;
         }
         configuration.setLocale(locale);
@@ -246,54 +250,33 @@ public class Util {
         Resources resources = context.getResources();
         Configuration configuration = resources.getConfiguration();
         Locale locale = null;
-        if (language.equals(AppConfig.EN_US)){
-            locale=Locale.ENGLISH;
-        }else if (language.equals(AppConfig.ZH_SIMPLE)){
-            locale=Locale.SIMPLIFIED_CHINESE;
-        }else if (language.equals(AppConfig.ZH_TRADITIONAL)){
-            locale = Locale.TRADITIONAL_CHINESE;
-        }else if (language.equals(AppConfig.VI_VN)){
-            locale = Locale.ENGLISH;
-        }else if (language.equals(AppConfig.RU_RU)){
-            locale = Locale.ENGLISH;
-        }else if (language.equals(AppConfig.IN_ID)){
-            locale = Locale.ENGLISH;
-        }else if (language.equals(AppConfig.JA_JP)){
-            locale = Locale.JAPAN;
-        }
-        else if (language.equals(AppConfig.KO_KR)){
-            locale = Locale.KOREA;
-        }
-        /*switch (language) {
-
+        switch (language) {
             case AppConfig.EN_US:
                 locale = Locale.ENGLISH;
                 break;
-            case "zh-simple":
+            case AppConfig.ZH_SIMPLE:
                 locale = Locale.SIMPLIFIED_CHINESE;
                 break;
-            case "zh-traditional":
+            case AppConfig.ZH_TRADITIONAL:
                 locale = Locale.TRADITIONAL_CHINESE;
                 break;
-            case "vi-VN":
-                locale = new Locale("vi");
+            case AppConfig.VI_VN:
+                locale = new Locale("vi", "VN");
                 break;
-            case "ru":
-                locale = new Locale("ru");
+            case AppConfig.RU_RU:
+                locale = new Locale("ru", "RU");
                 break;
-            case "in":
-                locale = new Locale("in");
+            case AppConfig.IN_ID:
+                locale = new Locale("in", "ID");
                 break;
-            case "ja":
-                locale = Locale.JAPANESE;
+            case AppConfig.JA_JP:
+                locale = Locale.JAPAN;
                 break;
-            case "ko":
-                locale = Locale.KOREAN;
+            case AppConfig.KO_KR:
+                locale = Locale.KOREA;
                 break;
-            default:
-                locale = Locale.getDefault();
-                break;
-        }*/
+        }
+        Log.d("print" ,"applyLanguage:设置语言: "+locale.toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // apply locale
             configuration.setLocale(locale);

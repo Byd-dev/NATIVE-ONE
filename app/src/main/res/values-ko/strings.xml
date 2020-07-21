@@ -398,8 +398,8 @@
     <string name="text_exchange_amount">수량</string>
     <string name="text_exchange_price">변환 가격</string>
     <string name="text_exchange_fee">변환 수수료</string>
-    <string name="text_coin_out">兑出币种</string>
-    <string name="text_out_amount">兑出数量</string>
+    <string name="text_coin_out">출금할 코인</string>
+    <string name="text_out_amount">수량</string>
     <string name="text_tin_input">비밀번호를 입력해 주세요.</string>
     <string name="text_tin_ensure">비밀번호 확인</string>
     <string name="text_input_ensure">새 비밀번호를 확인해 주세요.</string>
