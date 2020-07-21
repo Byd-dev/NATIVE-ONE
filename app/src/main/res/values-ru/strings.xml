@@ -135,7 +135,6 @@
     <string name="text_100x">100X</string>
     <string name="text_market_all">В итоге:</string>
     <string name="text_limit_price_edit">Лимит:</string>
-    <string name="text_order_success">买入委托已提交</string>
     <string name="text_margin_input">请输入保证金</string>
     <string name="text_limit_price_input">请输入价格</string>
     <string name="text_trade_set">Настройки торговли</string>
