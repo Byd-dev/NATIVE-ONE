@@ -105,7 +105,7 @@
                     android:layout_marginLeft="@dimen/margin_15"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
-                    android:text="@string/text_buy_price"
+                    android:text="@string/text_o_price"
                     android:textColor="@color/text_second_color"
                     android:textSize="@dimen/size_normal_two" />
 

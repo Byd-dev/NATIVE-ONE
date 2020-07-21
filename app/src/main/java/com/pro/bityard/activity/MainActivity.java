@@ -165,7 +165,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
         String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
         if (quote_host == null && quote_code == null) {
-            Toast.makeText(MainActivity.this, getResources().getString(R.string.text_err_init), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
             NetManger.getInstance().initQuote();
         } else {
             assert quote_host != null;
