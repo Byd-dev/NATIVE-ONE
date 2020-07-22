@@ -24,7 +24,6 @@
     <string name="text_mobile_register"><![CDATA[手機號碼註冊->]]></string>
     <string name="text_email_code">郵箱驗證碼</string>
     <string name="text_email_code_input">請輸入郵箱驗證碼</string>
-    <string name="text_register_btn">注册</string>
     <string name="text_mobile_code">短信驗證碼</string>
     <string name="text_mobile_code_input">請輸入短信驗證碼</string>
     <string name="text_email_register">郵箱註冊-></string>
@@ -135,8 +134,8 @@
     <string name="text_100x">100X</string>
     <string name="text_market_all">總計支付:</string>
     <string name="text_limit_price_edit">限价:</string>
-    <string name="text_margin_input">请输入保证金</string>
-    <string name="text_limit_price_input">请输入价格</string>
+    <string name="text_margin_input">請輸入保證金</string>
+    <string name="text_limit_price_input">請輸入掛單價</string>
     <string name="text_trade_set">交易設置</string>
     <string name="text_stop_profit_rate">默認止盈比例</string>
     <string name="text_stop_loss_rate">默認止損比例</string>
@@ -147,7 +146,7 @@
     <string name="text_service_pop">手續費</string>
     <string name="text_are_you_sure">是否確認平倉?</string>
     <string name="text_service_tip">手續費=保證金*槓桿*0.05%\n</string>
-    <string name="text_tip_login">请登錄</string>
+    <string name="text_tip_login">登錄</string>
     <string name="kline_open">开:</string>
     <string name="kline_max">高:</string>
     <string name="kline_min">低:</string>
@@ -167,7 +166,6 @@
     <string name="text_1month">1mon</string>
     <string name="text_lever_select">選擇槓桿</string>
     <string name="text_my_service">在線客服</string>
-    <string name="text_asset_rate">币种选择</string>
     <string name="text_safe_center">安全中心</string>
     <string name="text_change">修改</string>
     <string name="text_pin">資金密碼</string>

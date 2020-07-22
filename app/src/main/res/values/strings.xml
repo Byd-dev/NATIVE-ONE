@@ -23,7 +23,6 @@
     <string name="text_mobile_register">手机号码注册-></string>
     <string name="text_email_code">邮箱验证码</string>
     <string name="text_email_code_input">请输入邮箱验证码</string>
-    <string name="text_register_btn">注册</string>
     <string name="text_mobile_code">短信验证码</string>
     <string name="text_mobile_code_input">请输入短信验证码</string>
     <string name="text_email_register">邮箱注册-></string>
@@ -135,7 +134,7 @@
     <string name="text_market_all">总计支付:</string>
     <string name="text_limit_price_edit">限价委托:</string>
     <string name="text_margin_input">请输入保证金</string>
-    <string name="text_limit_price_input">请输入限价</string>
+    <string name="text_limit_price_input">请输入挂单价</string>
     <string name="text_trade_set">交易设置</string>
     <string name="text_stop_profit_rate">默认止盈比例</string>
     <string name="text_stop_loss_rate">默认止损比例</string>
@@ -166,7 +165,6 @@
     <string name="text_1month">1月</string>
     <string name="text_lever_select">选择杠杆</string>
     <string name="text_my_service">在线客服</string>
-    <string name="text_asset_rate">币种选择</string>
     <string name="text_safe_center">安全中心</string>
     <string name="text_change">修改</string>
     <string name="text_pin">资金密码</string>
@@ -379,7 +377,7 @@
     <string name="text_bonus_balance">礼金余额</string>
     <string name="text_gift_money">红包余额</string>
     <string name="text_used_to_deduct">用于抵扣%s交易保证金</string>
-    <string name="text_trading_fees">用户抵扣交易手续费</string>
+    <string name="text_trading_fees">用于抵扣交易手续费</string>
     <string name="text_deduction_amount">抵扣金额</string>
     <string name="text_usdt">USDT</string>
     <string name="text_sure_submit">确认下单</string>

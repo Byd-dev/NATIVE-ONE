@@ -662,21 +662,36 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
         view.findViewById(R.id.img_back).setOnClickListener(v -> popupWindow.dismiss());
 
         countryCodeAdapter.setOnItemClick(dataBean -> {
-            text_countryName.setText(dataBean.getNameCn());
+            String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+            if (language.equals(AppConfig.ZH_SIMPLE)||language.equals(AppConfig.ZH_TRADITIONAL)){
+                text_countryName.setText(dataBean.getNameCn());
+            }else {
+                text_countryName.setText(dataBean.getNameEn());
+            }
             text_countryCode.setText(dataBean.getCountryCode());
             popupWindow.dismiss();
 
         });
 
         countryCodeHeadAdapter.setOnItemHeadClick(dataBean -> {
-            text_countryName.setText(dataBean.getNameCn());
+            String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+            if (language.equals(AppConfig.ZH_SIMPLE)||language.equals(AppConfig.ZH_TRADITIONAL)){
+                text_countryName.setText(dataBean.getNameCn());
+            }else {
+                text_countryName.setText(dataBean.getNameEn());
+            }
             text_countryCode.setText(dataBean.getCountryCode());
             popupWindow.dismiss();
         });
 
 
         countryCodeSearchAdapter.setOnItemHeadClick(dataBean -> {
-            text_countryName.setText(dataBean.getNameCn());
+            String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+            if (language.equals(AppConfig.ZH_SIMPLE)||language.equals(AppConfig.ZH_TRADITIONAL)){
+                text_countryName.setText(dataBean.getNameCn());
+            }else {
+                text_countryName.setText(dataBean.getNameEn());
+            }
             text_countryCode.setText(dataBean.getCountryCode());
             popupWindow.dismiss();
         });

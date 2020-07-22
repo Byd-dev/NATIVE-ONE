@@ -23,7 +23,6 @@
     <string name="text_mobile_register"><![CDATA[Mobile Registration->]]></string>
     <string name="text_email_code">Captcha</string>
     <string name="text_email_code_input">Verification Code</string>
-    <string name="text_register_btn">Get Started</string>
     <string name="text_mobile_code">Captcha</string>
     <string name="text_mobile_code_input">Verification Code</string>
     <string name="text_email_register">Email Registration-></string>
@@ -134,8 +133,8 @@
     <string name="text_100x">100X</string>
     <string name="text_market_all">Total:</string>
     <string name="text_limit_price_edit">Limit:</string>
-    <string name="text_margin_input">请输入保证金</string>
-    <string name="text_limit_price_input">请输入价格</string>
+    <string name="text_margin_input">Please enter margin</string>
+    <string name="text_limit_price_input">Please set the limit price</string>
     <string name="text_trade_set">Settings</string>
     <string name="text_stop_profit_rate">TP Ratio</string>
     <string name="text_stop_loss_rate">SL Ratio</string>
@@ -146,7 +145,7 @@
     <string name="text_service_pop">Fee</string>
     <string name="text_are_you_sure">Are you sure to close position?</string>
     <string name="text_service_tip">Trading Fee=Margin*leverage*0.05%\n</string>
-    <string name="text_tip_login">请登录</string>
+    <string name="text_tip_login">Login</string>
     <string name="kline_open">O:</string>
     <string name="kline_max">H:</string>
     <string name="kline_min">L:</string>

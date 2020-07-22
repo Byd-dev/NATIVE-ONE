@@ -24,7 +24,6 @@
     <string name="text_mobile_register"><![CDATA[모바일 등록->]]></string>
     <string name="text_email_code">이메일 인증 코드</string>
     <string name="text_email_code_input">이메일 인증 번호를 입력해 주세요.</string>
-    <string name="text_register_btn">注册</string>
     <string name="text_mobile_code">SMS 인증 코드</string>
     <string name="text_mobile_code_input">핸드폰 인증번호를 입력해 주세요.</string>
     <string name="text_email_register">이메일 등록-></string>
@@ -135,8 +134,8 @@
     <string name="text_100x">100X</string>
     <string name="text_market_all">합계:</string>
     <string name="text_limit_price_edit">지정 주문:</string>
-    <string name="text_margin_input">请输入保证金</string>
-    <string name="text_limit_price_input">请输入价格</string>
+    <string name="text_margin_input">마진을 입력해 주세요</string>
+    <string name="text_limit_price_input">지정가를 입력해 주세요.</string>
     <string name="text_trade_set">설정</string>
     <string name="text_stop_profit_rate">테이크 프로핏 비율</string>
     <string name="text_stop_loss_rate">스탑 로스 비율</string>
@@ -147,7 +146,7 @@
     <string name="text_service_pop">수수료</string>
     <string name="text_are_you_sure">청산하시겠습니까?</string>
     <string name="text_service_tip">수수료 = 마진 x 레버리지  x 0.05%\n</string>
-    <string name="text_tip_login">请登录</string>
+    <string name="text_tip_login">로그인</string>
     <string name="kline_open">O:</string>
     <string name="kline_max">H:</string>
     <string name="kline_min">L:</string>
@@ -167,7 +166,6 @@
     <string name="text_1month">1mon</string>
     <string name="text_lever_select">레버리지</string>
     <string name="text_my_service">고객센터</string>
-    <string name="text_asset_rate">币种选择</string>
     <string name="text_safe_center">보안 센터</string>
     <string name="text_change">변경</string>
     <string name="text_pin">PIN 코드</string>

@@ -40,7 +40,7 @@ public class RegisterFragment extends BaseFragment implements View.OnClickListen
 
         view.findViewById(R.id.img_back).setOnClickListener(this);
         text_right.setOnClickListener(this);
-        text_title.setText(R.string.text_register_btn);
+        text_title.setText(R.string.text_register);
         text_right.setVisibility(View.VISIBLE);
         text_right.setText(R.string.text_login);
         view_line.setVisibility(View.GONE);
