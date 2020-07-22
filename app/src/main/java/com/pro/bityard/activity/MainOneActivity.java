@@ -227,6 +227,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     ImageView img_edit;
     @BindView(R.id.text_byd_balance)
     TextView text_byd_balance;
+    @BindView(R.id.text_fiat)
+    TextView text_fiat;
 
     private boolean isEyeOpen = true;
     private String netIncomeResult;
@@ -557,6 +559,13 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             }, 1000);
 
         }
+
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        if (language.equals(AppConfig.ZH_SIMPLE)) {
+            text_fiat.setVisibility(View.VISIBLE);
+        } else {
+            text_fiat.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -723,7 +732,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         findViewById(R.id.text_fiat).setOnClickListener(this);
         findViewById(R.id.img_edit).setOnClickListener(this);
         img_service_my.setOnClickListener(this);
-
 
 
     }
