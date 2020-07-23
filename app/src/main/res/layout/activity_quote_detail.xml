@@ -28,11 +28,12 @@
             android:padding="@dimen/margin_15"
             android:src="@mipmap/img_back" />
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/layout_product"
-            android:layout_width="125dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
+            android:gravity="center"
             android:orientation="horizontal">
 
             <TextView
@@ -74,12 +75,12 @@
                 android:id="@+id/img_right"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/margin_5"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/icon_market_right" />
 
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/img_setting"
@@ -853,7 +854,7 @@
                     </LinearLayout>
 
                     <RelativeLayout
-                        android:layout_width="160dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true">
@@ -863,6 +864,7 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/margin_10"
+                            android:layout_toLeftOf="@+id/text_market_balance"
                             android:text="@string/text_available_add"
                             android:textColor="@color/text_second_color"
                             android:textSize="@dimen/size_normal" />
@@ -876,6 +878,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/margin_10"
                             android:text="@string/text_default"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
 
@@ -1127,7 +1130,7 @@
                     </LinearLayout>
 
                     <RelativeLayout
-                        android:layout_width="160dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true">
@@ -1138,6 +1141,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/margin_10"
                             android:text="@string/text_available_add"
+                            android:layout_toLeftOf="@+id/text_limit_balance"
                             android:textColor="@color/text_second_color"
                             android:textSize="@dimen/size_normal" />
 
@@ -1150,6 +1154,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginRight="@dimen/margin_10"
                             android:text="@string/text_default"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
 
