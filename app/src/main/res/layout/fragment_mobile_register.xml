@@ -40,7 +40,8 @@
         <!--密码-->
         <include layout="@layout/layout_pass" />
 
-
+        <!--邀请码-->
+        <include layout="@layout/layout_kode" />
         <!--登录button-->
         <Button
             android:id="@+id/btn_submit"

@@ -76,6 +76,11 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     TextView text_countryCode;
     @BindView(R.id.img_eye)
     ImageView img_eye;
+
+    @BindView(R.id.edit_kode)
+    EditText edit_kode;
+
+
     private ViewPager viewPager;
 
 
@@ -324,6 +329,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 break;
 
             case R.id.btn_submit:
+                String value_kode = edit_kode.getText().toString();
 
                 if (account_value.equals("")) {
                     Toast.makeText(getContext(), getResources().getString(R.string.text_input_number), Toast.LENGTH_SHORT).show();
@@ -353,6 +359,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 map1.put("contryId", countryID);
                 map1.put("password", URLEncoder.encode(pass_value));
                 map1.put("phone", country_code + account_value);
+                map1.put("ru",value_kode);
 
                 String value_sign = Util.getSign(map1, AppConfig.SIGN_KEY);
 
@@ -374,7 +381,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                             //成功了再注册
                             Log.d("print", "onNetResult: 238: " + tipEntity);
                             //  register(map);
-                            register(countryID, country_code, account_value, pass_value, value_sign);
+                            register(countryID, country_code, account_value, pass_value, value_sign,value_kode);
 
 
                         } else {
@@ -394,8 +401,8 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         }
     }
 
-    private void register(String countryID, String country_code, String account_value, String pass_value, String value_sign) {
-        NetManger.getInstance().register(false, countryID, country_code, account_value, pass_value, value_sign, (state, response) -> {
+    private void register(String countryID, String country_code, String account_value, String pass_value, String value_sign,String value_kode) {
+        NetManger.getInstance().register(false, countryID, country_code, account_value, pass_value, value_sign,value_kode, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {

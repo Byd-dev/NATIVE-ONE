@@ -12,7 +12,6 @@ import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
-import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.config.AppConfig;
@@ -98,31 +97,31 @@ public class NetManger {
     //get 请求
     public void getRequest(String url, ArrayMap map, OnNetResult onNetResult) {
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-        switch (language){
+        switch (language) {
             case AppConfig.KEY_LANGUAGE:
             case AppConfig.EN_US:
-                language="en-US";
+                language = "en-US";
                 break;
             case AppConfig.ZH_SIMPLE:
-                language="zh-CN";
+                language = "zh-CN";
                 break;
             case AppConfig.ZH_TRADITIONAL:
-                language="zh-TW";
+                language = "zh-TW";
                 break;
             case AppConfig.RU_RU:
-                language="ru-RU";
+                language = "ru-RU";
                 break;
             case AppConfig.JA_JP:
-                language="ja-JP";
+                language = "ja-JP";
                 break;
             case AppConfig.KO_KR:
-                language="ko-KR";
+                language = "ko-KR";
                 break;
             case AppConfig.VI_VN:
-                language="vi-VN";
+                language = "vi-VN";
                 break;
             case AppConfig.IN_ID:
-                language="in-ID";
+                language = "in-ID";
                 break;
 
         }
@@ -157,31 +156,31 @@ public class NetManger {
     //post 请求
     public void postRequest(String url, ArrayMap map, OnNetResult onNetResult) {
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-        switch (language){
+        switch (language) {
             case AppConfig.KEY_LANGUAGE:
             case AppConfig.EN_US:
-                language="en-US";
+                language = "en-US";
                 break;
             case AppConfig.ZH_SIMPLE:
-                language="zh-CN";
+                language = "zh-CN";
                 break;
             case AppConfig.ZH_TRADITIONAL:
-                language="zh-TW";
+                language = "zh-TW";
                 break;
             case AppConfig.RU_RU:
-                language="ru-RU";
+                language = "ru-RU";
                 break;
             case AppConfig.JA_JP:
-                language="ja-JP";
+                language = "ja-JP";
                 break;
             case AppConfig.KO_KR:
-                language="ko-KR";
+                language = "ko-KR";
                 break;
             case AppConfig.VI_VN:
-                language="vi-VN";
+                language = "vi-VN";
                 break;
             case AppConfig.IN_ID:
-                language="in-ID";
+                language = "in-ID";
                 break;
 
         }
@@ -220,31 +219,31 @@ public class NetManger {
     public void getHostRequest(String host, String url, ArrayMap map, OnNetResult onNetResult) {
         Log.d("NetManger", "getHostRequest:动态:  " + getHostURL(host, url, map));
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-        switch (language){
+        switch (language) {
             case AppConfig.KEY_LANGUAGE:
             case AppConfig.EN_US:
-                language="en-US";
+                language = "en-US";
                 break;
             case AppConfig.ZH_SIMPLE:
-                language="zh-CN";
+                language = "zh-CN";
                 break;
             case AppConfig.ZH_TRADITIONAL:
-                language="zh-TW";
+                language = "zh-TW";
                 break;
             case AppConfig.RU_RU:
-                language="ru-RU";
+                language = "ru-RU";
                 break;
             case AppConfig.JA_JP:
-                language="ja-JP";
+                language = "ja-JP";
                 break;
             case AppConfig.KO_KR:
-                language="ko-KR";
+                language = "ko-KR";
                 break;
             case AppConfig.VI_VN:
-                language="vi-VN";
+                language = "vi-VN";
                 break;
             case AppConfig.IN_ID:
-                language="in-ID";
+                language = "in-ID";
                 break;
 
         }
@@ -1994,7 +1993,7 @@ public class NetManger {
 
 
     /*最新公告*/
-    public void discover( OnNetResult onNetResult) {
+    public void discover(OnNetResult onNetResult) {
         getRequest("/api/discover/index.htm", null, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
@@ -2012,8 +2011,6 @@ public class NetManger {
             }
         });
     }
-
-
 
 
     /*提币*/
@@ -2109,31 +2106,31 @@ public class NetManger {
     /*验证码获取的*/
     public void Gt3GetRequest(String url, OnNetResult onNetResult) {
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-        switch (language){
+        switch (language) {
             case AppConfig.KEY_LANGUAGE:
             case AppConfig.EN_US:
-                language="en-US";
+                language = "en-US";
                 break;
             case AppConfig.ZH_SIMPLE:
-                language="zh-CN";
+                language = "zh-CN";
                 break;
             case AppConfig.ZH_TRADITIONAL:
-                language="zh-TW";
+                language = "zh-TW";
                 break;
             case AppConfig.RU_RU:
-                language="ru-RU";
+                language = "ru-RU";
                 break;
             case AppConfig.JA_JP:
-                language="ja-JP";
+                language = "ja-JP";
                 break;
             case AppConfig.KO_KR:
-                language="ko-KR";
+                language = "ko-KR";
                 break;
             case AppConfig.VI_VN:
-                language="vi-VN";
+                language = "vi-VN";
                 break;
             case AppConfig.IN_ID:
-                language="in-ID";
+                language = "in-ID";
                 break;
 
         }
@@ -2165,31 +2162,31 @@ public class NetManger {
             listValue.add(value);
         }
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-        switch (language){
+        switch (language) {
             case AppConfig.KEY_LANGUAGE:
             case AppConfig.EN_US:
-                language="en-US";
+                language = "en-US";
                 break;
             case AppConfig.ZH_SIMPLE:
-                language="zh-CN";
+                language = "zh-CN";
                 break;
             case AppConfig.ZH_TRADITIONAL:
-                language="zh-TW";
+                language = "zh-TW";
                 break;
             case AppConfig.RU_RU:
-                language="ru-RU";
+                language = "ru-RU";
                 break;
             case AppConfig.JA_JP:
-                language="ja-JP";
+                language = "ja-JP";
                 break;
             case AppConfig.KO_KR:
-                language="ko-KR";
+                language = "ko-KR";
                 break;
             case AppConfig.VI_VN:
-                language="vi-VN";
+                language = "vi-VN";
                 break;
             case AppConfig.IN_ID:
-                language="in-ID";
+                language = "in-ID";
                 break;
 
         }
@@ -2240,7 +2237,7 @@ public class NetManger {
 
 
     /*注册*/
-    public void register(boolean isEmail, String countryID, String country_code, String account, String pass, String sign, OnNetResult onNetResult) {
+    public void register(boolean isEmail, String countryID, String country_code, String account, String pass, String sign, String kode, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         if (isEmail) {
             map.put("email", account);
@@ -2250,6 +2247,7 @@ public class NetManger {
         }
         map.put("password", URLEncoder.encode(pass));
         map.put("sign", sign);
+        map.put("ru", kode);
         postRequest("/api/register/submit", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
@@ -2273,31 +2271,31 @@ public class NetManger {
     //版本更新
     public void updateCheck(Activity activity, View layout_view) {
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-        switch (language){
+        switch (language) {
             case AppConfig.KEY_LANGUAGE:
             case AppConfig.EN_US:
-                language="en-US";
+                language = "en-US";
                 break;
             case AppConfig.ZH_SIMPLE:
-                language="zh-CN";
+                language = "zh-CN";
                 break;
             case AppConfig.ZH_TRADITIONAL:
-                language="zh-TW";
+                language = "zh-TW";
                 break;
             case AppConfig.RU_RU:
-                language="ru-RU";
+                language = "ru-RU";
                 break;
             case AppConfig.JA_JP:
-                language="ja-JP";
+                language = "ja-JP";
                 break;
             case AppConfig.KO_KR:
-                language="ko-KR";
+                language = "ko-KR";
                 break;
             case AppConfig.VI_VN:
-                language="vi-VN";
+                language = "vi-VN";
                 break;
             case AppConfig.IN_ID:
-                language="in-ID";
+                language = "in-ID";
                 break;
 
         }

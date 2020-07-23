@@ -76,7 +76,8 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     @BindView(R.id.btn_submit)
     Button btn_submit;
     private String gt;
-
+    @BindView(R.id.edit_kode)
+    EditText edit_kode;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -252,6 +253,9 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
 
             case R.id.btn_submit:
 
+
+                String value_kode = edit_kode.getText().toString();
+
                 if (account_value.equals("")) {
                     Toast.makeText(getContext(), getResources().getString(R.string.text_email_input), Toast.LENGTH_SHORT).show();
                     return;
@@ -272,6 +276,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 HashMap<String, String> map2 = new HashMap<>();
                 map2.put("email", account_value);
                 map2.put("password", pass_value);
+                map2.put("ru",value_kode);
 
                 String value_sign = Util.getSign(map2, AppConfig.SIGN_KEY);
 
@@ -291,7 +296,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                         Log.d("print", "onClick:验证验证码: " + tipEntity);
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck()) {
                             //成功了再注册
-                            register(account_value, pass_value, value_sign);
+                            register(account_value, pass_value, value_sign,value_kode);
 
 
                         } else {
@@ -315,10 +320,10 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    private void register(String account_value, String pass_value, String value_sign) {
+    private void register(String account_value, String pass_value, String value_sign,String value_kode) {
 
 
-        NetManger.getInstance().register(true,null,null,account_value, pass_value, value_sign, (state, response) -> {
+        NetManger.getInstance().register(true,null,null,account_value, pass_value, value_sign,value_kode, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {
