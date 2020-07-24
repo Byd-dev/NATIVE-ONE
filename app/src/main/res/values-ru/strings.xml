@@ -78,7 +78,7 @@
     <string name="text_open">Позиция</string>
     <string name="text_order">Рассматривается</string>
     <string name="text_history">История</string>
-    <string name="text_detail">Посмотреть больше</string>
+    <string name="text_detail">Детали</string>
     <string name="text_stoploss_price">SL</string>
     <string name="text_close_out_color">Закрытие</string>
     <string name="text_profit_loss">TP/SL</string>
@@ -312,7 +312,7 @@
     <string name="text_margin_start">Начальная маржа</string>
     <string name="text_initial_leverage">Начальное плечо</string>
     <string name="text_history_detail">История</string>
-    <string name="text_home_tip_login">Регистрируйся и получай 258USDT·Зайди сейчас</string>
+    <string name="text_home_tip_login">Скачать APP·Майнинг</string>
     <string name="text_login_register">Войти/Регистрация</string>
     <string name="text_share">Поделиться</string>
     <string name="text_my_rate_return">Моя норма прибыли</string>

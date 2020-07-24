@@ -49,6 +49,10 @@ public class InitManger extends Observable {
 
     public void init() {
 
+
+
+
+
         //判断是否登录
         NetManger.getInstance().isLogin(response -> {
             boolean isLogin = (boolean) response;

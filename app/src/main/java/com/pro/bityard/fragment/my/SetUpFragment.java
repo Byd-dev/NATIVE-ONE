@@ -53,39 +53,26 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
             text_theme.setText(getResources().getText(R.string.text_day));
         }
 
-        Locale locale = getResources().getConfiguration().locale;
 
-        String language2 = locale.getLanguage();
-
-        String local = Locale.getDefault().toString();
-
-        String country =getResources().getConfiguration().locale.getCountry();
-
-        Log.d("zxy", "tjCountry: language:"+ language2+",local:"+local+",country:"+country);
 
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
         Log.d("print", "onResume:57设置页面: " + language);
-        if (language.equals(AppConfig.KEY_LANGUAGE)) {
-            text_language.setText(local);
-
-        } else {
-            if (language.equals(AppConfig.EN_US)) {
-                text_language.setText(getResources().getText(R.string.text_english));
-            } else if (language.equals(AppConfig.ZH_SIMPLE)) {
-                text_language.setText(getResources().getText(R.string.text_chinese));
-            } else if (language.equals(AppConfig.ZH_TRADITIONAL)) {
-                text_language.setText(getResources().getText(R.string.text_traditional));
-            } else if (language.equals(AppConfig.JA_JP)) {
-                text_language.setText(getResources().getText(R.string.text_japan));
-            } else if (language.equals(AppConfig.KO_KR)) {
-                text_language.setText(getResources().getText(R.string.text_korean));
-            } else if (language.equals(AppConfig.VI_VN)) {
-                text_language.setText(getResources().getText(R.string.text_vi));
-            } else if (language.equals(AppConfig.RU_RU)) {
-                text_language.setText(getResources().getText(R.string.text_ru));
-            } else if (language.equals(AppConfig.IN_ID)) {
-                text_language.setText(getResources().getText(R.string.text_id));
-            }
+        if (language.equals(AppConfig.EN_US)) {
+            text_language.setText(getResources().getText(R.string.text_english));
+        } else if (language.equals(AppConfig.ZH_SIMPLE)) {
+            text_language.setText(getResources().getText(R.string.text_chinese));
+        } else if (language.equals(AppConfig.ZH_TRADITIONAL)) {
+            text_language.setText(getResources().getText(R.string.text_traditional));
+        } else if (language.equals(AppConfig.JA_JP)) {
+            text_language.setText(getResources().getText(R.string.text_japan));
+        } else if (language.equals(AppConfig.KO_KR)) {
+            text_language.setText(getResources().getText(R.string.text_korean));
+        } else if (language.equals(AppConfig.VI_VN)) {
+            text_language.setText(getResources().getText(R.string.text_vi));
+        } else if (language.equals(AppConfig.RU_RU)) {
+            text_language.setText(getResources().getText(R.string.text_ru));
+        } else if (language.equals(AppConfig.IN_ID)) {
+            text_language.setText(getResources().getText(R.string.text_id));
         }
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         text_rate.setText(cny);

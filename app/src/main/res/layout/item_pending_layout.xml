@@ -3,11 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
+
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_3"
-        android:background="@color/home_line"
-        />
+        android:background="@color/home_line" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="160dp"
@@ -33,10 +34,10 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
                     android:text="BTC"
-                    android:typeface="monospace"
-
                     android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_big" />
+
+                    android:textSize="@dimen/size_big"
+                    android:typeface="monospace" />
 
                 <TextView
                     android:id="@+id/text_name_usdt"
@@ -45,9 +46,9 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/text_name"
                     android:text="/USDT"
-                    android:typeface="monospace"
                     android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal" />
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
 
                 <ImageView
                     android:id="@+id/img_buy"
@@ -67,9 +68,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
                     android:text="--"
-                    android:typeface="monospace"
                     android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_normal" />
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
 
             </RelativeLayout>
 
@@ -91,20 +92,20 @@
                     android:paddingLeft="@dimen/margin_15"
                     android:paddingRight="@dimen/margin_15"
                     android:text="@string/text_detail"
-                    android:typeface="monospace"
-
                     android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal" />
+
+                    android:textSize="@dimen/size_normal"
+                    android:typeface="monospace" />
 
             </RelativeLayout>
 
         </LinearLayout>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_line"
-            android:background="@color/home_line"
             android:layout_marginLeft="@dimen/margin_15"
-            />
+            android:background="@color/home_line" />
         <!--2-->
         <LinearLayout
             android:layout_width="match_parent"
@@ -112,17 +113,17 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1.5"
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
                     <LinearLayout
+                        android:id="@+id/layout_one"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -143,8 +144,8 @@
                             android:id="@+id/text_buy_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="--"
                             android:layout_marginLeft="@dimen/margin_5"
+                            android:text="--"
                             android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace"
@@ -156,8 +157,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_toRightOf="@id/layout_one"
                         android:orientation="horizontal">
 
                         <TextView
@@ -174,10 +176,10 @@
                             android:id="@+id/text_loss_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
                             android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
-                            android:layout_marginLeft="@dimen/margin_5"
                             android:typeface="monospace"
 
                             />
@@ -187,11 +189,12 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="0dp"
                     android:layout_weight="1">
 
                     <LinearLayout
+                        android:id="@+id/layout_two"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -212,10 +215,10 @@
                             android:id="@+id/text_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
                             android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
-                            android:layout_marginLeft="@dimen/margin_5"
                             android:typeface="monospace"
 
                             />
@@ -225,8 +228,9 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_toRightOf="@id/layout_two"
                         android:orientation="horizontal">
 
                         <TextView
@@ -243,10 +247,10 @@
                             android:id="@+id/text_profit_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_5"
                             android:text="--"
                             android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal"
-                            android:layout_marginLeft="@dimen/margin_5"
                             android:typeface="monospace"
 
                             />
@@ -258,9 +262,8 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -277,8 +280,6 @@
                     android:layout_weight="1">
 
 
-
-
                 </RelativeLayout>
 
 
@@ -288,39 +289,38 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_line"
-            android:background="@color/home_line"
-            />
+            android:background="@color/home_line" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
             >
+
             <TextView
                 android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="--"
                 android:layout_centerVertical="true"
-                android:textSize="@dimen/size_normal"
                 android:layout_marginLeft="@dimen/margin_15"
+                android:text="--"
                 android:textColor="@color/text_second_color"
-                />
+                android:textSize="@dimen/size_normal" />
 
             <TextView
                 android:id="@+id/text_cancel"
                 android:layout_width="70dp"
                 android:layout_height="@dimen/margin_28"
-                android:gravity="center"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/margin_15"
                 android:layout_centerVertical="true"
-                android:textSize="@dimen/size_normal"
-                android:textColor="@color/text_main_color_black"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@drawable/bg_shape_main_color"
+                android:gravity="center"
                 android:text="@string/text_cancel"
-                android:typeface="monospace"
+                android:textColor="@color/text_main_color_black"
+                android:textSize="@dimen/size_normal"
 
-                android:background="@drawable/bg_shape_main_color"/>
-
+                android:typeface="monospace" />
 
 
         </RelativeLayout>
@@ -331,8 +331,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line"
-        android:background="@color/home_line"
-        />
+        android:background="@color/home_line" />
 
 
 </LinearLayout>

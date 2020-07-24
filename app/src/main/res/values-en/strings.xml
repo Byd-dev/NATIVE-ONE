@@ -77,7 +77,7 @@
     <string name="text_open">Position</string>
     <string name="text_order">Pending</string>
     <string name="text_history">History</string>
-    <string name="text_detail">View More</string>
+    <string name="text_detail">Details</string>
     <string name="text_stoploss_price">SL</string>
     <string name="text_close_out_color">Close</string>
     <string name="text_profit_loss">TP/SL</string>
@@ -312,7 +312,7 @@
     <string name="text_margin_start">Initial Margin</string>
     <string name="text_initial_leverage">Initial leverage</string>
     <string name="text_history_detail">History</string>
-    <string name="text_home_tip_login">Sign up and earn 258USDT·Login and get it</string>
+    <string name="text_home_tip_login">Download APP·Daily Mining</string>
     <string name="text_login_register">Login/Register</string>
     <string name="text_share">Share</string>
     <string name="text_my_rate_return">My Rate of Return</string>

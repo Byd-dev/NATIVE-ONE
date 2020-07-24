@@ -62,6 +62,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
@@ -576,6 +577,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     @Override
     protected void initView(View view) {
         Toast.makeText(this, "执行了initView", Toast.LENGTH_SHORT).show();
+
+
 
 
         //首页监听

@@ -86,7 +86,7 @@ public class AppConfig {
 
 
     public static final String EN_US = "en_US";
-    public static final String ZH_SIMPLE = "zh_simple";
+    public static final String ZH_SIMPLE = "zh_CN";
     public static final String ZH_TRADITIONAL = "zh_traditional";
     public static final String JA_JP = "ja_JP";
     public static final String KO_KR = "ko_KR";

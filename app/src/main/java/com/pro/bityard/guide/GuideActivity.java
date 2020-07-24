@@ -25,6 +25,7 @@ import com.stx.xhb.xbanner.XBanner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
@@ -73,6 +74,10 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initView(View view) {
+
+
+
+
 
         PermissionUtil.getInstance().initPermission(this, response -> {
             if (response == SUCCESS) {
@@ -129,6 +134,14 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void initData() {
+
+
+        String language_local = Locale.getDefault().toString();
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        if (language.equals(AppConfig.KEY_LANGUAGE)) {
+            SPUtils.putString(AppConfig.KEY_LANGUAGE, language_local);
+        }
+
 
 
     }

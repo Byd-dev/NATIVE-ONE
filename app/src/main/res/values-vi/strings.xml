@@ -78,7 +78,7 @@
     <string name="text_open">Vị thế</string>
     <string name="text_order">Lệnh chờ</string>
     <string name="text_history">Lịch sử</string>
-    <string name="text_detail">Xem thêm</string>
+    <string name="text_detail">Chi tiết</string>
     <string name="text_stoploss_price">SL</string>
     <string name="text_close_out_color">Đóng thế</string>
     <string name="text_profit_loss">TP/SL</string>
@@ -312,7 +312,7 @@
     <string name="text_margin_start">Ký quỹ ban đầu</string>
     <string name="text_initial_leverage">Đòn bẩy ban đầu</string>
     <string name="text_history_detail">Lịch sử</string>
-    <string name="text_home_tip_login">Đăng ký nhận 258USDT Đăng nhập nhận thưởng hàng ngày</string>
+    <string name="text_home_tip_login">Tải APP khai thác hàng ngày</string>
     <string name="text_login_register">Nhận ngay</string>
     <string name="text_share">Chia sẻ</string>
     <string name="text_my_rate_return">Tỷ lệ lợi nhuận</string>

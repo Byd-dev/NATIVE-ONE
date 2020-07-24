@@ -103,7 +103,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     TextView text_err_pass;
     //地区的适配器
     private CountryCodeAdapter countryCodeAdapter;
-    private CountryCodeHeadAdapter countryCodeHeadAdapter, countryCodeSearchAdapter;
+    private CountryCodeHeadAdapter countryCodeSearchAdapter;
     private List<CountryCodeEntity.DataBean> searchData;
 
     private CountryCodeEntity countryCodeEntity;
@@ -267,7 +267,6 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
     }
 
-    private String geetestToken = null;
     private boolean eye = true;
 
 
@@ -528,7 +527,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.item_head_country_code_layout, null);
         countryCodeAdapter = new CountryCodeAdapter(getActivity());
-        countryCodeHeadAdapter = new CountryCodeHeadAdapter(getActivity());
+        CountryCodeHeadAdapter countryCodeHeadAdapter = new CountryCodeHeadAdapter(getActivity());
         countryCodeSearchAdapter = new CountryCodeHeadAdapter(getActivity());
         RecyclerView recyclerViewHead = headView.findViewById(R.id.recyclerview_head);
         recyclerViewHead.setLayoutManager(new LinearLayoutManager(getActivity()));

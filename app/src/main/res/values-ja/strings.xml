@@ -312,7 +312,7 @@
     <string name="text_margin_start">初期証拠金</string>
     <string name="text_initial_leverage">初期レバレッジ</string>
     <string name="text_history_detail">履歴詳細</string>
-    <string name="text_home_tip_login">新規登録＆毎日ログイン 特典進呈！</string>
+    <string name="text_home_tip_login">APPをダウンロードして毎日採掘</string>
     <string name="text_login_register">Login/Register</string>
     <string name="text_share">シェア</string>
     <string name="text_my_rate_return">収益率</string>
