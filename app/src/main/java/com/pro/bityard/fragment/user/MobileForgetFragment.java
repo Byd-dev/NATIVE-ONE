@@ -210,8 +210,8 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
     @Override
     protected void initData() {
 
-        //获取默认的国家区号 如果没有地理位置 就默认中国
-        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME, "中国");
+        //获取默认的国家区号 如果没有地理位置 就默认CHINA
+        String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME, "CHINA");
 
         text_countryName.setText(country_name);
 

@@ -428,7 +428,7 @@
     <string name="text_update">update</string>
     <string name="text_ignore">ignore</string>
     <string name="text_progressing">progressing~</string>
-    <string name="text_kode">邀请码（选填）</string>
-    <string name="text_kode_input">请输入邀请码</string>
+    <string name="text_kode">초대 코드 (선택)</string>
+    <string name="text_kode_input">초대 코드를 입력해 주세요.</string>
 
 </resources>

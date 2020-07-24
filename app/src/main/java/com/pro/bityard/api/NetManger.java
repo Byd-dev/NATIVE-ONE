@@ -1439,7 +1439,7 @@ public class NetManger {
                     CountryCodeEntity countryCodeEntity = new Gson().fromJson(response.toString(), CountryCodeEntity.class);
                     List<CountryCodeEntity.DataBean> data = countryCodeEntity.getData();
                     for (int i = 0; i < data.size(); i++) {
-                        if (data.get(i).getNameCn().equals("中国") ||
+                        if (data.get(i).getNameCn().equals("CHINA") ||
                                 data.get(i).getNameCn().equals("中国香港") ||
                                 data.get(i).getNameCn().equals("美国") ||
                                 data.get(i).getNameCn().equals("韩国") ||
