@@ -60,6 +60,7 @@ import com.stx.xhb.xbanner.XBanner;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -137,7 +138,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
 
     /*market---------------------------------------------------*/
-    private String[] titleList = new String[]{"自选", "主流区", "创新区"};
+    private List<String> titleList;
 
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
@@ -262,12 +263,18 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
             Log.d("print", "update:264:  " + quoteList + "   " + type);
+            
             if (quoteList != null) {
                 runOnUiThread(() -> {
+                    layout_null.setVisibility(View.GONE);
+                    recyclerView_market.setVisibility(View.VISIBLE);
                     quoteHomeAdapter.setDatas(arrayMap.get("5"));
                     quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
                 });
+            }else {
+                layout_null.setVisibility(View.VISIBLE);
+                recyclerView_market.setVisibility(View.GONE);
             }
 
 
@@ -669,6 +676,10 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
         layout_null.setVisibility(View.GONE);
 
+        titleList = new ArrayList<>();
+        titleList.add(getResources().getString(R.string.text_optional));
+        titleList.add(getResources().getString(R.string.text_main_zone));
+        titleList.add(getResources().getString(R.string.text_innovate));
         for (String market_name : titleList) {
             tabLayout_market.addTab(tabLayout_market.newTab().setText(market_name));
         }
@@ -682,8 +693,13 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 flag_new_price = false;
                 flag_up_down = false;
                 flag_name = false;
+                if (arrayMap==null){
+                    return;
+                }
+
                 if (tab.getPosition() == 0) {
                     type = "16";
+
                     quoteList = arrayMap.get(type);
                     Log.d("print", "onTabSelected:684:  " + quoteList + "  " + type);
                     if (quoteList == null) {
@@ -700,6 +716,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     zone_type = -1;
                 } else if (tab.getPosition() == 1) {
                     type = "0";
+
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
                         layout_null.setVisibility(View.VISIBLE);
@@ -715,6 +732,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     zone_type = 1;
                 } else if (tab.getPosition() == 2) {
                     type = "9";
+
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
                         layout_null.setVisibility(View.VISIBLE);

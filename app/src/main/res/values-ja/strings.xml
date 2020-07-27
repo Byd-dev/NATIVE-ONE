@@ -431,6 +431,8 @@
     <string name="text_kode">紹介コード（オプション）</string>
     <string name="text_kode_input">紹介コードを入れて下さい</string>
     <string name="text_optional">オプション</string>
+    <string name="text_main_zone">メイン</string>
+    <string name="text_innovate">ニューコイン</string>
 
 
 </resources>

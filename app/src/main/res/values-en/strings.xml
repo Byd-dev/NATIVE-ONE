@@ -431,5 +431,7 @@
     <string name="text_kode">Invitation Code (Optional)</string>
     <string name="text_kode_input">Enter Invitation Code</string>
     <string name="text_optional">Optional</string>
+    <string name="text_main_zone">Main</string>
+    <string name="text_innovate">Innovate</string>
 
 </resources>

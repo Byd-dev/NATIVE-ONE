@@ -432,5 +432,7 @@
     <string name="text_kode">Kode referral(Opsional)</string>
     <string name="text_kode_input">Masukan kode referral</string>
     <string name="text_optional">Pilihan</string>
+    <string name="text_main_zone">Utama</string>
+    <string name="text_innovate">Inovasi</string>
 
 </resources>

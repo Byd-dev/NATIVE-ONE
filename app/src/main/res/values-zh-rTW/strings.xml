@@ -431,5 +431,7 @@
     <string name="text_kode">邀請碼（選填）</string>
     <string name="text_kode_input">請輸入邀請碼</string>
     <string name="text_optional">自選</string>
+    <string name="text_main_zone">主流區</string>
+    <string name="text_innovate">創新區</string>
 
 </resources>

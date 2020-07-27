@@ -52,7 +52,6 @@ public class TagManger extends Observable {
         SPUtils.remove(AppConfig.CHANGE_MOBILE);
         SPUtils.remove(AppConfig.CHANGE_EMAIL);
         SPUtils.remove(AppConfig.KEY_UNION);
-        SPUtils.remove(AppConfig.KEY_OPTIONAL);
 
     }
 

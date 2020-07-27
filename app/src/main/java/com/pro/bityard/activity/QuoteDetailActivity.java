@@ -866,7 +866,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.layout_optional:
 
                 String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
-                Log.d("print", "onClick:862:  " + optional);
                 if (quote != null) {
                     if (setList.contains(listQuoteName(quote))) {
                         img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
@@ -874,6 +873,15 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     } else {
                         img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                         setList.add(listQuoteName(quote));
+                    }
+                    SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
+                } else {
+                    if (setList.contains(listQuoteName(itemData))) {
+                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                        setList.remove(listQuoteName(itemData));
+                    } else {
+                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                        setList.add(listQuoteName(itemData));
                     }
                     SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
                 }
