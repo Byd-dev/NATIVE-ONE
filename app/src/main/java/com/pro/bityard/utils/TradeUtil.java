@@ -72,11 +72,11 @@ public class TradeUtil {
     }
 
     public static String numberHalfUp(double value, int scale) {
-        if (value!=0){
+        if (value != 0) {
             BigDecimal bd = new BigDecimal(value);
             String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五
             return mon;
-        }else {
+        } else {
             if (scale == 7) {
                 DecimalFormat format = new DecimalFormat("0.0000000");
                 BigDecimal bigDecimal = new BigDecimal(value);
@@ -1193,6 +1193,16 @@ public class TradeUtil {
         } else {
             onResult.setResult(8);
 
+        }
+    }
+
+    public static void getFee(String withdrawChain, String chain, OnResult onResult) {
+        String[] split = withdrawChain.split(",");
+        for (String chains : split) {
+            if (chains.startsWith(chain)) {
+                String[] split1 = chains.split("-");
+                onResult.setResult(split1[1]);
+            }
         }
     }
 

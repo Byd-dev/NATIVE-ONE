@@ -48,22 +48,24 @@ public class WithdrawalAdressEntity {
     }
 
     public static class DataBean {
+
         @Override
         public String toString() {
             return "DataBean{" +
                     "address='" + address + '\'' +
                     ", authed=" + authed +
-                    ", brand=" + brand +
+                    ", brand='" + brand + '\'' +
                     ", chain='" + chain + '\'' +
                     ", count=" + count +
                     ", createTime=" + createTime +
                     ", currency='" + currency + '\'' +
                     ", id='" + id + '\'' +
-                    ", order=" + order +
+                    ", order='" + order + '\'' +
                     ", remark='" + remark + '\'' +
                     ", type=" + type +
-                    ", userId=" + userId +
+                    ", userId='" + userId + '\'' +
                     ", withdraw='" + withdraw + '\'' +
+                    ", withdrawChain='" + withdrawChain + '\'' +
                     '}';
         }
 
@@ -84,7 +86,6 @@ public class WithdrawalAdressEntity {
          */
 
 
-
         private String address;
         private boolean authed;
         private String brand;
@@ -98,6 +99,15 @@ public class WithdrawalAdressEntity {
         private int type;
         private String userId;
         private String withdraw;
+        private String withdrawChain;
+
+        public String getWithdrawChain() {
+            return withdrawChain;
+        }
+
+        public void setWithdrawChain(String withdrawChain) {
+            this.withdrawChain = withdrawChain;
+        }
 
         public String getAddress() {
             return address;

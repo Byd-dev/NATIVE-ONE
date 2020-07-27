@@ -104,6 +104,9 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     private String chain = "OMNI";
     private LoginEntity loginEntity;
+
+    @BindView(R.id.text_fee)
+    TextView text_fee;
     //private String account;
 
     @BindView(R.id.layout_address)
@@ -161,6 +164,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         NetManger.getInstance().withdrawalAddressList((state, response) -> {
             if (state.equals(SUCCESS)) {
                 withdrawalAdressEntity = (WithdrawalAdressEntity) response;
+
             }
         });
 
@@ -876,6 +880,11 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             chain = data.getChain();
             chainListAdapter.select(chain);
             recyclerView.setAdapter(chainListAdapter);
+
+            String withdrawChain = data.getWithdrawChain();
+            TradeUtil.getFee(withdrawChain, chain, response -> {
+                text_fee.setText(response.toString()+" " + getResources().getString(R.string.text_usdt));
+            });
 
 
         });

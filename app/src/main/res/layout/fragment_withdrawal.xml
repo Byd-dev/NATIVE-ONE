@@ -193,6 +193,7 @@
                         android:textSize="@dimen/size_normal_two" />
 
                     <TextView
+                        android:id="@+id/text_fee"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
