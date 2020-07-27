@@ -726,7 +726,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("BTCUSDT,BCHUSDT,EOSUSDT,ETCUSDT,ETHUSDT,LTCUSDT,XRPUSDT,TRXUSDT".contains(TradeUtil.listQuoteName(split[0]))) {
+            if ("BTC,BCH,EOS,ETC,ETH,LTC,XRP,TRX".contains(TradeUtil.listQuoteName(split[0]))) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -739,11 +739,31 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("ADAUSDT,XLMUSDT,XTZUSDT,ZRXUSDT,BATUSDT,KNCUSDT,LINKUSDT,DASHUSDT".contains(TradeUtil.listQuoteName(split[0]))) {
+            if ("ADA,XLM,XTZ,ZRX,BAT,KNC,LINK,DASH".contains(TradeUtil.listQuoteName(split[0]))) {
                 quoteList2.add(mainQuote);
             }
         }
         return quoteList2;
+    }
+
+    /* 自选*/
+    public static List<String> optionalQuoteList(List<String> quoteList) {
+        String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
+        if (optional == null) {
+            return null;
+        } else if (optional.equals("")) {
+            return null;
+        } else {
+            List<String> quoteList2 = new ArrayList<>();
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                if (optional.contains(TradeUtil.listQuoteName(split[0]))) {
+                    quoteList2.add(mainQuote);
+                }
+            }
+            return quoteList2;
+        }
+
     }
 
     /*价格从大到小*/

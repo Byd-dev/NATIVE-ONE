@@ -139,6 +139,9 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     /*market---------------------------------------------------*/
     private String[] titleList = new String[]{"自选", "主流区", "创新区"};
 
+    @BindView(R.id.layout_null)
+    LinearLayout layout_null;
+
     @BindView(R.id.swipeRefreshLayout_market)
     SwipeRefreshLayout swipeRefreshLayout_market;
 
@@ -258,35 +261,33 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         if (o == QuoteListManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
-            runOnUiThread(() -> {
-                assert quoteList != null;
-                if (quoteList.size() >= 3) {
+            Log.d("print", "update:264:  " + quoteList + "   " + type);
+            if (quoteList != null) {
+                runOnUiThread(() -> {
                     quoteHomeAdapter.setDatas(arrayMap.get("5"));
                     quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
-
-
-                }
-            });
+                });
+            }
 
 
         } else if (o == QuoteCustomizeListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             List<String> quoteList = arrayMap.get(type);
-            runOnUiThread(() -> {
-                assert quoteList != null;
-                if (quoteList.size() >= 3) {
-                    if (isLogin()) {
-                        if (tradeType.equals("1")) {
-                            TradeUtil.setNetIncome(tradeType, positionRealList, quoteList);
-                        } else {
-                            TradeUtil.setNetIncome(tradeType, positionSimulationList, quoteList);
-
+            if (quoteList != null) {
+                runOnUiThread(() -> {
+                    assert quoteList != null;
+                    if (quoteList.size() >= 3) {
+                        if (isLogin()) {
+                            if (tradeType.equals("1")) {
+                                TradeUtil.setNetIncome(tradeType, positionRealList, quoteList);
+                            } else {
+                                TradeUtil.setNetIncome(tradeType, positionSimulationList, quoteList);
+                            }
                         }
                     }
-
-                }
-            });
+                });
+            }
 
 
         } else if (o == BalanceManger.getInstance()) {
@@ -519,6 +520,14 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         //初始化
         InitManger.getInstance().init();
 
+        if (quoteList == null) {
+            layout_null.setVisibility(View.VISIBLE);
+            recyclerView_market.setVisibility(View.GONE);
+        } else {
+            layout_null.setVisibility(View.GONE);
+            recyclerView_market.setVisibility(View.VISIBLE);
+        }
+
 
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
@@ -653,6 +662,12 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
         /*行情 分割线-----------------------------------------------------------------------------*/
 
+        quoteAdapter_market = new QuoteAdapter(this);
+        recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_market.setAdapter(quoteAdapter_market);
+
+
+        layout_null.setVisibility(View.GONE);
 
         for (String market_name : titleList) {
             tabLayout_market.addTab(tabLayout_market.newTab().setText(market_name));
@@ -667,10 +682,33 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 flag_new_price = false;
                 flag_up_down = false;
                 flag_name = false;
-                if (tab.getPosition() == 1) {
+                if (tab.getPosition() == 0) {
+                    type = "16";
+                    quoteList = arrayMap.get(type);
+                    Log.d("print", "onTabSelected:684:  " + quoteList + "  " + type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    zone_type = -1;
+                } else if (tab.getPosition() == 1) {
                     type = "0";
                     quoteList = arrayMap.get(type);
-                    quoteAdapter_market.setDatas(quoteList);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market.setDatas(quoteList);
+                    }
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
@@ -678,7 +716,14 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 } else if (tab.getPosition() == 2) {
                     type = "9";
                     quoteList = arrayMap.get(type);
-                    quoteAdapter_market.setDatas(quoteList);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market.setDatas(quoteList);
+                    }
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
@@ -697,9 +742,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             }
         });
 
-        quoteAdapter_market = new QuoteAdapter(this);
-        recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView_market.setAdapter(quoteAdapter_market);
+
         quoteAdapter_market.isShowIcon(true);
         @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null);
 
@@ -1085,7 +1128,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                         type = "1";
                     } else if (zone_type == 0) {
                         type = "10";
-
+                    } else if (zone_type == -1) {
+                        type = "17";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1100,6 +1144,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     } else if (zone_type == 0) {
                         type = "11";
 
+                    } else if (zone_type == -1) {
+                        type = "18";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1121,6 +1167,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     } else if (zone_type == 0) {
                         type = "12";
 
+                    } else if (zone_type == -1) {
+                        type = "19";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1133,6 +1181,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     } else if (zone_type == 0) {
                         type = "13";
 
+                    } else if (zone_type == -1) {
+                        type = "20";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1154,6 +1204,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     } else if (zone_type == 0) {
                         type = "15";
 
+                    } else if (zone_type == -1) {
+                        type = "21";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1166,6 +1218,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     } else if (zone_type == 0) {
                         type = "14";
 
+                    } else if (zone_type == -1) {
+                        type = "22";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);

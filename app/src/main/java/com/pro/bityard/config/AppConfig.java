@@ -56,7 +56,8 @@ public class AppConfig {
     public static final String SUPPORT_CURRENCY = "SUPPORT_CURRENCY";
     /*抵扣金额*/
     public static final String PRIZE_TRADE = "prizeTrade";
-
+    /*本地自选*/
+    public static final String KEY_OPTIONAL = "KEY_OPTIONAL";
     /*汇率*/
     public static final String USDT = "USDT";
     public static final String BTC = "BTC";

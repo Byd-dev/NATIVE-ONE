@@ -430,5 +430,6 @@
     <string name="text_progressing">progressing~</string>
     <string name="text_kode">Код приглашения (необязательно)</string>
     <string name="text_kode_input">Введите код приглашения</string>
+    <string name="text_optional">По желанию</string>
 
 </resources>

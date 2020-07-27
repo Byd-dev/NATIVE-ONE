@@ -430,5 +430,6 @@
     <string name="text_progressing">progressing~</string>
     <string name="text_kode">초대 코드 (선택)</string>
     <string name="text_kode_input">초대 코드를 입력해 주세요.</string>
+    <string name="text_optional">옵션</string>
 
 </resources>

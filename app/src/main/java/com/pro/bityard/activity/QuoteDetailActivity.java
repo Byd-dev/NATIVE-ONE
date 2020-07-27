@@ -67,10 +67,12 @@ import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -217,6 +219,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     NoVolumeView myKLineView_1_week;
     @BindView(R.id.kline_1month)
     NoVolumeView myKLineView_1_month;
+
+
     private RadioGroupAdapter radioGroupAdapter;//杠杆适配器
     private RadioRateAdapter radioRateProfitAdapter, radioRateLossAdapter;
 
@@ -275,6 +279,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.text_limit_currency)
     TextView text_limit_currency;
+    @BindView(R.id.img_star)
+    ImageView img_star;
+    private boolean flag_optional = false;
 
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, QuoteDetailActivity.class);
@@ -299,6 +306,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             stay_view.setVisibility(View.GONE);
 
         }
+
 
     }
 
@@ -407,6 +415,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.text_one_week).setOnClickListener(this);
         findViewById(R.id.text_one_month).setOnClickListener(this);
         findViewById(R.id.text_rule).setOnClickListener(this);
+        //自选监听
+        findViewById(R.id.layout_optional).setOnClickListener(this);
 
 
         radioGroupAdapter = new RadioGroupAdapter(this);
@@ -540,6 +550,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     }
 
+    private Set<String> setList;
 
     @Override
     protected void initData() {
@@ -547,6 +558,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         assert bundle != null;
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
+
+
         //礼金抵扣比例
         prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
 
@@ -554,6 +567,22 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         if (itemData.equals("")) {
             return;
         }
+        //自选的图标
+        String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
+        Log.d("print", "onClick:569:  " + optional);
+        setList = new HashSet<>();
+        if (optional != null) {
+            String[] split = optional.split(",");
+            for (String a : split) {
+                setList.add(a);
+            }
+            if (setList.contains(listQuoteName(itemData))) {
+                img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+            } else {
+                img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+            }
+        }
+
 
         text_market_currency.setText(TradeUtil.listQuoteName(itemData));
         text_limit_currency.setText(TradeUtil.listQuoteName(itemData));
@@ -832,6 +861,24 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             case R.id.layout_product:
                 img_right.setImageDrawable(getResources().getDrawable(R.mipmap.icon_market_open));
                 showProductWindow(quoteList);
+                break;
+            //自选的监听
+            case R.id.layout_optional:
+
+                String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
+                Log.d("print", "onClick:862:  " + optional);
+                if (quote != null) {
+                    if (setList.contains(listQuoteName(quote))) {
+                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                        setList.remove(listQuoteName(quote));
+                    } else {
+                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                        setList.add(listQuoteName(quote));
+                    }
+                    SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
+                }
+
+
                 break;
 
 
@@ -1223,6 +1270,22 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         quotePopAdapter.setOnItemClick(data -> {
 
+            //自选的图标
+            String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
+            setList = new HashSet<>();
+            if (optional != null) {
+                String[] split = optional.split(",");
+                for (String a : split) {
+                    setList.add(a);
+                }
+                if (setList.contains(listQuoteName(data))) {
+                    img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                } else {
+                    img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                }
+            }
+
+
             text_market_currency.setText(TradeUtil.listQuoteName(data));
             text_limit_currency.setText(TradeUtil.listQuoteName(data));
 
@@ -1438,6 +1501,22 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             quote = data.getQuote();
             if (quote != null) {
+                /*String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
+                if (optional == null) {
+                    img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                    flag_optional = true;
+                } else {
+                    if (img_star != null) {
+                        if (optional.contains(listQuoteName(quote))) {
+                            img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                            flag_optional = false;
+                        } else {
+                            img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                            flag_optional = true;
+                        }
+                    }
+                }*/
+
                 //仓位实时更新 服务费
                 if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
                     text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));

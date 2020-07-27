@@ -96,25 +96,32 @@ public class QuoteCustomizeListManger extends Observable {
                     QuoteEntity quoteEntity = new Gson().fromJson(jsonReplace, QuoteEntity.class);
                     String data = quoteEntity.getData();
                     List<String> strings = Util.quoteResult(data);
+                    //主区
+                    List<String> mainQuoteList = TradeUtil.mainQuoteList(strings);
+                    //创新区
                     List<String> innovationQuoteList = TradeUtil.innovationQuoteList(strings);
+                    //自选
+                    List<String> optionalQuoteList = TradeUtil.optionalQuoteList(strings);
+
+
+                    //BTC BCH ETH
+                    List<String> stringList4 = TradeUtil.homeHot(mainQuoteList);
+                    //除去 BTC BCH ETH
+                    List<String> stringList5 = TradeUtil.homeList(mainQuoteList);
 
 
                     //价格从高到低
-                    List<String> stringList = TradeUtil.priceHighToLow(strings);
+                    List<String> stringList = TradeUtil.priceHighToLow(mainQuoteList);
                     //价格从低到高
-                    List<String> stringList1 = TradeUtil.priceLowToHigh(strings);
+                    List<String> stringList1 = TradeUtil.priceLowToHigh(mainQuoteList);
                     //涨跌幅从高到低
-                    List<String> stringList2 = TradeUtil.rangeHighToLow(strings);
+                    List<String> stringList2 = TradeUtil.rangeHighToLow(mainQuoteList);
                     //涨跌幅从低到高
-                    List<String> stringList3 = TradeUtil.rangeLowToHigh(strings);
-                    //BTC BCH ETH
-                    List<String> stringList4 = TradeUtil.homeHot(strings);
-                    //除去 BTC BCH ETH
-                    List<String> stringList5 = TradeUtil.homeList(strings);
+                    List<String> stringList3 = TradeUtil.rangeLowToHigh(mainQuoteList);
                     //字母a-z
-                    List<String> stringList6 = TradeUtil.nameLowToHigh(strings);
+                    List<String> stringList6 = TradeUtil.nameLowToHigh(mainQuoteList);
                     //字母z-a
-                    List<String> stringList7 = TradeUtil.nameHighToLow(strings);
+                    List<String> stringList7 = TradeUtil.nameHighToLow(mainQuoteList);
 
 
                     //价格从高到低
@@ -129,8 +136,37 @@ public class QuoteCustomizeListManger extends Observable {
                     List<String> stringList12 = TradeUtil.nameLowToHigh(innovationQuoteList);
                     //字母z-a
                     List<String> stringList13 = TradeUtil.nameHighToLow(innovationQuoteList);
-                    arrayMap.put("all",strings);
-                    arrayMap.put("0", strings);
+
+
+                    if (optionalQuoteList!=null){
+                        //价格从高到低
+                        List<String> stringList14 = TradeUtil.priceHighToLow(optionalQuoteList);
+                        //价格从低到高
+                        List<String> stringList15 = TradeUtil.priceLowToHigh(optionalQuoteList);
+                        //涨跌幅从高到低
+                        List<String> stringList16 = TradeUtil.rangeHighToLow(optionalQuoteList);
+                        //涨跌幅从低到高
+                        List<String> stringList17 = TradeUtil.rangeLowToHigh(optionalQuoteList);
+                        //字母a-z
+                        List<String> stringList18 = TradeUtil.nameLowToHigh(optionalQuoteList);
+                        //字母z-a
+                        List<String> stringList19 = TradeUtil.nameHighToLow(optionalQuoteList);
+                        arrayMap.put("16", optionalQuoteList);
+                        arrayMap.put("17", stringList14);
+                        arrayMap.put("18", stringList15);
+                        arrayMap.put("19", stringList16);
+                        arrayMap.put("20", stringList17);
+                        arrayMap.put("21", stringList18);
+                        arrayMap.put("22", stringList19);
+                    }else {
+                        arrayMap.put("16", null);
+
+                    }
+
+
+                    arrayMap.put("all", strings);
+
+                    arrayMap.put("0", mainQuoteList);
                     arrayMap.put("1", stringList);
                     arrayMap.put("2", stringList1);
                     arrayMap.put("3", stringList2);
@@ -140,7 +176,6 @@ public class QuoteCustomizeListManger extends Observable {
                     arrayMap.put("7", stringList6);
                     arrayMap.put("8", stringList7);
 
-
                     arrayMap.put("9", innovationQuoteList);
                     arrayMap.put("10", stringList8);
                     arrayMap.put("11", stringList9);
@@ -148,6 +183,9 @@ public class QuoteCustomizeListManger extends Observable {
                     arrayMap.put("13", stringList11);
                     arrayMap.put("14", stringList12);
                     arrayMap.put("15", stringList13);
+
+
+
                     postQuote(arrayMap);
 
                 } else if (state.equals(FAILURE)) {

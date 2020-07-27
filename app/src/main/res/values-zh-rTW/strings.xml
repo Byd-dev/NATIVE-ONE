@@ -430,5 +430,6 @@
     <string name="text_progressing">軟件下載中~</string>
     <string name="text_kode">邀請碼（選填）</string>
     <string name="text_kode_input">請輸入邀請碼</string>
+    <string name="text_optional">自選</string>
 
 </resources>

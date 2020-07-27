@@ -431,5 +431,6 @@
     <string name="text_progressing">progressing~</string>
     <string name="text_kode">Kode referral(Opsional)</string>
     <string name="text_kode_input">Masukan kode referral</string>
+    <string name="text_optional">Pilihan</string>
 
 </resources>

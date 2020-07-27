@@ -430,5 +430,6 @@
     <string name="text_progressing">progressing~</string>
     <string name="text_kode">Invitation Code (Optional)</string>
     <string name="text_kode_input">Enter Invitation Code</string>
+    <string name="text_optional">Optional</string>
 
 </resources>

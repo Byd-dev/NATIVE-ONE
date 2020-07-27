@@ -430,5 +430,6 @@
     <string name="text_progressing">progressing~</string>
     <string name="text_kode">Mã mời(không bắt buộc)</string>
     <string name="text_kode_input">Nhập mã mời</string>
+    <string name="text_optional">Tự chọn</string>
 
 </resources>

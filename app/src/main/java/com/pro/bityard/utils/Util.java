@@ -970,4 +970,10 @@ public class Util {
     }
 
 
+    public static String deal(String content){
+        String replace = content.replaceAll("\\[", "").replaceAll("]", "").replace(" ", "");
+        return  replace;
+    }
+
+
 }

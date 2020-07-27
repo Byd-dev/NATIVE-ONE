@@ -430,6 +430,7 @@
     <string name="text_progressing">progressing~</string>
     <string name="text_kode">紹介コード（オプション）</string>
     <string name="text_kode_input">紹介コードを入れて下さい</string>
+    <string name="text_optional">オプション</string>
 
 
 </resources>
