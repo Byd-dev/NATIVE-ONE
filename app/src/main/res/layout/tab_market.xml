@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout_market"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,11 +25,30 @@
 
 
     </RelativeLayout>
+    <!--持仓 挂单 历史-->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout_market"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_height"
+        android:background="@color/color_bg_left"
+        app:tabIndicatorColor="@color/maincolor"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="2dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/maincolor"
+        app:tabTextAppearance="@style/MyTablayoutstyle"
+        app:tabTextColor="@color/text_second_color" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/size_line"
+        android:background="@color/home_line" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@color/color_bg_left">
+
+        >
 
         <LinearLayout
             android:id="@+id/layout_name"

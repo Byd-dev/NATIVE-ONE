@@ -99,7 +99,7 @@ import static java.lang.Double.parseDouble;
 public class QuoteDetailActivity extends BaseActivity implements View.OnClickListener, Observer, RadioGroup.OnCheckedChangeListener {
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
-    private static final String quoteType = "1";
+    private static final String quoteType = "all";
     private int lever;
 
     @BindView(R.id.layout_view)

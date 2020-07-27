@@ -175,23 +175,9 @@
             </LinearLayout>
 
         </LinearLayout>
-        <!--持仓 挂单 历史-->
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/tab_height"
-            app:tabIndicatorColor="@color/maincolor"
-            app:tabIndicatorFullWidth="false"
-            app:tabIndicatorHeight="2dp"
-            app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/maincolor"
-            app:tabTextAppearance="@style/MyTablayoutstyle"
-            app:tabTextColor="@color/text_second_color" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_line"
-            android:background="@color/home_line" />
+        <include layout="@layout/layout_tab" />
+
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"

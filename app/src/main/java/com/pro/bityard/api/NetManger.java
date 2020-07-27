@@ -366,7 +366,6 @@ public class NetManger {
                     for (InitEntity.GroupBean data : group) {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
-                            Log.d("print", "onNetResult:338:  " + list);
                             getTradeList(list, (state1, response1) -> {
                                 if (state1.equals(BUSY)) {
 
@@ -746,7 +745,6 @@ public class NetManger {
                     for (InitEntity.GroupBean data : group) {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
-                            Log.d("print", "onNetResult:338:  " + list);
                             SPUtils.putString(AppConfig.CONTRACT_ID, list);
                             NetManger.getInstance().getTradeList(list, (state1, response1) -> {
                                 if (state1.equals(BUSY)) {

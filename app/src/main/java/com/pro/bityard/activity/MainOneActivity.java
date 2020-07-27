@@ -62,7 +62,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
@@ -138,17 +137,21 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
 
     /*market---------------------------------------------------*/
+    private String[] titleList = new String[]{"自选", "主流区", "创新区"};
 
     @BindView(R.id.swipeRefreshLayout_market)
     SwipeRefreshLayout swipeRefreshLayout_market;
+
+    @BindView(R.id.tabLayout_market)
+    TabLayout tabLayout_market;
 
     @BindView(R.id.recyclerView_market)
     HeaderRecyclerView recyclerView_market;
 
     private QuoteAdapter quoteAdapter_market;
 
-    private int flag_new_price = 0;
-    private int flag_up_down = 0;
+    private boolean flag_new_price = false;
+    private boolean flag_up_down = false;
     private boolean flag_name = false;
 
     @BindView(R.id.img_price_triangle)
@@ -160,6 +163,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     @BindView(R.id.img_name_triangle)
     ImageView img_name_triangle;
     private String type = "0";
+    private int zone_type = 1;//1是主区 0是创新区
     private ArrayMap<String, List<String>> arrayMap;
 
 
@@ -579,8 +583,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         Toast.makeText(this, "执行了initView", Toast.LENGTH_SHORT).show();
 
 
-
-
         //首页监听
 
         radioButton_0.setOnClickListener(this);
@@ -650,6 +652,51 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
 
         /*行情 分割线-----------------------------------------------------------------------------*/
+
+
+        for (String market_name : titleList) {
+            tabLayout_market.addTab(tabLayout_market.newTab().setText(market_name));
+        }
+        tabLayout_market.getTabAt(1).select();
+
+
+        tabLayout_market.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                //切换都重置为默认
+                flag_new_price = false;
+                flag_up_down = false;
+                flag_name = false;
+                if (tab.getPosition() == 1) {
+                    type = "0";
+                    quoteList = arrayMap.get(type);
+                    quoteAdapter_market.setDatas(quoteList);
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    zone_type = 1;
+                } else if (tab.getPosition() == 2) {
+                    type = "9";
+                    quoteList = arrayMap.get(type);
+                    quoteAdapter_market.setDatas(quoteList);
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    zone_type = 0;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
         quoteAdapter_market = new QuoteAdapter(this);
         recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_market.setAdapter(quoteAdapter_market);
@@ -692,11 +739,13 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     layout_real.setVisibility(View.VISIBLE);
                     layout_simulation.setVisibility(View.GONE);
                     tradeType = "1";
+
                     break;
                 case R.id.radio_hold_1:
                     layout_real.setVisibility(View.GONE);
                     layout_simulation.setVisibility(View.VISIBLE);
                     tradeType = "2";
+
                     break;
             }
         });
@@ -1029,19 +1078,29 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     return;
                 }
 
-                if (flag_new_price == 0) {
+                if (flag_new_price) {
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
-                    flag_new_price = 1;
-                    type = "1";
+                    flag_new_price = false;
+                    if (zone_type == 1) {
+                        type = "1";
+                    } else if (zone_type == 0) {
+                        type = "10";
+
+                    }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
 
-                } else if (flag_new_price == 1) {
+                } else {
 
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
-                    flag_new_price = 0;
-                    type = "2";
+                    flag_new_price = true;
+                    if (zone_type == 1) {
+                        type = "2";
+                    } else if (zone_type == 0) {
+                        type = "11";
+
+                    }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
@@ -1054,17 +1113,27 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 if (arrayMap == null) {
                     return;
                 }
-                if (flag_up_down == 0) {
+                if (flag_up_down) {
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
-                    flag_up_down = 1;
-                    type = "3";
+                    flag_up_down = false;
+                    if (zone_type == 1) {
+                        type = "3";
+                    } else if (zone_type == 0) {
+                        type = "12";
+
+                    }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
-                } else if (flag_up_down == 1) {
+                } else {
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
-                    flag_up_down = 0;
-                    type = "4";
+                    flag_up_down = true;
+                    if (zone_type == 1) {
+                        type = "4";
+                    } else if (zone_type == 0) {
+                        type = "13";
+
+                    }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
@@ -1080,14 +1149,24 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 if (flag_name) {
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_name = false;
-                    type = "8";
+                    if (zone_type == 1) {
+                        type = "8";
+                    } else if (zone_type == 0) {
+                        type = "15";
+
+                    }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
                 } else {
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_name = true;
-                    type = "7";
+                    if (zone_type == 1) {
+                        type = "7";
+                    } else if (zone_type == 0) {
+                        type = "14";
+
+                    }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 

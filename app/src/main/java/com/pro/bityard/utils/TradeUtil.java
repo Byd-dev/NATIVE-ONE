@@ -720,6 +720,32 @@ public class TradeUtil {
         return quoteList2;
     }
 
+
+    /*主区*/
+    public static List<String> mainQuoteList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            if ("BTCUSDT,BCHUSDT,EOSUSDT,ETCUSDT,ETHUSDT,LTCUSDT,XRPUSDT,TRXUSDT".contains(TradeUtil.listQuoteName(split[0]))) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
+
+
+    /* 创新区*/
+    public static List<String> innovationQuoteList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            if ("ADAUSDT,XLMUSDT,XTZUSDT,ZRXUSDT,BATUSDT,KNCUSDT,LINKUSDT,DASHUSDT".contains(TradeUtil.listQuoteName(split[0]))) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
+
     /*价格从大到小*/
     public static List<String> priceHighToLow(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();

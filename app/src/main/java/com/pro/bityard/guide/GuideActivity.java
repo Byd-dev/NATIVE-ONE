@@ -100,10 +100,11 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
                     // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
+                    Log.d("print", "initQuote:103:  "+group);
+
                     for (InitEntity.GroupBean data : group) {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
-                            Log.d("print", "onNetResult:338:  " + list);
                             SPUtils.putString(AppConfig.CONTRACT_ID, list);
                             NetManger.getInstance().getTradeList(list, (state1, response1) -> {
                                 if (state1.equals(BUSY)) {
