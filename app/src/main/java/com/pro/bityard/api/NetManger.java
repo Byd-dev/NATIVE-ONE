@@ -2317,7 +2317,6 @@ public class NetManger {
         if (verification) {
             map.put("geetestToken", geetestToken);
         } else {
-            map.put("geetestToken", null);
             map.put("vCode", geetestToken);
         }
         map.put("terminal", "Android");
