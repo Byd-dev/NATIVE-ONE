@@ -300,11 +300,11 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         chainListAdapter.setDatas(dataList);
         chainListAdapter.setEnable(false);
 
-      /*  chainListAdapter.setOnItemClick((position, data) -> {
+        chainListAdapter.setOnItemClick((position, data) -> {
             chainListAdapter.select(data);
             recyclerView.setAdapter(chainListAdapter);
             chain = data;
-        });*/
+        });
 
 
         withdrawHistoryAdapter = new WithdrawHistoryAdapter(getActivity());
