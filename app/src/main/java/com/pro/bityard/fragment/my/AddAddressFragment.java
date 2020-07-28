@@ -80,12 +80,14 @@ public class AddAddressFragment extends BaseFragment implements View.OnClickList
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         recyclerView.setAdapter(chainListAdapter);
 
+
         dataList = new ArrayList<>();
         dataList.add("OMNI");
         dataList.add("ERC20");
         dataList.add("TRC20");
         chainListAdapter.setDatas(dataList);
         chainListAdapter.select("OMNI");
+        chainListAdapter.setEnable(true);
         edit_address.setHint(getString(R.string.text_enter) + " OMNI " + getString(R.string.text_add_address));
         chainListAdapter.setOnItemClick((position, data) -> {
             String value_address = edit_address.getText().toString();

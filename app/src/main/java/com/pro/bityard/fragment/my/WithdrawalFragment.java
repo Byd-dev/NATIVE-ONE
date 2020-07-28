@@ -298,6 +298,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         dataList.add("ERC20");
         dataList.add("TRC20");
         chainListAdapter.setDatas(dataList);
+        chainListAdapter.setEnable(false);
 
       /*  chainListAdapter.setOnItemClick((position, data) -> {
             chainListAdapter.select(data);

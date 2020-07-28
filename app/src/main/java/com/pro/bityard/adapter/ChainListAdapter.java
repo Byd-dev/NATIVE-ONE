@@ -23,6 +23,7 @@ public class ChainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public boolean isLoadMore = false;
     private String chain = "";
+    private boolean isEnable=true;
 
     public ChainListAdapter(Context context) {
         this.context = context;
@@ -38,6 +39,11 @@ public class ChainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.chain = chain;
         this.notifyDataSetChanged();
 
+    }
+
+    public void setEnable(boolean isEnable){
+        this.isEnable=isEnable;
+        this.notifyDataSetChanged();
     }
 
     public void addDatas(List<String> datas) {
@@ -80,6 +86,11 @@ public class ChainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
+            if (isEnable){
+                ((MyViewHolder) holder).radioButton.setEnabled(true);
+            }else {
+                ((MyViewHolder) holder).radioButton.setEnabled(false);
+            }
 
             ((MyViewHolder) holder).radioButton.setText(datas.get(position));
             if (chain.equals(datas.get(position))) {
