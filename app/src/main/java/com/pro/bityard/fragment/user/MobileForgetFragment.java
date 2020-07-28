@@ -275,7 +275,7 @@ public class MobileForgetFragment extends BaseFragment implements View.OnClickLi
 
                 //   getCode(account_value, country_code);
 
-                NetManger.getInstance().getMobileCode(country_code + account_value, "FORGOT_PASSWORD", (state, response1, response2) -> {
+                NetManger.getInstance().getMobileCode(getActivity(),layout_view,country_code + account_value, "FORGOT_PASSWORD", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {

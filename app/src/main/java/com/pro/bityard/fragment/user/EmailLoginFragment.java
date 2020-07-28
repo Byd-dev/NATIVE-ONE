@@ -41,6 +41,9 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class EmailLoginFragment extends BaseFragment implements View.OnClickListener {
+    @BindView(R.id.layout_view)
+    LinearLayout layout_view;
+
     @BindView(R.id.img_eye)
     ImageView img_eye;
     @BindView(R.id.layout_account)
@@ -247,8 +250,8 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                     return;
                 }
 
-                //注册需要人机验证
-                Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
+                //需要人机验证
+                Gt3Util.getInstance().customVerity(getActivity(),layout_view,new OnGtUtilResult() {
 
                     @Override
                     public void onApi1Result(String result) {
@@ -258,6 +261,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                     @Override
                     public void onSuccessResult(String result) {
+
                         ArrayMap<String, String> map = new ArrayMap<>();
 
                         map.put("vHash", Util.Random32());
@@ -266,7 +270,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                         map.put("geetestToken", geetestToken);
                         map.put("terminal", "Android");
 
-                        NetManger.getInstance().login(account_value, pass_value, geetestToken, (state, response) -> {
+                        NetManger.getInstance().login(account_value, pass_value,true, geetestToken, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
@@ -307,6 +311,54 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                     public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
                         Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
 
+                    }
+
+                    @Override
+                    public void onImageSuccessResult(String result) {
+                        Log.d("print", "onImageSuccessResult:317:  "+result);
+                        ArrayMap<String, String> map = new ArrayMap<>();
+
+                        map.put("vHash", Util.Random32());
+                        map.put("username", account_value);
+                        map.put("password", URLEncoder.encode(pass_value));
+                        map.put("vCode", result);
+                        map.put("terminal", "Android");
+
+                        NetManger.getInstance().login(account_value, pass_value,false, result, (state, response) -> {
+                            if (state.equals(BUSY)) {
+                                showProgressDialog();
+                            } else if (state.equals(SUCCESS)) {
+                                Log.d("print", "onNetResult:196:  " + response.toString());
+                                dismissProgressDialog();
+                                LoginEntity loginEntity = (LoginEntity) response;
+                                SPUtils.putString(AppConfig.USER_EMAIL, account_value);
+                                NetManger.getInstance().userDetail((state2, response2) -> {
+                                    if (state2.equals(BUSY)) {
+                                        showProgressDialog();
+                                    } else if (state2.equals(SUCCESS)) {
+                                        dismissProgressDialog();
+                                        UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
+                                        loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
+                                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                                        //登录成功 初始化
+                                        TagManger.getInstance().tag();
+                                        getActivity().finish();
+                                    } else if (state2.equals(FAILURE)) {
+                                        dismissProgressDialog();
+                                    }
+                                });
+
+                            } else if (state.equals(FAILURE)) {
+                                dismissProgressDialog();
+                                Log.d("print", "onImageSuccessResult:353: "+response.toString());
+                                if (response!=null){
+                                    LoginEntity loginEntity = (LoginEntity) response;
+                                    Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 });
 

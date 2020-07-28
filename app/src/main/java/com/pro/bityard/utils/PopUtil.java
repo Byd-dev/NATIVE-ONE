@@ -4,12 +4,14 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.model.Progress;
@@ -38,12 +41,12 @@ import com.pro.bityard.api.PopResult;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.manger.QuoteListManger;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import cn.jiguang.share.wechat.Wechat;
@@ -234,6 +237,65 @@ public class PopUtil {
 
     }
 
+    /*图片验证码*/
+    public void showVerification(Activity activity, View layout_view, OnResult onResult) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_verification_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        ImageView img_code = view.findViewById(R.id.img_code);
+
+        EditText edit_code = view.findViewById(R.id.edit_code);
+
+
+        getCode(activity, img_code);
+
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+
+        view.findViewById(R.id.img_refresh).setOnClickListener(v -> getCode(activity, img_code));
+
+        view.findViewById(R.id.text_sure).setOnClickListener(v -> {
+            String s = edit_code.getText().toString();
+            if (s.equals("")) {
+                Toast.makeText(activity, "请输入图形验证码", Toast.LENGTH_SHORT).show();
+            } else {
+                onResult.setResult(s);
+                popupWindow.dismiss();
+            }
+        });
+
+        Util.dismiss(activity, popupWindow);
+        Util.isShowing(activity, popupWindow);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        // popupWindow.setAnimationStyle(R.style.pop_anim_quote);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+
+    }
+
+    public void getCode(Context context, ImageView img_code) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("vHash", Util.Random32());
+        NetManger.getInstance().getBitmapRequest("/api/code/image.jpg", map, (state, response) -> {
+            if (state.equals(SUCCESS)) {
+                Bitmap bitmap = (Bitmap) response;
+                img_code.post(() -> {
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                    byte[] bytes = baos.toByteArray();
+                    Glide.with(context.getApplicationContext()).load(bytes)
+                            .centerCrop().into(img_code);
+                });
+            }
+        });
+
+
+    }
+
 
     private List<String> topList = new ArrayList<>();
     private List<String> midList = new ArrayList<>();
@@ -421,7 +483,7 @@ public class PopUtil {
         view.startAnimation(animation);
     }
 
-    public void dialogUp(Activity activity,View layout_view, String versionMessage, String url) {
+    public void dialogUp(Activity activity, View layout_view, String versionMessage, String url) {
         Util.lightOff(activity);
 
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_tip_pop_update_layout, null);

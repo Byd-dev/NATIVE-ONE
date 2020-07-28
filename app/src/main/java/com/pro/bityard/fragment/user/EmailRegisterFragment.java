@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,7 +51,8 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     @BindView(R.id.img_eye)
     ImageView img_eye;
 
-
+    @BindView(R.id.layout_view)
+    ScrollView layout_view;
     private ViewPager viewPager;
 
     @BindView(R.id.edit_account)
@@ -227,7 +230,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 }
 
 
-                NetManger.getInstance().getEmailCode(account_value, "REGISTER", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(getActivity(),layout_view,account_value, "REGISTER", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -349,7 +352,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     }
 
     private void login(String account_value, String pass_value, String geetestToken) {
-        NetManger.getInstance().login(account_value, pass_value, geetestToken, (state, response) -> {
+        NetManger.getInstance().login(account_value, pass_value,true, geetestToken, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {

@@ -2,6 +2,7 @@ package com.pro.bityard.api;
 
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.ArrayMap;
@@ -11,6 +12,7 @@ import android.view.View;
 import com.geetest.sdk.GT3ErrorBean;
 import com.google.gson.Gson;
 import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.BitmapCallback;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
@@ -152,6 +154,63 @@ public class NetManger {
 
     }
 
+    //get 请求
+    public void getBitmapRequest(String url, ArrayMap map, OnNetResult onNetResult) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        switch (language) {
+            case AppConfig.KEY_LANGUAGE:
+            case AppConfig.EN_US:
+                language = "en-US";
+                break;
+            case AppConfig.ZH_SIMPLE:
+                language = "zh-CN";
+                break;
+            case AppConfig.ZH_TRADITIONAL:
+                language = "zh-TW";
+                break;
+            case AppConfig.RU_RU:
+                language = "ru-RU";
+                break;
+            case AppConfig.JA_JP:
+                language = "ja-JP";
+                break;
+            case AppConfig.KO_KR:
+                language = "ko-KR";
+                break;
+            case AppConfig.VI_VN:
+                language = "vi-VN";
+                break;
+            case AppConfig.IN_ID:
+                language = "in-ID";
+                break;
+
+        }
+
+        OkGo.<Bitmap>get(getURL(url, map))
+                .headers("Accept-Language", language)
+                .execute(new BitmapCallback() {
+
+                    @Override
+                    public void onStart(Request<Bitmap, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, null);
+
+                    }
+
+                    @Override
+                    public void onSuccess(Response<Bitmap> response) {
+                        onNetResult.onNetResult(SUCCESS, response.body());
+                    }
+
+                    @Override
+                    public void onError(Response<Bitmap> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, null);
+
+                    }
+                });
+
+    }
 
     //post 请求
     public void postRequest(String url, ArrayMap map, OnNetResult onNetResult) {
@@ -435,6 +494,8 @@ public class NetManger {
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 200) {
                         InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
+                        //初始化需要存储极验的判断
+                        SPUtils.putBoolean(AppConfig.KEY_VERIFICATION, initEntity.getBrand().isGeetest());
                         if (initEntity.getGroup() != null) {
                             onNetResult.onNetResult(SUCCESS, initEntity);
                         }
@@ -1384,9 +1445,9 @@ public class NetManger {
     private String resultStr = null;
 
     /*获取邮箱验证码*/
-    public void getEmailCode(String account, String sendType, OnNetTwoResult onNetTwoResult) {
+    public void getEmailCode(Activity activity, View view, String account, String sendType, OnNetTwoResult onNetTwoResult) {
 
-        Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
+        Gt3Util.getInstance().customVerity(activity, view, new OnGtUtilResult() {
             @Override
             public void onApi1Result(String result) {
                 String[] split = result.split(",");
@@ -1421,6 +1482,27 @@ public class NetManger {
                 onNetTwoResult.setResult(FAILURE, null, null);
 
 
+            }
+
+            @Override
+            public void onImageSuccessResult(String result) {
+                Log.d("print", "onImageSuccessResult: " + result);
+                ArrayMap<String, String> map = new ArrayMap<>();
+                map.put("account", account);
+                map.put("type", sendType);
+                map.put("vCode", result);
+                NetManger.getInstance().postRequest("/api/system/sendEmail", map, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        onNetTwoResult.setResult(BUSY, null, null);
+                    } else if (state.equals(SUCCESS)) {
+                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        onNetTwoResult.setResult(SUCCESS, resultStr, tipEntity);
+
+                    } else if (state.equals(FAILURE)) {
+                        onNetTwoResult.setResult(FAILURE, null, null);
+
+                    }
+                });
             }
         });
 
@@ -1463,9 +1545,9 @@ public class NetManger {
 
 
     /*获取手机验证码*/
-    public void getMobileCode(String account, String sendType, OnNetTwoResult onNetTwoResult) {
+    public void getMobileCode(Activity activity, View view, String account, String sendType, OnNetTwoResult onNetTwoResult) {
 
-        Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
+        Gt3Util.getInstance().customVerity(activity, view, new OnGtUtilResult() {
             @Override
             public void onApi1Result(String result) {
                 String[] split = result.split(",");
@@ -1497,6 +1579,26 @@ public class NetManger {
                 onNetTwoResult.setResult(FAILURE, null, null);
 
 
+            }
+
+            @Override
+            public void onImageSuccessResult(String result) {
+                ArrayMap<String, String> map = new ArrayMap<>();
+                map.put("account", account);
+                map.put("type", sendType);
+                map.put("vCode", result);
+                NetManger.getInstance().postRequest("/api/system/sendSMS", map, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        onNetTwoResult.setResult(BUSY, null, null);
+                    } else if (state.equals(SUCCESS)) {
+                        TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                        onNetTwoResult.setResult(SUCCESS, geetestToken, tipEntity);
+
+                    } else if (state.equals(FAILURE)) {
+                        onNetTwoResult.setResult(FAILURE, null, null);
+
+                    }
+                });
             }
         });
 
@@ -2205,14 +2307,19 @@ public class NetManger {
     }
 
     /*登录*/
-    public void login(String account, String pass, String geetestToken, OnNetResult onNetResult) {
+    public void login(String account, String pass, boolean verification, String geetestToken, OnNetResult onNetResult) {
 
         ArrayMap<String, String> map = new ArrayMap<>();
 
         map.put("vHash", Util.Random32());
         map.put("username", account);
         map.put("password", URLEncoder.encode(pass));
-        map.put("geetestToken", geetestToken);
+        if (verification) {
+            map.put("geetestToken", geetestToken);
+        } else {
+            map.put("geetestToken", null);
+            map.put("vCode", geetestToken);
+        }
         map.put("terminal", "Android");
 
         NetManger.getInstance().postRequest("/api/sso/user_login_check", map, (state, response) -> {

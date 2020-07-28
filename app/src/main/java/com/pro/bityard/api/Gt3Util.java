@@ -1,15 +1,19 @@
 package com.pro.bityard.api;
 
+import android.app.Activity;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.geetest.sdk.GT3ConfigBean;
 import com.geetest.sdk.GT3ErrorBean;
 import com.geetest.sdk.GT3GeetestUtils;
 import com.geetest.sdk.GT3Listener;
+import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.Util;
+import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,145 +63,157 @@ public class Gt3Util {
     }
 
 
-    public void customVerity(OnGtUtilResult onGtUtilResult) {
-        // 配置bean文件，也可在oncreate初始化
-        gt3ConfigBean = new GT3ConfigBean();
-        // 设置验证模式，1：bind，2：unbind
-        gt3ConfigBean.setPattern(1);
-        // 设置点击灰色区域是否消失，默认不消失
-        gt3ConfigBean.setCanceledOnTouchOutside(false);
-        // 设置语言，如果为null则使用系统默认语言
-        gt3ConfigBean.setLang(null);
-        // 设置加载webview超时时间，单位毫秒，默认10000，仅且webview加载静态文件超时，不包括之前的http请求
-        gt3ConfigBean.setTimeout(10000);
-        // 设置webview请求超时(用户点选或滑动完成，前端请求后端接口)，单位毫秒，默认10000
-        gt3ConfigBean.setWebviewTimeout(10000);
-        // 设置自定义view
+    public void customVerity(Activity activity, View view, OnGtUtilResult onGtUtilResult) {
+
+
+        boolean verification = SPUtils.getBoolean(AppConfig.KEY_VERIFICATION, true);
+        if (!verification) {
+            // 配置bean文件，也可在oncreate初始化
+            gt3ConfigBean = new GT3ConfigBean();
+            // 设置验证模式，1：bind，2：unbind
+            gt3ConfigBean.setPattern(1);
+            // 设置点击灰色区域是否消失，默认不消失
+            gt3ConfigBean.setCanceledOnTouchOutside(false);
+            // 设置语言，如果为null则使用系统默认语言
+            gt3ConfigBean.setLang(null);
+            // 设置加载webview超时时间，单位毫秒，默认10000，仅且webview加载静态文件超时，不包括之前的http请求
+            gt3ConfigBean.setTimeout(10000);
+            // 设置webview请求超时(用户点选或滑动完成，前端请求后端接口)，单位毫秒，默认10000
+            gt3ConfigBean.setWebviewTimeout(10000);
+            // 设置自定义view
 //        gt3ConfigBean.setLoadImageView(new TestLoadingView(this));
-        // 设置回调监听
-        gt3ConfigBean.setListener(new GT3Listener() {
+            // 设置回调监听
+            gt3ConfigBean.setListener(new GT3Listener() {
 
-            /**
-             * api1结果回调
-             * @param result
-             */
-            @Override
-            public void onApi1Result(String result) {
-                Log.e(TAG, "onApi1Result-->" + result);
+                /**
+                 * api1结果回调
+                 * @param result
+                 */
+                @Override
+                public void onApi1Result(String result) {
+                    Log.e(TAG, "onApi1Result-->" + result);
 
-                if (null != result) {
-                    Map<String, Object> stringObjectMap = Util.jsonToMap(result);
-                    String code = (String) stringObjectMap.get("code");
-                    if (code.equals("200")) {
-                        String geetestToken = (String) stringObjectMap.get("geetestToken");
-                        StringBuilder stringBuilder = new StringBuilder();
-                        Map<String, Object> data = (Map<String, Object>) stringObjectMap.get("data");
-                        String gt = (String) data.get("gt");
-                        StringBuilder append = stringBuilder.append(geetestToken).append(",").append(gt);
-                        onGtUtilResult.onApi1Result(append.toString());
+                    if (null != result) {
+                        Map<String, Object> stringObjectMap = Util.jsonToMap(result);
+                        String code = (String) stringObjectMap.get("code");
+                        if (code.equals("200")) {
+                            String geetestToken = (String) stringObjectMap.get("geetestToken");
+                            StringBuilder stringBuilder = new StringBuilder();
+                            Map<String, Object> data = (Map<String, Object>) stringObjectMap.get("data");
+                            String gt = (String) data.get("gt");
+                            StringBuilder append = stringBuilder.append(geetestToken).append(",").append(gt);
+                            onGtUtilResult.onApi1Result(append.toString());
+                        }
+
                     }
 
                 }
 
-            }
+                /**
+                 * 验证码加载完成
+                 * @param duration 加载时间和版本等信息，为json格式
+                 */
+                @Override
+                public void onDialogReady(String duration) {
+                    // onGtUtilResult.onGtResult(duration);
 
-            /**
-             * 验证码加载完成
-             * @param duration 加载时间和版本等信息，为json格式
-             */
-            @Override
-            public void onDialogReady(String duration) {
-                // onGtUtilResult.onGtResult(duration);
+                    Log.e(TAG, "onDialogReady-->" + duration);
+                }
 
-                Log.e(TAG, "onDialogReady-->" + duration);
-            }
+                /**
+                 * 验证结果
+                 * @param result
+                 */
+                @Override
+                public void onDialogResult(String result) {
+                    // onGtUtilResult.onGtResult(result);
 
-            /**
-             * 验证结果
-             * @param result
-             */
-            @Override
-            public void onDialogResult(String result) {
-                // onGtUtilResult.onGtResult(result);
+                    Log.e(TAG, "onDialogResult-->" + result);
+                    requestAPI2(result);
 
-                Log.e(TAG, "onDialogResult-->" + result);
-                requestAPI2(result);
-
-              //  new RequestAPI2().execute(result);
+                    //  new RequestAPI2().execute(result);
 
 
-            }
+                }
 
-            /**
-             * api2回调
-             * @param result
-             */
-            @Override
-            public void onApi2Result(String result) {
-                // onGtUtilResult.onGtResult(result);
+                /**
+                 * api2回调
+                 * @param result
+                 */
+                @Override
+                public void onApi2Result(String result) {
+                    // onGtUtilResult.onGtResult(result);
 
-                Log.e(TAG, "onApi2Result-->" + result);
-            }
+                    Log.e(TAG, "onApi2Result-->" + result);
+                }
 
-            /**
-             * 统计信息，参考接入文档
-             * @param result
-             */
-            @Override
-            public void onStatistics(String result) {
-                // onGtUtilResult.onGtResult(result);
+                /**
+                 * 统计信息，参考接入文档
+                 * @param result
+                 */
+                @Override
+                public void onStatistics(String result) {
+                    // onGtUtilResult.onGtResult(result);
 
 
-                Log.e(TAG, "onStatistics-->" + result);
-            }
+                    Log.e(TAG, "onStatistics-->" + result);
+                }
 
-            /**
-             * 验证码被关闭
-             * @param num 1 点击验证码的关闭按钮来关闭验证码, 2 点击屏幕关闭验证码, 3 点击返回键关闭验证码
-             */
-            @Override
-            public void onClosed(int num) {
-                // onGtUtilResult.onGtResult(String.valueOf(num));
+                /**
+                 * 验证码被关闭
+                 * @param num 1 点击验证码的关闭按钮来关闭验证码, 2 点击屏幕关闭验证码, 3 点击返回键关闭验证码
+                 */
+                @Override
+                public void onClosed(int num) {
+                    // onGtUtilResult.onGtResult(String.valueOf(num));
 
-                Log.e(TAG, "onClosed-->" + num);
-            }
+                    Log.e(TAG, "onClosed-->" + num);
+                }
 
-            /**
-             * 验证成功回调
-             * @param result
-             */
-            @Override
-            public void onSuccess(String result) {
-                Log.e(TAG, "onSuccess-->" + result);
-                onGtUtilResult.onSuccessResult(result);
+                /**
+                 * 验证成功回调
+                 * @param result
+                 */
+                @Override
+                public void onSuccess(String result) {
+                    Log.e(TAG, "onSuccess-->" + result);
+                    onGtUtilResult.onSuccessResult(result);
 
-            }
+                }
 
-            /**
-             * 验证失败回调
-             * @param errorBean 版本号，错误码，错误描述等信息
-             */
-            @Override
-            public void onFailed(GT3ErrorBean errorBean) {
-                Log.e(TAG, "onFailed-->" + errorBean.toString());
-                onGtUtilResult.onFailedResult(errorBean);
+                /**
+                 * 验证失败回调
+                 * @param errorBean 版本号，错误码，错误描述等信息
+                 */
+                @Override
+                public void onFailed(GT3ErrorBean errorBean) {
+                    Log.e(TAG, "onFailed-->" + errorBean.toString());
+                    onGtUtilResult.onFailedResult(errorBean);
 
-            }
+                }
 
-            /**
-             * api1回调
-             */
-            @Override
-            public void onButtonClick() {
+                /**
+                 * api1回调
+                 */
+                @Override
+                public void onButtonClick() {
 
-                requestAPI1();
+                    requestAPI1();
 
-            }
-        });
-        gt3GeetestUtils.init(gt3ConfigBean);
-        // 开启验证
-        gt3GeetestUtils.startCustomFlow();
+                }
+            });
+            gt3GeetestUtils.init(gt3ConfigBean);
+            // 开启验证
+            gt3GeetestUtils.startCustomFlow();
+        } else {
+            PopUtil.getInstance().showVerification(activity, view, response -> {
+                onGtUtilResult.onImageSuccessResult(response.toString());
+            });
+        }
+
+
     }
+
     /**
      * 请求api1
      */
@@ -217,12 +233,13 @@ public class Gt3Util {
             }
         });
     }
+
     /**
      * 请求api2
      */
-    void requestAPI2(String postParam){
-        NetManger.getInstance().Gt3PostRequest(URL_API2,(String) stringObjectMap.get("geetestToken"), postParam, (state, response) -> {
-            if (state.equals(SUCCESS)){
+    void requestAPI2(String postParam) {
+        NetManger.getInstance().Gt3PostRequest(URL_API2, (String) stringObjectMap.get("geetestToken"), postParam, (state, response) -> {
+            if (state.equals(SUCCESS)) {
                 if (!TextUtils.isEmpty(response.toString())) {
                     try {
                         JSONObject jsonObject = new JSONObject(response.toString());
@@ -242,9 +259,6 @@ public class Gt3Util {
             }
         });
     }
-
-
-
 
 
     public static Map<String, Object> jsonToMap(String content) {

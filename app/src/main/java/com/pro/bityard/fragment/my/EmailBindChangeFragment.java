@@ -326,7 +326,7 @@ public class EmailBindChangeFragment extends BaseFragment implements View.OnClic
                 }
 
                 Log.d("print", "onClick:245: " + email + "----" + account);
-                NetManger.getInstance().getEmailCode(account, sendType, (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(getActivity(),layout_view,account, sendType, (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {

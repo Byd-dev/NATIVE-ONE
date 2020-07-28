@@ -556,7 +556,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 Util.setEye(getActivity(), edit_pass_transfer, img_eye_transfer);
                 break;
             case R.id.text_getCode:
-                NetManger.getInstance().getEmailCode(email, "CREATE_WITHDRAW", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(getActivity(),layout_view,email, "CREATE_WITHDRAW", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -611,7 +611,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.text_getCode_transfer:
 
-                NetManger.getInstance().getEmailCode(email, "CREATE_WITHDRAW", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(getActivity(),layout_view,email, "CREATE_WITHDRAW", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {

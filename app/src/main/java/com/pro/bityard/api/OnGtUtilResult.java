@@ -11,5 +11,7 @@ public interface OnGtUtilResult {
 
     void onFailedResult(GT3ErrorBean gt3ErrorBean);
 
+    void onImageSuccessResult(String result);
+
 
 }

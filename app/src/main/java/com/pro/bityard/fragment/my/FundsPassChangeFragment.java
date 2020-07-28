@@ -37,6 +37,9 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class FundsPassChangeFragment extends BaseFragment implements View.OnClickListener {
+
+    @BindView(R.id.layout_view)
+    LinearLayout layout_view;
     @BindView(R.id.text_title)
     TextView text_title;
     @BindView(R.id.edit_pass_old)
@@ -510,7 +513,7 @@ public class FundsPassChangeFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.text_getCode:
 
-                NetManger.getInstance().getEmailCode(email, "CHANGE_WITHDRAW", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(getActivity(),layout_view,email, "CHANGE_WITHDRAW", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {

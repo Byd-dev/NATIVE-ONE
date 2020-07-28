@@ -37,7 +37,8 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class EmailForgetFragment extends BaseFragment implements View.OnClickListener {
-
+    @BindView(R.id.layout_view)
+    LinearLayout layout_view;
 
     private ViewPager viewPager;
 
@@ -185,7 +186,7 @@ public class EmailForgetFragment extends BaseFragment implements View.OnClickLis
 
                 // getCode(account_value);
 
-                NetManger.getInstance().getEmailCode(account_value, "FORGOT_PASSWORD", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(getActivity(),layout_view,account_value, "FORGOT_PASSWORD", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {

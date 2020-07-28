@@ -295,7 +295,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                 }
 
 
-                Gt3Util.getInstance().customVerity(new OnGtUtilResult() {
+                Gt3Util.getInstance().customVerity(getActivity(),layout_view,new OnGtUtilResult() {
 
                     @Override
                     public void onApi1Result(String result) {
@@ -306,7 +306,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                     @Override
                     public void onSuccessResult(String result) {
 
-                        NetManger.getInstance().login( (code_value + account_value), pass_value, geetestToken, (state, response) -> {
+                        NetManger.getInstance().login( (code_value + account_value), pass_value,true, geetestToken, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
@@ -352,6 +352,47 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                     @Override
                     public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
                         Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onImageSuccessResult(String result) {
+                        NetManger.getInstance().login( (code_value + account_value), pass_value,false, result, (state, response) -> {
+                            if (state.equals(BUSY)) {
+                                showProgressDialog();
+                            } else if (state.equals(SUCCESS)) {
+                                Log.d("print", "onNetResult:196:  " + response.toString());
+                                dismissProgressDialog();
+                                LoginEntity loginEntity = (LoginEntity) response;
+                                //缓存上一次登录成功的区号和地址
+                                SPUtils.putString(AppConfig.USER_COUNTRY_CODE, text_countryCode.getText().toString());
+                                SPUtils.putString(AppConfig.USER_COUNTRY_NAME, text_countryName.getText().toString());
+                                SPUtils.putString(AppConfig.USER_MOBILE, edit_account.getText().toString());
+                                NetManger.getInstance().userDetail((state2, response2) -> {
+                                    if (state2.equals(BUSY)) {
+                                        showProgressDialog();
+                                    } else if (state2.equals(SUCCESS)) {
+                                        dismissProgressDialog();
+                                        UserDetailEntity userDetailEntity = (UserDetailEntity) response2;
+                                        loginEntity.getUser().setUserName(userDetailEntity.getUser().getUsername());
+                                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                                        //登录成功 初始化
+                                        TagManger.getInstance().tag();
+                                        getActivity().finish();
+                                    } else if (state2.equals(FAILURE)) {
+                                        dismissProgressDialog();
+                                    }
+                                });
+
+                            } else if (state.equals(FAILURE)) {
+                                dismissProgressDialog();
+                                if (response!=null){
+                                    LoginEntity loginEntity = (LoginEntity) response;
+                                    Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                     }
                 });
 

@@ -365,7 +365,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         text_getCode = view.findViewById(R.id.text_getCode);
 
         text_getCode.setOnClickListener(v -> {
-            NetManger.getInstance().getEmailCode(loginEntity.getUser().getEmail(), "CREATE_WITHDRAW", (state, response1, response2) -> {
+            NetManger.getInstance().getEmailCode(getActivity(),layout_view,loginEntity.getUser().getEmail(), "CREATE_WITHDRAW", (state, response1, response2) -> {
                 if (state.equals(BUSY)) {
                     showProgressDialog();
                 } else if (state.equals(SUCCESS)) {

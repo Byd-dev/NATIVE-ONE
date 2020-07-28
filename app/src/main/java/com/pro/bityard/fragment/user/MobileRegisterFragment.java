@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +63,7 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class MobileRegisterFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.layout_view)
-    LinearLayout layout_view;
+    ScrollView layout_view;
 
     @BindView(R.id.text_CountryName)
     TextView text_countryName;
@@ -305,7 +306,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 //获取验证码
                 //   getCode(country_code, account_value);
 
-                NetManger.getInstance().getMobileCode(country_code + account_value, "REGISTER", (state, response1, response2) -> {
+                NetManger.getInstance().getMobileCode(getActivity(),layout_view,country_code + account_value, "REGISTER", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -451,7 +452,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     }
 
     private void login(String account_value, String pass_value, String geetestToken) {
-        NetManger.getInstance().login(account_value, pass_value, geetestToken, (state, response) -> {
+        NetManger.getInstance().login(account_value, pass_value,true, geetestToken, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {

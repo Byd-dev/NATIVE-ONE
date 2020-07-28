@@ -58,6 +58,8 @@ public class AppConfig {
     public static final String PRIZE_TRADE = "prizeTrade";
     /*本地自选*/
     public static final String KEY_OPTIONAL = "KEY_OPTIONAL";
+    /*是否开启极验*/
+    public static final String KEY_VERIFICATION = "KEY_VERIFICATION";
     /*汇率*/
     public static final String USDT = "USDT";
     public static final String BTC = "BTC";

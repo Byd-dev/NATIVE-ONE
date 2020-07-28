@@ -372,7 +372,7 @@ public class MobileBindChangeFragment extends BaseFragment implements View.OnCli
                 }
 
                 Log.d("print", "onClick:245: " + mobile + "----" + account);
-                NetManger.getInstance().getMobileCode(account, sendType, (state, response1, response2) -> {
+                NetManger.getInstance().getMobileCode(getActivity(),layout_view,account, sendType, (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
