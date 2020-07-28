@@ -16,6 +16,7 @@
         android:button="@null"
         android:gravity="center"
         android:maxLines="1"
+        android:enabled="false"
         android:text=""
         android:textColor="@color/text_main_color"
         android:textSize="@dimen/size_normal_two"

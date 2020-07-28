@@ -263,7 +263,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
             Log.d("print", "update:264:  " + quoteList + "   " + type);
-            
+
             if (quoteList != null) {
                 runOnUiThread(() -> {
                     layout_null.setVisibility(View.GONE);

@@ -82,16 +82,7 @@
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/img_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:paddingLeft="@dimen/margin_30"
-            android:paddingRight="@dimen/margin_15"
-            android:src="@mipmap/icon_setting"
-            android:visibility="gone" />
+
 
         <LinearLayout
             android:id="@+id/layout_optional"
@@ -619,6 +610,20 @@
             android:layout_marginRight="@dimen/margin_10"
             android:orientation="horizontal">
 
+
+            <TextView
+                android:id="@+id/img_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:text="@string/text_trade_settings"
+                android:gravity="center"
+                android:drawablePadding="@dimen/margin_5"
+                android:paddingLeft="@dimen/margin_10"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal"
+                android:drawableRight="@mipmap/icon_setting"
+                android:visibility="visible" />
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
