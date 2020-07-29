@@ -78,7 +78,6 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     TextView text_err_email;
     @BindView(R.id.btn_submit)
     Button btn_submit;
-    private String gt;
     @BindView(R.id.edit_kode)
     EditText edit_kode;
     @Override
@@ -235,8 +234,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
-                       /* String[] split = response1.toString().split(",");
-                        gt = split[1];*/
+
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
                             mHandler.sendEmptyMessage(0);
