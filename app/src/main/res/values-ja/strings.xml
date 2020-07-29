@@ -433,6 +433,7 @@
     <string name="text_optional">オプション</string>
     <string name="text_main_zone">メイン</string>
     <string name="text_innovate">ニューコイン</string>
+    <string name="text_img_code_input">请输入图形验证码</string>
 
 
 </resources>

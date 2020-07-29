@@ -210,7 +210,9 @@ public class HoldFragment extends BaseFragment implements Observer {
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
             if (positionRealList.size() == 0) {
-                text_freeze.setText(getResources().getString(R.string.text_default));
+                if (isAdded()){
+                    text_freeze.setText(getResources().getString(R.string.text_default));
+                }
             } else {
                 runOnUiThread(() -> {
                     if (text_freeze != null) {

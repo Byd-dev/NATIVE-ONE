@@ -433,5 +433,6 @@
     <string name="text_optional">Tự chọn</string>
     <string name="text_main_zone">Phổ biến</string>
     <string name="text_innovate">Xu thế</string>
+    <string name="text_img_code_input">请输入图形验证码</string>
 
 </resources>
