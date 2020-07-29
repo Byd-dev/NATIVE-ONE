@@ -7,7 +7,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geetest.sdk.GT3ErrorBean;
-import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ForgetActivity;
 import com.pro.bityard.adapter.CountryCodeAdapter;
@@ -30,7 +28,6 @@ import com.pro.bityard.adapter.CountryCodeHeadAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -42,7 +39,6 @@ import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -210,7 +206,6 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
     protected void initData() {
 
 
-
         //获取默认的国家区号 如果没有地理位置 就默认CHINA
         String country_name = SPUtils.getString(com.pro.switchlibrary.AppConfig.COUNTRY_NAME, "CHINA");
 
@@ -295,7 +290,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                 }
 
 
-                Gt3Util.getInstance().customVerity(getActivity(),layout_view,new OnGtUtilResult() {
+                Gt3Util.getInstance().customVerity(getActivity(), layout_view, new OnGtUtilResult() {
 
                     @Override
                     public void onApi1Result(String result) {
@@ -306,7 +301,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
                     @Override
                     public void onSuccessResult(String result) {
 
-                        NetManger.getInstance().login( (code_value + account_value), pass_value,true, geetestToken, (state, response) -> {
+                        NetManger.getInstance().login((code_value + account_value), pass_value, true, Util.Random32(), geetestToken, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
@@ -335,18 +330,14 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                             } else if (state.equals(FAILURE)) {
                                 dismissProgressDialog();
-                                if (response!=null){
+                                if (response != null) {
                                     LoginEntity loginEntity = (LoginEntity) response;
                                     Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                                }else {
+                                } else {
                                     Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-
-
-
-
                     }
 
                     @Override
@@ -356,7 +347,9 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                     @Override
                     public void onImageSuccessResult(String result) {
-                        NetManger.getInstance().login( (code_value + account_value), pass_value,false, result, (state, response) -> {
+                        String[] split = result.split(",");
+
+                        NetManger.getInstance().login((code_value + account_value), pass_value, false, split[0], split[1], (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
@@ -385,10 +378,10 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
                             } else if (state.equals(FAILURE)) {
                                 dismissProgressDialog();
-                                if (response!=null){
+                                if (response != null) {
                                     LoginEntity loginEntity = (LoginEntity) response;
                                     Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                                }else {
+                                } else {
                                     Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -446,8 +439,6 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             setEdit(edit_search, text_used, dataData, recyclerView_search, recyclerView);
 
 
-
-
             List<CountryCodeEntity.DataBean> dataBeanList = new ArrayList<>();
             for (CountryCodeEntity.DataBean dataBean : dataData) {
                 if (dataBean.isUsed()) {
@@ -487,9 +478,9 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
         countryCodeAdapter.setOnItemClick(dataBean -> {
             String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-            if (language.equals(AppConfig.ZH_SIMPLE)||language.equals(AppConfig.ZH_TRADITIONAL)){
+            if (language.equals(AppConfig.ZH_SIMPLE) || language.equals(AppConfig.ZH_TRADITIONAL)) {
                 text_countryName.setText(dataBean.getNameCn());
-            }else {
+            } else {
                 text_countryName.setText(dataBean.getNameEn());
             }
             text_countryCode.setText(dataBean.getCountryCode());
@@ -499,9 +490,9 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
         countryCodeHeadAdapter.setOnItemHeadClick(dataBean -> {
             String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-            if (language.equals(AppConfig.ZH_SIMPLE)||language.equals(AppConfig.ZH_TRADITIONAL)){
+            if (language.equals(AppConfig.ZH_SIMPLE) || language.equals(AppConfig.ZH_TRADITIONAL)) {
                 text_countryName.setText(dataBean.getNameCn());
-            }else {
+            } else {
                 text_countryName.setText(dataBean.getNameEn());
             }
             text_countryCode.setText(dataBean.getCountryCode());
@@ -511,9 +502,9 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
 
         countryCodeSearchAdapter.setOnItemHeadClick(dataBean -> {
             String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-            if (language.equals(AppConfig.ZH_SIMPLE)||language.equals(AppConfig.ZH_TRADITIONAL)){
+            if (language.equals(AppConfig.ZH_SIMPLE) || language.equals(AppConfig.ZH_TRADITIONAL)) {
                 text_countryName.setText(dataBean.getNameCn());
-            }else {
+            } else {
                 text_countryName.setText(dataBean.getNameEn());
             }
             text_countryCode.setText(dataBean.getCountryCode());

@@ -14,13 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.geetest.sdk.GT3ErrorBean;
-import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ForgetActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -251,7 +249,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 }
 
                 //需要人机验证
-                Gt3Util.getInstance().customVerity(getActivity(),layout_view,new OnGtUtilResult() {
+                Gt3Util.getInstance().customVerity(getActivity(), layout_view, new OnGtUtilResult() {
 
                     @Override
                     public void onApi1Result(String result) {
@@ -263,14 +261,14 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                     public void onSuccessResult(String result) {
 
                         ArrayMap<String, String> map = new ArrayMap<>();
-
-                        map.put("vHash", Util.Random32());
+                        String vHash = Util.Random32();
+                        map.put("vHash", vHash);
                         map.put("username", account_value);
                         map.put("password", URLEncoder.encode(pass_value));
                         map.put("geetestToken", geetestToken);
                         map.put("terminal", "Android");
 
-                        NetManger.getInstance().login(account_value, pass_value,true, geetestToken, (state, response) -> {
+                        NetManger.getInstance().login(account_value, pass_value, true, vHash, geetestToken, (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
@@ -296,10 +294,10 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                             } else if (state.equals(FAILURE)) {
                                 dismissProgressDialog();
-                                if (response!=null){
+                                if (response != null) {
                                     LoginEntity loginEntity = (LoginEntity) response;
                                     Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                                }else {
+                                } else {
                                     Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                 }
                             }
@@ -315,16 +313,16 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                     @Override
                     public void onImageSuccessResult(String result) {
-                        Log.d("print", "onImageSuccessResult:317:  "+result);
+                        String[] split = result.split(",");
                         ArrayMap<String, String> map = new ArrayMap<>();
 
-                        map.put("vHash", Util.Random32());
+                        map.put("vHash", split[0]);
                         map.put("username", account_value);
                         map.put("password", URLEncoder.encode(pass_value));
-                        map.put("vCode", result);
+                        map.put("vCode", split[1]);
                         map.put("terminal", "Android");
 
-                        NetManger.getInstance().login(account_value, pass_value,false, result, (state, response) -> {
+                        NetManger.getInstance().login(account_value, pass_value, false, split[0], split[1], (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
@@ -350,11 +348,11 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                             } else if (state.equals(FAILURE)) {
                                 dismissProgressDialog();
-                                Log.d("print", "onImageSuccessResult:353: "+response.toString());
-                                if (response!=null){
+                                Log.d("print", "onImageSuccessResult:353: " + response.toString());
+                                if (response != null) {
                                     LoginEntity loginEntity = (LoginEntity) response;
                                     Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                                }else {
+                                } else {
                                     Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                 }
                             }

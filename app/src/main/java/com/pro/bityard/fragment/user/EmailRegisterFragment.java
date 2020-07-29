@@ -235,8 +235,8 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
                         dismissProgressDialog();
-                        String[] split = response1.toString().split(",");
-                        gt = split[1];
+                       /* String[] split = response1.toString().split(",");
+                        gt = split[1];*/
                         TipEntity tipEntity = (TipEntity) response2;
                         if (tipEntity.getCode() == 200) {
                             mHandler.sendEmptyMessage(0);
@@ -334,7 +334,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 TipEntity tipEntity = (TipEntity) response;
                 if (tipEntity.getCode() == 200) {
                     //注册成功登录
-                    login(account_value, pass_value, "undefined");
+                    login(account_value, pass_value,"undefined");
                 }
 
                 if (tipEntity.getMessage().equals("")) {
@@ -352,7 +352,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     }
 
     private void login(String account_value, String pass_value, String geetestToken) {
-        NetManger.getInstance().login(account_value, pass_value,true, geetestToken, (state, response) -> {
+        NetManger.getInstance().login(account_value, pass_value,true, Util.Random32(), geetestToken, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {

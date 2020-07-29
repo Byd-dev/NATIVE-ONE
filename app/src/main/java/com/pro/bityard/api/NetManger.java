@@ -256,9 +256,6 @@ public class NetManger {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Headers headers = response.headers();
-                        String s = headers.get("Set-Cookie");
-                        Log.d("cookie", "onSuccess: " + s);
                         if (!TextUtils.isEmpty(response.body())) {
                             onNetResult.onNetResult(SUCCESS, response.body());
                         }
@@ -1487,16 +1484,18 @@ public class NetManger {
             @Override
             public void onImageSuccessResult(String result) {
                 Log.d("print", "onImageSuccessResult: " + result);
+                String[] split = result.split(",");
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("account", account);
                 map.put("type", sendType);
-                map.put("vCode", result);
+                map.put("vHash",split[0]);
+                map.put("vCode", split[1]);
                 NetManger.getInstance().postRequest("/api/system/sendEmail", map, (state, response) -> {
                     if (state.equals(BUSY)) {
                         onNetTwoResult.setResult(BUSY, null, null);
                     } else if (state.equals(SUCCESS)) {
                         TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                        onNetTwoResult.setResult(SUCCESS, resultStr, tipEntity);
+                        onNetTwoResult.setResult(SUCCESS, split[1], tipEntity);
 
                     } else if (state.equals(FAILURE)) {
                         onNetTwoResult.setResult(FAILURE, null, null);
@@ -1583,16 +1582,19 @@ public class NetManger {
 
             @Override
             public void onImageSuccessResult(String result) {
+                String[] split = result.split(",");
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("account", account);
                 map.put("type", sendType);
-                map.put("vCode", result);
+                map.put("vHash",split[0]);
+                map.put("vCode", split[1]);
+
                 NetManger.getInstance().postRequest("/api/system/sendSMS", map, (state, response) -> {
                     if (state.equals(BUSY)) {
                         onNetTwoResult.setResult(BUSY, null, null);
                     } else if (state.equals(SUCCESS)) {
                         TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                        onNetTwoResult.setResult(SUCCESS, geetestToken, tipEntity);
+                        onNetTwoResult.setResult(SUCCESS, split[1], tipEntity);
 
                     } else if (state.equals(FAILURE)) {
                         onNetTwoResult.setResult(FAILURE, null, null);
@@ -2307,25 +2309,26 @@ public class NetManger {
     }
 
     /*登录*/
-    public void login(String account, String pass, boolean verification, String geetestToken, OnNetResult onNetResult) {
+    public void login(String account, String pass, boolean verification, String vHash, String geetestToken, OnNetResult onNetResult) {
 
         ArrayMap<String, String> map = new ArrayMap<>();
 
-        map.put("vHash", Util.Random32());
+        map.put("vHash", vHash);
         map.put("username", account);
         map.put("password", URLEncoder.encode(pass));
         if (verification) {
             map.put("geetestToken", geetestToken);
         } else {
             map.put("vCode", geetestToken);
+
         }
         map.put("terminal", "Android");
 
         NetManger.getInstance().postRequest("/api/sso/user_login_check", map, (state, response) -> {
+            Log.d("print", "login: 2325: " + response);
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-
                 LoginEntity loginEntity = new Gson().fromJson(response.toString(), LoginEntity.class);
                 if (loginEntity.getCode() == 200) {
                     onNetResult.onNetResult(SUCCESS, loginEntity);

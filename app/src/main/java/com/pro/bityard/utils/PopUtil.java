@@ -237,6 +237,8 @@ public class PopUtil {
 
     }
 
+
+    private String hash=null;
     /*图片验证码*/
     public void showVerification(Activity activity, View layout_view, OnResult onResult) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_verification_layout, null);
@@ -249,20 +251,24 @@ public class PopUtil {
         EditText edit_code = view.findViewById(R.id.edit_code);
 
 
-        getCode(activity, img_code);
+        getCode(activity, img_code, response -> {
+            hash=response.toString();
+        });
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             popupWindow.dismiss();
         });
 
-        view.findViewById(R.id.img_refresh).setOnClickListener(v -> getCode(activity, img_code));
+        view.findViewById(R.id.img_refresh).setOnClickListener(v -> getCode(activity, img_code, response -> {
+
+        }));
 
         view.findViewById(R.id.text_sure).setOnClickListener(v -> {
             String s = edit_code.getText().toString();
             if (s.equals("")) {
                 Toast.makeText(activity, "请输入图形验证码", Toast.LENGTH_SHORT).show();
             } else {
-                onResult.setResult(s);
+                onResult.setResult(hash+","+s);
                 popupWindow.dismiss();
             }
         });
@@ -277,9 +283,11 @@ public class PopUtil {
 
     }
 
-    public void getCode(Context context, ImageView img_code) {
+    public void getCode(Context context, ImageView img_code,OnResult onResult) {
+        String hash = Util.Random32();
         ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("vHash", Util.Random32());
+        map.put("vHash", hash);
+        Log.d("print", "getCode:290:  "+hash);
         NetManger.getInstance().getBitmapRequest("/api/code/image.jpg", map, (state, response) -> {
             if (state.equals(SUCCESS)) {
                 Bitmap bitmap = (Bitmap) response;
@@ -289,6 +297,7 @@ public class PopUtil {
                     byte[] bytes = baos.toByteArray();
                     Glide.with(context.getApplicationContext()).load(bytes)
                             .centerCrop().into(img_code);
+                    onResult.setResult(hash);
                 });
             }
         });

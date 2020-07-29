@@ -67,7 +67,7 @@ public class Gt3Util {
 
 
         boolean verification = SPUtils.getBoolean(AppConfig.KEY_VERIFICATION, true);
-        if (!verification) {
+        if (verification) {
             // 配置bean文件，也可在oncreate初始化
             gt3ConfigBean = new GT3ConfigBean();
             // 设置验证模式，1：bind，2：unbind

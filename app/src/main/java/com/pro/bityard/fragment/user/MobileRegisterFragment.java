@@ -452,7 +452,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     }
 
     private void login(String account_value, String pass_value, String geetestToken) {
-        NetManger.getInstance().login(account_value, pass_value,true, geetestToken, (state, response) -> {
+        NetManger.getInstance().login(account_value, pass_value,true, Util.Random32(),geetestToken, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {
