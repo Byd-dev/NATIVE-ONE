@@ -1466,10 +1466,8 @@ public class NetManger {
                     } else if (state.equals(SUCCESS)) {
                         TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                         onNetTwoResult.setResult(SUCCESS, resultStr, tipEntity);
-
                     } else if (state.equals(FAILURE)) {
                         onNetTwoResult.setResult(FAILURE, null, null);
-
                     }
                 });
             }
@@ -1477,8 +1475,6 @@ public class NetManger {
             @Override
             public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
                 onNetTwoResult.setResult(FAILURE, null, null);
-
-
             }
 
             @Override
