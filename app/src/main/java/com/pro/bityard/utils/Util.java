@@ -18,6 +18,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.ArrayMap;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.bityard.entity.InitEntity;
 import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONArray;
@@ -214,7 +216,7 @@ public class Util {
         //设置语言类型
         Resources resources = context.getResources();
         Configuration configuration = resources.getConfiguration();
-        Locale locale=null;
+        Locale locale = null;
         switch (language) {
             case AppConfig.EN_US:
                 locale = Locale.ENGLISH;
@@ -276,7 +278,7 @@ public class Util {
                 locale = Locale.KOREA;
                 break;
         }
-        Log.d("print" ,"applyLanguage:设置语言: "+locale.toString());
+        Log.d("print", "applyLanguage:设置语言: " + locale.toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             // apply locale
             configuration.setLocale(locale);
@@ -970,9 +972,27 @@ public class Util {
     }
 
 
-    public static String deal(String content){
+    public static String deal(String content) {
         String replace = content.replaceAll("\\[", "").replaceAll("]", "").replace(" ", "");
-        return  replace;
+        return replace;
+    }
+
+    public static ArrayMap<String, String> groupData(List<InitEntity.GroupBean> group) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        for (InitEntity.GroupBean data : group) {
+            map.put(data.getName(), data.getList());
+        }
+        return map;
+    }
+
+
+    public static String groupList(ArrayMap<String, String> stringStringArrayMap) {
+        String list0 = stringStringArrayMap.get("外盘商品");
+        String list1 = stringStringArrayMap.get("股指期货");
+        String list = stringStringArrayMap.get("数字货币");
+        StringBuilder stringBuilder2 = new StringBuilder();
+        StringBuilder append = stringBuilder2.append(list0).append(";").append(list1).append(";").append(list);
+        return append.toString();
     }
 
 

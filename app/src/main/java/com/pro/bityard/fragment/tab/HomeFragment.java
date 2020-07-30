@@ -303,7 +303,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
     public void update(Observable o, Object arg) {
 
         ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
-        List<String> quoteList = arrayMap.get("0");
+        List<String> quoteList = arrayMap.get("all");
         runOnUiThread(() -> {
             assert quoteList != null;
             quoteHomeAdapter.setDatas(quoteList.subList(0, 3));

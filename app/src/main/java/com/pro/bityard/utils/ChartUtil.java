@@ -639,6 +639,38 @@ public class ChartUtil {
                 img_bg.setVisibility(View.VISIBLE);
                 img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_zrx));
                 break;
+            case "YM":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ym));
+                break;
+            case "SI":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_si));
+                break;
+            case "NQ":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_nq));
+                break;
+            case "NG":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ng));
+                break;
+            case "HG":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_hg));
+                break;
+            case "GC":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_gc));
+                break;
+            case "CN":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_cn));
+                break;
+            case "CL":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_cl));
+                break;
             default:
                 img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt));
                 break;

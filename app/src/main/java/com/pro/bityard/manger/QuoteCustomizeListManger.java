@@ -3,7 +3,6 @@ package com.pro.bityard.manger;
 import android.os.Handler;
 import android.os.Message;
 import android.util.ArrayMap;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
@@ -102,7 +101,8 @@ public class QuoteCustomizeListManger extends Observable {
                     List<String> innovationQuoteList = TradeUtil.innovationQuoteList(strings);
                     //自选
                     List<String> optionalQuoteList = TradeUtil.optionalQuoteList(strings);
-
+                    //衍生区
+                    List<String> derivedQuoteList = TradeUtil.derivedQuoteList(strings);
 
                     //BTC BCH ETH
                     List<String> stringList4 = TradeUtil.homeHot(mainQuoteList);
@@ -138,7 +138,7 @@ public class QuoteCustomizeListManger extends Observable {
                     List<String> stringList13 = TradeUtil.nameHighToLow(innovationQuoteList);
 
 
-                    if (optionalQuoteList!=null){
+                    if (optionalQuoteList != null) {
                         //价格从高到低
                         List<String> stringList14 = TradeUtil.priceHighToLow(optionalQuoteList);
                         //价格从低到高
@@ -158,11 +158,22 @@ public class QuoteCustomizeListManger extends Observable {
                         arrayMap.put("20", stringList17);
                         arrayMap.put("21", stringList18);
                         arrayMap.put("22", stringList19);
-                    }else {
+                    } else {
                         arrayMap.put("16", null);
 
                     }
-
+                    //价格从高到低
+                    List<String> stringList20 = TradeUtil.priceHighToLow(derivedQuoteList);
+                    //价格从低到高
+                    List<String> stringList21 = TradeUtil.priceLowToHigh(derivedQuoteList);
+                    //涨跌幅从高到低
+                    List<String> stringList22 = TradeUtil.rangeHighToLow(derivedQuoteList);
+                    //涨跌幅从低到高
+                    List<String> stringList23 = TradeUtil.rangeLowToHigh(derivedQuoteList);
+                    //字母a-z
+                    List<String> stringList24 = TradeUtil.nameLowToHigh(derivedQuoteList);
+                    //字母z-a
+                    List<String> stringList25 = TradeUtil.nameHighToLow(derivedQuoteList);
 
                     arrayMap.put("all", strings);
 
@@ -184,7 +195,13 @@ public class QuoteCustomizeListManger extends Observable {
                     arrayMap.put("14", stringList12);
                     arrayMap.put("15", stringList13);
 
-
+                    arrayMap.put("23", derivedQuoteList);
+                    arrayMap.put("24", stringList20);
+                    arrayMap.put("25", stringList21);
+                    arrayMap.put("26", stringList22);
+                    arrayMap.put("27", stringList23);
+                    arrayMap.put("28", stringList24);
+                    arrayMap.put("29", stringList25);
 
                     postQuote(arrayMap);
 

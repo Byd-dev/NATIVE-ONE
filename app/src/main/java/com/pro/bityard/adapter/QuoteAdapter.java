@@ -1,6 +1,7 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
-    private boolean isShow=false;
+    private boolean isShow = false;
 
 
     public boolean isLoadMore = false;
@@ -48,8 +49,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.notifyDataSetChanged();
     }
 
-    public void isShowIcon(boolean isShow){
-        this.isShow=isShow;
+    public void isShowIcon(boolean isShow) {
+        this.isShow = isShow;
         this.notifyDataSetChanged();
     }
 
@@ -93,18 +94,23 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof MyViewHolder) {
 
 
-
             String name = TradeUtil.listQuoteName(datas.get(position));
 
-            if (isShow){
-                ChartUtil.setIcon(name,((MyViewHolder) holder).img_icon);
-            }else {
+            if (isShow) {
+                ChartUtil.setIcon(name, ((MyViewHolder) holder).img_icon);
+            } else {
                 ((MyViewHolder) holder).img_icon.setVisibility(View.GONE);
             }
 
 
             ((MyViewHolder) holder).text_name.setText(name);
-            ((MyViewHolder) holder).text_name_usdt.setText("/" + TradeUtil.listQuoteUSD(datas.get(position)));
+            String currency = TradeUtil.listQuoteUSD(datas.get(position));
+            if (currency == null) {
+                ((MyViewHolder) holder).text_name_usdt.setText("");
+            } else {
+                ((MyViewHolder) holder).text_name_usdt.setText("/" + currency);
+            }
+
 
             String price = TradeUtil.listQuotePrice(datas.get(position));
 
@@ -116,14 +122,14 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             String tag = TradeUtil.listQuoteIsRange(datas.get(position));
             if (Integer.parseInt(tag) == 1) {
 
-               // ((MyViewHolder) holder).text_change.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_quote_green));
+                // ((MyViewHolder) holder).text_change.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_quote_green));
                 ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_green));
-              //  ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_up));
+                //  ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_up));
             } else if (Integer.parseInt(tag) == -1) {
 
-              //  ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                //  ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_quote_red));
                 ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_red));
-              //  ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_down));
+                //  ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_down));
 
             } else if (Integer.parseInt(tag) == 0) {
 

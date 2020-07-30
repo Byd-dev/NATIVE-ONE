@@ -289,7 +289,7 @@ public class HoldFragment extends BaseFragment implements Observer {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
                                     double game = data.getGame();
-                                    Log.d("print", "update:337:模拟:  " + game);
+                                 //   Log.d("print", "update:337:模拟:  " + game);
                                     double add1 = TradeUtil.add(game, Double.parseDouble(margin));
                                     double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
                                     text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));

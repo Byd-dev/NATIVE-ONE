@@ -6,12 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.utils.ChartUtil;
 
 import java.util.ArrayList;
@@ -85,10 +83,17 @@ public class TradeSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
-            if (position!=0){
-                String substring = datas.get(position).substring(0, datas.get(position).length() - 4);
-                ((MyViewHolder) holder).text_name.setText(substring);
-                ChartUtil.setIcon(substring,((MyViewHolder) holder).img_bg);
+            if (position != 0) {
+                if (datas.get(position).length()>4)
+                {
+                    String substring = datas.get(position).substring(0, datas.get(position).length() - 4);
+                    ((MyViewHolder) holder).text_name.setText(substring);
+                    ChartUtil.setIcon(substring, ((MyViewHolder) holder).img_bg);
+                }else{
+                    String substring = datas.get(position);
+                    ((MyViewHolder) holder).text_name.setText(substring);
+                    ChartUtil.setIcon(substring, ((MyViewHolder) holder).img_bg);
+                }
             }
 
 
@@ -137,8 +142,8 @@ public class TradeSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         public MyViewHolder(View itemView) {
             super(itemView);
             layout_usd = itemView.findViewById(R.id.layout_usd);
-            text_name=itemView.findViewById(R.id.text_name);
-            img_bg=itemView.findViewById(R.id.img_bg);
+            text_name = itemView.findViewById(R.id.text_name);
+            img_bg = itemView.findViewById(R.id.img_bg);
 
             layout_usd.setOnClickListener(view -> {
                 if (onItemClick != null) {

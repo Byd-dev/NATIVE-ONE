@@ -418,8 +418,29 @@ public class NetManger {
                 InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
                 if (initEntity.getGroup() != null) {
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
-                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                    for (InitEntity.GroupBean data : group) {
+
+                    ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
+                    String allList = Util.groupList(stringStringArrayMap);
+                    getTradeList(allList, (state1, response1) -> {
+                        if (state1.equals(BUSY)) {
+
+                        } else if (state1.equals(SUCCESS)) {
+
+                            List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
+                            StringBuilder stringBuilder = new StringBuilder();
+                            for (int i = 0; i < tradeListEntityList.size(); i++) {
+                                stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
+                            }
+                            onNetThreeResult.setResult(SUCCESS, response1, stringBuilder.toString(), tradeListEntityList);
+                            SPUtils.putString(AppConfig.SUPPORT_CURRENCY, initEntity.getBrand().getSupportCurrency());
+                            SPUtils.putString(AppConfig.PRIZE_TRADE, initEntity.getBrand().getPrizeTrade());
+                        } else if (state1.equals(FAILURE)) {
+                        }
+                    });//获取合约号
+
+
+
+                    /*for (InitEntity.GroupBean data : group) {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
                             getTradeList(list, (state1, response1) -> {
@@ -439,7 +460,7 @@ public class NetManger {
                                 }
                             });//获取合约号
                         }
-                    }
+                    }*/
                 }
 
             } else if (state.equals(FAILURE)) {
@@ -461,13 +482,16 @@ public class NetManger {
                 InitEntity initEntity = (InitEntity) response;
                 if (initEntity.getGroup() != null) {
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
-                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                    for (InitEntity.GroupBean data : group) {
+                    ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
+                    String allList = Util.groupList(stringStringArrayMap);
+                    onNetResult.onNetResult(SUCCESS, allList);
+
+                    /*for (InitEntity.GroupBean data : group) {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
                             onNetResult.onNetResult(SUCCESS, list);
                         }
-                    }
+                    }*/
                 }
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
@@ -799,8 +823,27 @@ public class NetManger {
                     SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
 
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
+                    ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
+                    String allList = Util.groupList(stringStringArrayMap);
+                    SPUtils.putString(AppConfig.CONTRACT_ID,allList);
+                    NetManger.getInstance().getTradeList(allList, (state1, response1) -> {
+                        if (state1.equals(BUSY)) {
+                        } else if (state1.equals(SUCCESS)) {
+                            List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
+                            StringBuilder stringBuilder = new StringBuilder();
+                            for (int i = 0; i < tradeListEntityList.size(); i++) {
+                                stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
+                            }
+                            SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
+                            SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
+                        } else if (state1.equals(FAILURE)) {
+                        }
+                    });//获取合约号
+
+
+
                     // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                    for (InitEntity.GroupBean data : group) {
+                   /* for (InitEntity.GroupBean data : group) {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
                             SPUtils.putString(AppConfig.CONTRACT_ID, list);
@@ -818,7 +861,7 @@ public class NetManger {
                                 }
                             });//获取合约号
                         }
-                    }
+                    }*/
                 }
             }
         });

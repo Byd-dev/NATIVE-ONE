@@ -1305,7 +1305,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         if (o == QuoteCustomizeListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
-            quoteList = arrayMap.get("0");
+            quoteList = arrayMap.get("all");
             //OpenPositionEntity{code=200, message='', data=[]}    或者是null
             if (positionEntity != null && positionEntity.getData().size() > 0) {
                 runOnUiThread(() -> {

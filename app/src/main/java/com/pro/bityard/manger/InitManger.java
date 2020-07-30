@@ -1,7 +1,5 @@
 package com.pro.bityard.manger;
 
-import android.util.ArrayMap;
-
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.FundItemEntity;
@@ -10,8 +8,6 @@ import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.switchlibrary.SPUtils;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -48,9 +44,6 @@ public class InitManger extends Observable {
 
 
     public void init() {
-
-
-
 
 
         //判断是否登录

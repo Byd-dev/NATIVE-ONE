@@ -99,7 +99,13 @@ public class TradeRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             int length = datas.get(position).getCurrency().length();
 
-            ((MyViewHolder) holder).text_name.setText(datas.get(position).getCommodityCode().substring(0, datas.get(position).getCommodityCode().length() - length));
+            if (datas.get(position).getCommodityCode().length()>4){
+                ((MyViewHolder) holder).text_name.setText(datas.get(position).getCommodityCode().substring(0, datas.get(position).getCommodityCode().length() - length));
+            }else {
+                ((MyViewHolder) holder).text_name.setText(datas.get(position).getCommodityCode());
+
+            }
+
 
             ((MyViewHolder) holder).text_currency.setText(datas.get(position).getCurrency());
 

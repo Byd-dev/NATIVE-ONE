@@ -167,7 +167,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     @BindView(R.id.img_name_triangle)
     ImageView img_name_triangle;
     private String type = "0";
-    private int zone_type = 1;//1是主区 0是创新区
+    private int zone_type = 1;//-1是自选 1是主区 0是创新区 2是衍生品
     private ArrayMap<String, List<String>> arrayMap;
 
 
@@ -271,7 +271,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
                 });
-            }else {
+            } else {
                 layout_null.setVisibility(View.VISIBLE);
                 recyclerView_market.setVisibility(View.GONE);
             }
@@ -404,7 +404,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
                                     double game = data.getGame();
-                                    Log.d("print", "update:337:模拟:  " + game);
+                                    //   Log.d("print", "update:337:模拟:  " + game);
                                     double add1 = TradeUtil.add(game, Double.parseDouble(margin));
                                     double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
                                     text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
@@ -438,7 +438,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 layout_real.setVisibility(View.VISIBLE);
                 layout_simulation.setVisibility(View.GONE);
                 runOnUiThread(() -> {
-                    Log.d("print", "update:337:  " + a + "  --   " + radioButton_2);
+                    // Log.d("print", "update:337:  " + a + "  --   " + radioButton_2);
                     radioButton_2.setChecked(true);
                 });
             }
@@ -679,6 +679,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         titleList.add(getResources().getString(R.string.text_optional));
         titleList.add(getResources().getString(R.string.text_main_zone));
         titleList.add(getResources().getString(R.string.text_innovate));
+        titleList.add(getString(R.string.text_derived));
         for (String market_name : titleList) {
             tabLayout_market.addTab(tabLayout_market.newTab().setText(market_name));
         }
@@ -692,7 +693,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 flag_new_price = false;
                 flag_up_down = false;
                 flag_name = false;
-                if (arrayMap==null){
+                if (arrayMap == null) {
                     return;
                 }
 
@@ -745,6 +746,22 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     zone_type = 0;
+                } else if (tab.getPosition() == 3) {
+                    type = "23";
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    zone_type = 2;
                 }
             }
 
@@ -1147,6 +1164,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                         type = "10";
                     } else if (zone_type == -1) {
                         type = "17";
+                    } else if (zone_type == 2) {
+                        type = "24";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1163,6 +1182,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
                     } else if (zone_type == -1) {
                         type = "18";
+                    } else if (zone_type == 2) {
+                        type = "25";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1186,6 +1207,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
                     } else if (zone_type == -1) {
                         type = "19";
+                    } else if (zone_type == 2) {
+                        type = "26";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1200,6 +1223,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
                     } else if (zone_type == -1) {
                         type = "20";
+                    } else if (zone_type == 2) {
+                        type = "27";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1223,6 +1248,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
                     } else if (zone_type == -1) {
                         type = "21";
+                    } else if (zone_type == 2) {
+                        type = "28";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
@@ -1237,6 +1264,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
                     } else if (zone_type == -1) {
                         type = "22";
+                    } else if (zone_type == 2) {
+                        type = "29";
                     }
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);

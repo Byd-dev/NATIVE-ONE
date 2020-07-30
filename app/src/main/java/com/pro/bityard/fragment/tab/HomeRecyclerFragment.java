@@ -319,7 +319,7 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
     public void update(Observable o, Object arg) {
 
         ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
-        List<String> quoteList = arrayMap.get("0");
+        List<String> quoteList = arrayMap.get("all");
         runOnUiThread(() -> {
             quoteHomeAdapter.setDatas(quoteList.subList(0, 3));
             quoteAdapter.setDatas(quoteList);

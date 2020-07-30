@@ -3,6 +3,7 @@ package com.pro.bityard.guide;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,13 +14,13 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.utils.PermissionUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
 
@@ -76,9 +77,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     protected void initView(View view) {
 
 
-
-
-
         PermissionUtil.getInstance().initPermission(this, response -> {
             if (response == SUCCESS) {
                 init();
@@ -87,6 +85,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
 
     }
+
 
     private void init() {
         NetManger.getInstance().getInit((state, response) -> {
@@ -99,28 +98,25 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
                     SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
-                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                    Log.d("print", "initQuote:103:  "+group);
-
-                    for (InitEntity.GroupBean data : group) {
-                        if (data.getName().equals("数字货币")) {
-                            String list = data.getList();
-                            SPUtils.putString(AppConfig.CONTRACT_ID, list);
-                            NetManger.getInstance().getTradeList(list, (state1, response1) -> {
-                                if (state1.equals(BUSY)) {
-                                } else if (state1.equals(SUCCESS)) {
-                                    List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
-                                    StringBuilder stringBuilder = new StringBuilder();
-                                    for (int i = 0; i < tradeListEntityList.size(); i++) {
-                                        stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
-                                    }
-                                    SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
-                                    SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
-                                } else if (state1.equals(FAILURE)) {
-                                }
-                            });//获取合约号
+                    Log.d("print", "initQuote:103:  " + group);
+                    ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
+                    String allList = Util.groupList(stringStringArrayMap);
+                    SPUtils.putString(AppConfig.CONTRACT_ID, allList);
+                    NetManger.getInstance().getTradeList(allList, (state1, response1) -> {
+                        if (state1.equals(BUSY)) {
+                        } else if (state1.equals(SUCCESS)) {
+                            List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
+                            StringBuilder stringBuilder = new StringBuilder();
+                            for (int i = 0; i < tradeListEntityList.size(); i++) {
+                                stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
+                            }
+                            SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
+                            SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
+                        } else if (state1.equals(FAILURE)) {
                         }
-                    }
+                    });//获取合约号
+
+
                 }
                 run();
             } else if (state.equals(FAILURE)) {
@@ -142,7 +138,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         if (language.equals(AppConfig.KEY_LANGUAGE)) {
             SPUtils.putString(AppConfig.KEY_LANGUAGE, language_local);
         }
-
 
 
     }

@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +24,7 @@ import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -89,6 +91,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
     private int page = 0;
     private String commodity = null;
     private List<String> contractList;
+    private String code;
 
 
     @Override
@@ -222,8 +225,16 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                     InitEntity initEntity = (InitEntity) response;
                     if (initEntity.getGroup() != null) {
                         List<InitEntity.GroupBean> group = initEntity.getGroup();
-                        // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                        for (InitEntity.GroupBean data : group) {
+                        ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
+                        String allList = Util.groupList(stringStringArrayMap);
+                        String[] contract = allList.split(";");
+
+                        contractList = new ArrayList<>();
+                        contractList.addAll(Arrays.asList(contract));
+                        contractList.add(0, "ALL");
+                        SPUtils.putString(AppConfig.CONTRACT_ID, allList);
+
+                       /* for (InitEntity.GroupBean data : group) {
                             if (data.getName().equals("数字货币")) {
                                 String list2 = data.getList();
                                 String[] contract = list2.split(";");
@@ -233,7 +244,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                                 contractList.add(0, "ALL");
                                 SPUtils.putString(AppConfig.CONTRACT_ID, list2);
                             }
-                        }
+                        }*/
                     }
                 }
 
@@ -343,7 +354,11 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                     text_select.setText("ALL");
                     ChartUtil.setIcon("", img_bg);
                 } else {
-                    String code = data.substring(0, data.length() - 4);
+                    if (data.length()>4){
+                        code = data.substring(0, data.length() - 4);
+                    }else {
+                        code=data;
+                    }
                     commodity = code + "USDT";
                     text_select.setText(code);
                     ChartUtil.setIcon(code, img_bg);

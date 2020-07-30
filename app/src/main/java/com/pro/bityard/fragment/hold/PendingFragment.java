@@ -344,7 +344,7 @@ public class PendingFragment extends BaseFragment implements Observer {
     public void update(Observable o, Object arg) {
         if (o == QuoteCustomizeListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
-            quoteList = arrayMap.get("0");
+            quoteList = arrayMap.get("all");
             runOnUiThread(() -> {
                 //现价和盈亏
 

@@ -745,7 +745,17 @@ public class TradeUtil {
         }
         return quoteList2;
     }
-
+    /* 衍生区*/
+    public static List<String> derivedQuoteList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            if (TradeUtil.listQuoteName(split[0]).length()==2) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
     /* 自选*/
     public static List<String> optionalQuoteList(List<String> quoteList) {
         String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
@@ -1032,10 +1042,12 @@ public class TradeUtil {
     /*usdt*/
     public static String listQuoteUSD(String quote) {
         String[] split = quote.split(",");
-
-
         String[] split1 = Util.quoteList(split[0]).split(",");
-        return split1[1];
+        if (split1[1].equals("null")){
+            return null;
+        }else {
+            return split1[1];
+        }
     }
 
     /*名称合起来*/
