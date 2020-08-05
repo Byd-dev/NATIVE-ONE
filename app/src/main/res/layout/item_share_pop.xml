@@ -255,19 +255,34 @@
                         android:layout_toRightOf="@+id/stay_scan"
                         android:orientation="vertical">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/text_download_app"
-                            android:textColor="@color/text_main_color_black"
-                            android:textSize="@dimen/size_bigger" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/text_recommend_code"
+                                android:textColor="@color/text_main_color_black"
+                                android:textSize="@dimen/size_big" />
+
+                            <TextView
+                                android:id="@+id/text_recommend_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/margin_5"
+                                android:textColor="@color/maincolor"
+                                android:textSize="@dimen/size_big" />
+                        </LinearLayout>
+
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/text_trade_anytime"
                             android:textColor="@color/text_main_color_black"
-                            android:textSize="@dimen/size_big" />
+                            android:textSize="@dimen/size_normal" />
 
                     </LinearLayout>
                 </RelativeLayout>
@@ -302,8 +317,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_marginTop="@dimen/margin_15"
             android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_15"
             android:layout_marginRight="@dimen/margin_10"
             android:background="@drawable/bg_share"
             android:orientation="vertical">

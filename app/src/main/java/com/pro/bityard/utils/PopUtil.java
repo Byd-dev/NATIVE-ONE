@@ -38,8 +38,11 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.api.PopResult;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.HistoryEntity;
+import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.QuoteListManger;
+import com.pro.switchlibrary.SPUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -340,6 +343,13 @@ public class PopUtil {
         text_currency.setText("/" + dataBean.getCurrency());
 
         TextView text_save = view.findViewById(R.id.text_save);
+
+        TextView text_recommend_code=view.findViewById(R.id.text_recommend_code);
+
+        UserDetailEntity userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
+        if (userDetailEntity!=null){
+            text_recommend_code.setText(userDetailEntity.getUser().getRefer());
+        }
 
         text_save.setOnClickListener(v -> {
             if (PermissionUtil.readAndWrite(activity)) {

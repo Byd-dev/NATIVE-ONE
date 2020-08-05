@@ -317,8 +317,8 @@
     <string name="text_my_rate_return">我的收益率</string>
     <string name="text_wonderful_unrivalled">神机妙算,无可匹敌</string>
     <string name="text_scan_download">扫一扫下载</string>
-    <string name="text_download_app">下载app</string>
-    <string name="text_trade_anytime">随时随地开启Bityard交易</string>
+    <string name="text_recommend_code">推荐码:</string>
+    <string name="text_trade_anytime">通过邀请码注册立即领取礼金</string>
     <string name="text_king">我就是王者</string>
     <string name="text_awesome">还！有！谁！</string>
     <string name="text_set_goal">设个小目标，先挣100万</string>
