@@ -64,14 +64,12 @@ import static com.pro.bityard.utils.TradeUtil.ProfitAmount;
 import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
 import static com.pro.bityard.utils.TradeUtil.big;
-import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.income;
 import static com.pro.bityard.utils.TradeUtil.lossAmount;
 import static com.pro.bityard.utils.TradeUtil.lossRate;
 import static com.pro.bityard.utils.TradeUtil.minMargin;
 import static com.pro.bityard.utils.TradeUtil.netIncome;
 import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
-import static com.pro.bityard.utils.TradeUtil.price;
 import static com.pro.bityard.utils.TradeUtil.profitRate;
 import static com.pro.bityard.utils.TradeUtil.small;
 
@@ -293,10 +291,10 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         }
         //现价和盈亏
-        TradeUtil.positionPrice(isBuy_pop,quoteList, dataBean.getContractCode(), response -> {
+        TradeUtil.positionPrice(isBuy_pop, quoteList, dataBean.getContractCode(), response -> {
             text_price_pop.setText(response.toString());
             String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop, 4);
-            text_income_pop.setText(TradeUtil.getNumberFormat(Double.parseDouble(income),2)
+            text_income_pop.setText(TradeUtil.getNumberFormat(Double.parseDouble(income), 2)
                     + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
             double incomeDouble = Double.parseDouble(income);
             String netIncome = netIncome(incomeDouble, serviceCharge_pop);
@@ -1220,6 +1218,8 @@ public class PositionFragment extends BaseFragment implements Observer {
         BalanceManger.getInstance().getBalance("USDT");
 
 
+
+
         //合约号
        /* TradeListManger.getInstance().tradeList((state, response) -> {
             if (state.equals(SUCCESS)) {
@@ -1325,16 +1325,16 @@ public class PositionFragment extends BaseFragment implements Observer {
                     //pop 实时价格也是同步刷新
                     if (text_price != null) {
                         if (isAdded()) {
-                            TradeUtil.positionPrice(isBuy_pop,quoteList, contractCode, response -> text_price.setText(response.toString()));
+                            TradeUtil.positionPrice(isBuy_pop, quoteList, contractCode, response -> text_price.setText(response.toString()));
                         }
                     }
                     if (text_price_pop != null) {
                         if (isAdded()) {
-                            TradeUtil.positionPrice(isBuy_pop,quoteList, contractCode, response -> {
+                            TradeUtil.positionPrice(isBuy_pop, quoteList, contractCode, response -> {
                                 text_price_pop.setText(response.toString());
                                 String income = income(isBuy_pop, Double.parseDouble(response.toString()), opPrice_pop, volume_pop, 4);
 
-                                text_income_pop.setText(TradeUtil.getNumberFormat(Double.parseDouble(income),2)
+                                text_income_pop.setText(TradeUtil.getNumberFormat(Double.parseDouble(income), 2)
                                         + "(" + TradeUtil.ratio(Double.parseDouble(income), margin_pop) + ")");
 
                                 double incomeDouble = Double.parseDouble(income);

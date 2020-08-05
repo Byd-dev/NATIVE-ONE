@@ -47,6 +47,7 @@ import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.QuoteCustomizeListManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
+import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
@@ -808,6 +809,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         BalanceManger.getInstance().addObserver(this);
         //净值注册
         NetIncomeManger.getInstance().addObserver(this);
+
 
         radioGroup_hold.getChildAt(0).performClick();
         radioGroup_hold.setOnCheckedChangeListener((group, checkedId) -> {

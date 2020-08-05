@@ -75,7 +75,7 @@ public class TradeListManger extends Observable {
     }
 
     /*获取合约号*/
-    private void getTradeList(String codeList, OnNetResult onNetResult) {
+    public void getTradeList(String codeList, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("code", codeList);
         String[] codeSplitList = codeList.split(";");

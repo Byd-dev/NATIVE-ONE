@@ -46,6 +46,7 @@ import com.pro.bityard.entity.UpdateEntity;
 import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
+import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -409,7 +410,7 @@ public class NetManger {
     }
 
     /*行情地址host 合约号 合约号详情 的方法  关键*/
-    public void getHostCodeTradeList(OnNetThreeResult onNetThreeResult) {
+    /*public void getHostCodeTradeList(OnNetThreeResult onNetThreeResult) {
 
         NetManger.getInstance().getInit((state, response) -> {
             if (state.equals(BUSY)) {
@@ -440,7 +441,7 @@ public class NetManger {
 
 
 
-                    /*for (InitEntity.GroupBean data : group) {
+                    *//*for (InitEntity.GroupBean data : group) {
                         if (data.getName().equals("数字货币")) {
                             String list = data.getList();
                             getTradeList(list, (state1, response1) -> {
@@ -460,7 +461,7 @@ public class NetManger {
                                 }
                             });//获取合约号
                         }
-                    }*/
+                    }*//*
                 }
 
             } else if (state.equals(FAILURE)) {
@@ -470,7 +471,7 @@ public class NetManger {
         });
 
 
-    }
+    }*/
 
     /*获取codelist*/
     public void codeList(OnNetResult onNetResult) {
@@ -509,6 +510,8 @@ public class NetManger {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 String s = response.toString().replaceAll(" ", "");
+
+
                 if (s.startsWith("error")) {
                     onNetResult.onNetResult(FAILURE, response);
                 } else {
@@ -825,8 +828,8 @@ public class NetManger {
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
                     ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
                     String allList = Util.groupList(stringStringArrayMap);
-                    SPUtils.putString(AppConfig.CONTRACT_ID,allList);
-                    NetManger.getInstance().getTradeList(allList, (state1, response1) -> {
+                    SPUtils.putString(AppConfig.CONTRACT_ID, allList);
+                    TradeListManger.getInstance().getTradeList(allList, (state1, response1) -> {
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
                             List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
@@ -839,7 +842,6 @@ public class NetManger {
                         } else if (state1.equals(FAILURE)) {
                         }
                     });//获取合约号
-
 
 
                     // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
@@ -1527,7 +1529,7 @@ public class NetManger {
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("account", account);
                 map.put("type", sendType);
-                map.put("vHash",split[0]);
+                map.put("vHash", split[0]);
                 map.put("vCode", split[1]);
                 NetManger.getInstance().postRequest("/api/system/sendEmail", map, (state, response) -> {
                     if (state.equals(BUSY)) {
@@ -1625,7 +1627,7 @@ public class NetManger {
                 ArrayMap<String, String> map = new ArrayMap<>();
                 map.put("account", account);
                 map.put("type", sendType);
-                map.put("vHash",split[0]);
+                map.put("vHash", split[0]);
                 map.put("vCode", split[1]);
 
                 NetManger.getInstance().postRequest("/api/system/sendSMS", map, (state, response) -> {

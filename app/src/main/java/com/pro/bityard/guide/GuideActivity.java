@@ -19,6 +19,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeListEntity;
+import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.PermissionUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
@@ -102,7 +103,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
                     String allList = Util.groupList(stringStringArrayMap);
                     SPUtils.putString(AppConfig.CONTRACT_ID, allList);
-                    NetManger.getInstance().getTradeList(allList, (state1, response1) -> {
+                    TradeListManger.getInstance().getTradeList(allList, (state1, response1) -> {
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
                             List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
