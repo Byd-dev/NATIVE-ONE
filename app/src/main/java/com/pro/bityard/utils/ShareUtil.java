@@ -1,16 +1,6 @@
 package com.pro.bityard.utils;
 
-import android.graphics.Bitmap;
-
-import com.pro.bityard.api.OnResult;
 import com.pro.bityard.manger.NetIncomeManger;
-
-import java.util.HashMap;
-
-import cn.jiguang.share.android.api.JShareInterface;
-import cn.jiguang.share.android.api.PlatActionListener;
-import cn.jiguang.share.android.api.Platform;
-import cn.jiguang.share.android.api.ShareParams;
 
 public class ShareUtil {
 
@@ -34,7 +24,7 @@ public class ShareUtil {
     }
 
 
-    public static void shareText(String content, String name, OnResult onResult) {
+   /* public static void shareText(String content, String name, OnResult onResult) {
         ShareParams shareParams = new ShareParams();
         shareParams.setShareType(Platform.SHARE_TEXT);
         shareParams.setText(content);//必须
@@ -77,5 +67,5 @@ public class ShareUtil {
                 onResult.setResult(i);
             }
         });
-    }
+    }*/
 }

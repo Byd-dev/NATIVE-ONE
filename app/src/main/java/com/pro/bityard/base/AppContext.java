@@ -33,10 +33,6 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.X509TrustManager;
 
-import androidx.multidex.MultiDex;
-import cn.jiguang.share.android.api.JShareInterface;
-import cn.jiguang.share.android.api.PlatformConfig;
-import cn.jiguang.share.wechat.Wechat;
 import cn.jpush.android.api.JPushInterface;
 import okhttp3.OkHttpClient;
 import skin.support.SkinCompatManager;
@@ -74,14 +70,14 @@ public class AppContext extends Application {
         //极光推送必须
         JPushInterface.init(this);
         //极光分享必须
-        MultiDex.install(this);
+       /* MultiDex.install(this);
         //极光分享必须
         JShareInterface.init(this);
         if (isApkInDebug(this)) {
             JShareInterface.setDebugMode(true);
         } else {
             JShareInterface.setDebugMode(false);
-        }
+        }*/
         //换肤的初始化
         SkinCompatManager.withoutActivity(this)
                 .addInflater(new SkinAppCompatViewInflater())           // 基础控件换肤初始化

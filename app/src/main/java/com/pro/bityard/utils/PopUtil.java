@@ -52,7 +52,6 @@ import java.util.Random;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
-import cn.jiguang.share.wechat.Wechat;
 
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
@@ -446,12 +445,12 @@ public class PopUtil {
 
 
     /*分享弹窗*/
-    public void showSharePlatform(Activity activity, View layout_view, HistoryEntity.DataBean dataBean) {
+    /*public void showSharePlatform(Activity activity, View layout_view, HistoryEntity.DataBean dataBean) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.layout_share_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        /*同时打开图片*/
+        *//*同时打开图片*//*
         showShare(activity, layout_view, dataBean, (response1, repose2) -> {
             PopupWindow popupWindow1 = (PopupWindow) repose2;
 
@@ -500,7 +499,7 @@ public class PopUtil {
         popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         view.startAnimation(animation);
-    }
+    }*/
 
     public void dialogUp(Activity activity, View layout_view, String versionMessage, String url) {
         Util.lightOff(activity);
