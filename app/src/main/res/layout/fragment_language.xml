@@ -385,4 +385,46 @@
     </RelativeLayout>
 
     <include layout="@layout/layout_line" />
+    <RelativeLayout
+        android:id="@+id/layout_nine"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_setup">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_pt"
+                android:textColor="@color/text_main_color"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="pt-PT"
+                android:textColor="@color/text_second_color"
+                android:textSize="13sp" />
+
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/img_nine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15" />
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
 </LinearLayout>

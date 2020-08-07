@@ -126,7 +126,9 @@ public class NetManger {
             case AppConfig.IN_ID:
                 language = "in-ID";
                 break;
-
+            case AppConfig.PT_PT:
+                language = "pt-PT";
+                break;
         }
 
 
@@ -184,7 +186,9 @@ public class NetManger {
             case AppConfig.IN_ID:
                 language = "in-ID";
                 break;
-
+            case AppConfig.PT_PT:
+                language = "pt-PT";
+                break;
         }
 
         OkGo.<Bitmap>get(getURL(url, map))
@@ -241,6 +245,9 @@ public class NetManger {
                 break;
             case AppConfig.IN_ID:
                 language = "in-ID";
+                break;
+            case AppConfig.PT_PT:
+                language = "pt-PT";
                 break;
 
         }
@@ -302,7 +309,9 @@ public class NetManger {
             case AppConfig.IN_ID:
                 language = "in-ID";
                 break;
-
+            case AppConfig.PT_PT:
+                language = "pt-PT";
+                break;
         }
         OkGo.<String>get(getHostURL(host, url, map))
                 .headers("Accept-Language", language)
@@ -2275,6 +2284,9 @@ public class NetManger {
             case AppConfig.IN_ID:
                 language = "in-ID";
                 break;
+            case AppConfig.PT_PT:
+                language = "pt-PT";
+                break;
 
         }
         OkGo.<String>get(url)
@@ -2331,7 +2343,9 @@ public class NetManger {
             case AppConfig.IN_ID:
                 language = "in-ID";
                 break;
-
+            case AppConfig.PT_PT:
+                language = "pt-PT";
+                break;
         }
         OkGo.<String>post(url)
                 .headers("Accept-Language", language)
@@ -2445,7 +2459,9 @@ public class NetManger {
             case AppConfig.IN_ID:
                 language = "in-ID";
                 break;
-
+            case AppConfig.PT_PT:
+                language = "pt-PT";
+                break;
         }
         OkGo.<String>get(UPDATE_URL)
                 .headers("Accept-Language", language)

@@ -242,6 +242,9 @@ public class Util {
             case AppConfig.KO_KR:
                 locale = Locale.KOREA;
                 break;
+            case AppConfig.PT_PT:
+                locale = new Locale("pt", "PT");
+                break;
         }
         configuration.setLocale(locale);
         return context.createConfigurationContext(configuration);
@@ -276,6 +279,9 @@ public class Util {
                 break;
             case AppConfig.KO_KR:
                 locale = Locale.KOREA;
+                break;
+            case AppConfig.PT_PT:
+                locale = new Locale("pt", "PT");
                 break;
         }
         Log.d("print", "applyLanguage:设置语言: " + locale.toString());

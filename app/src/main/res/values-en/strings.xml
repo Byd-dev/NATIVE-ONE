@@ -162,7 +162,7 @@
     <string name="text_1h">1hour</string>
     <string name="text_1day">1day</string>
     <string name="text_1week">1week</string>
-    <string name="text_1month">1mon</string>
+    <string name="text_1month">1month</string>
     <string name="text_lever_select">Leverage</string>
     <string name="text_my_service">Support</string>
     <string name="text_safe_center">Security</string>
@@ -329,7 +329,7 @@
     <string name="text_just_case">Just a piece of cake</string>
     <string name="text_much">Buy</string>
     <string name="text_empty">Sell</string>
-    <string name="text_save">Success</string>
+    <string name="text_save">Save</string>
     <string name="text_save_img">Save</string>
     <string name="text_records">Records</string>
     <string name="text_additional_amount">Additional Amount</string>
@@ -434,5 +434,6 @@
     <string name="text_innovate">Innovate</string>
     <string name="text_img_code_input">请输入图形验证码</string>
     <string name="text_derived">衍生区</string>
+    <string name="text_pt">Português</string>
 
 </resources>

@@ -73,6 +73,8 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
             text_language.setText(getResources().getText(R.string.text_ru));
         } else if (language.equals(AppConfig.IN_ID)) {
             text_language.setText(getResources().getText(R.string.text_id));
+        }else if (language.equals(AppConfig.PT_PT)) {
+            text_language.setText(getResources().getText(R.string.text_pt));
         }
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         text_rate.setText(cny);

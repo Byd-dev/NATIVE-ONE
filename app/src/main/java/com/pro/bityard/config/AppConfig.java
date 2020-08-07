@@ -96,4 +96,6 @@ public class AppConfig {
     public static final String VI_VN = "vi_VN";
     public static final String RU_RU = "ru_RU";
     public static final String IN_ID = "in_ID";
+    public static final String PT_PT = "pt_PT";
+
 }

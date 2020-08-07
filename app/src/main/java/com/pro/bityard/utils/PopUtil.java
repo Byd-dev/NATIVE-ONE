@@ -353,7 +353,7 @@ public class PopUtil {
         text_save.setOnClickListener(v -> {
             if (PermissionUtil.readAndWrite(activity)) {
                 ImageUtil.SaveBitmapFromView(activity, layout_share);
-                Toast.makeText(activity, activity.getResources().getString(R.string.text_save), Toast.LENGTH_SHORT).show();
+                Toast.makeText(activity, activity.getResources().getString(R.string.text_success), Toast.LENGTH_SHORT).show();
                 popupWindow.dismiss();
             } else {
                 String[] PERMISSIONS = {
