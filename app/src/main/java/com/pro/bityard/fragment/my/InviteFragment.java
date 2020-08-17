@@ -277,13 +277,13 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
         });
 
         Button btn_submit = view.findViewById(R.id.btn_submit);
-
-        if (TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) > 5) {
+        //内部转账所有用户都可以
+       /* if (TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) > 5) {
             btn_submit.setVisibility(View.VISIBLE);
         } else {
             btn_submit.setVisibility(View.GONE);
 
-        }
+        }*/
 
         /*转账监听*/
         btn_submit.setOnClickListener(v -> {

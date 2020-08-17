@@ -115,12 +115,12 @@ public class InviteRecordAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             }*/
 
-
-            if (rate >= 5) {
+            //内部转账所有用户都可以
+           /* if (rate >= 5) {
                 ((MyViewHolder) holder).text_buy_tip.setVisibility(View.VISIBLE);
             } else {
                 ((MyViewHolder) holder).text_buy_tip.setVisibility(View.GONE);
-            }
+            }*/
 
 
             ((MyViewHolder) holder).text_time.setText(context.getString(R.string.text_last_login) + ChartUtil.getDate(datas.get(position).getLoginTime()));
