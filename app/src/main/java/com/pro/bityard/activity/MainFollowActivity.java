@@ -81,7 +81,7 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 
-public class MainOneActivity extends BaseActivity implements Observer, View.OnClickListener {
+public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener {
 
     public static boolean isForeground = false;
     public static final String MESSAGE_RECEIVED_ACTION = "${applicationId}.MESSAGE_RECEIVED_ACTION";
@@ -94,8 +94,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     LinearLayout layout_home;
     @BindView(R.id.layout_market)
     LinearLayout layout_market;
-    @BindView(R.id.layout_hold)
-    LinearLayout layout_hold;
+    @BindView(R.id.layout_circle)
+    LinearLayout layout_circle;
     @BindView(R.id.layout_my)
     LinearLayout layout_my;
     @BindView(R.id.layout_status)
@@ -171,40 +171,20 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     private ArrayMap<String, List<String>> arrayMap;
 
 
-    /*持仓  ---------------------------------------------------*/
-    @BindView(R.id.radioGroup_hold)
-    RadioGroup radioGroup_hold;
-    @BindView(R.id.layout_real)
-    LinearLayout layout_real;
-    @BindView(R.id.layout_simulation)
-    LinearLayout layout_simulation;
+    /*社区  ---------------------------------------------------*/
+    @BindView(R.id.swipeRefreshLayout_circle)
+    SwipeRefreshLayout swipeRefreshLayout_circle;
+
+
 
 
     /*持仓 实盘 ---------------------------------------------------*/
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
-    @BindView(R.id.text_available)
-    TextView text_available;
-    @BindView(R.id.text_freeze)
-    TextView text_freeze;
-    @BindView(R.id.text_worth)
-    TextView text_worth;
+
     private String tradeType = "1";
     private BalanceEntity balanceEntity;
 
-    /*持仓 模拟 ---------------------------------------------------*/
-    @BindView(R.id.tabLayout_simulation)
-    TabLayout tabLayout_simulation;
-    @BindView(R.id.viewPager_simulation)
-    ViewPager viewPager_simulation;
-    @BindView(R.id.text_available_simulation)
-    TextView text_available_simulation;
-    @BindView(R.id.text_freeze_simulation)
-    TextView text_freeze_simulation;
-    @BindView(R.id.text_worth_simulation)
-    TextView text_worth_simulation;
+
+
 
     /*我的  ---------------------------------------------------*/
     @BindView(R.id.text_userName)
@@ -249,7 +229,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
     @Override
     protected int setContentLayout() {
-        return R.layout.activity_main_one;
+        return R.layout.activity_main_follow;
 
     }
 
@@ -299,63 +279,14 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         } else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
 
-            runOnUiThread(() -> {
-                if (tradeType.equals("1") && text_available != null) {
-                    for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                        if (data.getCurrency().equals("USDT")) {
-                            text_available.setText(TradeUtil.getNumberFormat(data.getMoney(), 2));
-                        }
-                    }
-                }
-            });
-            runOnUiThread(() -> {
-                if (tradeType.equals("2") && text_available_simulation != null) {
-                    for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-                        if (data.getCurrency().equals("USDT")) {
-                            text_available_simulation.setText(TradeUtil.getNumberFormat(data.getGame(), 2));
-                        }
-                    }
-                }
-            });
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
             Log.d("position", "update:持仓列表实盘:  " + positionRealList);
-            if (positionRealList.size() == 0) {
-                text_freeze.setText(getResources().getString(R.string.text_default));
-            } else {
-                runOnUiThread(() -> {
-                    if (text_freeze != null) {
-                        TradeUtil.getMargin(positionRealList, response -> {
 
-                            if (response == null) {
-                                text_freeze.setText(getResources().getString(R.string.text_default));
-                            } else {
-                                text_freeze.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
-                            }
-                        });
-                    }
-                });
-            }
 
         } else if (o == PositionSimulationManger.getInstance()) {
             positionSimulationList = (List<PositionEntity.DataBean>) arg;
-            Log.d("position", "update:持仓列表模拟:  " + positionSimulationList.size());
-            if (positionSimulationList.size() == 0) {
-                text_freeze_simulation.setText(getResources().getString(R.string.text_default));
 
-            } else {
-                runOnUiThread(() -> {
-                    if (text_freeze_simulation != null) {
-                        TradeUtil.getMargin(positionSimulationList, response -> {
-                            if (response == null) {
-                                text_freeze_simulation.setText(getResources().getString(R.string.text_default));
-                            } else {
-                                text_freeze_simulation.setText(TradeUtil.getNumberFormat(Double.parseDouble(response.toString()), 2));
-                            }
-                        });
-                    }
-                });
-            }
 
         } else if (o == NetIncomeManger.getInstance()) {
             netIncomeResult = (String) arg;
@@ -376,25 +307,19 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                             setMyNetIncome(balanceEntity, netIncome, margin);
                         }
                     } else {
-                        if (text_worth != null) {
-                            text_worth.setText(getResources().getString(R.string.text_default));
-                        }
-                        text_worth_simulation.setText(getResources().getString(R.string.text_default));
+
                         if (isEyeOpen) {
                             text_balance.setText(getResources().getString(R.string.text_default));
                             text_balance_currency.setText(getResources().getString(R.string.text_default));
                         }
-                        text_available.setText(getResources().getString(R.string.text_default));
-                        text_available_simulation.setText(getResources().getString(R.string.text_default));
-                        text_freeze.setText(getResources().getString(R.string.text_default));
-                        text_freeze_simulation.setText(getResources().getString(R.string.text_default));
+
                     }
                 }
             });
 
 
             runOnUiThread(() -> {
-                if (text_worth_simulation != null && NetIncome[0].equals("2") && tradeType.equals("2")) {
+                if (NetIncome[0].equals("2") && tradeType.equals("2")) {
                     // 1,2.5,5
                     String netIncome = NetIncome[1];
                     String margin = NetIncome[2];
@@ -407,21 +332,16 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                                     //   Log.d("print", "update:337:模拟:  " + game);
                                     double add1 = TradeUtil.add(game, Double.parseDouble(margin));
                                     double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
-                                    text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
                                 }
                             }
                         }
                     } else {
-                        text_worth.setText(getResources().getString(R.string.text_default));
-                        text_worth_simulation.setText(getResources().getString(R.string.text_default));
+
                         if (isEyeOpen) {
                             text_balance.setText(getResources().getString(R.string.text_default));
                             text_balance_currency.setText(getResources().getString(R.string.text_default));
                         }
-                        text_available.setText(getResources().getString(R.string.text_default));
-                        text_available_simulation.setText(getResources().getString(R.string.text_default));
-                        text_freeze.setText(getResources().getString(R.string.text_default));
-                        text_freeze_simulation.setText(getResources().getString(R.string.text_default));
+
                     }
 
 
@@ -432,11 +352,10 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             if (a == TAB_TYPE.TAB_POSITION) {
                 layout_home.setVisibility(View.GONE);
                 layout_market.setVisibility(View.GONE);
-                layout_hold.setVisibility(View.VISIBLE);
+                layout_circle.setVisibility(View.VISIBLE);
                 layout_my.setVisibility(View.GONE);
                 layout_status.setVisibility(View.VISIBLE);
-                layout_real.setVisibility(View.VISIBLE);
-                layout_simulation.setVisibility(View.GONE);
+
                 runOnUiThread(() -> {
                     // Log.d("print", "update:337:  " + a + "  --   " + radioButton_2);
                     radioButton_2.setChecked(true);
@@ -505,7 +424,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
     public static void enter(Context context, int tabIndex) {
 
-        Intent intent = new Intent(context, MainOneActivity.class);
+        Intent intent = new Intent(context, MainFollowActivity.class);
         intent.putExtra(IntentConfig.Keys.POSITION, tabIndex);
         context.startActivity(intent);
     }
@@ -522,7 +441,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         isForeground = true;
         super.onResume();
 
-        Toast.makeText(this, "执行了onResume", Toast.LENGTH_SHORT).show();
         //初始化
         InitManger.getInstance().init();
 
@@ -571,8 +489,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             SPUtils.remove(AppConfig.POP_LOGIN);
             Handler handler = new Handler();
             handler.postDelayed(() -> {
-                Util.lightOff(MainOneActivity.this);
-                PopUtil.getInstance().showSuccessTip(MainOneActivity.this, layout_view, state -> {
+                Util.lightOff(MainFollowActivity.this);
+                PopUtil.getInstance().showSuccessTip(MainFollowActivity.this, layout_view, state -> {
                     if (state) {
                     }
                 });
@@ -810,36 +728,16 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         NetIncomeManger.getInstance().addObserver(this);
 
 
-        radioGroup_hold.getChildAt(0).performClick();
-        radioGroup_hold.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.radio_hold_0:
-                    layout_real.setVisibility(View.VISIBLE);
-                    layout_simulation.setVisibility(View.GONE);
-                    tradeType = "1";
 
-                    break;
-                case R.id.radio_hold_1:
-                    layout_real.setVisibility(View.GONE);
-                    layout_simulation.setVisibility(View.VISIBLE);
-                    tradeType = "2";
-
-                    break;
-            }
-        });
 
         /*持仓 实盘 分割线-----------------------------------------------------------------------------*/
         //持仓注册
         PositionRealManger.getInstance().addObserver(this);
-        viewPager.setOffscreenPageLimit(3);
-        tabLayout.setupWithViewPager(viewPager);
-        initViewPager(viewPager, "1");
+
 
         /*持仓 模拟 分割线-----------------------------------------------------------------------------*/
         PositionSimulationManger.getInstance().addObserver(this);
-        viewPager_simulation.setOffscreenPageLimit(3);
-        tabLayout_simulation.setupWithViewPager(viewPager_simulation);
-        initSimulationViewPager(viewPager_simulation, "2");
+
 
         /*我的 分割线-----------------------------------------------------------------------------*/
         findViewById(R.id.layout_balance).setOnClickListener(this);
@@ -1034,11 +932,10 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             case R.id.radio_0:
                 layout_home.setVisibility(View.VISIBLE);
                 layout_market.setVisibility(View.GONE);
-                layout_hold.setVisibility(View.GONE);
+                layout_circle.setVisibility(View.GONE);
                 layout_my.setVisibility(View.GONE);
                 layout_status.setVisibility(View.VISIBLE);
-                layout_real.setVisibility(View.GONE);
-                layout_simulation.setVisibility(View.GONE);
+
                 radioButton_0.setChecked(true);
                 radioButton_1.setChecked(false);
                 radioButton_2.setChecked(false);
@@ -1049,11 +946,10 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             case R.id.radio_1:
                 layout_home.setVisibility(View.GONE);
                 layout_market.setVisibility(View.VISIBLE);
-                layout_hold.setVisibility(View.GONE);
+                layout_circle.setVisibility(View.GONE);
                 layout_my.setVisibility(View.GONE);
                 layout_status.setVisibility(View.VISIBLE);
-                layout_real.setVisibility(View.GONE);
-                layout_simulation.setVisibility(View.GONE);
+
                 radioButton_0.setChecked(false);
                 radioButton_1.setChecked(true);
                 radioButton_2.setChecked(false);
@@ -1064,64 +960,30 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 if (quoteList == null) {
                     return;
                 }
-                QuoteDetailActivity.enter(MainOneActivity.this, "1", quoteList.get(0));
+                QuoteDetailActivity.enter(MainFollowActivity.this, "1", quoteList.get(0));
                 break;
 
             case R.id.radio_3:
                 radioButton_3.setChecked(false);
-                if (isLogin()) {
-                    radioButton_0.setChecked(false);
-                    radioButton_1.setChecked(false);
-                    radioButton_2.setChecked(false);
-                    radioButton_3.setChecked(true);
-                    radioButton_4.setChecked(false);
-                    layout_home.setVisibility(View.GONE);
-                    layout_market.setVisibility(View.GONE);
-                    layout_hold.setVisibility(View.VISIBLE);
-                    layout_my.setVisibility(View.GONE);
-                    layout_status.setVisibility(View.VISIBLE);
-                    if (tradeType.equals("1")) {
-                        layout_real.setVisibility(View.VISIBLE);
-                        layout_simulation.setVisibility(View.GONE);
-                    } else {
-                        layout_real.setVisibility(View.GONE);
-                        layout_simulation.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
-                }
-
-
-
-
-
-               /* layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.GONE);
-                layout_hold.setVisibility(View.VISIBLE);
-                layout_my.setVisibility(View.GONE);
-                layout_status.setVisibility(View.VISIBLE);
                 radioButton_0.setChecked(false);
                 radioButton_1.setChecked(false);
                 radioButton_2.setChecked(false);
                 radioButton_3.setChecked(true);
                 radioButton_4.setChecked(false);
+                layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.GONE);
+                layout_circle.setVisibility(View.VISIBLE);
+                layout_my.setVisibility(View.GONE);
+                layout_status.setVisibility(View.VISIBLE);
 
-                if (tradeType.equals("1")) {
-                    layout_real.setVisibility(View.VISIBLE);
-                    layout_simulation.setVisibility(View.GONE);
-                } else {
-                    layout_real.setVisibility(View.GONE);
-                    layout_simulation.setVisibility(View.VISIBLE);
-                }*/
                 break;
             case R.id.radio_4:
                 layout_home.setVisibility(View.GONE);
                 layout_market.setVisibility(View.GONE);
-                layout_hold.setVisibility(View.GONE);
+                layout_circle.setVisibility(View.GONE);
                 layout_my.setVisibility(View.VISIBLE);
                 layout_status.setVisibility(View.GONE);
-                layout_real.setVisibility(View.GONE);
-                layout_simulation.setVisibility(View.GONE);
+
                 radioButton_0.setChecked(false);
                 radioButton_1.setChecked(false);
                 radioButton_2.setChecked(false);
@@ -1131,7 +993,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 break;
 
             case R.id.text_login_register:
-                LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
                 break;
 
@@ -1140,14 +1002,14 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             case R.id.layout_announcement:
                 /*最新公告*/
             case R.id.layout_nine:
-                UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
+                UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
                 break;
 
             case R.id.layout_simulation_home:
                 if (quoteList == null) {
                     return;
                 }
-                QuoteDetailActivity.enter(MainOneActivity.this, "2", quoteList.get(0));
+                QuoteDetailActivity.enter(MainFollowActivity.this, "2", quoteList.get(0));
                 break;
 
             /*行情 -----------------------------------------------------------------------------------*/
@@ -1280,12 +1142,12 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             /*我的 -----------------------------------------------------------------------------------*/
             case R.id.layout_login:
                 if (!isLogin()) {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
 
                 break;
             case R.id.text_register:
-                RegisterActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_REGISTER);
+                RegisterActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_REGISTER);
                 break;
 
             case R.id.layout_eight:
@@ -1345,51 +1207,51 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             //安全中心
             case R.id.layout_one:
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_SAFE_CENTER);
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_SAFE_CENTER);
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             //资金记录
             case R.id.layout_two:
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_FUND_STATEMENT);
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_FUND_STATEMENT);
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*交易记录*/
             case R.id.layout_three:
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_HISTORY);
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_TRADE_HISTORY);
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*邀请记录*/
             case R.id.layout_four:
 
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_INVITE_HISTORY);
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_INVITE_HISTORY);
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*交易设置*/
             case R.id.layout_five:
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*提币地址管理*/
             case R.id.layout_six:
 
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS);
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS);
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*客服系统*/
@@ -1405,55 +1267,55 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 } else {
                     url = String.format(NetManger.SERVICE_URL, language, "", "游客");
                 }
-                WebActivity.getInstance().openUrl(MainOneActivity.this, url, getResources().getString(R.string.text_my_service));
+                WebActivity.getInstance().openUrl(MainFollowActivity.this, url, getResources().getString(R.string.text_my_service));
 
                 break;
             /*资金账户*/
             case R.id.text_account:
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ACCOUNT);
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_ACCOUNT);
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(MainOneActivity.this, "", getResources().getString(R.string.text_recharge));
+                    WebActivity.getInstance().openUrl(MainFollowActivity.this, "", getResources().getString(R.string.text_recharge));
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*提币*/
             case R.id.text_withdrawal:
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL);
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL);
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*币币闪兑*/
             case R.id.text_quick_exchange:
                 if (isLogin()) {
-                    UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_QUICK_EXCHANGE);
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_QUICK_EXCHANGE);
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*法币充值*/
             case R.id.text_fiat:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(MainOneActivity.this, "", getResources().getString(R.string.text_fiat));
+                    WebActivity.getInstance().openUrl(MainFollowActivity.this, "", getResources().getString(R.string.text_fiat));
 
                 } else {
-                    LoginActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*修改昵称*/
             case R.id.img_edit:
                 if (isLogin()) {
-                    Util.lightOff(MainOneActivity.this);
-                    PopUtil.getInstance().showEdit(MainOneActivity.this, layout_view, true, result -> {
+                    Util.lightOff(MainFollowActivity.this);
+                    PopUtil.getInstance().showEdit(MainFollowActivity.this, layout_view, true, result -> {
                         loginEntity.getUser().setUserName(result.toString());
                         SPUtils.putData(AppConfig.LOGIN, loginEntity);
                         onResume();
@@ -1476,7 +1338,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     double add2 = TradeUtil.add(money1, Double.parseDouble(margin));//+保证金
                     double ad3 = TradeUtil.add(add2, Double.parseDouble(netIncome));//+浮动盈亏
                     //  Log.d("print", "setMyNetIncome:1205: " + money1 + "  " + add2 + "   " + ad3);
-                    text_worth.setText(TradeUtil.getNumberFormat(ad3, 2));
                     //账户净值=可用余额+占用保证金+浮动盈亏
                     double money = Double.parseDouble(response.toString());//所有钱包的和
                     double add1 = TradeUtil.add(money, Double.parseDouble(margin));//+保证金
