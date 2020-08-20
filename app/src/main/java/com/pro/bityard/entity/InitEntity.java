@@ -173,7 +173,7 @@ public class InitEntity {
         private boolean defer;
         private int eagleDefer;
         private int eagleTrade;
-        private int exchangeRatio;
+        private double exchangeRatio;
         private boolean geetest;
         private String iosUrl;
         private String logoUrl;
@@ -243,11 +243,11 @@ public class InitEntity {
             this.eagleTrade = eagleTrade;
         }
 
-        public int getExchangeRatio() {
+        public double getExchangeRatio() {
             return exchangeRatio;
         }
 
-        public void setExchangeRatio(int exchangeRatio) {
+        public void setExchangeRatio(double exchangeRatio) {
             this.exchangeRatio = exchangeRatio;
         }
 
