@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
@@ -357,7 +358,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView(View view) {
 
+        Handler handler = new Handler();
+        handler.postDelayed(() -> initTabView(), 100);
 
+
+    }
+
+    private void initTabView() {
         titles.add("Line");
         titles.add("1min");
         titles.add("3min");
@@ -547,8 +554,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         //杠杆选择
         findViewById(R.id.layout_market_lever_select).setOnClickListener(this);
         findViewById(R.id.layout_limit_lever_select).setOnClickListener(this);
-
     }
+
 
     private Set<String> setList;
 
@@ -586,27 +593,31 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         text_market_currency.setText(TradeUtil.listQuoteName(itemData));
         text_limit_currency.setText(TradeUtil.listQuoteName(itemData));
+        Handler handler = new Handler();
+        handler.postDelayed(() -> {
+            Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -1);
+            Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+            Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+            Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+            Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+            QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+            QuoteWeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+            QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+            //开启单个刷新
+            //  QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            //开启单个行情图
+            Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+        },100);
 
 
-        Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -1);
-        Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        QuoteWeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-        //开启单个刷新
-        //  QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        //开启单个行情图
-        Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-        QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+
         /*获取输入框的范围保证金*/
         TradeListManger.getInstance().tradeList((state, response) -> {
             if (state.equals(SUCCESS)) {
