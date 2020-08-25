@@ -438,5 +438,9 @@
     <string name="text_derived">Derivatif</string>
     <string name="text_pt">Português</string>
     <string name="text_tab_follow">社区</string>
+    <string name="text_person_information">个人资料</string>
+    <string name="text_head">头像</string>
+    <string name="text_sex">性别</string>
+    <string name="text_address_my">所在地</string>
 
 </resources>

@@ -136,8 +136,8 @@ public class InitManger extends Observable {
         });
 
 
-
-
+        //获取余额
+        BalanceManger.getInstance().getBalance("USDT");
 
         /*手续费*/
 

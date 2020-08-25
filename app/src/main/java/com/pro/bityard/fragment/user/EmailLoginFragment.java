@@ -307,7 +307,9 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                     @Override
                     public void onFailedResult(GT3ErrorBean gt3ErrorBean) {
-                        Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
+                        if (isAdded()){
+                            Toast.makeText(getContext(), gt3ErrorBean.errorDesc, Toast.LENGTH_SHORT).show();
+                        }
 
                     }
 

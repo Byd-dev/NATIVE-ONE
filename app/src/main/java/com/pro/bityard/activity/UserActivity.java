@@ -14,6 +14,7 @@ import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.AnnouncementFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
 import com.pro.bityard.fragment.my.FundsPassFrogetFragment;
+import com.pro.bityard.fragment.my.PersonFragment;
 import com.pro.bityard.fragment.my.QuickFragment;
 import com.pro.bityard.fragment.my.WithdrawalFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;
@@ -137,9 +138,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.RULE:
                 addRuleFragment(value);
                 break;
+            case IntentConfig.Keys.KEY_PERSON_INFORMATION:
+                addPersonInformationFragment();
+                break;
         }
 
 
+    }
+
+    private void addPersonInformationFragment() {
+        String name = PersonFragment.class.getSimpleName();
+        //持仓
+        PersonFragment fragment = new PersonFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addFundsPassForgetFragment() {

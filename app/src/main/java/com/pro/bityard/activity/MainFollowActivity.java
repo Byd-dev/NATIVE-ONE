@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
@@ -184,14 +183,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private BalanceEntity balanceEntity;
 
 
-
-
     /*我的  ---------------------------------------------------*/
     @BindView(R.id.text_userName)
     TextView text_userName;
     @BindView(R.id.img_service_my)
     ImageView img_service_my;
-
+    @BindView(R.id.img_head)
+    ImageView img_head;
     @BindView(R.id.text_uid)
     TextView text_uid;
 
@@ -566,7 +564,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         quoteHomeAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(this, "1", data));
         findViewById(R.id.img_icon1).setOnClickListener(this);
         findViewById(R.id.img_icon2).setOnClickListener(this);
-        findViewById(R.id.img_head).setOnClickListener(this);
+        img_head.setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
         findViewById(R.id.text_login_register).setOnClickListener(this);
@@ -1140,8 +1138,11 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 break;
 
             /*我的 -----------------------------------------------------------------------------------*/
+            case R.id.img_head:
             case R.id.layout_login:
-                if (!isLogin()) {
+                if (isLogin()) {
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_PERSON_INFORMATION);
+                } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
 

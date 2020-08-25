@@ -2468,6 +2468,7 @@ public class NetManger {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
+                        Log.d("print", "onSuccess:更新内容:  "+response.body());
                         UpdateEntity updateEntity = new Gson().fromJson(response.body(), UpdateEntity.class);
                         String versionCode = updateEntity.getUpdate().getVersionCode();
                         String versionMessage = updateEntity.getUpdate().getVersionMessage();

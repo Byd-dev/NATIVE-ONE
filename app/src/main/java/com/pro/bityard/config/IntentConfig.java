@@ -67,6 +67,8 @@ public class IntentConfig {
         public static final String PHONE_NUMBER = "PHONE_NUMBER";
         //规则
         public static final String RULE = "RULE";
+        //个人中心
+        public static final String KEY_PERSON_INFORMATION = "PERSON_INFORMATION";
 
 
         /*验证码*/
