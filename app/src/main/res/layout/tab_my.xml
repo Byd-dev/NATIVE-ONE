@@ -43,7 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="100dp">
 
-                        <ImageView
+                        <com.pro.bityard.view.CircleImageView
                             android:id="@+id/img_head"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

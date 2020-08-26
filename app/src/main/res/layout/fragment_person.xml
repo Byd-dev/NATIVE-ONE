@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout_view"
     android:background="@color/background_maincolor"
     android:orientation="vertical">
 
@@ -29,6 +30,7 @@
 
 
     </RelativeLayout>
+    <include layout="@layout/layout_line_big"/>
 
 
 
@@ -51,15 +53,14 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/text_uid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_change"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textSize="14sp"
             android:layout_marginRight="@dimen/margin_15"
             android:drawablePadding="@dimen/margin_13"
-            android:drawableRight="@mipmap/icon_right_gray"
             android:textColor="@color/text_second_color"/>
 
 

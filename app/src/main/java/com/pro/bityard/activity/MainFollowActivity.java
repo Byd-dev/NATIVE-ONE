@@ -51,6 +51,7 @@ import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
+import com.pro.bityard.view.CircleImageView;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.view.StatusBarHeightView;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -189,7 +190,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @BindView(R.id.img_service_my)
     ImageView img_service_my;
     @BindView(R.id.img_head)
-    ImageView img_head;
+    CircleImageView img_head;
     @BindView(R.id.text_uid)
     TextView text_uid;
 
@@ -1141,12 +1142,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.img_head:
             case R.id.layout_login:
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_PERSON_INFORMATION);
+                    PersonActivity.enter(MainFollowActivity.this);
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
-
                 break;
+
             case R.id.text_register:
                 RegisterActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_REGISTER);
                 break;

@@ -23,7 +23,7 @@
             android:textSize="@dimen/title_size" />
 
         <com.pro.bityard.view.CircleImageView
-            android:id="@+id/img_head"
+            android:id="@+id/img_head_circle"
             android:layout_width="@dimen/margin_30"
             android:layout_height="@dimen/margin_30"
             android:layout_alignParentRight="true"

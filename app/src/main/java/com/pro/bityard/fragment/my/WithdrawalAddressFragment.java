@@ -80,9 +80,7 @@ public class WithdrawalAddressFragment extends BaseFragment implements View.OnCl
         withdrawalAddressAdapter.setCopyClick(data -> {
             Util.copy(getActivity(), data.getAddress());
             Toast.makeText(getActivity(), R.string.text_copied, Toast.LENGTH_SHORT).show();
-
         });
-
 
     }
 

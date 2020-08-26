@@ -90,6 +90,7 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".activity.MainOneActivity" />
         <activity android:name=".activity.MainFollowActivity" />
+        <activity android:name=".activity.PersonActivity" />
 
         <!-- Optional facebook配置,authorities必须为com.facebook.app.FacebookContentProvider+APP_ID-->
 

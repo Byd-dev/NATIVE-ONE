@@ -440,5 +440,7 @@
     <string name="text_head">头像</string>
     <string name="text_sex">性别</string>
     <string name="text_address_my">所在地</string>
+    <string name="text_photo">拍照</string>
+    <string name="text_album">相册</string>
 
 </resources>
