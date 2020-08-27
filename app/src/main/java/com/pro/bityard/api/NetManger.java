@@ -55,6 +55,7 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,8 +65,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import okhttp3.Headers;
 
 public class NetManger {
     private String TAG = "NetManger";
@@ -278,6 +277,68 @@ public class NetManger {
 
     }
 
+
+    //post 请求
+    public void postFileRequest(String url, String param, File file, OnNetResult onNetResult) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        switch (language) {
+            case AppConfig.KEY_LANGUAGE:
+            case AppConfig.EN_US:
+                language = "en-US";
+                break;
+            case AppConfig.ZH_SIMPLE:
+                language = "zh-CN";
+                break;
+            case AppConfig.ZH_TRADITIONAL:
+                language = "zh-TW";
+                break;
+            case AppConfig.RU_RU:
+                language = "ru-RU";
+                break;
+            case AppConfig.JA_JP:
+                language = "ja-JP";
+                break;
+            case AppConfig.KO_KR:
+                language = "ko-KR";
+                break;
+            case AppConfig.VI_VN:
+                language = "vi-VN";
+                break;
+            case AppConfig.IN_ID:
+                language = "in-ID";
+                break;
+            case AppConfig.PT_PT:
+                language = "pt-PT";
+                break;
+
+        }
+
+        OkGo.<String>post(getURL(url, null))
+                .params(param, file)
+                .headers("Accept-Language", language)
+                .execute(new StringCallback() {
+                    @Override
+                    public void onStart(Request<String, ? extends Request> request) {
+                        super.onStart(request);
+                        onNetResult.onNetResult(BUSY, null);
+
+                    }
+
+                    @Override
+                    public void onSuccess(Response<String> response) {
+                        if (!TextUtils.isEmpty(response.body())) {
+                            onNetResult.onNetResult(SUCCESS, response.body());
+                        }
+                    }
+
+                    @Override
+                    public void onError(Response<String> response) {
+                        super.onError(response);
+                        onNetResult.onNetResult(FAILURE, response.body());
+                    }
+                });
+
+    }
 
     //动态host get 请求
     public void getHostRequest(String host, String url, ArrayMap map, OnNetResult onNetResult) {
@@ -2000,6 +2061,10 @@ public class NetManger {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
+                    LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+                    loginEntity.getUser().setAvatar(userDetailEntity.getUser().getAvatar());
+                    SPUtils.putData(AppConfig.LOGIN, loginEntity);
+
                     SPUtils.putData(AppConfig.DETAIL, userDetailEntity);
                     onNetResult.onNetResult(SUCCESS, userDetailEntity);
                 } else {
@@ -2468,7 +2533,7 @@ public class NetManger {
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
-                        Log.d("print", "onSuccess:更新内容:  "+response.body());
+                        Log.d("print", "onSuccess:更新内容:  " + response.body());
                         UpdateEntity updateEntity = new Gson().fromJson(response.body(), UpdateEntity.class);
                         String versionCode = updateEntity.getUpdate().getVersionCode();
                         String versionMessage = updateEntity.getUpdate().getVersionMessage();
@@ -2483,7 +2548,29 @@ public class NetManger {
     }
 
     /*社区*/
+    /*上传头像*/
+    public void postImg(File file, OnNetResult onNetResult) {
 
+        postFileRequest("/api/mine/profile/uploadAvatar", "image", file, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    onNetResult.onNetResult(SUCCESS, tipEntity);
+                } else {
+                    onNetResult.onNetResult(FAILURE, null);
+
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+
+    }
 
 
 }

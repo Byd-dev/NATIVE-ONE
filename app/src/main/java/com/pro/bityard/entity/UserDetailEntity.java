@@ -49,10 +49,12 @@ public class UserDetailEntity implements Serializable {
     }
 
     public static class UserBean implements Serializable{
+
         @Override
         public String toString() {
             return "UserBean{" +
                     "account='" + account + '\'' +
+                    ", avatar='" + avatar + '\'' +
                     ", bankCardCount=" + bankCardCount +
                     ", commRatio=" + commRatio +
                     ", countryCode='" + countryCode + '\'' +
@@ -123,6 +125,7 @@ public class UserDetailEntity implements Serializable {
 
 
         private String account;
+        private String avatar;
         private int bankCardCount;
         private double commRatio;
         private String countryCode;
@@ -153,6 +156,14 @@ public class UserDetailEntity implements Serializable {
         private String userId;
         private String username;
         private int usernameNo;
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
 
         public String getAccount() {
             return account;

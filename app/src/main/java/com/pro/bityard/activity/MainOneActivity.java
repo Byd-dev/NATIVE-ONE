@@ -444,7 +444,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             }
         } else if (o == UserDetailManger.getInstance()) {
             userDetailEntity = (UserDetailEntity) arg;
-            Log.d("print", "update:437:  " + userDetailEntity);
             runOnUiThread(() -> {
                 if (userDetailEntity.getUser() != null) {
                     text_userName.setText(userDetailEntity.getUser().getUsername());

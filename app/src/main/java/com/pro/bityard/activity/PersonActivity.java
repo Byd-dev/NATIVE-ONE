@@ -29,10 +29,13 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
+import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.FileUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.CircleImageView;
@@ -47,6 +50,10 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
+
+import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
+import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
 
@@ -69,10 +76,13 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
+
         LoginEntity data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         text_uid.setText(data.getUser().getUserId());
-
-
+        Log.d("print", "initData:114:  " + data);
+        Glide.with(this).load(data.getUser().getAvatar())
+                .error(R.mipmap.icon_my_bityard)
+                .into(img_head);
     }
 
     public static void enter(Context context) {
@@ -136,7 +146,6 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
 
-
         view.findViewById(R.id.text_camera).setOnClickListener(view1 -> {
 
             popupWindow.dismiss();
@@ -170,7 +179,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setFocusable(true);
         popupWindow.setContentView(view);
-        popupWindow.setOutsideTouchable(false);
+        popupWindow.setOutsideTouchable(true);
         popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         view.startAnimation(animation);
 
@@ -348,7 +357,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
      * 裁剪原始的图片
      */
     public void cropRawPhoto(Uri uri) {
-        // Log.d("print", "cropRawPhoto: 683:" + uri);
+        Log.d("print", "cropRawPhoto: 683:" + uri);
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
 
@@ -404,8 +413,20 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 //  Log.d("print", "setImageToHeadView: 785:/storage/emulated/0/1555310163598bala_crop.jpg"+file);
                 if (file != null) {
                     //传递新的头像信息给我的界面
-
                     //postImgFile(file);
+                    NetManger.getInstance().postImg(file, (state, response) -> {
+                        if (state.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            UserDetailManger.getInstance().detail();
+                            Toast.makeText(this, getResources().getText(R.string.text_success), Toast.LENGTH_SHORT).show();
+                        } else if (state.equals(FAILURE)) {
+                            dismissProgressDialog();
+                            Toast.makeText(this, getResources().getText(R.string.text_failure), Toast.LENGTH_SHORT).show();
+                        }
+
+                    });
 
                 }
 

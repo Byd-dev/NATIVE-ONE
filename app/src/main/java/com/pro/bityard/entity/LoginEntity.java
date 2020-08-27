@@ -80,6 +80,24 @@ public class LoginEntity implements Serializable {
     }
 
     public static class UserBean implements Serializable {
+        @Override
+        public String toString() {
+            return "UserBean{" +
+                    "principal='" + principal + '\'' +
+                    ", pw_l=" + pw_l +
+                    ", phone='" + phone + '\'' +
+                    ", refer='" + refer + '\'' +
+                    ", mobile='" + mobile + '\'' +
+                    ", avatar='" + avatar + '\'' +
+                    ", pw_w=" + pw_w +
+                    ", userId='" + userId + '\'' +
+                    ", email='" + email + '\'' +
+                    ", tradeQuick=" + tradeQuick +
+                    ", account='" + account + '\'' +
+                    ", userName='" + userName + '\'' +
+                    '}';
+        }
+
         /**
          * principal : wilde.tomoya@gmail.com
          * pw_l : 1
@@ -93,11 +111,14 @@ public class LoginEntity implements Serializable {
          * account : wilde.tomoya@gmail.com
          */
 
+
+
         private String principal;
         private int pw_l;
         private String phone;
         private String refer;
         private String mobile;
+        private String avatar;
         private int pw_w;
         private String userId;
         private String email;
@@ -105,29 +126,20 @@ public class LoginEntity implements Serializable {
         private String account;
         private String userName;
 
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public void setAvatar(String avatar) {
+            this.avatar = avatar;
+        }
+
         public String getUserName() {
             return userName;
         }
 
         public void setUserName(String userName) {
             this.userName = userName;
-        }
-
-        @Override
-        public String toString() {
-            return "UserBean{" +
-                    "principal='" + principal + '\'' +
-                    ", pw_l=" + pw_l +
-                    ", phone='" + phone + '\'' +
-                    ", refer='" + refer + '\'' +
-                    ", mobile='" + mobile + '\'' +
-                    ", pw_w=" + pw_w +
-                    ", userId='" + userId + '\'' +
-                    ", email='" + email + '\'' +
-                    ", tradeQuick=" + tradeQuick +
-                    ", account='" + account + '\'' +
-                    ", userName='" + userName + '\'' +
-                    '}';
         }
 
         public String getPrincipal() {
