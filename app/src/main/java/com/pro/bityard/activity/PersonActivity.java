@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -77,12 +78,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     public void onResume() {
         super.onResume();
 
-        LoginEntity data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-        text_uid.setText(data.getUser().getUserId());
-        Log.d("print", "initData:114:  " + data);
-        Glide.with(this).load(data.getUser().getAvatar())
-                .error(R.mipmap.icon_my_bityard)
-                .into(img_head);
+
     }
 
     public static void enter(Context context) {
@@ -115,7 +111,12 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initData() {
-
+        LoginEntity data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+        text_uid.setText(data.getUser().getUserId());
+        Log.d("print", "initData:114:  " + data);
+        Glide.with(this).load(data.getUser().getAvatar())
+                .error(R.mipmap.icon_my_bityard)
+                .into(img_head);
     }
 
     @Override
@@ -149,7 +150,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         view.findViewById(R.id.text_camera).setOnClickListener(view1 -> {
 
             popupWindow.dismiss();
-            checkStoragePermission(activity);
+            checkStoragePermission();
 
 
         });
@@ -158,7 +159,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         view.findViewById(R.id.text_album).setOnClickListener(view12 -> {
 
             popupWindow.dismiss();
-            checkReadPermission(activity);
+            checkReadPermission();
 
         });
 
@@ -185,16 +186,16 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     }
 
-    private void checkStoragePermission(Activity activity) {
+    private void checkStoragePermission() {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            int result = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            int resultCAMERA = ActivityCompat.checkSelfPermission(activity, Manifest.permission.CAMERA);
+            int result = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            int resultCAMERA = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
             if (result == PackageManager.PERMISSION_DENIED || resultCAMERA == PackageManager.PERMISSION_DENIED) {
                 String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE
                         , Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
-                ActivityCompat.requestPermissions(activity, permissions, 0);
+                ActivityCompat.requestPermissions(this, permissions, 0);
             } else {
-                choseHeadImageFromCameraCapture(activity);
+                choseHeadImageFromCameraCapture();
             }
         }
 
@@ -216,7 +217,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     private static int output_Y = 480;
 
     // 启动手机相机拍摄照片作为头像
-    private void choseHeadImageFromCameraCapture(Activity activity) {
+    private void choseHeadImageFromCameraCapture() {
         String savePath = mExtStorDir;
 
         Intent intent;
@@ -236,7 +237,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                 //  pictureUri = FileProvider.getUriForFile(PersonActivity.this, getPackageName() + ".fileProvider", pictureFile);
                 ContentValues contentValues = new ContentValues(1);
                 contentValues.put(MediaStore.Images.Media.DATA, pictureFile.getAbsolutePath());
-                pictureUri = activity.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                pictureUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
             } else {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -254,7 +255,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             if (intent != null) {
                 intent.putExtra(MediaStore.EXTRA_OUTPUT,
                         pictureUri);
-                activity.startActivityForResult(intent, CODE_CAMERA_REQUEST);
+                startActivityForResult(intent, CODE_CAMERA_REQUEST);
             }
         }
     }
@@ -272,24 +273,25 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void checkReadPermission(Activity activity) {
+    private void checkReadPermission() {
 
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(PersonActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ContextCompat.checkSelfPermission(PersonActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 //进入到这里代表没有权限.请求权限
-                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2000);
+                ActivityCompat.requestPermissions(PersonActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2000);
             } else {
-                choseHeadImageFromGallery(activity);
+                choseHeadImageFromGallery();
 
             }
         }
 
 
+
     }
 
     // 从本地相册选取图片作为头像
-    private void choseHeadImageFromGallery(Activity activity) {
+    private void choseHeadImageFromGallery() {
         // 设置文件类型    （在华为手机中不能获取图片，要替换代码）
         /*Intent intentFromGallery = new Intent();
         intentFromGallery.setType("image*//*");
@@ -298,7 +300,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
         Intent intent = new Intent(Intent.ACTION_PICK, null);
         intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        activity.startActivityForResult(intent, CODE_GALLERY_REQUEST);
+        startActivityForResult(intent, CODE_GALLERY_REQUEST);
 
     }
 
@@ -312,7 +314,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             return;
         }
 
-        Log.d("print", "onActivityResult: 498:" + requestCode);
+        Log.d("print", "onActivityResult: 498:" + requestCode+"    "+intent.getData());
 
         switch (requestCode) {
             case CODE_GALLERY_REQUEST:
@@ -322,26 +324,20 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
             case CODE_CAMERA_REQUEST:
                 if (hasSdcard()) {
-                    File tempFile = new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME);
+                    File tempFile = new File(
+                            Environment.getExternalStorageDirectory(),
+                            IMAGE_FILE_NAME);
                     cropRawPhoto(getImageContentUri(tempFile));
                 } else {
-                    Toast.makeText(getApplication(), "没有SDCard!", Toast.LENGTH_LONG)
+                    Toast.makeText(getApplication(), "null SDCard!", Toast.LENGTH_LONG)
                             .show();
                 }
 
                 break;
 
             case CODE_RESULT_REQUEST:
-               /* if (intent != null) {
-                    setImageToHeadView(intent);    //此代码在小米有异常，换以下代码
-                }*/
-                // Log.d("print", "onActivityResult:508: "+intent.getData());
-                Log.d("print", "onActivityResult:526: file:///storage/emulated/0/1553493679091bala_crop.jpg-----" + mUriPath);
-                // addHeaderPhoto(mUriPath);
-                Log.d("print", "onActivityResult:530: " + intent.getData());
                 try {
                     Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mUriPath));
-                    Log.d("print", "onActivityResult:534: " + bitmap);
                     setImageToHeadView(intent, bitmap);
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -393,27 +389,20 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     }
 
 
+
+
     /**
      * 提取保存裁剪之后的图片数据，并设置头像部分的View
      */
     private void setImageToHeadView(Intent intent, Bitmap b) {
-        /*Bundle extras = intent.getExtras();
-        if (extras != null) {
-            Bitmap photo = extras.getParcelable("data");
-            headImage.setImageBitmap(photo);
-        }*/
         try {
             if (intent != null) {
                 Bitmap bitmap = imageZoom(b);//看个人需求，可以不压缩
-                // headImage.setImageBitmap(b);
-                img_head.setImageBitmap(b);
+                img_head.setImageBitmap(bitmap);
                 long millis = System.currentTimeMillis();
-                //    Log.d("print", "setImageToHeadView:783: "+Environment.getExternalStorageState()+millis+CROP_IMAGE_FILE_NAME+bitmap);
                 File file = FileUtil.saveFile(mExtStorDir, millis + CROP_IMAGE_FILE_NAME, bitmap);
-                //  Log.d("print", "setImageToHeadView: 785:/storage/emulated/0/1555310163598bala_crop.jpg"+file);
                 if (file != null) {
                     //传递新的头像信息给我的界面
-                    //postImgFile(file);
                     NetManger.getInstance().postImg(file, (state, response) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();

@@ -2062,8 +2062,10 @@ public class NetManger {
                 if (tipEntity.getCode() == 200) {
                     UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
                     LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-                    loginEntity.getUser().setAvatar(userDetailEntity.getUser().getAvatar());
-                    SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                    if (loginEntity!=null){
+                        loginEntity.getUser().setAvatar(userDetailEntity.getUser().getAvatar());
+                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                    }
 
                     SPUtils.putData(AppConfig.DETAIL, userDetailEntity);
                     onNetResult.onNetResult(SUCCESS, userDetailEntity);
