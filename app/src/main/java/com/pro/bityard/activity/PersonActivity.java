@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -43,13 +41,14 @@ import com.pro.bityard.view.CircleImageView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -57,6 +56,14 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class PersonActivity extends BaseActivity implements View.OnClickListener {
+
+    private static final int REQUEST_IMAGE_GET = 0;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_SMALL_IMAGE_CUTTING = 2;
+    private static final int REQUEST_BIG_IMAGE_CUTTING = 3;
+    private static final String IMAGE_FILE_NAME = "icon.jpg";
+
+    private Uri mImageUri;
 
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
@@ -105,7 +112,6 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         findViewById(R.id.layout_two).setOnClickListener(this);
         findViewById(R.id.layout_three).setOnClickListener(this);
         findViewById(R.id.layout_four).setOnClickListener(this);
-        mExtStorDir = Environment.getExternalStorageDirectory().toString();
 
     }
 
@@ -150,7 +156,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         view.findViewById(R.id.text_camera).setOnClickListener(view1 -> {
 
             popupWindow.dismiss();
-            checkStoragePermission();
+            checkCameraPermission();
 
 
         });
@@ -159,7 +165,7 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         view.findViewById(R.id.text_album).setOnClickListener(view12 -> {
 
             popupWindow.dismiss();
-            checkReadPermission();
+            checkAlbumPermission();
 
         });
 
@@ -186,77 +192,44 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     }
 
-    private void checkStoragePermission() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            int result = ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            int resultCAMERA = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-            if (result == PackageManager.PERMISSION_DENIED || resultCAMERA == PackageManager.PERMISSION_DENIED) {
-                String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        , Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE};
-                ActivityCompat.requestPermissions(this, permissions, 0);
-            } else {
-                choseHeadImageFromCameraCapture();
-            }
-        }
+    private void checkCameraPermission() {
+        // 权限申请
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // 权限还没有授予，需要在这里写申请权限的代码
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 300);
+        } else {
+            // 权限已经申请，直接拍照
+            imageCapture();
 
+        }
 
     }
 
-    private String mExtStorDir;
-    private Uri mUriPath;
-    /* 头像文件 */
-    private static final String IMAGE_FILE_NAME = "temp_head_image.jpg";
-    private static final String CROP_IMAGE_FILE_NAME = "bala_crop.jpg";
-    /* 请求识别码 */
-    private static final int CODE_GALLERY_REQUEST = 1;
-    private static final int CODE_CAMERA_REQUEST = 2;
-    private static final int CODE_RESULT_REQUEST = 3;
-
-    // 裁剪后图片的宽(X)和高(Y),480 X 480的正方形。
-    private static int output_X = 480;
-    private static int output_Y = 480;
 
     // 启动手机相机拍摄照片作为头像
-    private void choseHeadImageFromCameraCapture() {
-        String savePath = mExtStorDir;
-
+    private void imageCapture() {
         Intent intent;
-        // 判断存储卡是否可以用，可用进行存储
-
-        if (hasSdcard()) {
-            //设定拍照存放到自己指定的目录,可以先建好
-            File file = new File(savePath);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
+        if(hasSdcard()){
             Uri pictureUri;
-            File pictureFile = new File(savePath, IMAGE_FILE_NAME);
+            File pictureFile = new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME);
+            // 判断当前系统
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                //  pictureUri = FileProvider.getUriForFile(PersonActivity.this, getPackageName() + ".fileProvider", pictureFile);
-                ContentValues contentValues = new ContentValues(1);
-                contentValues.put(MediaStore.Images.Media.DATA, pictureFile.getAbsolutePath());
-                pictureUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-            } else {
-                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                pictureUri = Uri.fromFile(pictureFile);
-            }
-            /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                ContentValues contentValues = new ContentValues(1);
-                contentValues.put(MediaStore.Images.Media.DATA, pictureFile.getAbsolutePath());
-                pictureUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+                pictureUri = FileProvider.getUriForFile(this,
+                        "com.pro.bityard.fileProvider", pictureFile);
             } else {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 pictureUri = Uri.fromFile(pictureFile);
-            }*/
-            if (intent != null) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        pictureUri);
-                startActivityForResult(intent, CODE_CAMERA_REQUEST);
             }
+            // 去拍照
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, pictureUri);
+            startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
@@ -273,34 +246,26 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void checkReadPermission() {
-
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(PersonActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    || ContextCompat.checkSelfPermission(PersonActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                //进入到这里代表没有权限.请求权限
-                ActivityCompat.requestPermissions(PersonActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2000);
+    private void checkAlbumPermission() {
+        // 权限申请
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            //权限还没有授予，需要在这里写申请权限的代码
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 200);
+        } else {
+            // 如果权限已经申请过，直接进行图片选择
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            // 判断系统中是否有处理该 Intent 的 Activity
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivityForResult(intent, REQUEST_IMAGE_GET);
             } else {
-                choseHeadImageFromGallery();
-
+                Toast.makeText(this, "No fund!", Toast.LENGTH_SHORT).show();
             }
         }
 
-
-
-    }
-
-    // 从本地相册选取图片作为头像
-    private void choseHeadImageFromGallery() {
-        // 设置文件类型    （在华为手机中不能获取图片，要替换代码）
-        /*Intent intentFromGallery = new Intent();
-        intentFromGallery.setType("image*//*");
-        intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);*/
-
-        Intent intent = new Intent(Intent.ACTION_PICK, null);
-        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-        startActivityForResult(intent, CODE_GALLERY_REQUEST);
 
     }
 
@@ -313,94 +278,22 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             // Toast.makeText(getApplication(), "取消", Toast.LENGTH_LONG).show();
             return;
         }
-
-        Log.d("print", "onActivityResult: 498:" + requestCode+"    "+intent.getData());
-
         switch (requestCode) {
-            case CODE_GALLERY_REQUEST:
-                Uri uri = intent.getData();
-                cropRawPhoto(uri);
-                break;
-
-            case CODE_CAMERA_REQUEST:
-                if (hasSdcard()) {
-                    File tempFile = new File(
-                            Environment.getExternalStorageDirectory(),
-                            IMAGE_FILE_NAME);
-                    cropRawPhoto(getImageContentUri(tempFile));
-                } else {
-                    Toast.makeText(getApplication(), "null SDCard!", Toast.LENGTH_LONG)
-                            .show();
+            // 小图切割
+            case REQUEST_SMALL_IMAGE_CUTTING:
+                if (intent != null) {
+                    setPicToView(intent);
                 }
-
                 break;
-
-            case CODE_RESULT_REQUEST:
-                try {
-                    Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(mUriPath));
-                    setImageToHeadView(intent, bitmap);
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-
+            case REQUEST_IMAGE_CAPTURE:
+                File temp = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
+                startBigPhotoZoom(temp);
                 break;
-        }
-
-        super.onActivityResult(requestCode, resultCode, intent);
-    }
-
-    /**
-     * 裁剪原始的图片
-     */
-    public void cropRawPhoto(Uri uri) {
-        Log.d("print", "cropRawPhoto: 683:" + uri);
-        Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
-
-        // 设置裁剪
-        intent.putExtra("crop", "true");
-
-        // aspectX , aspectY :宽高的比例
-        intent.putExtra("aspectX", 1);
-        intent.putExtra("aspectY", 1);
-
-        // outputX , outputY : 裁剪图片宽高
-        intent.putExtra("outputX", output_X);
-        intent.putExtra("outputY", output_Y);
-        intent.putExtra("return-data", true);
-
-        //startActivityForResult(intent, CODE_RESULT_REQUEST); //直接调用此代码在小米手机有异常，换以下代码
-        String mLinshi = System.currentTimeMillis() + CROP_IMAGE_FILE_NAME;
-        File mFile = new File(mExtStorDir, mLinshi);
-//        mHeadCachePath = mHeadCacheFile.getAbsolutePath();
-        // Log.d("print", "cropRawPhoto:702:  /storage/emulated/0/1553495151372bala_crop.jpg--- " + mFile);
-        mUriPath = Uri.parse("file://" + mFile.getAbsolutePath());
-
-        //将裁剪好的图输出到所建文件中
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, mUriPath);
-        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-        //注意：此处应设置return-data为false，如果设置为true，是直接返回bitmap格式的数据，耗费内存。设置为false，然后，设置裁剪完之后保存的路径，即：intent.putExtra(MediaStore.EXTRA_OUTPUT, uriPath);
-//        intent.putExtra("return-data", true);
-        intent.putExtra("return-data", false);
-//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-
-        startActivityForResult(intent, CODE_RESULT_REQUEST);
-    }
-
-
-
-
-    /**
-     * 提取保存裁剪之后的图片数据，并设置头像部分的View
-     */
-    private void setImageToHeadView(Intent intent, Bitmap b) {
-        try {
-            if (intent != null) {
-                Bitmap bitmap = imageZoom(b);//看个人需求，可以不压缩
+            // 大图切割
+            case REQUEST_BIG_IMAGE_CUTTING:
+                Bitmap bitmap = BitmapFactory.decodeFile(mImageUri.getEncodedPath());
                 img_head.setImageBitmap(bitmap);
-                long millis = System.currentTimeMillis();
-                File file = FileUtil.saveFile(mExtStorDir, millis + CROP_IMAGE_FILE_NAME, bitmap);
+                File file = FileUtil.saveFile(Environment.getExternalStorageDirectory().toString(), System.currentTimeMillis() + IMAGE_FILE_NAME, bitmap);
                 if (file != null) {
                     //传递新的头像信息给我的界面
                     NetManger.getInstance().postImg(file, (state, response) -> {
@@ -418,63 +311,98 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
                     });
 
                 }
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+                break;
+            // 相册选取
+            case REQUEST_IMAGE_GET:
+                try {
+                    startBigPhotoZoom(intent.getData());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+                break;
         }
+
+        super.onActivityResult(requestCode, resultCode, intent);
     }
 
-    private Bitmap imageZoom(Bitmap bitMap) {
-        //图片允许最大空间   单位：KB
-        double maxSize = 1000.00;
-        //将bitmap放至数组中，意在bitmap的大小（与实际读取的原文件要大）
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] b = baos.toByteArray();
-        //将字节换成KB
-        double mid = b.length / 1024;
-        //判断bitmap占用空间是否大于允许最大空间  如果大于则压缩 小于则不压缩
-        if (mid > maxSize) {
-            //获取bitmap大小 是允许最大大小的多少倍
-            double i = mid / maxSize;
-            //开始压缩  此处用到平方根 将宽带和高度压缩掉对应的平方根倍 （1.保持刻度和高度和原bitmap比率一致，压缩后也达到了最大大小占用空间的大小）
-            bitMap = zoomImage(bitMap, bitMap.getWidth() / Math.sqrt(i),
-                    bitMap.getHeight() / Math.sqrt(i));
-        }
-        return bitMap;
-    }
 
-    /***
-     * 图片的缩放方法
-     *
-     * @param bgimage
-     *            ：源图片资源
-     * @param newWidth
-     *            ：缩放后宽度
-     * @param newHeight
-     *            ：缩放后高度
-     * @return
+    /**
+     * 大图模式切割图片
+     * 直接创建一个文件将切割后的图片写入
      */
-    public static Bitmap zoomImage(Bitmap bgimage, double newWidth,
-                                   double newHeight) {
-        // 获取这个图片的宽和高
-        float width = bgimage.getWidth();
-        float height = bgimage.getHeight();
-        // 创建操作图片用的matrix对象
-        Matrix matrix = new Matrix();
-        // 计算宽高缩放率
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // 缩放图片动作
-        matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width, (int) height, matrix, true);
-        return bitmap;
+    public void startBigPhotoZoom(File inputFile) {
+        // 创建大图文件夹
+        Uri imageUri = null;
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            String storage = Environment.getExternalStorageDirectory().getPath();
+            File dirFile = new File(storage + "/bigIcon");
+            if (!dirFile.exists()) {
+                if (!dirFile.mkdirs()) {
+                    Log.e("TAG", "文件夹创建失败");
+                } else {
+                    Log.e("TAG", "文件夹创建成功");
+                }
+            }
+            File file = new File(dirFile, System.currentTimeMillis() + ".jpg");
+            imageUri = Uri.fromFile(file);
+            mImageUri = imageUri; // 将 uri 传出，方便设置到视图中
+        }
+
+        // 开始切割
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(getImageContentUri(this, inputFile), "image/*");
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1); // 裁剪框比例
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 600); // 输出图片大小
+        intent.putExtra("outputY", 600);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false); // 不直接返回数据
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri); // 返回一个文件
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        // intent.putExtra("noFaceDetection", true); // no face detection
+        startActivityForResult(intent, REQUEST_BIG_IMAGE_CUTTING);
     }
 
-    public Uri getImageContentUri(File imageFile) {
+    public void startBigPhotoZoom(Uri uri) {
+        // 创建大图文件夹
+        Uri imageUri = null;
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+            String storage = Environment.getExternalStorageDirectory().getPath();
+            File dirFile = new File(storage + "/bigIcon");
+            if (!dirFile.exists()) {
+                if (!dirFile.mkdirs()) {
+                    Log.e("TAG", "文件夹创建失败");
+                } else {
+                    Log.e("TAG", "文件夹创建成功");
+                }
+            }
+            File file = new File(dirFile, System.currentTimeMillis() + ".jpg");
+            imageUri = Uri.fromFile(file);
+            mImageUri = imageUri; // 将 uri 传出，方便设置到视图中
+        }
+
+        // 开始切割
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 1); // 裁剪框比例
+        intent.putExtra("aspectY", 1);
+        intent.putExtra("outputX", 600); // 输出图片大小
+        intent.putExtra("outputY", 600);
+        intent.putExtra("scale", true);
+        intent.putExtra("return-data", false); // 不直接返回数据
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri); // 返回一个文件
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        // intent.putExtra("noFaceDetection", true); // no face detection
+        startActivityForResult(intent, REQUEST_BIG_IMAGE_CUTTING);
+    }
+
+    public Uri getImageContentUri(Context context, File imageFile) {
         String filePath = imageFile.getAbsolutePath();
-        Cursor cursor = getContentResolver().query(
+        Cursor cursor = context.getContentResolver().query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
                 new String[]{MediaStore.Images.Media._ID},
                 MediaStore.Images.Media.DATA + "=? ",
@@ -489,11 +417,77 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             if (imageFile.exists()) {
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media.DATA, filePath);
-                return getContentResolver().insert(
+                return context.getContentResolver().insert(
                         MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
             } else {
                 return null;
             }
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 200:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //  mPhotoPopupWindow.dismiss();
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    // 判断系统中是否有处理该 Intent 的 Activity
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(intent, REQUEST_IMAGE_GET);
+                    } else {
+                        Toast.makeText(this, "No fund!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    //  mPhotoPopupWindow.dismiss();
+                }
+                break;
+            case 300:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //    mPhotoPopupWindow.dismiss();
+                    imageCapture();
+                } else {
+                    // mPhotoPopupWindow.dismiss();
+                }
+                break;
+        }
+    }
+
+    /**
+     * 小图模式中，保存图片后，设置到视图中
+     * 将图片保存设置到视图中
+     */
+    private void setPicToView(Intent data) {
+        Bundle extras = data.getExtras();
+        if (extras != null) {
+            Bitmap photo = extras.getParcelable("data");
+            // 创建 smallIcon 文件夹
+            if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                String storage = Environment.getExternalStorageDirectory().getPath();
+                File dirFile = new File(storage + "/smallIcon");
+                if (!dirFile.exists()) {
+                    if (!dirFile.mkdirs()) {
+                        Log.e("TAG", "Failure");
+                    } else {
+                        Log.e("TAG", "Success");
+                    }
+                }
+                File file = new File(dirFile, System.currentTimeMillis() + ".jpg");
+                // 保存图片
+                FileOutputStream outputStream;
+                try {
+                    outputStream = new FileOutputStream(file);
+                    photo.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    outputStream.flush();
+                    outputStream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            // 在视图中显示图片
+            img_head.setImageBitmap(photo);
         }
     }
 }
