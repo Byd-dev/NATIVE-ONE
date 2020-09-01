@@ -21,6 +21,7 @@ import com.lzy.okgo.https.HttpsUtils;
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor;
 import com.lzy.okgo.model.HttpHeaders;
 import com.lzy.okgo.model.HttpParams;
+import com.pro.bityard.manger.WebSocketManager;
 import com.pro.switchlibrary.SPUtils;
 import com.tencent.smtt.sdk.QbSdk;
 
@@ -69,6 +70,9 @@ public class AppContext extends Application {
         initAdjust();
         //极光推送必须
         JPushInterface.init(this);
+
+
+
         //极光分享必须
        /* MultiDex.install(this);
         //极光分享必须

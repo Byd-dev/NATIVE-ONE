@@ -438,7 +438,7 @@ public class Util {
     }
 
 
-    public static String getSign(Map<String, String> params, String security) {
+    public static String  getSign(Map<String, String> params, String security) {
         Map<String, String> sortedMap = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
         sortedMap.putAll(params);
 

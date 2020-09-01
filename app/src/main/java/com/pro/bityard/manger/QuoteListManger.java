@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.OkHttpClient;
 
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
@@ -223,6 +226,11 @@ public class QuoteListManger extends Observable {
 
 
         }
+
+
+
+
+
 
     }
 

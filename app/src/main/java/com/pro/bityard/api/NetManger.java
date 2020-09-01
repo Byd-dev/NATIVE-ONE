@@ -674,19 +674,16 @@ public class NetManger {
             int length = split.length;
             Log.d("NetManger", "getQuote:324: 请求次数: " + count + "请求地址长度: " + length + "  --   " + urlList);
             if (count < length) {
-                getHostRequest(split[count], url, map, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
+                getHostRequest(split[count], url, map, (state, response) -> {
+                    if (state.equals(BUSY)) {
 
-                        } else if (state.equals(SUCCESS)) {
-                            onNetResult.onNetResult(SUCCESS, response.toString());
-                        } else if (state.equals(FAILURE)) {
-                            if (length == 0) {
+                    } else if (state.equals(SUCCESS)) {
+                        onNetResult.onNetResult(SUCCESS, response.toString());
+                    } else if (state.equals(FAILURE)) {
+                        if (length == 0) {
 
-                            } else {
-                                count++;
-                            }
+                        } else {
+                            count++;
                         }
                     }
                 });
@@ -1490,7 +1487,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "ItemRate:1263:  " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 401) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -2573,6 +2569,11 @@ public class NetManger {
         });
 
     }
+
+
+
+
+
 
 
 }

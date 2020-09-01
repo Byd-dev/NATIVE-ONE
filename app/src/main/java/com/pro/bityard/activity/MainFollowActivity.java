@@ -39,6 +39,7 @@ import com.pro.bityard.fragment.hold.HistoryFragment;
 import com.pro.bityard.fragment.hold.PendingFragment;
 import com.pro.bityard.fragment.hold.PositionFragment;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.IReceiveMessage;
 import com.pro.bityard.manger.InitManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
@@ -47,6 +48,7 @@ import com.pro.bityard.manger.QuoteCustomizeListManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.UserDetailManger;
+import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -61,6 +63,8 @@ import com.stx.xhb.xbanner.XBanner;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -81,7 +85,7 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 
-public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener {
+public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener, IReceiveMessage {
 
     public static boolean isForeground = false;
     public static final String MESSAGE_RECEIVED_ACTION = "${applicationId}.MESSAGE_RECEIVED_ACTION";
@@ -396,6 +400,25 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         QuoteDetailActivity.enter(this, "1", data);
     }
 
+    @Override
+    public void onConnectSuccess() {
+
+    }
+
+    @Override
+    public void onConnectFailed() {
+
+    }
+
+    @Override
+    public void onClose() {
+
+    }
+
+    @Override
+    public void onMessage(String text) {
+    }
+
 
     /**
      * 首页Tab索引
@@ -414,8 +437,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         NetManger.getInstance().updateCheck(this, layout_view);
 
     }
@@ -515,8 +536,20 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         Toast.makeText(this, "执行了initView", Toast.LENGTH_SHORT).show();
 
 
-        //首页监听
 
+
+        /*HashMap<String, String> map = new HashMap<>();
+        map.put("t", String.valueOf(new Date().getTime()));
+        map.put("sign", "hello socket quote");
+        String value_sign = Util.getSign(map, "hello socket quote");
+        String url="ws://quote.76bao.hk/wsquote?t=%s&sign=%s";
+        String url_format = String.format(url, new Date().getTime(), value_sign);
+        Log.d("print", "initView:websocket URL:  "+url_format);*/
+
+
+        WebSocketManager.getInstance().init("wss://quote.76bao.hk/wsquote",this);
+
+        //首页监听
         radioButton_0.setOnClickListener(this);
         radioButton_1.setOnClickListener(this);
         radioButton_2.setOnClickListener(this);
@@ -770,7 +803,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             super.handleMessage(msg);
 
             updateNews();
-
 
         }
     };
