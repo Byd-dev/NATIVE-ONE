@@ -246,6 +246,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
 
+
             if (quoteList != null) {
                 runOnUiThread(() -> {
                     layout_null.setVisibility(View.GONE);
@@ -801,6 +802,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         @Override
         public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
+            WebSocketManager.getInstance().sendMessage("{“cmid”:”3000”}");
 
             updateNews();
 

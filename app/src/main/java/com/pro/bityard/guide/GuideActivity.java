@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainFollowActivity;
@@ -107,19 +108,28 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
                             List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
-                            StringBuilder stringBuilder = new StringBuilder();
-                            for (int i = 0; i < tradeListEntityList.size(); i++) {
-                                stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
+                            Log.d("print", "init:110:  " + tradeListEntityList);
+                            if (tradeListEntityList.size() == 0) {
+                                text_jump.setVisibility(View.GONE);
+                                text_err.setVisibility(View.VISIBLE);
+                                Toast.makeText(this, "The contract number is empty!", Toast.LENGTH_LONG).show();
+                                return;
+                            } else {
+                                StringBuilder stringBuilder = new StringBuilder();
+                                for (int i = 0; i < tradeListEntityList.size(); i++) {
+                                    stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
+                                }
+                                SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
+                                SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
+                                run();
                             }
-                            SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
-                            SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
+
                         } else if (state1.equals(FAILURE)) {
                         }
                     });//获取合约号
 
 
                 }
-                run();
             } else if (state.equals(FAILURE)) {
                 text_jump.setVisibility(View.GONE);
                 text_err.setVisibility(View.VISIBLE);
