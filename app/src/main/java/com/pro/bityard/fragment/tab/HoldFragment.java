@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
@@ -22,7 +21,6 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
-import com.pro.bityard.manger.QuoteCustomizeListManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.utils.TradeUtil;
 
@@ -107,7 +105,7 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     protected void initData() {
         //行情初始化
-        QuoteCustomizeListManger.getInstance().addObserver(this);
+        QuoteListManger.getInstance().addObserver(this);
         //余额注册
         BalanceManger.getInstance().addObserver(this);
         //净值注册
@@ -166,7 +164,7 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-         if (o == QuoteCustomizeListManger.getInstance()) {
+         if (o == QuoteListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             List<String> quoteList = arrayMap.get(type);
             runOnUiThread(() -> {
@@ -177,7 +175,6 @@ public class HoldFragment extends BaseFragment implements Observer {
                             TradeUtil.setNetIncome(tradeType, positionRealList, quoteList);
                         } else {
                             TradeUtil.setNetIncome(tradeType, positionSimulationList, quoteList);
-
                         }
                     }
 

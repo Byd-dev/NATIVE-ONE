@@ -9,7 +9,11 @@ import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.QuoteChartEntity;
+import com.pro.bityard.utils.MD5Util;
 import com.pro.switchlibrary.SPUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Observable;
 import java.util.Timer;
@@ -19,7 +23,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class Quote1MinCurrentManger extends Observable {
+public class Quote1MinCurrentManger extends Observable implements IReceiveMessage {
 
 
     private static Quote1MinCurrentManger quote1MinCurrentManger;
@@ -86,6 +90,29 @@ public class Quote1MinCurrentManger extends Observable {
         if (quote_host == null && quote_code == null) {
             NetManger.getInstance().initQuote();
         } else {
+
+           /* String cmidId = "4001";
+            String symbols = quote_code;
+            String time = String.valueOf(System.currentTimeMillis());
+            String key = "hello socket quote";
+            String sign = "cmid=" + cmidId + "&symbols=" + symbols + "&t=" + time + "&key=" + key;
+            String value_sign = MD5Util.md5Encrypt32Lower(sign);
+
+            JSONObject json = new JSONObject();
+            try {
+                json.put("cmid", cmidId);
+                json.put("t", time);
+                json.put("symbols", quote_code);
+                json.put("sign", value_sign);
+                Log.d("webSocket", "onMessage:发送:  "+json.toString());
+
+                WebSocketManager.getInstance().sendMessage(json.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }*/
+
+
             NetManger.getInstance().getQuoteChart(quote_host, "/quota.jsp", quote_code, "1", (state, response) -> {
                 if (state.equals(BUSY)) {
 
@@ -120,4 +147,23 @@ public class Quote1MinCurrentManger extends Observable {
     }
 
 
+    @Override
+    public void onConnectSuccess() {
+
+    }
+
+    @Override
+    public void onConnectFailed() {
+
+    }
+
+    @Override
+    public void onClose() {
+
+    }
+
+    @Override
+    public void onMessage(String text) {
+        Log.d("webSocket", "onMessage:单个  "+text);
+    }
 }

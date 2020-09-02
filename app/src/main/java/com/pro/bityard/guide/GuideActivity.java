@@ -20,6 +20,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeListEntity;
+import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.PermissionUtil;
 import com.pro.bityard.utils.Util;
@@ -90,6 +91,9 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
 
     private void init() {
+        //初始化webSocket 行情
+        QuoteListManger.getInstance().initSocket();
+
         NetManger.getInstance().getInit((state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
@@ -108,7 +112,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
                             List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
-                            Log.d("print", "init:110:  " + tradeListEntityList);
                             if (tradeListEntityList.size() == 0) {
                                 text_jump.setVisibility(View.GONE);
                                 text_err.setVisibility(View.VISIBLE);

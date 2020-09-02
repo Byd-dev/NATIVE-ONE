@@ -44,7 +44,6 @@ import com.pro.bityard.manger.InitManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
-import com.pro.bityard.manger.QuoteCustomizeListManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.UserDetailManger;
@@ -270,19 +269,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                     quoteHomeAdapter.setDatas(arrayMap.get("5"));
                     quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
-                });
-            } else {
-                layout_null.setVisibility(View.VISIBLE);
-                recyclerView_market.setVisibility(View.GONE);
-            }
-
-
-        } else if (o == QuoteCustomizeListManger.getInstance()) {
-            ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
-            List<String> quoteList = arrayMap.get(type);
-            if (quoteList != null) {
-                runOnUiThread(() -> {
-                    assert quoteList != null;
                     if (quoteList.size() >= 3) {
                         if (isLogin()) {
                             if (tradeType.equals("1")) {
@@ -293,10 +279,13 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                         }
                     }
                 });
+            } else {
+                layout_null.setVisibility(View.VISIBLE);
+                recyclerView_market.setVisibility(View.GONE);
             }
 
 
-        } else if (o == BalanceManger.getInstance()) {
+        }  else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
 
             runOnUiThread(() -> {
@@ -613,9 +602,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         //行情初始化
         QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
 
-        QuoteCustomizeListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
         QuoteListManger.getInstance().addObserver(this);
-        QuoteCustomizeListManger.getInstance().addObserver(this);
         TabManger.getInstance().addObserver(this);
         //个人信息初始化
         UserDetailManger.getInstance().addObserver(this);
@@ -1016,8 +1003,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         Log.d("print", "onDestroy:912:  " + "执行了Ondestory");
         QuoteListManger.getInstance().cancelTimer();
         QuoteListManger.getInstance().clear();
-        QuoteCustomizeListManger.getInstance().cancelTimer();
-        QuoteCustomizeListManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);
         UserDetailManger.getInstance().clear();
         //  UserDetailManger.getInstance().cancelTimer();

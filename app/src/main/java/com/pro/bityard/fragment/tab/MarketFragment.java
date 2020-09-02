@@ -11,9 +11,7 @@ import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteListManger;
-import com.pro.bityard.utils.TradeUtil;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.List;
@@ -26,7 +24,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
-import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 
 public class MarketFragment extends BaseFragment implements View.OnClickListener, Observer {
     @BindView(R.id.swipeRefreshLayout)

@@ -9,12 +9,15 @@ public class QuoteEntity {
      */
 
     private boolean success;
+    private String cmid;
     private String data;
+
 
     @Override
     public String toString() {
-        return "OMarketEntity{" +
+        return "QuoteEntity{" +
                 "success=" + success +
+                ", cmid='" + cmid + '\'' +
                 ", data='" + data + '\'' +
                 '}';
     }

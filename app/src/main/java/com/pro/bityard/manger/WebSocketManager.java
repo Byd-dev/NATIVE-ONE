@@ -139,7 +139,6 @@ public final class WebSocketManager {
             public void onMessage(WebSocket webSocket, String text) {
                 super.onMessage(webSocket, text);
                 if (receiveMessage != null) {
-                    Log.d(TAG, "onMessage: "+text);
                     receiveMessage.onMessage(text);
                 }
             }

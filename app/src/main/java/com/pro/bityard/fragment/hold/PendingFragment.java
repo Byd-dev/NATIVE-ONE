@@ -23,7 +23,6 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.PositionRealManger;
-import com.pro.bityard.manger.QuoteCustomizeListManger;
 import com.pro.bityard.manger.QuoteListManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -47,7 +46,6 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
 import static com.pro.bityard.utils.TradeUtil.positionPrice;
-import static com.pro.bityard.utils.TradeUtil.price;
 
 public class PendingFragment extends BaseFragment implements Observer {
     @BindView(R.id.layout_null)
@@ -130,7 +128,7 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     protected void initView(View view) {
-        QuoteCustomizeListManger.getInstance().addObserver(this);
+        QuoteListManger.getInstance().addObserver(this);
         TagManger.getInstance().addObserver(this);
 
 
@@ -342,7 +340,7 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == QuoteCustomizeListManger.getInstance()) {
+        if (o == QuoteListManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("all");
             runOnUiThread(() -> {
