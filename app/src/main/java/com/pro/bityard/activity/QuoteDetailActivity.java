@@ -1511,7 +1511,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         else if (o == TradeListManger.getInstance()) {
             tradeListEntityList = (List<TradeListEntity>) arg;
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-            //  Log.d("print", "initData:510:  " + tradeListEntity);
             setContent(tradeListEntity);
         } else if (o == ChargeUnitManger.getInstance()) {
             chargeUnitEntityList = (List<ChargeUnitEntity>) arg;

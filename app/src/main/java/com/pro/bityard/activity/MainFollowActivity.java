@@ -249,19 +249,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     quoteHomeAdapter.setDatas(arrayMap.get("5"));
                     quoteAdapter.setDatas(arrayMap.get("6"));
                     quoteAdapter_market.setDatas(quoteList);
-                });
-            } else {
-                layout_null.setVisibility(View.VISIBLE);
-                recyclerView_market.setVisibility(View.GONE);
-            }
-
-
-        } else if (o == QuoteListManger.getInstance()) {
-            ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
-            List<String> quoteList = arrayMap.get(type);
-            if (quoteList != null) {
-                runOnUiThread(() -> {
-                    assert quoteList != null;
                     if (quoteList.size() >= 3) {
                         if (isLogin()) {
                             if (tradeType.equals("1")) {
@@ -272,15 +259,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         }
                     }
                 });
+            } else {
+                layout_null.setVisibility(View.VISIBLE);
+                recyclerView_market.setVisibility(View.GONE);
             }
-
-
         } else if (o == BalanceManger.getInstance()) {
-            balanceEntity = (BalanceEntity) arg;
 
+            balanceEntity = (BalanceEntity) arg;
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
-            Log.d("position", "update:持仓列表实盘:  " + positionRealList);
 
 
         } else if (o == PositionSimulationManger.getInstance()) {
@@ -298,7 +285,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 String netIncome = NetIncome[1];
                 String margin = NetIncome[2];
 
-                // Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
+                 Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
 
                 if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
@@ -1357,7 +1344,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         }
     }
 
-    public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
+   /* public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
         Log.d("hold", "setNetIncome:204:  " + positionList);
         if (positionList == null) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -1400,7 +1387,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         }
 
 
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

@@ -169,7 +169,6 @@ public class TradeUtil {
             lossAmount = getNumberFormat(mul, 2);
 
         }
-        Log.d(TAG, "lossAmount:134:  " + lossAmount);
         return lossAmount;
     }
 

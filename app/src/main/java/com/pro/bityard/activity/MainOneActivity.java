@@ -1476,7 +1476,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         }
     }
 
-    public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
+    /*public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
         Log.d("hold", "setNetIncome:204:  " + positionList);
         if (positionList == null) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -1519,7 +1519,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         }
 
 
-    }
+    }*/
 
     @Override
     public void onBackPressed() {

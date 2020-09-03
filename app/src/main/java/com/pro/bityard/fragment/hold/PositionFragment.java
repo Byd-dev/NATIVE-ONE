@@ -1184,7 +1184,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
 
-    public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
+    /*public void setNetIncome(String tradeType, List<PositionEntity.DataBean> positionList, List<String> quoteList) {
 
         TradeUtil.getNetIncome(quoteList, positionList, response1 -> TradeUtil.getMargin(positionList, response2 -> {
             double margin;
@@ -1204,7 +1204,7 @@ public class PositionFragment extends BaseFragment implements Observer {
             NetIncomeManger.getInstance().postNetIncome(append.toString());
         }));
 
-    }
+    }*/
 
 
     @Override
@@ -1318,7 +1318,9 @@ public class PositionFragment extends BaseFragment implements Observer {
                     } else {
                         positionEntity.getData().clear();
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
-                        headerRecyclerView.removeHeaderView(headView);
+                        if (headView!=null){
+                            headerRecyclerView.removeHeaderView(headView);
+                        }
 
                     }
 
