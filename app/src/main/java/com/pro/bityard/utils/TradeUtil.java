@@ -751,7 +751,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if (TradeUtil.listQuoteName(split[0]).length()==2) {
+            if ("SI,CL,NG,GC,HG,NQ,YM,CN".contains(TradeUtil.listQuoteName(split[0]))) {
                 quoteList2.add(mainQuote);
             }
         }
