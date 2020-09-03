@@ -44,9 +44,10 @@ import com.pro.bityard.manger.InitManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
-import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.UserDetailManger;
+import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -258,7 +259,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     @Override
     public void update(Observable o, Object arg) {
 
-        if (o == QuoteListManger.getInstance()) {
+        if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
 
@@ -599,10 +600,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         StatusBarUtil.setStatusBarDarkTheme(this, false);
         //打开沉浸式状态栏
         StatusBarUtil.setRootViewFitsSystemWindows(this, false);
-        //行情初始化
-        QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
-
-        QuoteListManger.getInstance().addObserver(this);
+        SocketQuoteManger.getInstance().addObserver(this);
         TabManger.getInstance().addObserver(this);
         //个人信息初始化
         UserDetailManger.getInstance().addObserver(this);
@@ -782,7 +780,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 NetManger.getInstance().initQuote();
             } else {
                 assert quote_host != null;
-                QuoteListManger.getInstance().quote(quote_host, quote_code);
+               // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
             }
         });
 
@@ -859,6 +857,15 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             super.handleMessage(msg);
 
             updateNews();
+
+            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+            if (quote_code == null) {
+                NetManger.getInstance().initQuote();
+                return;
+            } else {
+                //发送行情包
+                WebSocketManager.getInstance().send("3001", quote_code);
+            }
 
 
         }
@@ -1001,8 +1008,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     protected void onDestroy() {
         super.onDestroy();
         Log.d("print", "onDestroy:912:  " + "执行了Ondestory");
-        QuoteListManger.getInstance().cancelTimer();
-        QuoteListManger.getInstance().clear();
+       // SocketQuoteManger.getInstance().cancelTimer();
+        SocketQuoteManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);
         UserDetailManger.getInstance().clear();
         //  UserDetailManger.getInstance().cancelTimer();

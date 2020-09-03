@@ -148,7 +148,7 @@ public class InitManger extends Observable {
             NetManger.getInstance().initQuote();
         } else {
             assert quote_host != null;
-            QuoteListManger.getInstance().quote(quote_host, quote_code);
+           // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
         }
 
     }

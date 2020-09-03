@@ -47,12 +47,15 @@ import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.manger.TradeListManger;
+import com.pro.bityard.manger.WebSocketManager;
+import com.pro.bityard.utils.MD5Util;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -97,6 +100,10 @@ public class NetManger {
 
         return instance;
     }
+
+
+
+
 
     //get 请求
     public void getRequest(String url, ArrayMap map, OnNetResult onNetResult) {

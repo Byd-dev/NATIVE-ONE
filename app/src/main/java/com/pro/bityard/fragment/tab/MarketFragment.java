@@ -11,7 +11,7 @@ import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
         swipeRefreshLayout.setRefreshing(true);
 
-        QuoteListManger.getInstance().addObserver(this);
+        SocketQuoteManger.getInstance().addObserver(this);
 
 
         quoteAdapter = new QuoteAdapter(getActivity());
@@ -79,7 +79,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
                 NetManger.getInstance().initQuote();
             } else {
                 assert quote_host != null;
-                QuoteListManger.getInstance().quote(quote_host, quote_code);
+               // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
             }
         });
 
@@ -165,7 +165,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
     @Override
     public void onDestroy() {
         super.onDestroy();
-        QuoteListManger.getInstance().clear();
+        SocketQuoteManger.getInstance().clear();
     }
 
     @Override

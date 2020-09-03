@@ -142,7 +142,6 @@
                     android:id="@+id/text_lastPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="26sp"

@@ -2,6 +2,11 @@ package com.pro.bityard.manger;
 
 import android.util.Log;
 
+import com.pro.bityard.utils.MD5Util;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
@@ -13,7 +18,7 @@ import okio.ByteString;
 
 public final class WebSocketManager {
     private final static String TAG = "webSocket";
-    private final static int MAX_NUM = 5;       // 最大重连数
+    private final static int MAX_NUM = 10;       // 最大重连数
     private final static int MILLIS = 5000;     // 重连间隔时间，毫秒
     private volatile static WebSocketManager manager;
 
@@ -25,7 +30,7 @@ public final class WebSocketManager {
     private boolean isConnect = false;
     private int connectNum = 0;
 
-    private WebSocketManager() {
+    public WebSocketManager() {
     }
 
     public static WebSocketManager getInstance() {
@@ -185,5 +190,26 @@ public final class WebSocketManager {
                 reconnect();
             }
         };
+    }
+
+
+    //行情的发送心跳包
+    public void send(String cmidId, String symbols) {
+        String time = String.valueOf(System.currentTimeMillis());
+        String key = "hello socket quote";
+        String sign = "cmid=" + cmidId + "&symbols=" + symbols + "&t=" + time + "&key=" + key;
+        String value_sign = MD5Util.md5Encrypt32Lower(sign);
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("cmid", cmidId);
+            json.put("t", time);
+            json.put("symbols", symbols);
+            json.put("sign", value_sign);
+            WebSocketManager.getInstance().sendMessage(json.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

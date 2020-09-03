@@ -254,10 +254,12 @@ public class TradeUtil {
             for (String value : quoteList) {
                 String[] split1 = value.split(",");
                 if (contractCode.equals(split1[0])) {
+                    //Log.d("positionPrice", "positionPrice: "+contractCode+"   "+split1[0]+"  "+split1[4]+"  "+split1[5]);
                     if (isBuy) {
                         result.setResult(split1[4]);
                     } else {
-                        result.setResult(split1[5]);
+                        //原来是5 改了websocket之后就变成了6
+                        result.setResult(split1[6]);
                     }
                 }
             }

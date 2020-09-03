@@ -23,7 +23,7 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.manger.PositionRealManger;
-import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -128,7 +128,7 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     protected void initView(View view) {
-        QuoteListManger.getInstance().addObserver(this);
+        SocketQuoteManger.getInstance().addObserver(this);
         TagManger.getInstance().addObserver(this);
 
 
@@ -340,7 +340,7 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == QuoteListManger.getInstance()) {
+        if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("all");
             runOnUiThread(() -> {

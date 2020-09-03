@@ -4,16 +4,12 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
@@ -44,8 +40,7 @@ import com.pro.bityard.api.PopResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.UserDetailEntity;
-import com.pro.bityard.entity.WithdrawalAdressEntity;
-import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.switchlibrary.SPUtils;
 
 import java.io.ByteArrayOutputStream;
@@ -55,7 +50,6 @@ import java.util.List;
 import java.util.Random;
 
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -68,7 +62,7 @@ public class PopUtil {
 
     public static PopUtil getInstance() {
         if (popUtil == null) {
-            synchronized (QuoteListManger.class) {
+            synchronized (SocketQuoteManger.class) {
                 if (popUtil == null) {
                     popUtil = new PopUtil();
                 }

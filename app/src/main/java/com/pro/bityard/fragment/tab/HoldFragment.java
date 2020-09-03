@@ -21,7 +21,7 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
-import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.utils.TradeUtil;
 
 import java.util.List;
@@ -86,7 +86,7 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     protected void initView(View view) {
 
-        QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+       // SocketQuoteManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(v -> getActivity().finish());
 
@@ -105,7 +105,7 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     protected void initData() {
         //行情初始化
-        QuoteListManger.getInstance().addObserver(this);
+        SocketQuoteManger.getInstance().addObserver(this);
         //余额注册
         BalanceManger.getInstance().addObserver(this);
         //净值注册
@@ -164,7 +164,7 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-         if (o == QuoteListManger.getInstance()) {
+         if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             List<String> quoteList = arrayMap.get(type);
             runOnUiThread(() -> {

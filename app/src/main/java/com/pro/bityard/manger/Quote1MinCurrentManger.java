@@ -9,11 +9,7 @@ import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.QuoteChartEntity;
-import com.pro.bityard.utils.MD5Util;
 import com.pro.switchlibrary.SPUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Observable;
 import java.util.Timer;
@@ -97,7 +93,6 @@ public class Quote1MinCurrentManger extends Observable implements IReceiveMessag
             String key = "hello socket quote";
             String sign = "cmid=" + cmidId + "&symbols=" + symbols + "&t=" + time + "&key=" + key;
             String value_sign = MD5Util.md5Encrypt32Lower(sign);
-
             JSONObject json = new JSONObject();
             try {
                 json.put("cmid", cmidId);
@@ -105,9 +100,7 @@ public class Quote1MinCurrentManger extends Observable implements IReceiveMessag
                 json.put("symbols", quote_code);
                 json.put("sign", value_sign);
                 Log.d("webSocket", "onMessage:发送:  "+json.toString());
-
                 WebSocketManager.getInstance().sendMessage(json.toString());
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }*/
@@ -164,6 +157,6 @@ public class Quote1MinCurrentManger extends Observable implements IReceiveMessag
 
     @Override
     public void onMessage(String text) {
-        Log.d("webSocket", "onMessage:单个  "+text);
+        Log.d("webSocket", "onMessage:单个  " + text);
     }
 }

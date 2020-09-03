@@ -12,6 +12,13 @@ public class QuoteEntity {
     private String cmid;
     private String data;
 
+    public String getCmid() {
+        return cmid;
+    }
+
+    public void setCmid(String cmid) {
+        this.cmid = cmid;
+    }
 
     @Override
     public String toString() {

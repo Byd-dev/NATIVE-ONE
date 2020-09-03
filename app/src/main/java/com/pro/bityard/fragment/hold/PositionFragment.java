@@ -34,7 +34,7 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
-import com.pro.bityard.manger.QuoteListManger;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -147,7 +147,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         super.onResume();
         //行情的注册
         // QuoteListManger.getInstance().addObserver(this);
-        QuoteListManger.getInstance().addObserver(this);
+        SocketQuoteManger.getInstance().addObserver(this);
         //标签
         TagManger.getInstance().addObserver(this);
 
@@ -1303,7 +1303,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-        if (o == QuoteListManger.getInstance()) {
+        if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("all");
             //OpenPositionEntity{code=200, message='', data=[]}    或者是null
@@ -1318,7 +1318,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                     } else {
                         positionEntity.getData().clear();
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
-                        if (headView!=null){
+                        if (isAdded()){
                             headerRecyclerView.removeHeaderView(headView);
                         }
 

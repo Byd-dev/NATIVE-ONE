@@ -5,27 +5,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.fragment.tab.HomeFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
 import com.pro.bityard.manger.ChargeUnitManger;
-import com.pro.bityard.manger.QuoteListManger;
-import com.pro.bityard.manger.TabManger;
-import com.pro.bityard.manger.TradeListManger;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
@@ -47,7 +41,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == QuoteListManger.getInstance()) {
+        if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("1");
         }
@@ -132,8 +126,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
         radioGroup.setOnCheckedChangeListener(this);
         radioGroup.getChildAt(0).performClick();
-        //行情初始化
-        QuoteListManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+
 
         //初始化 交易设置
 
@@ -144,7 +137,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected void initData() {
 
-        QuoteListManger.getInstance().addObserver(this);
+        SocketQuoteManger.getInstance().addObserver(this);
 
         //获取国家code
 
@@ -169,7 +162,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             NetManger.getInstance().initQuote();
         } else {
             assert quote_host != null;
-            QuoteListManger.getInstance().quote(quote_host, quote_code);
         }
 
         if (quoteList != null) {
@@ -216,7 +208,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        QuoteListManger.getInstance().cancelTimer();
-        QuoteListManger.getInstance().clear();
+        SocketQuoteManger.getInstance().clear();
     }
 }
