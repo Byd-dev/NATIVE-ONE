@@ -1,8 +1,11 @@
 package com.pro.bityard.guide;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.os.Message;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
@@ -22,10 +25,13 @@ import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TradeListManger;
+import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.PermissionUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +130,10 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                                 }
                                 SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
                                 SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
+                                startScheduleJob(mHandler, 2000, 2000);
                                 run();
+
+
                             }
 
                         } else if (state1.equals(FAILURE)) {
@@ -142,6 +151,25 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             }
         });
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(@NotNull Message msg) {
+            super.handleMessage(msg);
+            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+            if (quote_code == null) {
+                NetManger.getInstance().initQuote();
+                return;
+            } else {
+                //发送行情包
+                WebSocketManager.getInstance().send("3001", quote_code);
+            }
+
+
+        }
+    };
+
 
     @Override
     protected void initData() {

@@ -763,14 +763,14 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             super.handleMessage(msg);
             updateNews();
 
-            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+           /* String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
             if (quote_code == null) {
                 NetManger.getInstance().initQuote();
                 return;
             } else {
                 //发送行情包
                 WebSocketManager.getInstance().send("3001", quote_code);
-            }
+            }*/
 
 
         }
