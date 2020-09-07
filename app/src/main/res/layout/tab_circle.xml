@@ -52,7 +52,7 @@
             <!--列表-->
 
             <com.pro.bityard.view.HeaderRecyclerView
-                android:id="@+id/recyclerView_market"
+                android:id="@+id/recyclerView_follow"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 

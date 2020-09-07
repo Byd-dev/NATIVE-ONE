@@ -46,7 +46,6 @@ import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.UserDetailManger;
-import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -79,7 +78,6 @@ import butterknife.BindView;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
-import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 
 public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener {
 
@@ -175,6 +173,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @BindView(R.id.swipeRefreshLayout_circle)
     SwipeRefreshLayout swipeRefreshLayout_circle;
 
+    @BindView(R.id.img_head_circle)
+    CircleImageView img_head_circle;
 
 
 
@@ -523,9 +523,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         //行情初始化
 
 
-
-
-      //  SocketQuoteManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+        //  SocketQuoteManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
         SocketQuoteManger.getInstance().addObserver(this);
         TabManger.getInstance().addObserver(this);
         //个人信息初始化
@@ -706,7 +704,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 NetManger.getInstance().initQuote();
             } else {
                 assert quote_host != null;
-               // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
+                // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
             }
         });
 
@@ -919,7 +917,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         SPUtils.remove(AppConfig.RATE_LIST);
         UserDetailManger.getInstance().clear();
         //  UserDetailManger.getInstance().cancelTimer();
-
 
 
     }
