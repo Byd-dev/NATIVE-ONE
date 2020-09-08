@@ -858,14 +858,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
             updateNews();
 
-            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-            if (quote_code == null) {
-                NetManger.getInstance().initQuote();
-                return;
-            } else {
-                //发送行情包
-                WebSocketManager.getInstance().send("3001", quote_code);
-            }
+
 
 
         }
@@ -1013,7 +1006,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         SPUtils.remove(AppConfig.RATE_LIST);
         UserDetailManger.getInstance().clear();
         //  UserDetailManger.getInstance().cancelTimer();
-
+        cancelTimer();
 
     }
 
