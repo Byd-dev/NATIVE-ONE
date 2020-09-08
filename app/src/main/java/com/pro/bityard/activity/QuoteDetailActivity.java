@@ -89,6 +89,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
+import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
@@ -596,7 +597,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
             }
         }
-        startScheduleJob(mHandler, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
+        startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
 
         text_market_currency.setText(TradeUtil.listQuoteName(itemData));
@@ -1467,69 +1468,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
 
-
-        /*else if (o == QuoteItemManger.getInstance()) {
-            quote = (String) arg;
-
-            if (quote != null) {
-                //仓位实时更新 服务费
-                if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
-                    text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
-                    text_market_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever));
-
-                }
-                if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
-                    text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), parseDouble(itemQuotePrice(quote))));
-                    text_limit_all.setText(TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever));
-
-                }
-
-
-                if (quotePopAdapter != null) {
-                    quotePopAdapter.select(itemQuoteContCode(quote));
-                }
-
-
-                text_lastPrice.setText(itemQuotePrice(quote));
-                text_change.setText(TradeUtil.quoteChange(itemQuotePrice(quote), itemQuoteTodayPrice(quote)));
-                text_range.setText(TradeUtil.quoteRange(itemQuotePrice(quote), itemQuoteTodayPrice(quote)));
-
-                if (itemQuoteIsRange(quote).equals("-1")) {
-                    text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
-                    text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
-                    text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_red));
-
-                    img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_down));
-
-                } else if (itemQuoteIsRange(quote).equals("1")) {
-                    text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
-                    text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
-                    text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_quote_green));
-                    img_up_down.setImageDrawable(getApplicationContext().getResources().getDrawable(R.mipmap.icon_market_up));
-
-                } else if (itemQuoteIsRange(quote).equals("0")) {
-
-                    text_lastPrice.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-                    text_change.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-                    text_range.setTextColor(getApplicationContext().getResources().getColor(R.color.text_maincolor));
-
-                }
-
-                text_max.setText(TradeUtil.itemQuoteMaxPrice(quote));
-                text_min.setText(TradeUtil.itemQuoteMinPrice(quote));
-                text_volume.setText(TradeUtil.itemQuoteVolume(quote));
-
-
-                String spread = TradeUtil.spread(TradeUtil.itemQuoteContCode(quote), tradeListEntityList);
-
-                if (spread != null) {
-                    text_buy_much.setText(TradeUtil.itemQuoteBuyMuchPrice(quote, Integer.parseInt(spread)));
-                    text_buy_empty.setText(TradeUtil.itemQuoteBuyEmptyPrice(quote, Integer.parseInt(spread)));
-                }
-
-            }
-
-        }*/
         else if (o == TradeListManger.getInstance()) {
             tradeListEntityList = (List<TradeListEntity>) arg;
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
@@ -1652,7 +1590,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 myKLineView_3Min.addSingleData(kData.get(kData.size() - 1));
             } else {
                 if (quoteMinEntity != null) {
-
                     Quote3MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
                 }
 
@@ -1740,7 +1677,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         else if (o == Quote1MinHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kData1MinHistory = ChartUtil.klineList(data);
-
             if (kData1MinHistory != null) {
                 myKLineView_1Min.initKDataList(kData1MinHistory);
                 kline_1min_time.initKDataList(kData1MinHistory);

@@ -2458,9 +2458,9 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
         } else if (num < 10000) {
             return setPrecision(num, 2);
         } else if (num < 100000000) {
-            return setPrecision(num / 10000, 2) + "万";
+            return setPrecision(num, 2);
         } else {
-            return setPrecision(num / 100000000, 2) + "亿";
+            return setPrecision(num, 2);
         }
     }
 
