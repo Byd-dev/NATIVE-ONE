@@ -1,8 +1,17 @@
 package com.pro.bityard.manger;
 
+import android.annotation.SuppressLint;
+import android.os.Handler;
+import android.os.Message;
+
+import com.pro.bityard.api.NetManger;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.QuoteMinEntity;
+import com.pro.switchlibrary.SPUtils;
 
 import java.util.Observable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class QuoteCurrentManger extends Observable {
 
@@ -38,6 +47,43 @@ public class QuoteCurrentManger extends Observable {
     public void clear() {
         deleteObservers();
         quoteCurrentManger = null;
+    }
+
+
+    private Timer mTimer;
+    private String quote_code;
+
+    public void startScheduleJob(long delay, long interval, String quote_code) {
+        this.quote_code = quote_code;
+
+        if (mTimer != null) cancelTimer();
+
+        mTimer = new Timer();
+        mTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (handler != null) {
+                    handler.sendEmptyMessage(0);
+                }
+            }
+        }, delay, interval);
+    }
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            WebSocketManager.getInstance().send("4001", quote_code);
+        }
+    };
+
+
+    public void cancelTimer() {
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
     }
 
 

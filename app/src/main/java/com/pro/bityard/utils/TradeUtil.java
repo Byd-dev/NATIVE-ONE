@@ -954,7 +954,6 @@ public class TradeUtil {
     }
 
     public static String depositMin(List<Integer> depositList) {
-        Log.d("print", "depositMin:847: " + depositList);
         String deposit = null;
         if (depositList.size() == 0) {
             deposit = null;

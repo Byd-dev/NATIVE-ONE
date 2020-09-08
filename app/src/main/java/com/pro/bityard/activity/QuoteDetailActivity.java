@@ -79,6 +79,8 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -91,7 +93,6 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
-import static com.pro.bityard.utils.TradeUtil.itemQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
 import static com.pro.bityard.utils.TradeUtil.listQuoteName;
 import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
@@ -581,10 +582,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
         quote_code = itemQuoteContCode(itemData);
-
+        Log.d("print", "initData:进来的值:  " + itemQuoteContCode(itemData));
         //自选的图标
         String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
-        Log.d("print", "onClick:569:  " + optional);
+        //  Log.d("print", "onClick:569:  " + optional);
         setList = new HashSet<>();
         if (optional != null) {
             String[] split = optional.split(",");
@@ -704,7 +705,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     /*设置 保证金和杠杆*/
     public void setContent(TradeListEntity tradeListEntity) {
-        Log.d("print", "setContent:659:  " + tradeListEntity);
+        //Log.d("print", "setContent:659:  " + tradeListEntity);
         if (tradeListEntity != null) {
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
             lever = leverShowList.get(oldSelect);
@@ -721,7 +722,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         "~" + max_margin);
                 edit_market_margin.setOnFocusChangeListener((v, hasFocus) -> {
                     String value_margin = edit_market_margin.getText().toString();
-                    Log.d("print", "setContent:669:  " + value_margin + "        " + max_margin);
+                    // Log.d("print", "setContent:669:  " + value_margin + "        " + max_margin);
 
                     if (!hasFocus) {
                         if (value_margin.length() != 0) {
@@ -841,6 +842,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             super.handleMessage(msg);
             //发送行情包
             if (quote_code != null) {
+                Log.d("print", "handleMessage:845:  "+quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
             }
 
@@ -1232,7 +1234,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     /*下单*/
     private void fastOpen(String isBuy, String priceMuchOrEmpty) {
         isDefer = SPUtils.getBoolean(AppConfig.KEY_DEFER, false);
-        Log.d("print", "initView:是否递延:  " + isDefer);
 
         TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(quoteMinEntity.getSymbol(), tradeListEntityList);
         if (priceMuchOrEmpty.equals(getResources().getString(R.string.text_default))) {
@@ -1246,7 +1247,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         String margin = marginOrder(orderType, marginMarket, marginLimit);
         String priceOrder = TradeUtil.priceOrder(orderType, Objects.requireNonNull(edit_limit_price.getText()).toString());
         String defer = TradeUtil.defer(tradeType, isDefer);
-        Log.d("print", "onClick: 保证金:" + margin + "  是否递延:" + defer + "  价格:" + priceOrder);
+        //Log.d("print", "onClick: 保证金:" + margin + "  是否递延:" + defer + "  价格:" + priceOrder);
 
         if (margin == null) {
             Toast.makeText(QuoteDetailActivity.this, getResources().getText(R.string.text_margin_input), Toast.LENGTH_SHORT).show();
@@ -1313,6 +1314,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         quotePopAdapter.setOnItemClick(data -> {
+            quote_code = TradeUtil.itemQuoteContCode(data);
 
             //自选的图标
             String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
@@ -1343,7 +1345,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
             edit_limit_price.setText(listQuotePrice(data));
-            quote_code = TradeUtil.itemQuoteContCode(data);
 
             // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
             Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
@@ -1432,12 +1433,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         popupWindow.showAsDropDown(layout_bar);
     }
 
+
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(quoteType);
-            Log.d("websocket", "update:1440: "+quoteList);
             if (quotePopAdapter != null && quoteList != null) {
                 quotePopAdapter.setDatas(quoteList);
             }
@@ -1548,7 +1550,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == QuoteCurrentManger.getInstance()) {
             quoteMinEntity = (QuoteMinEntity) arg;
             if (quoteMinEntity != null) {
+                Log.d("print", "update:1549:  "+quoteMinEntity);
                 runOnUiThread(() -> {
+                    Toast.makeText(QuoteDetailActivity.this,quoteMinEntity.getSymbol(),Toast.LENGTH_SHORT).show();
                     //仓位实时更新 服务费
                     if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
                         text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), quoteMinEntity.getPrice()));
@@ -1612,7 +1616,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     }
                     text_max.setText(String.valueOf(quoteMinEntity.getMax()));
                     text_min.setText(String.valueOf(quoteMinEntity.getMin()));
-                    text_volume.setText(String.valueOf(quoteMinEntity.getVolume()));
+                    text_volume.setText(quoteMinEntity.getVolume());
 
 
                     String spread = TradeUtil.spread(quoteMinEntity.getSymbol(), tradeListEntityList);
@@ -1642,7 +1646,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == Quote3MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData3MinHistory != null&&quoteMinEntity!=null) {
+            if (kData3MinHistory != null && quoteMinEntity != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_3Min.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1656,7 +1660,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
 
-            if (kData5MinHistory != null&&quoteMinEntity!=null) {
+            if (kData5MinHistory != null && quoteMinEntity != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_5Min.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1669,7 +1673,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == Quote15MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData15MinHistory != null&&quoteMinEntity!=null) {
+            if (kData15MinHistory != null && quoteMinEntity != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_15Min.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1682,7 +1686,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == Quote60MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData60MinHistory != null&&quoteMinEntity!=null) {
+            if (kData60MinHistory != null && quoteMinEntity != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1H.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1694,7 +1698,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == QuoteDayCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataDayHistory != null&&quoteMinEntity!=null) {
+            if (kDataDayHistory != null && quoteMinEntity != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1D.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1706,7 +1710,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == QuoteWeekCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataWeekHistory != null&&quoteMinEntity!=null) {
+            if (kDataWeekHistory != null && quoteMinEntity != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1_week.addSingleData(kData.get(kData.size() - 1));
 
@@ -1720,7 +1724,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         } else if (o == QuoteMonthCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataMonthHistory != null&&quoteMinEntity!=null) {
+            if (kDataMonthHistory != null && quoteMinEntity != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1_month.addSingleData(kData.get(kData.size() - 1));
 
@@ -1853,9 +1857,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-       /* QuoteItemManger.getInstance().clear();
-        QuoteItemManger.getInstance().cancelTimer();*/
+        Toast.makeText(QuoteDetailActivity.this,"onDestroy",Toast.LENGTH_LONG).show();
+        //要取消计时 防止内存溢出
+        cancelTimer();
+        QuoteCurrentManger.getInstance().clear();
 
         Quote1MinHistoryManger.getInstance().clear();
         Quote1MinHistoryManger.getInstance().cancelTimer();
@@ -1912,4 +1917,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         }
     }
+
+
+
 }
