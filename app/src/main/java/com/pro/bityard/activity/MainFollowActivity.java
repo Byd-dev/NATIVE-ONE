@@ -698,7 +698,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         quoteAdapter_market.isShowIcon(true);
-        @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null);
+        @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null, false);
 
         recyclerView_market.addFooterView(footView);
 
@@ -745,16 +745,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
 
-        View head_circle = LayoutInflater.from(this).inflate(R.layout.layout_head_circle, null);
+        @SuppressLint("InflateParams") View head_circle = LayoutInflater.from(this).inflate(R.layout.layout_head_circle, null, false);
+        @SuppressLint("InflateParams") View footView_circle = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null, false);
+
         followAdapter = new FollowAdapter(this);
         recyclerView_circle.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_circle.addHeaderView(head_circle);
+        recyclerView_circle.addFooterView(footView_circle);
 
-        if (recyclerView_circle!=null){
-            recyclerView_circle.addHeaderView(head_circle);
-            recyclerView_circle.addFooterView(footView);
-        }
         recyclerView_circle.setAdapter(followAdapter);
-
 
         /*我的 分割线-----------------------------------------------------------------------------*/
         findViewById(R.id.layout_balance).setOnClickListener(this);

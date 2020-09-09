@@ -104,7 +104,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ((MyViewHolder) holder).layout_tags.addView(textView);
                 }
                 ((MyViewHolder) holder).layout_tags.setPadding(0, 0, 10, 0);
-            }else {
+            } else {
                 ((MyViewHolder) holder).layout_tags.setVisibility(View.GONE);
             }
 
