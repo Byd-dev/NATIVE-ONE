@@ -1,7 +1,5 @@
 package com.pro.bityard.entity;
 
-import com.pro.bityard.utils.TradeUtil;
-
 import java.util.List;
 
 public class PendingEntity {

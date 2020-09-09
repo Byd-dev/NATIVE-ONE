@@ -25,7 +25,6 @@ import com.pro.bityard.adapter.CountryCodeAdapter;
 import com.pro.bityard.adapter.CountryCodeHeadAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;

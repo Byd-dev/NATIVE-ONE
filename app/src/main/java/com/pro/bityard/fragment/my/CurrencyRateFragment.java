@@ -1,15 +1,12 @@
 package com.pro.bityard.fragment.my;
 
-import android.util.Log;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.CurrencyListAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.entity.CurrencyListEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.switchlibrary.SPUtils;
 

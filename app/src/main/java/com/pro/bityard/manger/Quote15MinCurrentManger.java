@@ -3,7 +3,6 @@ package com.pro.bityard.manger;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;

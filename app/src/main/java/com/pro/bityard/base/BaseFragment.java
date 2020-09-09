@@ -10,10 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.pro.bityard.entity.LoginEntity;
-import com.pro.bityard.manger.BalanceManger;
 
 import java.io.Serializable;
-import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 

@@ -2,7 +2,6 @@ package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
 import android.util.ArrayMap;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.utils.ChartUtil;

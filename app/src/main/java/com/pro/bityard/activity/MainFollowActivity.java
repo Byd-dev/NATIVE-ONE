@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.FollowAdapter;
 import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
@@ -32,6 +33,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BannerEntity;
+import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.UserDetailEntity;
@@ -176,6 +178,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @BindView(R.id.img_head_circle)
     CircleImageView img_head_circle;
 
+    @BindView(R.id.recyclerView_circle)
+    HeaderRecyclerView recyclerView_circle;
+
+    private FollowAdapter followAdapter;
+
+    @BindView(R.id.layout_circle_null)
+    LinearLayout layout_circle_null;
 
 
     /*持仓 实盘 ---------------------------------------------------*/
@@ -446,8 +455,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             img_edit.setVisibility(View.VISIBLE);
             layout_login_register.setVisibility(View.GONE);
             img_service_my.setVisibility(View.VISIBLE);
-            Glide.with(this).load(loginEntity.getUser().getAvatar()).into(img_head_circle);
-            Glide.with(this).load(loginEntity.getUser().getAvatar()).into(img_head);
+            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_bityard_user).into(img_head_circle);
+            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_bityard_user).into(img_head);
 
 
         } else {
@@ -571,6 +580,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::initData);
+
 
         quoteAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(this, "1", data));
         findViewById(R.id.layout_simulation_home).setOnClickListener(this);
@@ -729,6 +739,21 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         /*持仓 模拟 分割线-----------------------------------------------------------------------------*/
         PositionSimulationManger.getInstance().addObserver(this);
+        /*社区  分割线-----------------------------------------------------------------------------*/
+
+        swipeRefreshLayout_circle.setOnRefreshListener(this::initData);
+        swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+
+
+        View head_circle = LayoutInflater.from(this).inflate(R.layout.layout_head_circle, null);
+        followAdapter = new FollowAdapter(this);
+        recyclerView_circle.setLayoutManager(new LinearLayoutManager(this));
+
+        if (recyclerView_circle!=null){
+            recyclerView_circle.addHeaderView(head_circle);
+            recyclerView_circle.addFooterView(footView);
+        }
+        recyclerView_circle.setAdapter(followAdapter);
 
 
         /*我的 分割线-----------------------------------------------------------------------------*/
@@ -810,14 +835,37 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         //首页 -------------------------------------------------------------------------------------
         getBanner();
+        //跟单列表
+        getFollowList();
 
-        //合约号
-
+        //个人详情
         if (isLogin()) {
             UserDetailManger.getInstance().detail();
         }
 
 
+    }
+
+    private void getFollowList() {
+        NetManger.getInstance().followList(null, null,
+                null, "usdt", null, null, null, null,
+                null, null, null, (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        swipeRefreshLayout_circle.setRefreshing(true);
+                    } else if (state.equals(SUCCESS)) {
+                        swipeRefreshLayout_circle.setRefreshing(false);
+
+                        layout_circle_null.setVisibility(View.GONE);
+                        recyclerView_circle.setVisibility(View.VISIBLE);
+                        FollowEntity followEntity = (FollowEntity) response;
+                        followAdapter.setDatas(followEntity.getData());
+                    } else if (state.equals(FAILURE)) {
+                        swipeRefreshLayout_circle.setRefreshing(false);
+
+                        layout_circle_null.setVisibility(View.VISIBLE);
+                        recyclerView_circle.setVisibility(View.GONE);
+                    }
+                });
     }
 
     /*首页轮播图*/

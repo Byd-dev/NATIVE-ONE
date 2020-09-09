@@ -47,7 +47,6 @@ import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.UserDetailManger;
-import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -79,7 +78,6 @@ import butterknife.BindView;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
-import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 
 public class MainOneActivity extends BaseActivity implements Observer, View.OnClickListener {
 

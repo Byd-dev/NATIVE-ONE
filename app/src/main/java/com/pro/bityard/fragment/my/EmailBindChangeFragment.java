@@ -8,39 +8,28 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.UserActivity;
-import com.pro.bityard.adapter.CountryCodeAdapter;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.BUSY;

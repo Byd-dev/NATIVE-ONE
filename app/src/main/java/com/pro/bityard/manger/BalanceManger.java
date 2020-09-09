@@ -1,11 +1,9 @@
 package com.pro.bityard.manger;
 
 import android.util.ArrayMap;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.TipEntity;
 

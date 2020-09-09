@@ -4,10 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
 
-import com.pro.bityard.api.NetManger;
-import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.QuoteMinEntity;
-import com.pro.switchlibrary.SPUtils;
 
 import java.util.Observable;
 import java.util.Timer;

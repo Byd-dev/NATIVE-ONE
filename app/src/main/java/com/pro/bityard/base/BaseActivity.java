@@ -3,8 +3,6 @@ package com.pro.bityard.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,8 +15,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.google.android.material.textfield.TextInputEditText;
-import com.pro.bityard.R;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;

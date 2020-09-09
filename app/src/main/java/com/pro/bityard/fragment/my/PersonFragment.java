@@ -9,7 +9,6 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.LoginEntity;
-import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 

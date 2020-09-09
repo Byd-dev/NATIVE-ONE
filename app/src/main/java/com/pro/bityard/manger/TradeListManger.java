@@ -6,7 +6,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
-import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeListEntity;
 
 import org.json.JSONObject;

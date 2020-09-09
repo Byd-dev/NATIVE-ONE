@@ -143,15 +143,21 @@ public class WithdrawalAddressFragment extends BaseFragment implements View.OnCl
 
         NetManger.getInstance().withdrawalAddressList((state, response) -> {
             if (state.equals(BUSY)) {
-                swipeRefreshLayout.setRefreshing(true);
+                if (isAdded()){
+                    swipeRefreshLayout.setRefreshing(true);
+                }
             } else if (state.equals(SUCCESS)) {
-                swipeRefreshLayout.setRefreshing(false);
+                if (isAdded()){
+                    swipeRefreshLayout.setRefreshing(false);
+                }
                 WithdrawalAdressEntity withdrawalAdressEntity = (WithdrawalAdressEntity) response;
                 if (withdrawalAdressEntity != null) {
                     withdrawalAddressAdapter.setDatas(withdrawalAdressEntity.getData());
                 }
             } else if (state.equals(FAILURE)) {
-                swipeRefreshLayout.setRefreshing(false);
+                if (isAdded()){
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
 

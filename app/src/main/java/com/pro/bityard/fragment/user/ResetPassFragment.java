@@ -1,54 +1,21 @@
 package com.pro.bityard.fragment.user;
 
-import android.content.Context;
-import android.graphics.Paint;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.util.ArrayMap;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.geetest.sdk.GT3ErrorBean;
-import com.google.gson.Gson;
 import com.pro.bityard.R;
-import com.pro.bityard.activity.ForgetActivity;
-import com.pro.bityard.adapter.CountryCodeAdapter;
-import com.pro.bityard.api.Gt3Util;
-import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnGtUtilResult;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
-import com.pro.bityard.entity.LoginEntity;
-import com.pro.bityard.utils.Util;
-import com.pro.switchlibrary.SPUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
-
-import static com.pro.bityard.api.NetManger.BUSY;
-import static com.pro.bityard.api.NetManger.FAILURE;
-import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class ResetPassFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.layout_view)

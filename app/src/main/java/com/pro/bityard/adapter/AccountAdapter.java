@@ -13,7 +13,6 @@ import com.pro.bityard.R;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
-import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;

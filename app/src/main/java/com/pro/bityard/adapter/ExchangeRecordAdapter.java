@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;

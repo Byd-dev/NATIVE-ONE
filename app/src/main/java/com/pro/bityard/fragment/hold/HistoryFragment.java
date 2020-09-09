@@ -16,7 +16,6 @@ import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.HistoryAdapter;
 import com.pro.bityard.adapter.MarginHistoryAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.PopResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.HistoryEntity;

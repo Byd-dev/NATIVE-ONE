@@ -3,13 +3,8 @@ package com.pro.bityard.manger;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
-import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.entity.UserDetailEntity;
-import com.pro.switchlibrary.SPUtils;
 
 import java.util.Observable;
 import java.util.Timer;

@@ -5,17 +5,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
-import com.pro.bityard.utils.ChartUtil;
-import com.pro.bityard.utils.TradeUtil;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InviteListEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;

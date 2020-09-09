@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.DepositWithdrawAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
-import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.DepositWithdrawEntity;

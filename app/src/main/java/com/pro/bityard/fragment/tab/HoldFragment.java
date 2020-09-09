@@ -32,7 +32,6 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
-import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 
 public class HoldFragment extends BaseFragment implements Observer {
     /*持仓  ---------------------------------------------------*/

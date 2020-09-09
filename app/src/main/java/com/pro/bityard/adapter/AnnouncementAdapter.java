@@ -9,7 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.utils.TradeUtil;
 

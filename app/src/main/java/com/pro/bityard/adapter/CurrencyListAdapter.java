@@ -9,8 +9,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.entity.CurrencyListEntity;
 import com.pro.bityard.entity.FundItemEntity;
 
 import java.util.ArrayList;

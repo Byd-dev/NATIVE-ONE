@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.entity.PendingEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -24,7 +23,6 @@ import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
 import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.positionPrice;
-import static com.pro.bityard.utils.TradeUtil.price;
 
 public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;

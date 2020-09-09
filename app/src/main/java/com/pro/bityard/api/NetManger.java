@@ -24,6 +24,7 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.ExchangeRecordEntity;
+import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
@@ -47,15 +48,12 @@ import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.manger.TradeListManger;
-import com.pro.bityard.manger.WebSocketManager;
-import com.pro.bityard.utils.MD5Util;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -81,7 +79,7 @@ public class NetManger {
 
     public static String BASE_URL = "https://test.bityard.com";   //测试
 
-    public static String QUOTE_SOCKET="wss://quote.76bao.hk/wsquote";
+    public static String QUOTE_SOCKET = "wss://quote.76bao.hk/wsquote";
 
     public static String QUOTE_HISTORY = "https://app.bityard.com";
 
@@ -100,9 +98,6 @@ public class NetManger {
 
         return instance;
     }
-
-
-
 
 
     //get 请求
@@ -2067,7 +2062,7 @@ public class NetManger {
                 if (tipEntity.getCode() == 200) {
                     UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
                     LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-                    if (loginEntity!=null){
+                    if (loginEntity != null) {
                         loginEntity.getUser().setAvatar(userDetailEntity.getUser().getAvatar());
                         SPUtils.putData(AppConfig.LOGIN, loginEntity);
                     }
@@ -2580,9 +2575,63 @@ public class NetManger {
     }
 
 
+    /*社区 列表*/
+    /*持仓列表*/
+    public void followList(String traderId, String type, String username, String currency, String tags, String defeatGe,
+                           String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        if (traderId != null) {
+            map.put("traderId", traderId);
+        }
+        if (type != null) {
+            map.put("type", type);
+        }
+        if (username != null) {
+            map.put("username", username);
+        }
+        if (currency != null) {
+            map.put("currency", currency);
+        }
+        if (tags != null) {
+            map.put("tags", tags);
+        }
+        if (defeatGe != null) {
+            map.put("defeatGe", defeatGe);
+        }
+        if (defeatLe != null) {
+            map.put("defeatLe", defeatLe);
+        }
+        if (drawGe != null) {
+            map.put("drawGe", drawGe);
+        }
+        if (drawLe != null) {
+            map.put("drawLe", drawLe);
+        }
+        if (daysGe != null) {
+            map.put("daysGe", daysGe);
+        }
+        if (daysLe != null) {
+            map.put("daysLe", daysLe);
+        }
 
+        getRequest("/api/follow/trader/list", map, (state, response) -> {
 
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else if (tipEntity.getCode() == 200) {
+                    FollowEntity followEntity = new Gson().fromJson(response.toString(), FollowEntity.class);
+                    onNetResult.onNetResult(SUCCESS, followEntity);
+                }
 
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
 
+            }
+        });
+    }
 
 }

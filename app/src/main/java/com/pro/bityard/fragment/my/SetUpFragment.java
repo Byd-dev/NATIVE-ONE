@@ -15,10 +15,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.LogoutTipEntity;
 import com.pro.bityard.manger.TagManger;
-import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
-
-import java.util.Locale;
 
 import butterknife.BindView;
 

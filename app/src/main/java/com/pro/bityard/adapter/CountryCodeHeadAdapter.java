@@ -9,7 +9,6 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.CountryCodeEntity;
-import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;

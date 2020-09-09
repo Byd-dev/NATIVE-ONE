@@ -1,7 +1,6 @@
 package com.pro.bityard.fragment.my;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,13 +12,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.DepositWithdrawAdapter;
 import com.pro.bityard.adapter.ExchangeRecordAdapter;
 import com.pro.bityard.adapter.FundSelectAdapter;
-import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.utils.ChartUtil;

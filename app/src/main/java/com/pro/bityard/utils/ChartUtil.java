@@ -14,8 +14,6 @@ import com.pro.bityard.entity.KlineEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TimeZone;
 
 import static com.pro.bityard.utils.Util.parseServerTime;
 
