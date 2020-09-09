@@ -446,6 +446,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             img_edit.setVisibility(View.VISIBLE);
             layout_login_register.setVisibility(View.GONE);
             img_service_my.setVisibility(View.VISIBLE);
+            Glide.with(this).load(loginEntity.getUser().getAvatar()).into(img_head_circle);
+            Glide.with(this).load(loginEntity.getUser().getAvatar()).into(img_head);
 
 
         } else {
