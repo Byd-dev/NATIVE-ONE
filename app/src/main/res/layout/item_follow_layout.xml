@@ -39,7 +39,7 @@
 
 
             <TextView
-                android:id="@+id/text_close_all"
+                android:id="@+id/text_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_5"
@@ -47,10 +47,12 @@
                 android:drawableLeft="@mipmap/icon_star_normal"
                 android:gravity="center"
                 android:paddingLeft="@dimen/margin_15"
+                android:paddingBottom="@dimen/margin_3"
+                android:paddingTop="@dimen/margin_3"
                 android:paddingRight="@dimen/margin_15"
                 android:text="明星10%"
                 android:textColor="@color/maincolor"
-                android:textSize="14sp" />
+                android:textSize="@dimen/size_normal" />
 
 
         </LinearLayout>

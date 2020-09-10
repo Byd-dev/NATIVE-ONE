@@ -449,5 +449,9 @@
     <string name="text_bet_days">交易天数</string>
     <string name="text_trader_30_days_count">30天交易笔数</string>
     <string name="text_follower">累计跟随人数</string>
+    <string name="text_normal_user">普通用户</string>
+    <string name="text_normal_trader">普通交易员</string>
+    <string name="text_pro_trader">专业交易员</string>
+    <string name="text_watch_more"><![CDATA[查看平台优质投资者>]]></string>
 
 </resources>

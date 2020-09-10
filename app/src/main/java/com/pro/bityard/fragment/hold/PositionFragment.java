@@ -174,7 +174,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         headerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         headView = LayoutInflater.from(getContext()).inflate(R.layout.item_position_head_layout, null);
 
-        View footView = LayoutInflater.from(getContext()).inflate(R.layout.tab_foot_view, null);
+        View footView = LayoutInflater.from(getContext()).inflate(R.layout.foot_tab_view, null);
 
         headerRecyclerView.addFooterView(footView);
 

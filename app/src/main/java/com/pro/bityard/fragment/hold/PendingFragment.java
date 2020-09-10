@@ -138,7 +138,7 @@ public class PendingFragment extends BaseFragment implements Observer {
         pendingAdapter = new PendingAdapter(getContext());
 
         headerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        View footView = LayoutInflater.from(getContext()).inflate(R.layout.tab_foot_view, null);
+        View footView = LayoutInflater.from(getContext()).inflate(R.layout.foot_tab_view, null);
 
         headerRecyclerView.addFooterView(footView);
         headerRecyclerView.setAdapter(pendingAdapter);

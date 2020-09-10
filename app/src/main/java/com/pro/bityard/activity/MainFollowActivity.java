@@ -445,7 +445,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             recyclerView_market.setVisibility(View.VISIBLE);
         }
 
-
+        //跟单列表
+        getFollowList();
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             text_userName.setText(loginEntity.getUser().getUserName());
@@ -455,8 +456,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             img_edit.setVisibility(View.VISIBLE);
             layout_login_register.setVisibility(View.GONE);
             img_service_my.setVisibility(View.VISIBLE);
-            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_bityard_user).into(img_head_circle);
-            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_bityard_user).into(img_head);
+            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head_circle);
+            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head);
 
 
         } else {
@@ -470,7 +471,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             text_byd_balance.setText(getResources().getString(R.string.text_default));
             text_commissionRate.setText(getResources().getString(R.string.text_default));
             img_service_my.setVisibility(View.GONE);
-
+            Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head_circle);
+            Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head);
 
         }
 
@@ -698,7 +700,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         quoteAdapter_market.isShowIcon(true);
-        @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null, false);
+        @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.foot_tab_view, null, false);
 
         recyclerView_market.addFooterView(footView);
 
@@ -741,12 +743,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         PositionSimulationManger.getInstance().addObserver(this);
         /*社区  分割线-----------------------------------------------------------------------------*/
 
-        swipeRefreshLayout_circle.setOnRefreshListener(this::initData);
+        swipeRefreshLayout_circle.setOnRefreshListener(this::getFollowList);
         swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
 
         @SuppressLint("InflateParams") View head_circle = LayoutInflater.from(this).inflate(R.layout.layout_head_circle, null, false);
-        @SuppressLint("InflateParams") View footView_circle = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null, false);
+        @SuppressLint("InflateParams") View footView_circle = LayoutInflater.from(this).inflate(R.layout.foot_circle_view, null, false);
 
         followAdapter = new FollowAdapter(this);
         recyclerView_circle.setLayoutManager(new LinearLayoutManager(this));
@@ -834,12 +836,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         //首页 -------------------------------------------------------------------------------------
         getBanner();
-        //跟单列表
-        getFollowList();
+
 
         //个人详情
         if (isLogin()) {
             UserDetailManger.getInstance().detail();
+
         }
 
 
@@ -853,14 +855,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
-
                         layout_circle_null.setVisibility(View.GONE);
                         recyclerView_circle.setVisibility(View.VISIBLE);
                         FollowEntity followEntity = (FollowEntity) response;
                         followAdapter.setDatas(followEntity.getData());
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
-
                         layout_circle_null.setVisibility(View.VISIBLE);
                         recyclerView_circle.setVisibility(View.GONE);
                     }

@@ -107,7 +107,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
         TagManger.getInstance().addObserver(this);
 
         swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
-        @SuppressLint("InflateParams") View footView = LayoutInflater.from(getContext()).inflate(R.layout.tab_foot_view, null);
+        @SuppressLint("InflateParams") View footView = LayoutInflater.from(getContext()).inflate(R.layout.foot_tab_view, null);
 
         headerRecyclerView.addFooterView(footView);
         historyAdapter = new HistoryAdapter(getContext());

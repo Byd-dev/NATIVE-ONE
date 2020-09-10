@@ -760,7 +760,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
 
         quoteAdapter_market.isShowIcon(true);
-        @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.tab_foot_view, null);
+        @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.foot_tab_view, null);
 
         recyclerView_market.addFooterView(footView);
 
