@@ -45,11 +45,12 @@
                 android:layout_marginTop="@dimen/margin_5"
                 android:background="@drawable/gradient_bg_circle_main"
                 android:drawableLeft="@mipmap/icon_star_normal"
-                android:gravity="center"
-                android:paddingLeft="@dimen/margin_15"
+                android:gravity="left|center"
+                android:paddingLeft="@dimen/margin_10"
+                android:drawablePadding="@dimen/margin_5"
                 android:paddingBottom="@dimen/margin_3"
                 android:paddingTop="@dimen/margin_3"
-                android:paddingRight="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_10"
                 android:text="明星10%"
                 android:textColor="@color/maincolor"
                 android:textSize="@dimen/size_normal" />
@@ -189,7 +190,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_trader_30_days_draw"
-                        android:drawableRight="@mipmap/icon_account_question"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:drawableRight="@mipmap/icon_warning_green"
                         android:textColor="@color/text_second_color"
                         android:textSize="@dimen/size_normal" />
 

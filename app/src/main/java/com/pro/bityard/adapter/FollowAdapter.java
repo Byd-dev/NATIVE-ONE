@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
+import com.pro.bityard.base.AppContext;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.CircleImageView;
@@ -112,13 +113,17 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             switch (type){
                 case 1:
                     value_type=context.getString(R.string.text_normal_user);
+                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_normal_user),null,null,null);
+
                     break;
                 case 2:
                     value_type=context.getString(R.string.text_normal_trader);
-
+                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_normal_trader),null,null,null);
                     break;
                 case 3:
                     value_type=context.getString(R.string.text_pro_trader);
+                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_pro_trader),null,null,null);
+
                     break;
             }
 

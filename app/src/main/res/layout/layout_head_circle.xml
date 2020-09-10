@@ -109,6 +109,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:text="跟单管理"
+                android:drawablePadding="@dimen/margin_5"
+                android:drawableRight="@mipmap/icon_right_green"
                 android:textColor="@color/text_quote_green"
                 android:textSize="@dimen/size_normal_two" />
 
