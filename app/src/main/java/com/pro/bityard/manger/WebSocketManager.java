@@ -196,7 +196,7 @@ public final class WebSocketManager {
     //行情的发送心跳包
     public void send(String cmidId, String symbols) {
         String time = String.valueOf(System.currentTimeMillis());
-        String key = "hello socket quote";
+        String key = "hello socket quote!";
         String sign = "cmid=" + cmidId + "&symbols=" + symbols + "&t=" + time + "&key=" + key;
         String value_sign = MD5Util.md5Encrypt32Lower(sign);
 

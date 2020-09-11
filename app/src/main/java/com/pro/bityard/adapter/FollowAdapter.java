@@ -199,6 +199,12 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
+            itemView.findViewById(R.id.layout_warning).setOnClickListener(v -> {
+                 if (warningClick!=null){
+                     warningClick.setWarningClick();
+                 }
+            });
+
 
         }
     }
@@ -243,13 +249,13 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     //平仓的监听
-    private CloseClick closeClick;
+    private WarningClick warningClick;
 
-    public void setCloseClick(CloseClick closeClick) {
-        this.closeClick = closeClick;
+    public void setWarningClick(WarningClick warningClick) {
+        this.warningClick = warningClick;
     }
 
-    public interface CloseClick {
-        void onCloseListener(String id);
+    public interface WarningClick {
+        void setWarningClick();
     }
 }

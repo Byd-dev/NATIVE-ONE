@@ -757,6 +757,14 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         recyclerView_circle.setAdapter(followAdapter);
 
+        followAdapter.setWarningClick(() -> {
+            Util.lightOff(this);
+            PopUtil.getInstance().showTip(this, layout_view, false, getString(R.string.text_circle_warning),
+                    state -> {
+
+                    });
+        });
+
         /*我的 分割线-----------------------------------------------------------------------------*/
         findViewById(R.id.layout_balance).setOnClickListener(this);
         img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
