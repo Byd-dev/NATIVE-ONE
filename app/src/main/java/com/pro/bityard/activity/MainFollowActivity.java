@@ -757,6 +757,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         recyclerView_circle.setAdapter(followAdapter);
 
+        head_circle.findViewById(R.id.layout_search).setOnClickListener(v -> {
+            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SEARCH_NICKNAME);
+        });
+
         followAdapter.setWarningClick(() -> {
             Util.lightOff(this);
             PopUtil.getInstance().showTip(this, layout_view, false, getString(R.string.text_circle_warning),

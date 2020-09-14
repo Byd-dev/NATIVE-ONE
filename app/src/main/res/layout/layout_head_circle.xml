@@ -19,6 +19,7 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/layout_search"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
@@ -34,19 +35,15 @@
                 android:src="@mipmap/icon_circle_search" />
 
 
-            <EditText
+            <TextView
                 android:id="@+id/edit_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/margin_25"
-                android:layout_marginRight="@dimen/margin_10"
-                android:background="@null"
-                android:hint="search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_40"
+                android:layout_centerVertical="true"
+                android:text="search"
                 android:maxLines="1"
-                android:paddingLeft="@dimen/margin_5"
-                android:textColor="@color/text_main_color"
-                android:textColorHint="@color/color_hint"
-                android:textCursorDrawable="@null"
+                android:textColor="@color/text_second_color"
                 android:textSize="@dimen/hint_size" />
 
 

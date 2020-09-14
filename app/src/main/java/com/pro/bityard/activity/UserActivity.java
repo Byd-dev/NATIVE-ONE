@@ -8,6 +8,7 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.fragment.circle.SearchNicknameFragment;
 import com.pro.bityard.fragment.hold.RuleFragment;
 import com.pro.bityard.fragment.my.AccountFragment;
 import com.pro.bityard.fragment.my.AddAddressFragment;
@@ -141,9 +142,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_PERSON_INFORMATION:
                 addPersonInformationFragment();
                 break;
+            case IntentConfig.Keys.KEY_CIRCLE_SEARCH_NICKNAME:
+                addSearchNicknameFragment();
+                break;
         }
 
 
+    }
+
+    private void addSearchNicknameFragment() {
+        String name = SearchNicknameFragment.class.getSimpleName();
+        //持仓
+        SearchNicknameFragment fragment = new SearchNicknameFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addPersonInformationFragment() {

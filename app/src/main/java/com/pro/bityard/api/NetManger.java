@@ -2615,14 +2615,13 @@ public class NetManger {
         }
 
         getRequest("/api/follow/trader/list", map, (state, response) -> {
-
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode() == 401) {
+                if (tipEntity.getCode() !=200) {
                     onNetResult.onNetResult(FAILURE, null);
-                } else if (tipEntity.getCode() == 200) {
+                } else {
                     FollowEntity followEntity = new Gson().fromJson(response.toString(), FollowEntity.class);
                     onNetResult.onNetResult(SUCCESS, followEntity);
                 }
