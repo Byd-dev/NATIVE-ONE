@@ -436,7 +436,7 @@
     <string name="text_img_code_input">请输入图形验证码</string>
     <string name="text_derived">파생상품</string>
     <string name="text_pt">Português</string>
-    <string name="text_tab_follow">社区</string>
+    <string name="text_tab_follow">커뮤니티</string>
     <string name="text_person_information">个人资料</string>
     <string name="text_head">头像</string>
     <string name="text_sex">性别</string>
@@ -444,16 +444,21 @@
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
     <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
-    <string name="text_trader_30_days_rate">近30天带单收益率</string>
-    <string name="text_trader_30_days_defeat">近30天交易胜率</string>
-    <string name="text_trader_30_days_draw">近30天最大回撤</string>
-    <string name="text_bet_days">交易天数</string>
-    <string name="text_trader_30_days_count">近30天交易笔数</string>
-    <string name="text_follower">累计跟随人数</string>
+    <string name="text_trader_30_days_rate">최근 30일 리딩 수익율</string>
+    <string name="text_trader_30_days_defeat">최근 30일 거래 승률</string>
+    <string name="text_trader_30_days_draw">최근 30일 최대 철회율</string>
+    <string name="text_bet_days">거래 기간 (일)</string>
+    <string name="text_trader_30_days_count">최근 30일 거래 일수</string>
+    <string name="text_follower">총 팔로워</string>
     <string name="text_normal_user">普通用户</string>
     <string name="text_normal_trader">普通交易员</string>
     <string name="text_pro_trader">专业交易员</string>
     <string name="text_watch_more"><![CDATA[查看平台优质投资者>]]></string>
     <string name="text_circle_warning">最大回撤率是指在特定周期内遭遇过最大资产亏损,壳作为衡量交易员的风险评估值,回撤率越大风险越高.</string>
+    <string name="text_copy_trade">팔로우</string>
+    <string name="text_filter">필터</string>
+    <string name="text_listed_traders">트레이더 랭킹</string>
+    <string name="text_monitor_copy_trading">팔로우 설치</string>
+    <string name="text_two_update"><![CDATA[데이터는<font color=\"#FFB31F\">%s</font>시간 마다 업데이트됩니다]]></string>
 
 </resources>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -754,6 +755,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_circle.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_circle.addHeaderView(head_circle);
         recyclerView_circle.addFooterView(footView_circle);
+
+
+        TextView text_update = head_circle.findViewById(R.id.text_update_two);
+        String strMsg = getString(R.string.text_two_update);
+        String format = String.format(strMsg, "2");
+        text_update.setText(Html.fromHtml(format));
 
         recyclerView_circle.setAdapter(followAdapter);
 

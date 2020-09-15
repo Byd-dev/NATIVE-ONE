@@ -35,13 +35,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:singleLine="true"
                 android:background="@null"
-                android:inputType="text"
                 android:hint="search"
                 android:imeOptions="actionSearch"
+                android:inputType="text"
                 android:maxLines="1"
                 android:paddingLeft="@dimen/margin_25"
+                android:singleLine="true"
                 android:textColor="@color/text_main_color"
                 android:textColorHint="@color/color_hint"
                 android:textCursorDrawable="@null"
@@ -55,13 +55,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:paddingRight="@dimen/margin_15"
             android:paddingLeft="@dimen/margin_15"
-            android:textSize="@dimen/size_big"
+            android:paddingRight="@dimen/margin_15"
+            android:text="@string/text_cancel_position"
             android:textColor="@color/text_main_color"
 
-            android:text="@string/text_cancel_position"/>
-
+            android:textSize="@dimen/size_big" />
 
 
     </LinearLayout>
@@ -82,10 +81,46 @@
             android:orientation="vertical">
             <!--列表-->
 
-            <com.pro.bityard.view.HeaderRecyclerView
-                android:id="@+id/recyclerView_circle"
+
+            <LinearLayout
+                android:id="@+id/layout_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/layout_search_null"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="暂无符合条件的用户"
+                        android:textColor="@color/text_second_color" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/margin_10"
+                        android:text="------   为你推荐   ------"
+                        android:textColor="@color/text_second_color" />
+
+                </LinearLayout>
+
+
+                <com.pro.bityard.view.HeaderRecyclerView
+                    android:id="@+id/recyclerView_circle"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+
+            </LinearLayout>
 
 
             <LinearLayout
@@ -94,8 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="wrap_content"

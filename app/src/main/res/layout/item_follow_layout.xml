@@ -68,7 +68,7 @@
             android:layout_marginRight="@dimen/margin_15"
             android:background="@drawable/gradient_bg_blue"
             android:gravity="center"
-            android:text="跟单"
+            android:text="@string/text_copy_trade"
             android:textStyle="bold"
             android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_big" />

@@ -437,7 +437,7 @@
     <string name="text_img_code_input">请输入图形验证码</string>
     <string name="text_derived">Derivatif</string>
     <string name="text_pt">Português</string>
-    <string name="text_tab_follow">社区</string>
+    <string name="text_tab_follow">Komunitas</string>
     <string name="text_person_information">个人资料</string>
     <string name="text_head">头像</string>
     <string name="text_sex">性别</string>
@@ -445,16 +445,21 @@
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
     <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
-    <string name="text_trader_30_days_rate">近30天带单收益率</string>
-    <string name="text_trader_30_days_defeat">近30天交易胜率</string>
-    <string name="text_trader_30_days_draw">近30天最大回撤</string>
-    <string name="text_bet_days">交易天数</string>
-    <string name="text_trader_30_days_count">近30天交易笔数</string>
-    <string name="text_follower">累计跟随人数</string>
+    <string name="text_trader_30_days_rate">30 hari terakhirrasio keuntungan</string>
+    <string name="text_trader_30_days_defeat">30 hari terakhirrasio menang</string>
+    <string name="text_trader_30_days_draw">30 hari terakhir rasio kerugian</string>
+    <string name="text_bet_days">Periode trading</string>
+    <string name="text_trader_30_days_count">30 hari terakhir peiode trading </string>
+    <string name="text_follower">Jumlah Pengikut</string>
     <string name="text_normal_user">普通用户</string>
     <string name="text_normal_trader">普通交易员</string>
     <string name="text_pro_trader">专业交易员</string>
     <string name="text_watch_more"><![CDATA[查看平台优质投资者>]]></string>
     <string name="text_circle_warning">最大回撤率是指在特定周期内遭遇过最大资产亏损,壳作为衡量交易员的风险评估值,回撤率越大风险越高.</string>
+    <string name="text_copy_trade">Copy trade</string>
+    <string name="text_filter">Filter</string>
+    <string name="text_listed_traders">Daftar list</string>
+    <string name="text_monitor_copy_trading">Atur Pesanan</string>
+    <string name="text_two_update"><![CDATA[Data diupdate setiap<font color=\"#FFB31F\">%s</font>jam]]></string>
 
 </resources>

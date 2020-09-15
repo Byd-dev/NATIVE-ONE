@@ -1,13 +1,11 @@
 package com.pro.bityard.fragment.circle;
 
-import android.annotation.SuppressLint;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowAdapter;
@@ -30,6 +28,12 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 public class SearchNicknameFragment extends BaseFragment implements View.OnClickListener {
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
+
+    @BindView(R.id.layout_content)
+    LinearLayout layout_content;
+
+    @BindView(R.id.layout_search_null)
+    LinearLayout layout_search_null;
     @BindView(R.id.swipeRefreshLayout_circle)
     SwipeRefreshLayout swipeRefreshLayout_circle;
 
@@ -81,7 +85,7 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
                 SoftKeyboardUtils.closeInoutDecorView(getActivity());
 
                 if (TextUtils.isEmpty(content)) {
-                    getFollowList(null);
+                    Toast.makeText(getActivity(), "请输入搜索内容", Toast.LENGTH_SHORT).show();
                 } else {
                     getFollowList(content);
                 }
@@ -114,15 +118,19 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
                     } else if (state.equals(SUCCESS)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
                         layout_circle_null.setVisibility(View.GONE);
-                        recyclerView_circle.setVisibility(View.VISIBLE);
+                        layout_content.setVisibility(View.VISIBLE);
                         FollowEntity followEntity = (FollowEntity) response;
-                        if (followEntity.getTotal()!=0){
+                        if (followEntity.getTotal() != 0) {
                             followAdapter.setDatas(followEntity.getData());
+                            layout_search_null.setVisibility(View.GONE);
+
+                        } else {
+                            layout_search_null.setVisibility(View.VISIBLE);
                         }
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
                         layout_circle_null.setVisibility(View.VISIBLE);
-                        recyclerView_circle.setVisibility(View.GONE);
+                        layout_content.setVisibility(View.GONE);
                     }
                 });
     }

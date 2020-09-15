@@ -454,5 +454,10 @@
     <string name="text_pro_trader">专业交易员</string>
     <string name="text_watch_more"><![CDATA[查看平台优质投资者 >]]></string>
     <string name="text_circle_warning">最大回撤率是指在特定周期内遭遇过最大资产亏损,壳作为衡量交易员的风险评估值,回撤率越大风险越高.</string>
+    <string name="text_copy_trade">跟单</string>
+    <string name="text_filter">筛选</string>
+    <string name="text_listed_traders">交易员榜单</string>
+    <string name="text_monitor_copy_trading">跟单管理</string>
+    <string name="text_two_update"><![CDATA[数据每<font color=\"#FFB31F\">%s</font>小时更新一次]]></string>
 
 </resources>
