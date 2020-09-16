@@ -443,11 +443,11 @@
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
     <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
-    <string name="text_trader_30_days_rate">30天带单收益率</string>
-    <string name="text_trader_30_days_defeat">30天交易胜率</string>
-    <string name="text_trader_30_days_draw">30天最大回撤</string>
+    <string name="text_trader_30_days_rate">近30天带单收益率</string>
+    <string name="text_trader_30_days_defeat">近30天交易胜率</string>
+    <string name="text_trader_30_days_draw">近30天最大回撤</string>
     <string name="text_bet_days">交易天数</string>
-    <string name="text_trader_30_days_count">30天交易笔数</string>
+    <string name="text_trader_30_days_count">近30天交易笔数</string>
     <string name="text_follower">累计跟随人数</string>
     <string name="text_normal_user">普通用户</string>
     <string name="text_normal_trader">普通交易员</string>

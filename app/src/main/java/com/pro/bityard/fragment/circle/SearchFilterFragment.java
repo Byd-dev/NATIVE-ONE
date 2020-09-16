@@ -44,6 +44,13 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
     @BindView(R.id.layout_circle_null)
     LinearLayout layout_circle_null;
 
+    @BindView(R.id.text_style)
+    TextView text_style;
+    @BindView(R.id.text_days_rate)
+    TextView text_days_rate;
+    @BindView(R.id.text_days_draw)
+    TextView text_days_draw;
+
 
     @Override
     protected int setLayoutResourceID() {
@@ -84,6 +91,9 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
             getFollowList(null);
         });
         swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+
+
+
 
 
     }

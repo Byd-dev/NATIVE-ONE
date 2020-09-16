@@ -10,21 +10,56 @@
 
     <include layout="@layout/layout_bar" />
 
-    <LinearLayout
+    <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/bar_height"
         android:orientation="horizontal">
 
         <TextView
+            android:id="@+id/text_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_big"
+            android:textSize="@dimen/size_normal"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingRight="@dimen/margin_15"
+            android:drawablePadding="@dimen/margin_5"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/icon_white_right"
             android:text="@string/text_style" />
+        <TextView
+            android:id="@+id/text_days_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal"
+            android:paddingLeft="@dimen/margin_30"
+            android:paddingRight="@dimen/margin_15"
+            android:drawablePadding="@dimen/margin_5"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/text_style"
+            android:drawableRight="@mipmap/icon_white_right"
+            android:text="@string/text_trader_30_days_rate" />
 
+        <TextView
+            android:id="@+id/text_days_draw"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingRight="@dimen/margin_15"
+            android:drawablePadding="@dimen/margin_5"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:drawableRight="@mipmap/icon_white_right"
+            android:text="@string/text_trader_30_days_draw" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <include layout="@layout/layout_line" />
 
