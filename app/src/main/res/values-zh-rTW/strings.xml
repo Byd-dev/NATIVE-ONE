@@ -460,5 +460,7 @@
     <string name="text_listed_traders">交易员榜单</string>
     <string name="text_monitor_copy_trading">跟单管理</string>
     <string name="text_two_update"><![CDATA[数据每<font color=\"#FFB31F\">%s</font>小时更新一次]]></string>
+    <string name="text_filter_result">筛选结果</string>
+    <string name="text_style">风格</string>
 
 </resources>

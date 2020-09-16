@@ -392,10 +392,7 @@
             android:typeface="monospace" />
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line_big"
-        android:background="@color/home_line" />
+    <include layout="@layout/layout_line_big"/>
 
 
     <!--列表-->

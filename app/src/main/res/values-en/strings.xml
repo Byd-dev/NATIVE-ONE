@@ -459,5 +459,7 @@
     <string name="text_listed_traders">Listed traders</string>
     <string name="text_monitor_copy_trading">Monitor copy trading</string>
     <string name="text_two_update"><![CDATA[Data is updated every<font color=\"#FFB31F\">%s</font>hour]]></string>
+    <string name="text_filter_result">filtered result</string>
+    <string name="text_style">style</string>
 
 </resources>

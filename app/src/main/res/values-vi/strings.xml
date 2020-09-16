@@ -460,5 +460,7 @@
     <string name="text_listed_traders">Danh sách giao dịch viên</string>
     <string name="text_monitor_copy_trading">Quản lý sao chép</string>
     <string name="text_two_update"><![CDATA[Số liệu cập nhật<font color=\"#FFB31F\">%s</font>giờ mỗi lần]]></string>
+    <string name="text_filter_result">Kết quả lọc</string>
+    <string name="text_style">Phong cách</string>
 
 </resources>

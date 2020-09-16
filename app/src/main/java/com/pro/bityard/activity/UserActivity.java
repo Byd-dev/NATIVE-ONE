@@ -8,6 +8,7 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.fragment.circle.SearchFilterFragment;
 import com.pro.bityard.fragment.circle.SearchNicknameFragment;
 import com.pro.bityard.fragment.hold.RuleFragment;
 import com.pro.bityard.fragment.my.AccountFragment;
@@ -145,9 +146,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_CIRCLE_SEARCH_NICKNAME:
                 addSearchNicknameFragment();
                 break;
+            case IntentConfig.Keys.KEY_CIRCLE_SEARCH_FILTER:
+                addSearchFilterFragment();
+                break;
         }
 
 
+    }
+
+    private void addSearchFilterFragment() {
+        String name = SearchFilterFragment.class.getSimpleName();
+        //持仓
+        SearchFilterFragment fragment = new SearchFilterFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addSearchNicknameFragment() {

@@ -460,5 +460,7 @@
     <string name="text_listed_traders">Список трейдеров</string>
     <string name="text_monitor_copy_trading">Копи-трейдинг</string>
     <string name="text_two_update"><![CDATA[Данные обновляются каждые<font color=\"#FFB31F\">%s</font>часов]]></string>
+    <string name="text_filter_result">Результаты применения фильтра</string>
+    <string name="text_style">Стиль</string>
 
 </resources>

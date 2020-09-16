@@ -461,5 +461,7 @@
     <string name="text_listed_traders">Daftar list</string>
     <string name="text_monitor_copy_trading">Atur Pesanan</string>
     <string name="text_two_update"><![CDATA[Data diupdate setiap<font color=\"#FFB31F\">%s</font>jam]]></string>
+    <string name="text_filter_result">Hasil filter</string>
+    <string name="text_style">Gaya</string>
 
 </resources>

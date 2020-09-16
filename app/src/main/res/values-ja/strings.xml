@@ -460,6 +460,8 @@
     <string name="text_listed_traders">トレーダーランキング</string>
     <string name="text_monitor_copy_trading">コピートレー詳細</string>
     <string name="text_two_update"><![CDATA[データは、<font color=\"#FFB31F\">%s</font>時間ごとに更新されます]]></string>
+    <string name="text_filter_result">選別結果</string>
+    <string name="text_style">スタイル</string>
 
 
 </resources>

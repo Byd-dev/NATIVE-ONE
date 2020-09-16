@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_maincolor"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
 
@@ -91,7 +93,7 @@
                 <LinearLayout
                     android:id="@+id/layout_search_null"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="match_parent"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:visibility="gone">
@@ -103,13 +105,6 @@
                         android:text="暂无符合条件的用户"
                         android:textColor="@color/text_second_color" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="@dimen/margin_10"
-                        android:text="------   为你推荐   ------"
-                        android:textColor="@color/text_second_color" />
 
                 </LinearLayout>
 
