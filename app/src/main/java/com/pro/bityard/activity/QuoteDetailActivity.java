@@ -1146,7 +1146,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             });
         }
         Util.dismiss(QuoteDetailActivity.this, popupWindow);
-        Util.dismiss(QuoteDetailActivity.this, popupWindow);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);

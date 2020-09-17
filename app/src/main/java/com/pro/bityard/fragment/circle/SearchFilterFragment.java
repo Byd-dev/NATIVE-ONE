@@ -1,19 +1,32 @@
 package com.pro.bityard.fragment.circle;
 
+import android.annotation.SuppressLint;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowAdapter;
+import com.pro.bityard.adapter.StyleAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
@@ -30,7 +43,8 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
 
     @BindView(R.id.text_filter)
     TextView text_filter;
-
+    @BindView(R.id.layout_bar)
+    RelativeLayout layout_bar;
 
     @BindView(R.id.swipeRefreshLayout_circle)
     SwipeRefreshLayout swipeRefreshLayout_circle;
@@ -50,6 +64,9 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
     TextView text_days_rate;
     @BindView(R.id.text_days_draw)
     TextView text_days_draw;
+    private StyleEntity styleEntity;
+
+    private StyleAdapter styleAdapter;
 
 
     @Override
@@ -89,11 +106,14 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
 
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {
             getFollowList(null);
+            getStyleList();
         });
         swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
 
-
+        text_style.setOnClickListener(this);
+        text_days_rate.setOnClickListener(this);
+        text_days_draw.setOnClickListener(this);
 
 
     }
@@ -107,6 +127,19 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
     @Override
     protected void initData() {
         getFollowList(null);
+
+        getStyleList();
+
+    }
+
+    private void getStyleList() {
+        NetManger.getInstance().styleList("2", (state, response) -> {
+            if (state.equals(BUSY)) {
+            } else if (state.equals(SUCCESS)) {
+                styleEntity = (StyleEntity) response;
+            } else if (state.equals(FAILURE)) {
+            }
+        });
     }
 
     private void getFollowList(String content) {
@@ -139,6 +172,56 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
             case R.id.img_back:
                 getActivity().finish();
                 break;
+            case R.id.text_style:
+                Util.lightOff(getActivity());
+                text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
+                if (styleEntity != null) {
+                    Log.d("print", "onClick:175:  " + styleEntity);
+                    showStyleWindow(styleEntity);
+                }
+                break;
         }
     }
+
+    private Map<String, String> style_like;
+
+    /*行情选择*/
+    private void showStyleWindow(StyleEntity styleEntity) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_style_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_style);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+
+        styleAdapter = new StyleAdapter(getActivity());
+        recyclerView.setAdapter(styleAdapter);
+        styleAdapter.setDatas(styleEntity.getData());
+
+
+        popupWindow.setOnDismissListener(() -> {
+            text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_right), null);
+            Util.lightOn(getActivity());
+        });
+
+        style_like = new HashMap<>();
+        styleAdapter.setOnItemChaneClick((isChecked, data) -> {
+            if (isChecked) {
+                style_like.put(data.getCode(), data.getContent());
+            } else {
+                style_like.remove(data.getCode());
+            }
+        });
+
+
+        view.findViewById(R.id.btn_submit).setOnClickListener(v ->
+                Toast.makeText(getActivity(), style_like.toString(), Toast.LENGTH_SHORT).show()
+        );
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setContentView(view);
+        popupWindow.showAsDropDown(layout_bar);
+    }
+
 }

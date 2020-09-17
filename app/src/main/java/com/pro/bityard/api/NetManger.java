@@ -37,6 +37,7 @@ import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.RateEntity;
 import com.pro.bityard.entity.RateListEntity;
+import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TipSPSLMarginEntity;
@@ -2631,6 +2632,31 @@ public class NetManger {
 
             }
         });
+    }
+
+
+    /*风格理念*/
+    public void styleList(String type,OnNetResult onNetResult){
+        String url=String.format("/api/follow/follower/sysTags/%s",type);
+        getRequest(url, null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() !=200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    StyleEntity styleEntity=new Gson().fromJson(response.toString(),StyleEntity.class);
+                    onNetResult.onNetResult(SUCCESS,styleEntity);
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+
+
     }
 
 }

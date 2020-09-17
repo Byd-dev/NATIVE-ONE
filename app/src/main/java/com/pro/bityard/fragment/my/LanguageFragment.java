@@ -10,6 +10,7 @@ import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.guide.GuideActivity;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
@@ -342,7 +343,7 @@ public class LanguageFragment extends BaseFragment implements View.OnClickListen
 
 
     private void finish() {
-        Intent intent = new Intent(getActivity(), MainFollowActivity.class);
+        Intent intent = new Intent(getActivity(), GuideActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
