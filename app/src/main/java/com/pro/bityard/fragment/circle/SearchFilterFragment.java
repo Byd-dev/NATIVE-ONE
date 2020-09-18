@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.circle;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,10 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.StyleEntity;
+import com.pro.bityard.fragment.hold.RuleFragment;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.PopUtil;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 
@@ -68,7 +72,14 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
 
     private StyleAdapter styleAdapter;
 
+    public SearchFilterFragment newInstance(String value) {
+        SearchFilterFragment fragment = new SearchFilterFragment();
+        Bundle args = new Bundle();
+        args.putString("VALUE", value);
+        fragment.setArguments(args);
+        return fragment;
 
+    }
     @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_search_filter;
@@ -82,7 +93,10 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initView(View view) {
-
+        if (getArguments() != null) {
+            String value = getArguments().getString("VALUE");
+            Log.d("print", "initView:98:  "+value);
+        }
 
         text_title.setText(R.string.text_filter_result);
         text_filter.setVisibility(View.VISIBLE);
@@ -176,7 +190,6 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
                 Util.lightOff(getActivity());
                 text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
                 if (styleEntity != null) {
-                    Log.d("print", "onClick:175:  " + styleEntity);
                     showStyleWindow(styleEntity);
                 }
                 break;

@@ -461,5 +461,8 @@
     <string name="text_two_update"><![CDATA[Data is updated every<font color=\"#FFB31F\">%s</font>hour]]></string>
     <string name="text_filter_result">filtered result</string>
     <string name="text_style">style</string>
+    <string name="text_filter_settings">filter</string>
+    <string name="text_selected_tags">selected tags</string>
+    <string name="text_unlimited">not limited</string>
 
 </resources>

@@ -26,6 +26,21 @@
             android:textColor="@color/text_main_color"
             android:textSize="@dimen/title_size" />
 
+        <TextView
+            android:id="@+id/text_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:text="@string/text_sure"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/margin_15"
+            android:paddingLeft="@dimen/margin_15"
+            android:visibility="gone"
+            android:textColor="@color/text_quote_green"
+            android:textSize="@dimen/size_normal_two" />
+
+
         <ImageView
             android:id="@+id/img_service"
             android:layout_width="wrap_content"
@@ -57,7 +72,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:paddingRight="@dimen/margin_15"
-            android:textSize="@dimen/size_big"
+            android:textSize="@dimen/size_normal_two"
             android:paddingLeft="@dimen/margin_15"
             android:gravity="center"
             android:visibility="gone"
@@ -75,7 +90,7 @@
             android:drawableRight="@mipmap/icon_circle_filter"
             android:textColor="@color/text_main_color"
             android:visibility="gone"
-            android:textSize="@dimen/hint_size" />
+            android:textSize="@dimen/size_normal_two" />
 
     </RelativeLayout>
 

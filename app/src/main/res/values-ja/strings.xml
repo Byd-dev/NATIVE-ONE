@@ -462,6 +462,9 @@
     <string name="text_two_update"><![CDATA[データは、<font color=\"#FFB31F\">%s</font>時間ごとに更新されます]]></string>
     <string name="text_filter_result">選別結果</string>
     <string name="text_style">スタイル</string>
+    <string name="text_filter_settings">選別設定</string>
+    <string name="text_selected_tags">タグを選択した</string>
+    <string name="text_unlimited">制限なし</string>
 
 
 </resources>

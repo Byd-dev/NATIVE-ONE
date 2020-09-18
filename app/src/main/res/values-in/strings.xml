@@ -463,5 +463,8 @@
     <string name="text_two_update"><![CDATA[Data diupdate setiap<font color=\"#FFB31F\">%s</font>jam]]></string>
     <string name="text_filter_result">Hasil filter</string>
     <string name="text_style">Gaya</string>
+    <string name="text_filter_settings">Filter</string>
+    <string name="text_selected_tags">Label yang dipilih</string>
+    <string name="text_unlimited">Tidak terbatas</string>
 
 </resources>

@@ -462,5 +462,8 @@
     <string name="text_two_update"><![CDATA[데이터는<font color=\"#FFB31F\">%s</font>시간 마다 업데이트됩니다]]></string>
     <string name="text_filter_result">필터 결과</string>
     <string name="text_style">스타일</string>
+    <string name="text_filter_settings">필터</string>
+    <string name="text_selected_tags">선택한 태그</string>
+    <string name="text_unlimited">제한 없음</string>
 
 </resources>

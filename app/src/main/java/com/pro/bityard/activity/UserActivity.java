@@ -8,6 +8,7 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.fragment.circle.FilterSettingsFragment;
 import com.pro.bityard.fragment.circle.SearchFilterFragment;
 import com.pro.bityard.fragment.circle.SearchNicknameFragment;
 import com.pro.bityard.fragment.hold.RuleFragment;
@@ -15,23 +16,23 @@ import com.pro.bityard.fragment.my.AccountFragment;
 import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.AnnouncementFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
-import com.pro.bityard.fragment.my.FundsPassFrogetFragment;
-import com.pro.bityard.fragment.my.PersonFragment;
-import com.pro.bityard.fragment.my.QuickFragment;
-import com.pro.bityard.fragment.my.WithdrawalFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;
 import com.pro.bityard.fragment.my.FundStatementFragment;
 import com.pro.bityard.fragment.my.FundsPassChangeFragment;
+import com.pro.bityard.fragment.my.FundsPassFrogetFragment;
 import com.pro.bityard.fragment.my.InviteFragment;
 import com.pro.bityard.fragment.my.LanguageFragment;
 import com.pro.bityard.fragment.my.LoginPassChangeFragment;
 import com.pro.bityard.fragment.my.MobileBindChangeFragment;
+import com.pro.bityard.fragment.my.PersonFragment;
+import com.pro.bityard.fragment.my.QuickFragment;
 import com.pro.bityard.fragment.my.SafeCenterFragment;
 import com.pro.bityard.fragment.my.SetUpFragment;
 import com.pro.bityard.fragment.my.ThemeFragment;
 import com.pro.bityard.fragment.my.TradeRecordFragment;
 import com.pro.bityard.fragment.my.TradeSettingsFragment;
 import com.pro.bityard.fragment.my.WithdrawalAddressFragment;
+import com.pro.bityard.fragment.my.WithdrawalFragment;
 import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
@@ -56,12 +57,13 @@ public class UserActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    public static void enter(Context context, String type,String value) {
+    public static void enter(Context context, String type, String value) {
         Intent intent = new Intent(context, UserActivity.class);
         intent.putExtra(TYPE, type);
-        intent.putExtra(VALUE,value);
+        intent.putExtra(VALUE, value);
         context.startActivity(intent);
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,18 +148,29 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_CIRCLE_SEARCH_NICKNAME:
                 addSearchNicknameFragment();
                 break;
+            case IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FILTER:
+                addSettingsFilterFragment();
+                break;
             case IntentConfig.Keys.KEY_CIRCLE_SEARCH_FILTER:
-                addSearchFilterFragment();
+                addSearchFilterFragment(value);
                 break;
         }
 
 
     }
 
-    private void addSearchFilterFragment() {
+    private void addSettingsFilterFragment() {
+        String name = FilterSettingsFragment.class.getSimpleName();
+        FilterSettingsFragment fragment = new FilterSettingsFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
+    }
+
+    private void addSearchFilterFragment(String value) {
         String name = SearchFilterFragment.class.getSimpleName();
-        //持仓
-        SearchFilterFragment fragment = new SearchFilterFragment();
+        SearchFilterFragment fragment = new SearchFilterFragment().newInstance(value);
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, fragment, name);
         ft.addToBackStack(name);

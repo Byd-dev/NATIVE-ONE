@@ -38,4 +38,7 @@
     <color name="color_shadow_below">#591A2435</color>
     <color name="color_pop">#687B93</color>
     <color name="color_line_light">#EEEEEE</color>
+    <color name="color_ffcd6d">#FFCD6D</color>
+    <color name="color_f9a36d">#F9A36D</color>
+    <color name="color_tag_purple">#DE3C7C</color>
 </resources>

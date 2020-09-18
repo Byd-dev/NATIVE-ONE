@@ -73,6 +73,8 @@ public class IntentConfig {
         public static final String KEY_CIRCLE_SEARCH_NICKNAME = "CIRCLE_SEARCH_NICKNAME";
         //过滤
         public static final String KEY_CIRCLE_SEARCH_FILTER = "CIRCLE_SEARCH_FILTER";
+        //过滤设置
+        public static final String KEY_CIRCLE_SETTINGS_FILTER = "CIRCLE_SETTINGS_FILTER";
         /*验证码*/
         public static final String AUTH_CODE = "AUTH_CODE";
 

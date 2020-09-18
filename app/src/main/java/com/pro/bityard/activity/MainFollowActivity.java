@@ -770,7 +770,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SEARCH_NICKNAME);
         });
         head_circle.findViewById(R.id.layout_filter).setOnClickListener(v -> {
-            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SEARCH_FILTER);
+            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FILTER);
         });
         followAdapter.setWarningClick(() -> {
             Util.lightOff(this);
