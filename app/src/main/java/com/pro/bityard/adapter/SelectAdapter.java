@@ -85,7 +85,7 @@ public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
             String[] split = selectList.get(position).split(",");
-            switch (split[1]) {
+            switch (split[2]) {
                 case "style":
                     ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_bg_green));
                     break;
@@ -99,7 +99,7 @@ public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_bg_pink));
                     break;
             }
-            ((MyViewHolder) holder).text_content.setText(split[0]);
+            ((MyViewHolder) holder).text_content.setText(split[1]);
 
 
         }
@@ -142,16 +142,23 @@ public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             text_content = itemView.findViewById(R.id.text_content);
             layout_bg = itemView.findViewById(R.id.layout_bg);
 
+            layout_bg.setOnClickListener(v -> {
+                if (onItemDeleteClick != null) {
+                    onItemDeleteClick.onSuccessListener(getPosition(), selectList.get(getPosition()));
+                }
+            });
+
         }
     }
 
-    private OnItemChaneClick onItemChaneClick;
+    private OnItemDeleteClick onItemDeleteClick;
 
-    public void setOnItemChaneClick(OnItemChaneClick onItemChaneClick) {
-        this.onItemChaneClick = onItemChaneClick;
+
+    public void setOnItemDeleteClick(OnItemDeleteClick onItemDeleteClick) {
+        this.onItemDeleteClick = onItemDeleteClick;
     }
 
-    public interface OnItemChaneClick {
-        void onSuccessListener(boolean isChecked, String data);
+    public interface OnItemDeleteClick {
+        void onSuccessListener(int position, String data);
     }
 }

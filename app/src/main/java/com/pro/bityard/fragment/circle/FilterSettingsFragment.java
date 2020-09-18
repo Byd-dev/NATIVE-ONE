@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.SelectAdapter;
-import com.pro.bityard.adapter.StyleAdapter;
+import com.pro.bityard.adapter.StyleListAdapter;
 import com.pro.bityard.adapter.TagsAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
@@ -15,6 +15,7 @@ import com.pro.bityard.entity.StyleEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,11 +42,11 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
     RecyclerView recyclerView_days_draw;
     @BindView(R.id.recyclerView_bet_days)
     RecyclerView recyclerView_bet_days;
-    private StyleAdapter styleAdapter;
+    private StyleListAdapter styleAdapter;
     private TagsAdapter rateTagsAdapter, drawTagsAdapter, daysAdapter;
 
     private SelectAdapter selectAdapter;
-    private List<String> daysRateList, daysDrawList, daysBetList;
+    private List<String> styleList, daysRateList, daysDrawList, daysBetList;
 
     private Map<String, String> tag_select;
 
@@ -68,7 +69,7 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
         recyclerView_bet_days.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView_select.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
-        styleAdapter = new StyleAdapter(getActivity());
+        styleAdapter = new StyleListAdapter(getActivity());
         recyclerView_style.setAdapter(styleAdapter);
 
         rateTagsAdapter = new TagsAdapter(getActivity(), 1);
@@ -90,9 +91,9 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
 
         styleAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data.getContent() + ",style", data.getContent() + ",style");
+                tag_select.put(data, data);
             } else {
-                tag_select.remove(data.getContent() + ",style");
+                tag_select.remove(data);
             }
             setSelect(tag_select);
         });
@@ -100,9 +101,9 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
 
         rateTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data + ",rate", data + ",rate");
+                tag_select.put(data, data);
             } else {
-                tag_select.remove(data + ",rate");
+                tag_select.remove(data);
             }
             setSelect(tag_select);
 
@@ -110,20 +111,27 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
 
         drawTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data + ",draw", data + ",draw");
+                tag_select.put(data, data);
             } else {
-                tag_select.remove(data + ",draw");
+                tag_select.remove(data);
             }
             setSelect(tag_select);
 
         });
         daysAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data + ",day", data + ",day");
+                tag_select.put(data, data);
             } else {
-                tag_select.remove(data + ",day");
+                tag_select.remove(data);
             }
             setSelect(tag_select);
+
+        });
+
+        selectAdapter.setOnItemDeleteClick((position, data) -> {
+            selectList.remove(data);
+            selectAdapter.notifyDataSetChanged();
+            Log.d("print", "initView:134:  "+data);
 
         });
     }
@@ -153,13 +161,22 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
         getStyleList();
     }
 
+    private String type_style = ",style";
+    private String type_rate = ",rate";
+    private String type_draw = ",draw";
+    private String type_day = ",day";
 
     private void getStyleList() {
+
+        styleList = new ArrayList<>();
         NetManger.getInstance().styleList("2", (state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
                 StyleEntity styleEntity = (StyleEntity) response;
-                styleAdapter.setDatas(styleEntity.getData());
+                for (StyleEntity.DataBean content : styleEntity.getData()) {
+                    styleList.add("0," + content.getContent() + type_style);
+                }
+                styleAdapter.setDatas(styleList);
 
             } else if (state.equals(FAILURE)) {
             }
@@ -167,25 +184,27 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
 
 
         daysRateList = new ArrayList<>();
-        daysRateList.add(getString(R.string.text_unlimited));
-        daysRateList.add("0-20%");
-        daysRateList.add("20%-60%");
-        daysRateList.add("60%-100%");
+        daysRateList.add("0," + getString(R.string.text_unlimited) + type_rate);
+        daysRateList.add("0," + "0-20%" + type_rate);
+        daysRateList.add("0," + "20%-60%" + type_rate);
+        daysRateList.add("0," +  "60%-100%" + type_rate);
         rateTagsAdapter.setDatas(daysRateList);
 
         daysDrawList = new ArrayList<>();
-        daysDrawList.add(getString(R.string.text_unlimited));
-        daysDrawList.add("0-10%");
-        daysDrawList.add("10%-50%");
-        daysDrawList.add("50%-100%");
+        daysDrawList.add("0," + getString(R.string.text_unlimited) + type_draw);
+        daysDrawList.add("0," +  "0-10%" + type_draw);
+        daysDrawList.add("0," +  "10%-50%" + type_draw);
+        daysDrawList.add("0," +  "50%-100%" + type_draw);
         drawTagsAdapter.setDatas(daysDrawList);
 
         daysBetList = new ArrayList<>();
-        daysBetList.add(getString(R.string.text_unlimited));
-        daysBetList.add("0-30");
-        daysBetList.add("31-60");
-        daysBetList.add("60-180");
+        daysBetList.add("0," + getString(R.string.text_unlimited) + type_day);
+        daysBetList.add("0," + "0-30" + type_day);
+        daysBetList.add("0," +  "31-60" + type_day);
+        daysBetList.add("0," + "60-180" + type_day);
         daysAdapter.setDatas(daysBetList);
+
+
     }
 
     @Override
