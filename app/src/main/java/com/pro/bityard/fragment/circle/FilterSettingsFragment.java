@@ -11,11 +11,12 @@ import com.pro.bityard.adapter.StyleListAdapter;
 import com.pro.bityard.adapter.TagsAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.StyleEntity;
+import com.pro.bityard.entity.TagEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -46,9 +47,10 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
     private TagsAdapter rateTagsAdapter, drawTagsAdapter, daysAdapter;
 
     private SelectAdapter selectAdapter;
-    private List<String> styleList, daysRateList, daysDrawList, daysBetList;
+    private List<TagEntity> styleList, daysRateList, daysDrawList, daysBetList;
+    private List<TagEntity> allList;
 
-    private Map<String, String> tag_select;
+    private Map<String, TagEntity> tag_select;
 
 
     @Override
@@ -91,9 +93,9 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
 
         styleAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data, data);
+                tag_select.put(data.getContent(), data);
             } else {
-                tag_select.remove(data);
+                tag_select.remove(data.getContent());
             }
             setSelect(tag_select);
         });
@@ -101,9 +103,9 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
 
         rateTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data, data);
+                tag_select.put(data.getContent(), data);
             } else {
-                tag_select.remove(data);
+                tag_select.remove(data.getContent());
             }
             setSelect(tag_select);
 
@@ -111,18 +113,18 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
 
         drawTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data, data);
+                tag_select.put(data.getContent(), data);
             } else {
-                tag_select.remove(data);
+                tag_select.remove(data.getContent());
             }
             setSelect(tag_select);
 
         });
         daysAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data, data);
+                tag_select.put(data.getContent(), data);
             } else {
-                tag_select.remove(data);
+                tag_select.remove(data.getContent());
             }
             setSelect(tag_select);
 
@@ -131,16 +133,22 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
         selectAdapter.setOnItemDeleteClick((position, data) -> {
             selectList.remove(data);
             selectAdapter.notifyDataSetChanged();
-            Log.d("print", "initView:134:  "+data);
+            Log.d("print", "initView:134:  " + data);
+            for (TagEntity tagEntity : allList) {
+                if (tagEntity.getContent().equals(data.getContent())) {
+                    tagEntity.setChecked(true);
+                }
+            }
+
 
         });
     }
 
-    private List<String> selectList;
+    private List<TagEntity> selectList;
 
-    private void setSelect(Map<String, String> tag_select) {
+    private void setSelect(Map<String, TagEntity> tag_select) {
         selectList = new ArrayList<>();
-        for (String value : tag_select.values()) {
+        for (TagEntity value : tag_select.values()) {
             selectList.add(value);
         }
         selectAdapter.setDatas(selectList);
@@ -161,48 +169,71 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
         getStyleList();
     }
 
-    private String type_style = ",style";
-    private String type_rate = ",rate";
-    private String type_draw = ",draw";
-    private String type_day = ",day";
 
     private void getStyleList() {
 
-        styleList = new ArrayList<>();
+        allList = new ArrayList<>();
         NetManger.getInstance().styleList("2", (state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
                 StyleEntity styleEntity = (StyleEntity) response;
                 for (StyleEntity.DataBean content : styleEntity.getData()) {
-                    styleList.add("0," + content.getContent() + type_style);
+                    //  styleList.add("0," + content.getContent() + type_style);
+                    allList.add(new TagEntity(false, content.getContent(), AppConfig.type_style));
+                }
+
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), AppConfig.type_rate));
+                allList.add(new TagEntity(false, "0-20%", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "20%-60%", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "60%-100%", AppConfig.type_rate));
+
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), AppConfig.type_draw));
+                allList.add(new TagEntity(false, "0-10%", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "10%-50%", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "50%-100%", AppConfig.type_draw));
+
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), AppConfig.type_day));
+                allList.add(new TagEntity(false, "0-30", AppConfig.type_day));
+                allList.add(new TagEntity(false, "30-60", AppConfig.type_day));
+                allList.add(new TagEntity(false, "60-180", AppConfig.type_day));
+
+                styleList = new ArrayList<>();
+                for (TagEntity data : allList) {
+                    if (data.getType().equals(AppConfig.type_style)) {
+                        styleList.add(data);
+                    }
                 }
                 styleAdapter.setDatas(styleList);
+
+                daysRateList = new ArrayList<>();
+                for (TagEntity data : allList) {
+                    if (data.getType().equals(AppConfig.type_rate)) {
+                        daysRateList.add(data);
+                    }
+                }
+                rateTagsAdapter.setDatas(daysRateList);
+
+
+                daysDrawList = new ArrayList<>();
+                for (TagEntity data : allList) {
+                    if (data.getType().equals(AppConfig.type_draw)) {
+                        daysDrawList.add(data);
+                    }
+                }
+                drawTagsAdapter.setDatas(daysDrawList);
+
+
+                daysBetList = new ArrayList<>();
+                for (TagEntity data : allList) {
+                    if (data.getType().equals(AppConfig.type_day)) {
+                        daysBetList.add(data);
+                    }
+                }
+                daysAdapter.setDatas(daysBetList);
 
             } else if (state.equals(FAILURE)) {
             }
         });
-
-
-        daysRateList = new ArrayList<>();
-        daysRateList.add("0," + getString(R.string.text_unlimited) + type_rate);
-        daysRateList.add("0," + "0-20%" + type_rate);
-        daysRateList.add("0," + "20%-60%" + type_rate);
-        daysRateList.add("0," +  "60%-100%" + type_rate);
-        rateTagsAdapter.setDatas(daysRateList);
-
-        daysDrawList = new ArrayList<>();
-        daysDrawList.add("0," + getString(R.string.text_unlimited) + type_draw);
-        daysDrawList.add("0," +  "0-10%" + type_draw);
-        daysDrawList.add("0," +  "10%-50%" + type_draw);
-        daysDrawList.add("0," +  "50%-100%" + type_draw);
-        drawTagsAdapter.setDatas(daysDrawList);
-
-        daysBetList = new ArrayList<>();
-        daysBetList.add("0," + getString(R.string.text_unlimited) + type_day);
-        daysBetList.add("0," + "0-30" + type_day);
-        daysBetList.add("0," +  "31-60" + type_day);
-        daysBetList.add("0," + "60-180" + type_day);
-        daysAdapter.setDatas(daysBetList);
 
 
     }

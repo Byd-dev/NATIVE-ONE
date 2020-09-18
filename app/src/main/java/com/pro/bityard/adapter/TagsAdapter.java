@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.ProgressBar;
 
 import com.pro.bityard.R;
+import com.pro.bityard.entity.TagEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<String> datas;
+    private List<TagEntity> datas;
 
 
     private static final int TYPE_ITEM = 0;
@@ -31,19 +32,26 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private int checkedPosition = -1;
     private boolean onBind;
 
+    private String select;
+
     public TagsAdapter(Context context, int type) {
         this.type = type;
         this.context = context;
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<String> datas) {
+    public void setDatas(List<TagEntity> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
     }
 
+    public void select(String select){
+        this.select=select;
+        this.notifyDataSetChanged();
+    }
 
-    public void addDatas(List<String> datas) {
+
+    public void addDatas(List<TagEntity> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -89,9 +97,8 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
-            String[] split = datas.get(position).split(",");
 
-            ((MyViewHolder) holder).checkbox_tags.setText(split[1]);
+            ((MyViewHolder) holder).checkbox_tags.setText(datas.get(position).getContent());
 
 
             switch (type) {
@@ -106,6 +113,19 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     break;
 
             }
+
+
+           /* if (!datas.get(position).isChecked) {
+                ((MyViewHolder) holder).checkbox_tags.setChecked(false);
+                map.remove(position);
+                if (map.size() == 0) {
+                    checkedPosition = -1;
+                }
+            } else {
+                ((MyViewHolder) holder).checkbox_tags.setChecked(true);
+                map.clear();
+                map.put(position, true);
+            }*/
 
             ((MyViewHolder) holder).checkbox_tags.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (onItemChaneClick != null) {
@@ -185,6 +205,6 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     public interface OnItemChaneClick {
-        void onSuccessListener(boolean isChecked, String data);
+        void onSuccessListener(boolean isChecked, TagEntity data);
     }
 }

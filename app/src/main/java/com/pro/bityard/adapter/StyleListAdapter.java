@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import com.pro.bityard.R;
 import com.pro.bityard.entity.StyleEntity;
+import com.pro.bityard.entity.TagEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<String> datas;
+    private List<TagEntity> datas;
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
@@ -31,7 +32,7 @@ public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<String> datas) {
+    public void setDatas(List<TagEntity> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
     }
@@ -47,7 +48,7 @@ public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<String> datas) {
+    public void addDatas(List<TagEntity> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -87,9 +88,8 @@ public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
-            String[] split = datas.get(position).split(",");
 
-            ((MyViewHolder) holder).checkBox_style.setText(split[1]);
+            ((MyViewHolder) holder).checkBox_style.setText(datas.get(position).getContent());
 
 
         }
@@ -147,6 +147,6 @@ public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     public interface OnItemChaneClick {
-        void onSuccessListener(boolean isChecked, String data);
+        void onSuccessListener(boolean isChecked, TagEntity data);
     }
 }

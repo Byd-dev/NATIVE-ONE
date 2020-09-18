@@ -9,6 +9,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.TagEntity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<String> selectList;
+    private List<TagEntity> selectList;
 
 
     private static final int TYPE_ITEM = 0;
@@ -37,7 +39,7 @@ public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         selectList = new ArrayList<>();
     }
 
-    public void setDatas(List<String> selectList) {
+    public void setDatas(List<TagEntity> selectList) {
         this.selectList = selectList;
         this.notifyDataSetChanged();
     }
@@ -83,23 +85,22 @@ public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
-
-            String[] split = selectList.get(position).split(",");
-            switch (split[2]) {
-                case "style":
+            String type = selectList.get(position).getType();
+            switch (type) {
+                case AppConfig.type_style:
                     ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_bg_green));
                     break;
-                case "rate":
+                case AppConfig.type_rate:
                     ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_bg_blue));
                     break;
-                case "draw":
+                case AppConfig.type_draw:
                     ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_btn_main));
                     break;
-                case "day":
+                case AppConfig.type_day:
                     ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_bg_pink));
                     break;
             }
-            ((MyViewHolder) holder).text_content.setText(split[1]);
+            ((MyViewHolder) holder).text_content.setText(selectList.get(position).getContent());
 
 
         }
@@ -159,6 +160,6 @@ public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public interface OnItemDeleteClick {
-        void onSuccessListener(int position, String data);
+        void onSuccessListener(int position, TagEntity data);
     }
 }

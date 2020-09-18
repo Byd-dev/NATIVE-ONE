@@ -98,4 +98,10 @@ public class AppConfig {
     public static final String IN_ID = "in_ID";
     public static final String PT_PT = "pt_PT";
 
+
+    public static final String type_style = "style";
+    public static final String type_rate = "rate";
+    public static final String type_draw = "draw";
+    public static final String type_day = "day";
+
 }
