@@ -4,8 +4,9 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
 
@@ -16,9 +17,9 @@ import java.util.Map;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<String> datas;
+    private List<String> selectList;
 
 
     private static final int TYPE_ITEM = 0;
@@ -31,23 +32,16 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private int checkedPosition = -1;
     private boolean onBind;
 
-    public TagsAdapter(Context context, int type) {
-        this.type = type;
+    public SelectAdapter(Context context) {
         this.context = context;
-        datas = new ArrayList<>();
+        selectList = new ArrayList<>();
     }
 
-    public void setDatas(List<String> datas) {
-        this.datas = datas;
+    public void setDatas(List<String> selectList) {
+        this.selectList = selectList;
         this.notifyDataSetChanged();
     }
 
-
-    public void addDatas(List<String> datas) {
-        this.datas.addAll(datas);
-        isLoadMore = false;
-        this.notifyDataSetChanged();
-    }
 
     public void startLoad() {
         isLoadMore = true;
@@ -67,7 +61,7 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         if (viewType == TYPE_ITEM) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.item_tags_layout, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_select_layout, parent, false);
             holder = new MyViewHolder(view);
             return holder;
         }
@@ -89,51 +83,24 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
-            ((MyViewHolder) holder).checkbox_tags.setText(datas.get(position));
-            switch (type) {
-                case 1:
-                    ((MyViewHolder) holder).checkbox_tags.setBackground(context.getResources().getDrawable(R.drawable.sel_switcher_tag_rate_bg));
+
+            String[] split = selectList.get(position).split(",");
+            switch (split[1]) {
+                case "style":
+                    ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_bg_green));
                     break;
-                case 2:
-                    ((MyViewHolder) holder).checkbox_tags.setBackground(context.getResources().getDrawable(R.drawable.sel_switcher_tag_draw_bg));
+                case "rate":
+                    ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_bg_blue));
                     break;
-                case 3:
-                    ((MyViewHolder) holder).checkbox_tags.setBackground(context.getResources().getDrawable(R.drawable.sel_switcher_tag_days_bg));
+                case "draw":
+                    ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_btn_main));
                     break;
-                case 0:
-                    ((MyViewHolder) holder).checkbox_tags.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null,
-                            context.getResources().getDrawable(R.mipmap.icon_white_down), null);
+                case "day":
+                    ((MyViewHolder) holder).layout_bg.setBackground(context.getResources().getDrawable(R.drawable.gradient_bg_pink));
                     break;
             }
+            ((MyViewHolder) holder).text_content.setText(split[0]);
 
-            ((MyViewHolder) holder).checkbox_tags.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (onItemChaneClick != null) {
-                    onItemChaneClick.onSuccessListener(isChecked, datas.get(position));
-                }
-
-
-                if (isChecked) {
-                    map.clear();
-                    map.put(position, true);
-
-                    checkedPosition = position;
-                } else {
-                    map.remove(position);
-                    if (map.size() == 0) {
-                        checkedPosition = -1;
-                    }
-                }
-                if (!onBind) {
-                    notifyDataSetChanged();
-                }
-            });
-            onBind = true;
-            if (map != null && map.containsKey(position)) {
-                ((MyViewHolder) holder).checkbox_tags.setChecked(true);
-            } else {
-                ((MyViewHolder) holder).checkbox_tags.setChecked(false);
-            }
-            onBind = false;
 
         }
     }
@@ -151,9 +118,9 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (isLoadMore) {
-            return datas.size() + 1;
+            return selectList.size() + 1;
         }
-        return datas.size();
+        return selectList.size();
     }
 
     public static class ProgressViewHoler extends RecyclerView.ViewHolder {
@@ -166,13 +133,14 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        CheckBox checkbox_tags;
+        TextView text_content;
+        RelativeLayout layout_bg;
 
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            checkbox_tags = itemView.findViewById(R.id.checkbox_tags);
-
+            text_content = itemView.findViewById(R.id.text_content);
+            layout_bg = itemView.findViewById(R.id.layout_bg);
 
         }
     }

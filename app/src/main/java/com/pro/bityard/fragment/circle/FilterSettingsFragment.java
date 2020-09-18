@@ -1,19 +1,22 @@
 package com.pro.bityard.fragment.circle;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.UserActivity;
+import com.pro.bityard.adapter.SelectAdapter;
 import com.pro.bityard.adapter.StyleAdapter;
 import com.pro.bityard.adapter.TagsAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.StyleEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +31,8 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
     TextView text_submit;
     @BindView(R.id.text_title)
     TextView text_title;
-
+    @BindView(R.id.recyclerView_select)
+    RecyclerView recyclerView_select;
     @BindView(R.id.recyclerView_style)
     RecyclerView recyclerView_style;
     @BindView(R.id.recyclerView_days_rate)
@@ -39,7 +43,12 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
     RecyclerView recyclerView_bet_days;
     private StyleAdapter styleAdapter;
     private TagsAdapter rateTagsAdapter, drawTagsAdapter, daysAdapter;
-    private String value_rate, value_draw, value_days;
+
+    private SelectAdapter selectAdapter;
+    private List<String> daysRateList, daysDrawList, daysBetList;
+
+    private Map<String, String> tag_select;
+
 
     @Override
     protected void onLazyLoad() {
@@ -57,38 +66,76 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
         recyclerView_days_rate.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView_days_draw.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView_bet_days.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        recyclerView_select.setLayoutManager(new GridLayoutManager(getActivity(), 3));
 
         styleAdapter = new StyleAdapter(getActivity());
         recyclerView_style.setAdapter(styleAdapter);
 
-        rateTagsAdapter = new TagsAdapter(getActivity());
+        rateTagsAdapter = new TagsAdapter(getActivity(), 1);
         recyclerView_days_rate.setAdapter(rateTagsAdapter);
 
 
-        drawTagsAdapter = new TagsAdapter(getActivity());
+        drawTagsAdapter = new TagsAdapter(getActivity(), 2);
         recyclerView_days_draw.setAdapter(drawTagsAdapter);
 
-        daysAdapter = new TagsAdapter(getActivity());
+        daysAdapter = new TagsAdapter(getActivity(), 3);
         recyclerView_bet_days.setAdapter(daysAdapter);
 
-        rateTagsAdapter.setOnItemClick((position, data) -> {
-            value_rate = data;
-            rateTagsAdapter.select(1, data);
-            recyclerView_days_rate.setAdapter(rateTagsAdapter);
-        });
 
-        drawTagsAdapter.setOnItemClick((position, data) -> {
-            value_draw = data;
-            drawTagsAdapter.select(2, data);
-            recyclerView_days_draw.setAdapter(drawTagsAdapter);
-        });
+        selectAdapter = new SelectAdapter(getActivity());
+        recyclerView_select.setAdapter(selectAdapter);
 
 
-        daysAdapter.setOnItemClick((position, data) -> {
-            value_days = data;
-            daysAdapter.select(3, data);
-            recyclerView_bet_days.setAdapter(daysAdapter);
+        tag_select = new HashMap<>();
+
+        styleAdapter.setOnItemChaneClick((isChecked, data) -> {
+            if (isChecked) {
+                tag_select.put(data.getContent() + ",style", data.getContent() + ",style");
+            } else {
+                tag_select.remove(data.getContent() + ",style");
+            }
+            setSelect(tag_select);
         });
+
+
+        rateTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
+            if (isChecked) {
+                tag_select.put(data + ",rate", data + ",rate");
+            } else {
+                tag_select.remove(data + ",rate");
+            }
+            setSelect(tag_select);
+
+        });
+
+        drawTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
+            if (isChecked) {
+                tag_select.put(data + ",draw", data + ",draw");
+            } else {
+                tag_select.remove(data + ",draw");
+            }
+            setSelect(tag_select);
+
+        });
+        daysAdapter.setOnItemChaneClick((isChecked, data) -> {
+            if (isChecked) {
+                tag_select.put(data + ",day", data + ",day");
+            } else {
+                tag_select.remove(data + ",day");
+            }
+            setSelect(tag_select);
+
+        });
+    }
+
+    private List<String> selectList;
+
+    private void setSelect(Map<String, String> tag_select) {
+        selectList = new ArrayList<>();
+        for (String value : tag_select.values()) {
+            selectList.add(value);
+        }
+        selectAdapter.setDatas(selectList);
     }
 
     @Override
@@ -106,7 +153,6 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
         getStyleList();
     }
 
-    private List<String> daysRateList, daysDrawList, daysBetList;
 
     private void getStyleList() {
         NetManger.getInstance().styleList("2", (state, response) -> {
@@ -149,7 +195,9 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
                 getActivity().finish();
                 break;
             case R.id.text_submit:
-                UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_CIRCLE_SEARCH_FILTER, value_rate + value_draw + value_days);
+                Log.d("print", "onClick:已选择:  " + tag_select.toString());
+                Toast.makeText(getActivity(), tag_select.toString(), Toast.LENGTH_SHORT).show();
+                // UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_CIRCLE_SEARCH_FILTER, value_rate + value_draw + value_days);
                 break;
         }
     }
