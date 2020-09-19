@@ -90,7 +90,20 @@ public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof MyViewHolder) {
 
             ((MyViewHolder) holder).checkBox_style.setText(datas.get(position).getContent());
+            ((MyViewHolder) holder).checkBox_style.post(() -> {
+                if (datas.get(position).isChecked) {
+                    ((MyViewHolder) holder).checkBox_style.setChecked(true);
+                } else {
+                    ((MyViewHolder) holder).checkBox_style.setChecked(false);
+                }
+            });
 
+            ((MyViewHolder) holder).checkBox_style.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                if (onItemChaneClick != null) {
+                    onItemChaneClick.onSuccessListener(isChecked, datas.get(position));
+                }
+
+            });
 
         }
     }
@@ -130,11 +143,9 @@ public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             checkBox_style = itemView.findViewById(R.id.radio_style);
 
 
-            checkBox_style.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (onItemChaneClick != null) {
-                    onItemChaneClick.onSuccessListener(isChecked, datas.get(getPosition()));
-                }
-            });
+
+
+
 
 
         }

@@ -18,6 +18,7 @@ import com.pro.bityard.entity.TagEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -50,7 +51,7 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
     private List<TagEntity> styleList, daysRateList, daysDrawList, daysBetList;
     private List<TagEntity> allList;
 
-    private Map<String, TagEntity> tag_select;
+    private Map<String, TagEntity> tag_select,syle_select,rate_select,draw_select,day_select;
 
 
     @Override
@@ -89,56 +90,129 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
         recyclerView_select.setAdapter(selectAdapter);
 
 
-        tag_select = new HashMap<>();
 
+        tag_select = new HashMap<>();
         styleAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data.getContent(), data);
+                tag_select.put(data.getContent()+data.getType(), data);
+                for (TagEntity tagentity:allList) {
+                    if (tagentity.getContent().equals(data.getContent())){
+                        tagentity.setChecked(true);
+                    }
+                }
             } else {
-                tag_select.remove(data.getContent());
+                tag_select.remove(data.getContent()+data.getType());
+                for (TagEntity tagentity:allList) {
+                    if (tagentity.getContent().equals(data.getContent())){
+                        tagentity.setChecked(false);
+                    }
+                }
             }
+            Log.d("print", "initView:101:  "+tag_select);
             setSelect(tag_select);
         });
 
 
+
         rateTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data.getContent(), data);
+                tag_select.put(data.getContent()+data.getType(), data);
+                for (TagEntity tagentity:allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())){
+                        tagentity.setChecked(true);
+                    }
+                }
             } else {
-                tag_select.remove(data.getContent());
+                tag_select.remove(data.getContent()+data.getType());
+                for (TagEntity tagentity:allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())){
+                        tagentity.setChecked(false);
+                    }
+                }
             }
             setSelect(tag_select);
 
         });
 
         drawTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
+
             if (isChecked) {
-                tag_select.put(data.getContent(), data);
+                tag_select.put(data.getContent()+data.getType(), data);
+                for (TagEntity tagentity:allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())){
+                        tagentity.setChecked(true);
+                    }
+                }
             } else {
-                tag_select.remove(data.getContent());
+                tag_select.remove(data.getContent()+data.getType());
+                for (TagEntity tagentity:allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())){
+                        tagentity.setChecked(false);
+                    }
+                }
             }
             setSelect(tag_select);
 
         });
         daysAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
-                tag_select.put(data.getContent(), data);
+                tag_select.put(data.getContent()+data.getType(), data);
+                for (TagEntity tagentity:allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())){
+                        tagentity.setChecked(true);
+                    }
+                }
             } else {
-                tag_select.remove(data.getContent());
+
+                tag_select.remove(data.getContent()+data.getType());
+                for (TagEntity tagentity:allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())){
+                        tagentity.setChecked(false);
+                    }
+                }
             }
             setSelect(tag_select);
 
         });
 
         selectAdapter.setOnItemDeleteClick((position, data) -> {
+            tag_select.remove(data.getContent()+data.getType());
             selectList.remove(data);
             selectAdapter.notifyDataSetChanged();
             Log.d("print", "initView:134:  " + data);
+
+            styleList = new ArrayList<>();
+            daysRateList = new ArrayList<>();
+            daysDrawList = new ArrayList<>();
+            daysBetList = new ArrayList<>();
             for (TagEntity tagEntity : allList) {
-                if (tagEntity.getContent().equals(data.getContent())) {
-                    tagEntity.setChecked(true);
+                if (tagEntity.getContent().equals(data.getContent())&&tagEntity.getType().equals(data.getType())) {
+                    tagEntity.setChecked(false);
+                }
+                if (tagEntity.getType().equals(AppConfig.type_style)) {
+                    styleList.add(tagEntity);
+                }
+                if (tagEntity.getType().equals(AppConfig.type_rate)) {
+                    daysRateList.add(tagEntity);
+                }
+                if (tagEntity.getType().equals(AppConfig.type_draw)) {
+                    daysDrawList.add(tagEntity);
+                }
+                if (tagEntity.getType().equals(AppConfig.type_day)) {
+                    daysBetList.add(tagEntity);
                 }
             }
+            Log.d("print", "initView:165: "+allList);
+
+            Log.d("print", "initView:166: "+styleList);
+            styleAdapter.setDatas(styleList);
+            styleAdapter.notifyDataSetChanged();
+            rateTagsAdapter.setDatas(daysRateList);
+            rateTagsAdapter.notifyDataSetChanged();
+            drawTagsAdapter.setDatas(daysDrawList);
+            drawTagsAdapter.notifyDataSetChanged();
+            daysAdapter.setDatas(daysBetList);
+            daysAdapter.notifyDataSetChanged();
 
 
         });
@@ -147,11 +221,14 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
     private List<TagEntity> selectList;
 
     private void setSelect(Map<String, TagEntity> tag_select) {
+
         selectList = new ArrayList<>();
         for (TagEntity value : tag_select.values()) {
             selectList.add(value);
         }
+        Log.d("print", "initView:183:选择时候:  " + selectList.toString());
         selectAdapter.setDatas(selectList);
+        selectAdapter.notifyDataSetChanged();
     }
 
     @Override

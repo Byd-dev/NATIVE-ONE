@@ -45,8 +45,8 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.notifyDataSetChanged();
     }
 
-    public void select(String select){
-        this.select=select;
+    public void select(String select) {
+        this.select = select;
         this.notifyDataSetChanged();
     }
 
@@ -82,7 +82,7 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
 
         View view = LayoutInflater.from(context).inflate(R.layout.item_foot_layout, parent, false);
-        holder = new ProgressViewHoler(view);
+        holder = new ProgressViewHolder(view);
         return holder;
 
 
@@ -115,17 +115,14 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             }
 
 
-           /* if (!datas.get(position).isChecked) {
-                ((MyViewHolder) holder).checkbox_tags.setChecked(false);
-                map.remove(position);
-                if (map.size() == 0) {
-                    checkedPosition = -1;
+
+
+           /* ((MyViewHolder) holder).checkbox_tags.setOnClickListener(v -> {
+                if (onItemClick != null) {
+                    onItemClick.onSuccessListener(datas.get(position));
                 }
-            } else {
-                ((MyViewHolder) holder).checkbox_tags.setChecked(true);
-                map.clear();
-                map.put(position, true);
-            }*/
+            });*/
+
 
             ((MyViewHolder) holder).checkbox_tags.setOnCheckedChangeListener((buttonView, isChecked) -> {
                 if (onItemChaneClick != null) {
@@ -136,14 +133,17 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 if (isChecked) {
                     map.clear();
                     map.put(position, true);
-
                     checkedPosition = position;
+                    datas.get(position).setChecked(true);
                 } else {
                     map.remove(position);
                     if (map.size() == 0) {
                         checkedPosition = -1;
                     }
+                    datas.get(position).setChecked(false);
                 }
+
+
                 if (!onBind) {
                     notifyDataSetChanged();
                 }
@@ -155,6 +155,15 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 ((MyViewHolder) holder).checkbox_tags.setChecked(false);
             }
             onBind = false;
+
+            ((MyViewHolder) holder).checkbox_tags.post(() -> {
+                if (datas.get(position).isChecked) {
+                    ((MyViewHolder) holder).checkbox_tags.setChecked(true);
+                } else {
+                    ((MyViewHolder) holder).checkbox_tags.setChecked(false);
+                }
+            });
+
 
         }
     }
@@ -177,10 +186,10 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return datas.size();
     }
 
-    public static class ProgressViewHoler extends RecyclerView.ViewHolder {
+    public static class ProgressViewHolder extends RecyclerView.ViewHolder {
         public ProgressBar bar;
 
-        public ProgressViewHoler(View itemView) {
+        public ProgressViewHolder(View itemView) {
             super(itemView);
             bar = itemView.findViewById(R.id.progress);
         }
@@ -198,6 +207,7 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+
     private OnItemChaneClick onItemChaneClick;
 
     public void setOnItemChaneClick(OnItemChaneClick onItemChaneClick) {
@@ -206,5 +216,17 @@ public class TagsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface OnItemChaneClick {
         void onSuccessListener(boolean isChecked, TagEntity data);
+    }
+
+
+    private OnItemClick onItemClick;
+
+    public void setOnItemClick(OnItemClick onItemClick) {
+        this.onItemClick = onItemClick;
+    }
+
+    public interface OnItemClick {
+        void onSuccessListener(TagEntity data);
+
     }
 }
