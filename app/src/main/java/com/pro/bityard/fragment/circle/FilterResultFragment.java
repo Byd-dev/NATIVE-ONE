@@ -155,7 +155,7 @@ public class FilterResultFragment extends BaseFragment implements View.OnClickLi
 
     private void getFollowList(String content) {
         NetManger.getInstance().followList(null, null,
-                content, "usdt", null, null, null, null,
+                content, null, null, null, null, null,
                 null, null, null, (state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);

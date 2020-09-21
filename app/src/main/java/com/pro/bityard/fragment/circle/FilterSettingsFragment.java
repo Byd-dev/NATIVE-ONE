@@ -253,23 +253,24 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
                 StyleEntity styleEntity = (StyleEntity) response;
                 for (StyleEntity.DataBean content : styleEntity.getData()) {
                     //  styleList.add("0," + content.getContent() + type_style);
-                    allList.add(new TagEntity(false, content.getContent(), AppConfig.type_style));
+                    allList.add(new TagEntity(false, content.getContent(), content.getCode(), AppConfig.type_style));
+
                 }
 
-                allList.add(new TagEntity(false, getString(R.string.text_unlimited), AppConfig.type_rate));
-                allList.add(new TagEntity(false, "0-20%", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "20%-60%", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "60%-100%", AppConfig.type_rate));
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), null, AppConfig.type_rate));
+                allList.add(new TagEntity(false, "0-20%","0,20", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "20%-60%", "20,60",AppConfig.type_rate));
+                allList.add(new TagEntity(false, "60%-100%", "60,100",AppConfig.type_rate));
 
-                allList.add(new TagEntity(false, getString(R.string.text_unlimited), AppConfig.type_draw));
-                allList.add(new TagEntity(false, "0-10%", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "10%-50%", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "50%-100%", AppConfig.type_draw));
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited),null, AppConfig.type_draw));
+                allList.add(new TagEntity(false, "0-10%", "0,10",AppConfig.type_draw));
+                allList.add(new TagEntity(false, "10%-50%", "10,50",AppConfig.type_draw));
+                allList.add(new TagEntity(false, "50%-100%","50,100", AppConfig.type_draw));
 
-                allList.add(new TagEntity(false, getString(R.string.text_unlimited), AppConfig.type_day));
-                allList.add(new TagEntity(false, "0-30", AppConfig.type_day));
-                allList.add(new TagEntity(false, "30-60", AppConfig.type_day));
-                allList.add(new TagEntity(false, "60-180", AppConfig.type_day));
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), null,AppConfig.type_day));
+                allList.add(new TagEntity(false, "0-30", "0,30",AppConfig.type_day));
+                allList.add(new TagEntity(false, "30-60", "30,60",AppConfig.type_day));
+                allList.add(new TagEntity(false, "60-180", "60,180",AppConfig.type_day));
 
                 styleList = new ArrayList<>();
                 for (TagEntity data : allList) {

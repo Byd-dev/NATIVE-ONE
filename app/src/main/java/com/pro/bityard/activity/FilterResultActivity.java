@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowAdapter;
-import com.pro.bityard.adapter.StyleAdapter;
+import com.pro.bityard.adapter.StyleListAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
@@ -28,6 +28,7 @@ import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,9 +75,11 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.text_days_draw)
     TextView text_days_draw;
     private StyleEntity styleEntity;
-
-    private StyleAdapter styleAdapter;
-    private List<TagEntity> value;
+    private List<TagEntity> styleList, daysRateList, daysDrawList, daysBetList;
+    private List<TagEntity> allList;
+    private StyleListAdapter styleAdapter;
+    private List<TagEntity> intent_value;
+    private String tags;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,11 +107,6 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void initView(View view) {
 
-        Intent intent = getIntent();
-        value = (List<TagEntity>) intent.getSerializableExtra("VALUE");
-
-        Log.d("print", "initView:96:  " + value);
-
 
         text_title.setText(R.string.text_filter_result);
         text_filter.setVisibility(View.VISIBLE);
@@ -132,7 +130,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         });
 
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {
-            getFollowList(null);
+            getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
             getStyleList();
         });
         swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
@@ -143,17 +141,80 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         text_days_draw.setOnClickListener(this);
     }
 
+
+    List<TagEntity> tagSelect;
+
+    private StringBuilder stringBuilder = null;
+    String defeatGe = null;
+    String defeatLe = null;
+    String drawGe = null;
+    String drawLe = null;
+    String daysGe = null;
+    String daysLe = null;
+
     @Override
     protected void initData() {
-        getFollowList(null);
 
+        Intent intent = getIntent();
+        intent_value = (List<TagEntity>) intent.getSerializableExtra("VALUE");
+        stringBuilder = new StringBuilder();
+        tagSelect = new ArrayList<>();
+        for (TagEntity tagentity : intent_value) {
+            tagSelect.add(tagentity);
+        }
+
+        Log.d("print", "initData:165:  " + tagSelect);
+        for (TagEntity tagentity : tagSelect) {
+            String code = tagentity.getCode();
+            String type = tagentity.getType();
+            if (type.equals(AppConfig.type_style)) {
+                stringBuilder.append(code).append(",");
+            } else if (type.equals(AppConfig.type_rate)) {
+                if (code.equals("null")) {
+                    defeatGe = null;
+                    defeatLe = null;
+                } else {
+                    String[] split = code.split(",");
+                    defeatGe = split[0];
+                    defeatLe = split[1];
+                }
+            } else if (type.equals(AppConfig.type_draw)) {
+                if (code.equals("null")) {
+                    drawGe = null;
+                    drawLe = null;
+                } else {
+                    String[] split = code.split(",");
+                    drawGe = split[0];
+                    drawLe = split[1];
+                }
+            } else if (type.equals(AppConfig.type_day)) {
+                if (code.equals("null")) {
+                    daysGe = null;
+                    daysLe = null;
+                } else {
+                    String[] split = code.split(",");
+                    daysGe = split[0];
+                    daysLe = split[1];
+                }
+            }
+        }
+        if (!stringBuilder.toString().equals("")) {
+            tags = stringBuilder.toString().substring(0, stringBuilder.toString().length() - 1);
+        } else {
+            tags = null;
+        }
+
+
+        getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
         getStyleList();
     }
 
-    private void getFollowList(String content) {
+
+    /*过滤*/
+    private void getFollowList(String tags, String defeatGe, String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe) {
         NetManger.getInstance().followList(null, null,
-                content, "usdt", null, null, null, null,
-                null, null, null, (state, response) -> {
+                null, null, tags, defeatGe, defeatLe, drawGe,
+                drawLe, daysGe, daysLe, (state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
@@ -175,10 +236,16 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void getStyleList() {
+        allList = new ArrayList<>();
         NetManger.getInstance().styleList("2", (state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
                 styleEntity = (StyleEntity) response;
+                for (StyleEntity.DataBean content : styleEntity.getData()) {
+                    allList.add(new TagEntity(false, content.getContent(), content.getCode(), AppConfig.type_style));
+                }
+
+
             } else if (state.equals(FAILURE)) {
             }
         });
@@ -195,16 +262,28 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             case R.id.text_filter:
             case R.id.img_back:
                 Intent intent = getIntent();
-                value.add(new TagEntity(false, "哈哈", "哈哈"));
-                intent.putExtra(AppConfig.KEY_FILTER_RESULT, (Serializable) value);
+                intent.putExtra(AppConfig.KEY_FILTER_RESULT, (Serializable) intent_value);
                 setResult(AppConfig.CODE_FILTER, intent);
                 finish();
                 break;
             case R.id.text_style:
                 Util.lightOff(this);
                 text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
-                if (styleEntity != null) {
-                    showStyleWindow(styleEntity);
+                styleList = new ArrayList<>();
+                if (allList != null) {
+                    for (TagEntity data : allList) {
+                        if (data.getType().equals(AppConfig.type_style)) {
+                            styleList.add(data);
+                        }
+                    }
+                    for (TagEntity tagentity : styleList) {
+                        for (TagEntity tagSelect : tagSelect) {
+                            if (tagentity.getContent().equals(tagSelect.getContent())) {
+                                tagentity.setChecked(true);
+                            }
+                        }
+                    }
+                    showStyleWindow(styleList);
                 }
                 break;
 
@@ -214,7 +293,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     private Map<String, String> style_like;
 
     /*行情选择*/
-    private void showStyleWindow(StyleEntity styleEntity) {
+    private void showStyleWindow(List<TagEntity> styleList) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_style_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -222,10 +301,9 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_style);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
 
-        styleAdapter = new StyleAdapter(this);
+        styleAdapter = new StyleListAdapter(this);
         recyclerView.setAdapter(styleAdapter);
-        styleAdapter.setDatas(styleEntity.getData());
-
+        styleAdapter.setDatas(styleList);
 
         popupWindow.setOnDismissListener(() -> {
             text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_right), null);

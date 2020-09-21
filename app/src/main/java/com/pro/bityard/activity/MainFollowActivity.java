@@ -870,7 +870,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     private void getFollowList() {
         NetManger.getInstance().followList(null, null,
-                null, "usdt", null, null, null, null,
+                null, null, null, null, null, null,
                 null, null, null, (state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);

@@ -7,21 +7,38 @@ public class TagEntity implements Serializable {
 
     public String content;
 
+    public String code;
+
+
     public String type;
+
 
     @Override
     public String toString() {
         return "TagEntity{" +
                 "isChecked=" + isChecked +
                 ", content='" + content + '\'' +
+                ", code='" + code + '\'' +
                 ", type='" + type + '\'' +
                 '}';
     }
 
-    public TagEntity(boolean isChecked, String content, String type) {
+    public TagEntity(boolean isChecked, String content, String code, String type) {
         this.isChecked = isChecked;
         this.content = content;
+        this.code = code;
         this.type = type;
+    }
+
+
+
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public boolean isChecked() {

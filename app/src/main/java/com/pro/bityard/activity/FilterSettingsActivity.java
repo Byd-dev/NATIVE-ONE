@@ -2,7 +2,6 @@ package com.pro.bityard.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,7 +18,6 @@ import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TagEntity;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -263,23 +261,23 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
                 StyleEntity styleEntity = (StyleEntity) response;
                 for (StyleEntity.DataBean content : styleEntity.getData()) {
                     //  styleList.add("0," + content.getContent() + type_style);
-                    allList.add(new TagEntity(false, content.getContent(), AppConfig.type_style));
+                    allList.add(new TagEntity(false, content.getContent(), content.getCode(), AppConfig.type_style));
                 }
 
-                allList.add(new TagEntity(false, getString(R.string.text_unlimited), AppConfig.type_rate));
-                allList.add(new TagEntity(false, "0-20%", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "20%-60%", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "60%-100%", AppConfig.type_rate));
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "0-20%", "0,20", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "20%-60%", "20,60", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "60%-100%", "60,100", AppConfig.type_rate));
 
-                allList.add(new TagEntity(false, getString(R.string.text_unlimited), AppConfig.type_draw));
-                allList.add(new TagEntity(false, "0-10%", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "10%-50%", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "50%-100%", AppConfig.type_draw));
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "0-10%", "0,10", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "10%-50%", "10,50", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "50%-100%", "50,100", AppConfig.type_draw));
 
-                allList.add(new TagEntity(false, getString(R.string.text_unlimited), AppConfig.type_day));
-                allList.add(new TagEntity(false, "0-30", AppConfig.type_day));
-                allList.add(new TagEntity(false, "30-60", AppConfig.type_day));
-                allList.add(new TagEntity(false, "60-180", AppConfig.type_day));
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_day));
+                allList.add(new TagEntity(false, "0-30", "0,30", AppConfig.type_day));
+                allList.add(new TagEntity(false, "30-60", "30,60", AppConfig.type_day));
+                allList.add(new TagEntity(false, "60-180", "60,180", AppConfig.type_day));
 
                 styleList = new ArrayList<>();
                 for (TagEntity data : allList) {
@@ -327,7 +325,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
 
     }
 
-    List<TagEntity> tagEntityList ;
+    List<TagEntity> tagEntityList;
 
     @Override
     public void onClick(View v) {
@@ -339,7 +337,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
                 Log.d("print", "onClick:已选择:  " + tag_select.toString());
 
                 Collection<TagEntity> values = tag_select.values();
-                tagEntityList=new ArrayList<>();
+                tagEntityList = new ArrayList<>();
                 tagEntityList.addAll(values);
                 FilterResultActivity.enter(this, tagEntityList);
 
@@ -350,10 +348,10 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case AppConfig.CODE_FILTER:
-                List<TagEntity> value  = (List<TagEntity>) data.getSerializableExtra(AppConfig.KEY_FILTER_RESULT);
-                Log.d("print", "onActivityResult:356:  "+value);
+                List<TagEntity> value = (List<TagEntity>) data.getSerializableExtra(AppConfig.KEY_FILTER_RESULT);
+                Log.d("print", "onActivityResult:356:  " + value);
                 break;
         }
     }
