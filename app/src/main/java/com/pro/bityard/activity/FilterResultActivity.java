@@ -1,6 +1,8 @@
-package com.pro.bityard.fragment.circle;
+package com.pro.bityard.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,19 +17,22 @@ import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowAdapter;
 import com.pro.bityard.adapter.StyleAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.base.BaseActivity;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.StyleEntity;
-import com.pro.bityard.fragment.hold.RuleFragment;
-import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.entity.TagEntity;
 import com.pro.bityard.utils.PopUtil;
-import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
+import com.pro.bityard.viewutil.StatusBarUtil;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -38,7 +43,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class SearchFilterFragment extends BaseFragment implements View.OnClickListener {
+public class FilterResultActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
 
@@ -71,48 +76,56 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
     private StyleEntity styleEntity;
 
     private StyleAdapter styleAdapter;
-
-    public SearchFilterFragment newInstance(String value) {
-        SearchFilterFragment fragment = new SearchFilterFragment();
-        Bundle args = new Bundle();
-        args.putString("VALUE", value);
-        fragment.setArguments(args);
-        return fragment;
-
-    }
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_search_filter;
-    }
-
+    private List<TagEntity> value;
 
     @Override
-    protected void onLazyLoad() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        StatusBarUtil.setStatusBarDarkTheme(this, false);
+
+    }
+
+    public static void enter(Activity context, List<TagEntity> value) {
+        Intent intent = new Intent(context, FilterResultActivity.class);
+        intent.putExtra("VALUE", (Serializable) value);
+        context.startActivityForResult(intent, 100);
+    }
+
+    @Override
+    protected int setContentLayout() {
+        return R.layout.fragment_filter_result;
+    }
+
+    @Override
+    protected void initPresenter() {
 
     }
 
     @Override
     protected void initView(View view) {
-        if (getArguments() != null) {
-            String value = getArguments().getString("VALUE");
-            Log.d("print", "initView:98:  "+value);
-        }
+
+        Intent intent = getIntent();
+        value = (List<TagEntity>) intent.getSerializableExtra("VALUE");
+
+        Log.d("print", "initView:96:  " + value);
+
 
         text_title.setText(R.string.text_filter_result);
         text_filter.setVisibility(View.VISIBLE);
 
-        view.findViewById(R.id.img_back).setOnClickListener(this);
+        findViewById(R.id.img_back).setOnClickListener(this);
+        text_filter.setOnClickListener(this);
 
-        followAdapter = new FollowAdapter(getActivity());
-        recyclerView_circle.setLayoutManager(new LinearLayoutManager(getActivity()));
+        followAdapter = new FollowAdapter(this);
+        recyclerView_circle.setLayoutManager(new LinearLayoutManager(this));
 
 
         recyclerView_circle.setAdapter(followAdapter);
 
 
         followAdapter.setWarningClick(() -> {
-            Util.lightOff(getActivity());
-            PopUtil.getInstance().showTip(getActivity(), layout_view, false, getString(R.string.text_circle_warning),
+            Util.lightOff(this);
+            PopUtil.getInstance().showTip(this, layout_view, false, getString(R.string.text_circle_warning),
                     state -> {
 
                     });
@@ -128,14 +141,6 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
         text_style.setOnClickListener(this);
         text_days_rate.setOnClickListener(this);
         text_days_draw.setOnClickListener(this);
-
-
-    }
-
-
-    @Override
-    protected void intPresenter() {
-
     }
 
     @Override
@@ -143,17 +148,6 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
         getFollowList(null);
 
         getStyleList();
-
-    }
-
-    private void getStyleList() {
-        NetManger.getInstance().styleList("2", (state, response) -> {
-            if (state.equals(BUSY)) {
-            } else if (state.equals(SUCCESS)) {
-                styleEntity = (StyleEntity) response;
-            } else if (state.equals(FAILURE)) {
-            }
-        });
     }
 
     private void getFollowList(String content) {
@@ -180,19 +174,40 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
                 });
     }
 
+    private void getStyleList() {
+        NetManger.getInstance().styleList("2", (state, response) -> {
+            if (state.equals(BUSY)) {
+            } else if (state.equals(SUCCESS)) {
+                styleEntity = (StyleEntity) response;
+            } else if (state.equals(FAILURE)) {
+            }
+        });
+    }
+
+    @Override
+    protected void initEvent() {
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.text_filter:
             case R.id.img_back:
-                getActivity().finish();
+                Intent intent = getIntent();
+                value.add(new TagEntity(false, "哈哈", "哈哈"));
+                intent.putExtra(AppConfig.KEY_FILTER_RESULT, (Serializable) value);
+                setResult(AppConfig.CODE_FILTER, intent);
+                finish();
                 break;
             case R.id.text_style:
-                Util.lightOff(getActivity());
+                Util.lightOff(this);
                 text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
                 if (styleEntity != null) {
                     showStyleWindow(styleEntity);
                 }
                 break;
+
         }
     }
 
@@ -200,21 +215,21 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
 
     /*行情选择*/
     private void showStyleWindow(StyleEntity styleEntity) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_style_layout, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_style_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_style);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
 
-        styleAdapter = new StyleAdapter(getActivity());
+        styleAdapter = new StyleAdapter(this);
         recyclerView.setAdapter(styleAdapter);
         styleAdapter.setDatas(styleEntity.getData());
 
 
         popupWindow.setOnDismissListener(() -> {
             text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_right), null);
-            Util.lightOn(getActivity());
+            Util.lightOn(this);
         });
 
         style_like = new HashMap<>();
@@ -228,7 +243,7 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
 
 
         view.findViewById(R.id.btn_submit).setOnClickListener(v ->
-                Toast.makeText(getActivity(), style_like.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, style_like.toString(), Toast.LENGTH_SHORT).show()
         );
 
         popupWindow.setFocusable(true);
@@ -236,5 +251,4 @@ public class SearchFilterFragment extends BaseFragment implements View.OnClickLi
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_bar);
     }
-
 }

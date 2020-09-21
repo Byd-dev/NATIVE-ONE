@@ -1,25 +1,32 @@
-package com.pro.bityard.fragment.circle;
+package com.pro.bityard.activity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.SelectAdapter;
 import com.pro.bityard.adapter.StyleListAdapter;
 import com.pro.bityard.adapter.TagsAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TagEntity;
+import com.pro.bityard.viewutil.StatusBarUtil;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -28,7 +35,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class FilterSettingsFragment extends BaseFragment implements View.OnClickListener {
+public class FilterSettingsActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.text_submit)
     TextView text_submit;
     @BindView(R.id.text_title)
@@ -50,11 +57,27 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
     private List<TagEntity> styleList, daysRateList, daysDrawList, daysBetList;
     private List<TagEntity> allList;
 
-    private Map<String, TagEntity> tag_select, syle_select, rate_select, draw_select, day_select;
-
+    private Map<String, TagEntity> tag_select;
 
     @Override
-    protected void onLazyLoad() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        StatusBarUtil.setStatusBarDarkTheme(this, false);
+
+    }
+
+    public static void enter(Context context) {
+        Intent intent = new Intent(context, FilterSettingsActivity.class);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected int setContentLayout() {
+        return R.layout.fragment_settings_filter;
+    }
+
+    @Override
+    protected void initPresenter() {
 
     }
 
@@ -63,29 +86,29 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
         text_submit.setVisibility(View.VISIBLE);
         text_title.setText(R.string.text_filter_settings);
         text_submit.setOnClickListener(this);
-        view.findViewById(R.id.img_back).setOnClickListener(this);
+        findViewById(R.id.img_back).setOnClickListener(this);
 
-        recyclerView_style.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        recyclerView_days_rate.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        recyclerView_days_draw.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        recyclerView_bet_days.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        recyclerView_select.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+        recyclerView_style.setLayoutManager(new GridLayoutManager(this, 4));
+        recyclerView_days_rate.setLayoutManager(new GridLayoutManager(this, 4));
+        recyclerView_days_draw.setLayoutManager(new GridLayoutManager(this, 4));
+        recyclerView_bet_days.setLayoutManager(new GridLayoutManager(this, 4));
+        recyclerView_select.setLayoutManager(new GridLayoutManager(this, 3));
 
-        styleAdapter = new StyleListAdapter(getActivity());
+        styleAdapter = new StyleListAdapter(this);
         recyclerView_style.setAdapter(styleAdapter);
 
-        rateTagsAdapter = new TagsAdapter(getActivity(), 1);
+        rateTagsAdapter = new TagsAdapter(this, 1);
         recyclerView_days_rate.setAdapter(rateTagsAdapter);
 
 
-        drawTagsAdapter = new TagsAdapter(getActivity(), 2);
+        drawTagsAdapter = new TagsAdapter(this, 2);
         recyclerView_days_draw.setAdapter(drawTagsAdapter);
 
-        daysAdapter = new TagsAdapter(getActivity(), 3);
+        daysAdapter = new TagsAdapter(this, 3);
         recyclerView_bet_days.setAdapter(daysAdapter);
 
 
-        selectAdapter = new SelectAdapter(getActivity());
+        selectAdapter = new SelectAdapter(this);
         recyclerView_select.setAdapter(selectAdapter);
 
 
@@ -106,7 +129,6 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
                     }
                 }
             }
-            Log.d("print", "initView:101:  " + tag_select);
             setSelect(tag_select);
         });
 
@@ -176,7 +198,6 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
             tag_select.remove(data.getContent() + data.getType());
             selectList.remove(data);
             selectAdapter.notifyDataSetChanged();
-            Log.d("print", "initView:134:  " + data);
 
             styleList = new ArrayList<>();
             daysRateList = new ArrayList<>();
@@ -223,26 +244,15 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
         for (TagEntity value : tag_select.values()) {
             selectList.add(value);
         }
-        Log.d("print", "initView:183:选择时候:  " + selectList.toString());
         selectAdapter.setDatas(selectList);
         selectAdapter.notifyDataSetChanged();
     }
 
     @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_settings_filter;
-    }
-
-    @Override
-    protected void intPresenter() {
-
-    }
-
-    @Override
     protected void initData() {
         getStyleList();
-    }
 
+    }
 
     private void getStyleList() {
 
@@ -313,15 +323,37 @@ public class FilterSettingsFragment extends BaseFragment implements View.OnClick
     }
 
     @Override
+    protected void initEvent() {
+
+    }
+
+    List<TagEntity> tagEntityList ;
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_back:
-                getActivity().finish();
+                finish();
                 break;
             case R.id.text_submit:
                 Log.d("print", "onClick:已选择:  " + tag_select.toString());
-                Toast.makeText(getActivity(), tag_select.toString(), Toast.LENGTH_SHORT).show();
-                // UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_CIRCLE_SEARCH_FILTER, value_rate + value_draw + value_days);
+
+                Collection<TagEntity> values = tag_select.values();
+                tagEntityList=new ArrayList<>();
+                tagEntityList.addAll(values);
+                FilterResultActivity.enter(this, tagEntityList);
+
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case AppConfig.CODE_FILTER:
+                List<TagEntity> value  = (List<TagEntity>) data.getSerializableExtra(AppConfig.KEY_FILTER_RESULT);
+                Log.d("print", "onActivityResult:356:  "+value);
                 break;
         }
     }

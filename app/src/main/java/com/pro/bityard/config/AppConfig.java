@@ -104,4 +104,7 @@ public class AppConfig {
     public static final String type_draw = "draw";
     public static final String type_day = "day";
 
+    public static final int CODE_FILTER = 100;
+
+    public static final String KEY_FILTER_RESULT= "FILTER_RESULT";
 }

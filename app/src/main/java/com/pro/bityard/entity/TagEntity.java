@@ -1,6 +1,8 @@
 package com.pro.bityard.entity;
 
-public class TagEntity {
+import java.io.Serializable;
+
+public class TagEntity implements Serializable {
     public  boolean isChecked;
 
     public String content;

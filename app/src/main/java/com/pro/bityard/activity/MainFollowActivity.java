@@ -757,8 +757,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_circle.addFooterView(footView_circle);
 
 
-
-
         TextView text_update = head_circle.findViewById(R.id.text_update_two);
         String strMsg = getString(R.string.text_two_update);
         String format = String.format(strMsg, "2");
@@ -770,7 +768,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SEARCH_NICKNAME);
         });
         head_circle.findViewById(R.id.layout_filter).setOnClickListener(v -> {
-            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FILTER);
+            FilterSettingsActivity.enter(this);
         });
         followAdapter.setWarningClick(() -> {
             Util.lightOff(this);
