@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowAdapter;
@@ -31,7 +30,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -78,8 +76,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     private List<TagEntity> styleList, daysRateList, daysDrawList, daysBetList;
     private List<TagEntity> allList;
     private StyleListAdapter styleAdapter;
-    private List<TagEntity> intent_value;
     private String tags;
+    //private Map<String, TagEntity> tag_select;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -139,10 +137,13 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         text_style.setOnClickListener(this);
         text_days_rate.setOnClickListener(this);
         text_days_draw.setOnClickListener(this);
+
+
     }
 
 
-    List<TagEntity> tagSelect;
+    private List<TagEntity> tagSelect;
+    private HashMap<String, TagEntity> tag_select;
 
     private StringBuilder stringBuilder = null;
     String defeatGe = null;
@@ -156,14 +157,17 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     protected void initData() {
 
         Intent intent = getIntent();
-        intent_value = (List<TagEntity>) intent.getSerializableExtra("VALUE");
+        tagSelect = (List<TagEntity>) intent.getSerializableExtra("VALUE");
         stringBuilder = new StringBuilder();
-        tagSelect = new ArrayList<>();
-        for (TagEntity tagentity : intent_value) {
-            tagSelect.add(tagentity);
+
+
+        tag_select = new HashMap<>();
+
+        for (TagEntity tagEntity : tagSelect) {
+            tag_select.put(tagEntity.getContent() + tagEntity.getType(), tagEntity);
         }
 
-        Log.d("print", "initData:165:  " + tagSelect);
+        Log.d("print", "initData:165:  " + tag_select);
         for (TagEntity tagentity : tagSelect) {
             String code = tagentity.getCode();
             String type = tagentity.getType();
@@ -244,7 +248,20 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                 for (StyleEntity.DataBean content : styleEntity.getData()) {
                     allList.add(new TagEntity(false, content.getContent(), content.getCode(), AppConfig.type_style));
                 }
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "0-20%", "0,20", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "20%-60%", "20,60", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "60%-100%", "60,100", AppConfig.type_rate));
 
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "0-10%", "0,10", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "10%-50%", "10,50", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "50%-100%", "50,100", AppConfig.type_draw));
+
+                allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_day));
+                allList.add(new TagEntity(false, "0-30", "0,30", AppConfig.type_day));
+                allList.add(new TagEntity(false, "30-60", "30,60", AppConfig.type_day));
+                allList.add(new TagEntity(false, "60-180", "60,180", AppConfig.type_day));
 
             } else if (state.equals(FAILURE)) {
             }
@@ -256,44 +273,39 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.text_filter:
             case R.id.img_back:
                 Intent intent = getIntent();
-                intent.putExtra(AppConfig.KEY_FILTER_RESULT, (Serializable) intent_value);
+                for (TagEntity tag:tag_select.values()) {
+                    for (TagEntity tagAll:allList) {
+                        if (tag.getContent().equals(tagAll.getContent())&&tag.getType().equals(tagAll.getType())){
+                            tagAll.setChecked(true);
+                        }
+                    }
+                }
+                Log.d("print", "onClick:274:  "+allList);
+                intent.putExtra(AppConfig.KEY_FILTER_RESULT, (Serializable) allList);
                 setResult(AppConfig.CODE_FILTER, intent);
                 finish();
                 break;
             case R.id.text_style:
                 Util.lightOff(this);
                 text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
-                styleList = new ArrayList<>();
-                if (allList != null) {
-                    for (TagEntity data : allList) {
-                        if (data.getType().equals(AppConfig.type_style)) {
-                            styleList.add(data);
-                        }
-                    }
-                    for (TagEntity tagentity : styleList) {
-                        for (TagEntity tagSelect : tagSelect) {
-                            if (tagentity.getContent().equals(tagSelect.getContent())) {
-                                tagentity.setChecked(true);
-                            }
-                        }
-                    }
-                    showStyleWindow(styleList);
-                }
+
+                showStyleWindow();
                 break;
 
         }
     }
 
-    private Map<String, String> style_like;
 
     /*行情选择*/
-    private void showStyleWindow(List<TagEntity> styleList) {
+    private void showStyleWindow() {
+        Log.d("print", "showStyleWindow:已选:  " + tagSelect);
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_style_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -303,26 +315,60 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
         styleAdapter = new StyleListAdapter(this);
         recyclerView.setAdapter(styleAdapter);
+
+        styleList = new ArrayList<>();
+        if (allList != null) {
+            //加载风格的数据
+            for (TagEntity data : allList) {
+                if (data.getType().equals(AppConfig.type_style)) {
+                    styleList.add(data);
+                }
+            }
+            //设置风格已选择的为true
+            for (TagEntity tag : tag_select.values()) {
+                for (TagEntity tagentity : styleList) {
+                    if (tagentity.getContent().equals(tag.getContent())) {
+                        tagentity.setChecked(true);
+                    }
+                }
+            }
+        }
+
         styleAdapter.setDatas(styleList);
+        styleAdapter.setOnItemChaneClick((isChecked, data) -> {
+            if (isChecked) {
+                tag_select.put(data.getContent() + data.getType(), data);
+                for (TagEntity tagentity : allList) {
+                    if (tagentity.getContent().equals(data.getContent())) {
+                        tagentity.setChecked(true);
+                    }
+                }
+            } else {
+                tag_select.remove(data.getContent() + data.getType());
+                for (TagEntity tagentity : allList) {
+                    if (tagentity.getContent().equals(data.getContent())) {
+                        tagentity.setChecked(false);
+                    }
+                }
+            }
+
+        });
+
 
         popupWindow.setOnDismissListener(() -> {
             text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_right), null);
             Util.lightOn(this);
         });
 
-        style_like = new HashMap<>();
-        styleAdapter.setOnItemChaneClick((isChecked, data) -> {
-            if (isChecked) {
-                style_like.put(data.getCode(), data.getContent());
-            } else {
-                style_like.remove(data.getCode());
+
+        view.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("print", "showStyleWindow:已选择:  " + tag_select);
+
             }
         });
 
-
-        view.findViewById(R.id.btn_submit).setOnClickListener(v ->
-                Toast.makeText(this, style_like.toString(), Toast.LENGTH_SHORT).show()
-        );
 
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);

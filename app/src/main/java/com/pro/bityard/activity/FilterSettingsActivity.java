@@ -279,45 +279,49 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
                 allList.add(new TagEntity(false, "30-60", "30,60", AppConfig.type_day));
                 allList.add(new TagEntity(false, "60-180", "60,180", AppConfig.type_day));
 
-                styleList = new ArrayList<>();
-                for (TagEntity data : allList) {
-                    if (data.getType().equals(AppConfig.type_style)) {
-                        styleList.add(data);
-                    }
-                }
-                styleAdapter.setDatas(styleList);
-
-                daysRateList = new ArrayList<>();
-                for (TagEntity data : allList) {
-                    if (data.getType().equals(AppConfig.type_rate)) {
-                        daysRateList.add(data);
-                    }
-                }
-                rateTagsAdapter.setDatas(daysRateList);
-
-
-                daysDrawList = new ArrayList<>();
-                for (TagEntity data : allList) {
-                    if (data.getType().equals(AppConfig.type_draw)) {
-                        daysDrawList.add(data);
-                    }
-                }
-                drawTagsAdapter.setDatas(daysDrawList);
-
-
-                daysBetList = new ArrayList<>();
-                for (TagEntity data : allList) {
-                    if (data.getType().equals(AppConfig.type_day)) {
-                        daysBetList.add(data);
-                    }
-                }
-                daysAdapter.setDatas(daysBetList);
+                setData();
 
             } else if (state.equals(FAILURE)) {
             }
         });
 
 
+    }
+
+    private void setData(){
+        styleList = new ArrayList<>();
+        for (TagEntity data : allList) {
+            if (data.getType().equals(AppConfig.type_style)) {
+                styleList.add(data);
+            }
+        }
+        styleAdapter.setDatas(styleList);
+
+        daysRateList = new ArrayList<>();
+        for (TagEntity data : allList) {
+            if (data.getType().equals(AppConfig.type_rate)) {
+                daysRateList.add(data);
+            }
+        }
+        rateTagsAdapter.setDatas(daysRateList);
+
+
+        daysDrawList = new ArrayList<>();
+        for (TagEntity data : allList) {
+            if (data.getType().equals(AppConfig.type_draw)) {
+                daysDrawList.add(data);
+            }
+        }
+        drawTagsAdapter.setDatas(daysDrawList);
+
+
+        daysBetList = new ArrayList<>();
+        for (TagEntity data : allList) {
+            if (data.getType().equals(AppConfig.type_day)) {
+                daysBetList.add(data);
+            }
+        }
+        daysAdapter.setDatas(daysBetList);
     }
 
     @Override
@@ -334,8 +338,6 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.text_submit:
-                Log.d("print", "onClick:已选择:  " + tag_select.toString());
-
                 Collection<TagEntity> values = tag_select.values();
                 tagEntityList = new ArrayList<>();
                 tagEntityList.addAll(values);
@@ -345,13 +347,21 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case AppConfig.CODE_FILTER:
-                List<TagEntity> value = (List<TagEntity>) data.getSerializableExtra(AppConfig.KEY_FILTER_RESULT);
-                Log.d("print", "onActivityResult:356:  " + value);
+                allList = (List<TagEntity>) data.getSerializableExtra(AppConfig.KEY_FILTER_RESULT);
+                setData();
+                tag_select = new HashMap<>();
+                for (TagEntity tagEntity:allList) {
+                    if (tagEntity.isChecked){
+                        tag_select.put(tagEntity.getContent() + tagEntity.getType(),tagEntity);
+                    }
+                }
+                setSelect(tag_select);
                 break;
         }
     }
