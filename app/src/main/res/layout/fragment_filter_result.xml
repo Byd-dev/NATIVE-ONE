@@ -20,63 +20,85 @@
             android:id="@+id/text_style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal"
-            android:paddingLeft="@dimen/margin_15"
-            android:paddingRight="@dimen/margin_15"
-            android:drawablePadding="@dimen/margin_5"
             android:layout_centerVertical="true"
             android:drawableRight="@mipmap/icon_white_right"
-            android:text="@string/text_style" />
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingRight="@dimen/margin_15"
+            android:text="@string/text_style"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal" />
+
         <TextView
             android:id="@+id/text_days_rate"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal"
-            android:paddingLeft="@dimen/margin_30"
-            android:paddingRight="@dimen/margin_15"
-            android:drawablePadding="@dimen/margin_5"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/text_style"
             android:drawableRight="@mipmap/icon_white_right"
-            android:text="@string/text_trader_30_days_rate" />
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_30"
+            android:paddingRight="@dimen/margin_15"
+            android:text="@string/text_trader_30_days_rate"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal" />
 
         <TextView
             android:id="@+id/text_days_draw"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/size_normal"
-            android:paddingLeft="@dimen/margin_15"
-            android:paddingRight="@dimen/margin_15"
-            android:drawablePadding="@dimen/margin_5"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:drawableRight="@mipmap/icon_white_right"
-            android:text="@string/text_trader_30_days_draw" />
+            android:drawablePadding="@dimen/margin_5"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingRight="@dimen/margin_15"
+            android:text="@string/text_trader_30_days_draw"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal" />
 
     </RelativeLayout>
 
     <include layout="@layout/layout_line" />
 
+    <LinearLayout
+        android:id="@+id/layout_select"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="vertical">
+
+        <!--列表-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_select"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_15" />
+
+        <include layout="@layout/layout_line"/>
+
+    </LinearLayout>
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout_circle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        >
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+
             <!--列表-->
-            <com.pro.bityard.view.HeaderRecyclerView
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_circle"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />

@@ -90,7 +90,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
         recyclerView_days_rate.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView_days_draw.setLayoutManager(new GridLayoutManager(this, 4));
         recyclerView_bet_days.setLayoutManager(new GridLayoutManager(this, 4));
-        recyclerView_select.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerView_select.setLayoutManager(new GridLayoutManager(this, 4));
 
         styleAdapter = new StyleListAdapter(this);
         recyclerView_style.setAdapter(styleAdapter);
@@ -265,19 +265,19 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
                 }
 
                 allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "0-20%", "0,20", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "≤20%", "0,20", AppConfig.type_rate));
                 allList.add(new TagEntity(false, "20%-60%", "20,60", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "60%-100%", "60,100", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "≥60%", "60,100", AppConfig.type_rate));
 
                 allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "0-10%", "0,10", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "≤10%", "0,10", AppConfig.type_draw));
                 allList.add(new TagEntity(false, "10%-50%", "10,50", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "50%-100%", "50,100", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "≥50%", "50,100", AppConfig.type_draw));
 
                 allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_day));
-                allList.add(new TagEntity(false, "0-30", "0,30", AppConfig.type_day));
+                allList.add(new TagEntity(false, "≤30", "0,30", AppConfig.type_day));
                 allList.add(new TagEntity(false, "30-60", "30,60", AppConfig.type_day));
-                allList.add(new TagEntity(false, "60-180", "60,180", AppConfig.type_day));
+                allList.add(new TagEntity(false, "≥60", "60,180", AppConfig.type_day));
 
                 setData();
 

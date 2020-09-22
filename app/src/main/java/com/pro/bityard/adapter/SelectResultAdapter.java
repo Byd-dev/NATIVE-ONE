@@ -19,7 +19,7 @@ import java.util.Map;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SelectResultAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<TagEntity> selectList;
 
@@ -34,7 +34,7 @@ public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private int checkedPosition = -1;
     private boolean onBind;
 
-    public SelectAdapter(Context context) {
+    public SelectResultAdapter(Context context) {
         this.context = context;
         selectList = new ArrayList<>();
     }
@@ -62,7 +62,7 @@ public class SelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
         if (viewType == TYPE_ITEM) {
-            View view = LayoutInflater.from(context).inflate(R.layout.item_select_layout, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_select_result_layout, parent, false);
             holder = new MyViewHolder(view);
             return holder;
 

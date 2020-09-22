@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowAdapter;
+import com.pro.bityard.adapter.SelectResultAdapter;
 import com.pro.bityard.adapter.StyleListAdapter;
 import com.pro.bityard.adapter.TagsAdapter;
 import com.pro.bityard.api.NetManger;
@@ -24,13 +25,13 @@ import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TagEntity;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.Util;
-import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -60,7 +61,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
 
     @BindView(R.id.recyclerView_circle)
-    HeaderRecyclerView recyclerView_circle;
+    RecyclerView recyclerView_circle;
 
     private FollowAdapter followAdapter;
 
@@ -78,7 +79,11 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     private List<TagEntity> allList;
     private StyleListAdapter styleAdapter;
     private TagsAdapter rateAdapter, drawAdapter, daysAdapter;
-
+    private SelectResultAdapter selectAdapter;
+    @BindView(R.id.recyclerView_select)
+    RecyclerView recyclerView_select;
+    @BindView(R.id.layout_select)
+    LinearLayout layout_select;
     private String tags;
 
     @Override
@@ -130,7 +135,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         });
 
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {
-           // getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
+            // getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
             getStyleList();
         });
         swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
@@ -140,11 +145,31 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         text_days_rate.setOnClickListener(this);
         text_days_draw.setOnClickListener(this);
 
+        recyclerView_select.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
+        selectAdapter = new SelectResultAdapter(this);
+        recyclerView_select.setAdapter(selectAdapter);
+
+
+        selectAdapter.setOnItemDeleteClick((position, data) -> {
+            //删除之前要把它置为未选中
+            for (TagEntity tagentity : tag_select.values()) {
+                if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
+                    tagentity.setChecked(false);
+                }
+            }
+            tag_select.remove(data.getContent() + data.getType());
+
+           // Log.d("print", "initView:删除之后:  " + tag_select.values());
+            setSelect(tag_select);
+            filter();
+
+
+        });
     }
 
 
-    private List<TagEntity> tagSelect;
+    private List<TagEntity> selectList;
     private HashMap<String, TagEntity> tag_select;
 
     private StringBuilder stringBuilder = null;
@@ -154,20 +179,37 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     protected void initData() {
 
         Intent intent = getIntent();
-        tagSelect = (List<TagEntity>) intent.getSerializableExtra("VALUE");
+        selectList = (List<TagEntity>) intent.getSerializableExtra("VALUE");
 
 
         tag_select = new HashMap<>();
 
-        for (TagEntity tagEntity : tagSelect) {
+        for (TagEntity tagEntity : selectList) {
             tag_select.put(tagEntity.getContent() + tagEntity.getType(), tagEntity);
         }
+        Log.d("print", "initView:删除之前:  " + tag_select.values());
 
         filter();
         getStyleList();
     }
 
 
+    private void setSelect(Map<String, TagEntity> tag_select) {
+
+        if (tag_select.values().size() == 0) {
+            layout_select.setVisibility(View.GONE);
+        } else {
+            layout_select.setVisibility(View.VISIBLE);
+        }
+        selectList = new ArrayList<>();
+        for (TagEntity value : tag_select.values()) {
+            selectList.add(value);
+        }
+        selectAdapter.setDatas(selectList);
+        selectAdapter.notifyDataSetChanged();
+    }
+
+    /*过滤*/
     private void filter() {
         String defeatGe = null;
         String defeatLe = null;
@@ -176,7 +218,13 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         String daysGe = null;
         String daysLe = null;
         stringBuilder = new StringBuilder();
-        Log.d("print", "filter:179:  "+tag_select);
+        Log.d("print", "filter:240:  " + tag_select.values().size());
+        if (tag_select.values().size() == 0) {
+            layout_select.setVisibility(View.GONE);
+        } else {
+            layout_select.setVisibility(View.VISIBLE);
+        }
+        setSelect(tag_select);
         for (TagEntity tagentity : tag_select.values()) {
             String code = tagentity.getCode();
             String type = tagentity.getType();
@@ -220,7 +268,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
     }
 
-    /*过滤*/
+
     private void getFollowList(String tags, String defeatGe, String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe) {
         NetManger.getInstance().followList(null, null,
                 null, null, tags, defeatGe, defeatLe, drawGe,
@@ -229,11 +277,16 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
-                        layout_circle_null.setVisibility(View.GONE);
-                        recyclerView_circle.setVisibility(View.VISIBLE);
                         FollowEntity followEntity = (FollowEntity) response;
+                        if (followEntity.getData().size() == 0) {
+                            layout_circle_null.setVisibility(View.VISIBLE);
+                            recyclerView_circle.setVisibility(View.GONE);
+                        } else {
+                            layout_circle_null.setVisibility(View.GONE);
+                            recyclerView_circle.setVisibility(View.VISIBLE);
+                        }
                         followAdapter.setDatas(followEntity.getData());
-                        
+
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
                         layout_circle_null.setVisibility(View.VISIBLE);
@@ -254,19 +307,20 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                     allList.add(new TagEntity(false, content.getContent(), content.getCode(), AppConfig.type_style));
                 }
                 allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "0-20%", "0,20", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "≤20%", "0,20", AppConfig.type_rate));
                 allList.add(new TagEntity(false, "20%-60%", "20,60", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "60%-100%", "60,100", AppConfig.type_rate));
+                allList.add(new TagEntity(false, "≥60%", "60,100", AppConfig.type_rate));
 
                 allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "0-10%", "0,10", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "≤10%", "0,10", AppConfig.type_draw));
                 allList.add(new TagEntity(false, "10%-50%", "10,50", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "50%-100%", "50,100", AppConfig.type_draw));
+                allList.add(new TagEntity(false, "≥50%", "50,100", AppConfig.type_draw));
 
                 allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_day));
-                allList.add(new TagEntity(false, "0-30", "0,30", AppConfig.type_day));
+                allList.add(new TagEntity(false, "≤30", "0,30", AppConfig.type_day));
                 allList.add(new TagEntity(false, "30-60", "30,60", AppConfig.type_day));
-                allList.add(new TagEntity(false, "60-180", "60,180", AppConfig.type_day));
+                allList.add(new TagEntity(false, "≥60", "60,180", AppConfig.type_day));
+
 
             } else if (state.equals(FAILURE)) {
             }
@@ -335,6 +389,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                     styleList.add(data);
                 }
             }
+            // Log.d("print", "showStyleWindow:风格初始化: " + tag_select.values());
             //设置风格已选择的为true
             for (TagEntity tag : tag_select.values()) {
                 for (TagEntity tagentity : styleList) {
@@ -362,8 +417,9 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
             }
-            Log.d("print", "showStyleWindow:风格:  " + tag_select);
+            Log.d("print", "showStyleWindow:风格:  " + tag_select.values());
             filter();
+            setSelect(tag_select);
 
         });
 
@@ -410,7 +466,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             //设置风格已选择的为true
             for (TagEntity tag : tag_select.values()) {
                 for (TagEntity tagentity : daysRateList) {
-                    if (tagentity.getContent().equals(tag.getContent())&tagentity.getType().equals(tag.getType())) {
+                    if (tagentity.getContent().equals(tag.getContent()) & tagentity.getType().equals(tag.getType())) {
                         tagentity.setChecked(true);
                     }
                 }
@@ -421,20 +477,21 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             if (isChecked) {
                 tag_select.put(data.getContent() + data.getType(), data);
                 for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())) {
+                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
                         tagentity.setChecked(true);
                     }
                 }
             } else {
                 tag_select.remove(data.getContent() + data.getType());
                 for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())) {
+                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
                         tagentity.setChecked(false);
                     }
                 }
             }
-            Log.d("print", "showStyleWindow:收益率:  " + tag_select);
+            Log.d("print", "showStyleWindow:收益率:  " + tag_select.values());
             filter();
+            setSelect(tag_select);
 
         });
 
@@ -481,7 +538,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             //设置风格已选择的为true
             for (TagEntity tag : tag_select.values()) {
                 for (TagEntity tagentity : daysDrawList) {
-                    if (tagentity.getContent().equals(tag.getContent())&&tagentity.getType().equals(tag.getType())) {
+                    if (tagentity.getContent().equals(tag.getContent()) && tagentity.getType().equals(tag.getType())) {
                         tagentity.setChecked(true);
                     }
                 }
@@ -492,21 +549,22 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             if (isChecked) {
                 tag_select.put(data.getContent() + data.getType(), data);
                 for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())) {
+                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
                         tagentity.setChecked(true);
                     }
                 }
             } else {
                 tag_select.remove(data.getContent() + data.getType());
                 for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())) {
+                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
                         tagentity.setChecked(false);
                     }
                 }
             }
-            Log.d("print", "showStyleWindow:最大回撤:  " + tag_select);
+            Log.d("print", "showStyleWindow:最大回撤:  " + tag_select.values());
 
             filter();
+            setSelect(tag_select);
 
         });
 
