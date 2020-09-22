@@ -49,7 +49,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
     @BindView(R.id.recyclerView_bet_days)
     RecyclerView recyclerView_bet_days;
     private StyleListAdapter styleAdapter;
-    private TagsAdapter rateTagsAdapter, drawTagsAdapter, daysAdapter;
+    private TagsAdapter rateAdapter, drawAdapter, daysAdapter;
 
     private SelectAdapter selectAdapter;
     private List<TagEntity> styleList, daysRateList, daysDrawList, daysBetList;
@@ -95,12 +95,12 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
         styleAdapter = new StyleListAdapter(this);
         recyclerView_style.setAdapter(styleAdapter);
 
-        rateTagsAdapter = new TagsAdapter(this, 1);
-        recyclerView_days_rate.setAdapter(rateTagsAdapter);
+        rateAdapter = new TagsAdapter(this, 1);
+        recyclerView_days_rate.setAdapter(rateAdapter);
 
 
-        drawTagsAdapter = new TagsAdapter(this, 2);
-        recyclerView_days_draw.setAdapter(drawTagsAdapter);
+        drawAdapter = new TagsAdapter(this, 2);
+        recyclerView_days_draw.setAdapter(drawAdapter);
 
         daysAdapter = new TagsAdapter(this, 3);
         recyclerView_bet_days.setAdapter(daysAdapter);
@@ -131,7 +131,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
         });
 
 
-        rateTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
+        rateAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
                 tag_select.put(data.getContent() + data.getType(), data);
                 for (TagEntity tagentity : allList) {
@@ -151,7 +151,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
 
         });
 
-        drawTagsAdapter.setOnItemChaneClick((isChecked, data) -> {
+        drawAdapter.setOnItemChaneClick((isChecked, data) -> {
 
             if (isChecked) {
                 tag_select.put(data.getContent() + data.getType(), data);
@@ -223,10 +223,10 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
             Log.d("print", "initView:166: " + styleList);
             styleAdapter.setDatas(styleList);
             styleAdapter.notifyDataSetChanged();
-            rateTagsAdapter.setDatas(daysRateList);
-            rateTagsAdapter.notifyDataSetChanged();
-            drawTagsAdapter.setDatas(daysDrawList);
-            drawTagsAdapter.notifyDataSetChanged();
+            rateAdapter.setDatas(daysRateList);
+            rateAdapter.notifyDataSetChanged();
+            drawAdapter.setDatas(daysDrawList);
+            drawAdapter.notifyDataSetChanged();
             daysAdapter.setDatas(daysBetList);
             daysAdapter.notifyDataSetChanged();
 
@@ -303,7 +303,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
                 daysRateList.add(data);
             }
         }
-        rateTagsAdapter.setDatas(daysRateList);
+        rateAdapter.setDatas(daysRateList);
 
 
         daysDrawList = new ArrayList<>();
@@ -312,7 +312,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
                 daysDrawList.add(data);
             }
         }
-        drawTagsAdapter.setDatas(daysDrawList);
+        drawAdapter.setDatas(daysDrawList);
 
 
         daysBetList = new ArrayList<>();

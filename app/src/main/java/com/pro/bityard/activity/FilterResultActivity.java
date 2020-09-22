@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowAdapter;
 import com.pro.bityard.adapter.StyleListAdapter;
+import com.pro.bityard.adapter.TagsAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
@@ -76,8 +77,9 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     private List<TagEntity> styleList, daysRateList, daysDrawList, daysBetList;
     private List<TagEntity> allList;
     private StyleListAdapter styleAdapter;
+    private TagsAdapter rateAdapter, drawAdapter, daysAdapter;
+
     private String tags;
-    //private Map<String, TagEntity> tag_select;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -128,7 +130,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         });
 
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {
-            getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
+           // getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
             getStyleList();
         });
         swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
@@ -146,19 +148,13 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     private HashMap<String, TagEntity> tag_select;
 
     private StringBuilder stringBuilder = null;
-    String defeatGe = null;
-    String defeatLe = null;
-    String drawGe = null;
-    String drawLe = null;
-    String daysGe = null;
-    String daysLe = null;
+
 
     @Override
     protected void initData() {
 
         Intent intent = getIntent();
         tagSelect = (List<TagEntity>) intent.getSerializableExtra("VALUE");
-        stringBuilder = new StringBuilder();
 
 
         tag_select = new HashMap<>();
@@ -167,8 +163,21 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             tag_select.put(tagEntity.getContent() + tagEntity.getType(), tagEntity);
         }
 
-        Log.d("print", "initData:165:  " + tag_select);
-        for (TagEntity tagentity : tagSelect) {
+        filter();
+        getStyleList();
+    }
+
+
+    private void filter() {
+        String defeatGe = null;
+        String defeatLe = null;
+        String drawGe = null;
+        String drawLe = null;
+        String daysGe = null;
+        String daysLe = null;
+        stringBuilder = new StringBuilder();
+        Log.d("print", "filter:179:  "+tag_select);
+        for (TagEntity tagentity : tag_select.values()) {
             String code = tagentity.getCode();
             String type = tagentity.getType();
             if (type.equals(AppConfig.type_style)) {
@@ -208,11 +217,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             tags = null;
         }
 
-
         getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
-        getStyleList();
     }
-
 
     /*过滤*/
     private void getFollowList(String tags, String defeatGe, String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe) {
@@ -226,11 +232,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                         layout_circle_null.setVisibility(View.GONE);
                         recyclerView_circle.setVisibility(View.VISIBLE);
                         FollowEntity followEntity = (FollowEntity) response;
-                        if (followEntity.getTotal() != 0) {
-                            followAdapter.setDatas(followEntity.getData());
-                        } else {
-
-                        }
+                        followAdapter.setDatas(followEntity.getData());
+                        
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
                         layout_circle_null.setVisibility(View.VISIBLE);
@@ -243,7 +246,9 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         allList = new ArrayList<>();
         NetManger.getInstance().styleList("2", (state, response) -> {
             if (state.equals(BUSY)) {
+
             } else if (state.equals(SUCCESS)) {
+                swipeRefreshLayout_circle.setRefreshing(false);
                 styleEntity = (StyleEntity) response;
                 for (StyleEntity.DataBean content : styleEntity.getData()) {
                     allList.add(new TagEntity(false, content.getContent(), content.getCode(), AppConfig.type_style));
@@ -280,14 +285,13 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             case R.id.text_filter:
             case R.id.img_back:
                 Intent intent = getIntent();
-                for (TagEntity tag:tag_select.values()) {
-                    for (TagEntity tagAll:allList) {
-                        if (tag.getContent().equals(tagAll.getContent())&&tag.getType().equals(tagAll.getType())){
+                for (TagEntity tag : tag_select.values()) {
+                    for (TagEntity tagAll : allList) {
+                        if (tag.getContent().equals(tagAll.getContent()) && tag.getType().equals(tagAll.getType())) {
                             tagAll.setChecked(true);
                         }
                     }
                 }
-                Log.d("print", "onClick:274:  "+allList);
                 intent.putExtra(AppConfig.KEY_FILTER_RESULT, (Serializable) allList);
                 setResult(AppConfig.CODE_FILTER, intent);
                 finish();
@@ -295,17 +299,24 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             case R.id.text_style:
                 Util.lightOff(this);
                 text_style.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
-
                 showStyleWindow();
                 break;
 
+            case R.id.text_days_rate:
+                Util.lightOff(this);
+                text_days_rate.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
+                showDaysRateWindow();
+                break;
+            case R.id.text_days_draw:
+                Util.lightOff(this);
+                text_days_draw.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
+                showDaysDrawWindow();
+                break;
         }
     }
 
-
-    /*行情选择*/
+    /*风格选择*/
     private void showStyleWindow() {
-        Log.d("print", "showStyleWindow:已选:  " + tagSelect);
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_style_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -351,6 +362,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
             }
+            Log.d("print", "showStyleWindow:风格:  " + tag_select);
+            filter();
 
         });
 
@@ -361,12 +374,10 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         });
 
 
-        view.findViewById(R.id.btn_submit).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("print", "showStyleWindow:已选择:  " + tag_select);
+        view.findViewById(R.id.btn_submit).setOnClickListener(v -> {
 
-            }
+            popupWindow.dismiss();
+
         });
 
 
@@ -375,4 +386,148 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         popupWindow.setContentView(view);
         popupWindow.showAsDropDown(layout_bar);
     }
+
+    /*收益率选择*/
+    private void showDaysRateWindow() {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_rate_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_rate);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+
+        rateAdapter = new TagsAdapter(this, 1);
+        recyclerView.setAdapter(rateAdapter);
+
+        daysRateList = new ArrayList<>();
+        if (allList != null) {
+            //加载风格的数据
+            for (TagEntity data : allList) {
+                if (data.getType().equals(AppConfig.type_rate)) {
+                    daysRateList.add(data);
+                }
+            }
+            //设置风格已选择的为true
+            for (TagEntity tag : tag_select.values()) {
+                for (TagEntity tagentity : daysRateList) {
+                    if (tagentity.getContent().equals(tag.getContent())&tagentity.getType().equals(tag.getType())) {
+                        tagentity.setChecked(true);
+                    }
+                }
+            }
+        }
+        rateAdapter.setDatas(daysRateList);
+        rateAdapter.setOnItemChaneClick((isChecked, data) -> {
+            if (isChecked) {
+                tag_select.put(data.getContent() + data.getType(), data);
+                for (TagEntity tagentity : allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())) {
+                        tagentity.setChecked(true);
+                    }
+                }
+            } else {
+                tag_select.remove(data.getContent() + data.getType());
+                for (TagEntity tagentity : allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())) {
+                        tagentity.setChecked(false);
+                    }
+                }
+            }
+            Log.d("print", "showStyleWindow:收益率:  " + tag_select);
+            filter();
+
+        });
+
+
+        popupWindow.setOnDismissListener(() -> {
+            text_days_rate.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_right), null);
+            Util.lightOn(this);
+        });
+
+
+        view.findViewById(R.id.btn_submit).setOnClickListener(v -> {
+
+            popupWindow.dismiss();
+
+        });
+
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setContentView(view);
+        popupWindow.showAsDropDown(layout_bar);
+    }
+
+    /*最大回撤*/
+    private void showDaysDrawWindow() {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_draw_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_draw);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
+
+        drawAdapter = new TagsAdapter(this, 2);
+        recyclerView.setAdapter(drawAdapter);
+
+        daysDrawList = new ArrayList<>();
+        if (allList != null) {
+            //加载风格的数据
+            for (TagEntity data : allList) {
+                if (data.getType().equals(AppConfig.type_draw)) {
+                    daysDrawList.add(data);
+                }
+            }
+            //设置风格已选择的为true
+            for (TagEntity tag : tag_select.values()) {
+                for (TagEntity tagentity : daysDrawList) {
+                    if (tagentity.getContent().equals(tag.getContent())&&tagentity.getType().equals(tag.getType())) {
+                        tagentity.setChecked(true);
+                    }
+                }
+            }
+        }
+        drawAdapter.setDatas(daysDrawList);
+        drawAdapter.setOnItemChaneClick((isChecked, data) -> {
+            if (isChecked) {
+                tag_select.put(data.getContent() + data.getType(), data);
+                for (TagEntity tagentity : allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())) {
+                        tagentity.setChecked(true);
+                    }
+                }
+            } else {
+                tag_select.remove(data.getContent() + data.getType());
+                for (TagEntity tagentity : allList) {
+                    if (tagentity.getContent().equals(data.getContent())&&tagentity.getType().equals(data.getType())) {
+                        tagentity.setChecked(false);
+                    }
+                }
+            }
+            Log.d("print", "showStyleWindow:最大回撤:  " + tag_select);
+
+            filter();
+
+        });
+
+
+        popupWindow.setOnDismissListener(() -> {
+            text_days_draw.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_right), null);
+            Util.lightOn(this);
+        });
+
+
+        view.findViewById(R.id.btn_submit).setOnClickListener(v -> {
+            popupWindow.dismiss();
+
+        });
+
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setContentView(view);
+        popupWindow.showAsDropDown(layout_bar);
+    }
+
+
 }
