@@ -466,5 +466,6 @@
     <string name="text_selected_tags">Đã chọn trạng thái</string>
     <string name="text_unlimited">Không hạn chế</string>
     <string name="text_top_performing_investors">Nhà đầu tư xuất chúng</string>
+    <string name="text_copy_trade_settings">Quản lý sao chép</string>
 
 </resources>

@@ -466,5 +466,6 @@
     <string name="text_selected_tags">선택한 태그</string>
     <string name="text_unlimited">제한 없음</string>
     <string name="text_top_performing_investors">탁월한 투자자를 찾기</string>
+    <string name="text_copy_trade_settings">팔로우 설치</string>
 
 </resources>

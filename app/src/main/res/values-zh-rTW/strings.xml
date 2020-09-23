@@ -466,5 +466,6 @@
     <string name="text_selected_tags">已选标签</string>
     <string name="text_unlimited">不限</string>
     <string name="text_top_performing_investors">优质投资者</string>
+    <string name="text_copy_trade_settings">跟单管理</string>
 
 </resources>

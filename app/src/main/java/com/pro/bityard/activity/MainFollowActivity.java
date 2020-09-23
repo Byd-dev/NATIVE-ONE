@@ -437,7 +437,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         super.onResume();
 
 
-
         if (quoteList == null) {
             layout_null.setVisibility(View.VISIBLE);
             recyclerView_market.setVisibility(View.GONE);
@@ -770,7 +769,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         head_circle.findViewById(R.id.layout_filter).setOnClickListener(v -> {
             FilterSettingsActivity.enter(this);
         });
-
+        //查看优质投资者
         footView_circle.setOnClickListener(v -> {
             UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_FOLLOWER_LIST);
 
@@ -783,6 +782,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                     });
         });
+        //跟单监听
+        followAdapter.setOnFollowClick(() -> {
+            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW);
+        });
+
+
 
         /*我的 分割线-----------------------------------------------------------------------------*/
         findViewById(R.id.layout_balance).setOnClickListener(this);
@@ -884,13 +889,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         swipeRefreshLayout_circle.setRefreshing(false);
 
                         FollowEntity followEntity = (FollowEntity) response;
-                        if (followEntity.getData().size()==0){
+                        if (followEntity.getData().size() == 0) {
                             layout_circle_null.setVisibility(View.VISIBLE);
                             recyclerView_circle.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_circle_null.setVisibility(View.GONE);
                             recyclerView_circle.setVisibility(View.VISIBLE);
-                            followAdapter.setDatas(followEntity.getData().subList(0,3));
+                            followAdapter.setDatas(followEntity.getData().subList(0, 3));
                         }
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout_circle.setRefreshing(false);

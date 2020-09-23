@@ -201,8 +201,8 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             layout_tags = itemView.findViewById(R.id.layout_tags);
             text_type=itemView.findViewById(R.id.text_type);
             itemView.findViewById(R.id.text_follow).setOnClickListener(v -> {
-                if (onDetailClick != null) {
-                    onDetailClick.onClickListener(datas.get(getPosition() - 1));
+                if (onFollowClick != null) {
+                    onFollowClick.onClickListener();
                 }
             });
 
@@ -217,42 +217,22 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     //查看详情的监听
-    private OnDetailClick onDetailClick;
+    private OnFollowClick onFollowClick;
 
-    public void setOnDetailClick(OnDetailClick onDetailClick) {
-        this.onDetailClick = onDetailClick;
+    public void setOnFollowClick(OnFollowClick onFollowClick) {
+        this.onFollowClick = onFollowClick;
     }
 
-    public interface OnDetailClick {
-        void onClickListener(FollowEntity.DataBean data);
+    public interface OnFollowClick {
+        void onClickListener();
 
 
-    }
-
-
-    //追加保证金监听
-    private AddMarginClick addMarginClick;
-
-    public void setAddMarginClick(AddMarginClick addMarginClick) {
-
-        this.addMarginClick = addMarginClick;
-    }
-
-    public interface AddMarginClick {
-        void onAddMarginClick(FollowEntity.DataBean data);
     }
 
 
-    //止盈止损监听
-    private ProfitLossClick profitLossClick;
 
-    public void setProfitLossClick(ProfitLossClick profitLossClick) {
-        this.profitLossClick = profitLossClick;
-    }
 
-    public interface ProfitLossClick {
-        void onProfitLossListener(FollowEntity.DataBean data);
-    }
+
 
 
     //平仓的监听

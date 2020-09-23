@@ -466,6 +466,7 @@
     <string name="text_selected_tags">タグを選択した</string>
     <string name="text_unlimited">制限なし</string>
     <string name="text_top_performing_investors">優秀なトレーダー</string>
+    <string name="text_copy_trade_settings">コピートレー詳細</string>
 
 
 </resources>

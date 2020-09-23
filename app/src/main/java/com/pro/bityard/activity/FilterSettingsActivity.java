@@ -71,7 +71,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
 
     @Override
     protected int setContentLayout() {
-        return R.layout.fragment_settings_filter;
+        return R.layout.activity_settings_filter;
     }
 
     @Override

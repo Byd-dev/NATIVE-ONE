@@ -465,5 +465,6 @@
     <string name="text_selected_tags">selected tags</string>
     <string name="text_unlimited">not limited</string>
     <string name="text_top_performing_investors">top-performing investors</string>
+    <string name="text_copy_trade_settings">copy trade settings</string>
 
 </resources>

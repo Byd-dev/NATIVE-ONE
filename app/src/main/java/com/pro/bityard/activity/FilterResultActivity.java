@@ -101,7 +101,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected int setContentLayout() {
-        return R.layout.fragment_filter_result;
+        return R.layout.activity_filter_result;
     }
 
     @Override
