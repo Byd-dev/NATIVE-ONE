@@ -412,7 +412,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NetManger.getInstance().updateCheck(this, layout_view);
-
+        //初始化
+        InitManger.getInstance().init();
     }
 
 
@@ -435,8 +436,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         isForeground = true;
         super.onResume();
 
-        //初始化
-        InitManger.getInstance().init();
+
 
         if (quoteList == null) {
             layout_null.setVisibility(View.VISIBLE);

@@ -284,7 +284,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             }
 
 
-        }  else if (o == BalanceManger.getInstance()) {
+        } else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
 
             runOnUiThread(() -> {
@@ -486,7 +486,8 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
 
         NetManger.getInstance().updateCheck(this, layout_view);
-
+//初始化
+        InitManger.getInstance().init();
     }
 
 
@@ -510,8 +511,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         super.onResume();
 
         Toast.makeText(this, "执行了onResume", Toast.LENGTH_SHORT).show();
-        //初始化
-        InitManger.getInstance().init();
+
 
         if (quoteList == null) {
             layout_null.setVisibility(View.VISIBLE);
@@ -778,7 +778,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 NetManger.getInstance().initQuote();
             } else {
                 assert quote_host != null;
-               // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
+                // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
             }
         });
 
@@ -855,8 +855,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             super.handleMessage(msg);
 
             updateNews();
-
-
 
 
         }
@@ -999,7 +997,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     protected void onDestroy() {
         super.onDestroy();
         Log.d("print", "onDestroy:912:  " + "执行了Ondestory");
-       // SocketQuoteManger.getInstance().cancelTimer();
+        // SocketQuoteManger.getInstance().cancelTimer();
         SocketQuoteManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);
         UserDetailManger.getInstance().clear();
