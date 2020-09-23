@@ -465,5 +465,6 @@
     <string name="text_filter_settings">Фильтр</string>
     <string name="text_selected_tags">выбранные теги</string>
     <string name="text_unlimited">Без лимита</string>
+    <string name="text_top_performing_investors">Хороший инвестор</string>
 
 </resources>

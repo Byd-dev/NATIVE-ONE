@@ -465,6 +465,7 @@
     <string name="text_filter_settings">選別設定</string>
     <string name="text_selected_tags">タグを選択した</string>
     <string name="text_unlimited">制限なし</string>
+    <string name="text_top_performing_investors">優秀なトレーダー</string>
 
 
 </resources>

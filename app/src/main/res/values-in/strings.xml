@@ -466,5 +466,6 @@
     <string name="text_filter_settings">Filter</string>
     <string name="text_selected_tags">Label yang dipilih</string>
     <string name="text_unlimited">Tidak terbatas</string>
+    <string name="text_top_performing_investors">investor berkinerja terbaik</string>
 
 </resources>

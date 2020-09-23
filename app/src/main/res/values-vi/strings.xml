@@ -465,5 +465,6 @@
     <string name="text_filter_settings">Cài đặt bộ lọc</string>
     <string name="text_selected_tags">Đã chọn trạng thái</string>
     <string name="text_unlimited">Không hạn chế</string>
+    <string name="text_top_performing_investors">Nhà đầu tư xuất chúng</string>
 
 </resources>

@@ -464,5 +464,6 @@
     <string name="text_filter_settings">筛选设置</string>
     <string name="text_selected_tags">已选标签</string>
     <string name="text_unlimited">不限</string>
+    <string name="text_top_performing_investors">优质投资者</string>
 
 </resources>

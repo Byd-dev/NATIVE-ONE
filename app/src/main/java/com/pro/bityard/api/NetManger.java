@@ -2614,7 +2614,9 @@ public class NetManger {
         if (daysLe != null) {
             map.put("daysLe", daysLe);
         }
-
+        if (map.values().size()==0){
+            map=null;
+        }
         getRequest("/api/follow/trader/list", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);

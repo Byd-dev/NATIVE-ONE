@@ -8,7 +8,7 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.fragment.circle.FilterResultFragment;
+import com.pro.bityard.fragment.circle.FollowerListFragment;
 import com.pro.bityard.fragment.circle.FilterSettingsFragment;
 import com.pro.bityard.fragment.circle.SearchNicknameFragment;
 import com.pro.bityard.fragment.hold.RuleFragment;
@@ -151,8 +151,8 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FILTER:
                 addSettingsFilterFragment();
                 break;
-            case IntentConfig.Keys.KEY_CIRCLE_SEARCH_FILTER:
-                addSearchFilterFragment(value);
+            case IntentConfig.Keys.KEY_CIRCLE_FOLLOWER_LIST:
+                addFollowerListFragment();
                 break;
         }
 
@@ -168,9 +168,9 @@ public class UserActivity extends BaseActivity {
         ft.commitAllowingStateLoss();
     }
 
-    private void addSearchFilterFragment(String value) {
-        String name = FilterResultFragment.class.getSimpleName();
-        FilterResultFragment fragment = new FilterResultFragment().newInstance(value);
+    private void addFollowerListFragment() {
+        String name = FollowerListFragment.class.getSimpleName();
+        FollowerListFragment fragment = new FollowerListFragment();
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, fragment, name);
         ft.addToBackStack(name);

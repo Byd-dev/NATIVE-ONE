@@ -464,5 +464,6 @@
     <string name="text_filter_settings">filter</string>
     <string name="text_selected_tags">selected tags</string>
     <string name="text_unlimited">not limited</string>
+    <string name="text_top_performing_investors">top-performing investors</string>
 
 </resources>

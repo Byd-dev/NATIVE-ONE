@@ -770,6 +770,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         head_circle.findViewById(R.id.layout_filter).setOnClickListener(v -> {
             FilterSettingsActivity.enter(this);
         });
+
+        footView_circle.setOnClickListener(v -> {
+            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_FOLLOWER_LIST);
+
+        });
+
         followAdapter.setWarningClick(() -> {
             Util.lightOff(this);
             PopUtil.getInstance().showTip(this, layout_view, false, getString(R.string.text_circle_warning),
@@ -876,10 +882,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
-                        layout_circle_null.setVisibility(View.GONE);
-                        recyclerView_circle.setVisibility(View.VISIBLE);
+
                         FollowEntity followEntity = (FollowEntity) response;
-                        followAdapter.setDatas(followEntity.getData());
+                        if (followEntity.getData().size()==0){
+                            layout_circle_null.setVisibility(View.VISIBLE);
+                            recyclerView_circle.setVisibility(View.GONE);
+                        }else {
+                            layout_circle_null.setVisibility(View.GONE);
+                            recyclerView_circle.setVisibility(View.VISIBLE);
+                            followAdapter.setDatas(followEntity.getData().subList(0,3));
+                        }
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
                         layout_circle_null.setVisibility(View.VISIBLE);
