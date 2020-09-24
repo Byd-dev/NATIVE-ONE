@@ -467,6 +467,11 @@
     <string name="text_unlimited">制限なし</string>
     <string name="text_top_performing_investors">優秀なトレーダー</string>
     <string name="text_copy_trade_settings">コピートレー詳細</string>
+    <string name="text_copy_mode">フォロータイプを設定して下さい</string>
+    <string name="text_follow_currency">個別銘柄</string>
+    <string name="text_copy_trade_options">コピートレータイプ</string>
+    <string name="text_fixed_margin">固定金額でフォロー</string>
+    <string name="text_proportional_margin">フォロー率</string>
 
 
 </resources>

@@ -1,8 +1,9 @@
 package com.pro.bityard.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class FollowEntity {
+public class FollowEntity implements Serializable{
 
 
     /**
@@ -48,7 +49,7 @@ public class FollowEntity {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable {
         @Override
         public String toString() {
             return "DataBean{" +

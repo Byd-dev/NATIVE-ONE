@@ -466,5 +466,10 @@
     <string name="text_unlimited">不限</string>
     <string name="text_top_performing_investors">优质投资者</string>
     <string name="text_copy_trade_settings">跟单管理</string>
+    <string name="text_copy_mode">请先设置跟单方式</string>
+    <string name="text_follow_currency">跟单币种</string>
+    <string name="text_copy_trade_options">跟单方式</string>
+    <string name="text_fixed_margin">金额跟单</string>
+    <string name="text_proportional_margin">比例跟单</string>
 
 </resources>

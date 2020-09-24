@@ -782,9 +782,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                     });
         });
-        //跟单监听
-        followAdapter.setOnFollowClick(() -> {
-            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW);
+
+        followAdapter.setOnFollowClick(dataBean -> {
+            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW,dataBean);
+
         });
 
 

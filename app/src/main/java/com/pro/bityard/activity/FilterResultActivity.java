@@ -20,6 +20,7 @@ import com.pro.bityard.adapter.TagsAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TagEntity;
@@ -133,7 +134,10 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
                     });
         });
-
+        //跟单监听
+        followAdapter.setOnFollowClick((dataBean) -> {
+            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW,dataBean);
+        });
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {
             // getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
             getStyleList();

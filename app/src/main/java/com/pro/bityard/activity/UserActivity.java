@@ -8,6 +8,7 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.fragment.circle.FollowSettingsFragment;
 import com.pro.bityard.fragment.circle.FollowerListFragment;
 import com.pro.bityard.fragment.circle.SearchNicknameFragment;
@@ -36,12 +37,15 @@ import com.pro.bityard.fragment.my.WithdrawalFragment;
 import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
+import java.io.Serializable;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentTransaction;
 
 public class UserActivity extends BaseActivity {
     private static final String TYPE = "USER_TYPE";
     private static final String VALUE = "VALUE";
+    private static final String DATA_VALUE = "DATA_VALUE";
 
     private FragmentTransaction ft;
 
@@ -64,6 +68,13 @@ public class UserActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    public static void enter(Context context, String type, FollowEntity.DataBean value) {
+        Intent intent = new Intent(context, UserActivity.class);
+        intent.putExtra(TYPE, type);
+        intent.putExtra(DATA_VALUE, (Serializable) value);
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +83,9 @@ public class UserActivity extends BaseActivity {
         String type = intent.getStringExtra(TYPE);
 
         String value = intent.getStringExtra(VALUE);
+
+
+        FollowEntity.DataBean dataBean= (FollowEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
 
 
         assert type != null;
@@ -149,7 +163,7 @@ public class UserActivity extends BaseActivity {
                 addSearchNicknameFragment();
                 break;
             case IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW:
-                addSettingsFollowFragment();
+                addSettingsFollowFragment(dataBean);
                 break;
             case IntentConfig.Keys.KEY_CIRCLE_FOLLOWER_LIST:
                 addFollowerListFragment();
@@ -159,9 +173,9 @@ public class UserActivity extends BaseActivity {
 
     }
 
-    private void addSettingsFollowFragment() {
+    private void addSettingsFollowFragment(FollowEntity.DataBean dataBean) {
         String name = FollowSettingsFragment.class.getSimpleName();
-        FollowSettingsFragment fragment = new FollowSettingsFragment();
+        FollowSettingsFragment fragment = new FollowSettingsFragment().newInstance(dataBean);
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, fragment, name);
         ft.addToBackStack(name);

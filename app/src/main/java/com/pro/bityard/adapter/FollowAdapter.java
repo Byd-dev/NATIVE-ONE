@@ -108,21 +108,21 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             } else {
                 ((MyViewHolder) holder).layout_tags.setVisibility(View.GONE);
             }
-            String value_type=null;
+            String value_type = null;
             int type = datas.get(position).getType();
-            switch (type){
+            switch (type) {
                 case 1:
-                    value_type=context.getString(R.string.text_normal_user);
-                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_normal_user),null,null,null);
+                    value_type = context.getString(R.string.text_normal_user);
+                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_normal_user), null, null, null);
 
                     break;
                 case 2:
-                    value_type=context.getString(R.string.text_normal_trader);
-                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_normal_trader),null,null,null);
+                    value_type = context.getString(R.string.text_normal_trader);
+                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_normal_trader), null, null, null);
                     break;
                 case 3:
-                    value_type=context.getString(R.string.text_pro_trader);
-                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_pro_trader),null,null,null);
+                    value_type = context.getString(R.string.text_pro_trader);
+                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_pro_trader), null, null, null);
 
                     break;
             }
@@ -131,10 +131,10 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
             double mul = TradeUtil.mul(datas.get(position).getTrader30DaysRate(), 100);
-            if (mul>=0){
+            if (mul >= 0) {
                 ((MyViewHolder) holder).text_trader_30_days_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
 
-            }else {
+            } else {
                 ((MyViewHolder) holder).text_trader_30_days_rate.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
             }
@@ -152,7 +152,11 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             ((MyViewHolder) holder).text_follower.setText(datas.get(position).getFollower());
 
-
+            ((MyViewHolder) holder).text_follow.setOnClickListener(v -> {
+                if (onFollowClick != null) {
+                    onFollowClick.onClickListener(datas.get(position));
+                }
+            });
         }
     }
 
@@ -184,7 +188,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_trader_30_days_rate, text_trader_30_days_defeat, text_trader_30_days_draw,
-                text_bet_days, text_trader_30_days_count, text_follower,text_type;
+                text_bet_days, text_trader_30_days_count, text_follower, text_type, text_follow;
         CircleImageView img_head;
         LinearLayout layout_tags;
 
@@ -199,17 +203,13 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             text_follower = itemView.findViewById(R.id.text_follower);
             img_head = itemView.findViewById(R.id.img_head);
             layout_tags = itemView.findViewById(R.id.layout_tags);
-            text_type=itemView.findViewById(R.id.text_type);
-            itemView.findViewById(R.id.text_follow).setOnClickListener(v -> {
-                if (onFollowClick != null) {
-                    onFollowClick.onClickListener();
-                }
-            });
+            text_type = itemView.findViewById(R.id.text_type);
+            text_follow = itemView.findViewById(R.id.text_follow);
 
             itemView.findViewById(R.id.layout_warning).setOnClickListener(v -> {
-                 if (warningClick!=null){
-                     warningClick.setWarningClick();
-                 }
+                if (warningClick != null) {
+                    warningClick.setWarningClick();
+                }
             });
 
 
@@ -224,15 +224,10 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public interface OnFollowClick {
-        void onClickListener();
+        void onClickListener(FollowEntity.DataBean dataBean);
 
 
     }
-
-
-
-
-
 
 
     //平仓的监听

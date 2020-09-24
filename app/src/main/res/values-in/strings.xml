@@ -468,5 +468,10 @@
     <string name="text_unlimited">Tidak terbatas</string>
     <string name="text_top_performing_investors">investor berkinerja terbaik</string>
     <string name="text_copy_trade_settings">Copy Trading</string>
+    <string name="text_copy_mode">Pengaturan</string>
+    <string name="text_follow_currency">Koin</string>
+    <string name="text_copy_trade_options">Tipe copy trade</string>
+    <string name="text_fixed_margin">Margin Tetap</string>
+    <string name="text_proportional_margin">Margin Proporsional</string>
 
 </resources>

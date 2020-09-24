@@ -467,5 +467,10 @@
     <string name="text_unlimited">제한 없음</string>
     <string name="text_top_performing_investors">탁월한 투자자를 찾기</string>
     <string name="text_copy_trade_settings">팔로우 설치</string>
+    <string name="text_copy_mode">팔로우 방식 설치하십시오.</string>
+    <string name="text_follow_currency">팔로우 코인 종류</string>
+    <string name="text_copy_trade_options">팔로우 방식</string>
+    <string name="text_fixed_margin">금액 팔로우</string>
+    <string name="text_proportional_margin">비율 팔로우</string>
 
 </resources>
