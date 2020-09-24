@@ -3,6 +3,8 @@ package com.pro.bityard.fragment.circle;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,11 +18,20 @@ import java.io.Serializable;
 
 import butterknife.BindView;
 
-public class FollowSettingsFragment extends BaseFragment implements View.OnClickListener {
+public class FollowSettingsFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     @BindView(R.id.text_title)
     TextView text_title;
     @BindView(R.id.img_head)
     CircleImageView img_head;
+
+    @BindView(R.id.radioGroup)
+    RadioGroup radioGroup;
+
+    @BindView(R.id.radio_fixed_margin)
+    RadioButton radio_fixed_margin;
+
+    @BindView(R.id.radio_proportional_margin)
+    RadioButton radio_proportional_margin;
 
     @BindView(R.id.text_userName)
     TextView text_userName;
@@ -52,6 +63,9 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         text_title.setText(R.string.text_copy_trade_settings);
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
+        radioGroup.setOnCheckedChangeListener(this);
+        radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_blue_left));
+        radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_right));
 
     }
 
@@ -99,6 +113,23 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                 getActivity().finish();
                 break;
 
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.radio_fixed_margin:
+                radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_blue_left));
+                radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_right));
+
+                break;
+            case R.id.radio_proportional_margin:
+
+                radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_red_right));
+                radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_left));
+
+                break;
         }
     }
 }
