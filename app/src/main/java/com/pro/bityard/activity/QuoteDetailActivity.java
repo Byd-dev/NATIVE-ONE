@@ -1858,7 +1858,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 Log.d("print", "update:1549:  " + quoteMinEntity);
                 runOnUiThread(() -> {
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
-                        Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
+                    //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
                         //仓位实时更新 服务费
                         if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
                             text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), quoteMinEntity.getPrice()));
