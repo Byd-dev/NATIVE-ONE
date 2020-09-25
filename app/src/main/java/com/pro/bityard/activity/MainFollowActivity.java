@@ -49,6 +49,7 @@ import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TabManger;
 import com.pro.bityard.manger.UserDetailManger;
+import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -699,7 +700,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         });
 
 
-        quoteAdapter_market.isShowIcon(true);
+        quoteAdapter_market.isShowIcon(false);
         @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.foot_tab_view, null, false);
 
         recyclerView_market.addFooterView(footView);
@@ -716,6 +717,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
             if (quote_host == null && quote_code == null) {
                 NetManger.getInstance().initQuote();
+                WebSocketManager.getInstance().reconnect();
             } else {
                 assert quote_host != null;
                 // SocketQuoteManger.getInstance().quote(quote_host, quote_code);

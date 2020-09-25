@@ -40,8 +40,9 @@ public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void select(String contCode) {
         this.contCode = contCode;
         this.notifyDataSetChanged();
-
     }
+
+
 
     public void addDatas(List<String> datas) {
         this.datas.addAll(datas);

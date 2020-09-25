@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_5"
-                android:src="@mipmap/icon_market_right" />
+                android:src="@mipmap/icon_two_way" />
 
 
         </LinearLayout>

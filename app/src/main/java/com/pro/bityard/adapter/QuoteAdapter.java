@@ -11,8 +11,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +34,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
     public boolean isLoadMore = false;
+    private String contCode=null;
 
     public QuoteAdapter(Context context) {
         this.context = context;
@@ -138,6 +141,11 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             }
 
+            ((MyViewHolder) holder).text_volume.setText(context.getResources().getText(R.string.kline_volume_detail)+":"+TradeUtil.listQuoteBuyVolume(datas.get(position)));
+
+            String string = SPUtils.getString(AppConfig.USD_RATE, null);
+            ((MyViewHolder) holder).text_price_currency.setText(TradeUtil.numberHalfUp(TradeUtil.mul(Double.parseDouble(price), Double.parseDouble(string)), 2));
+
 
         }
     }
@@ -169,7 +177,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_name_usdt, text_change, text_price;
+        TextView text_name, text_name_usdt, text_change, text_price,text_price_currency,text_volume;
         RelativeLayout layout_bg;
         ImageView img_up_down, img_icon;
 
@@ -184,14 +192,14 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             layout_bg = itemView.findViewById(R.id.layout_bg);
             img_up_down = itemView.findViewById(R.id.img_up_down);
             img_icon = itemView.findViewById(R.id.img_icon);
+            text_price_currency=itemView.findViewById(R.id.text_price_currency);
+            text_volume=itemView.findViewById(R.id.text_volume);
 
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClick != null) {
-                        onItemClick.onSuccessListener(datas.get(getPosition()));
-                    }
+
+            itemView.setOnClickListener(view -> {
+                if (onItemClick != null) {
+                    onItemClick.onSuccessListener(datas.get(getPosition()));
                 }
             });
         }

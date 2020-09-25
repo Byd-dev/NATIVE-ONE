@@ -746,6 +746,7 @@ public class TradeUtil {
         }
         return quoteList2;
     }
+
     /* 衍生区*/
     public static List<String> derivedQuoteList(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
@@ -757,6 +758,7 @@ public class TradeUtil {
         }
         return quoteList2;
     }
+
     /* 自选*/
     public static List<String> optionalQuoteList(List<String> quoteList) {
         String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
@@ -918,7 +920,7 @@ public class TradeUtil {
             return null;
         } else {
             for (TradeListEntity data : tradeListEntityList) {
-                if (data.getContractCode().equals(contractCode)) {
+                if (contractCode.equals(data.getContractCode())) {
                     return data;
                 }
             }
@@ -1043,9 +1045,9 @@ public class TradeUtil {
     public static String listQuoteUSD(String quote) {
         String[] split = quote.split(",");
         String[] split1 = Util.quoteList(split[0]).split(",");
-        if (split1[1].equals("null")){
+        if (split1[1].equals("null")) {
             return null;
-        }else {
+        } else {
             return split1[1];
         }
     }
@@ -1062,7 +1064,17 @@ public class TradeUtil {
         return split[2];
     }
 
+    /*成交量*/
+    public static String listQuoteBuyVolume(String quote) {
+        String[] split = quote.split(",");
+        return split[5];
+    }
 
+    /*成交量*/
+    public static String listQuoteSellVolume(String quote) {
+        String[] split = quote.split(",");
+        return split[7];
+    }
     /*开盘价*/
     public static String itemQuoteTodayPrice(String quote) {
         String[] split = quote.split(",");
