@@ -15,29 +15,36 @@
         android:orientation="horizontal">
 
 
-        <TextView
+        <!--持仓 挂单 历史-->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout_market"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/tab_height"
+            app:tabIndicatorColor="@color/maincolor"
+            app:tabIndicatorFullWidth="false"
+            app:tabIndicatorHeight="2dp"
+            app:tabMode="scrollable"
+            app:tabSelectedTextColor="@color/maincolor"
+            app:tabTextAppearance="@style/MyTablayoutstyle"
+            app:tabTextColor="@color/text_second_color" />
+
+
+        <ImageView
+            android:id="@+id/img_search"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/tab_two"
-            android:textColor="@color/text_main_color"
-            android:textSize="@dimen/title_size" />
+            android:layout_height="match_parent"
+            android:src="@mipmap/icon_circle_search"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/margin_15"
+            android:paddingLeft="@dimen/margin_15"/>
+
+
+
 
 
     </RelativeLayout>
-    <!--持仓 挂单 历史-->
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout_market"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_height"
-        android:background="@color/color_bg_left"
-        app:tabIndicatorColor="@color/maincolor"
-        app:tabIndicatorFullWidth="false"
-        app:tabIndicatorHeight="2dp"
-        app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/maincolor"
-        app:tabTextAppearance="@style/MyTablayoutstyle"
-        app:tabTextColor="@color/text_second_color" />
+
 
     <View
         android:layout_width="match_parent"
