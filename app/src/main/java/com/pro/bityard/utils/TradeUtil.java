@@ -720,12 +720,13 @@ public class TradeUtil {
 
         return quoteList2;
     }
+
     /*搜素*/
-    public static List<String> searchQuoteList(String content,List<String> quoteList) {
+    public static List<String> searchQuoteList(String content, List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if (content.contains(TradeUtil.listQuoteName(split[0]))) {
+            if (TradeUtil.listQuoteName(split[0]).contains(content)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -1085,6 +1086,7 @@ public class TradeUtil {
         String[] split = quote.split(",");
         return split[7];
     }
+
     /*开盘价*/
     public static String itemQuoteTodayPrice(String quote) {
         String[] split = quote.split(",");
