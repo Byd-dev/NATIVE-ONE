@@ -25,7 +25,7 @@ android {
 
         buildConfigField "String", "AK", '"AtGlf0AeZaZGVWH9iwFKboyp"'//百度AI AK
         buildConfigField "String", "SK", '"Fiq4CgzCxeKzal8VKAxj7DgbzAXoKVkH"'//百度AI SK
-        buildConfigField "String", "WEB_URL", '"http://app.bityard.com/"'//马甲包地址
+        buildConfigField "String", "WEB_URL", '"https://app.bityard.com/"'//马甲包地址
         buildConfigField "String[]", "CHECKVERSION_URL_LIST", 'new String[]{"https://api.bityard.com"}'
 //开关地址
         buildConfigField "String[]", "BLOG_URL_LIST", 'new String[]{"", ""}'

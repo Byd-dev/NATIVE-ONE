@@ -720,7 +720,17 @@ public class TradeUtil {
 
         return quoteList2;
     }
-
+    /*搜素*/
+    public static List<String> searchQuoteList(String content,List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            if (content.contains(TradeUtil.listQuoteName(split[0]))) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
 
     /*主区*/
     public static List<String> mainQuoteList(List<String> quoteList) {

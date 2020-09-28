@@ -93,6 +93,7 @@
             android:background="@color/home_line" />
 
         <RelativeLayout
+            android:id="@+id/layout_bar"
             android:layout_width="match_parent"
             android:layout_height="30dp"
 

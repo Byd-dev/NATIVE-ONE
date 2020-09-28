@@ -7,6 +7,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,6 +18,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -298,6 +301,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     // 声明平移动画
     private TranslateAnimation animation;
+    private EditText edit_search;
 
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, QuoteDetailActivity.class);
@@ -996,13 +1000,14 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     type = "3";
                 } else if (zone_type == 0) {
                     type = "12";
-
                 } else if (zone_type == -1) {
                     type = "19";
                 } else if (zone_type == 2) {
                     type = "26";
                 }
+
                 List<String> quoteList = arrayMap.get(type);
+
                 quoteAdapter_market.setDatas(quoteList);
 
             } else {
@@ -1175,6 +1180,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         quoteAdapter_market.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
+            type="1";
 
             //自选的图标
             String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
@@ -1238,6 +1244,43 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             popupWindow.dismiss();
+            type="1";
+        });
+
+        RelativeLayout layout_bar=view.findViewById(R.id.layout_bar);
+
+        edit_search = view.findViewById(R.id.edit_search);
+
+        edit_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length()!=0){
+                    layout_bar.setVisibility(View.GONE);
+                    tabLayout_market.setVisibility(View.GONE);
+                    tabLayout_market.getTabAt(1).select();
+                    type="all";
+                    List<String> strings = arrayMap.get(type);
+                    List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
+                    quoteAdapter_market.setDatas(searchQuoteList);
+                }else {
+                    layout_bar.setVisibility(View.VISIBLE);
+                    tabLayout_market.setVisibility(View.VISIBLE);
+                    type="1";
+                    List<String> quoteList = arrayMap.get(type);
+                    quoteAdapter_market.setDatas(quoteList);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
         });
 
 
@@ -1808,7 +1851,14 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             if (quoteList != null&&quoteAdapter_market!=null) {
                 runOnUiThread(() -> {
-                    quoteAdapter_market.setDatas(quoteList);
+                    //搜索框
+                    if (edit_search.getText().toString().equals("")){
+                        quoteAdapter_market.setDatas(quoteList);
+                    }else {
+                        List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), quoteList);
+                        quoteAdapter_market.setDatas(searchQuoteList);
+                    }
+
 
                 });
             }
