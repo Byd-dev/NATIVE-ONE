@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static java.lang.Double.parseDouble;
@@ -726,7 +727,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if (TradeUtil.listQuoteName(split[0]).contains(content)) {
+            if (Objects.requireNonNull(TradeUtil.listQuoteName(split[0])).toLowerCase().contains(content.toLowerCase())) {
                 quoteList2.add(mainQuote);
             }
         }
