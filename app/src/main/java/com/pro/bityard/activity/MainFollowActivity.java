@@ -1296,6 +1296,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         quoteAdapter_market_pop.setOnItemClick(data -> {
             popupWindow.dismiss();
             type = "1";
+            QuoteDetailActivity.enter(this, "1", data);
 
         });
 
