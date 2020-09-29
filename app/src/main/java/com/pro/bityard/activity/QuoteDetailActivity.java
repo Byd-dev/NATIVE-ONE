@@ -717,9 +717,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     /*设置 保证金和杠杆*/
     public void setContent(TradeListEntity tradeListEntity) {
-        //Log.d("print", "setContent:659:  " + tradeListEntity);
+        Log.d("print", "setContent:659:  " + tradeListEntity);
         if (tradeListEntity != null) {
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
+
             lever = leverShowList.get(oldSelect);
             text_lever_market.setText(lever + "X");
             text_lever_limit.setText(lever + "X");

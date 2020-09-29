@@ -472,5 +472,6 @@
     <string name="text_copy_trade_options">Phương thức sao chép</string>
     <string name="text_fixed_margin">Ký quỹ sao chép</string>
     <string name="text_proportional_margin">Tỷ lệ sao chép</string>
+    <string name="text_copy_trade_amount"><![CDATA[Số tiền sao chép<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
 
 </resources>

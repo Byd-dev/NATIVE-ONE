@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.circle;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
@@ -37,6 +38,8 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     TextView text_userName;
     @BindView(R.id.text_type)
     TextView text_type;
+    @BindView(R.id.text_copy_trade_amount)
+    TextView text_copy_trade_amount;
 
 
     public FollowSettingsFragment newInstance(FollowEntity.DataBean value) {
@@ -66,6 +69,9 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         radioGroup.setOnCheckedChangeListener(this);
         radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_blue_left));
         radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_right));
+
+        String strMsg = getString(R.string.text_copy_trade_amount);
+        text_copy_trade_amount.setText(Html.fromHtml(strMsg));
 
     }
 

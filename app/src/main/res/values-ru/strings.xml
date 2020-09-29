@@ -472,5 +472,6 @@
     <string name="text_copy_trade_options">Тип</string>
     <string name="text_fixed_margin">Фиксированная маржа</string>
     <string name="text_proportional_margin">Пропорциональная маржа</string>
+    <string name="text_copy_trade_amount"><![CDATA[Сумма Копи-трейдинга<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
 
 </resources>

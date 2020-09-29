@@ -472,6 +472,7 @@
     <string name="text_copy_trade_options">コピートレータイプ</string>
     <string name="text_fixed_margin">固定金額でフォロー</string>
     <string name="text_proportional_margin">フォロー率</string>
+    <string name="text_copy_trade_amount"><![CDATA[フォロー金額<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
 
 
 </resources>

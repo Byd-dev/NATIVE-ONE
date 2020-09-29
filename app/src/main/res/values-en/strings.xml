@@ -471,5 +471,6 @@
     <string name="text_copy_trade_options">Copy trade options</string>
     <string name="text_fixed_margin">Fixed Margin</string>
     <string name="text_proportional_margin">Proportional Margin</string>
+    <string name="text_copy_trade_amount"><![CDATA[copy trade amount<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
 
 </resources>

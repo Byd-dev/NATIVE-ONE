@@ -472,5 +472,6 @@
     <string name="text_copy_trade_options">팔로우 방식</string>
     <string name="text_fixed_margin">금액 팔로우</string>
     <string name="text_proportional_margin">비율 팔로우</string>
+    <string name="text_copy_trade_amount"><![CDATA[팔로우 금액<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
 
 </resources>

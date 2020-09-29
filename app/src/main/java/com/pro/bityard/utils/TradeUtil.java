@@ -25,6 +25,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static java.lang.Double.parseDouble;
@@ -248,14 +250,21 @@ public class TradeUtil {
 
 
     }
+    public static String removeDigital(String value){
+
+        Pattern p = Pattern.compile("[\\d]");
+        Matcher matcher = p.matcher(value);
+        String result = matcher.replaceAll("");
+        return  result;
+    }
+
 
     /*持仓价格*/
     public static void positionPrice(boolean isBuy, List<String> quoteList, String contractCode, TradeResult result) {
         if (quoteList != null) {
             for (String value : quoteList) {
                 String[] split1 = value.split(",");
-                if (contractCode.equals(split1[0])) {
-                    //Log.d("positionPrice", "positionPrice: "+contractCode+"   "+split1[0]+"  "+split1[4]+"  "+split1[5]);
+                if (removeDigital(contractCode).equals(removeDigital(split1[0]))) {
                     if (isBuy) {
                         result.setResult(split1[4]);
                     } else {

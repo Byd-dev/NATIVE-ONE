@@ -473,5 +473,6 @@
     <string name="text_copy_trade_options">Tipe copy trade</string>
     <string name="text_fixed_margin">Margin Tetap</string>
     <string name="text_proportional_margin">Margin Proporsional</string>
+    <string name="text_copy_trade_amount"><![CDATA[Jumlah Copy Trading<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
 
 </resources>

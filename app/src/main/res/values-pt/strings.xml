@@ -471,5 +471,6 @@
     <string name="text_copy_trade_options">跟单方式</string>
     <string name="text_fixed_margin">金额跟单</string>
     <string name="text_proportional_margin">比例跟单</string>
+    <string name="text_copy_trade_amount"><![CDATA[copiar valor comercial<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
 
 </resources>
