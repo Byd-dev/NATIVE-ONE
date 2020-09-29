@@ -739,7 +739,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("BTC,BCH,EOS,ETC,ETH,LTC,XRP,TRX".contains(TradeUtil.listQuoteName(split[0]))) {
+            if ("BTC,BCH,EOS,ETC,ETH,LTC,XRP,TRX,ATOM,DOT".contains(TradeUtil.listQuoteName(split[0]))) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -752,7 +752,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("ADA,XLM,XTZ,ZRX,BAT,KNC,LINK,DASH".contains(TradeUtil.listQuoteName(split[0]))) {
+            if ("ADA,XLM,XTZ,ZRX,BAT,KNC,LINK,DASH,UNI".contains(TradeUtil.listQuoteName(split[0]))) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -764,7 +764,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("SI,CL,NG,GC,HG,NQ,YM,CN".contains(TradeUtil.listQuoteName(split[0]))) {
+            if ("SI,CL,NG,GC,HG,NQ,YM,CN,DAX,HSI,NK".contains(TradeUtil.listQuoteName(split[0]))) {
                 quoteList2.add(mainQuote);
             }
         }

@@ -110,6 +110,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
                     SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
+
                     Log.d("print", "initQuote:103:  " + group);
                     ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
                     String allList = Util.groupList(stringStringArrayMap);
