@@ -1303,7 +1303,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             popupWindow.dismiss();
-            type = "1";
+           // type = "1";
         });
 
         RelativeLayout layout_bar = view.findViewById(R.id.layout_bar);

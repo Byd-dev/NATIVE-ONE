@@ -1305,7 +1305,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             popupWindow.dismiss();
-            type = "1";
+           // type = "1";
         });
 
         RelativeLayout layout_bar = view.findViewById(R.id.layout_bar);
