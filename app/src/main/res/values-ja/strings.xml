@@ -473,6 +473,17 @@
     <string name="text_fixed_margin">固定金額でフォロー</string>
     <string name="text_proportional_margin">フォロー率</string>
     <string name="text_copy_trade_amount"><![CDATA[フォロー金額<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_shortcut_amount">金額を選択してください</string>
+    <string name="text_amount_tip">例：フォロー金額が100USDTに設定、フォローのトレーダーが注文する場合、利用者が注文件あたりは各100USDTで注文することになります。【最低：5USDT/件、最高500USDT/件】</string>
+    <string name="text_copy_trade_position"><![CDATA[一日フォローの元金<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_trade_position_tip">当日累計のフォロー金額が10,000 USDTに達した場合、フォローが停止されます。最大金額は10,000USDTです。</string>
+    <string name="text_advanced_settings">詳細設定</string>
+    <string name="text_maximum_position_amount"><![CDATA[最大ポジション金額<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_max_amount_tip">当トレーダーをフォローしてポジション金額は10,000 USDTに達した場合、フォローが停止されます。最大ポジション金額：10000 USDTです。</string>
+    <string name="text_stop_loss_ratio"><![CDATA[損切の割合<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_stop_loss_tip">ロスカットは90％に設定した場合、90％の損失に発生すると、自動的に決済されます.</string>
+    <string name="text_copy">今すぐフォロー</string>
+    <string name="text_copy_proportion"><![CDATA[フォロー率を設定します<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
 
 
 </resources>

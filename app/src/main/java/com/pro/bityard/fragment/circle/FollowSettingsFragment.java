@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -15,8 +16,6 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.view.CircleImageView;
 
-import java.io.Serializable;
-
 import butterknife.BindView;
 
 public class FollowSettingsFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
@@ -24,6 +23,11 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     TextView text_title;
     @BindView(R.id.img_head)
     CircleImageView img_head;
+
+    @BindView(R.id.layout_copy_amount)
+    LinearLayout layout_copy_amount;
+    @BindView(R.id.layout_copy_proportion)
+    LinearLayout layout_copy_proportion;
 
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
@@ -42,10 +46,22 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     TextView text_copy_trade_amount;
 
 
+    //金额跟单
+    @BindView(R.id.text_trade_position)
+    TextView text_trade_position;
+    @BindView(R.id.text_maximum_position_amount)
+    TextView text_maximum_position_amount;
+    @BindView(R.id.text_stop_loss_ratio)
+    TextView text_stop_loss_ratio;
+    @BindView(R.id.layout_unfold_settings)
+    LinearLayout layout_unfold_settings;
+    private boolean isShow_amount = false;
+
+
     public FollowSettingsFragment newInstance(FollowEntity.DataBean value) {
         FollowSettingsFragment fragment = new FollowSettingsFragment();
         Bundle args = new Bundle();
-        args.putSerializable("DATA_VALUE", (Serializable) value);
+        args.putSerializable("DATA_VALUE", value);
         fragment.setArguments(args);
         return fragment;
 
@@ -64,14 +80,30 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     @Override
     protected void initView(View view) {
         text_title.setText(R.string.text_copy_trade_settings);
+
+        layout_copy_proportion.setVisibility(View.GONE);
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         radioGroup.setOnCheckedChangeListener(this);
         radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_blue_left));
         radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_right));
+        //金额跟单
+
+        layout_unfold_settings.setVisibility(View.GONE);
 
         String strMsg = getString(R.string.text_copy_trade_amount);
         text_copy_trade_amount.setText(Html.fromHtml(strMsg));
+
+        String strMsg2 = getString(R.string.text_copy_trade_position);
+        text_trade_position.setText(Html.fromHtml(strMsg2));
+
+        String strMsg3 = getString(R.string.text_maximum_position_amount);
+        text_maximum_position_amount.setText(Html.fromHtml(strMsg3));
+        String strMsg4 = getString(R.string.text_stop_loss_ratio);
+        text_stop_loss_ratio.setText(Html.fromHtml(strMsg4));
+
+        view.findViewById(R.id.layout_advanced_settings).setOnClickListener(this);
+
 
     }
 
@@ -118,6 +150,15 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
             case R.id.img_back:
                 getActivity().finish();
                 break;
+            case R.id.layout_advanced_settings:
+                if (isShow_amount) {
+                    layout_unfold_settings.setVisibility(View.GONE);
+                    isShow_amount = false;
+                } else {
+                    layout_unfold_settings.setVisibility(View.VISIBLE);
+                    isShow_amount = true;
+                }
+                break;
 
         }
     }
@@ -129,11 +170,17 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                 radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_blue_left));
                 radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_right));
 
+                layout_copy_amount.setVisibility(View.VISIBLE);
+                layout_copy_proportion.setVisibility(View.GONE);
+
                 break;
             case R.id.radio_proportional_margin:
 
                 radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_red_right));
                 radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_left));
+
+                layout_copy_amount.setVisibility(View.GONE);
+                layout_copy_proportion.setVisibility(View.VISIBLE);
 
                 break;
         }

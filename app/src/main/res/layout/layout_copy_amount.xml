@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_copy_amount"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height">
+
+        <TextView
+            android:id="@+id/text_copy_trade_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="跟单金额"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_big" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_5"
+                android:text="－"
+                android:textColor="@color/color_blue"
+                android:textSize="@dimen/size_bigger"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="62dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_shape_blue"
+                android:orientation="horizontal">
+
+
+                <com.pro.bityard.view.DecimalEditText
+                    android:id="@+id/edit_profit_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/text_main_color"
+                    android:textColorHint="@color/text_second_color"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/size_big" />
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_15"
+                android:text="＋"
+                android:textColor="@color/color_blue"
+                android:textSize="@dimen/size_bigger"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="@string/text_shortcut_amount"
+            android:textColor="@color/text_quote_green"
+            android:textSize="@dimen/size_big" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_amount"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:text="@string/text_amount_tip"
+        android:textColor="@color/text_second_color"
+        android:textSize="@dimen/size_normal" />
+
+    <include layout="@layout/layout_line" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height">
+
+        <TextView
+
+            android:id="@+id/text_trade_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="单日本金跟随"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_big" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_5"
+                android:text="－"
+                android:textColor="@color/color_blue"
+                android:textSize="@dimen/size_bigger"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="62dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_shape_blue"
+                android:orientation="horizontal">
+
+
+                <com.pro.bityard.view.DecimalEditText
+                    android:id="@+id/edit_position_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/text_main_color"
+                    android:textColorHint="@color/text_second_color"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/size_big" />
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_15"
+                android:text="＋"
+                android:textColor="@color/color_blue"
+                android:textSize="@dimen/size_bigger"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:text="@string/text_trade_position_tip"
+        android:textColor="@color/text_second_color"
+        android:textSize="@dimen/size_normal" />
+
+    <include layout="@layout/layout_line" />
+
+    <RelativeLayout
+        android:id="@+id/layout_advanced_settings"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+        android:background="@color/color_bg_left">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:drawableRight="@mipmap/icon_right_green"
+            android:drawablePadding="@dimen/margin_5"
+            android:text="@string/text_advanced_settings"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_bigger"
+            android:textStyle="bold" />
+
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:id="@+id/layout_unfold_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bar_height">
+
+            <TextView
+
+                android:id="@+id/text_maximum_position_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:text="最大持仓金额"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/size_big" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:paddingRight="@dimen/margin_5"
+                    android:text="－"
+                    android:textColor="@color/color_blue"
+                    android:textSize="@dimen/size_bigger"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="62dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/bg_shape_blue"
+                    android:orientation="horizontal">
+
+
+                    <com.pro.bityard.view.DecimalEditText
+                        android:id="@+id/edit_max_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/text_main_color"
+                        android:textColorHint="@color/text_second_color"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/size_big" />
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_5"
+                    android:paddingRight="@dimen/margin_15"
+                    android:text="＋"
+                    android:textColor="@color/color_blue"
+                    android:textSize="@dimen/size_bigger"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:text="@string/text_max_amount_tip"
+            android:textColor="@color/text_second_color"
+            android:textSize="@dimen/size_normal" />
+
+        <include layout="@layout/layout_line" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bar_height">
+
+            <TextView
+
+                android:id="@+id/text_stop_loss_ratio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:text="订单止损比例"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/size_big" />
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <SeekBar
+                android:id="@+id/seekbar_profit"
+                android:layout_width="0dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_10"
+                android:layout_weight="1"
+                android:thumb="@mipmap/green_bar" />
+
+            <LinearLayout
+                android:layout_width="62dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="35dp"
+                android:background="@drawable/bg_shape_blue"
+                android:orientation="horizontal">
+
+
+                <com.pro.bityard.view.DecimalEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/text_main_color"
+                    android:textColorHint="@color/text_second_color"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/size_big" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_15"
+            android:text="@string/text_stop_loss_tip"
+            android:textColor="@color/text_second_color"
+            android:textSize="@dimen/size_normal" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -472,5 +472,16 @@
     <string name="text_fixed_margin">Fixed Margin</string>
     <string name="text_proportional_margin">Proportional Margin</string>
     <string name="text_copy_trade_amount"><![CDATA[copy trade amount<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_shortcut_amount">Please set a shortcut amount</string>
+    <string name="text_amount_tip">For example, if your copy trade amount is USDT 100, when this trader opens an order, your following order will open with 100 USDT. 【Minimun: 5 USDT/order. Maximun: 500 USDT/order】</string>
+    <string name="text_copy_trade_position"><![CDATA[today\'s copy trade position<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_trade_position_tip">When the total copy trade value per day has reached 10000 USDT, you will not be able to copy trade.</string>
+    <string name="text_advanced_settings">advanced settings</string>
+    <string name="text_maximum_position_amount"><![CDATA[Maximum Position Amount<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_max_amount_tip">When following this trader, if the position has reached 10000 USDT, you will not be able to copy trade.</string>
+    <string name="text_stop_loss_ratio"><![CDATA[Stop Loss Ratio<font color=\"#7F8AA1\"><small>(%)</small></font>]]></string>
+    <string name="text_stop_loss_tip">If you set 90%, the system will automatically set stop loss price of copy trading at 90%</string>
+    <string name="text_copy">start copy trade now</string>
+    <string name="text_copy_proportion"><![CDATA[Please select your copy trade proportion<font color=\"#7F8AA1\"><small>(%)</small></font>]]></string>
 
 </resources>

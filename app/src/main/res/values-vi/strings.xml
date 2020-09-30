@@ -473,5 +473,16 @@
     <string name="text_fixed_margin">Ký quỹ sao chép</string>
     <string name="text_proportional_margin">Tỷ lệ sao chép</string>
     <string name="text_copy_trade_amount"><![CDATA[Số tiền sao chép<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_shortcut_amount">Chọn nhanh số tiền</string>
+    <string name="text_amount_tip">Ví dụ bạn cài đặt số tiền sao chép là 100USDT, khi nhà giao dịch này mở lệnh, ký quỹ mỗi lệnh bạn sao chép là 100USDT. 【Tối thiểu：5 USDT / lệnh、Tối đa 500 USDT/lệnh 】</string>
+    <string name="text_copy_trade_position"><![CDATA[Ký quỹ sao chép trong ngày<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_trade_position_tip">Số tiền sao chép trong ngày đạt tới số tiền này, sẽ ngừng sao chép, tối đa là 10,000USDT</string>
+    <string name="text_advanced_settings">Cài đặt nâng cao</string>
+    <string name="text_maximum_position_amount"><![CDATA[Số tiền vị thế lớn nhất<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_max_amount_tip">Ký quỹ giữ vị thế khi sao chép lệnh của nhà giao dịch này khi đạt tới số tiền này, sẽ ngừng sao chép. Số tiền tối đa là 10,000 USDT</string>
+    <string name="text_stop_loss_ratio"><![CDATA[Tỷ lệ dừng lỗ<font color=\"#7F8AA1\"><small>(%)</small></font>]]></string>
+    <string name="text_stop_loss_tip">Ví dụ bạn cài đặt 90%, tỷ lệ dừng lỗ của lệnh sao chép sẽ mặc định là 90%.</string>
+    <string name="text_copy">Sao chép ngay</string>
+    <string name="text_copy_proportion"><![CDATA[Cài đặt tỷ lệ sao chép<font color=\"#7F8AA1\"><small>(%)</small></font>]]></string>
 
 </resources>

@@ -473,5 +473,16 @@
     <string name="text_fixed_margin">Фиксированная маржа</string>
     <string name="text_proportional_margin">Пропорциональная маржа</string>
     <string name="text_copy_trade_amount"><![CDATA[Сумма Копи-трейдинга<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_shortcut_amount">Выберите быструю сумму</string>
+    <string name="text_amount_tip">Например, вы установили сумму Копи-трейдинга на значении 100 USDT . Когда трейдер размещает заявку, ваша основная сумма для копирования составит 100 USDT. 【Минимальная сумма копирования составляет 5USDT, Максимальная сумма копирования составляет 500 USDT 】</string>
+    <string name="text_copy_trade_position"><![CDATA[Сумма Копи-трейдинга за день<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_trade_position_tip">Перестаньте копировать сделки трейдера, когда основная сумма копирования за день достигнет этого значения：10000 USDT</string>
+    <string name="text_advanced_settings">Расширенные настройки</string>
+    <string name="text_maximum_position_amount"><![CDATA[Максимальная сумма позиции<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_max_amount_tip">Перестаньте копировать сделки трейдера, когда основная сумма копирования за этого трейдера достигнет этого значения：10000 USDT</string>
+    <string name="text_stop_loss_ratio"><![CDATA[Коэффициент Стоп-лосса<font color=\"#7F8AA1\"><small>(%)</small></font>]]></string>
+    <string name="text_stop_loss_tip">Например, если вы устанавливаете значение Стоп-лосса 90%, то для следующих сделок такое же значение будет установлено по умолчанию</string>
+    <string name="text_copy">Копировать</string>
+    <string name="text_copy_proportion"><![CDATA[Настройки<font color=\"#7F8AA1\"><small>(%)</small></font>]]></string>
 
 </resources>

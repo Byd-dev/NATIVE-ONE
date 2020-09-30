@@ -309,6 +309,7 @@ public class PositionFragment extends BaseFragment implements Observer {
 
             if (netIncomeDouble > 0) {
                 text_worth_pop.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+
             } else {
                 text_worth_pop.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
             }

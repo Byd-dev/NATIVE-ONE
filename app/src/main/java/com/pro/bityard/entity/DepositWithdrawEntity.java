@@ -171,7 +171,7 @@ public class DepositWithdrawEntity {
         private String bankCard;
         private Object brand;
         private Object channel;
-        private int charge;
+        private double charge;
         private long createTime;
         private String currency;
         private String detail;
@@ -266,11 +266,11 @@ public class DepositWithdrawEntity {
             this.channel = channel;
         }
 
-        public int getCharge() {
+        public double getCharge() {
             return charge;
         }
 
-        public void setCharge(int charge) {
+        public void setCharge(double charge) {
             this.charge = charge;
         }
 

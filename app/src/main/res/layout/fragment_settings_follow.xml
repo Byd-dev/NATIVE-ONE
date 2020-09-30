@@ -13,12 +13,14 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -182,87 +184,33 @@
 
 
             </RelativeLayout>
-
-            <!--金额跟单和比例跟单-->
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/bar_height">
-
-                <TextView
-                    android:id="@+id/text_copy_trade_amount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_15"
-                    android:text="跟单金额"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_big" />
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/margin_15"
-                        android:paddingRight="@dimen/margin_5"
-                        android:text="－"
-                        android:textColor="@color/color_blue"
-                        android:textSize="@dimen/size_bigger"
-                        android:textStyle="bold" />
-
-                    <LinearLayout
-                        android:layout_width="62dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/bg_shape_blue"
-                        android:orientation="horizontal">
-
-
-                        <com.pro.bityard.view.DecimalEditText
-                            android:id="@+id/edit_profit_amount"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1"
-                            android:background="@null"
-                            android:gravity="center"
-                            android:inputType="numberDecimal"
-                            android:textColor="@color/text_main_color"
-                            android:textColorHint="@color/text_second_color"
-                            android:textCursorDrawable="@null"
-                            android:textSize="@dimen/size_big" />
-
-
-                    </LinearLayout>
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/margin_5"
-                        android:paddingRight="@dimen/margin_15"
-                        android:text="＋"
-                        android:textColor="@color/color_blue"
-                        android:textSize="@dimen/size_bigger"
-                        android:textStyle="bold" />
-
-
-                </LinearLayout>
-
-
-                <include layout="@layout/layout_line" />
-
-
-            </RelativeLayout>
-
+            <!--金额跟单-->
+            <include layout="@layout/layout_copy_amount" />
+            <!--比例跟单-->
+            <include layout="@layout/layout_copy_proportion"/>
 
         </LinearLayout>
+
+
     </androidx.core.widget.NestedScrollView>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_bg_left">
 
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bar_height"
+            android:layout_margin="@dimen/margin_15"
+            android:background="@drawable/bg_shape_main_color"
+            android:text="@string/text_copy"
+            android:textColor="@color/color_btn_text"
+            android:textSize="@dimen/size_bigger"
+            android:textStyle="bold"
+
+            />
+
+    </RelativeLayout>
 </LinearLayout>
