@@ -483,5 +483,8 @@
     <string name="text_stop_loss_tip">Se você definir 90%, o sistema definirá automaticamente o preço de stop loss de comércio de cópias em 90%</string>
     <string name="text_copy">comece a copiar agora</string>
     <string name="text_copy_proportion"><![CDATA[Por favor, selecione sua proporção de troca de cópias<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_warning_value">valor de aviso(USDT)</string>
+    <string name="text_warning_tip">preço de negociação da cópia = preço de abertura * razão de negociação da cópia. Por exemplo, se você definir 20%, quando o preço de abertura for 100 USDT, o preço de negociação da cópia será 20 USDT.</string>
+    <string name="text_warning_tip_two">注意：若跟单金额小于 5 USDT，系统将以 5 USDT 跟单； 若跟单金额大于警戒值时，系统将以设定的警戒值跟单，警戒值最高 10000 USDT</string>
 
 </resources>

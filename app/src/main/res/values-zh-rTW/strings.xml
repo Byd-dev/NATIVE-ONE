@@ -484,5 +484,8 @@
     <string name="text_stop_loss_tip">例如您设置90%，跟随订单默认90%的止损价。</string>
     <string name="text_copy">立即跟随</string>
     <string name="text_copy_proportion">请设置您的跟单比例</string>
+    <string name="text_warning_value">警戒值</string>
+    <string name="text_warning_tip">跟单金额=交易员开仓金额*跟单比例，例如您设置20%，当交易员下单金额为100USDT，跟单金额为20USDT</string>
+    <string name="text_warning_tip_two">注意：若跟单金额小于 5 USDT，系统将以 5 USDT 跟单； 若跟单金额大于警戒值时，系统将以设定的警戒值跟单，警戒值最高 10000 USDT</string>
 
 </resources>

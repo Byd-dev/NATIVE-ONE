@@ -485,5 +485,8 @@
     <string name="text_stop_loss_tip">Misalnya, jika Anda menetapkan 90%, Ikuti pesanan dengan penyetelan tetap harga stop loss 90%.</string>
     <string name="text_copy">Ikuti segera</string>
     <string name="text_copy_proportion"><![CDATA[Pengaturan<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_warning_value">Nilai peringatan(USDT)</string>
+    <string name="text_warning_tip">Jumlah salinan = jumlah pembukaan trader * rasio salinan, misalnya, jika Anda menetapkan 20%, ketika trader menempatkan jumlah pesanan 100 USDT, jumlah salinannya adalah 20 USDT</string>
+    <string name="text_warning_tip_two">Catatan:\nJika jumlah salinan kurang dari 5 USDT, sistem akan menyalin pesanan dengan 5 USDT; jika jumlah salinan lebih besar dari nilai peringatan, sistem akan menyalin pesanan dengan nilai peringatan yang ditetapkan, nilai peringatan maksimum adalah 10000 USDT</string>
 
 </resources>

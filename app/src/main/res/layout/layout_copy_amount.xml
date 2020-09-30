@@ -347,7 +347,7 @@
                 android:layout_width="62dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="35dp"
+                android:layout_marginRight="37.5dp"
                 android:background="@drawable/bg_shape_blue"
                 android:orientation="horizontal">
 

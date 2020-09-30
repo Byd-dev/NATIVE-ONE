@@ -58,6 +58,16 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     private boolean isShow_amount = false;
 
 
+    //比例跟单
+    @BindView(R.id.text_copy_proportion)
+    TextView text_copy_proportion;
+    @BindView(R.id.text_trade_position_proportion)
+    TextView text_trade_position_proportion;
+    @BindView(R.id.layout_unfold_settings_proportion)
+    LinearLayout layout_unfold_settings_proportion;
+    private boolean isShow_proportion = false;
+
+
     public FollowSettingsFragment newInstance(FollowEntity.DataBean value) {
         FollowSettingsFragment fragment = new FollowSettingsFragment();
         Bundle args = new Bundle();
@@ -96,6 +106,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
         String strMsg2 = getString(R.string.text_copy_trade_position);
         text_trade_position.setText(Html.fromHtml(strMsg2));
+        text_trade_position_proportion.setText(Html.fromHtml(strMsg2));
 
         String strMsg3 = getString(R.string.text_maximum_position_amount);
         text_maximum_position_amount.setText(Html.fromHtml(strMsg3));
@@ -103,6 +114,13 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         text_stop_loss_ratio.setText(Html.fromHtml(strMsg4));
 
         view.findViewById(R.id.layout_advanced_settings).setOnClickListener(this);
+        view.findViewById(R.id.layout_advanced_settings_proportion).setOnClickListener(this);
+        //比例跟单
+        layout_unfold_settings_proportion.setVisibility(View.GONE);
+        String strMsg5 = getString(R.string.text_copy_proportion);
+        text_copy_proportion.setText(Html.fromHtml(strMsg5));
+
+
 
 
     }
@@ -160,6 +178,15 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                 }
                 break;
 
+            case R.id.layout_advanced_settings_proportion:
+                if (isShow_proportion) {
+                    layout_unfold_settings_proportion.setVisibility(View.GONE);
+                    isShow_proportion = false;
+                } else {
+                    layout_unfold_settings_proportion.setVisibility(View.VISIBLE);
+                    isShow_proportion = true;
+                }
+                break;
         }
     }
 

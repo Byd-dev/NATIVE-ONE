@@ -484,6 +484,9 @@
     <string name="text_stop_loss_tip">ロスカットは90％に設定した場合、90％の損失に発生すると、自動的に決済されます.</string>
     <string name="text_copy">今すぐフォロー</string>
     <string name="text_copy_proportion"><![CDATA[フォロー率を設定します<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
+    <string name="text_warning_value">上限値(USDT)</string>
+    <string name="text_warning_tip">フォロー金額=トレーダーのオープンオーダー価額×フォロー率。例：20％を設定する場合は、フォローするトレーダーが100 USDTで発注をかけると自分のフォロー金額は20 USDTになることです。</string>
+    <string name="text_warning_tip_two">ご注意：\nフォローする金額が5 USDT未満の場合、システムが自動的に5 USDTで発注をかけます。フォローする金額が上限値を超えた場合は、システムは設定した上限値で発注をかけます。最大上限値は10000 USDTになります。</string>
 
 
 </resources>

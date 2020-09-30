@@ -483,5 +483,8 @@
     <string name="text_stop_loss_tip">If you set 90%, the system will automatically set stop loss price of copy trading at 90%</string>
     <string name="text_copy">start copy trade now</string>
     <string name="text_copy_proportion"><![CDATA[Please select your copy trade proportion<font color=\"#7F8AA1\"><small>(%)</small></font>]]></string>
+    <string name="text_warning_value">warning value(USDT)</string>
+    <string name="text_warning_tip">copy trading price = open price*copy trade ratio. For example, if you set 20%, when the open price is 100 USDT, the copy trade price is 20 USDT.</string>
+    <string name="text_warning_tip_two">Attention:\nIf copy trade amount is below 5 USDT, the system will automatically follow the order with 5 USDT. If the copy trade amount is more than warning value, the system will follow the order with the set warning value. The maximun warning value is 10000 USDT.</string>
 
 </resources>

@@ -7,13 +7,12 @@
     android:orientation="vertical">
 
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/bar_height">
 
         <TextView
+            android:id="@+id/text_copy_proportion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center"
@@ -22,22 +21,50 @@
             android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_big" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView_amount"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginRight="@dimen/margin_15"
         android:layout_marginBottom="@dimen/margin_15"
-        android:text="@string/text_amount_tip"
-        android:textColor="@color/text_second_color"
-        android:textSize="@dimen/size_normal" />
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_weight="1"
+            android:thumb="@mipmap/green_bar" />
+
+        <LinearLayout
+            android:layout_width="62dp"
+            android:layout_height="25dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="37.5dp"
+            android:background="@drawable/bg_shape_blue"
+            android:orientation="horizontal">
+
+
+            <com.pro.bityard.view.DecimalEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center"
+                android:inputType="numberDecimal"
+                android:textColor="@color/text_main_color"
+                android:textColorHint="@color/text_second_color"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/size_big" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <include layout="@layout/layout_line" />
 
@@ -48,6 +75,100 @@
         <TextView
 
             android:id="@+id/text_trade_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="@string/text_warning_value"
+            android:textColor="@color/text_quote_green"
+            android:textSize="@dimen/size_big" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_5"
+                android:text="－"
+                android:textColor="@color/text_quote_green"
+                android:textSize="@dimen/size_bigger"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="62dp"
+                android:layout_height="25dp"
+                android:background="@drawable/bg_shape_green_copy"
+                android:orientation="horizontal">
+
+
+                <com.pro.bityard.view.DecimalEditText
+                    android:id="@+id/edit_position_amount"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/text_main_color"
+                    android:textColorHint="@color/text_second_color"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/size_big" />
+
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_15"
+                android:text="＋"
+                android:textColor="@color/text_quote_green"
+                android:textSize="@dimen/size_bigger"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:text="@string/text_warning_tip"
+        android:textColor="@color/text_second_color"
+        android:textSize="@dimen/size_normal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
+        android:layout_marginBottom="@dimen/margin_15"
+        android:text="@string/text_warning_tip_two"
+        android:textColor="@color/color_orange"
+        android:textSize="@dimen/size_normal" />
+
+    <include layout="@layout/layout_line" />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height">
+
+        <TextView
+
+            android:id="@+id/text_trade_position_proportion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -125,7 +246,7 @@
     <include layout="@layout/layout_line" />
 
     <RelativeLayout
-        android:id="@+id/layout_advanced_settings"
+        android:id="@+id/layout_advanced_settings_proportion"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bar_height"
         android:background="@color/color_bg_left">
@@ -147,7 +268,7 @@
 
 
     <LinearLayout
-        android:id="@+id/layout_unfold_settings"
+        android:id="@+id/layout_unfold_settings_proportion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
