@@ -12,6 +12,7 @@ import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.FollowAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.utils.PopUtil;
@@ -20,6 +21,7 @@ import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
@@ -44,12 +46,18 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
     HeaderRecyclerView recyclerView_circle;
 
     private FollowAdapter followAdapter;
+    private int page = 1;
+
+
+    private int lastVisibleItem;
+    private LinearLayoutManager linearLayoutManager;
 
     @BindView(R.id.layout_circle_null)
     LinearLayout layout_circle_null;
 
     @BindView(R.id.edit_search)
     EditText edit_search;
+    private String content;
 
     @Override
     protected void onLazyLoad() {
@@ -62,7 +70,8 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
         view.findViewById(R.id.text_cancel).setOnClickListener(this);
 
         followAdapter = new FollowAdapter(getActivity());
-        recyclerView_circle.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearLayoutManager=new LinearLayoutManager(getActivity());
+        recyclerView_circle.setLayoutManager(linearLayoutManager);
 
 
         recyclerView_circle.setAdapter(followAdapter);
@@ -75,24 +84,47 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
 
                     });
         });
+        recyclerView_circle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (swipeRefreshLayout_circle.isRefreshing()) return;
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == followAdapter.getItemCount() - 1) {
+                    followAdapter.startLoad();
+                    page = page + 1;
+                    getFollowList(AppConfig.LOAD,content,page);
+
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+            }
+        });
+
+
         //跟单监听
         followAdapter.setOnFollowClick((dataBean) -> {
             UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW,dataBean);
         });
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {
-            getFollowList(null);
+            page=1;
+            getFollowList(AppConfig.FIRST,content,page);
         });
         swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
         edit_search.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {//搜索按键action
-                String content = edit_search.getText().toString();
+                content = edit_search.getText().toString();
                 SoftKeyboardUtils.closeInoutDecorView(getActivity());
 
                 if (TextUtils.isEmpty(content)) {
                     Toast.makeText(getActivity(), "请输入搜索内容", Toast.LENGTH_SHORT).show();
                 } else {
-                    getFollowList(content);
+                    page=1;
+                    getFollowList(AppConfig.FIRST, content,page);
                 }
             }
             return false;
@@ -111,13 +143,14 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
 
     @Override
     protected void initData() {
-        getFollowList(null);
+        page=1;
+        getFollowList(AppConfig.FIRST,null,page);
     }
 
-    private void getFollowList(String content) {
+    private void getFollowList(String loadType,String content,int page) {
         NetManger.getInstance().followList(null, null,
                 content, "usdt", null, null, null, null,
-                null, null, null, (state, response) -> {
+                null, null, null, String.valueOf(page),"10",(state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
@@ -125,13 +158,18 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
                         layout_circle_null.setVisibility(View.GONE);
                         layout_content.setVisibility(View.VISIBLE);
                         FollowEntity followEntity = (FollowEntity) response;
-                        if (followEntity.getTotal() != 0) {
-                            followAdapter.setDatas(followEntity.getData());
-                            layout_search_null.setVisibility(View.GONE);
+                        if (loadType.equals(AppConfig.LOAD)){
+                            followAdapter.addDatas(followEntity.getData());
+                        }else {
+                            if (followEntity.getTotal() != 0) {
+                                followAdapter.setDatas(followEntity.getData());
+                                layout_search_null.setVisibility(View.GONE);
 
-                        } else {
-                            layout_search_null.setVisibility(View.VISIBLE);
+                            } else {
+                                layout_search_null.setVisibility(View.VISIBLE);
+                            }
                         }
+
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
                         layout_circle_null.setVisibility(View.VISIBLE);

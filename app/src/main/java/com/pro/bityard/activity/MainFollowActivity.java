@@ -280,11 +280,11 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     }
 
 
-                    if (quoteAdapter_market_pop!=null){
+                    if (quoteAdapter_market_pop != null) {
                         //搜索框
-                        if (edit_search.getText().toString().equals("")){
+                        if (edit_search.getText().toString().equals("")) {
                             quoteAdapter_market_pop.setDatas(quoteList);
-                        }else {
+                        } else {
                             List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), quoteList);
                             quoteAdapter_market_pop.setDatas(searchQuoteList);
                         }
@@ -908,20 +908,22 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private void getFollowList() {
         NetManger.getInstance().followList(null, null,
                 null, null, null, null, null, null,
-                null, null, null, (state, response) -> {
+                null, null, null,"1","20", (state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
 
                         FollowEntity followEntity = (FollowEntity) response;
-                        if (followEntity.getData().size() == 0) {
+                        List<FollowEntity.DataBean> data = followEntity.getData();
+                        if (data.size() == 0) {
                             layout_circle_null.setVisibility(View.VISIBLE);
                             recyclerView_circle.setVisibility(View.GONE);
                         } else {
                             layout_circle_null.setVisibility(View.GONE);
                             recyclerView_circle.setVisibility(View.VISIBLE);
-                            followAdapter.setDatas(followEntity.getData().subList(0, 3));
+                            followAdapter.setDatas(data);
+
                         }
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
@@ -1303,7 +1305,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             popupWindow.dismiss();
-           // type = "1";
+            // type = "1";
         });
 
         RelativeLayout layout_bar = view.findViewById(R.id.layout_bar);

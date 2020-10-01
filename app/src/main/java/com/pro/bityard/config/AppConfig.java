@@ -7,7 +7,8 @@ public class AppConfig {
     public static final long ITEM_QUOTE_SECOND = 1000;
 
     public static String SIGN_KEY = "Hello, dear friends! Welcome to bityard!";
-
+    public static final String FIRST = "first";
+    public static final String LOAD = "load";
 
     /*账户头像保存名称*/
     public static final String FIRST_OPEN = "first_open"; //安全认证信息

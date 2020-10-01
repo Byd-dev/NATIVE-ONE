@@ -65,6 +65,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     RecyclerView recyclerView_circle;
 
     private FollowAdapter followAdapter;
+    private int page = 1;
 
     @BindView(R.id.layout_circle_null)
     LinearLayout layout_circle_null;
@@ -86,7 +87,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.layout_select)
     LinearLayout layout_select;
     private String tags;
-
+    private int lastVisibleItem;
+    private LinearLayoutManager linearLayoutManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +123,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         text_filter.setOnClickListener(this);
 
         followAdapter = new FollowAdapter(this);
-        recyclerView_circle.setLayoutManager(new LinearLayoutManager(this));
+        linearLayoutManager=new LinearLayoutManager(this);
+        recyclerView_circle.setLayoutManager(linearLayoutManager);
 
 
         recyclerView_circle.setAdapter(followAdapter);
@@ -153,6 +156,24 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
         selectAdapter = new SelectResultAdapter(this);
         recyclerView_select.setAdapter(selectAdapter);
+        recyclerView_circle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (swipeRefreshLayout_circle.isRefreshing()) return;
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == followAdapter.getItemCount() - 1) {
+                    followAdapter.startLoad();
+                    page = page + 1;
+                    filter(AppConfig.LOAD,page);
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+            }
+        });
 
 
         selectAdapter.setOnItemDeleteClick((position, data) -> {
@@ -166,7 +187,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
            // Log.d("print", "initView:删除之后:  " + tag_select.values());
             setSelect(tag_select);
-            filter();
+            page=1;
+            filter(AppConfig.FIRST,page);
 
 
         });
@@ -192,8 +214,9 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             tag_select.put(tagEntity.getContent() + tagEntity.getType(), tagEntity);
         }
         Log.d("print", "initView:删除之前:  " + tag_select.values());
+        page=1;
+        filter(AppConfig.FIRST,page);
 
-        filter();
         getStyleList();
     }
 
@@ -214,7 +237,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     }
 
     /*过滤*/
-    private void filter() {
+    private void filter(String loadType,int page) {
         String defeatGe = null;
         String defeatLe = null;
         String drawGe = null;
@@ -269,27 +292,32 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             tags = null;
         }
 
-        getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
+        getFollowList(loadType,tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe,page);
     }
 
 
-    private void getFollowList(String tags, String defeatGe, String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe) {
+    private void getFollowList(String loadType,String tags, String defeatGe, String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe,int page) {
         NetManger.getInstance().followList(null, null,
                 null, null, tags, defeatGe, defeatLe, drawGe,
-                drawLe, daysGe, daysLe, (state, response) -> {
+                drawLe, daysGe, daysLe,String.valueOf(page),"10", (state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
                         FollowEntity followEntity = (FollowEntity) response;
-                        if (followEntity.getData().size() == 0) {
-                            layout_circle_null.setVisibility(View.VISIBLE);
-                            recyclerView_circle.setVisibility(View.GONE);
-                        } else {
-                            layout_circle_null.setVisibility(View.GONE);
-                            recyclerView_circle.setVisibility(View.VISIBLE);
+                        if (loadType.equals(AppConfig.LOAD)){
+                            followAdapter.addDatas(followEntity.getData());
+                        }else {
+                            if (followEntity.getData().size() == 0) {
+                                layout_circle_null.setVisibility(View.VISIBLE);
+                                recyclerView_circle.setVisibility(View.GONE);
+                            } else {
+                                layout_circle_null.setVisibility(View.GONE);
+                                recyclerView_circle.setVisibility(View.VISIBLE);
+                            }
+                            followAdapter.setDatas(followEntity.getData());
                         }
-                        followAdapter.setDatas(followEntity.getData());
+
 
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout_circle.setRefreshing(false);
@@ -300,6 +328,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void getStyleList() {
+        //设置跟单的列表page为1
+        page=1;
         allList = new ArrayList<>();
         NetManger.getInstance().styleList("2", (state, response) -> {
             if (state.equals(BUSY)) {
@@ -422,7 +452,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                 }
             }
             Log.d("print", "showStyleWindow:风格:  " + tag_select.values());
-            filter();
+            page=1;
+            filter(AppConfig.FIRST,page);
             setSelect(tag_select);
 
         });
@@ -494,7 +525,9 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                 }
             }
             Log.d("print", "showStyleWindow:收益率:  " + tag_select.values());
-            filter();
+            page=1;
+            filter(AppConfig.FIRST,page);
+
             setSelect(tag_select);
 
         });
@@ -565,9 +598,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                     }
                 }
             }
-            Log.d("print", "showStyleWindow:最大回撤:  " + tag_select.values());
-
-            filter();
+            page=1;
+            filter(AppConfig.FIRST,page);
             setSelect(tag_select);
 
         });

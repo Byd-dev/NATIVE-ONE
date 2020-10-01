@@ -73,8 +73,8 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
     private String createTimeGe = "";
     private String createTimeLe = "";
 
-    private String FIRST = "first";
     private String REFRESH = "refresh";
+    private String FIRST = "first";
     private String LOAD = "load";
 
     private int page = 0;

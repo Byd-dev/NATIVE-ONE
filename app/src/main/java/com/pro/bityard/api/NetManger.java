@@ -2579,7 +2579,7 @@ public class NetManger {
     /*社区 列表*/
     /*持仓列表*/
     public void followList(String traderId, String type, String username, String currency, String tags, String defeatGe,
-                           String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe, OnNetResult onNetResult) {
+                           String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe,String page,String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         if (traderId != null) {
             map.put("traderId", traderId);
@@ -2614,9 +2614,16 @@ public class NetManger {
         if (daysLe != null) {
             map.put("daysLe", daysLe);
         }
+        if (page!=null){
+            map.put("page",page);
+        }
+        if (rows!=null){
+            map.put("rows",rows);
+        }
         if (map.values().size()==0){
             map=null;
         }
+
         getRequest("/api/follow/trader/list", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
@@ -2626,6 +2633,7 @@ public class NetManger {
                     onNetResult.onNetResult(FAILURE, null);
                 } else {
                     FollowEntity followEntity = new Gson().fromJson(response.toString(), FollowEntity.class);
+                    Log.d("print", "followList:2629:  "+followEntity);
                     onNetResult.onNetResult(SUCCESS, followEntity);
                 }
 
