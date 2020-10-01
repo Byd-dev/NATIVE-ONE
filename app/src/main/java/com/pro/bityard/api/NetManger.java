@@ -80,6 +80,9 @@ public class NetManger {
 
     public static String BASE_URL = "https://test.bityard.com";   //测试
 
+    public static String H5_BASE_URL = "https://test7777.bityard.com";   //测试
+
+
     public static String QUOTE_SOCKET = "wss://quote.76bao.hk/wsquote";
 
     public static String QUOTE_HISTORY = "https://app.bityard.com";
@@ -2579,7 +2582,7 @@ public class NetManger {
     /*社区 列表*/
     /*持仓列表*/
     public void followList(String traderId, String type, String username, String currency, String tags, String defeatGe,
-                           String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe,String page,String rows, OnNetResult onNetResult) {
+                           String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe, String page, String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         if (traderId != null) {
             map.put("traderId", traderId);
@@ -2614,14 +2617,14 @@ public class NetManger {
         if (daysLe != null) {
             map.put("daysLe", daysLe);
         }
-        if (page!=null){
-            map.put("page",page);
+        if (page != null) {
+            map.put("page", page);
         }
-        if (rows!=null){
-            map.put("rows",rows);
+        if (rows != null) {
+            map.put("rows", rows);
         }
-        if (map.values().size()==0){
-            map=null;
+        if (map.values().size() == 0) {
+            map = null;
         }
 
         getRequest("/api/follow/trader/list", map, (state, response) -> {
@@ -2629,11 +2632,11 @@ public class NetManger {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode() !=200) {
+                if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
                 } else {
                     FollowEntity followEntity = new Gson().fromJson(response.toString(), FollowEntity.class);
-                    Log.d("print", "followList:2629:  "+followEntity);
+                    Log.d("print", "followList:2629:  " + followEntity);
                     onNetResult.onNetResult(SUCCESS, followEntity);
                 }
 
@@ -2646,18 +2649,18 @@ public class NetManger {
 
 
     /*风格理念*/
-    public void styleList(String type,OnNetResult onNetResult){
-        String url=String.format("/api/follow/follower/sysTags/%s",type);
+    public void styleList(String type, OnNetResult onNetResult) {
+        String url = String.format("/api/follow/follower/sysTags/%s", type);
         getRequest(url, null, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode() !=200) {
+                if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
                 } else {
-                    StyleEntity styleEntity=new Gson().fromJson(response.toString(),StyleEntity.class);
-                    onNetResult.onNetResult(SUCCESS,styleEntity);
+                    StyleEntity styleEntity = new Gson().fromJson(response.toString(), StyleEntity.class);
+                    onNetResult.onNetResult(SUCCESS, styleEntity);
                 }
 
             } else if (state.equals(FAILURE)) {
@@ -2665,7 +2668,13 @@ public class NetManger {
 
             }
         });
+    }
 
+
+    public static final String getH5Url(String token, String url) {
+        String H5url = H5_BASE_URL + url + "?token=" + token;
+        Log.d("print", "getH5Url:2673:  " + H5url);
+        return H5url;
 
     }
 

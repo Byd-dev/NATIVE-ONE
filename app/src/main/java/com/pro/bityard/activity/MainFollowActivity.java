@@ -94,9 +94,7 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener {
 
     public static boolean isForeground = false;
-    public static final String MESSAGE_RECEIVED_ACTION = "${applicationId}.MESSAGE_RECEIVED_ACTION";
-    public static final String KEY_MESSAGE = "message";
-    public static final String KEY_EXTRAS = "extras";
+
 
     @BindView(R.id.layout_view)
     RelativeLayout layout_view;
@@ -310,7 +308,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         } else if (o == NetIncomeManger.getInstance()) {
             netIncomeResult = (String) arg;
 
-            Log.d("netIncome", "update:273: " + isLogin() + "  --   " + netIncomeResult);
+            //Log.d("netIncome", "update:273: " + isLogin() + "  --   " + netIncomeResult);
 
             String[] NetIncome = netIncomeResult.split(",");
             runOnUiThread(() -> {
@@ -589,8 +587,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_hot.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView_hot.setAdapter(quoteHomeAdapter);
         quoteHomeAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(this, "1", data));
-        findViewById(R.id.img_icon1).setOnClickListener(this);
-        findViewById(R.id.img_icon2).setOnClickListener(this);
         img_head.setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
@@ -608,6 +604,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         quoteAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(this, "1", data));
         findViewById(R.id.layout_simulation_home).setOnClickListener(this);
+        findViewById(R.id.layout_activity).setOnClickListener(this);
 
 
         /*行情 分割线-----------------------------------------------------------------------------*/
@@ -908,7 +905,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private void getFollowList() {
         NetManger.getInstance().followList(null, null,
                 null, null, null, null, null, null,
-                null, null, null,"1","20", (state, response) -> {
+                null, null, null, "1", "20", (state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
@@ -1443,6 +1440,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.layout_nine:
                 UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
                 break;
+            case R.id.layout_activity:
+                if (isLogin()) {
+                    WebActivity.getInstance().openUrl(MainFollowActivity.this,
+                            NetManger.getH5Url(loginEntity.getAccess_token(), "/activity"),
+                            getResources().getString(R.string.text_trade_bonus));
+                } else {
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
 
             case R.id.layout_simulation_home:
                 if (quoteList == null) {
@@ -1727,7 +1733,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(MainFollowActivity.this, "", getResources().getString(R.string.text_recharge));
+                    WebActivity.getInstance().openUrl(MainFollowActivity.this, NetManger.getH5Url(loginEntity.getAccess_token(), "/deposit"), getResources().getString(R.string.text_recharge));
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }

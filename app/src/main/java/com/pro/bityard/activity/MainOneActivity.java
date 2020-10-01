@@ -367,7 +367,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         } else if (o == NetIncomeManger.getInstance()) {
             netIncomeResult = (String) arg;
 
-            Log.d("netIncome", "update:273: " + isLogin() + "  --   " + netIncomeResult);
+          //  Log.d("netIncome", "update:273: " + isLogin() + "  --   " + netIncomeResult);
 
             String[] NetIncome = netIncomeResult.split(",");
             runOnUiThread(() -> {
@@ -647,11 +647,11 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         recyclerView_hot.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView_hot.setAdapter(quoteHomeAdapter);
         quoteHomeAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(this, "1", data));
-        findViewById(R.id.img_icon1).setOnClickListener(this);
-        findViewById(R.id.img_icon2).setOnClickListener(this);
         findViewById(R.id.img_head).setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
+        findViewById(R.id.layout_activity).setOnClickListener(this);
+
         findViewById(R.id.text_login_register).setOnClickListener(this);
         quoteAdapter = new QuoteAdapter(this);
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
@@ -1476,6 +1476,15 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             /*首页 -----------------------------------------------------------------------------------*/
             case R.id.layout_announcement:
                 /*最新公告*/
+            case R.id.layout_activity:
+                if (isLogin()) {
+                    WebActivity.getInstance().openUrl(this,
+                            NetManger.getH5Url(loginEntity.getAccess_token(), "/activity"),
+                            getResources().getString(R.string.text_trade_bonus));
+                } else {
+                    LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
             case R.id.layout_nine:
                 UserActivity.enter(MainOneActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
                 break;
