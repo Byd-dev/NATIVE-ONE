@@ -31,11 +31,12 @@
         android:orientation="horizontal">
 
         <SeekBar
+            android:id="@+id/bar_proportion_rate"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="@dimen/margin_30"
+            android:thumbOffset="0dp"
+            android:layout_marginLeft="@dimen/margin_5"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:layout_marginRight="@dimen/margin_10"
             android:layout_weight="1"
             android:thumb="@mipmap/green_bar" />
 
@@ -49,6 +50,7 @@
 
 
             <com.pro.bityard.view.DecimalEditText
+                android:id="@+id/edit_copy_rate_proportion"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -91,6 +93,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/text_sub_warning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_15"
@@ -108,12 +111,13 @@
 
 
                 <com.pro.bityard.view.DecimalEditText
-                    android:id="@+id/edit_position_amount"
+                    android:id="@+id/edit_warning_proportion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
+                    android:text="5"
                     android:inputType="numberDecimal"
                     android:textColor="@color/text_main_color"
                     android:textColorHint="@color/text_second_color"
@@ -125,6 +129,8 @@
 
 
             <TextView
+                android:id="@+id/text_add_warning"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_5"
@@ -185,6 +191,7 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/text_sub_day_amount_proportion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_15"
@@ -202,12 +209,13 @@
 
 
                 <com.pro.bityard.view.DecimalEditText
-                    android:id="@+id/edit_position_amount"
+                    android:id="@+id/edit_day_amount_proportion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
+                    android:text="10000"
                     android:inputType="numberDecimal"
                     android:textColor="@color/text_main_color"
                     android:textColorHint="@color/text_second_color"
@@ -219,6 +227,7 @@
 
 
             <TextView
+                android:id="@+id/text_add_day_amount_proportion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_5"
@@ -297,6 +306,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/text_sub_max_proportion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/margin_15"
@@ -314,12 +324,13 @@
 
 
                     <com.pro.bityard.view.DecimalEditText
-                        android:id="@+id/edit_max_amount"
+                        android:id="@+id/edit_max_amount_proportion"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="center"
+                        android:text="10000"
                         android:inputType="numberDecimal"
                         android:textColor="@color/text_main_color"
                         android:textColorHint="@color/text_second_color"
@@ -331,6 +342,7 @@
 
 
                 <TextView
+                    android:id="@+id/text_add_max_proportion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="@dimen/margin_5"
@@ -381,12 +393,12 @@
             android:orientation="horizontal">
 
             <SeekBar
-                android:id="@+id/seekbar_profit"
+                android:id="@+id/bar_stop_loss_proportion"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="@dimen/margin_30"
+                android:thumbOffset="0dp"
+                android:layout_marginLeft="@dimen/margin_5"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_10"
                 android:layout_weight="1"
                 android:thumb="@mipmap/green_bar" />
 
@@ -394,17 +406,19 @@
                 android:layout_width="62dp"
                 android:layout_height="25dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="35dp"
+                android:gravity="center"
+                android:layout_marginRight="37.5dp"
                 android:background="@drawable/bg_shape_blue"
                 android:orientation="horizontal">
 
-
                 <com.pro.bityard.view.DecimalEditText
+                    android:id="@+id/edit_stop_loss_rate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
+                    android:hint="@string/text_unlimited_copy"
                     android:inputType="numberDecimal"
                     android:textColor="@color/text_main_color"
                     android:textColorHint="@color/text_second_color"

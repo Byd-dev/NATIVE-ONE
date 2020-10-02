@@ -1,31 +1,42 @@
 package com.pro.bityard.fragment.circle;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.AmountListAdapter;
+import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.view.CircleImageView;
 import com.pro.bityard.view.DecimalEditText;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+
+import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
+import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class FollowSettingsFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     @BindView(R.id.text_title)
@@ -75,6 +86,23 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     TextView text_amount_add;
     @BindView(R.id.text_amount_sub)
     TextView text_amount_sub;
+    @BindView(R.id.edit_copy_trade_position)
+    DecimalEditText edit_copy_trade_position;
+    @BindView(R.id.edit_max_trade_position)
+    DecimalEditText edit_max_trade_position;
+    @BindView(R.id.text_add_trade_position)
+    TextView text_add_trade_position;
+    @BindView(R.id.text_sub_trade_position)
+    TextView text_sub_trade_position;
+    @BindView(R.id.text_add_max_position)
+    TextView text_add_max_position;
+    @BindView(R.id.text_sub_max_position)
+    TextView text_sub_max_position;
+    @BindView(R.id.bar_amount)
+    SeekBar bar_amount;
+    @BindView(R.id.edit_amount_bar)
+    DecimalEditText edit_amount_bar;
+
 
     private AmountListAdapter amountListAdapter;
     private List<String> dataList;
@@ -90,6 +118,46 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     private boolean isShow_proportion = false;
     @BindView(R.id.text_advanced_settings_proportion)
     TextView text_advanced_settings_proportion;
+    @BindView(R.id.bar_proportion_rate)
+    SeekBar bar_proportion_rate;
+    @BindView(R.id.edit_copy_rate_proportion)
+    DecimalEditText edit_copy_rate_proportion;
+    @BindView(R.id.edit_warning_proportion)
+    DecimalEditText edit_warning_proportion;
+
+    @BindView(R.id.text_add_warning)
+    TextView text_add_warning;
+    @BindView(R.id.text_sub_warning)
+    TextView text_sub_warning;
+    @BindView(R.id.edit_day_amount_proportion)
+    DecimalEditText edit_day_amount_proportion;
+
+    @BindView(R.id.text_add_day_amount_proportion)
+    TextView text_add_day_amount_proportion;
+    @BindView(R.id.text_sub_day_amount_proportion)
+    TextView text_sub_day_amount_proportion;
+
+    @BindView(R.id.edit_max_amount_proportion)
+    DecimalEditText edit_max_amount_proportion;
+    @BindView(R.id.text_sub_max_proportion)
+    TextView text_sub_max_proportion;
+    @BindView(R.id.text_add_max_proportion)
+    TextView text_add_max_proportion;
+
+    @BindView(R.id.bar_stop_loss_proportion)
+    SeekBar bar_stop_loss_proportion;
+    @BindView(R.id.edit_stop_loss_rate)
+    DecimalEditText edit_stop_loss_rate;
+
+
+
+    private FollowEntity.DataBean followerUser;
+    private String traderId;
+    private String followVal;
+    private String maxDay;
+    private String maxHold;
+    private String slRatio;
+
 
     public FollowSettingsFragment newInstance(FollowEntity.DataBean value) {
         FollowSettingsFragment fragment = new FollowSettingsFragment();
@@ -112,6 +180,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
     private String amount;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void initView(View view) {
         text_title.setText(R.string.text_copy_trade_settings);
@@ -151,13 +220,91 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         dataList.add("500");
         amountListAdapter.setDatas(dataList);
 
-        amountListAdapter.setOnItemClick(data -> {
-            this.amount = data;
+        amountListAdapter.setOnItemClick((position, data) -> {
+            amountListAdapter.select(data);
+            amountListAdapter.notifyDataSetChanged();
             edit_amount.setText(data);
+
         });
 
+
         String value_amount = edit_amount.getText().toString();
-        edit_amount.addTextChangedListener(new TextWatcher() {
+        setEdit("1", edit_amount, null,500, 1);
+        setAdd(text_amount_add, edit_amount, value_amount, 5);
+        setSub(text_amount_sub, edit_amount, value_amount, 5);
+
+        String value_position = edit_copy_trade_position.getText().toString();
+        setEdit("2", edit_copy_trade_position, null,10000, 1);
+        setAdd(text_add_trade_position, edit_copy_trade_position, value_position, 5);
+        setSub(text_sub_trade_position, edit_copy_trade_position, value_position, 5);
+
+        String value_max = edit_max_trade_position.getText().toString();
+        setEdit("2", edit_max_trade_position, null,10000, 1);
+        setAdd(text_add_max_position, edit_max_trade_position, value_max, 5);
+        setSub(text_sub_max_position, edit_max_trade_position, value_max, 5);
+
+
+        setSeekBar(bar_amount,edit_amount_bar,90,0);
+        setEdit("3", edit_amount_bar, bar_amount,90, 0);
+
+        //比例跟单
+        layout_unfold_settings_proportion.setVisibility(View.GONE);
+        String strMsg5 = getString(R.string.text_copy_proportion);
+        text_copy_proportion.setText(Html.fromHtml(strMsg5));
+
+        setSeekBar(bar_proportion_rate,edit_copy_rate_proportion,1000,10);
+        setEdit("3", edit_copy_rate_proportion, bar_proportion_rate,1000, 10);
+
+        String value_warning = edit_warning_proportion.getText().toString();
+        setEdit("2", edit_warning_proportion, null,10000, 5);
+        setAdd(text_add_warning, edit_warning_proportion, value_warning, 5);
+        setSub(text_sub_warning, edit_warning_proportion, value_warning, 5);
+
+        String value_day_proportion = edit_day_amount_proportion.getText().toString();
+        setEdit("2", edit_day_amount_proportion, null,10000, 1);
+        setAdd(text_add_day_amount_proportion, edit_day_amount_proportion, value_day_proportion, 5);
+        setSub(text_sub_day_amount_proportion, edit_day_amount_proportion, value_day_proportion, 5);
+
+        String value_max_proportion = edit_max_amount_proportion.getText().toString();
+        setEdit("2", edit_max_amount_proportion, null,10000, 1);
+        setAdd(text_add_max_proportion, edit_max_amount_proportion, value_max_proportion, 5);
+        setSub(text_sub_max_proportion, edit_max_amount_proportion, value_max_proportion, 5);
+
+        setSeekBar(bar_stop_loss_proportion,edit_stop_loss_rate,90,0);
+        setEdit("3", edit_stop_loss_rate, bar_stop_loss_proportion,90, 0);
+
+        view.findViewById(R.id.btn_submit).setOnClickListener(this);
+
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void setSeekBar(SeekBar seekBar, DecimalEditText edit_bar,int max,int min){
+        seekBar.setMax(max);
+        seekBar.setMin(min);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    edit_bar.setText(progress + "");
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+    }
+
+
+    private void setEdit(String isAmount, EditText edit,SeekBar seekBar, int max, int min) {
+        edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -165,11 +312,26 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length()>0){
-                    if (Integer.parseInt(s.toString())<0){
-                        edit_amount.setText(String.valueOf(0));
-                    }else if (Integer.parseInt(s.toString())>500){
-                        edit_amount.setText(String.valueOf(500));
+                if (s.length() > 0) {
+                    if (Integer.parseInt(s.toString()) < min) {
+                        edit.setText(String.valueOf(min));
+                    } else if (Integer.parseInt(s.toString()) > max) {
+                        edit.setText(String.valueOf(max));
+                    }
+                    if (isAmount.equals("1")) {
+                        amountListAdapter.select(s.toString());
+                        amountListAdapter.notifyDataSetChanged();
+                    } else if (isAmount.equals("3")) {
+                        seekBar.post(() -> {
+                            seekBar.setProgress(Integer.parseInt(s.toString()));
+                        });
+                    }
+
+                } else {
+                    if (isAmount.equals("3")) {
+                        seekBar.post(() -> {
+                            seekBar.setProgress(0);
+                        });
                     }
                 }
             }
@@ -179,33 +341,33 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
             }
         });
-        text_amount_add.setOnClickListener(v -> {
-            int a;
-            if (value_amount.equals("")) {
-                a = 5;
-            } else {
-                a = Integer.parseInt(edit_amount.getText().toString()) + 5;
-            }
-
-            edit_amount.setText(String.valueOf(a));
-        });
-        text_amount_sub.setOnClickListener(v -> {
-            int a;
-            if (value_amount.equals("")) {
-                a = 5;
-            } else {
-                a = Integer.parseInt(edit_amount.getText().toString()) - 5;
-            }
-            edit_amount.setText(String.valueOf(a));
-        });
-        //比例跟单
-        layout_unfold_settings_proportion.setVisibility(View.GONE);
-        String strMsg5 = getString(R.string.text_copy_proportion);
-        text_copy_proportion.setText(Html.fromHtml(strMsg5));
-
-
     }
 
+    private void setAdd(TextView add, EditText edit, String value, int count) {
+        add.setOnClickListener(v -> {
+            int a;
+            if (value.equals("")) {
+                a = count;
+            } else {
+                a = Integer.parseInt(edit.getText().toString()) + count;
+            }
+
+            edit.setText(String.valueOf(a));
+        });
+    }
+
+    private void setSub(TextView sub, EditText edit, String value, int count) {
+        sub.setOnClickListener(v -> {
+            int a;
+            if (value.equals("")) {
+                a = count;
+            } else {
+                a = Integer.parseInt(edit.getText().toString()) - count;
+            }
+
+            edit.setText(String.valueOf(a));
+        });
+    }
 
     @Override
     protected void intPresenter() {
@@ -214,13 +376,13 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
     @Override
     protected void initData() {
-        FollowEntity.DataBean dataBean = (FollowEntity.DataBean) getArguments().getSerializable("DATA_VALUE");
+        followerUser = (FollowEntity.DataBean) getArguments().getSerializable("DATA_VALUE");
 
-        Glide.with(getActivity()).load(dataBean.getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head);
-        text_userName.setText(dataBean.getUsername());
+        Glide.with(getActivity()).load(followerUser.getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head);
+        text_userName.setText(followerUser.getUsername());
 
         String value_type = null;
-        int type = dataBean.getType();
+        int type = followerUser.getType();
         switch (type) {
             case 1:
                 value_type = getString(R.string.text_normal_user);
@@ -241,6 +403,8 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         text_type.setText(value_type);
     }
 
+
+    private String followWay = "1";
 
     @Override
     public void onClick(View v) {
@@ -278,8 +442,47 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                             getResources().getDrawable(R.mipmap.icon_triangle_down_big), null);
                 }
                 break;
+            case R.id.btn_submit:
+                traderId = followerUser.getUserId();
+                if (followWay.equals("1")){
+                    followVal = edit_amount.getText().toString();
+                    maxDay = edit_copy_trade_position.getText().toString();
+                    maxHold = edit_max_trade_position.getText().toString();
+                    slRatio = edit_amount_bar.getText().toString();
+
+
+                }else {
+                    followVal = edit_copy_rate_proportion.getText().toString();
+                    maxDay = edit_day_amount_proportion.getText().toString();
+                    maxHold = edit_max_amount_proportion.getText().toString();
+                    slRatio = edit_stop_loss_rate.getText().toString();
+                }
+                if (slRatio.equals("")){
+                    slRatio="-1";
+                }
+                NetManger.getInstance().follow(traderId, "USDT", followWay, followVal, maxDay, maxHold, slRatio, "true", (state, response) -> {
+                            if (state.equals(BUSY)) {
+                                showProgressDialog();
+                            } else if (state.equals(SUCCESS)) {
+                                dismissProgressDialog();
+                                TipEntity tipEntity= (TipEntity) response;
+                                if (tipEntity.getMessage().equals("")){
+                                    Toast.makeText(getActivity(),getResources().getString(R.string.text_tip_success),Toast.LENGTH_SHORT).show();
+                                }else {
+                                    Toast.makeText(getActivity(),tipEntity.getMessage(),Toast.LENGTH_SHORT);
+                                }
+                            } else if (state.equals(FAILURE)) {
+                                dismissProgressDialog();
+                            }
+                        }
+
+
+                );
+                break;
+
         }
     }
+
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -290,7 +493,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
                 layout_copy_amount.setVisibility(View.VISIBLE);
                 layout_copy_proportion.setVisibility(View.GONE);
-
+                followWay = "1";
                 break;
             case R.id.radio_proportional_margin:
 
@@ -299,6 +502,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
                 layout_copy_amount.setVisibility(View.GONE);
                 layout_copy_proportion.setVisibility(View.VISIBLE);
+                followWay = "2";
 
                 break;
         }

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#1FB7FA</color>
 
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
@@ -43,4 +43,5 @@
     <color name="color_tag_purple">#DE3C7C</color>
     <color name="color_blue">#1FB7FA</color>
     <color name="color_orange">#FFB628</color>
+    <color name="color_frame_bg">#1F2A40</color>
 </resources>

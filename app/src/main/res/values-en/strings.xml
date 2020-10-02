@@ -486,5 +486,6 @@
     <string name="text_warning_value">warning value(USDT)</string>
     <string name="text_warning_tip">copy trading price = open price*copy trade ratio. For example, if you set 20%, when the open price is 100 USDT, the copy trade price is 20 USDT.</string>
     <string name="text_warning_tip_two">Attention:\nIf copy trade amount is below 5 USDT, the system will automatically follow the order with 5 USDT. If the copy trade amount is more than warning value, the system will follow the order with the set warning value. The maximun warning value is 10000 USDT.</string>
+    <string name="text_unlimited_copy">unlimited</string>
 
 </resources>

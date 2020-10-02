@@ -6,13 +6,13 @@
     android:orientation="vertical">
 
 
-    <TextView
-        android:id="@+id/text_amount"
+    <RadioButton
+        android:id="@+id/radio_lever"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_25"
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_weight="1"
-        android:background="@drawable/bg_shape_green_copy"
+        android:background="@drawable/sel_switcher_amount_bg"
         android:button="@null"
         android:gravity="center"
         android:maxLines="1"

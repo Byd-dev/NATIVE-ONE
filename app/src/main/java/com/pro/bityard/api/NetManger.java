@@ -103,6 +103,13 @@ public class NetManger {
         return instance;
     }
 
+    /*H5地址*/
+    public static final String getH5Url(String token, String url) {
+        String H5url = H5_BASE_URL + url + "?token=" + token;
+        Log.d("print", "getH5Url:2673:  " + H5url);
+        return H5url;
+
+    }
 
     //get 请求
     public void getRequest(String url, ArrayMap map, OnNetResult onNetResult) {
@@ -2670,12 +2677,48 @@ public class NetManger {
         });
     }
 
+    /*风格理念*/
+    public void follow(String traderId,String currency,String followWay,String followVal,String maxDay,
+                       String maxHold,String slRatio,String active,OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("traderId", traderId);
+        map.put("currency",currency);
+        if (followWay!=null){
+            map.put("followWay",followWay);
+        }
+        if (followVal!=null){
+            map.put("followVal",followVal);
+        }
+        if (maxDay!=null){
+            map.put("maxDay",maxDay);
+        }
+        if (maxHold!=null){
+            map.put("maxHold",maxHold);
+        }
+        if (slRatio!=null){
+            map.put("slRatio",slRatio);
+        }
+        if (active!=null){
+            map.put("active", active);
+        }
 
-    public static final String getH5Url(String token, String url) {
-        String H5url = H5_BASE_URL + url + "?token=" + token;
-        Log.d("print", "getH5Url:2673:  " + H5url);
-        return H5url;
+        getRequest("/api/follow/follower/apply", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "follow:跟单结果:  "+response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    onNetResult.onNetResult(SUCCESS, tipEntity);
+                }
 
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
     }
 
 }
