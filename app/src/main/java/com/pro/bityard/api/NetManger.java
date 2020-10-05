@@ -2743,4 +2743,36 @@ public class NetManger {
             }
         });
     }
+
+    /*跟单列表*/
+    public void followerList(String traderId,String currency,String page,String rows, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("traderId", traderId);
+        map.put("currency",currency);
+        if (page != null) {
+            map.put("page", page);
+        }
+        if (rows != null) {
+            map.put("rows", rows);
+        }
+        getRequest("/api/follow/trader/followers", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "followerList:2757:  "+response);
+
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    /*StatEntity statEntity = new Gson().fromJson(response.toString(), StatEntity.class);
+                    onNetResult.onNetResult(SUCCESS, statEntity);*/
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
 }
