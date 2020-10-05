@@ -63,7 +63,7 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
             }
         });
 
-     
+
 
     }
 
