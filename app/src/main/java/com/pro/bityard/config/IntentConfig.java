@@ -75,8 +75,8 @@ public class IntentConfig {
         public static final String KEY_CIRCLE_FOLLOWER_LIST = "CIRCLE_FOLLOWER_LIST";
         //跟单设置
         public static final String KEY_CIRCLE_SETTINGS_FOLLOW = "CIRCLE_SETTINGS_FOLLOW";
-        /*验证码*/
-        public static final String AUTH_CODE = "AUTH_CODE";
+        /*跟单管理*/
+        public static final String KEY_FOLLOW_SETTINGS = "FOLLOW_SETTINGS";
 
         public static final String SHOW_PREV_LOGIN_NAME = "SHOW_PREV_LOGIN_NAME";
 

@@ -777,6 +777,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_circle.addHeaderView(head_circle);
         recyclerView_circle.addFooterView(footView_circle);
 
+        head_circle.findViewById(R.id.text_follow_settings).setOnClickListener(this);
 
         TextView text_update = head_circle.findViewById(R.id.text_update_two);
         String strMsg = getString(R.string.text_two_update);
@@ -1587,7 +1588,14 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
 
                 break;
-
+            //跟单管理
+            case R.id.text_follow_settings:
+                if (isLogin()) {
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_FOLLOW_SETTINGS);
+                } else {
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
             /*我的 -----------------------------------------------------------------------------------*/
             case R.id.img_head:
             case R.id.layout_login:

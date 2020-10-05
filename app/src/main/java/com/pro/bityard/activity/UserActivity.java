@@ -9,6 +9,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.fragment.circle.FollowMangerFragment;
 import com.pro.bityard.fragment.circle.FollowSettingsFragment;
 import com.pro.bityard.fragment.circle.FollowerListFragment;
 import com.pro.bityard.fragment.circle.SearchNicknameFragment;
@@ -168,9 +169,21 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_CIRCLE_FOLLOWER_LIST:
                 addFollowerListFragment();
                 break;
+            case IntentConfig.Keys.KEY_FOLLOW_SETTINGS:
+                addFollowMangerFragment();
+                break;
         }
 
 
+    }
+
+    private void addFollowMangerFragment() {
+        String name = FollowMangerFragment.class.getSimpleName();
+        FollowMangerFragment fragment = new FollowMangerFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addSettingsFollowFragment(FollowEntity.DataBean dataBean) {

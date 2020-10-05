@@ -37,6 +37,7 @@ import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.RateEntity;
 import com.pro.bityard.entity.RateListEntity;
+import com.pro.bityard.entity.StatEntity;
 import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TipCloseEntity;
 import com.pro.bityard.entity.TipEntity;
@@ -2721,4 +2722,25 @@ public class NetManger {
         });
     }
 
+
+    /*跟单收益*/
+    public void followerStat( OnNetResult onNetResult) {
+        getRequest("/api/follow/follower/stat", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    StatEntity statEntity = new Gson().fromJson(response.toString(), StatEntity.class);
+                    onNetResult.onNetResult(SUCCESS, statEntity);
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
 }

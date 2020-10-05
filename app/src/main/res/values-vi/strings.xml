@@ -488,5 +488,7 @@
     <string name="text_warning_tip">Số tiền sao chép=Số tiền giao dịch viên mở lệnh*Tỷ lệ sao chép，Ví dụ bạn cài đặt 20%， giao dịch viên vào lệnh 100USDT，số tiền sao chép của bạn là 20USDT</string>
     <string name="text_warning_tip_two">Lưu ý：\nNếu như số tiền sao chép nhỏ hơn 5 USDT，Hệ thống sẽ tính sao chép 5 USDT ； Nếu như số tiền sao chép lớn hơn giá trị cảnh báo，hệ thống sẽ tính theo số tiền cảnh báo đã đặt sẵn，tối đa là 10000 USDT</string>
     <string name="text_unlimited_copy">Không giới hạn</string>
+    <string name="text_copy_total_amount">Tổng số tiền sao chép</string>
+    <string name="text_copy_trade_profit">Tổng lợi nhuận sao chépa</string>
 
 </resources>

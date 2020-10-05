@@ -488,6 +488,8 @@
     <string name="text_warning_tip">フォロー金額=トレーダーのオープンオーダー価額×フォロー率。例：20％を設定する場合は、フォローするトレーダーが100 USDTで発注をかけると自分のフォロー金額は20 USDTになることです。</string>
     <string name="text_warning_tip_two">ご注意：\nフォローする金額が5 USDT未満の場合、システムが自動的に5 USDTで発注をかけます。フォローする金額が上限値を超えた場合は、システムは設定した上限値で発注をかけます。最大上限値は10000 USDTになります。</string>
     <string name="text_unlimited_copy">アンリミテッド</string>
+    <string name="text_copy_total_amount">実際フォローした累計金額</string>
+    <string name="text_copy_trade_profit">実際フォローした総収益</string>
 
 
 </resources>
