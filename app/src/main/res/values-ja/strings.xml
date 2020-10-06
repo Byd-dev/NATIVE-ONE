@@ -490,6 +490,10 @@
     <string name="text_unlimited_copy">アンリミテッド</string>
     <string name="text_copy_total_amount">実際フォローした累計金額</string>
     <string name="text_copy_trade_profit">実際フォローした総収益</string>
+    <string name="text_day_copy_amount">一日のコピトレの発注金額</string>
+    <string name="text_max_position_amount">最大ポジション数</string>
+    <string name="text_edit">設定</string>
+    <string name="text_following">フォロー中</string>
 
 
 </resources>

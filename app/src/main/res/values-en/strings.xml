@@ -489,5 +489,9 @@
     <string name="text_unlimited_copy">unlimited</string>
     <string name="text_copy_total_amount">Live copy trade total amount</string>
     <string name="text_copy_trade_profit">Live copy trade profit</string>
+    <string name="text_day_copy_amount">Day Copy Trading Amount</string>
+    <string name="text_max_position_amount">Maximum Position Amount</string>
+    <string name="text_edit">Edit</string>
+    <string name="text_following">following</string>
 
 </resources>

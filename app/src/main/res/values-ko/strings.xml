@@ -490,5 +490,9 @@
     <string name="text_unlimited_copy">무제한</string>
     <string name="text_copy_total_amount">실거래 총 팔로우 금액</string>
     <string name="text_copy_trade_profit">실거래 총 팔로우 수익</string>
+    <string name="text_day_copy_amount">일 팔로우 금액</string>
+    <string name="text_max_position_amount">최대 포지션 수</string>
+    <string name="text_edit">설정</string>
+    <string name="text_following">팔로우 중</string>
 
 </resources>

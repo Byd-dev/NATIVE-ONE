@@ -490,5 +490,9 @@
     <string name="text_unlimited_copy">Без лимита</string>
     <string name="text_copy_total_amount">Общая сумма Live Копи-трейдинга</string>
     <string name="text_copy_trade_profit">Общая прибыль от Live Копи-трейдинга</string>
+    <string name="text_day_copy_amount">Сумма Копи-трейдинга за день</string>
+    <string name="text_max_position_amount">Максимальная сумма позиции</string>
+    <string name="text_edit">Изменить</string>
+    <string name="text_following">Подписки</string>
 
 </resources>

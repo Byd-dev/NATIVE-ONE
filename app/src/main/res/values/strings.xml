@@ -487,7 +487,11 @@
     <string name="text_warning_tip">跟单金额=交易员开仓金额*跟单比例，例如您设置20%，当交易员下单金额为100USDT，跟单金额为20USDT</string>
     <string name="text_warning_tip_two">注意：\n若跟单金额小于 5 USDT，系统将以 5 USDT 跟单； 若跟单金额大于警戒值时，系统将以设定的警戒值跟单，警戒值最高 10000 USDT</string>
     <string name="text_unlimited_copy">无限</string>
-    <string name="text_copy_total_amount">实单累计跟单金额</string>
+    <string name="text_copy_total_amount">实盘累计跟单金额</string>
     <string name="text_copy_trade_profit">实盘跟单总收益</string>
+    <string name="text_day_copy_amount">单日跟随金额</string>
+    <string name="text_max_position_amount">最大持仓</string>
+    <string name="text_edit">编辑</string>
+    <string name="text_following">正在跟随</string>
 
 </resources>

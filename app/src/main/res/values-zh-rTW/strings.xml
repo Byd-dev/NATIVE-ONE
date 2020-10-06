@@ -490,5 +490,9 @@
     <string name="text_unlimited_copy">无限</string>
     <string name="text_copy_total_amount">实单累计跟单金额</string>
     <string name="text_copy_trade_profit">实盘跟单总收益</string>
+    <string name="text_day_copy_amount">單日跟隨金額</string>
+    <string name="text_max_position_amount">最大持倉</string>
+    <string name="text_edit">編輯</string>
+    <string name="text_following">正在跟随</string>
 
 </resources>

@@ -489,5 +489,9 @@
     <string name="text_unlimited_copy">ilimitado</string>
     <string name="text_copy_total_amount">Valor total da transação de cópia ao vivo</string>
     <string name="text_copy_trade_profit">Lucro comercial de cópia ao vivo</string>
+    <string name="text_day_copy_amount">Valor de troca da cópia do dia</string>
+    <string name="text_max_position_amount">Quantidade máxima de posição</string>
+    <string name="text_edit">Editar</string>
+    <string name="text_following">Segue</string>
 
 </resources>

@@ -21,6 +21,7 @@ import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.ExchangeRecordEntity;
@@ -2679,27 +2680,27 @@ public class NetManger {
     }
 
     /*风格理念*/
-    public void follow(String traderId,String currency,String followWay,String followVal,String maxDay,
-                       String maxHold,String slRatio,String active,OnNetResult onNetResult) {
+    public void follow(String traderId, String currency, String followWay, String followVal, String maxDay,
+                       String maxHold, String slRatio, String active, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("traderId", traderId);
-        map.put("currency",currency);
-        if (followWay!=null){
-            map.put("followWay",followWay);
+        map.put("currency", currency);
+        if (followWay != null) {
+            map.put("followWay", followWay);
         }
-        if (followVal!=null){
-            map.put("followVal",followVal);
+        if (followVal != null) {
+            map.put("followVal", followVal);
         }
-        if (maxDay!=null){
-            map.put("maxDay",maxDay);
+        if (maxDay != null) {
+            map.put("maxDay", maxDay);
         }
-        if (maxHold!=null){
-            map.put("maxHold",maxHold);
+        if (maxHold != null) {
+            map.put("maxHold", maxHold);
         }
-        if (slRatio!=null){
-            map.put("slRatio",slRatio);
+        if (slRatio != null) {
+            map.put("slRatio", slRatio);
         }
-        if (active!=null){
+        if (active != null) {
             map.put("active", active);
         }
 
@@ -2707,7 +2708,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "follow:跟单结果:  "+response.toString());
+                Log.d("print", "follow:跟单结果:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -2724,7 +2725,7 @@ public class NetManger {
 
 
     /*跟单收益*/
-    public void followerStat( OnNetResult onNetResult) {
+    public void followerStat(OnNetResult onNetResult) {
         getRequest("/api/follow/follower/stat", null, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
@@ -2745,10 +2746,45 @@ public class NetManger {
     }
 
     /*跟单列表*/
-    public void followerList(String traderId,String currency,String page,String rows, OnNetResult onNetResult) {
+    public void followerTraders(String page,String rows,OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+
+        if (page != null) {
+            map.put("page", page);
+        }
+        if (rows != null) {
+            map.put("rows", rows);
+        }
+
+        if (map.values().size() == 0) {
+            map = null;
+        }
+        getRequest("/api/follow/follower/traders", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "followerList:2757:  " + response);
+
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    CopyMangerEntity copyMangerEntity = new Gson().fromJson(response.toString(), CopyMangerEntity.class);
+                    onNetResult.onNetResult(SUCCESS, copyMangerEntity);
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    /*跟单列表*/
+    public void followerList(String traderId, String currency, String page, String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("traderId", traderId);
-        map.put("currency",currency);
+        map.put("currency", currency);
         if (page != null) {
             map.put("page", page);
         }
@@ -2759,7 +2795,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "followerList:2757:  "+response);
+                Log.d("print", "followerList:2757:  " + response);
 
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() != 200) {
@@ -2775,4 +2811,6 @@ public class NetManger {
             }
         });
     }
+
+
 }

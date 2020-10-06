@@ -491,5 +491,9 @@
     <string name="text_unlimited_copy">Tidak terbatas</string>
     <string name="text_copy_total_amount">Jumlah total Copy Trading</string>
     <string name="text_copy_trade_profit">Total keuntungan langsung dari Copy Trading</string>
+    <string name="text_day_copy_amount">Jumlah harian</string>
+    <string name="text_max_position_amount">Posisi teratas</string>
+    <string name="text_edit">Ubah</string>
+    <string name="text_following">Langganan</string>
 
 </resources>

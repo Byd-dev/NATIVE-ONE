@@ -490,5 +490,9 @@
     <string name="text_unlimited_copy">Không giới hạn</string>
     <string name="text_copy_total_amount">Tổng số tiền sao chép</string>
     <string name="text_copy_trade_profit">Tổng lợi nhuận sao chépa</string>
+    <string name="text_day_copy_amount">Số tiền sao chép trong ngày</string>
+    <string name="text_max_position_amount">Số tiền vị thế lớn nhất</string>
+    <string name="text_edit">Sửa đổi</string>
+    <string name="text_following">Đang theo dõi</string>
 
 </resources>
