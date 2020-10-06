@@ -130,7 +130,6 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
 
         NetManger.getInstance().followerTraders(String.valueOf(page), "10", (state, response) -> {
             if (state.equals(BUSY)) {
-                swipeRefreshLayout_traders.setRefreshing(true);
             } else if (state.equals(SUCCESS)) {
                 swipeRefreshLayout_traders.setRefreshing(false);
 

@@ -120,6 +120,9 @@ public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             ((MyViewHolder) holder).text_max_position_amount.setText(String.valueOf(datas.get(position).getMaxHold()));
 
+            ((MyViewHolder) holder).stay_copy_total_amount.setText(context.getResources().getString(R.string.text_copy_total_amount)+"(USDT)");
+
+            ((MyViewHolder) holder).stay_copy_trade_profit.setText(context.getResources().getString(R.string.text_copy_trade_profit)+"(USDT)");
 
             ((MyViewHolder) holder).text_edit.setOnClickListener(v -> {
                 if (onFollowClick != null) {
@@ -156,7 +159,7 @@ public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_copy_total_amount, text_copy_trade_profit, text_fixed_margin,
+        TextView text_name, text_copy_total_amount, stay_copy_total_amount,text_copy_trade_profit,stay_copy_trade_profit, text_fixed_margin,
                 text_day_copy_amount, text_max_position_amount,  text_type, text_edit;
         CircleImageView img_head;
 
@@ -164,6 +167,8 @@ public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             super(itemView);
             text_name = itemView.findViewById(R.id.text_userName);
             text_copy_total_amount = itemView.findViewById(R.id.text_copy_total_amount);
+            stay_copy_total_amount = itemView.findViewById(R.id.stay_copy_total_amount);
+            stay_copy_trade_profit=itemView.findViewById(R.id.stay_copy_trade_profit);
             text_copy_trade_profit = itemView.findViewById(R.id.text_copy_trade_profit);
             text_fixed_margin = itemView.findViewById(R.id.text_fixed_margin);
             text_day_copy_amount = itemView.findViewById(R.id.text_day_copy_amount);

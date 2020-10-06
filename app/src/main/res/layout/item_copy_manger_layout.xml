@@ -111,6 +111,7 @@
                     android:textSize="@dimen/size_bigger" />
 
                 <TextView
+                    android:id="@+id/stay_copy_total_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
@@ -147,11 +148,11 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/stay_copy_trade_profit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_copy_trade_profit"
                         android:drawablePadding="@dimen/margin_5"
-                        android:drawableRight="@mipmap/icon_warning_green"
                         android:textColor="@color/text_second_color"
                         android:textSize="@dimen/size_normal" />
 
