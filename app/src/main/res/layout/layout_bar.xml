@@ -78,7 +78,20 @@
             android:visibility="gone"
             />
 
-
+        <TextView
+            android:id="@+id/text_cancel_follow"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/text_follow_cancel"
+            android:textColor="@color/text_quote_green"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="@dimen/margin_15"
+            android:textSize="@dimen/size_normal_two"
+            android:paddingLeft="@dimen/margin_15"
+            android:gravity="center"
+            android:visibility="gone"
+            />
         <TextView
             android:id="@+id/text_filter"
             android:layout_width="wrap_content"

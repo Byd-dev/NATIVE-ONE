@@ -8,7 +8,9 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.fragment.circle.FollowEditFragment;
 import com.pro.bityard.fragment.circle.FollowMangerFragment;
 import com.pro.bityard.fragment.circle.FollowSettingsFragment;
 import com.pro.bityard.fragment.circle.FollowerListFragment;
@@ -47,6 +49,7 @@ public class UserActivity extends BaseActivity {
     private static final String TYPE = "USER_TYPE";
     private static final String VALUE = "VALUE";
     private static final String DATA_VALUE = "DATA_VALUE";
+    private static final String DATA_VALUE_EDIT = "DATA_VALUE_EDIT";
 
     private FragmentTransaction ft;
 
@@ -69,7 +72,7 @@ public class UserActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
-    public static void enter(Context context, String type, FollowEntity.DataBean value) {
+    public static void enter(Context context, String type, Object value) {
         Intent intent = new Intent(context, UserActivity.class);
         intent.putExtra(TYPE, type);
         intent.putExtra(DATA_VALUE, (Serializable) value);
@@ -84,9 +87,6 @@ public class UserActivity extends BaseActivity {
         String type = intent.getStringExtra(TYPE);
 
         String value = intent.getStringExtra(VALUE);
-
-
-        FollowEntity.DataBean dataBean= (FollowEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
 
 
         assert type != null;
@@ -164,6 +164,8 @@ public class UserActivity extends BaseActivity {
                 addSearchNicknameFragment();
                 break;
             case IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW:
+                FollowEntity.DataBean dataBean = (FollowEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
+
                 addSettingsFollowFragment(dataBean);
                 break;
             case IntentConfig.Keys.KEY_CIRCLE_FOLLOWER_LIST:
@@ -172,9 +174,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_FOLLOW_SETTINGS:
                 addFollowMangerFragment();
                 break;
+            case IntentConfig.Keys.KEY_CIRCLE_EDIT_FOLLOW:
+                CopyMangerEntity.DataBean dataBean2 = (CopyMangerEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
+                addFollowEditFragment(dataBean2);
+                break;
         }
 
 
+    }
+
+    private void addFollowEditFragment(CopyMangerEntity.DataBean dataBean) {
+        String name = FollowEditFragment.class.getSimpleName();
+        FollowEditFragment fragment = new FollowEditFragment().newInstance(dataBean);
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addFollowMangerFragment() {

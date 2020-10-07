@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_bar" />
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+
+                <com.pro.bityard.view.CircleImageView
+                    android:id="@+id/img_head"
+                    android:layout_width="@dimen/margin_50"
+                    android:layout_height="@dimen/margin_50"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:src="@mipmap/icon_my_bityard" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin_50"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_8"
+                    android:layout_toRightOf="@+id/img_head"
+                    android:gravity="left|center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/text_userName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="巴菲特"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_bigger"
+                        android:typeface="monospace" />
+
+
+                    <TextView
+                        android:id="@+id/text_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_5"
+                        android:background="@drawable/gradient_bg_circle_main"
+                        android:drawableLeft="@mipmap/icon_star_normal"
+                        android:drawablePadding="@dimen/margin_5"
+                        android:gravity="left|center"
+                        android:paddingLeft="@dimen/margin_10"
+                        android:paddingTop="@dimen/margin_3"
+                        android:paddingRight="@dimen/margin_10"
+                        android:paddingBottom="@dimen/margin_3"
+                        android:text="明星10%"
+                        android:textColor="@color/maincolor"
+                        android:textSize="@dimen/size_normal" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin_50"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:gravity="right|center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/text_follow_currency"
+                        android:textColor="@color/text_second_color"
+                        android:textSize="@dimen/size_normal_two"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_currency"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/text_usdt"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big"
+                        android:typeface="monospace" />
+
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <include layout="@layout/layout_line" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bar_height">
+
+                <TextView
+
+                    android:id="@+id/text_trade_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="@string/text_copy_switch"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+                <Switch
+                    android:id="@+id/btn_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:thumb="@drawable/switch_ios_thumb"
+                    android:track="@drawable/switch_ios_track_selector" />
+
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/text_copy_switch_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_marginBottom="@dimen/margin_15"
+                android:text="@string/text_copy_switch_tip"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
+
+            <include layout="@layout/layout_line" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bar_height">
+
+                <TextView
+                    android:id="@+id/text_copy_trade_options"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="@string/text_copy_trade_options"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin_26"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/text_copy_trade_options"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio_fixed_margin"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@mipmap/bg_blue_left"
+                        android:button="@null"
+                        android:checked="false"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/text_fixed_margin"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big"
+                        android:typeface="monospace" />
+
+                    <RadioButton
+                        android:id="@+id/radio_proportional_margin"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@mipmap/bg_normal_right"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:text="@string/text_proportional_margin"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big"
+                        android:typeface="monospace" />
+
+                </RadioGroup>
+
+
+            </RelativeLayout>
+            <!--金额跟单-->
+            <!--比例跟单-->
+            <include layout="@layout/layout_copy_amount" />
+
+            <include layout="@layout/layout_copy_proportion" />
+
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_bg_left">
+
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bar_height"
+            android:layout_margin="@dimen/margin_15"
+            android:background="@drawable/bg_shape_main_color"
+            android:text="@string/text_save_copy"
+            android:textColor="@color/color_btn_text"
+            android:textSize="@dimen/size_bigger"
+            android:textStyle="bold"
+
+            />
+
+    </RelativeLayout>
+</LinearLayout>

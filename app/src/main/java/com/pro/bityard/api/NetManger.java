@@ -2746,7 +2746,7 @@ public class NetManger {
     }
 
     /*跟单列表*/
-    public void followerTraders(String page,String rows,OnNetResult onNetResult) {
+    public void followerTraders(String page, String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
 
         if (page != null) {
@@ -2803,6 +2803,51 @@ public class NetManger {
                 } else {
                     /*StatEntity statEntity = new Gson().fromJson(response.toString(), StatEntity.class);
                     onNetResult.onNetResult(SUCCESS, statEntity);*/
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    /*取消跟随*/
+    public void followCancel(String traderId, OnNetResult onNetResult) {
+        String url = String.format("/api/follow/follower/cancel/%s", traderId);
+
+        getRequest(url, null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    onNetResult.onNetResult(SUCCESS, tipEntity);
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    /*跟单开关*/
+    public void followSwitch(String active, String id, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("active", active);
+        map.put("id", id);
+        getRequest("/api/follow/follower/active", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    onNetResult.onNetResult(SUCCESS, tipEntity);
                 }
 
             } else if (state.equals(FAILURE)) {

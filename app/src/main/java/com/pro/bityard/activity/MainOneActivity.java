@@ -1040,7 +1040,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        TabLayout tabLayout_market = view.findViewById(R.id.tabLayout_market);
+        TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market);
 
         LinearLayout layout_null = view.findViewById(R.id.layout_null);
 
@@ -1060,9 +1060,9 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
 
         for (String market_name : titleList) {
-            tabLayout_market.addTab(tabLayout_market.newTab().setText(market_name));
+            tabLayout_market_search.addTab(tabLayout_market_search.newTab().setText(market_name));
         }
-        tabLayout_market.getTabAt(1).select();
+        tabLayout_market_search.getTabAt(1).select();
         view.findViewById(R.id.layout_new_price).setOnClickListener(v -> {
             if (arrayMap == null) {
                 return;
@@ -1188,7 +1188,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
         });
 
-        tabLayout_market.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+        tabLayout_market_search.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 //切换都重置为默认
@@ -1304,8 +1304,10 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            type = "1";
+            tabLayout_market.getTabAt(1).select();
             popupWindow.dismiss();
-           // type = "1";
+
         });
 
         RelativeLayout layout_bar = view.findViewById(R.id.layout_bar);
@@ -1499,6 +1501,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             /*行情 -----------------------------------------------------------------------------------*/
             case R.id.img_search:
                 Util.lightOff(this);
+                type="1";
                 showQuotePopWindow();
                 break;
             case R.id.layout_new_price:

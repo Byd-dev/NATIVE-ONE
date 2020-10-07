@@ -1,8 +1,9 @@
 package com.pro.bityard.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class CopyMangerEntity {
+public class CopyMangerEntity implements Serializable {
 
 
     /**
@@ -81,7 +82,7 @@ public class CopyMangerEntity {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Serializable{
         @Override
         public String toString() {
             return "DataBean{" +
@@ -144,15 +145,15 @@ public class CopyMangerEntity {
         private Object brand;
         private long createTime;
         private String currency;
-        private double followVal;
+        private int followVal;
         private int followWay;
         private String id;
         private Object lastCode;
         private Object lastData;
-        private Object lastTime;
-        private double maxDay;
-        private double maxHold;
-        private double slRatio;
+        private long lastTime;
+        private int maxDay;
+        private int maxHold;
+        private int slRatio;
         private double sumIncome;
         private double sumMargin;
         private String traderAvatar;
@@ -203,11 +204,11 @@ public class CopyMangerEntity {
             this.currency = currency;
         }
 
-        public double getFollowVal() {
+        public int getFollowVal() {
             return followVal;
         }
 
-        public void setFollowVal(double followVal) {
+        public void setFollowVal(int followVal) {
             this.followVal = followVal;
         }
 
@@ -243,35 +244,35 @@ public class CopyMangerEntity {
             this.lastData = lastData;
         }
 
-        public Object getLastTime() {
+        public long getLastTime() {
             return lastTime;
         }
 
-        public void setLastTime(Object lastTime) {
+        public void setLastTime(long lastTime) {
             this.lastTime = lastTime;
         }
 
-        public double getMaxDay() {
+        public int getMaxDay() {
             return maxDay;
         }
 
-        public void setMaxDay(double maxDay) {
+        public void setMaxDay(int maxDay) {
             this.maxDay = maxDay;
         }
 
-        public double getMaxHold() {
+        public int getMaxHold() {
             return maxHold;
         }
 
-        public void setMaxHold(double maxHold) {
+        public void setMaxHold(int maxHold) {
             this.maxHold = maxHold;
         }
 
-        public double getSlRatio() {
+        public int getSlRatio() {
             return slRatio;
         }
 
-        public void setSlRatio(double slRatio) {
+        public void setSlRatio(int slRatio) {
             this.slRatio = slRatio;
         }
 

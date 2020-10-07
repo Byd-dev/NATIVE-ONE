@@ -85,8 +85,8 @@ public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
 
-            Glide.with(context).load(datas.get(position).getAvatar()).error(R.mipmap.icon_my_bityard).into(((MyViewHolder) holder).img_head);
-            ((MyViewHolder) holder).text_name.setText(datas.get(position).getUsername());
+            Glide.with(context).load(datas.get(position).getTraderAvatar()).error(R.mipmap.icon_my_bityard).into(((MyViewHolder) holder).img_head);
+            ((MyViewHolder) holder).text_name.setText(datas.get(position).getTraderName());
             String value_type = null;
             String type = datas.get(position).getTraderType();
             switch (type) {

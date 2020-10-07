@@ -5,9 +5,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.CopyMangerAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.StatEntity;
 import com.pro.bityard.utils.TradeUtil;
@@ -44,8 +46,13 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
     SwipeRefreshLayout swipeRefreshLayout_traders;
 
     @Override
-    protected void onLazyLoad() {
+    public void onResume() {
+        super.onResume();
+        getData();
+    }
 
+    @Override
+    protected void onLazyLoad() {
     }
 
     private int page = 1;
@@ -75,7 +82,7 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
 
         swipeRefreshLayout_traders.setOnRefreshListener(() -> {
             page = 1;
-            initData();
+            getData();
         });
 
         recyclerView_traders.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -97,6 +104,10 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
             }
         });
 
+        copyMangerAdapter.setOnFollowClick(dataBean -> {
+            UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_CIRCLE_EDIT_FOLLOW, dataBean);
+        });
+
     }
 
     @Override
@@ -109,8 +120,7 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
 
     }
 
-    @Override
-    protected void initData() {
+    private void getData(){
         NetManger.getInstance().followerStat((state, response) -> {
             if (state.equals(SUCCESS)) {
                 StatEntity statEntity = (StatEntity) response;
@@ -121,6 +131,11 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
         });
         page = 1;
         getFollowTradersList(FIRST, page);
+    }
+
+    @Override
+    protected void initData() {
+
 
 
     }

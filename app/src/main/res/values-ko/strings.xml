@@ -494,5 +494,10 @@
     <string name="text_max_position_amount">최대 포지션 수</string>
     <string name="text_edit">설정</string>
     <string name="text_following">팔로우 중</string>
+    <string name="text_edit_follow">编辑跟单</string>
+    <string name="text_follow_cancel">取消跟随</string>
+    <string name="text_save_copy">保存</string>
+    <string name="text_copy_switch">跟单开关</string>
+    <string name="text_copy_switch_tip">在您手动关闭后，不再跟交易员下单，已跟随开仓的订单，保持同步平仓，不受影响</string>
 
 </resources>

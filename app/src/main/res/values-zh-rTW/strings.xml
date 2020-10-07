@@ -211,7 +211,7 @@
     <string name="text_month">本月</string>
     <string name="text_week">本周</string>
     <string name="text_pending">待處理</string>
-    <string name="text_tip_success">成功</string>
+    <string name="text_tip_success">操作成功</string>
     <string name="text_failure">失敗</string>
     <string name="text_tip_cancel">取消</string>
     <string name="text_processing">處理中</string>
@@ -494,5 +494,10 @@
     <string name="text_max_position_amount">最大持倉</string>
     <string name="text_edit">編輯</string>
     <string name="text_following">正在跟随</string>
+    <string name="text_edit_follow">编辑跟单</string>
+    <string name="text_follow_cancel">取消跟随</string>
+    <string name="text_save_copy">保存</string>
+    <string name="text_copy_switch">跟单开关</string>
+    <string name="text_copy_switch_tip">在您手动关闭后，不再跟交易员下单，已跟随开仓的订单，保持同步平仓，不受影响</string>
 
 </resources>
