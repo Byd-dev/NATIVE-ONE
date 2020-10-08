@@ -83,6 +83,7 @@ public class CopyMangerEntity implements Serializable {
     }
 
     public static class DataBean implements Serializable{
+
         @Override
         public String toString() {
             return "DataBean{" +
@@ -92,6 +93,7 @@ public class CopyMangerEntity implements Serializable {
                     ", createTime=" + createTime +
                     ", currency='" + currency + '\'' +
                     ", followVal=" + followVal +
+                    ", followMax=" + followMax +
                     ", followWay=" + followWay +
                     ", id='" + id + '\'' +
                     ", lastCode=" + lastCode +
@@ -145,15 +147,16 @@ public class CopyMangerEntity implements Serializable {
         private Object brand;
         private long createTime;
         private String currency;
-        private int followVal;
+        private double followVal;
+        private double followMax;
         private int followWay;
         private String id;
         private Object lastCode;
         private Object lastData;
         private long lastTime;
-        private int maxDay;
-        private int maxHold;
-        private int slRatio;
+        private double maxDay;
+        private double maxHold;
+        private double slRatio;
         private double sumIncome;
         private double sumMargin;
         private String traderAvatar;
@@ -204,12 +207,20 @@ public class CopyMangerEntity implements Serializable {
             this.currency = currency;
         }
 
-        public int getFollowVal() {
+        public double getFollowVal() {
             return followVal;
         }
 
-        public void setFollowVal(int followVal) {
+        public void setFollowVal(double followVal) {
             this.followVal = followVal;
+        }
+
+        public double getFollowMax() {
+            return followMax;
+        }
+
+        public void setFollowMax(double followMax) {
+            this.followMax = followMax;
         }
 
         public int getFollowWay() {
@@ -252,27 +263,27 @@ public class CopyMangerEntity implements Serializable {
             this.lastTime = lastTime;
         }
 
-        public int getMaxDay() {
+        public double getMaxDay() {
             return maxDay;
         }
 
-        public void setMaxDay(int maxDay) {
+        public void setMaxDay(double maxDay) {
             this.maxDay = maxDay;
         }
 
-        public int getMaxHold() {
+        public double getMaxHold() {
             return maxHold;
         }
 
-        public void setMaxHold(int maxHold) {
+        public void setMaxHold(double maxHold) {
             this.maxHold = maxHold;
         }
 
-        public int getSlRatio() {
+        public double getSlRatio() {
             return slRatio;
         }
 
-        public void setSlRatio(int slRatio) {
+        public void setSlRatio(double slRatio) {
             this.slRatio = slRatio;
         }
 

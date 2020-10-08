@@ -26,6 +26,7 @@ import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.FollowLogEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
@@ -107,7 +108,40 @@ public class NetManger {
 
     /*H5地址*/
     public static final String getH5Url(String token, String url) {
-        String H5url = H5_BASE_URL + url + "?token=" + token;
+
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
+        switch (language) {
+            case AppConfig.KEY_LANGUAGE:
+            case AppConfig.EN_US:
+                language = "en-US";
+                break;
+            case AppConfig.ZH_SIMPLE:
+                language = "zh-CN";
+                break;
+            case AppConfig.ZH_TRADITIONAL:
+                language = "zh-TW";
+                break;
+            case AppConfig.RU_RU:
+                language = "ru-RU";
+                break;
+            case AppConfig.JA_JP:
+                language = "ja-JP";
+                break;
+            case AppConfig.KO_KR:
+                language = "ko-KR";
+                break;
+            case AppConfig.VI_VN:
+                language = "vi-VN";
+                break;
+            case AppConfig.IN_ID:
+                language = "in-ID";
+                break;
+            case AppConfig.PT_PT:
+                language = "pt-PT";
+                break;
+        }
+
+        String H5url = H5_BASE_URL + url + "?token=" + token + "&lang=" + language;
         Log.d("print", "getH5Url:2673:  " + H5url);
         return H5url;
 
@@ -2680,7 +2714,7 @@ public class NetManger {
     }
 
     /*风格理念*/
-    public void follow(String traderId, String currency, String followWay, String followVal, String maxDay,
+    public void follow(String traderId, String currency, String followWay, String followVal, String followMax, String maxDay,
                        String maxHold, String slRatio, String active, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("traderId", traderId);
@@ -2690,6 +2724,9 @@ public class NetManger {
         }
         if (followVal != null) {
             map.put("followVal", followVal);
+        }
+        if (followMax != null) {
+            map.put("followMax", followMax);
         }
         if (maxDay != null) {
             map.put("maxDay", maxDay);
@@ -2708,13 +2745,12 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "follow:跟单结果:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode() != 200) {
+                onNetResult.onNetResult(SUCCESS, tipEntity);
+                /*if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
                 } else {
-                    onNetResult.onNetResult(SUCCESS, tipEntity);
-                }
+                }*/
 
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
@@ -2857,5 +2893,23 @@ public class NetManger {
         });
     }
 
+    /*跟单失败记录*/
+    public void followLog(OnNetResult onNetResult) {
+        getRequest("/api/follow/follower/log", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    FollowLogEntity followLogEntity = new Gson().fromJson(response.toString(), FollowLogEntity.class);
+                    onNetResult.onNetResult(SUCCESS, followLogEntity);
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+    }
 
 }

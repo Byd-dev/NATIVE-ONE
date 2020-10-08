@@ -79,8 +79,8 @@ public class IntentConfig {
         public static final String KEY_CIRCLE_EDIT_FOLLOW = "CIRCLE_EDIT_FOLLOW";
         /*跟单管理*/
         public static final String KEY_FOLLOW_SETTINGS = "FOLLOW_SETTINGS";
-
-        public static final String SHOW_PREV_LOGIN_NAME = "SHOW_PREV_LOGIN_NAME";
+        /*跟单错误列表*/
+        public static final String KEY_FOLLOW_LOG = "FOLLOW_LOG";
 
         /**是否允许返回*/
         public static final String ALLOW_BACK = "ALLOW_BACK";

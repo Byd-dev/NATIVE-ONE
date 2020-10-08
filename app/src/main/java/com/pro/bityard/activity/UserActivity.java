@@ -11,6 +11,7 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.fragment.circle.FollowEditFragment;
+import com.pro.bityard.fragment.circle.FollowLogFragment;
 import com.pro.bityard.fragment.circle.FollowMangerFragment;
 import com.pro.bityard.fragment.circle.FollowSettingsFragment;
 import com.pro.bityard.fragment.circle.FollowerListFragment;
@@ -178,9 +179,21 @@ public class UserActivity extends BaseActivity {
                 CopyMangerEntity.DataBean dataBean2 = (CopyMangerEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
                 addFollowEditFragment(dataBean2);
                 break;
+            case IntentConfig.Keys.KEY_FOLLOW_LOG:
+                addFollowLogFragment();
+                break;
         }
 
 
+    }
+
+    private void addFollowLogFragment() {
+        String name = FollowLogFragment.class.getSimpleName();
+        FollowLogFragment fragment = new FollowLogFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addFollowEditFragment(CopyMangerEntity.DataBean dataBean) {

@@ -121,7 +121,7 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
                 SoftKeyboardUtils.closeInoutDecorView(getActivity());
 
                 if (TextUtils.isEmpty(content)) {
-                    Toast.makeText(getActivity(), "请输入搜索内容", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.text_search_all_traders), Toast.LENGTH_SHORT).show();
                 } else {
                     page=1;
                     getFollowList(AppConfig.FIRST, content,page);

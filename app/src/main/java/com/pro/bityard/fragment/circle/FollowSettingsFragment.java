@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -19,11 +18,11 @@ import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.AmountListAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.TipEntity;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.CircleImageView;
 import com.pro.bityard.view.DecimalEditText;
 
@@ -157,6 +156,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     private String maxDay;
     private String maxHold;
     private String slRatio;
+    private String followMax;
 
 
     public FollowSettingsFragment newInstance(FollowEntity.DataBean value) {
@@ -450,18 +450,25 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                     maxDay = edit_copy_trade_position.getText().toString();
                     maxHold = edit_max_trade_position.getText().toString();
                     slRatio = edit_amount_bar.getText().toString();
+                    followMax = "0";
 
 
                 } else {
-                    followVal = edit_copy_rate_proportion.getText().toString();
+
+                    double v1 = Double.parseDouble(edit_copy_rate_proportion.getText().toString());
+                    double div = TradeUtil.div(v1, 100, 2);
+                    followVal = String.valueOf(div);
+
                     maxDay = edit_day_amount_proportion.getText().toString();
                     maxHold = edit_max_amount_proportion.getText().toString();
                     slRatio = edit_stop_loss_rate.getText().toString();
+                    followMax = edit_warning_proportion.getText().toString();
+
                 }
                 if (slRatio.equals("")) {
                     slRatio = "-1";
                 }
-                NetManger.getInstance().follow(traderId, "USDT", followWay, followVal, maxDay, maxHold, slRatio, "true", (state, response) -> {
+                NetManger.getInstance().follow(traderId, "USDT", followWay, followVal, followMax, maxDay, maxHold, slRatio, "true", (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
@@ -470,7 +477,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                                 if (tipEntity.getMessage().equals("")) {
                                     Toast.makeText(getActivity(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT);
+                                    Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             } else if (state.equals(FAILURE)) {
                                 dismissProgressDialog();

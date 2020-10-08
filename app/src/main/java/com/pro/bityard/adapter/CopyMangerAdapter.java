@@ -108,13 +108,27 @@ public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             ((MyViewHolder) holder).text_type.setText(value_type);
 
+            int followWay = datas.get(position).getFollowWay();
+            double followVal = datas.get(position).getFollowVal();
+            if (followWay==1){
+                ((MyViewHolder) holder).text_copy_type.setText(context.getResources().getString(R.string.text_fixed_margin));
+                String numberFormat = TradeUtil.getNumberFormat(followVal, 0);
+
+                ((MyViewHolder) holder).text_fixed_margin.setText(numberFormat+context.getResources().getString(R.string.text_usdt));
+
+            }else {
+                ((MyViewHolder) holder).text_copy_type.setText(context.getResources().getString(R.string.text_proportional_margin));
+                double mul = TradeUtil.mul(followVal, 100);
+                String numberFormat = TradeUtil.getNumberFormat(mul, 0);
+                ((MyViewHolder) holder).text_fixed_margin.setText(numberFormat+"%");
+
+            }
 
 
             ((MyViewHolder) holder).text_copy_total_amount.setText(String.valueOf(datas.get(position).getSumMargin()));
 
             ((MyViewHolder) holder).text_copy_trade_profit.setText(TradeUtil.getNumberFormat(datas.get(position).getSumIncome(), 2));
 
-            ((MyViewHolder) holder).text_fixed_margin.setText(String.valueOf(datas.get(position).getFollowVal()));
 
             ((MyViewHolder) holder).text_day_copy_amount.setText(String.valueOf(datas.get(position).getMaxDay()));
 
@@ -159,13 +173,14 @@ public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_copy_total_amount, stay_copy_total_amount,text_copy_trade_profit,stay_copy_trade_profit, text_fixed_margin,
+        TextView text_name,text_copy_type, text_copy_total_amount, stay_copy_total_amount,text_copy_trade_profit,stay_copy_trade_profit, text_fixed_margin,
                 text_day_copy_amount, text_max_position_amount,  text_type, text_edit;
         CircleImageView img_head;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             text_name = itemView.findViewById(R.id.text_userName);
+            text_copy_type=itemView.findViewById(R.id.text_copy_type);
             text_copy_total_amount = itemView.findViewById(R.id.text_copy_total_amount);
             stay_copy_total_amount = itemView.findViewById(R.id.stay_copy_total_amount);
             stay_copy_trade_profit=itemView.findViewById(R.id.stay_copy_trade_profit);

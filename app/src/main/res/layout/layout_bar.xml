@@ -105,6 +105,18 @@
             android:visibility="gone"
             android:textSize="@dimen/size_normal_two" />
 
+        <ImageView
+            android:id="@+id/img_log"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/icon_warning_green"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/margin_15"
+            android:paddingLeft="@dimen/margin_15"
+            android:visibility="gone"
+            />
+
     </RelativeLayout>
 
    <include layout="@layout/layout_line_big"/>

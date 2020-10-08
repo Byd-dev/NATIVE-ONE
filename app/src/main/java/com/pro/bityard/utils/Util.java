@@ -342,7 +342,7 @@ public class Util {
     /*时间戳转成日期*/
     public static String stampToDate(long milSecond) {
         SimpleDateFormat sdf;
-        sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.getDefault());
+        sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(milSecond);
     }
 

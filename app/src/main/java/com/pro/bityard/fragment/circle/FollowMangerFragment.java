@@ -2,6 +2,7 @@ package com.pro.bityard.fragment.circle;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
@@ -34,6 +35,8 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
     TextView stay_copy_total_amount;
     TextView stay_copy_trade_profit;
 
+    @BindView(R.id.img_log)
+    ImageView img_log;
     @BindView(R.id.recyclerView_traders)
     HeaderRecyclerView recyclerView_traders;
 
@@ -60,7 +63,9 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
     @Override
     protected void initView(View view) {
         text_title.setText(getResources().getString(R.string.text_copy_trade_settings));
+        img_log.setVisibility(View.VISIBLE);
         view.findViewById(R.id.img_back).setOnClickListener(this);
+        img_log.setOnClickListener(this);
 
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_head_follow_manger, null);
 
@@ -120,7 +125,7 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
 
     }
 
-    private void getData(){
+    private void getData() {
         NetManger.getInstance().followerStat((state, response) -> {
             if (state.equals(SUCCESS)) {
                 StatEntity statEntity = (StatEntity) response;
@@ -135,7 +140,6 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
 
     @Override
     protected void initData() {
-
 
 
     }
@@ -166,6 +170,9 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
         switch (v.getId()) {
             case R.id.img_back:
                 getActivity().finish();
+                break;
+            case R.id.img_log:
+                UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_FOLLOW_LOG);
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.circle;
 
+import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -166,6 +167,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
     private String maxDay;
     private String maxHold;
     private String slRatio;
+    private String followMax=null;
 
 
     public FollowEditFragment newInstance(CopyMangerEntity.DataBean value) {
@@ -210,7 +212,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                 text_copy_switch_tip.setText(getResources().getString(R.string.text_copy_switch_tip));
             } else {
                 active = "false";
-                text_copy_switch_tip.setText("最后关闭时间:"+ Util.stampToDate(followerUser.getLastTime())+"\n"+"关闭原因:"+"主动关闭");
+                text_copy_switch_tip.setText(getString(R.string.text_last_time)+":"+ Util.stampToDate(followerUser.getLastTime())+"\n"+getString(R.string.text_close_reason)+":");
 
             }
             NetManger.getInstance().followSwitch(active, followerUser.getId(), (state, response) -> {
@@ -340,9 +342,9 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() > 0) {
-                    if (Integer.parseInt(s.toString()) < min) {
+                    if (Double.parseDouble(s.toString()) < min) {
                         edit.setText(String.valueOf(min));
-                    } else if (Integer.parseInt(s.toString()) > max) {
+                    } else if (Double.parseDouble(s.toString()) > max) {
                         edit.setText(String.valueOf(max));
                     }
                     if (isAmount.equals("1")) {
@@ -401,6 +403,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
 
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
         followerUser = (CopyMangerEntity.DataBean) getArguments().getSerializable("DATA_VALUE");
@@ -410,44 +413,57 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
             text_copy_switch_tip.setText(getResources().getString(R.string.text_copy_switch_tip));
         }else {
             btn_switch.setChecked(false);
-            text_copy_switch_tip.setText("最后关闭时间:"+ Util.stampToDate(followerUser.getLastTime())+"\n"+"关闭原因:"+"主动关闭");
+            text_copy_switch_tip.setText(getString(R.string.text_last_time)+":"+ Util.stampToDate(followerUser.getLastTime())+"\n"+getString(R.string.text_close_reason)+":"+followerUser.getLastData());
         }
 
 
         //比例
 
         //根据跟单方式显示
-        int followWay = followerUser.getFollowWay();
+         followWay = String.valueOf(followerUser.getFollowWay());
+        double followVal = followerUser.getFollowVal();
+        double slRatio = followerUser.getSlRatio();
+        double maxDay = followerUser.getMaxDay();
+        double maxHold = followerUser.getMaxHold();
         switch (followWay){
-            case 1:
+            case "1":
                 radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_blue_left));
                 radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_right));
 
                 layout_copy_amount.setVisibility(View.VISIBLE);
                 layout_copy_proportion.setVisibility(View.GONE);
 
-                edit_amount.setText(String.valueOf(followerUser.getFollowVal()));
-                edit_copy_trade_position.setText(String.valueOf(followerUser.getMaxDay()));
-                edit_max_trade_position.setText(String.valueOf(followerUser.getMaxHold()));
-                edit_amount_bar.setText(String.valueOf(followerUser.getSlRatio()));
+                edit_amount.setText(TradeUtil.getNumberFormat(followVal,0));
+                edit_copy_trade_position.setText(TradeUtil.getNumberFormat(maxDay,0));
+                edit_max_trade_position.setText(TradeUtil.getNumberFormat(maxHold,0));
+                edit_amount_bar.setText(TradeUtil.getNumberFormat(slRatio,0));
                 bar_amount.post(() -> {
-                    bar_amount.setProgress(followerUser.getSlRatio());
+                    bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(slRatio,0)));
                 });
 
                 break;
-            case 2:
+            case "2":
                 radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_red_right));
                 radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_left));
 
                 layout_copy_amount.setVisibility(View.GONE);
                 layout_copy_proportion.setVisibility(View.VISIBLE);
 
-                edit_day_amount_proportion.setText(String.valueOf(followerUser.getMaxDay()));
-                edit_max_amount_proportion.setText(String.valueOf(followerUser.getMaxHold()));
-                edit_stop_loss_rate.setText(String.valueOf(followerUser.getSlRatio()));
+                edit_day_amount_proportion.setText(TradeUtil.getNumberFormat(maxDay,0));
+                edit_max_amount_proportion.setText(TradeUtil.getNumberFormat(maxHold,0));
+                edit_stop_loss_rate.setText(TradeUtil.getNumberFormat(slRatio,0));
                 bar_stop_loss_proportion.post(() -> {
-                    bar_stop_loss_proportion.setProgress(followerUser.getSlRatio());
+                    bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(slRatio,0)));
                 });
+                double followVal_dou = TradeUtil.mul(followVal, 100);
+                String numberFormat = TradeUtil.getNumberFormat(followVal_dou, 0);
+                edit_copy_rate_proportion.setText(numberFormat);
+
+                bar_proportion_rate.post(() -> {
+                    bar_proportion_rate.setProgress(Integer.parseInt(numberFormat));
+                });
+
+                edit_warning_proportion.setText(TradeUtil.getNumberFormat(followerUser.getFollowMax(),0));
                 break;
 
         }
@@ -518,24 +534,27 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                 }
                 break;
             case R.id.btn_submit:
-                traderId = followerUser.getUserId();
+                traderId = followerUser.getTraderId();
                 if (followWay.equals("1")) {
                     followVal = edit_amount.getText().toString();
                     maxDay = edit_copy_trade_position.getText().toString();
                     maxHold = edit_max_trade_position.getText().toString();
                     slRatio = edit_amount_bar.getText().toString();
-
+                    followMax="0";
 
                 } else {
-                    followVal = edit_copy_rate_proportion.getText().toString();
+                    double v1 = Double.parseDouble(edit_copy_rate_proportion.getText().toString());
+                    double div = TradeUtil.div(v1, 100, 2);
+                    followVal = String.valueOf(div);
                     maxDay = edit_day_amount_proportion.getText().toString();
                     maxHold = edit_max_amount_proportion.getText().toString();
                     slRatio = edit_stop_loss_rate.getText().toString();
+                    followMax = edit_warning_proportion.getText().toString();
                 }
                 if (slRatio.equals("")) {
                     slRatio = "-1";
                 }
-                NetManger.getInstance().follow(traderId, "USDT", followWay, followVal, maxDay, maxHold, slRatio, "true", (state, response) -> {
+                NetManger.getInstance().follow(traderId, "USDT", followWay, followVal,followMax, maxDay, maxHold, slRatio, "true", (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
@@ -544,10 +563,11 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                                 if (tipEntity.getMessage().equals("")) {
                                     Toast.makeText(getActivity(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT);
+                                    Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             } else if (state.equals(FAILURE)) {
                                 dismissProgressDialog();
+
                             }
                         }
 
