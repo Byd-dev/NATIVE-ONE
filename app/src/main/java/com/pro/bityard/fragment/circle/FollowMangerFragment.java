@@ -150,8 +150,9 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
         NetManger.getInstance().followerTraders(String.valueOf(page), "10", (state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
-                swipeRefreshLayout_traders.setRefreshing(false);
-
+                if (isAdded()){
+                    swipeRefreshLayout_traders.setRefreshing(false);
+                }
                 CopyMangerEntity copyMangerEntity = (CopyMangerEntity) response;
                 if (type.equals(LOAD)) {
                     copyMangerAdapter.addDatas(copyMangerEntity.getData());
@@ -159,7 +160,9 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
                     copyMangerAdapter.setDatas(copyMangerEntity.getData());
                 }
             } else if (state.equals(FAILURE)) {
-                swipeRefreshLayout_traders.setRefreshing(false);
+                if (isAdded()){
+                    swipeRefreshLayout_traders.setRefreshing(false);
+                }
 
             }
         });
