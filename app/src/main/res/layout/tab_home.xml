@@ -190,6 +190,7 @@
                         android:orientation="horizontal">
 
                         <LinearLayout
+                            android:id="@+id/layout_mining"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="@dimen/margin_15"

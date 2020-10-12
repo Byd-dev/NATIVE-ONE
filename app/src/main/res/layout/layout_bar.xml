@@ -18,6 +18,16 @@
             android:padding="@dimen/margin_15"
             android:src="@mipmap/img_back" />
 
+        <ImageView
+            android:id="@+id/img_finish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img_back"
+            android:padding="@dimen/margin_15"
+            android:visibility="gone"
+            android:src="@mipmap/icon_finish" />
+
         <TextView
             android:id="@+id/text_title"
             android:layout_width="wrap_content"

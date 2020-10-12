@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.MainFollowActivity;
-import com.pro.bityard.activity.MainOneActivity;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.guide.GuideActivity;

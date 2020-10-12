@@ -516,11 +516,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         }
 
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
-        if (language.equals(AppConfig.ZH_SIMPLE)) {
+        if (language.equals(AppConfig.ZH_SIMPLE) || language.equals(AppConfig.VI_VN) || language.equals(AppConfig.IN_ID)) {
             text_fiat.setVisibility(View.VISIBLE);
         } else {
             text_fiat.setVisibility(View.GONE);
         }
+
     }
 
     @Override
@@ -591,6 +592,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
         findViewById(R.id.text_login_register).setOnClickListener(this);
+        findViewById(R.id.layout_mining).setOnClickListener(this);
+
         quoteAdapter = new QuoteAdapter(this);
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_list.setAdapter(quoteAdapter);
@@ -833,6 +836,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         findViewById(R.id.text_quick_exchange).setOnClickListener(this);
         findViewById(R.id.text_fiat).setOnClickListener(this);
         findViewById(R.id.img_edit).setOnClickListener(this);
+        findViewById(R.id.text_mining).setOnClickListener(this);
         img_service_my.setOnClickListener(this);
 
 
@@ -1364,8 +1368,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, AppConfig.ZH_SIMPLE);
 
+        switch (v.getId()) {
             case R.id.radio_0:
                 layout_home.setVisibility(View.VISIBLE);
                 layout_market.setVisibility(View.GONE);
@@ -1722,7 +1727,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.layout_seven:
             case R.id.img_service_my:
 
-                String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, AppConfig.ZH_SIMPLE);
                 String url;
                 if (isLogin()) {
                     url = String.format(NetManger.SERVICE_URL, language, loginEntity.getUser().getUserId(), loginEntity.getUser().getAccount());
@@ -1731,6 +1735,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
                 WebActivity.getInstance().openUrl(MainFollowActivity.this, url, getResources().getString(R.string.text_my_service));
 
+                break;
+            /*前往挖矿*/
+            case R.id.layout_mining:
+            case R.id.text_mining:
+                if (isLogin()) {
+                    WebActivity.getInstance().openUrl(this, NetManger.getH5Url(loginEntity.getAccess_token(), "/mining"), getString(R.string.text_mining_title));
+
+                } else {
+                    LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                }
                 break;
             /*资金账户*/
             case R.id.text_account:
@@ -1766,11 +1780,22 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 break;
             /*法币充值*/
             case R.id.text_fiat:
+                String url_api=null;
+                switch (language){
+                    case AppConfig.ZH_SIMPLE:
+                        url_api="/cnRecharge";
+                        break;
+                    case AppConfig.VI_VN:
+                        url_api="/viRecharge";
+                        break;
+                    case AppConfig.IN_ID:
+                        url_api="/idRecharge";
+                        break;
+                }
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(MainFollowActivity.this, "", getResources().getString(R.string.text_fiat));
-
+                    WebActivity.getInstance().openUrl(this, NetManger.getH5Url(loginEntity.getAccess_token(), url_api), getResources().getString(R.string.text_fabi_trade));
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*修改昵称*/

@@ -504,5 +504,6 @@
     <string name="text_follow_log">Lịch sử sao chép thất bại</string>
     <string name="text_trader">Nhà giao dịch</string>
     <string name="text_search_all_traders">Tìm kiếm giao dịch viên</string>
+    <string name="text_mining_title">Mining</string>
 
 </resources>

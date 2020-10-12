@@ -503,5 +503,6 @@
     <string name="text_follow_log">copiar registro de falha comercial</string>
     <string name="text_trader">comerciante</string>
     <string name="text_search_all_traders">Pesquise todos os traders</string>
+    <string name="text_mining_title">Mineração diária</string>
 
 </resources>

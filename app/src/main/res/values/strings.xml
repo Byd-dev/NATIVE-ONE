@@ -503,5 +503,6 @@
     <string name="text_follow_log">跟单失败记录</string>
     <string name="text_trader">交易员</string>
     <string name="text_search_all_traders">搜索所有交易者</string>
+    <string name="text_mining_title">挖矿</string>
 
 </resources>

@@ -504,5 +504,6 @@
     <string name="text_follow_log">Запись об отказе Копи-трейдинга</string>
     <string name="text_trader">Трейдер</string>
     <string name="text_search_all_traders">Поиск трейдера</string>
+    <string name="text_mining_title">Майнинг</string>
 
 </resources>

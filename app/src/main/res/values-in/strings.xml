@@ -505,5 +505,6 @@
     <string name="text_follow_log">Catatan Penolakan Copy Trading</string>
     <string name="text_trader">Trader</string>
     <string name="text_search_all_traders">Cari trader</string>
+    <string name="text_mining_title">MIning</string>
 
 </resources>

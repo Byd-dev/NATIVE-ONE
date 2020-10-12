@@ -504,5 +504,6 @@
     <string name="text_follow_log">팔로우 실패 기록</string>
     <string name="text_trader">트레이더</string>
     <string name="text_search_all_traders">트레이더 검색</string>
+    <string name="text_mining_title">마이닝</string>
 
 </resources>

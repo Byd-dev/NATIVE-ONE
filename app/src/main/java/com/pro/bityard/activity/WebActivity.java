@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
@@ -31,7 +29,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.utils.DeviceUtil;
@@ -40,7 +37,6 @@ import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
@@ -220,7 +216,6 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void initViews() {
-
 
         text_err.setOnClickListener(v -> mWebView.reload());
         initWebViewSetting();
@@ -448,7 +443,13 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
         text_err = findViewById(R.id.text_err);
         layout = findViewById(R.id.layout);
 
-        img_back.setOnClickListener(v -> finish());
+        img_back.setOnClickListener(v -> {
+            if (mWebView.canGoBack()){
+                goBack();
+            }else {
+                finish();
+            }
+        });
 
 
         initViews();
