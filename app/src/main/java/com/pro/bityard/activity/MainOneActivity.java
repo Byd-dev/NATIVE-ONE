@@ -304,7 +304,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
         } else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
-
+            Log.d("print", "update:余额:  "+balanceEntity);
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_available != null) {
                     for (BalanceEntity.DataBean data : balanceEntity.getData()) {

@@ -71,6 +71,7 @@ import static com.pro.bityard.utils.TradeUtil.minMargin;
 import static com.pro.bityard.utils.TradeUtil.netIncome;
 import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
 import static com.pro.bityard.utils.TradeUtil.profitRate;
+import static com.pro.bityard.utils.TradeUtil.setNetIncome;
 import static com.pro.bityard.utils.TradeUtil.small;
 
 public class PositionFragment extends BaseFragment implements Observer {
@@ -1219,8 +1220,6 @@ public class PositionFragment extends BaseFragment implements Observer {
         BalanceManger.getInstance().getBalance("USDT");
 
 
-
-
         //合约号
        /* TradeListManger.getInstance().tradeList((state, response) -> {
             if (state.equals(SUCCESS)) {
@@ -1307,19 +1306,18 @@ public class PositionFragment extends BaseFragment implements Observer {
         if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("all");
-            //OpenPositionEntity{code=200, message='', data=[]}    或者是null
-            if (positionEntity != null && positionEntity.getData().size() > 0) {
+            if (positionEntity != null) {
                 runOnUiThread(() -> {
                     if (isLogin()) {
                         //整体盈亏
                         setIncome(quoteList, positionEntity);
                         //整体净值
-                        // setNetIncome(tradeType, positionEntity.getData(), quoteList);
+                        setNetIncome(tradeType, positionEntity.getData(), quoteList);
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
                     } else {
                         positionEntity.getData().clear();
                         positionAdapter.setDatas(positionEntity.getData(), quoteList);
-                        if (isAdded()){
+                        if (isAdded()) {
                             headerRecyclerView.removeHeaderView(headView);
                         }
 

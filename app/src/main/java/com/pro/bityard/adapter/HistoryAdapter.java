@@ -147,7 +147,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((MyViewHolder) holder).text_income.setText(getNumberFormat(Double.parseDouble(income),2));
             double incomeDouble = Double.parseDouble(income);
             //盈亏比
-            Log.d("print", "onBindViewHolder:149:  "+incomeDouble+"    "+margin);
             ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(incomeDouble, margin));
 
             String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
