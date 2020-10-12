@@ -25,14 +25,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:padding="@dimen/margin_15"
-            android:src="@mipmap/img_back" />
+            android:paddingLeft="@dimen/margin_15"
+            android:paddingRight="@dimen/margin_15"
+            android:src="@mipmap/img_back_two" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:layout_toRightOf="@+id/img_back"
+            android:background="@color/home_line" />
 
         <LinearLayout
             android:id="@+id/layout_product"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_centerInParent="true"
+            android:layout_toRightOf="@+id/view_line"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -47,30 +58,24 @@
                 android:textSize="@dimen/title_size" />
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="/"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/title_size" />
+
+            <TextView
                 android:id="@+id/text_usdt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_5"
                 android:layout_toRightOf="@id/text_name"
                 android:gravity="center"
-                android:text="usdt"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal" />
-
-            <TextView
-                android:id="@+id/text_switch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_toRightOf="@+id/text_usdt"
-                android:gravity="center"
-                android:text="@string/text_real_trade"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal"
-                tools:ignore="HardcodedText" />
-
+                android:text="@string/text_usdt"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/title_size" />
             <ImageView
                 android:id="@+id/img_right"
                 android:layout_width="wrap_content"
@@ -79,10 +84,42 @@
                 android:layout_marginLeft="@dimen/margin_5"
                 android:src="@mipmap/icon_two_way" />
 
-
         </LinearLayout>
 
 
+        <LinearLayout
+            android:id="@+id/layout_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@+id/layout_optional"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="horizontal"
+
+            >
+
+            <TextView
+                android:id="@+id/text_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:gravity="center"
+                android:text="@string/text_real_trade"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/size_big"
+                tools:ignore="HardcodedText" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:src="@mipmap/img_switch" />
+
+
+
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/layout_optional"
@@ -92,25 +129,17 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             android:orientation="horizontal"
+            android:paddingLeft="@dimen/margin_15"
             android:paddingRight="@dimen/margin_15">
+
+
 
             <ImageView
                 android:id="@+id/img_star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/icon_star_normal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:text="@string/text_optional"
-                android:textColor="@color/text_main_color" />
-
-
         </LinearLayout>
-
-
     </RelativeLayout>
 
     <View
@@ -615,14 +644,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:text="@string/text_trade_settings"
-                android:gravity="center"
+                android:drawableRight="@mipmap/icon_setting"
                 android:drawablePadding="@dimen/margin_5"
+                android:gravity="center"
                 android:paddingLeft="@dimen/margin_10"
+                android:text="@string/text_trade_settings"
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal"
-                android:drawableRight="@mipmap/icon_setting"
                 android:visibility="visible" />
+
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
@@ -804,8 +834,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.5"
-                        >
+                        android:layout_weight="1.5">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -1083,8 +1112,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.5"
-                        >
+                        android:layout_weight="1.5">
 
                         <TextView
                             android:layout_width="wrap_content"

@@ -43,6 +43,7 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.TradeListEntity;
@@ -434,6 +435,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         findViewById(R.id.layout_much).setOnClickListener(this);
         findViewById(R.id.layout_empty).setOnClickListener(this);
+        findViewById(R.id.layout_switch).setOnClickListener(this);
+
 
         //更多的监听
         findViewById(R.id.text_one_hour).setOnClickListener(this);
@@ -584,7 +587,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         assert bundle != null;
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
+        if (tradeType.equals("1")) {
+            text_switch.setText(getResources().getText(R.string.text_real_trade));
 
+        } else if (tradeType.equals("2")) {
+            text_switch.setText(getResources().getText(R.string.text_simulation_trade));
+
+        }
 
         //礼金抵扣比例
         prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
@@ -942,7 +951,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         ImageView img_name_triangle = view.findViewById(R.id.img_name_triangle);
 
 
-
         for (String market_name : titleList) {
             tabLayout_market.addTab(tabLayout_market.newTab().setText(market_name));
         }
@@ -1162,7 +1170,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             }
         });
 
-        SwipeRefreshLayout swipeRefreshLayout_market=view.findViewById(R.id.swipeRefreshLayout_market);
+        SwipeRefreshLayout swipeRefreshLayout_market = view.findViewById(R.id.swipeRefreshLayout_market);
         swipeRefreshLayout_market.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout_market.setOnRefreshListener(() -> {
@@ -1181,7 +1189,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         quoteAdapter_market.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
-            type="1";
+            type = "1";
 
             //自选的图标
             String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
@@ -1245,10 +1253,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             popupWindow.dismiss();
-            type="1";
+            type = "1";
         });
 
-        RelativeLayout layout_bar=view.findViewById(R.id.layout_bar);
+        RelativeLayout layout_bar = view.findViewById(R.id.layout_bar);
 
         edit_search = view.findViewById(R.id.edit_search);
 
@@ -1260,18 +1268,18 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length()!=0){
+                if (s.length() != 0) {
                     layout_bar.setVisibility(View.GONE);
                     tabLayout_market.setVisibility(View.GONE);
                     tabLayout_market.getTabAt(1).select();
-                    type="all";
+                    type = "all";
                     List<String> strings = arrayMap.get(type);
                     List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
                     quoteAdapter_market.setDatas(searchQuoteList);
-                }else {
+                } else {
                     layout_bar.setVisibility(View.VISIBLE);
                     tabLayout_market.setVisibility(View.VISIBLE);
-                    type="1";
+                    type = "1";
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
@@ -1317,6 +1325,39 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 Util.lightOff(this);
                 showQuotePopWindow();
                 //showProductWindow(quoteList);
+                break;
+            case R.id.layout_switch:
+
+                if (tradeType.equals("1")) {
+
+                    tradeType = "2";
+                    text_switch.setText(getResources().getText(R.string.text_simulation_trade));
+                    radio_btn1.setVisibility(View.GONE);
+
+
+                } else if (tradeType.equals("2")) {
+
+                    tradeType = "1";
+                    text_switch.setText(getResources().getText(R.string.text_real_trade));
+                    radio_btn1.setVisibility(View.VISIBLE);
+
+
+                }
+                radio_btn0.setChecked(true);
+                if (radio_btn0.isChecked()) {
+                    layout_market_price.setVisibility(View.VISIBLE);
+                    layout_limit_price.setVisibility(View.GONE);
+
+
+                }
+                //可用余额
+                if (tradeType.equals("1")) {
+                    text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+                    text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+                } else {
+                    text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+                    text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+                }
                 break;
             //自选的监听
             case R.id.layout_optional:
@@ -1506,9 +1547,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.text_charge:
+                LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
                 if (isLogin()) {
                     if (tradeType.equals("1")) {
-
+                        WebActivity.getInstance().openUrl(this, NetManger.getH5Url(loginEntity.getAccess_token(), "/deposit"), getResources().getString(R.string.text_recharge));
                     } else {
                         NetManger.getInstance().addScore((state, response) -> {
                             if (state.equals(SUCCESS)) {
@@ -1850,12 +1892,12 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
 
-            if (quoteList != null&&quoteAdapter_market!=null) {
+            if (quoteList != null && quoteAdapter_market != null) {
                 runOnUiThread(() -> {
                     //搜索框
-                    if (edit_search.getText().toString().equals("")){
+                    if (edit_search.getText().toString().equals("")) {
                         quoteAdapter_market.setDatas(quoteList);
-                    }else {
+                    } else {
                         List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), quoteList);
                         quoteAdapter_market.setDatas(searchQuoteList);
                     }
@@ -1863,7 +1905,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
                 });
             }
-
 
 
         } else if (o == BalanceManger.getInstance()) {
@@ -1909,7 +1950,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 Log.d("print", "update:1549:  " + quoteMinEntity);
                 runOnUiThread(() -> {
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
-                    //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
+                        //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
                         //仓位实时更新 服务费
                         if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
                             text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), quoteMinEntity.getPrice()));

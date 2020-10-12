@@ -116,9 +116,9 @@
     <string name="text_min">最低</string>
     <string name="text_volume">24H</string>
     <string name="text_simulation_btn">切换模拟盘</string>
-    <string name="text_real_trade">(实盘)</string>
+    <string name="text_real_trade">实盘</string>
     <string name="text_real_btn">切换实盘</string>
-    <string name="text_simulation_trade">(模拟)</string>
+    <string name="text_simulation_trade">模拟</string>
     <string name="text_market_price">市价</string>
     <string name="text_limit_price">限价</string>
     <string name="text_market_price_edit">市价委托</string>
