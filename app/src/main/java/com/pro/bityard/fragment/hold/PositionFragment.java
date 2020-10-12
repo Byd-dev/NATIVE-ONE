@@ -1306,7 +1306,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("all");
-            if (positionEntity != null) {
+            if (positionEntity != null&&positionEntity.getData().size()>0) {
                 runOnUiThread(() -> {
                     if (isLogin()) {
                         //整体盈亏
