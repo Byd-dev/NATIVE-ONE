@@ -203,7 +203,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
 
-    protected boolean isLogin() {
+    public static boolean isLogin() {
         return LoginEntity.getInstance().isLogin();
     }
 

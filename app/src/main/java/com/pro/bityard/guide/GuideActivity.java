@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.MainOneActivity;
+import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
@@ -189,7 +189,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         text_err.setVisibility(View.GONE);
         String string = SPUtils.getString(AppConfig.FIRST_OPEN, null);
         if (string != null) {
-            MainOneActivity.enter(GuideActivity.this, MainOneActivity.TAB_TYPE.TAB_HOME);
+            MainFollowActivity.enter(GuideActivity.this, MainFollowActivity.TAB_TYPE.TAB_HOME);
             GuideActivity.this.finish();
         } else {
             layout_view.setBackgroundColor(getResources().getColor(R.color.background_maincolor));
@@ -254,7 +254,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.text_jump:
             case R.id.btn_sure:
-                MainOneActivity.enter(GuideActivity.this, MainOneActivity.TAB_TYPE.TAB_HOME);
+                MainFollowActivity.enter(GuideActivity.this, MainFollowActivity.TAB_TYPE.TAB_HOME);
                 GuideActivity.this.finish();
                 break;
         }

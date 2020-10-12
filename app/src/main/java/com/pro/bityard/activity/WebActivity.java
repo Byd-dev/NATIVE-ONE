@@ -55,6 +55,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     ImageView img_back;
     @BindView(R.id.img_record)
     ImageView img_record;
+    @BindView(R.id.view_line)
+    View view_line;
     private static final int MY_PERMISSION_REQUEST_CODE = 10000;
 
 
@@ -219,6 +221,7 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
 
         text_err.setOnClickListener(v -> mWebView.reload());
         initWebViewSetting();
+        view_line.setVisibility(View.GONE);
         mWebView.setBackgroundColor(0);
         mWebView.addJavascriptInterface(new AppJs(this, mWebView), "AppJs");
         mWebView.setWebViewClient(new WebViewClient() {

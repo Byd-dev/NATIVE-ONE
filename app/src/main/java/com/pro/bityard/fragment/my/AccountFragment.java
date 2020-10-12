@@ -12,10 +12,12 @@ import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.activity.WebActivity;
 import com.pro.bityard.adapter.AccountAdapter;
+import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.utils.PopUtil;
@@ -141,6 +143,9 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+      LoginEntity  loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+        String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, AppConfig.ZH_SIMPLE);
+
         switch (v.getId()) {
             case R.id.img_back:
                 getActivity().finish();
@@ -182,7 +187,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(getActivity(), "", getResources().getString(R.string.text_recharge));
+                    WebActivity.getInstance().openUrl(getActivity(), NetManger.getH5Url(loginEntity.getAccess_token(), "/deposit"), getResources().getString(R.string.text_recharge));
                 } else {
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                 }
@@ -205,8 +210,20 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
                 break;
             /*法币充值*/
             case R.id.text_fiat:
+                String url_api=null;
+                switch (language){
+                    case AppConfig.ZH_SIMPLE:
+                        url_api="/cnRecharge";
+                        break;
+                    case AppConfig.VI_VN:
+                        url_api="/viRecharge";
+                        break;
+                    case AppConfig.IN_ID:
+                        url_api="/idRecharge";
+                        break;
+                }
                 if (isLogin()) {
-                    UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_FIAT);
+                    WebActivity.getInstance().openUrl(getActivity(), NetManger.getH5Url(loginEntity.getAccess_token(), url_api), getResources().getString(R.string.text_fabi_trade));
                 } else {
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                 }
