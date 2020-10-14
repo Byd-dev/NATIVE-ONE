@@ -505,5 +505,9 @@
     <string name="text_trader">Nhà giao dịch</string>
     <string name="text_search_all_traders">Tìm kiếm giao dịch viên</string>
     <string name="text_mining_title">Mining</string>
+    <string name="text_profile">Thông tin cá nhân</string>
+    <string name="text_join">Tham gia</string>
+    <string name="text_trade_history">Lịch sử vị thế</string>
+    <string name="text_follower_detail">Người sao chép</string>
 
 </resources>

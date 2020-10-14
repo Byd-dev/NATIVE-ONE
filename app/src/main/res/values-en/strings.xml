@@ -504,5 +504,9 @@
     <string name="text_trader">trader</string>
     <string name="text_search_all_traders">search for all traders</string>
     <string name="text_mining_title">Mining</string>
+    <string name="text_profile">profile</string>
+    <string name="text_join">join</string>
+    <string name="text_trade_history">Trade history</string>
+    <string name="text_follower_detail">follower</string>
 
 </resources>

@@ -73,7 +73,13 @@ public class TradeUtil {
         String format = simpleDateFormat.format(date);
         return format;
     }
-
+    /*long转时间*/
+    public static String dateToStampWithout(long time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date(time);
+        String format = simpleDateFormat.format(date);
+        return format;
+    }
     public static String numberHalfUp(double value, int scale) {
         if (value != 0) {
             BigDecimal bd = new BigDecimal(value);

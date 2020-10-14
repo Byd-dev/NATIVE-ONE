@@ -90,6 +90,7 @@
         <activity android:name=".activity.PersonActivity" />
         <activity android:name=".activity.FilterSettingsActivity" />
         <activity android:name=".activity.FilterResultActivity" />
+        <activity android:name=".activity.FollowDetailActivity" />
 
         <!-- Optional facebook配置,authorities必须为com.facebook.app.FacebookContentProvider+APP_ID-->
 

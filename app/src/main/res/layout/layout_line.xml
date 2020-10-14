@@ -4,6 +4,7 @@
     android:layout_height="wrap_content">
 
     <View
+        android:id="@+id/layout_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line"
         android:background="@color/home_line" />

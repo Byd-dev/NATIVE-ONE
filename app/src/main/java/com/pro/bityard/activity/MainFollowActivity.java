@@ -810,7 +810,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         });
 
         followAdapter.setOnFollowClick(dataBean -> {
-            UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, dataBean);
+
+            FollowDetailActivity.enter(this, dataBean);
+
+
 
         });
 
@@ -1467,7 +1470,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             /*行情 -----------------------------------------------------------------------------------*/
             case R.id.img_search:
                 Util.lightOff(this);
-                type="1";
+                type = "1";
                 showQuotePopWindow();
                 break;
             case R.id.layout_new_price:
@@ -1780,16 +1783,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 break;
             /*法币充值*/
             case R.id.text_fiat:
-                String url_api=null;
-                switch (language){
+                String url_api = null;
+                switch (language) {
                     case AppConfig.ZH_SIMPLE:
-                        url_api="/cnRecharge";
+                        url_api = "/cnRecharge";
                         break;
                     case AppConfig.VI_VN:
-                        url_api="/viRecharge";
+                        url_api = "/viRecharge";
                         break;
                     case AppConfig.IN_ID:
-                        url_api="/idRecharge";
+                        url_api = "/idRecharge";
                         break;
                 }
                 if (isLogin()) {
@@ -1806,7 +1809,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         loginEntity.getUser().setUserName(result.toString());
                         SPUtils.putData(AppConfig.LOGIN, loginEntity);
                         onResume();
-
                     });
                 }
 

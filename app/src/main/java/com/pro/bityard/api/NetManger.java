@@ -2679,7 +2679,6 @@ public class NetManger {
                     onNetResult.onNetResult(FAILURE, null);
                 } else {
                     FollowEntity followEntity = new Gson().fromJson(response.toString(), FollowEntity.class);
-                    Log.d("print", "followList:2629:  " + followEntity);
                     onNetResult.onNetResult(SUCCESS, followEntity);
                 }
 

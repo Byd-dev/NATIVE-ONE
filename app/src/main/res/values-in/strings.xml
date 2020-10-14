@@ -506,5 +506,9 @@
     <string name="text_trader">Trader</string>
     <string name="text_search_all_traders">Cari trader</string>
     <string name="text_mining_title">MIning</string>
+    <string name="text_profile">Profil</string>
+    <string name="text_join">Gabung</string>
+    <string name="text_trade_history">Riwayat trade</string>
+    <string name="text_follower_detail">Pengikut</string>
 
 </resources>

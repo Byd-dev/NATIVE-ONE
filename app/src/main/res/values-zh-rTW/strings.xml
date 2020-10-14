@@ -505,5 +505,9 @@
     <string name="text_trader">交易员</string>
     <string name="text_search_all_traders">搜索所有交易者</string>
     <string name="text_mining_title">挖礦</string>
+    <string name="text_profile">个人简介</string>
+    <string name="text_join">加入</string>
+    <string name="text_trade_history">历史持仓</string>
+    <string name="text_follower_detail">跟随者</string>
 
 </resources>

@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.FollowDetailActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.FollowAdapter;
 import com.pro.bityard.api.NetManger;
@@ -107,7 +108,8 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
 
         //跟单监听
         followAdapter.setOnFollowClick((dataBean) -> {
-            UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW,dataBean);
+            FollowDetailActivity.enter(getActivity(), dataBean);
+
         });
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {
             page=1;

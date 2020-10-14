@@ -505,5 +505,9 @@
     <string name="text_trader">트레이더</string>
     <string name="text_search_all_traders">트레이더 검색</string>
     <string name="text_mining_title">마이닝</string>
+    <string name="text_profile">자기소개</string>
+    <string name="text_join">가입</string>
+    <string name="text_trade_history">기록</string>
+    <string name="text_follower_detail">팔로워</string>
 
 </resources>

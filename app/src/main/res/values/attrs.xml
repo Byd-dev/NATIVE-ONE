@@ -33,8 +33,8 @@
         <attr name="klPriceCloseCol" format="color" />
         <!--分时的线-->
         <attr name="klMinuteColor" format="color" />
-        <attr name="klMinuteShadowColorAbove" format="color"/>
-        <attr name="klMinuteShadowColorBelow" format="color"/>
+        <attr name="klMinuteShadowColorAbove" format="color" />
+        <attr name="klMinuteShadowColorBelow" format="color" />
         <!--分时图的圆角度-->
         <attr name="klMinuteRadiusSize" format="integer" />
         <!--分时图的线的粗度-->
@@ -143,5 +143,19 @@
         <attr name="oneMenu" format="reference"></attr>
     </declare-styleable>
 
+    <!--K线控件-->
+    <declare-styleable name="RadarView">
+        <!--雷达图线颜色-->
+        <attr name="radarLineCol" format="color" />
+        <!--标题-->
+        <attr name="radarTextCol" format="color" />
+        <!--标题大小-->
+        <attr name="radarTextSize" format="integer" />
+        <!--数据颜色-->
+        <attr name="radarValueCol" format="color" />
+        <!--数据字体大小-->
+        <attr name="radarValueTextSize" format="integer" />
 
+
+    </declare-styleable>
 </resources>

@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.FollowDetailActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.FollowAdapter;
 import com.pro.bityard.adapter.StyleAdapter;
@@ -91,7 +92,8 @@ public class FollowerListFragment extends BaseFragment implements View.OnClickLi
         });
         //跟单监听
         followAdapter.setOnFollowClick((dataBean) -> {
-            UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW,dataBean);
+            FollowDetailActivity.enter(getActivity(), dataBean);
+
         });
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {
             page=1;

@@ -504,5 +504,9 @@
     <string name="text_trader">comerciante</string>
     <string name="text_search_all_traders">Pesquise todos os traders</string>
     <string name="text_mining_title">Mineração diária</string>
+    <string name="text_profile">perfil</string>
+    <string name="text_join">participar</string>
+    <string name="text_trade_history">História comercial</string>
+    <string name="text_follower_detail">seguidor</string>
 
 </resources>

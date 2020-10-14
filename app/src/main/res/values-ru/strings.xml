@@ -505,5 +505,9 @@
     <string name="text_trader">Трейдер</string>
     <string name="text_search_all_traders">Поиск трейдера</string>
     <string name="text_mining_title">Майнинг</string>
+    <string name="text_profile">Профиль</string>
+    <string name="text_join">Присоединиться</string>
+    <string name="text_trade_history">История</string>
+    <string name="text_follower_detail">Подписчики</string>
 
 </resources>
