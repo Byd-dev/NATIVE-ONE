@@ -148,7 +148,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             ((MyViewHolder) holder).text_bet_days.setText(datas.get(position).getBetDays());
 
-            ((MyViewHolder) holder).text_trader_30_days_count.setText(datas.get(position).getTrader30DaysCount());
+            ((MyViewHolder) holder).text_trader_30_days_count.setText(String.valueOf(datas.get(position).getTrader30DaysCount()));
 
             ((MyViewHolder) holder).text_follower.setText(datas.get(position).getFollower());
 

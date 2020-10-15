@@ -159,35 +159,35 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         text_type.setText(value_type);
 
 
-        double trader30DaysIncome = followerUser.getTrader30DaysIncome();//30天带单收益
-        double trader30DaysDefeat = followerUser.getTrader30DaysDefeat();//30天交易胜率
-        String follower = followerUser.getFollower();//跟随者
-        double trader30DaysDraw = followerUser.getTrader30DaysDraw();//30天最大回撤率
+        double trader30DaysCount = followerUser.getTrader30DaysCount();//30天交易笔数
         double trader30DaysRate = followerUser.getTrader30DaysRate();//30天带单收益率
+        double trader30DaysDefeat = followerUser.getTrader30DaysDefeat();//30天交易胜率
+        double trader30DaysDraw = followerUser.getTrader30DaysDraw();//30天最大回撤率
+        String follower = followerUser.getFollower();//跟随者
 
 
-        Log.d("print", "initData:169:  "+trader30DaysIncome+"   "+trader30DaysDefeat+"  "+follower+"  "+trader30DaysDraw+"  "+trader30DaysRate);
+        Log.d("print", "initData:169:  "+trader30DaysCount+"   "+trader30DaysRate+"  "+trader30DaysDefeat+"  "+trader30DaysDraw+"  "+follower);
         List<String> datas = new ArrayList<>();
-        datas.add(String.valueOf(trader30DaysIncome));//0~10000
-        datas.add(TradeUtil.getNumberFormat(trader30DaysDefeat,2)+"%");//0~10
-        datas.add(follower);//0~1000
-        datas.add(TradeUtil.getNumberFormat(trader30DaysDraw,2)+"%");//0~1
+        datas.add(String.valueOf(trader30DaysCount));//0~10000
         datas.add(TradeUtil.getNumberFormat(trader30DaysRate,2)+"%");//0~1
+        datas.add(TradeUtil.getNumberFormat(trader30DaysDefeat,2)+"%");//0~10
+        datas.add(TradeUtil.getNumberFormat(trader30DaysDraw,2)+"%");//0~1
+        datas.add(follower);//0~1000
 
 
         List<Double> scaleData=new ArrayList<>();
-       /* scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysIncome,10000,10),100));
-        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysDefeat,1000,10),100));
-        scaleData.add(TradeUtil.mul(TradeUtil.div(Double.parseDouble(follower),1000,10),100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysCount,1000,10),100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysRate,1000,10),100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysDefeat,100,10),100));
         scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysDraw,100,10),100));
-        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysRate,100,10),100));*/
+        scaleData.add(TradeUtil.mul(TradeUtil.div(Double.parseDouble(follower),200,10),100));
 
 
-        scaleData.add(20.0);
+       /* scaleData.add(20.0);
         scaleData.add(60.0);
         scaleData.add(80.0);
         scaleData.add(35.0);
-        scaleData.add(19.0);
+        scaleData.add(19.0);*/
 
 
         radarView.setData(datas,scaleData);

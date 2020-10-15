@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Shader;
-import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -32,7 +31,7 @@ public class RadarView extends View {
     //中心Y
     private float centerY;
     //雷达区画笔
-    private Paint mainPaint;
+    private Paint mainPaint, mainPaintBg;
     //文本画笔
     private Paint textPaint, textValuePaint;
     //数据区画笔
@@ -51,6 +50,7 @@ public class RadarView extends View {
     //弧度
     private float angle;
     private int radarLineCol;
+    private int radarBgCol;
     private int radarTextCol;
     private int radarValueCol;
     private int radarValueTextSize;
@@ -84,6 +84,7 @@ public class RadarView extends View {
         if (attrs != null) {
             TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.RadarView);
             radarLineCol = typedArray.getColor(R.styleable.RadarView_radarLineCol, 0xffFFA800);
+            radarBgCol = typedArray.getColor(R.styleable.RadarView_radarBgCol, 0xffFFA800);
             radarTextCol = typedArray.getColor(R.styleable.RadarView_radarTextCol, 0xffFFA800);
             radarValueCol = typedArray.getColor(R.styleable.RadarView_radarValueCol, 0xffFFA800);
             radarValueTextSize = typedArray.getInt(R.styleable.RadarView_radarValueTextSize, 9);
@@ -104,6 +105,14 @@ public class RadarView extends View {
         mainPaint.setAntiAlias(true);
         mainPaint.setStrokeWidth(1);
         mainPaint.setStyle(Paint.Style.STROKE);
+
+        //雷达区背景画笔初始化
+        mainPaintBg = new Paint();
+        mainPaintBg.setColor(radarBgCol);
+        mainPaintBg.setAntiAlias(true);
+        mainPaintBg.setStrokeWidth(1);
+        mainPaintBg.setStyle(Paint.Style.FILL);
+
         //文本画笔初始化
         textPaint = new Paint();
         textPaint.setColor(radarTextCol);
@@ -127,11 +136,11 @@ public class RadarView extends View {
 
 
         titles = new ArrayList<>();
-        titles.add(getContext().getString(R.string.text_trader_30_days_income));
-        titles.add(getResources().getString(R.string.text_trader_30_days_defeat));
-        titles.add(getResources().getString(R.string.text_follower));
-        titles.add(getResources().getString(R.string.text_trader_30_days_draw));
+        titles.add(getContext().getString(R.string.text_trader_30_days_count));
         titles.add(getResources().getString(R.string.text_trader_30_days_rate));
+        titles.add(getResources().getString(R.string.text_trader_30_days_defeat));
+        titles.add(getResources().getString(R.string.text_trader_30_days_draw));
+        titles.add(getResources().getString(R.string.text_follower));
 
         data = new ArrayList<>();
         data.add("10.0");
@@ -164,8 +173,9 @@ public class RadarView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        drawPolygonBG(canvas);//绘制蜘蛛网背景
         drawPolygon(canvas);//绘制蜘蛛网
-        drawLines(canvas);//绘制直线
+       // drawLines(canvas);//绘制直线
         drawTitle(canvas);//绘制标题
         drawValue(canvas);//绘制数据
         drawRegion(canvas);//绘制覆盖区域
@@ -215,10 +225,53 @@ public class RadarView extends View {
                 }
             }
             path.close();
+
             canvas.drawPath(path, mainPaint);
         }
     }
 
+    /*绘制蜘蛛网背景*/
+    private void drawPolygonBG(Canvas canvas) {
+        Path path = new Path();
+        //1度=1*PI/180   360度=2*PI   那么我们每旋转一次的角度为2*PI/内角个数
+        //中心与相邻两个内角相连的夹角角度
+        angle = (float) (2 * Math.PI / count);
+        //每个蛛丝之间的间距
+        float r = radius / (count - 1);
+
+        for (int i = 0; i < count; i++) {
+            //当前半径
+            float curR = r * i;
+            path.reset();
+            for (int j = 0; j < count; j++) {
+                if (j == 0) {
+                    x = (float) (centerX + curR * Math.sin(angle));
+                    y = (float) (centerY - curR * Math.cos(angle));
+                    path.moveTo(x, y);
+                } else {
+                    //根据半径，计算出蜘蛛丝上每个点的坐标
+                    float x1 = (float) (centerX + curR * Math.sin(angle / 2));
+                    float y1 = (float) (centerY + curR * Math.cos(angle / 2));
+                    path.lineTo(x1, y1);
+                    float x2 = (float) (centerX - curR * Math.sin(angle / 2));
+                    float y2 = (float) (centerY + curR * Math.cos(angle / 2));
+                    path.lineTo(x2, y2);
+                    float x3 = (float) (centerX - curR * Math.sin(angle));
+                    float y3 = (float) (centerY - curR * Math.cos(angle));
+                    path.lineTo(x3, y3);
+                    x4 = centerX;
+                    y4 = centerY - curR;
+                    path.lineTo(x4, y4);
+                    float x = (float) (centerX + curR * Math.sin(angle));
+                    float y = (float) (centerY - curR * Math.cos(angle));
+                    path.lineTo(x, y);
+                }
+            }
+            path.close();
+
+            canvas.drawPath(path, mainPaintBg);
+        }
+    }
 
     /**
      * 绘制直线
@@ -344,7 +397,7 @@ public class RadarView extends View {
      * 绘制覆盖区域
      */
     private void drawRegion(Canvas canvas) {
-        valuePaint.setAlpha(255);
+        valuePaint.setAlpha(128);
         Path path = new Path();
         double dataValue;
         double percent;
@@ -393,7 +446,7 @@ public class RadarView extends View {
         path.lineTo(x4, y4);
         canvas.drawCircle(x4, y4, valueRadius, valuePaint);
         //绘制圆点5
-        dataValue = scaleData.get(3);
+        dataValue = scaleData.get(4);
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -411,7 +464,7 @@ public class RadarView extends View {
         //填充覆盖区域
         valuePaint.setStyle(Paint.Style.FILL);
         //设置渐变色
-        LinearGradient mShader = new LinearGradient(x1,y1,x5,y5,radarShadowColOne,radarShadowColTwo, Shader.TileMode.CLAMP);
+        LinearGradient mShader = new LinearGradient(x1, y1, x5, y5, radarShadowColOne, radarShadowColTwo, Shader.TileMode.CLAMP);
         valuePaint.setShader(mShader);
 
         canvas.drawPath(path, valuePaint);

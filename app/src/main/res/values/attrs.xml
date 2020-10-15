@@ -147,6 +147,8 @@
     <declare-styleable name="RadarView">
         <!--雷达图线颜色-->
         <attr name="radarLineCol" format="color" />
+
+        <attr name="radarBgCol" format="color" />
         <!--标题-->
         <attr name="radarTextCol" format="color" />
         <!--标题大小-->
