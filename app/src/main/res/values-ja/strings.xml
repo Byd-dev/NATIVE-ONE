@@ -509,6 +509,7 @@
     <string name="text_join">参加</string>
     <string name="text_trade_history">記録</string>
     <string name="text_follower_detail">フォロワー</string>
+    <string name="text_trader_30_days_income">30天带单收益</string>
 
 
 </resources>

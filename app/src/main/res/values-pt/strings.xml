@@ -508,5 +508,6 @@
     <string name="text_join">participar</string>
     <string name="text_trade_history">História comercial</string>
     <string name="text_follower_detail">seguidor</string>
+    <string name="text_trader_30_days_income">30天带单收益</string>
 
 </resources>

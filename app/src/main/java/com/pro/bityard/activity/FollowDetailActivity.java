@@ -25,6 +25,7 @@ import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import androidx.annotation.Nullable;
@@ -157,13 +158,45 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
         text_type.setText(value_type);
 
-        List<Double> datas = new ArrayList<>();
-        datas.add(10.0);//语文100分
-        datas.add(20.0);//数学80分
-        datas.add(60.0);//英语90分
-        datas.add(10.0);//政治70分
-        datas.add(42.5);//历史60分
-        radarView.setData(datas);
+
+        double trader30DaysIncome = followerUser.getTrader30DaysIncome();//30天带单收益
+        double trader30DaysDefeat = followerUser.getTrader30DaysDefeat();//30天交易胜率
+        String follower = followerUser.getFollower();//跟随者
+        double trader30DaysDraw = followerUser.getTrader30DaysDraw();//30天最大回撤率
+        double trader30DaysRate = followerUser.getTrader30DaysRate();//30天带单收益率
+
+
+        Log.d("print", "initData:169:  "+trader30DaysIncome+"   "+trader30DaysDefeat+"  "+follower+"  "+trader30DaysDraw+"  "+trader30DaysRate);
+        List<String> datas = new ArrayList<>();
+        datas.add(String.valueOf(trader30DaysIncome));//0~10000
+        datas.add(TradeUtil.getNumberFormat(trader30DaysDefeat,2)+"%");//0~10
+        datas.add(follower);//0~1000
+        datas.add(TradeUtil.getNumberFormat(trader30DaysDraw,2)+"%");//0~1
+        datas.add(TradeUtil.getNumberFormat(trader30DaysRate,2)+"%");//0~1
+
+
+        List<Double> scaleData=new ArrayList<>();
+       /* scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysIncome,10000,10),100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysDefeat,1000,10),100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(Double.parseDouble(follower),1000,10),100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysDraw,100,10),100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysRate,100,10),100));*/
+
+
+        scaleData.add(20.0);
+        scaleData.add(60.0);
+        scaleData.add(80.0);
+        scaleData.add(35.0);
+        scaleData.add(19.0);
+
+
+        radarView.setData(datas,scaleData);
+
+
+
+
+
+
     }
 
     @Override

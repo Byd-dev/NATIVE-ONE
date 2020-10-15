@@ -350,7 +350,6 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
                             } else if (state.equals(FAILURE)) {
                                 dismissProgressDialog();
-                                Log.d("print", "onImageSuccessResult:353: " + response.toString());
                                 if (response != null) {
                                     LoginEntity loginEntity = (LoginEntity) response;
                                     Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();

@@ -509,5 +509,6 @@
     <string name="text_join">加入</string>
     <string name="text_trade_history">历史持仓</string>
     <string name="text_follower_detail">跟随者</string>
+    <string name="text_trader_30_days_income">30天带单收益</string>
 
 </resources>

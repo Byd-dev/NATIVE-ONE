@@ -509,5 +509,6 @@
     <string name="text_join">Tham gia</string>
     <string name="text_trade_history">Lịch sử vị thế</string>
     <string name="text_follower_detail">Người sao chép</string>
+    <string name="text_trader_30_days_income">30天带单收益</string>
 
 </resources>

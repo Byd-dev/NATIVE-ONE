@@ -130,7 +130,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((MyViewHolder) holder).text_type.setText(value_type);
 
 
-            double mul = TradeUtil.mul(datas.get(position).getTrader30DaysRate(), 100);
+            double mul = TradeUtil.mul(datas.get(position).getTrader30DaysRate(),1);
             if (mul >= 0) {
                 ((MyViewHolder) holder).text_trader_30_days_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
 
@@ -140,10 +140,10 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             ((MyViewHolder) holder).text_trader_30_days_rate.setText(TradeUtil.getNumberFormat(mul, 2) + "%");
 
-            double mul1 = TradeUtil.mul(datas.get(position).getTrader30DaysDefeat(), 100);
+            double mul1 = TradeUtil.mul(datas.get(position).getTrader30DaysDefeat(), 1);
             ((MyViewHolder) holder).text_trader_30_days_defeat.setText(TradeUtil.getNumberFormat(mul1, 2) + "%");
 
-            double mul2 = TradeUtil.mul(datas.get(position).getTrader30DaysDraw(), 100);
+            double mul2 = TradeUtil.mul(datas.get(position).getTrader30DaysDraw(), 1);
             ((MyViewHolder) holder).text_trader_30_days_draw.setText(TradeUtil.getNumberFormat(mul2, 2) + "%");
 
             ((MyViewHolder) holder).text_bet_days.setText(datas.get(position).getBetDays());

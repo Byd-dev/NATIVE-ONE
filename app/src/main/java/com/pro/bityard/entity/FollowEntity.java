@@ -116,7 +116,7 @@ public class FollowEntity implements Serializable{
         private String trader30DaysCount;
         private double trader30DaysDefeat;
         private double trader30DaysDraw;
-        private String trader30DaysIncome;
+        private double trader30DaysIncome;
         private double trader30DaysRate;
         private int type;
         private String userId;
@@ -236,11 +236,11 @@ public class FollowEntity implements Serializable{
             this.trader30DaysDraw = trader30DaysDraw;
         }
 
-        public String getTrader30DaysIncome() {
+        public double getTrader30DaysIncome() {
             return trader30DaysIncome;
         }
 
-        public void setTrader30DaysIncome(String trader30DaysIncome) {
+        public void setTrader30DaysIncome(double trader30DaysIncome) {
             this.trader30DaysIncome = trader30DaysIncome;
         }
 

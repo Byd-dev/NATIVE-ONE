@@ -153,9 +153,14 @@
         <attr name="radarTextSize" format="integer" />
         <!--数据颜色-->
         <attr name="radarValueCol" format="color" />
+        <!--数据颜色-->
+        <attr name="textValueCol" format="color" />
         <!--数据字体大小-->
         <attr name="radarValueTextSize" format="integer" />
-
-
+        <attr name="radarTextValueTextSize" format="integer" />
+        <!--渐变色1-->
+        <attr name="shadowColOne" format="color" />
+        <!--渐变色2-->
+        <attr name="shadowColTwo" format="color" />
     </declare-styleable>
 </resources>

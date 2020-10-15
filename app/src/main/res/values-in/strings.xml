@@ -510,5 +510,6 @@
     <string name="text_join">Gabung</string>
     <string name="text_trade_history">Riwayat trade</string>
     <string name="text_follower_detail">Pengikut</string>
+    <string name="text_trader_30_days_income">30天带单收益</string>
 
 </resources>

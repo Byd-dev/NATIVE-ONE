@@ -2494,7 +2494,7 @@ public class NetManger {
         map.put("terminal", "Android");
 
         NetManger.getInstance().postRequest("/api/sso/user_login_check", map, (state, response) -> {
-            Log.d("print", "login: 2325: " + response);
+            Log.d("print", "login: 2325: " +state+ response);
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
@@ -2508,6 +2508,7 @@ public class NetManger {
                 onNetResult.onNetResult(FAILURE, null);
 
             }
+
         });
     }
 

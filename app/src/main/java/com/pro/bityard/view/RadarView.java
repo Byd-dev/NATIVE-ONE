@@ -3,9 +3,12 @@ package com.pro.bityard.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.Shader;
+import android.graphics.SweepGradient;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -31,21 +34,34 @@ public class RadarView extends View {
     //雷达区画笔
     private Paint mainPaint;
     //文本画笔
-    private Paint textPaint;
+    private Paint textPaint, textValuePaint;
     //数据区画笔
     private Paint valuePaint;
     //标题文字
     private List<String> titles;
+
     //各维度分值
-    private List<Double> data;
+    private List<String> data;
+    private List<Double> scaleData;
+
     //数据最大值
     private double maxValue = 100;
+
+
     //弧度
     private float angle;
     private int radarLineCol;
     private int radarTextCol;
     private int radarValueCol;
     private int radarValueTextSize;
+    private int radarTextValueCol;
+    private int radarTextValueTextSize;
+    private int radarShadowColOne;
+    private int radarShadowColTwo;
+    private float x;
+    private float y;
+    private float x4;
+    private float y4;
 
 
     public RadarView(Context context) {
@@ -71,7 +87,10 @@ public class RadarView extends View {
             radarTextCol = typedArray.getColor(R.styleable.RadarView_radarTextCol, 0xffFFA800);
             radarValueCol = typedArray.getColor(R.styleable.RadarView_radarValueCol, 0xffFFA800);
             radarValueTextSize = typedArray.getInt(R.styleable.RadarView_radarValueTextSize, 9);
-
+            radarTextValueCol = typedArray.getColor(R.styleable.RadarView_textValueCol, 0xffFFA800);
+            radarTextValueTextSize = typedArray.getInt(R.styleable.RadarView_radarTextValueTextSize, 15);
+            radarShadowColOne = typedArray.getColor(R.styleable.RadarView_shadowColOne, 0xffFFA800);
+            radarShadowColTwo = typedArray.getColor(R.styleable.RadarView_shadowColTwo, 0xffFFA800);
 
             typedArray.recycle();
         }
@@ -92,34 +111,50 @@ public class RadarView extends View {
         textPaint.setTextSize(radarValueTextSize);
         textPaint.setStrokeWidth(1);
         textPaint.setAntiAlias(true);
+        //数值画笔初始化
+        textValuePaint = new Paint();
+        textValuePaint.setColor(radarTextValueCol);
+        textValuePaint.setTextAlign(Paint.Align.CENTER);
+        textValuePaint.setTextSize(radarTextValueTextSize);
+        textValuePaint.setStrokeWidth(1);
+        textValuePaint.setAntiAlias(true);
+
         //数据区（分数）画笔初始化
         valuePaint = new Paint();
         valuePaint.setColor(radarValueCol);
         valuePaint.setAntiAlias(true);
         valuePaint.setStyle(Paint.Style.FILL);
 
-        titles = new ArrayList<>();
-        titles.add(getResources().getString(R.string.text_trader_30_days_rate));
-        titles.add(getResources().getString(R.string.text_trader_30_days_defeat));
-        titles.add(getResources().getString(R.string.text_trader_30_days_draw));
-        titles.add(getResources().getString(R.string.text_bet_days));
-        titles.add(getResources().getString(R.string.text_trader_30_days_count));
 
+        titles = new ArrayList<>();
+        titles.add(getContext().getString(R.string.text_trader_30_days_income));
+        titles.add(getResources().getString(R.string.text_trader_30_days_defeat));
+        titles.add(getResources().getString(R.string.text_follower));
+        titles.add(getResources().getString(R.string.text_trader_30_days_draw));
+        titles.add(getResources().getString(R.string.text_trader_30_days_rate));
+
+        data = new ArrayList<>();
+        data.add("10.0");
+        data.add("20.0");
+        data.add("30.0");
+        data.add("40.0");
+        data.add("50.0");
+
+
+        scaleData = new ArrayList<>();
+        scaleData.add(100.0);
+        scaleData.add(100.0);
+        scaleData.add(100.0);
+        scaleData.add(100.0);
+        scaleData.add(100.0);
         count = titles.size();
 
-        //默认分数
-        data = new ArrayList<>(count);
-        data.add(100.0);
-        data.add(80.0);
-        data.add(90.0);
-        data.add(70.0);
-        data.add(60.0);
 
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        radius = Math.min(w, h) / 2 * 0.8f;
+        radius = Math.min(w, h) / 2 * 0.5f;  //这个是占图的多少比例
         centerX = w / 2;
         centerY = h / 2;
         //一旦size发生改变，重新绘制
@@ -131,8 +166,8 @@ public class RadarView extends View {
     protected void onDraw(Canvas canvas) {
         drawPolygon(canvas);//绘制蜘蛛网
         drawLines(canvas);//绘制直线
-       // drawTitle(canvas);//绘制标题
-        drawText(canvas);
+        drawTitle(canvas);//绘制标题
+        drawValue(canvas);//绘制数据
         drawRegion(canvas);//绘制覆盖区域
     }
 
@@ -157,8 +192,8 @@ public class RadarView extends View {
             path.reset();
             for (int j = 0; j < count; j++) {
                 if (j == 0) {
-                    float x = (float) (centerX + curR * Math.sin(angle));
-                    float y = (float) (centerY - curR * Math.cos(angle));
+                    x = (float) (centerX + curR * Math.sin(angle));
+                    y = (float) (centerY - curR * Math.cos(angle));
                     path.moveTo(x, y);
                 } else {
                     //根据半径，计算出蜘蛛丝上每个点的坐标
@@ -171,8 +206,8 @@ public class RadarView extends View {
                     float x3 = (float) (centerX - curR * Math.sin(angle));
                     float y3 = (float) (centerY - curR * Math.cos(angle));
                     path.lineTo(x3, y3);
-                    float x4 = centerX;
-                    float y4 = centerY - curR;
+                    x4 = centerX;
+                    y4 = centerY - curR;
                     path.lineTo(x4, y4);
                     float x = (float) (centerX + curR * Math.sin(angle));
                     float y = (float) (centerY - curR * Math.cos(angle));
@@ -226,7 +261,7 @@ public class RadarView extends View {
      * @param canvas
      */
 
-    private void drawText(Canvas canvas) {
+    private void drawTitle(Canvas canvas) {
         for (int i = 0; i < count; i++) {
             //获取到雷达图最外边的坐标
             float x = (float) (centerX + Math.sin(angle * i) * (radius + 12));
@@ -234,11 +269,11 @@ public class RadarView extends View {
             if (angle * i == 0) {
                 //第一个文字位于顶角正上方
                 textPaint.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(titles.get(i), x, y - 5, textPaint);
+                canvas.drawText(titles.get(i), x, y - 35, textPaint);
                 textPaint.setTextAlign(Paint.Align.LEFT);
             } else if (angle * i > 0 && angle * i < Math.PI / 2) {
                 //微调
-                canvas.drawText(titles.get(i), x + 12, y + 5, textPaint);
+                canvas.drawText(titles.get(i), x, y, textPaint);
             } else if (angle * i >= Math.PI / 2 && angle * i < Math.PI) {
                 //最右下的文字获取到文字的长、宽，按文字长度百分比向左移
                 String txt = titles.get(i);
@@ -246,7 +281,7 @@ public class RadarView extends View {
                 textPaint.getTextBounds(txt, 0, txt.length(), bounds);
                 float height = bounds.bottom - bounds.top;
                 float width = textPaint.measureText(txt);
-                canvas.drawText(txt, x - width * 0.4f, y + height + 5, textPaint);
+                canvas.drawText(txt, x - width * 0.4f, y + height, textPaint);
             } else if (angle * i >= Math.PI && angle * i < 3 * Math.PI / 2) {
                 //同理最左下的文字获取到文字的长、宽，按文字长度百分比向左移
                 String txt = titles.get(i);
@@ -254,46 +289,56 @@ public class RadarView extends View {
                 textPaint.getTextBounds(txt, 0, txt.length(), bounds);
                 float width = textPaint.measureText(txt);
                 float height = bounds.bottom - bounds.top;
-                canvas.drawText(txt, x - width * 0.6f, y + height + 5, textPaint);
+                canvas.drawText(txt, x - width * 0.6f, y + height, textPaint);
             } else if (angle * i >= 3 * Math.PI / 2 && angle * i < 2 * Math.PI) {
                 //文字向左移动
                 String txt = titles.get(i);
                 float width = textPaint.measureText(txt);
-                canvas.drawText(txt, x - width - 12, y + 5, textPaint);
+                canvas.drawText(txt, x - width, y, textPaint);
             }
 
         }
     }
 
-    private void drawTitle(Canvas canvas) {
-        if (count != titles.size()) {
-            return;
+    private void drawValue(Canvas canvas) {
+        for (int i = 0; i < count; i++) {
+            //获取到雷达图最外边的坐标
+            float x = (float) (centerX + Math.sin(angle * i) * (radius + 12));
+            float y = (float) (centerY - Math.cos(angle * i) * (radius + 12));
+            if (angle * i == 0) {
+                //第一个文字位于顶角正上方
+                textValuePaint.setTextAlign(Paint.Align.CENTER);
+                canvas.drawText(data.get(i), x, y, textValuePaint);
+                textValuePaint.setTextAlign(Paint.Align.LEFT);
+            } else if (angle * i > 0 && angle * i < Math.PI / 2) {
+                //微调
+                canvas.drawText(data.get(i).toString(), x, y + 35, textValuePaint);
+            } else if (angle * i >= Math.PI / 2 && angle * i < Math.PI) {
+                //最右下的文字获取到文字的长、宽，按文字长度百分比向左移
+                String txt = data.get(i).toString();
+                Rect bounds = new Rect();
+                textValuePaint.getTextBounds(txt, 0, txt.length(), bounds);
+                float height = bounds.bottom - bounds.top;
+                float width = textValuePaint.measureText(txt);
+                canvas.drawText(txt, x - width * 0.4f, y + height + 35, textValuePaint);
+            } else if (angle * i >= Math.PI && angle * i < 3 * Math.PI / 2) {
+                //同理最左下的文字获取到文字的长、宽，按文字长度百分比向左移
+                String txt = data.get(i).toString();
+                Rect bounds = new Rect();
+                textValuePaint.getTextBounds(txt, 0, txt.length(), bounds);
+                float width = textValuePaint.measureText(txt);
+                float height = bounds.bottom - bounds.top;
+                canvas.drawText(txt, x - width * 0.6f, y + height + 35, textValuePaint);
+            } else if (angle * i >= 3 * Math.PI / 2 && angle * i < 2 * Math.PI) {
+                //文字向左移动
+                String txt = data.get(i);
+                float width = textValuePaint.measureText(txt);
+                canvas.drawText(txt, x - width, y + 35, textValuePaint);
+            }
+
         }
-        Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
-        float fontHeight = fontMetrics.descent - fontMetrics.ascent;//标题高度
-        //绘制文字1
-        float x1 = centerX;
-        float y1 = centerY - radius;
-        canvas.drawText(titles.get(0), x1, y1 - fontHeight / 3, textPaint);
-        //绘制文字2
-        float x2 = (float) (centerX + radius * Math.sin(angle));
-        float y2 = (float) (centerY - radius * Math.cos(angle));
-        float dis = textPaint.measureText(titles.get(1));//标题一半的宽度
-        canvas.drawText(titles.get(1), x2 + dis, y2 - fontHeight / 3, textPaint);
-        //绘制文字3
-        float x3 = (float) (centerX + radius * Math.sin(angle / 2));
-        float y3 = (float) (centerY + radius * Math.cos(angle / 2));
-        canvas.drawText(titles.get(2), x3, y3 + fontHeight, textPaint);
-        //绘制文字4
-        float x4 = (float) (centerX - radius * Math.sin(angle / 2));
-        float y4 = (float) (centerY + radius * Math.cos(angle / 2));
-        canvas.drawText(titles.get(3), x4, y4 + fontHeight, textPaint);
-        //绘制文字5
-        float x5 = (float) (centerX - radius * Math.sin(angle));
-        float y5 = (float) (centerY - radius * Math.cos(angle));
-        float dis5 = textPaint.measureText(titles.get(1));//标题的宽度
-        canvas.drawText(titles.get(4), x5 - dis5, y5 - fontHeight / 5, textPaint);
     }
+
 
     /**
      * 绘制覆盖区域
@@ -304,7 +349,7 @@ public class RadarView extends View {
         double dataValue;
         double percent;
         //绘制圆点1
-        dataValue = data.get(0);
+        dataValue = scaleData.get(0);
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -315,7 +360,7 @@ public class RadarView extends View {
         path.moveTo(x1, y1);
         canvas.drawCircle(x1, y1, valueRadius, valuePaint);
         //绘制圆点2
-        dataValue = data.get(1);
+        dataValue = scaleData.get(1);
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -326,7 +371,7 @@ public class RadarView extends View {
         path.lineTo(x2, y2);
         canvas.drawCircle(x2, y2, valueRadius, valuePaint);
         //绘制圆点3
-        dataValue = data.get(2);
+        dataValue = scaleData.get(2);
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -337,7 +382,7 @@ public class RadarView extends View {
         path.lineTo(x3, y3);
         canvas.drawCircle(x3, y3, valueRadius, valuePaint);
         //绘制圆点4
-        dataValue = data.get(3);
+        dataValue = scaleData.get(3);
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -348,7 +393,7 @@ public class RadarView extends View {
         path.lineTo(x4, y4);
         canvas.drawCircle(x4, y4, valueRadius, valuePaint);
         //绘制圆点5
-        dataValue = data.get(3);
+        dataValue = scaleData.get(3);
         if (dataValue != maxValue) {
             percent = dataValue / maxValue;
         } else {
@@ -364,8 +409,11 @@ public class RadarView extends View {
         //绘制覆盖区域外的连线
         canvas.drawPath(path, valuePaint);
         //填充覆盖区域
-        valuePaint.setAlpha(128);
         valuePaint.setStyle(Paint.Style.FILL);
+        //设置渐变色
+        LinearGradient mShader = new LinearGradient(x1,y1,x5,y5,radarShadowColOne,radarShadowColTwo, Shader.TileMode.CLAMP);
+        valuePaint.setShader(mShader);
+
         canvas.drawPath(path, valuePaint);
     }
 
@@ -387,9 +435,10 @@ public class RadarView extends View {
         postInvalidate();
     }
 
-    //设置各门得分
-    public void setData(List<Double> data) {
+
+    public void setData(List<String> data, List<Double> scaleData) {
         this.data = data;
+        this.scaleData = scaleData;
         postInvalidate();
     }
 

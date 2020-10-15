@@ -63,6 +63,7 @@
                 <com.google.android.material.appbar.AppBarLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:elevation="0dp"
                     android:background="@color/transparent">
 
                     <LinearLayout
@@ -203,7 +204,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="280dp"
+                            android:layout_height="300dp"
                             android:background="@drawable/bg_shape_my_background"
                             android:orientation="vertical">
 
@@ -230,12 +231,14 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
-                                    android:layout_margin="@dimen/margin_15"
-                                    android:background="@color/background_maincolor"
                                     app:radarLineCol="@color/color_bg_left"
                                     app:radarTextCol="@color/text_second_color"
-                                    app:radarValueCol="@color/color_tag_purple"
-                                    app:radarValueTextSize="25" />
+                                    app:radarTextValueTextSize="30"
+                                    app:shadowColOne="@color/color_f9a36d"
+                                    app:shadowColTwo="@color/color_tag_purple"
+                                    app:radarValueTextSize="25"
+                                    app:textValueCol="@color/text_main_color" />
+
 
                             </RelativeLayout>
 
