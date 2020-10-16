@@ -509,5 +509,11 @@
     <string name="text_trade_history">Trade history</string>
     <string name="text_follower_detail">follower</string>
     <string name="text_trader_30_days_income">30天带单收益</string>
+    <string name="text_profit_share_ratio">Profit Share Ratio ：%s</string>
+    <string name="text_trader_total_income">带单总收益</string>
+    <string name="text_ratio_tip">After following, the system will calculate the profit based on each followed trade. %s of the profit made by each trade will be awarded to the trader.</string>
+    <string name="text_income_rate">profit margin</string>
+    <string name="text_order_type">order type</string>
+    <string name="text_copy_trade_amount_item">copy trade amount</string>
 
 </resources>

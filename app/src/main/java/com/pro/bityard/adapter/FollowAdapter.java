@@ -140,11 +140,11 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             ((MyViewHolder) holder).text_trader_30_days_rate.setText(TradeUtil.getNumberFormat(mul, 2) + "%");
 
-            double mul1 = TradeUtil.mul(datas.get(position).getTrader30DaysDefeat(), 1);
+            double mul1 = TradeUtil.mul(datas.get(position).getTraderTotalIncome(), 1);
             ((MyViewHolder) holder).text_trader_30_days_defeat.setText(TradeUtil.getNumberFormat(mul1, 2) + "%");
 
-            double mul2 = TradeUtil.mul(datas.get(position).getTrader30DaysDraw(), 1);
-            ((MyViewHolder) holder).text_trader_30_days_draw.setText(TradeUtil.getNumberFormat(mul2, 2) + "%");
+            double mul2 = TradeUtil.mul(datas.get(position).getTrader30DaysIncome(), 1);
+            ((MyViewHolder) holder).text_trader_total_income.setText(TradeUtil.getNumberFormat(datas.get(position).getTraderTotalIncome(),2));
 
             ((MyViewHolder) holder).text_bet_days.setText(datas.get(position).getBetDays());
 
@@ -187,7 +187,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_trader_30_days_rate, text_trader_30_days_defeat, text_trader_30_days_draw,
+        TextView text_name, text_trader_30_days_rate, text_trader_30_days_defeat, text_trader_total_income,
                 text_bet_days, text_trader_30_days_count, text_follower, text_type, text_follow;
         CircleImageView img_head;
         LinearLayout layout_tags;
@@ -197,7 +197,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             text_name = itemView.findViewById(R.id.text_userName);
             text_trader_30_days_rate = itemView.findViewById(R.id.text_trader_30_days_rate);
             text_trader_30_days_defeat = itemView.findViewById(R.id.text_trader_30_days_defeat);
-            text_trader_30_days_draw = itemView.findViewById(R.id.text_trader_30_days_draw);
+            text_trader_total_income = itemView.findViewById(R.id.text_trader_total_income);
             text_bet_days = itemView.findViewById(R.id.text_bet_days);
             text_trader_30_days_count = itemView.findViewById(R.id.text_trader_30_days_count);
             text_follower = itemView.findViewById(R.id.text_follower);

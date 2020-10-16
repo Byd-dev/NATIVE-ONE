@@ -50,25 +50,28 @@ public class FollowEntity implements Serializable{
     }
 
     public static class DataBean implements Serializable {
+
         @Override
         public String toString() {
             return "DataBean{" +
                     "avatar='" + avatar + '\'' +
-                    ", betDays=" + betDays +
+                    ", betDays='" + betDays + '\'' +
                     ", brand='" + brand + '\'' +
                     ", currency='" + currency + '\'' +
-                    ", follower=" + follower +
+                    ", follower='" + follower + '\'' +
                     ", idearTag='" + idearTag + '\'' +
                     ", registerTime=" + registerTime +
                     ", selectedRegion=" + selectedRegion +
                     ", sex=" + sex +
                     ", styleTag='" + styleTag + '\'' +
-                    ", trader30DaysCost=" + trader30DaysCost +
+                    ", trader30DaysCost='" + trader30DaysCost + '\'' +
                     ", trader30DaysCount=" + trader30DaysCount +
                     ", trader30DaysDefeat=" + trader30DaysDefeat +
                     ", trader30DaysDraw=" + trader30DaysDraw +
                     ", trader30DaysIncome=" + trader30DaysIncome +
                     ", trader30DaysRate=" + trader30DaysRate +
+                    ", traderRatio=" + traderRatio +
+                    ", traderTotalIncome=" + traderTotalIncome +
                     ", type=" + type +
                     ", userId='" + userId + '\'' +
                     ", username='" + username + '\'' +
@@ -118,6 +121,8 @@ public class FollowEntity implements Serializable{
         private double trader30DaysDraw;
         private double trader30DaysIncome;
         private double trader30DaysRate;
+        private double traderRatio;
+        private double traderTotalIncome;
         private int type;
         private String userId;
         private String username;
@@ -250,6 +255,22 @@ public class FollowEntity implements Serializable{
 
         public void setTrader30DaysRate(double trader30DaysRate) {
             this.trader30DaysRate = trader30DaysRate;
+        }
+
+        public double getTraderRatio() {
+            return traderRatio;
+        }
+
+        public void setTraderRatio(double traderRatio) {
+            this.traderRatio = traderRatio;
+        }
+
+        public double getTraderTotalIncome() {
+            return traderTotalIncome;
+        }
+
+        public void setTraderTotalIncome(double traderTotalIncome) {
+            this.traderTotalIncome = traderTotalIncome;
         }
 
         public int getType() {

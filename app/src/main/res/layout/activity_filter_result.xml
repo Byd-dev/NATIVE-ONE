@@ -46,7 +46,7 @@
             android:textSize="@dimen/size_normal" />
 
         <TextView
-            android:id="@+id/text_days_draw"
+            android:id="@+id/text_bet_days"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -56,7 +56,7 @@
             android:gravity="center"
             android:paddingLeft="@dimen/margin_15"
             android:paddingRight="@dimen/margin_15"
-            android:text="@string/text_trader_30_days_draw"
+            android:text="@string/text_bet_days"
             android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal" />
 

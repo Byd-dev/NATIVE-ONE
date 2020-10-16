@@ -510,5 +510,11 @@
     <string name="text_trade_history">기록</string>
     <string name="text_follower_detail">팔로워</string>
     <string name="text_trader_30_days_income">30天带单收益</string>
+    <string name="text_profit_share_ratio">리딩 배당 비율：%s</string>
+    <string name="text_trader_total_income">带单总收益</string>
+    <string name="text_ratio_tip">跟随后，系统将按每笔跟单统计跟单收益，单笔盈利订单将有%s作为带单奖励分享给该交易员。</string>
+    <string name="text_income_rate">수익율</string>
+    <string name="text_order_type">주문 종류</string>
+    <string name="text_copy_trade_amount_item">총 팔로우 금액</string>
 
 </resources>

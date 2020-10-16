@@ -511,5 +511,11 @@
     <string name="text_trade_history">Riwayat trade</string>
     <string name="text_follower_detail">Pengikut</string>
     <string name="text_trader_30_days_income">30天带单收益</string>
+    <string name="text_profit_share_ratio">Profit share: %s</string>
+    <string name="text_trader_total_income">带单总收益</string>
+    <string name="text_ratio_tip">After following, the system will calculate the profit based on each followed trade. %s of the profit made by each trade will be awarded to the trader.</string>
+    <string name="text_income_rate">Profitabilitas</string>
+    <string name="text_order_type">Waktu Order</string>
+    <string name="text_copy_trade_amount_item">Jumlah copy trade</string>
 
 </resources>

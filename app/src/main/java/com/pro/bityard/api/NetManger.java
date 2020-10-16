@@ -26,7 +26,9 @@ import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.FollowHistoryEntity;
 import com.pro.bityard.entity.FollowLogEntity;
+import com.pro.bityard.entity.FollowersListEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.InitEntity;
@@ -2675,6 +2677,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("print", "followList:2678:  "+response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -2911,5 +2914,49 @@ public class NetManger {
             }
         });
     }
+    /*历史记录*/
+    public void followHistory(String traderId,String page,String rows,OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("traderId", traderId);
+        map.put("page", page);
+        map.put("rows",rows);
+        getRequest("/api/follow/trader/history", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    FollowHistoryEntity followHistoryEntity = new Gson().fromJson(response.toString(), FollowHistoryEntity.class);
+                    onNetResult.onNetResult(SUCCESS, followHistoryEntity);
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+    }
 
+    /*历史记录*/
+    public void followerList(String traderId,String page,String rows,OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("traderId", traderId);
+        map.put("page", page);
+        map.put("rows",rows);
+        getRequest("/api/follow/trader/followers", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    FollowersListEntity followersListEntity = new Gson().fromJson(response.toString(), FollowersListEntity.class);
+                    onNetResult.onNetResult(SUCCESS, followersListEntity);
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+    }
 }

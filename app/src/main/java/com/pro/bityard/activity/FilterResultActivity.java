@@ -74,8 +74,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     TextView text_style;
     @BindView(R.id.text_days_rate)
     TextView text_days_rate;
-    @BindView(R.id.text_days_draw)
-    TextView text_days_draw;
+    @BindView(R.id.text_bet_days)
+    TextView text_bet_days;
     private StyleEntity styleEntity;
     private List<TagEntity> styleList, daysRateList, daysDrawList, daysBetList;
     private List<TagEntity> allList;
@@ -151,7 +151,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
         text_style.setOnClickListener(this);
         text_days_rate.setOnClickListener(this);
-        text_days_draw.setOnClickListener(this);
+        text_bet_days.setOnClickListener(this);
 
         recyclerView_select.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
 
@@ -396,10 +396,10 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                 text_days_rate.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
                 showDaysRateWindow();
                 break;
-            case R.id.text_days_draw:
+            case R.id.text_bet_days:
                 Util.lightOff(this);
-                text_days_draw.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
-                showDaysDrawWindow();
+                text_bet_days.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_down), null);
+                showDaysBetWindow();
                 break;
         }
     }
@@ -554,36 +554,36 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     }
 
     /*最大回撤*/
-    private void showDaysDrawWindow() {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_draw_layout, null);
+    private void showDaysBetWindow() {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_day_bet_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_draw);
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_bet_days);
         recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
 
-        drawAdapter = new TagsAdapter(this, 2);
-        recyclerView.setAdapter(drawAdapter);
+        daysAdapter = new TagsAdapter(this, 2);
+        recyclerView.setAdapter(daysAdapter);
 
-        daysDrawList = new ArrayList<>();
+        daysBetList = new ArrayList<>();
         if (allList != null) {
             //加载风格的数据
             for (TagEntity data : allList) {
-                if (data.getType().equals(AppConfig.type_draw)) {
-                    daysDrawList.add(data);
+                if (data.getType().equals(AppConfig.type_day)) {
+                    daysBetList.add(data);
                 }
             }
             //设置风格已选择的为true
             for (TagEntity tag : tag_select.values()) {
-                for (TagEntity tagentity : daysDrawList) {
+                for (TagEntity tagentity : daysBetList) {
                     if (tagentity.getContent().equals(tag.getContent()) && tagentity.getType().equals(tag.getType())) {
                         tagentity.setChecked(true);
                     }
                 }
             }
         }
-        drawAdapter.setDatas(daysDrawList);
-        drawAdapter.setOnItemChaneClick((isChecked, data) -> {
+        daysAdapter.setDatas(daysBetList);
+        daysAdapter.setOnItemChaneClick((isChecked, data) -> {
             if (isChecked) {
                 tag_select.put(data.getContent() + data.getType(), data);
                 for (TagEntity tagentity : allList) {
@@ -607,7 +607,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
 
         popupWindow.setOnDismissListener(() -> {
-            text_days_draw.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_right), null);
+            text_bet_days.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.mipmap.icon_white_right), null);
             Util.lightOn(this);
         });
 

@@ -73,6 +73,15 @@ public class TradeUtil {
         String format = simpleDateFormat.format(date);
         return format;
     }
+
+    /*long转时间*/
+    public static String dateToStampHour(long time) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd HH:mm:ss");
+        Date date = new Date(time);
+        String format = simpleDateFormat.format(date);
+        return format;
+    }
+
     /*long转时间*/
     public static String dateToStampWithout(long time) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");

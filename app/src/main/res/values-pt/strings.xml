@@ -509,5 +509,11 @@
     <string name="text_trade_history">História comercial</string>
     <string name="text_follower_detail">seguidor</string>
     <string name="text_trader_30_days_income">30天带单收益</string>
+    <string name="text_profit_share_ratio">Taxa de participação nos lucros：%s</string>
+    <string name="text_trader_total_income">带单总收益</string>
+    <string name="text_ratio_tip">跟随后，系统将按每笔跟单统计跟单收益，单笔盈利订单将有%s作为带单奖励分享给该交易员。</string>
+    <string name="text_income_rate">margem de lucro</string>
+    <string name="text_order_type">hora do pedido</string>
+    <string name="text_copy_trade_amount_item">a soma de negociação de cópias </string>
 
 </resources>
