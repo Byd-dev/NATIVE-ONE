@@ -883,9 +883,28 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             recyclerView.setAdapter(chainListAdapter);
 
             String withdrawChain = data.getWithdrawChain();
-            TradeUtil.getFee(withdrawChain, chain, response -> {
-                text_fee.setText(response.toString()+" " + getResources().getString(R.string.text_usdt));
-            });
+            Log.d("print", "showAddressPopWindow:886:  "+data);
+            if (withdrawChain==null){
+                switch (data.getChain()){
+                    case "ERC20":
+                        text_fee.setText("6 " + getResources().getString(R.string.text_usdt));
+
+                        break;
+                    case "OMNI":
+                        text_fee.setText("5.92 " + getResources().getString(R.string.text_usdt));
+
+                        break;
+                    case "TRC20":
+                        text_fee.setText("0 " + getResources().getString(R.string.text_usdt));
+
+                        break;
+                }
+            }else {
+                TradeUtil.getFee(withdrawChain, chain, response -> {
+                    text_fee.setText(response.toString()+" " + getResources().getString(R.string.text_usdt));
+                });
+            }
+
 
 
         });
