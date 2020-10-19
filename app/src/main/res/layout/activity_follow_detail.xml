@@ -330,29 +330,16 @@
                 </com.google.android.material.appbar.AppBarLayout>
 
 
-                <RelativeLayout
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/background_maincolor"
                     app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-                    >
+                    />
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_history"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/background_maincolor"
-
-                        />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView_followers"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/background_maincolor"
-                        android:visibility="gone" />
-
-                </RelativeLayout>
 
 
             </androidx.coordinatorlayout.widget.CoordinatorLayout>

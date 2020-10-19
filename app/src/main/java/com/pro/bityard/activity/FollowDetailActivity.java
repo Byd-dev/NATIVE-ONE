@@ -69,8 +69,8 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.text_registerTime)
     TextView text_registerTime;
 
-    @BindView(R.id.recyclerView_history)
-    RecyclerView recyclerView_history;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
     @BindView(R.id.layout_tags)
     LinearLayout layout_tags;
     @BindView(R.id.view_line)
@@ -88,8 +88,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
 
     /*------------------------------------*/
-    @BindView(R.id.recyclerView_followers)
-    RecyclerView recyclerView_followers;
+   
 
     private int page_follower;
     private int lastVisibleItem_follower;
@@ -134,10 +133,10 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
         followHistoryAdapter = new FollowHistoryAdapter(this);
         linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView_history.setLayoutManager(linearLayoutManager);
-        recyclerView_history.setAdapter(followHistoryAdapter);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(followHistoryAdapter);
 
-        recyclerView_history.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -160,27 +159,6 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
         followerListAdapter = new FollowerListAdapter(this);
         linearLayoutManager_follower = new LinearLayoutManager(this);
-        recyclerView_followers.setLayoutManager(linearLayoutManager_follower);
-        recyclerView_followers.setAdapter(followerListAdapter);
-
-        recyclerView_followers.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem_follower == followerListAdapter.getItemCount() - 1) {
-                    followerListAdapter.startLoad();
-                    page_follower = page_follower + 1;
-                    getFollowerData(AppConfig.LOAD, page_follower);
-
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                lastVisibleItem_follower = linearLayoutManager_follower.findLastVisibleItemPosition();
-            }
-        });
 
 
         radioGroup.setOnCheckedChangeListener(this);
@@ -360,12 +338,56 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
     public void onCheckedChanged(RadioGroup group, int checkedId) {
         switch (checkedId){
             case R.id.radio_hold:
-                recyclerView_history.setVisibility(View.VISIBLE);
-                recyclerView_followers.setVisibility(View.GONE);
+             
+
+                recyclerView.setLayoutManager(linearLayoutManager);
+                recyclerView.setAdapter(followHistoryAdapter);
+
+                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == followHistoryAdapter.getItemCount() - 1) {
+                            followHistoryAdapter.startLoad();
+                            page = page + 1;
+                            getHistoryData(AppConfig.LOAD, page);
+
+                        }
+                    }
+
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                    }
+                });
+
                 break;
             case R.id.radio_follower:
-                recyclerView_history.setVisibility(View.GONE);
-                recyclerView_followers.setVisibility(View.VISIBLE);
+
+
+                recyclerView.setLayoutManager(linearLayoutManager_follower);
+                recyclerView.setAdapter(followerListAdapter);
+
+                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem_follower == followerListAdapter.getItemCount() - 1) {
+                            followerListAdapter.startLoad();
+                            page_follower = page_follower + 1;
+                            getFollowerData(AppConfig.LOAD, page_follower);
+
+                        }
+                    }
+
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        lastVisibleItem_follower = linearLayoutManager_follower.findLastVisibleItemPosition();
+                    }
+                });
+
                 break;
 
         }
