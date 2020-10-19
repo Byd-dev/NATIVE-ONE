@@ -19,7 +19,6 @@ import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowHistoryAdapter;
 import com.pro.bityard.adapter.FollowerListAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
@@ -88,13 +87,12 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
 
     /*------------------------------------*/
-   
+
 
     private int page_follower;
     private int lastVisibleItem_follower;
     private LinearLayoutManager linearLayoutManager_follower;
     private FollowerListAdapter followerListAdapter;
-
 
 
     @BindView(R.id.radioGroup_hold)
@@ -336,9 +334,9 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (checkedId){
+        switch (checkedId) {
             case R.id.radio_hold:
-             
+
 
                 recyclerView.setLayoutManager(linearLayoutManager);
                 recyclerView.setAdapter(followHistoryAdapter);
