@@ -37,12 +37,14 @@ import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.UserDetailEntity;
@@ -241,6 +243,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private List<PositionEntity.DataBean> positionSimulationList;
     private LoginEntity loginEntity;
     private UserDetailEntity userDetailEntity;
+    private FollowerDetailEntity followDetailEntity;
 
 
     @Override
@@ -781,6 +784,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_circle.addFooterView(footView_circle);
 
         head_circle.findViewById(R.id.text_follow_settings).setOnClickListener(this);
+        img_head_circle.setOnClickListener(this);
 
         TextView text_update = head_circle.findViewById(R.id.text_update_two);
         String strMsg = getString(R.string.text_two_update);
@@ -810,11 +814,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         });
 
         followAdapter.setOnFollowClick(dataBean -> {
-
-            FollowDetailActivity.enter(this, dataBean);
-
-
-
+            FollowDetailActivity.enter(this,AppConfig.FOLLOW, dataBean);
         });
 
 
@@ -920,14 +920,14 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         swipeRefreshLayout_circle.setRefreshing(false);
 
                         FollowEntity followEntity = (FollowEntity) response;
-                        List<FollowEntity.DataBean> data = followEntity.getData();
-                        if (data.size() == 0) {
+                        List<FollowerDetailEntity.DataBean> followEntityData = followEntity.getData();
+                        if (followEntityData.size() == 0) {
                             layout_circle_null.setVisibility(View.VISIBLE);
                             recyclerView_circle.setVisibility(View.GONE);
                         } else {
                             layout_circle_null.setVisibility(View.GONE);
                             recyclerView_circle.setVisibility(View.VISIBLE);
-                            followAdapter.setDatas(data);
+                            followAdapter.setDatas(followEntityData);
 
                         }
                     } else if (state.equals(FAILURE)) {
@@ -936,6 +936,18 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         recyclerView_circle.setVisibility(View.GONE);
                     }
                 });
+
+        if (loginEntity!=null){
+            NetManger.getInstance().followerDetail(loginEntity.getUser().getUserId(), "USDT", (state, response) -> {
+                if (state.equals(BUSY)) {
+                } else if (state.equals(SUCCESS)) {
+                    followDetailEntity = (FollowerDetailEntity) response;
+                } else if (state.equals(FAILURE)) {
+                }
+            });
+        }
+
+
     }
 
     /*首页轮播图*/
@@ -1605,6 +1617,17 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
+                break;
+            case R.id.img_head_circle:
+
+                if (isLogin()) {
+                    if (followDetailEntity!=null){
+                        FollowDetailActivity.enter(this,AppConfig.TRADE, followDetailEntity.getData());
+                    }
+                } else {
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+
                 break;
             /*我的 -----------------------------------------------------------------------------------*/
             case R.id.img_head:

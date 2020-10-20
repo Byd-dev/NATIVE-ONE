@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
@@ -25,6 +26,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowHistoryEntity;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.FollowersListEntity;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -47,10 +49,14 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.FIRST;
 import static com.pro.bityard.config.AppConfig.LOAD;
+import static com.pro.bityard.config.AppConfig.TRADE;
 
 public class FollowDetailActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
     private static final String DATA_VALUE = "DATA_VALUE";
-    private FollowEntity.DataBean followerUser;
+    private static final String TYPE = "TYPE";
+
+
+    private FollowerDetailEntity.DataBean followerUser;
 
     @BindView(R.id.layout_view)
     RelativeLayout layout_view;
@@ -85,6 +91,9 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
     private LinearLayoutManager linearLayoutManager;
     private FollowHistoryAdapter followHistoryAdapter;
 
+    @BindView(R.id.btn_submit)
+    Button btn_submit;
+
 
     /*------------------------------------*/
 
@@ -97,6 +106,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
     @BindView(R.id.radioGroup_hold)
     RadioGroup radioGroup;
+    private String type_self;
 
 
     @Override
@@ -104,9 +114,10 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         return R.layout.activity_follow_detail;
     }
 
-    public static void enter(Context context, Object value) {
+    public static void enter(Context context, String type, Object value) {
         Intent intent = new Intent(context, FollowDetailActivity.class);
         intent.putExtra(DATA_VALUE, (Serializable) value);
+        intent.putExtra(TYPE, type);
         context.startActivity(intent);
     }
 
@@ -126,7 +137,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void initView(View view) {
-        findViewById(R.id.btn_submit).setOnClickListener(this);
+        btn_submit.setOnClickListener(this);
         findViewById(R.id.img_back).setOnClickListener(this);
 
         followHistoryAdapter = new FollowHistoryAdapter(this);
@@ -166,7 +177,17 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
     protected void initData() {
         Intent intent = getIntent();
 
-        followerUser = (FollowEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
+        followerUser = (FollowerDetailEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
+
+        type_self = intent.getStringExtra(TYPE);
+
+        if (type_self.equals(TRADE)) {
+            btn_submit.setText(R.string.text_go_trade);
+        } else {
+            btn_submit.setText(getString(R.string.text_copy));
+
+        }
+
         Log.d("print", "initData: " + followerUser);
 
         mul_ratio = TradeUtil.mul(followerUser.getTraderRatio(), 100);
@@ -192,6 +213,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         /*动态添加tag*/
         List<String> styleTags = followerUser.getStyleTags();
         if (styleTags.size() != 0) {
+
             layout_tags.setVisibility(View.VISIBLE);
             view_line.setVisibility(View.VISIBLE);
             layout_tags.removeAllViews();
@@ -315,7 +337,12 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_submit:
-                UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, followerUser);
+                if (type_self.equals(TRADE)) {
+
+                } else {
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, followerUser);
+                }
+
                 break;
             case R.id.img_back:
                 finish();

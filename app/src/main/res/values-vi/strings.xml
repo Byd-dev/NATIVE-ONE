@@ -516,5 +516,6 @@
     <string name="text_income_rate">Tỷ suất lợi nhuận</string>
     <string name="text_order_type">Loại lệnh</string>
     <string name="text_copy_trade_amount_item">Tổng tiền sao chép</string>
+    <string name="text_go_trade">去交易</string>
 
 </resources>

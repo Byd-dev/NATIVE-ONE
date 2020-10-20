@@ -587,6 +587,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         assert bundle != null;
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
+        Log.d("print", "initData:590:  "+itemData);
         if (tradeType.equals("1")) {
             text_switch.setText(getResources().getText(R.string.text_real_trade));
 

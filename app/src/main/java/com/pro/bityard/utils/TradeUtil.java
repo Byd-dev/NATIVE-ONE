@@ -776,7 +776,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("ADA,XLM,XTZ,ZRX,BAT,KNC,LINK,DASH,UNI".contains(TradeUtil.listQuoteName(split[0]))) {
+            if ("ADA,XLM,XTZ,ZRX,BAT,KNC,LINK,DASH,UNI,FIL".contains(TradeUtil.listQuoteName(split[0]))) {
                 quoteList2.add(mainQuote);
             }
         }

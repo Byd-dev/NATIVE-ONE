@@ -21,6 +21,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.CircleImageView;
@@ -150,7 +151,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     DecimalEditText edit_stop_loss_rate;
 
 
-    private FollowEntity.DataBean followerUser;
+    private FollowerDetailEntity.DataBean followerUser;
     private String traderId;
     private String followVal;
     private String maxDay;
@@ -159,7 +160,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     private String followMax;
 
 
-    public FollowSettingsFragment newInstance(FollowEntity.DataBean value) {
+    public FollowSettingsFragment newInstance(FollowerDetailEntity.DataBean value) {
         FollowSettingsFragment fragment = new FollowSettingsFragment();
         Bundle args = new Bundle();
         args.putSerializable("DATA_VALUE", value);
@@ -377,7 +378,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
     @Override
     protected void initData() {
-        followerUser = (FollowEntity.DataBean) getArguments().getSerializable("DATA_VALUE");
+        followerUser = (FollowerDetailEntity.DataBean) getArguments().getSerializable("DATA_VALUE");
 
         Glide.with(getActivity()).load(followerUser.getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head);
         text_userName.setText(followerUser.getUsername());

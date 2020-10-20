@@ -516,5 +516,6 @@
     <string name="text_income_rate">Прибыльность</string>
     <string name="text_order_type">Время ордера</string>
     <string name="text_copy_trade_amount_item">Сумма копирования</string>
+    <string name="text_go_trade">去交易</string>
 
 </resources>

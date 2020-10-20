@@ -8,33 +8,33 @@ public class IntentConfig {
     /** Intent传递参数的key(包括Bundle/Argument等传递参数的键).*/
     public static class Keys {
         //交易页面
-        public static final String KEY_TRADE_LIVE = "TRADE_LIVE";
-        public static final String KEY_TRADE_DEMO = "TRADE_DEMO";
+        public static final String KEY_TRADE_LIVE = "KEY_TRADE_LIVE";
+        public static final String KEY_TRADE_DEMO = "KEY_TRADE_DEMO";
 
         //登录
-        public static final String KEY_LOGIN = "LOGIN";
+        public static final String KEY_LOGIN = "KEY_LOGIN";
         //设置
-        public static final String KEY_SET_UP = "SET_UP";
+        public static final String KEY_SET_UP = "KEY_SET_UP";
         //语言设置
-        public static final String KEY_LANGUAGE = "LANGUAGE";
+        public static final String KEY_LANGUAGE = "KEY_LANGUAGE";
         //汇率
-        public static final String KEY_EXCHANGE_RATE = "EXCHANGE_RATE";
+        public static final String KEY_EXCHANGE_RATE = "KEY_EXCHANGE_RATE";
         //安全中心
-        public static final String KEY_SAFE_CENTER = "SAFE_CENTER";
+        public static final String KEY_SAFE_CENTER = "KEY_SAFE_CENTER";
         //资金记录
-        public static final String KEY_FUND_STATEMENT = "FUND_STATEMENT";
+        public static final String KEY_FUND_STATEMENT = "KEY_FUND_STATEMENT";
         //交易记录
-        public static final String KEY_TRADE_HISTORY = "TRADE_HISTORY";
+        public static final String KEY_TRADE_HISTORY = "KEY_TRADE_HISTORY";
         //邀请记录
-        public static final String KEY_INVITE_HISTORY = "INVITE_HISTORY";
+        public static final String KEY_INVITE_HISTORY = "KEY_INVITE_HISTORY";
         //交易设置
-        public static final String KEY_TRADE_SETTINGS = "TRADE_SETTINGS";
+        public static final String KEY_TRADE_SETTINGS = "KEY_TRADE_SETTINGS";
         //提币地址管理
-        public static final String KEY_WITHDRAWAL_ADDRESS = "WITHDRAWAL_ADDRESS";
+        public static final String KEY_WITHDRAWAL_ADDRESS = "KEY_WITHDRAWAL_ADDRESS";
         //增加地址管理
-        public static final String KEY_ADD_ADDRESS = "ADD_ADDRESS";
+        public static final String KEY_ADD_ADDRESS = "KEY_ADD_ADDRESS";
         //最新公告
-        public static final String KEY_ANNOUNCEMENT = "ANNOUNCEMENT";
+        public static final String KEY_ANNOUNCEMENT = "KEY_ANNOUNCEMENT";
         //资金账户
         public static final String KEY_ACCOUNT = "KEY_ACCOUNT";
         //充币
@@ -48,39 +48,39 @@ public class IntentConfig {
         //法币充值
         public static final String KEY_FIAT = "KEY_FIAT";
         //修改登录密码
-        public static final String KEY_SAFE_CENTER_LOGIN_PASS = "SAFE_CENTER_LOGIN_PASS";
+        public static final String KEY_SAFE_CENTER_LOGIN_PASS = "KEY_SAFE_CENTER_LOGIN_PASS";
         //设置资金密码和修改资金密码
-        public static final String KEY_SAFE_CENTER_FUNDS_PASS = "SAFE_CENTER_FUNDS_PASS";
+        public static final String KEY_SAFE_CENTER_FUNDS_PASS = "KEY_SAFE_CENTER_FUNDS_PASS";
         //忘记资金密码
-        public static final String KEY_SAFE_CENTER_FUNDS_FORGET_PASS = "SAFE_CENTER_FUNDS_FORGET_PASS";
+        public static final String KEY_SAFE_CENTER_FUNDS_FORGET_PASS = "KEY_SAFE_CENTER_FUNDS_FORGET_PASS";
         //绑定手机号和修改手机号
-        public static final String KEY_SAFE_CENTER_BIND_CHANGE_MOBILE = "SAFE_CENTER_BIND_CHANGE_MOBILE";
+        public static final String KEY_SAFE_CENTER_BIND_CHANGE_MOBILE = "KEY_SAFE_CENTER_BIND_CHANGE_MOBILE";
         //绑定邮箱和修改邮箱
-        public static final String KEY_SAFE_CENTER_BIND_CHANGE_EMAIL= "SAFE_CENTER_BIND_CHANGE_EMAIL";
+        public static final String KEY_SAFE_CENTER_BIND_CHANGE_EMAIL= "KEY_SAFE_CENTER_BIND_CHANGE_EMAIL";
         //主题设置
-        public static final String KEY_THEME = "THEME";
+        public static final String KEY_THEME = "KEY_THEME";
         //注册
-        public static final String KEY_REGISTER = "REGISTER";
+        public static final String KEY_REGISTER = "KEY_REGISTER";
         //忘记密码
-        public static final String KEY_FORGET = "FORGET";
+        public static final String KEY_FORGET = "KEY_FORGET";
         /**手机号码*/
         public static final String PHONE_NUMBER = "PHONE_NUMBER";
         //规则
         public static final String RULE = "RULE";
         //个人中心
-        public static final String KEY_PERSON_INFORMATION = "PERSON_INFORMATION";
+        public static final String KEY_PERSON_INFORMATION = "KEY_PERSON_INFORMATION";
         //昵称搜索
-        public static final String KEY_CIRCLE_SEARCH_NICKNAME = "CIRCLE_SEARCH_NICKNAME";
+        public static final String KEY_CIRCLE_SEARCH_NICKNAME = "KEY_CIRCLE_SEARCH_NICKNAME";
         //过滤
-        public static final String KEY_CIRCLE_FOLLOWER_LIST = "CIRCLE_FOLLOWER_LIST";
+        public static final String KEY_CIRCLE_FOLLOWER_LIST = "KEY_CIRCLE_FOLLOWER_LIST";
         //跟单设置
-        public static final String KEY_CIRCLE_SETTINGS_FOLLOW = "CIRCLE_SETTINGS_FOLLOW";
+        public static final String KEY_CIRCLE_SETTINGS_FOLLOW = "KEY_CIRCLE_SETTINGS_FOLLOW";
         //编辑跟单
-        public static final String KEY_CIRCLE_EDIT_FOLLOW = "CIRCLE_EDIT_FOLLOW";
+        public static final String KEY_CIRCLE_EDIT_FOLLOW = "KEY_CIRCLE_EDIT_FOLLOW";
         /*跟单管理*/
-        public static final String KEY_FOLLOW_SETTINGS = "FOLLOW_SETTINGS";
+        public static final String KEY_FOLLOW_SETTINGS = "KEY_FOLLOW_SETTINGS";
         /*跟单错误列表*/
-        public static final String KEY_FOLLOW_LOG = "FOLLOW_LOG";
+        public static final String KEY_FOLLOW_LOG = "KEY_FOLLOW_LOG";
 
         /**是否允许返回*/
         public static final String ALLOW_BACK = "ALLOW_BACK";

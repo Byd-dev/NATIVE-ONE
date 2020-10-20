@@ -28,6 +28,7 @@ import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowHistoryEntity;
 import com.pro.bityard.entity.FollowLogEntity;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.FollowersListEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.HistoryEntity;
@@ -2677,7 +2678,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "followList:2678:  "+response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
@@ -2802,7 +2802,6 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "followerList:2757:  " + response);
 
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() != 200) {
@@ -2819,29 +2818,22 @@ public class NetManger {
         });
     }
 
-    /*跟单列表*/
-    public void followerList(String traderId, String currency, String page, String rows, OnNetResult onNetResult) {
+    /*交易员详情*/
+    public void followerDetail(String traderId, String currency,  OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("traderId", traderId);
         map.put("currency", currency);
-        if (page != null) {
-            map.put("page", page);
-        }
-        if (rows != null) {
-            map.put("rows", rows);
-        }
-        getRequest("/api/follow/trader/followers", null, (state, response) -> {
+        getRequest("/api/follow/trader/detail", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 Log.d("print", "followerList:2757:  " + response);
-
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
                 } else {
-                    /*StatEntity statEntity = new Gson().fromJson(response.toString(), StatEntity.class);
-                    onNetResult.onNetResult(SUCCESS, statEntity);*/
+                    FollowerDetailEntity dataBean=new Gson().fromJson(response.toString(),FollowerDetailEntity.class);
+                    onNetResult.onNetResult(SUCCESS,dataBean);
                 }
 
             } else if (state.equals(FAILURE)) {

@@ -515,5 +515,6 @@
     <string name="text_income_rate">profit margin</string>
     <string name="text_order_type">order type</string>
     <string name="text_copy_trade_amount_item">copy trade amount</string>
+    <string name="text_go_trade">去交易</string>
 
 </resources>

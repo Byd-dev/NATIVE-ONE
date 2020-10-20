@@ -517,5 +517,6 @@
     <string name="text_income_rate">Profitabilitas</string>
     <string name="text_order_type">Waktu Order</string>
     <string name="text_copy_trade_amount_item">Jumlah copy trade</string>
+    <string name="text_go_trade">去交易</string>
 
 </resources>

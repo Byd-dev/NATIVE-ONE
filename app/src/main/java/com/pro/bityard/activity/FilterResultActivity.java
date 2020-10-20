@@ -139,7 +139,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
         });
         //跟单监听
         followAdapter.setOnFollowClick((dataBean) -> {
-            FollowDetailActivity.enter(this, dataBean);
+            FollowDetailActivity.enter(this, AppConfig.FOLLOW,dataBean);
 
         });
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {

@@ -108,7 +108,7 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
 
         //跟单监听
         followAdapter.setOnFollowClick((dataBean) -> {
-            FollowDetailActivity.enter(getActivity(), dataBean);
+            FollowDetailActivity.enter(getActivity(),AppConfig.FOLLOW, dataBean);
 
         });
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {

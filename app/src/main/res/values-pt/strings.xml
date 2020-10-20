@@ -515,5 +515,6 @@
     <string name="text_income_rate">margem de lucro</string>
     <string name="text_order_type">hora do pedido</string>
     <string name="text_copy_trade_amount_item">a soma de negociação de cópias </string>
+    <string name="text_go_trade">去交易</string>
 
 </resources>

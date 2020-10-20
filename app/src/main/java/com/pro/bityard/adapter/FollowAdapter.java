@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.CircleImageView;
 
@@ -22,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<FollowEntity.DataBean> datas;
+    private List<FollowerDetailEntity.DataBean> datas;
 
 
     private static final int TYPE_ITEM = 0;
@@ -37,12 +38,12 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<FollowEntity.DataBean> datas) {
+    public void setDatas(List<FollowerDetailEntity.DataBean> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<FollowEntity.DataBean> datas) {
+    public void addDatas(List<FollowerDetailEntity.DataBean> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -224,7 +225,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     public interface OnFollowClick {
-        void onClickListener(FollowEntity.DataBean dataBean);
+        void onClickListener(FollowerDetailEntity.DataBean dataBean);
 
 
     }

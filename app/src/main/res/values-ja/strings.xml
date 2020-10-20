@@ -516,6 +516,7 @@
     <string name="text_income_rate">収益率</string>
     <string name="text_order_type">注文タイプ</string>
     <string name="text_copy_trade_amount_item">跟单总额</string>
+    <string name="text_go_trade">去交易</string>
 
 
 </resources>

@@ -10,6 +10,7 @@ import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.fragment.circle.FollowEditFragment;
 import com.pro.bityard.fragment.circle.FollowLogFragment;
 import com.pro.bityard.fragment.circle.FollowMangerFragment;
@@ -165,7 +166,7 @@ public class UserActivity extends BaseActivity {
                 addSearchNicknameFragment();
                 break;
             case IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW:
-                FollowEntity.DataBean dataBean = (FollowEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
+                FollowerDetailEntity.DataBean dataBean = (FollowerDetailEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
 
                 addSettingsFollowFragment(dataBean);
                 break;
@@ -214,7 +215,7 @@ public class UserActivity extends BaseActivity {
         ft.commitAllowingStateLoss();
     }
 
-    private void addSettingsFollowFragment(FollowEntity.DataBean dataBean) {
+    private void addSettingsFollowFragment(FollowerDetailEntity.DataBean dataBean) {
         String name = FollowSettingsFragment.class.getSimpleName();
         FollowSettingsFragment fragment = new FollowSettingsFragment().newInstance(dataBean);
         ft = getSupportFragmentManager().beginTransaction();

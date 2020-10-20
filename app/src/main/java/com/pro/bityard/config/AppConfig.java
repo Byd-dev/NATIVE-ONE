@@ -9,6 +9,9 @@ public class AppConfig {
     public static String SIGN_KEY = "Hello, dear friends! Welcome to bityard!";
     public static final String FIRST = "first";
     public static final String LOAD = "load";
+    public static final String TRADE = "TRADE";
+    public static final String FOLLOW = "FOLLOW";
+
 
     /*账户头像保存名称*/
     public static final String FIRST_OPEN = "first_open"; //安全认证信息
