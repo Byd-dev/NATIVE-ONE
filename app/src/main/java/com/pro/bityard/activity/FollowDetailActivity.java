@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowHistoryEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.FollowersListEntity;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -38,6 +40,8 @@ import com.pro.bityard.viewutil.StatusBarUtil;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -51,7 +55,7 @@ import static com.pro.bityard.config.AppConfig.FIRST;
 import static com.pro.bityard.config.AppConfig.LOAD;
 import static com.pro.bityard.config.AppConfig.TRADE;
 
-public class FollowDetailActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class FollowDetailActivity extends BaseActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, Observer {
     private static final String DATA_VALUE = "DATA_VALUE";
     private static final String TYPE = "TYPE";
 
@@ -107,6 +111,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.radioGroup_hold)
     RadioGroup radioGroup;
     private String type_self;
+    private List<String> quoteList;
 
 
     @Override
@@ -180,6 +185,9 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         followerUser = (FollowerDetailEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
 
         type_self = intent.getStringExtra(TYPE);
+
+        SocketQuoteManger.getInstance().addObserver(this);
+
 
         if (type_self.equals(TRADE)) {
             btn_submit.setText(R.string.text_go_trade);
@@ -338,7 +346,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_submit:
                 if (type_self.equals(TRADE)) {
-
+                    QuoteDetailActivity.enter(this,"1",quoteList.get(0));
                 } else {
                     UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, followerUser);
                 }
@@ -414,6 +422,17 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
                 });
 
                 break;
+
+        }
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == SocketQuoteManger.getInstance()) {
+          ArrayMap<String, List<String>>  arrayMap = (ArrayMap<String, List<String>>) arg;
+            quoteList = arrayMap.get("0");
+
+
 
         }
     }
