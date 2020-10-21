@@ -14,6 +14,7 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.StatEntity;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -83,8 +84,7 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView_traders.setLayoutManager(linearLayoutManager);
         recyclerView_traders.setAdapter(copyMangerAdapter);
-        swipeRefreshLayout_traders.setColorSchemeColors(getResources().getColor(R.color.maincolor));
-
+        Util.colorSwipe(getActivity(),swipeRefreshLayout_traders);
         swipeRefreshLayout_traders.setOnRefreshListener(() -> {
             page = 1;
             getData();

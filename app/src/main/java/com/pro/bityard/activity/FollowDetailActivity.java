@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.appbar.AppBarLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowHistoryAdapter;
 import com.pro.bityard.adapter.FollowerListAdapter;
@@ -25,7 +26,6 @@ import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowHistoryEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.FollowersListEntity;
@@ -46,10 +46,12 @@ import java.util.Observer;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 import static com.pro.bityard.api.NetManger.BUSY;
+import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.FIRST;
 import static com.pro.bityard.config.AppConfig.LOAD;
@@ -95,8 +97,14 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
     private LinearLayoutManager linearLayoutManager;
     private FollowHistoryAdapter followHistoryAdapter;
 
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     @BindView(R.id.btn_submit)
     Button btn_submit;
+
+    @BindView(R.id.appBarLayout)
+    AppBarLayout appBarLayout;
 
 
     /*------------------------------------*/
@@ -149,6 +157,26 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(followHistoryAdapter);
+
+
+        Util.colorSwipe(this, swipeRefreshLayout);
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            page = 1;
+            page_follower=1;
+            getHistoryData(FIRST,page);
+            getFollowerData(FIRST,page_follower);
+        });
+
+        //防止冲突
+        appBarLayout.addOnOffsetChangedListener((AppBarLayout.BaseOnOffsetChangedListener) (appBarLayout, i) -> {
+            if (i >= 0) {
+                swipeRefreshLayout.setEnabled(true); //当滑动到顶部的时候开启
+            } else {
+                swipeRefreshLayout.setEnabled(false); //否则关闭
+            }
+        });
+
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -326,12 +354,15 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
             if (state.equals(BUSY)) {
 
             } else if (state.equals(SUCCESS)) {
+                swipeRefreshLayout.setRefreshing(false);
                 FollowersListEntity followersListEntity = (FollowersListEntity) response;
                 if (type.equals(LOAD)) {
                     followerListAdapter.addDatas(followersListEntity.getData());
                 } else {
                     followerListAdapter.setDatas(followersListEntity.getData());
                 }
+            }else if(state.equals(FAILURE)){
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
@@ -346,7 +377,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_submit:
                 if (type_self.equals(TRADE)) {
-                    QuoteDetailActivity.enter(this,"1",quoteList.get(0));
+                    QuoteDetailActivity.enter(this, "1", quoteList.get(0));
                 } else {
                     UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, followerUser);
                 }
@@ -429,9 +460,8 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void update(Observable o, Object arg) {
         if (o == SocketQuoteManger.getInstance()) {
-          ArrayMap<String, List<String>>  arrayMap = (ArrayMap<String, List<String>>) arg;
+            ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get("0");
-
 
 
         }

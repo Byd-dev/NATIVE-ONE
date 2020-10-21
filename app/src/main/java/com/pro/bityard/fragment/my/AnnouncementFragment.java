@@ -16,6 +16,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -60,7 +61,7 @@ public class AnnouncementFragment extends BaseFragment implements View.OnClickLi
         view_line.setVisibility(View.GONE);
 
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
         announcementAdapter = new AnnouncementAdapter(getActivity());
         recyclerView_address.setLayoutManager(new LinearLayoutManager(getActivity()));

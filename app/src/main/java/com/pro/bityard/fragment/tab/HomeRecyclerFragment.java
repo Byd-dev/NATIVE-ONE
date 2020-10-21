@@ -27,6 +27,7 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.utils.ListUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.stx.xhb.xbanner.XBanner;
@@ -144,8 +145,8 @@ public class HomeRecyclerFragment extends BaseFragment implements View.OnClickLi
 
         recyclerView_list.addHeaderView(home_view);
 
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

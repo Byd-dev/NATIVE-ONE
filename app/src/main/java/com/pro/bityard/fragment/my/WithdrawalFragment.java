@@ -432,7 +432,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         TextView text_title = view.findViewById(R.id.text_title);
         text_title.setText(R.string.text_withdrawal_history_detail);
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+
         swipeRefreshLayout.setOnRefreshListener(() -> {
             getWithdrawalHistory((state, response) -> {
                 if (state.equals(BUSY)) {

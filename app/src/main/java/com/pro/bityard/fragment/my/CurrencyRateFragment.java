@@ -8,6 +8,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.FundItemEntity;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.Objects;
@@ -41,8 +42,8 @@ public class CurrencyRateFragment extends BaseFragment {
         currencyListAdapter = new CurrencyListAdapter(getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(currencyListAdapter);
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(false);

@@ -58,6 +58,8 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 public class Util {
 
 
@@ -809,7 +811,10 @@ public class Util {
         lp.alpha = 0.5f;
         activity.getWindow().setAttributes(lp);
     }
+    public static void colorSwipe(Context context,SwipeRefreshLayout swipeRefreshLayout) {
+        swipeRefreshLayout.setColorSchemeColors(context.getResources().getColor(R.color.maincolor));
 
+    }
     public static void lightOn(Activity activity) {
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.alpha = 1f;

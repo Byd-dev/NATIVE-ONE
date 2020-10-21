@@ -12,6 +12,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.manger.SocketQuoteManger;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.List;
@@ -68,8 +69,8 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
         view.findViewById(R.id.layout_new_price).setOnClickListener(this);
         view.findViewById(R.id.layout_up_down).setOnClickListener(this);
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(() -> {
             swipeRefreshLayout.setRefreshing(false);

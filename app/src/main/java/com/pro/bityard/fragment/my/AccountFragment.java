@@ -119,8 +119,8 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
         recyclerView_account.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_account.addHeaderView(headView);
         recyclerView_account.setAdapter(accountAdapter);
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
         headView.findViewById(R.id.stay_bonus).setOnClickListener(this);

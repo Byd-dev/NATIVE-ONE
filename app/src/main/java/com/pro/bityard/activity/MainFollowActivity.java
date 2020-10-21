@@ -603,7 +603,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         quoteAdapter.isShowIcon(false);
 
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(this,swipeRefreshLayout);
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
@@ -772,8 +772,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         /*社区  分割线-----------------------------------------------------------------------------*/
 
         swipeRefreshLayout_circle.setOnRefreshListener(this::getFollowList);
-        swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
-
+        Util.colorSwipe(this,swipeRefreshLayout_circle);
 
         @SuppressLint("InflateParams") View head_circle = LayoutInflater.from(this).inflate(R.layout.layout_head_circle, null, false);
         @SuppressLint("InflateParams") View footView_circle = LayoutInflater.from(this).inflate(R.layout.foot_circle_view, null, false);

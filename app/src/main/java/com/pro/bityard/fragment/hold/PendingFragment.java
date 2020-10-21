@@ -132,7 +132,7 @@ public class PendingFragment extends BaseFragment implements Observer {
         TagManger.getInstance().addObserver(this);
 
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
 
         pendingAdapter = new PendingAdapter(getContext());

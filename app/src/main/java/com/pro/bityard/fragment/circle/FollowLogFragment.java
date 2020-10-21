@@ -18,6 +18,7 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.entity.FollowLogEntity;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,8 +63,7 @@ public class FollowLogFragment extends BaseFragment implements View.OnClickListe
         text_title.setText(R.string.text_follow_log);
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
-
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
         followLogAdapter = new FollowLogAdapter(getActivity());
         recyclerView_address.setLayoutManager(new LinearLayoutManager(getActivity()));

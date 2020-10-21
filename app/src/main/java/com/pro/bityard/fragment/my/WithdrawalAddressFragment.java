@@ -63,8 +63,8 @@ public class WithdrawalAddressFragment extends BaseFragment implements View.OnCl
         view.findViewById(R.id.img_back).setOnClickListener(this);
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
 
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
 
         withdrawalAddressAdapter = new WithdrawalAddressAdapter(getActivity());
         recyclerView_address.setLayoutManager(new LinearLayoutManager(getActivity()));

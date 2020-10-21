@@ -146,7 +146,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             // getFollowList(tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe);
             getStyleList();
         });
-        swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(this,swipeRefreshLayout_circle);
 
 
         text_style.setOnClickListener(this);

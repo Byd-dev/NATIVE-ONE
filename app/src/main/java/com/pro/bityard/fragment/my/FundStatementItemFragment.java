@@ -20,6 +20,7 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.Util;
 
 import java.util.List;
 
@@ -105,7 +106,8 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(depositWithdrawAdapter);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(() -> {
             initData();

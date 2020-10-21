@@ -49,304 +49,308 @@
 
         </RelativeLayout>
 
-
-        <LinearLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <androidx.coordinatorlayout.widget.CoordinatorLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/transparent">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <com.google.android.material.appbar.AppBarLayout
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    app:elevation="0dp">
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent">
 
-                    <LinearLayout
+                    <com.google.android.material.appbar.AppBarLayout
+                        android:id="@+id/appBarLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_scrollFlags="scroll|exitUntilCollapsed"
-
-                        >
-
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="80dp"
-                            android:layout_marginTop="@dimen/margin_20">
-
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="@dimen/margin_50"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/margin_15"
-                                android:gravity="left|center"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/text_userName"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:text="巴菲特"
-                                    android:textColor="@color/text_main_color"
-                                    android:textSize="@dimen/size_bigger"
-                                    android:typeface="monospace" />
-
-
-                                <TextView
-                                    android:id="@+id/text_type"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/margin_5"
-                                    android:background="@drawable/gradient_bg_circle_main"
-                                    android:drawableLeft="@mipmap/icon_star_normal"
-                                    android:drawablePadding="@dimen/margin_5"
-                                    android:gravity="left|center"
-                                    android:paddingLeft="@dimen/margin_10"
-                                    android:paddingTop="@dimen/margin_3"
-                                    android:paddingRight="@dimen/margin_10"
-                                    android:paddingBottom="@dimen/margin_3"
-                                    android:text="明星10%"
-                                    android:textColor="@color/maincolor"
-                                    android:textSize="@dimen/size_normal" />
-
-
-                            </LinearLayout>
-
-                            <com.pro.bityard.view.CircleImageView
-                                android:id="@+id/img_head"
-                                android:layout_width="70dp"
-                                android:layout_height="70dp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/margin_15"
-                                android:scaleType="centerCrop"
-                                android:src="@mipmap/icon_my_bityard" />
-
-
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <ImageView
-                                android:id="@+id/img_location"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-
-                                android:layout_marginLeft="@dimen/margin_15"
-                                android:src="@mipmap/icon_location" />
-
-                            <TextView
-                                android:id="@+id/text_location"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/margin_10"
-                                android:layout_toRightOf="@+id/img_location"
-                                android:text="未知"
-                                android:textColor="@color/text_main_color"
-                                android:textSize="@dimen/size_normal_two" />
-
-                            <TextView
-                                android:id="@+id/text_registerTime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:layout_marginRight="@dimen/margin_10"
-                                android:text="2020-02-02"
-                                android:textColor="@color/text_main_color"
-                                android:textSize="@dimen/size_normal_two" />
-                        </RelativeLayout>
+                        android:background="@color/transparent"
+                        app:elevation="0dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:layout_marginLeft="@dimen/margin_15"
-                            android:layout_marginTop="@dimen/margin_20"
-                            android:layout_marginRight="@dimen/margin_15"
-                            android:background="@drawable/bg_shape_id_background">
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_scrollFlags="scroll|exitUntilCollapsed"
 
+                            >
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/margin_15"
-                                android:text="@string/text_profile"
-                                android:textColor="@color/text_main_color" />
-
-                            <TextView
-                                android:id="@+id/text_profile"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/margin_15"
-                                android:layout_marginRight="@dimen/margin_15"
-                                android:ellipsize="end"
-                                android:singleLine="true"
-                                android:textColor="@color/text_second_color"
-                                android:textSize="@dimen/size_normal_two" />
-
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="300dp"
-                            android:background="@drawable/bg_shape_my_background"
-                            android:orientation="vertical">
-
-                            <LinearLayout
-                                android:id="@+id/layout_tags"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/margin_25"
-                                android:layout_marginLeft="@dimen/margin_15"
-                                android:layout_marginTop="@dimen/margin_15"
-                                android:layout_marginRight="@dimen/margin_15"
-                                android:layout_marginBottom="@dimen/margin_10"
-                                android:orientation="horizontal" />
-
-                            <include layout="@layout/layout_line" />
 
                             <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="0dp"
-                                android:layout_weight="1">
+                                android:layout_height="80dp"
+                                android:layout_marginTop="@dimen/margin_20">
 
 
-                                <com.pro.bityard.view.RadarView
-                                    android:id="@+id/radarView"
+                                <LinearLayout
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_centerInParent="true"
-                                    app:radarBgCol="@color/color_bg_left"
-                                    app:radarLineCol="#2F3C5A"
-                                    app:radarTextCol="@color/text_second_color"
-                                    app:radarTextValueTextSize="30"
-                                    app:radarValueTextSize="25"
-                                    app:shadowColOne="@color/color_f9a36d"
-                                    app:shadowColTwo="@color/color_tag_purple"
-                                    app:textValueCol="@color/text_main_color" />
+                                    android:layout_height="@dimen/margin_50"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/margin_15"
+                                    android:gravity="left|center"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/text_userName"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:gravity="center"
+                                        android:text="巴菲特"
+                                        android:textColor="@color/text_main_color"
+                                        android:textSize="@dimen/size_bigger"
+                                        android:typeface="monospace" />
+
+
+                                    <TextView
+                                        android:id="@+id/text_type"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_5"
+                                        android:background="@drawable/gradient_bg_circle_main"
+                                        android:drawableLeft="@mipmap/icon_star_normal"
+                                        android:drawablePadding="@dimen/margin_5"
+                                        android:gravity="left|center"
+                                        android:paddingLeft="@dimen/margin_10"
+                                        android:paddingTop="@dimen/margin_3"
+                                        android:paddingRight="@dimen/margin_10"
+                                        android:paddingBottom="@dimen/margin_3"
+                                        android:text="明星10%"
+                                        android:textColor="@color/maincolor"
+                                        android:textSize="@dimen/size_normal" />
+
+
+                                </LinearLayout>
+
+                                <com.pro.bityard.view.CircleImageView
+                                    android:id="@+id/img_head"
+                                    android:layout_width="70dp"
+                                    android:layout_height="70dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/margin_15"
+                                    android:scaleType="centerCrop"
+                                    android:src="@mipmap/icon_my_bityard" />
 
 
                             </RelativeLayout>
 
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:id="@+id/img_location"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+
+                                    android:layout_marginLeft="@dimen/margin_15"
+                                    android:src="@mipmap/icon_location" />
+
+                                <TextView
+                                    android:id="@+id/text_location"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/margin_10"
+                                    android:layout_toRightOf="@+id/img_location"
+                                    android:text="未知"
+                                    android:textColor="@color/text_main_color"
+                                    android:textSize="@dimen/size_normal_two" />
+
+                                <TextView
+                                    android:id="@+id/text_registerTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginRight="@dimen/margin_10"
+                                    android:text="2020-02-02"
+                                    android:textColor="@color/text_main_color"
+                                    android:textSize="@dimen/size_normal_two" />
+                            </RelativeLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:layout_marginLeft="@dimen/margin_15"
+                                android:layout_marginTop="@dimen/margin_20"
+                                android:layout_marginRight="@dimen/margin_15"
+                                android:background="@drawable/bg_shape_id_background">
+
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="@dimen/margin_15"
+                                    android:text="@string/text_profile"
+                                    android:textColor="@color/text_main_color" />
+
+                                <TextView
+                                    android:id="@+id/text_profile"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="@dimen/margin_15"
+                                    android:layout_marginRight="@dimen/margin_15"
+                                    android:ellipsize="end"
+                                    android:singleLine="true"
+                                    android:textColor="@color/text_second_color"
+                                    android:textSize="@dimen/size_normal_two" />
+
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="300dp"
+                                android:background="@drawable/bg_shape_my_background"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:id="@+id/layout_tags"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/margin_25"
+                                    android:layout_marginLeft="@dimen/margin_15"
+                                    android:layout_marginTop="@dimen/margin_15"
+                                    android:layout_marginRight="@dimen/margin_15"
+                                    android:layout_marginBottom="@dimen/margin_10"
+                                    android:orientation="horizontal" />
+
+                                <include layout="@layout/layout_line" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1">
+
+
+                                    <com.pro.bityard.view.RadarView
+                                        android:id="@+id/radarView"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        app:radarBgCol="@color/color_bg_left"
+                                        app:radarLineCol="#2F3C5A"
+                                        app:radarTextCol="@color/text_second_color"
+                                        app:radarTextValueTextSize="30"
+                                        app:radarValueTextSize="25"
+                                        app:shadowColOne="@color/color_f9a36d"
+                                        app:shadowColTwo="@color/color_tag_purple"
+                                        app:textValueCol="@color/text_main_color" />
+
+
+                                </RelativeLayout>
+
+
+                            </LinearLayout>
+
+                            <include layout="@layout/layout_line_big" />
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="45dp"
+                                android:background="@color/background_maincolor">
+
+
+                                <TextView
+                                    android:id="@+id/text_profit_share_ratio"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_marginLeft="@dimen/margin_15"
+                                    android:drawableRight="@mipmap/icon_warning_green"
+                                    android:drawablePadding="@dimen/margin_5"
+                                    android:text="@string/text_profit_share_ratio"
+                                    android:textColor="@color/text_second_color" />
+
+
+                            </LinearLayout>
+
 
                         </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="63dp"
+                            android:background="@color/background_maincolor"
+
+                            >
+
+                            <RadioGroup
+                                android:id="@+id/radioGroup_hold"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/margin_30"
+                                android:layout_centerInParent="true"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:visibility="visible">
+
+                                <RadioButton
+                                    android:id="@+id/radio_hold"
+                                    android:layout_width="90dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/sel_switcher_left_blue"
+                                    android:button="@null"
+                                    android:checked="true"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:text="@string/text_trade_history"
+                                    android:textColor="@color/text_main_color"
+                                    android:textSize="14sp"
+
+                                    />
+
+
+                                <RadioButton
+                                    android:id="@+id/radio_follower"
+                                    android:layout_width="90dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:background="@drawable/sel_switcher_right_blue"
+                                    android:button="@null"
+                                    android:checked="false"
+                                    android:gravity="center"
+                                    android:maxLines="1"
+                                    android:text="@string/text_follower_detail"
+                                    android:textColor="@color/text_main_color"
+                                    android:textSize="14sp"
+
+                                    />
+
+
+                            </RadioGroup>
+                        </RelativeLayout>
 
                         <include layout="@layout/layout_line_big" />
+                    </com.google.android.material.appbar.AppBarLayout>
 
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="45dp"
-                            android:background="@color/background_maincolor">
-
-
-                            <TextView
-                                android:id="@+id/text_profit_share_ratio"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="@dimen/margin_15"
-                                android:drawableRight="@mipmap/icon_warning_green"
-                                android:drawablePadding="@dimen/margin_5"
-                                android:text="@string/text_profit_share_ratio"
-                                android:textColor="@color/text_second_color" />
-
-
-                        </LinearLayout>
-
-
-                    </LinearLayout>
-
-                    <RelativeLayout
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
-                        android:layout_height="63dp"
+                        android:layout_height="match_parent"
                         android:background="@color/background_maincolor"
+                        app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-                        >
-
-                        <RadioGroup
-                            android:id="@+id/radioGroup_hold"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/margin_30"
-                            android:layout_centerInParent="true"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal"
-                            android:visibility="visible">
-
-                            <RadioButton
-                                android:id="@+id/radio_hold"
-                                android:layout_width="90dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@drawable/sel_switcher_left_blue"
-                                android:button="@null"
-                                android:checked="true"
-                                android:gravity="center"
-                                android:maxLines="1"
-                                android:text="@string/text_trade_history"
-                                android:textColor="@color/text_main_color"
-                                android:textSize="14sp"
-
-                                />
+                        />
 
 
-                            <RadioButton
-                                android:id="@+id/radio_follower"
-                                android:layout_width="90dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:background="@drawable/sel_switcher_right_blue"
-                                android:button="@null"
-                                android:checked="false"
-                                android:gravity="center"
-                                android:maxLines="1"
-                                android:text="@string/text_follower_detail"
-                                android:textColor="@color/text_main_color"
-                                android:textSize="14sp"
-
-                                />
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
-                        </RadioGroup>
-                    </RelativeLayout>
+            </LinearLayout>
 
-                    <include layout="@layout/layout_line_big" />
-                </com.google.android.material.appbar.AppBarLayout>
-
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/background_maincolor"
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-
-                    />
-
-
-
-            </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
-        </LinearLayout>
-
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

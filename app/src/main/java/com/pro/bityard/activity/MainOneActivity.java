@@ -659,8 +659,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         recyclerView_list.setAdapter(quoteAdapter);
         quoteAdapter.isShowIcon(false);
 
-
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(this,swipeRefreshLayout);
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
@@ -1279,7 +1278,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         });
 
         SwipeRefreshLayout swipeRefreshLayout_market = view.findViewById(R.id.swipeRefreshLayout_market);
-        swipeRefreshLayout_market.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(this,swipeRefreshLayout_market);
         /*刷新监听*/
         swipeRefreshLayout_market.setOnRefreshListener(() -> {
             swipeRefreshLayout_market.setRefreshing(false);

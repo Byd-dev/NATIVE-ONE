@@ -120,8 +120,7 @@ public class FollowerListFragment extends BaseFragment implements View.OnClickLi
             }
         });
 
-        swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
-
+        Util.colorSwipe(getActivity(),swipeRefreshLayout_circle);
 
     }
 

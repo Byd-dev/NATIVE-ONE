@@ -19,6 +19,7 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.Util;
 
 import java.util.List;
 
@@ -104,7 +105,8 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(exchangeRecordAdapter);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(() -> {
             initData();

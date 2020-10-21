@@ -119,7 +119,8 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(tradeRecordAdapter);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 

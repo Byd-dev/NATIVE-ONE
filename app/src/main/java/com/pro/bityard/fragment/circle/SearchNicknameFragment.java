@@ -115,7 +115,7 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
             page=1;
             getFollowList(AppConfig.FIRST,content,page);
         });
-        swipeRefreshLayout_circle.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout_circle);
 
         edit_search.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {//搜索按键action

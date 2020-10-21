@@ -26,6 +26,7 @@ import com.pro.bityard.entity.RateListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -110,7 +111,8 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
         //recyclerView_quick.addHeaderView(headView);
         recyclerView_quick.setAdapter(quickAccountAdapter);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
         selectQuickAdapter = new SelectQuickAdapter(getActivity());

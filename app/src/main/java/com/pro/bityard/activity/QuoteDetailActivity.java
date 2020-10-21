@@ -1172,7 +1172,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         });
 
         SwipeRefreshLayout swipeRefreshLayout_market = view.findViewById(R.id.swipeRefreshLayout_market);
-        swipeRefreshLayout_market.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(this,swipeRefreshLayout_market);
         /*刷新监听*/
         swipeRefreshLayout_market.setOnRefreshListener(() -> {
             swipeRefreshLayout_market.setRefreshing(false);

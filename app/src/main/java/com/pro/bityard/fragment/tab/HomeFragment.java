@@ -23,6 +23,7 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.utils.ListUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.stx.xhb.xbanner.XBanner;
 
@@ -134,8 +135,8 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         recyclerView_list.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView_list.setAdapter(quoteAdapter);
 
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::getBanner);
 

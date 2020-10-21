@@ -168,7 +168,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     protected void initView(View view) {
 
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
 
         positionAdapter = new PositionAdapter(getContext());
 

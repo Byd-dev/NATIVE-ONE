@@ -136,7 +136,7 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
     @Override
     protected void initView(View view) {
 
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        Util.colorSwipe(getActivity(),swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> initData());
         text_title.setText(R.string.text_affiliate_stats);
 
