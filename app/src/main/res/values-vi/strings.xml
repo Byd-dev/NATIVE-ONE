@@ -517,5 +517,14 @@
     <string name="text_order_type">Loại lệnh</string>
     <string name="text_copy_trade_amount_item">Tổng tiền sao chép</string>
     <string name="text_go_trade">去交易</string>
+    <string name="text_being_copied">Quản lý theo dõi</string>
+    <string name="text_all_profit">Tổng lợi nhuận</string>
+    <string name="text_week_profit">Lợi nhuận trong tuần</string>
+    <string name="text_day_profit">Lợi nhuận trong ngày</string>
+    <string name="text_follower_switch">Đóng mở sao chép</string>
+    <string name="text_follower_manger_tip">Sau khi đề xuất, bạn sẽ có trang cá nhân và xuất hiện trên cộng đồng giao dịch, đồng thời sẽ được theo dõi, nhận lợi nhuận sao chép với chi phí 0 đồng. Sau khi tắt đề xuất, bạn sẽ không nhận được theo dõi, và giao dịch của người dùng sinh lời không còn liên quan tới bạn.</string>
+    <string name="text_yours_profit">Tỷ lệ lợi nhuận:%s</string>
+    <string name="text_profit_transaction">Chi tiết lợi nhuận</string>
+    <string name="text_follower_tip"><![CDATA[<font color=\"#FFB31F\">%s人</font>实盘跟单中,持仓<font color=\"#FFB31F\">%s笔</font>跟随订单]]></string>
 
 </resources>

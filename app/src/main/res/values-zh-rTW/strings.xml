@@ -517,5 +517,14 @@
     <string name="text_order_type">订单类型</string>
     <string name="text_copy_trade_amount_item">跟单总额</string>
     <string name="text_go_trade">去交易</string>
+    <string name="text_being_copied">帶單管理</string>
+    <string name="text_all_profit">累計總收益</string>
+    <string name="text_week_profit">本周收益</string>
+    <string name="text_day_profit">今日收益</string>
+    <string name="text_follower_switch">帶單開關</string>
+    <string name="text_follower_manger_tip">開啟後，您將出現在交易社區並擁有個人主頁，同時可被用戶跟單，零成本獲得額外帶單收益，雙重盈利。關閉後，將不被用戶跟單，跟單用戶所產生的盈利訂單將與交易員無關。</string>
+    <string name="text_yours_profit">您的利潤比例:%s</string>
+    <string name="text_profit_transaction">收益明细</string>
+    <string name="text_follower_tip"><![CDATA[<font color=\"#FFB31F\">%s人</font>实盘跟单中,持仓<font color=\"#FFB31F\">%s笔</font>跟随订单]]></string>
 
 </resources>

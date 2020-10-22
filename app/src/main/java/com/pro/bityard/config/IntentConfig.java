@@ -79,6 +79,8 @@ public class IntentConfig {
         public static final String KEY_CIRCLE_EDIT_FOLLOW = "KEY_CIRCLE_EDIT_FOLLOW";
         /*跟单管理*/
         public static final String KEY_FOLLOW_SETTINGS = "KEY_FOLLOW_SETTINGS";
+        /*带单管理*/
+        public static final String KEY_FOLLOWER_MANGER = "KEY_FOLLOWER_MANGER";
         /*跟单错误列表*/
         public static final String KEY_FOLLOW_LOG = "KEY_FOLLOW_LOG";
 

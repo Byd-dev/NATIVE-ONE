@@ -158,14 +158,16 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(followHistoryAdapter);
 
+        findViewById(R.id.text_location).setOnClickListener(v -> UserActivity.enter(FollowDetailActivity.this, IntentConfig.Keys.KEY_FOLLOWER_MANGER));
+
 
         Util.colorSwipe(this, swipeRefreshLayout);
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             page = 1;
-            page_follower=1;
-            getHistoryData(FIRST,page);
-            getFollowerData(FIRST,page_follower);
+            page_follower = 1;
+            getHistoryData(FIRST, page);
+            getFollowerData(FIRST, page_follower);
         });
 
         //防止冲突
@@ -361,7 +363,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
                 } else {
                     followerListAdapter.setDatas(followersListEntity.getData());
                 }
-            }else if(state.equals(FAILURE)){
+            } else if (state.equals(FAILURE)) {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

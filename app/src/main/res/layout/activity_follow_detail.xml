@@ -224,7 +224,11 @@
                                     android:layout_marginBottom="@dimen/margin_10"
                                     android:orientation="horizontal" />
 
-                                <include layout="@layout/layout_line" />
+                                <View
+                                    android:id="@+id/view_line"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/size_line"
+                                    android:background="@color/home_line" />
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"

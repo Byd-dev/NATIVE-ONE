@@ -9,13 +9,13 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CopyMangerEntity;
-import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.fragment.circle.FollowEditFragment;
 import com.pro.bityard.fragment.circle.FollowLogFragment;
 import com.pro.bityard.fragment.circle.FollowMangerFragment;
 import com.pro.bityard.fragment.circle.FollowSettingsFragment;
 import com.pro.bityard.fragment.circle.FollowerListFragment;
+import com.pro.bityard.fragment.circle.FollowerMangerFragment;
 import com.pro.bityard.fragment.circle.SearchNicknameFragment;
 import com.pro.bityard.fragment.hold.RuleFragment;
 import com.pro.bityard.fragment.my.AccountFragment;
@@ -183,9 +183,21 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_FOLLOW_LOG:
                 addFollowLogFragment();
                 break;
+
+            case IntentConfig.Keys.KEY_FOLLOWER_MANGER:
+                addFollowerMangerFragment();
         }
 
 
+    }
+
+    private void addFollowerMangerFragment() {
+        String name = FollowerMangerFragment.class.getSimpleName();
+        FollowerMangerFragment fragment = new FollowerMangerFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addFollowLogFragment() {

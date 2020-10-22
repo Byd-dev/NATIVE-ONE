@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_maincolor"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="@string/text_follower_switch"
+            android:textColor="@color/text_main_color" />
+
+        <Switch
+            android:id="@+id/btn_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:thumb="@drawable/switch_ios_thumb"
+            android:track="@drawable/switch_ios_track_selector" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_15"
+        android:text="@string/text_follower_manger_tip"
+        android:textColor="@color/text_main_color"
+        android:textSize="@dimen/size_normal_two"/>
+
+
+    <TextView
+        android:id="@+id/text_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_15"
+        android:text="@string/text_default"
+        android:textColor="@color/text_main_color"
+        android:textSize="@dimen/size_normal_two"/>
+
+    <include layout="@layout/layout_line_big" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_weight="1"
+            android:gravity="center|left"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_day_profit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_default"
+                android:textColor="@color/text_quote_green"
+                android:textSize="@dimen/size_big" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:text="@string/text_day_profit"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal_two" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:text="@string/text_usdt"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal_two" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_week_profit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_default"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/size_big" />
+
+            <TextView
+                android:id="@+id/stay_copy_total_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:text="@string/text_week_profit"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal_two" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:text="@string/text_usdt"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal_two" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/margin_15"
+            android:layout_weight="1"
+            android:gravity="center|right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text_all_profit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_default"
+                android:textColor="@color/text_quote_green"
+                android:textSize="@dimen/size_big" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:text="@string/text_all_profit"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal_two" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:text="@string/text_usdt"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal_two" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <include layout="@layout/layout_line_big" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+
+        >
+
+        <TextView
+            android:id="@+id/text_rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="@string/text_yours_profit"
+            android:drawableRight="@mipmap/icon_warning_green"
+            android:drawablePadding="@dimen/margin_5"
+            android:textColor="@color/text_main_color" />
+
+
+    </RelativeLayout>
+    <include layout="@layout/layout_line_big" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:text="@string/text_profit_transaction"
+            android:textColor="@color/text_main_color" />
+
+
+
+    </RelativeLayout>
+</LinearLayout>

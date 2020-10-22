@@ -29,6 +29,8 @@ import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowHistoryEntity;
 import com.pro.bityard.entity.FollowLogEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
+import com.pro.bityard.entity.FollowerIncomeEntity;
+import com.pro.bityard.entity.FollowerIncomeListEntity;
 import com.pro.bityard.entity.FollowersListEntity;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.entity.HistoryEntity;
@@ -2783,7 +2785,26 @@ public class NetManger {
             }
         });
     }
+    /*带单收益*/
+    public void followerIncome(OnNetResult onNetResult) {
+        getRequest("/api/follow/trader/income-view", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    FollowerIncomeEntity statEntity = new Gson().fromJson(response.toString(), FollowerIncomeEntity.class);
+                    onNetResult.onNetResult(SUCCESS, statEntity);
+                }
 
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
     /*跟单列表*/
     public void followerTraders(String page, String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -2817,7 +2838,39 @@ public class NetManger {
             }
         });
     }
+    /*带单列表*/
+    public void followerIncomeList(String page, String rows, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
 
+        if (page != null) {
+            map.put("page", page);
+        }
+        if (rows != null) {
+            map.put("rows", rows);
+        }
+
+        if (map.values().size() == 0) {
+            map = null;
+        }
+        getRequest("/api/follow/trader/income-list", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    FollowerIncomeListEntity copyMangerEntity = new Gson().fromJson(response.toString(), FollowerIncomeListEntity.class);
+                    onNetResult.onNetResult(SUCCESS, copyMangerEntity);
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
     /*交易员详情*/
     public void followerDetail(String traderId, String currency,  OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -2887,7 +2940,27 @@ public class NetManger {
             }
         });
     }
+    /*带单开关*/
+    public void followerSwitch(String active, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("active", active);
+        postRequest("/api/follow/trader/active", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    onNetResult.onNetResult(SUCCESS, tipEntity);
+                }
 
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
     /*跟单失败记录*/
     public void followLog(OnNetResult onNetResult) {
         getRequest("/api/follow/follower/log", null, (state, response) -> {
