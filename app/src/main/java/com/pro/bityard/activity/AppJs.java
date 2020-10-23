@@ -156,7 +156,7 @@ public class AppJs {
                 break;
             case IntentConfig.Keys.KEY_DEPOSIT://充币
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(activity, NetManger.getH5Url(loginEntity.getAccess_token(), "/deposit"),
+                    WebActivity.getInstance().openUrl(activity, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/deposit"),
                             activity.getResources().getString(R.string.text_recharge));
                 } else {
                     LoginActivity.enter(activity, IntentConfig.Keys.KEY_LOGIN);
@@ -166,20 +166,20 @@ public class AppJs {
                 UserActivity.enter(activity, IntentConfig.Keys.KEY_HOLD);
                 break;
             case IntentConfig.Keys.KEY_FIAT://法币充值
-                String url_api=null;
-                switch (language){
+                String url_api = null;
+                switch (language) {
                     case AppConfig.ZH_SIMPLE:
-                        url_api="/cnRecharge";
+                        url_api = "/cnRecharge";
                         break;
                     case AppConfig.VI_VN:
-                        url_api="/viRecharge";
+                        url_api = "/viRecharge";
                         break;
                     case AppConfig.IN_ID:
-                        url_api="/idRecharge";
+                        url_api = "/idRecharge";
                         break;
                 }
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(activity, NetManger.getH5Url(loginEntity.getAccess_token(), url_api),
+                    WebActivity.getInstance().openUrl(activity, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, url_api),
                             activity.getResources().getString(R.string.text_fabi_trade));
                 } else {
                     LoginActivity.enter(activity, IntentConfig.Keys.KEY_LOGIN);
@@ -209,6 +209,16 @@ public class AppJs {
             case IntentConfig.Keys.RULE:
                 UserActivity.enter(activity, IntentConfig.Keys.RULE, "");
                 break;
+            case IntentConfig.Keys.KEY_SERVICE:
+                String url;
+                if (isLogin()) {
+                    url = String.format(NetManger.SERVICE_URL, language, loginEntity.getUser().getUserId(), loginEntity.getUser().getAccount());
+                } else {
+                    url = String.format(NetManger.SERVICE_URL, language, "", "游客");
+                }
+                WebActivity.getInstance().openUrl(activity, url, activity.getResources().getString(R.string.text_my_service));
+                break;
+
         }
     }
 

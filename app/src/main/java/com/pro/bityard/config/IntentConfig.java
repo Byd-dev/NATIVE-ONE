@@ -83,7 +83,8 @@ public class IntentConfig {
         public static final String KEY_FOLLOWER_MANGER = "KEY_FOLLOWER_MANGER";
         /*跟单错误列表*/
         public static final String KEY_FOLLOW_LOG = "KEY_FOLLOW_LOG";
-
+        /*客服*/
+        public static final String KEY_SERVICE = "KEY_SERVICE";
         /**是否允许返回*/
         public static final String ALLOW_BACK = "ALLOW_BACK";
 

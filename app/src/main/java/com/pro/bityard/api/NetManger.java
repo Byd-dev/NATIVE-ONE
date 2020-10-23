@@ -111,9 +111,10 @@ public class NetManger {
         return instance;
     }
 
-    /*H5地址*/
-    public static final String getH5Url(String token, String url) {
 
+
+    /*H5地址*/
+    public String h5Url(String token, String id, String url) {
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
         switch (language) {
             case AppConfig.KEY_LANGUAGE:
@@ -145,10 +146,16 @@ public class NetManger {
                 language = "pt-PT";
                 break;
         }
+        ArrayMap<String, String> map = new ArrayMap<>();
+        if (token!=null){
+            map.put("token", token);
+        }
+        if (id!=null){
+            map.put("id",id);
+        }
+        map.put("lang",language);
 
-        String H5url = H5_BASE_URL + url + "?token=" + token + "&lang=" + language;
-        Log.d("print", "getH5Url:2673:  " + H5url);
-        return H5url;
+        return getH5URL(url, map);
 
     }
 
@@ -479,10 +486,29 @@ public class NetManger {
 
             return url_result;
         }
-
-
     }
 
+    //URL拼接参数
+    public String getH5URL(String url, ArrayMap map) {
+
+        String substring_url = null;
+        if (map == null) {
+            return H5_BASE_URL + url;
+        } else {
+            Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
+            StringBuilder stringBuilder = new StringBuilder();
+            while (iterator.hasNext()) {
+                Map.Entry<String, String> next = iterator.next();
+                String key = next.getKey();
+                String value = next.getValue();
+                StringBuilder append = stringBuilder.append(key).append("=").append(value).append("&");
+                substring_url = append.toString().substring(0, append.toString().length() - 1);
+            }
+            String url_result = H5_BASE_URL + url + "?" + substring_url;
+            Log.d("print", "getH5URL:508:  "+url_result);
+            return url_result;
+        }
+    }
     public void getURL2(String url, ArrayMap map, OnNetResult onNetResult) {
 
         String substring_url = null;
@@ -2499,7 +2525,7 @@ public class NetManger {
         map.put("terminal", "Android");
 
         NetManger.getInstance().postRequest("/api/sso/user_login_check", map, (state, response) -> {
-            Log.d("print", "login: 2325: " +state+ response);
+            Log.d("print", "login: 2325: " + state + response);
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
@@ -2785,6 +2811,7 @@ public class NetManger {
             }
         });
     }
+
     /*带单收益*/
     public void followerIncome(OnNetResult onNetResult) {
         getRequest("/api/follow/trader/income-view", null, (state, response) -> {
@@ -2805,6 +2832,7 @@ public class NetManger {
             }
         });
     }
+
     /*跟单列表*/
     public void followerTraders(String page, String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -2838,6 +2866,7 @@ public class NetManger {
             }
         });
     }
+
     /*带单列表*/
     public void followerIncomeList(String page, String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -2871,8 +2900,9 @@ public class NetManger {
             }
         });
     }
+
     /*交易员详情*/
-    public void followerDetail(String traderId, String currency,  OnNetResult onNetResult) {
+    public void followerDetail(String traderId, String currency, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("traderId", traderId);
         map.put("currency", currency);
@@ -2885,8 +2915,8 @@ public class NetManger {
                 if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
                 } else {
-                    FollowerDetailEntity dataBean=new Gson().fromJson(response.toString(),FollowerDetailEntity.class);
-                    onNetResult.onNetResult(SUCCESS,dataBean);
+                    FollowerDetailEntity dataBean = new Gson().fromJson(response.toString(), FollowerDetailEntity.class);
+                    onNetResult.onNetResult(SUCCESS, dataBean);
                 }
 
             } else if (state.equals(FAILURE)) {
@@ -2940,6 +2970,7 @@ public class NetManger {
             }
         });
     }
+
     /*带单开关*/
     public void followerSwitch(String active, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -2961,6 +2992,7 @@ public class NetManger {
             }
         });
     }
+
     /*跟单失败记录*/
     public void followLog(OnNetResult onNetResult) {
         getRequest("/api/follow/follower/log", null, (state, response) -> {
@@ -2979,12 +3011,13 @@ public class NetManger {
             }
         });
     }
+
     /*历史记录*/
-    public void followHistory(String traderId,String page,String rows,OnNetResult onNetResult) {
+    public void followHistory(String traderId, String page, String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("traderId", traderId);
         map.put("page", page);
-        map.put("rows",rows);
+        map.put("rows", rows);
         getRequest("/api/follow/trader/history", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
@@ -3003,11 +3036,11 @@ public class NetManger {
     }
 
     /*历史记录*/
-    public void followerList(String traderId,String page,String rows,OnNetResult onNetResult) {
+    public void followerList(String traderId, String page, String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("traderId", traderId);
         map.put("page", page);
-        map.put("rows",rows);
+        map.put("rows", rows);
         getRequest("/api/follow/trader/followers", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);

@@ -187,7 +187,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(getActivity(), NetManger.getH5Url(loginEntity.getAccess_token(), "/deposit"), getResources().getString(R.string.text_recharge));
+                    WebActivity.getInstance().openUrl(getActivity(), NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null,"/deposit"), getResources().getString(R.string.text_recharge));
                 } else {
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                 }
@@ -223,7 +223,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
                         break;
                 }
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(getActivity(), NetManger.getH5Url(loginEntity.getAccess_token(), url_api), getResources().getString(R.string.text_fabi_trade));
+                    WebActivity.getInstance().openUrl(getActivity(), NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, url_api), getResources().getString(R.string.text_fabi_trade));
                 } else {
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                 }

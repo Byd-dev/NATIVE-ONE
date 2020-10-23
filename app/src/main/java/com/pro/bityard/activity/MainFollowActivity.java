@@ -1464,7 +1464,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.layout_activity:
                 if (isLogin()) {
                     WebActivity.getInstance().openUrl(MainFollowActivity.this,
-                            NetManger.getH5Url(loginEntity.getAccess_token(), "/activity"),
+                            NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, "/activity"),
                             getResources().getString(R.string.text_trade_bonus));
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
@@ -1765,7 +1765,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.layout_mining:
             case R.id.text_mining:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(this, NetManger.getH5Url(loginEntity.getAccess_token(), "/mining"), getString(R.string.text_mining_title));
+                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, "/mining"), getString(R.string.text_mining_title));
 
                 } else {
                     LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
@@ -1782,7 +1782,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(MainFollowActivity.this, NetManger.getH5Url(loginEntity.getAccess_token(), "/deposit"), getResources().getString(R.string.text_recharge));
+                    WebActivity.getInstance().openUrl(MainFollowActivity.this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null,"/deposit"), getResources().getString(R.string.text_recharge));
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
@@ -1818,7 +1818,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         break;
                 }
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(this, NetManger.getH5Url(loginEntity.getAccess_token(), url_api), getResources().getString(R.string.text_fabi_trade));
+                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, url_api), getResources().getString(R.string.text_fabi_trade));
                 } else {
                     LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
                 }

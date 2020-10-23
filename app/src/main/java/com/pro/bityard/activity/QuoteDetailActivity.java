@@ -587,7 +587,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         assert bundle != null;
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
-        Log.d("print", "initData:590:  "+itemData);
+        Log.d("print", "initData:590:  " + itemData);
         if (tradeType.equals("1")) {
             text_switch.setText(getResources().getText(R.string.text_real_trade));
 
@@ -1172,7 +1172,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         });
 
         SwipeRefreshLayout swipeRefreshLayout_market = view.findViewById(R.id.swipeRefreshLayout_market);
-        Util.colorSwipe(this,swipeRefreshLayout_market);
+        Util.colorSwipe(this, swipeRefreshLayout_market);
         /*刷新监听*/
         swipeRefreshLayout_market.setOnRefreshListener(() -> {
             swipeRefreshLayout_market.setRefreshing(false);
@@ -1317,6 +1317,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     public void onClick(View v) {
         TabLayout.Tab tabAt = tabLayout.getTabAt(5);
         View view = tabAt.getCustomView();
+        LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
 
         switch (v.getId()) {
             case R.id.img_back:
@@ -1548,10 +1549,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
 
             case R.id.text_charge:
-                LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
                 if (isLogin()) {
                     if (tradeType.equals("1")) {
-                        WebActivity.getInstance().openUrl(this, NetManger.getH5Url(loginEntity.getAccess_token(), "/deposit"), getResources().getString(R.string.text_recharge));
+                        WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, "/deposit"), getResources().getString(R.string.text_recharge));
                     } else {
                         NetManger.getInstance().addScore((state, response) -> {
                             if (state.equals(SUCCESS)) {
@@ -1567,7 +1567,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             /*规则*/
             case R.id.text_rule:
-                UserActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.RULE, quoteMinEntity.getSymbol());
+                String s = itemQuoteCode(quote_code);
+                if (!isLogin()) {
+                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(null, s, "/rule"), getResources().getString(R.string.text_rule));
+                } else {
+                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), s, "/rule"), getResources().getString(R.string.text_rule));
+                }
+
                 break;
         }
     }
