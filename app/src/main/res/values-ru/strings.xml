@@ -511,7 +511,7 @@
     <string name="text_follower_detail">Подписчики</string>
     <string name="text_trader_30_days_income">30天带单收益</string>
     <string name="text_profit_share_ratio">Коэффициент распределения прибыли ：%s</string>
-    <string name="text_trader_total_income">带单总收益</string>
+    <string name="text_trader_total_income">Общая прибыль от share-трейдинга</string>
     <string name="text_ratio_tip">跟随后，系统将按每笔跟单统计跟单收益，单笔盈利订单将有%s作为带单奖励分享给该交易员。</string>
     <string name="text_income_rate">Прибыльность</string>
     <string name="text_order_type">Время ордера</string>
@@ -526,5 +526,7 @@
     <string name="text_yours_profit">Коэффициент вашей прибыли:%s</string>
     <string name="text_profit_transaction">Прибыльная сделка</string>
     <string name="text_follower_tip"><![CDATA[<font color=\"#FFB31F\">%s人</font>实盘跟单中,持仓<font color=\"#FFB31F\">%s笔</font>跟随订单]]></string>
+    <string name="text_trader_tip">После следования система будет рассчитывать прибыль на основе каждой совершенной сделки. %s прибыли от каждой сделки будет передано трейдеру.</string>
+    <string name="text_switch_tip">После открытия вы появитесь в торговом сообществе и у вас будет личная домашняя страница. В то же время вы можете копировать вас, и вы можете получать дополнительный доход от ордера при нулевой стоимости и двойной прибыли. После закрытия ордер не будет скопирован пользователем, а прибыльный ордер, сгенерированный пользователем копии, не будет иметь ничего общего с трейдером.</string>
 
 </resources>

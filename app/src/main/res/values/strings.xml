@@ -525,5 +525,8 @@
     <string name="text_yours_profit">您的利润比例:%s</string>
     <string name="text_profit_transaction">收益明细</string>
     <string name="text_follower_tip"><![CDATA[<font color=\"#FFB31F\">%s人</font>实盘跟单中,持仓<font color=\"#FFB31F\">%s笔</font>跟随订单]]></string>
+    <string name="hint_follow_amount">5~200</string>
+    <string name="text_trader_tip">跟随后，系统将按每笔跟单统计跟单收益，单笔盈利订单将有%s作为带单奖励分享给该交易员。</string>
+    <string name="text_switch_tip">开启后，您将出现在交易社区并拥有个人主页，同时可被用户跟单，零成本获得额外带单收益，双重盈利。关闭后，将不被用户跟单，跟单用户所产生的盈利订单将与交易员无关。</string>
 
 </resources>

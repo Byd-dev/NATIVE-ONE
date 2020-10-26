@@ -4,24 +4,26 @@ import android.annotation.SuppressLint;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.IncomeListAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.FollowerIncomeEntity;
 import com.pro.bityard.entity.FollowerIncomeListEntity;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
+import com.pro.switchlibrary.SPUtils;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,7 +44,6 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
     TextView text_title;
 
 
-
     @BindView(R.id.recyclerView_traders)
     HeaderRecyclerView recyclerView_traders;
 
@@ -58,6 +59,7 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
     private TextView text_all_profit;
     private TextView text_rate;
     private TextView text_content;
+    private Switch btn_switch;
 
     @Override
     public void onResume() {
@@ -87,19 +89,39 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
         text_all_profit = headView.findViewById(R.id.text_all_profit);
         text_rate = headView.findViewById(R.id.text_rate);
 
-        Switch btn_switch = headView.findViewById(R.id.btn_switch);
+        btn_switch = headView.findViewById(R.id.btn_switch);
+
+
         btn_switch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            String active;
-            if (isChecked) {
-                active = "true";
-            } else {
-                active = "false";
+            if (!btn_switch.isPressed()) {
+                return;
             }
-            NetManger.getInstance().followerSwitch(active, (state, response) -> {
-                if (state.equals(SUCCESS)) {
-                    Toast.makeText(getActivity(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
-                }
-            });
+            if (isChecked) {
+                Util.lightOff(getActivity());
+                PopUtil.getInstance().showTip(getActivity(), layout_view, true, getString(R.string.text_switch_tip),
+                        state2 -> {
+                            if (state2 == true) {
+                                btn_switch.setChecked(true);
+                                NetManger.getInstance().followerSwitch("true", (state, response) -> {
+                                    if (state.equals(SUCCESS)) {
+                                        Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            } else {
+                                btn_switch.setChecked(false);
+                            }
+
+
+                        });
+
+            } else {
+                NetManger.getInstance().followerSwitch("false", (state, response) -> {
+                    if (state.equals(SUCCESS)) {
+                        Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
 
         });
 
@@ -168,8 +190,8 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
 
                 text_rate.setOnClickListener(v -> {
                     Util.lightOff(getActivity());
-                    String text_ratio_tip = getString(R.string.text_yours_profit);
-                    @SuppressLint({"StringFormatInvalid", "LocalSuppress"}) String format = String.format(text_ratio_tip, (ratio + "%"));
+                    String text_ratio_tip = getString(R.string.text_trader_tip);
+                    @SuppressLint({"StringFormatInvalid", "LocalSuppress"}) String format = String.format(text_ratio_tip, (TradeUtil.mul(ratio, 100) + "%"));
                     PopUtil.getInstance().showTip(getActivity(), layout_view, false, format,
                             state2 -> {
 
@@ -179,6 +201,23 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
 
             }
         });
+        LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+
+        if (loginEntity != null) {
+            NetManger.getInstance().followerDetail(loginEntity.getUser().getUserId(), "USDT", (state, response) -> {
+                if (state.equals(BUSY)) {
+                } else if (state.equals(SUCCESS)) {
+                    FollowerDetailEntity followDetailEntity = (FollowerDetailEntity) response;
+                    if (followDetailEntity.getData().getType() == 2) {
+                        btn_switch.setChecked(true);
+                    } else {
+                        btn_switch.setChecked(false);
+                    }
+                } else if (state.equals(FAILURE)) {
+                }
+            });
+        }
+
         page = 1;
         getFollowIncomeList(FIRST, page);
     }

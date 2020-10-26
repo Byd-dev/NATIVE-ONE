@@ -511,7 +511,7 @@
     <string name="text_follower_detail">跟随者</string>
     <string name="text_trader_30_days_income">30天带单收益</string>
     <string name="text_profit_share_ratio">带单利润分成比例</string>
-    <string name="text_trader_total_income">带单总收益</string>
+    <string name="text_trader_total_income">帶單總收益</string>
     <string name="text_ratio_tip">跟随后，系统将按每笔跟单统计跟单收益，单笔盈利订单将有%s作为带单奖励分享给该交易员。</string>
     <string name="text_income_rate">收益率</string>
     <string name="text_order_type">订单类型</string>
@@ -526,5 +526,7 @@
     <string name="text_yours_profit">您的利潤比例:%s</string>
     <string name="text_profit_transaction">收益明细</string>
     <string name="text_follower_tip"><![CDATA[<font color=\"#FFB31F\">%s人</font>实盘跟单中,持仓<font color=\"#FFB31F\">%s笔</font>跟随订单]]></string>
+    <string name="text_trader_tip">跟隨後，系統將按每筆跟單統計跟單收益，單筆盈利訂單將有%s作為帶單獎勵分享給該交易員。</string>
+    <string name="text_switch_tip">開啟後，您將出現在交易社區並擁有個人主頁，同時可被用戶跟單，零成本獲得額外帶單收益，雙重盈利。關閉後，將不被用戶跟單，跟單用戶所產生的盈利訂單將與交易員無關。</string>
 
 </resources>

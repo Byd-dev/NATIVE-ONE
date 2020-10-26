@@ -243,7 +243,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private List<PositionEntity.DataBean> positionSimulationList;
     private LoginEntity loginEntity;
     private UserDetailEntity userDetailEntity;
-    private FollowerDetailEntity followDetailEntity;
+    private FollowerDetailEntity followDetailEntity=null;
 
 
     @Override
@@ -1618,9 +1618,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
                 break;
             case R.id.img_head_circle:
-
                 if (isLogin()) {
-                    if (followDetailEntity!=null){
+                    if (followDetailEntity==null){
+                        NetManger.getInstance().followerDetail(loginEntity.getUser().getUserId(), "USDT", (state, response) -> {
+                            if (state.equals(BUSY)) {
+                            } else if (state.equals(SUCCESS)) {
+                                followDetailEntity = (FollowerDetailEntity) response;
+                            } else if (state.equals(FAILURE)) {
+                            }
+                        });
+                    }else {
                         FollowDetailActivity.enter(this,AppConfig.TRADE, followDetailEntity.getData());
                     }
                 } else {

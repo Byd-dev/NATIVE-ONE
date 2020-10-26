@@ -2974,7 +2974,11 @@ public class NetManger {
     /*带单开关*/
     public void followerSwitch(String active, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("active", active);
+        if (active!=null){
+            map.put("active", active);
+        }else {
+            map=null;
+        }
         postRequest("/api/follow/trader/active", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
@@ -3057,4 +3061,7 @@ public class NetManger {
             }
         });
     }
+
+
+
 }

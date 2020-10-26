@@ -26,6 +26,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
+            android:checked="false"
             android:thumb="@drawable/switch_ios_thumb"
             android:track="@drawable/switch_ios_track_selector" />
 

@@ -89,7 +89,7 @@ public class IncomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         if (holder instanceof MyViewHolder) {
 
 
-            ((MyViewHolder) holder).text_income.setText(String.valueOf(datas.get(position).getMoney()));
+            ((MyViewHolder) holder).text_income.setText(String.valueOf(datas.get(position).getMoney())+" USDT");
 
             ((MyViewHolder) holder).text_time.setText(datas.get(position).getDate());
 
