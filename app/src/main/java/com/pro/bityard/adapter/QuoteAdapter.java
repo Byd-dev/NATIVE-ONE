@@ -1,7 +1,6 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +30,11 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_FOOTER = 1;
 
     private boolean isShow = false;
+    private boolean isShowVolume = false;
 
 
     public boolean isLoadMore = false;
-    private String contCode=null;
+    private String contCode = null;
 
     public QuoteAdapter(Context context) {
         this.context = context;
@@ -54,6 +54,11 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void isShowIcon(boolean isShow) {
         this.isShow = isShow;
+        this.notifyDataSetChanged();
+    }
+
+    public void isShowVolume(boolean isShowVolume) {
+        this.isShowVolume = isShowVolume;
         this.notifyDataSetChanged();
     }
 
@@ -105,6 +110,14 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ((MyViewHolder) holder).img_icon.setVisibility(View.GONE);
             }
 
+            if (isShowVolume) {
+                ((MyViewHolder) holder).text_volume.setVisibility(View.VISIBLE);
+                ((MyViewHolder) holder).text_price_currency.setVisibility(View.VISIBLE);
+            } else {
+                ((MyViewHolder) holder).text_volume.setVisibility(View.GONE);
+                ((MyViewHolder) holder).text_price_currency.setVisibility(View.GONE);
+            }
+
 
             ((MyViewHolder) holder).text_name.setText(name);
             String currency = TradeUtil.listQuoteUSD(datas.get(position));
@@ -141,7 +154,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             }
 
-            ((MyViewHolder) holder).text_volume.setText(context.getResources().getText(R.string.kline_volume_detail)+":"+TradeUtil.listQuoteBuyVolume(datas.get(position)));
+            ((MyViewHolder) holder).text_volume.setText(context.getResources().getText(R.string.kline_volume_detail) + ":" + TradeUtil.listQuoteBuyVolume(datas.get(position)));
 
             String string = SPUtils.getString(AppConfig.USD_RATE, null);
             ((MyViewHolder) holder).text_price_currency.setText(TradeUtil.numberHalfUp(TradeUtil.mul(Double.parseDouble(price), Double.parseDouble(string)), 2));
@@ -177,7 +190,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_name_usdt, text_change, text_price,text_price_currency,text_volume;
+        TextView text_name, text_name_usdt, text_change, text_price, text_price_currency, text_volume;
         RelativeLayout layout_bg;
         ImageView img_up_down, img_icon;
 
@@ -192,9 +205,8 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             layout_bg = itemView.findViewById(R.id.layout_bg);
             img_up_down = itemView.findViewById(R.id.img_up_down);
             img_icon = itemView.findViewById(R.id.img_icon);
-            text_price_currency=itemView.findViewById(R.id.text_price_currency);
-            text_volume=itemView.findViewById(R.id.text_volume);
-
+            text_price_currency = itemView.findViewById(R.id.text_price_currency);
+            text_volume = itemView.findViewById(R.id.text_volume);
 
 
             itemView.setOnClickListener(view -> {

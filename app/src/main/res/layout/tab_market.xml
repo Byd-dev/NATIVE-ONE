@@ -9,6 +9,25 @@
 
 
     <RelativeLayout
+        android:id="@+id/bar_market"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_height"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/tab_two"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/title_size" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
 
         android:layout_width="match_parent"
         android:layout_height="@dimen/bar_height"
@@ -33,14 +52,11 @@
             android:id="@+id/img_search"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@mipmap/icon_circle_search"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/margin_15"
             android:paddingRight="@dimen/margin_15"
-            android:paddingLeft="@dimen/margin_15"/>
-
-
-
+            android:src="@mipmap/icon_circle_search" />
 
 
     </RelativeLayout>

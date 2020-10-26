@@ -8,6 +8,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 
 import java.util.ArrayList;

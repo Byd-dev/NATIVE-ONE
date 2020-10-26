@@ -37,7 +37,6 @@ import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -243,7 +242,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private List<PositionEntity.DataBean> positionSimulationList;
     private LoginEntity loginEntity;
     private UserDetailEntity userDetailEntity;
-    private FollowerDetailEntity followDetailEntity=null;
+    private FollowerDetailEntity followDetailEntity = null;
 
 
     @Override
@@ -601,9 +600,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_list.setAdapter(quoteAdapter);
         quoteAdapter.isShowIcon(false);
+        quoteAdapter.isShowVolume(true);
 
 
-        Util.colorSwipe(this,swipeRefreshLayout);
+        Util.colorSwipe(this, swipeRefreshLayout);
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
@@ -727,6 +727,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         quoteAdapter_market.isShowIcon(false);
+        quoteAdapter_market.isShowVolume(true);
         @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.foot_tab_view, null, false);
 
         recyclerView_market.addFooterView(footView);
@@ -772,7 +773,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         /*社区  分割线-----------------------------------------------------------------------------*/
 
         swipeRefreshLayout_circle.setOnRefreshListener(this::getFollowList);
-        Util.colorSwipe(this,swipeRefreshLayout_circle);
+        Util.colorSwipe(this, swipeRefreshLayout_circle);
 
         @SuppressLint("InflateParams") View head_circle = LayoutInflater.from(this).inflate(R.layout.layout_head_circle, null, false);
         @SuppressLint("InflateParams") View footView_circle = LayoutInflater.from(this).inflate(R.layout.foot_circle_view, null, false);
@@ -813,7 +814,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         });
 
         followAdapter.setOnFollowClick(dataBean -> {
-            FollowDetailActivity.enter(this,AppConfig.FOLLOW, dataBean);
+            FollowDetailActivity.enter(this, AppConfig.FOLLOW, dataBean);
         });
 
 
@@ -936,7 +937,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     }
                 });
 
-        if (loginEntity!=null){
+        if (loginEntity != null) {
             NetManger.getInstance().followerDetail(loginEntity.getUser().getUserId(), "USDT", (state, response) -> {
                 if (state.equals(BUSY)) {
                 } else if (state.equals(SUCCESS)) {
@@ -1464,7 +1465,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.layout_activity:
                 if (isLogin()) {
                     WebActivity.getInstance().openUrl(MainFollowActivity.this,
-                            NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, "/activity"),
+                            NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/activity"),
                             getResources().getString(R.string.text_trade_bonus));
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
@@ -1619,7 +1620,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 break;
             case R.id.img_head_circle:
                 if (isLogin()) {
-                    if (followDetailEntity==null){
+                    if (followDetailEntity == null) {
                         NetManger.getInstance().followerDetail(loginEntity.getUser().getUserId(), "USDT", (state, response) -> {
                             if (state.equals(BUSY)) {
                             } else if (state.equals(SUCCESS)) {
@@ -1627,8 +1628,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                             } else if (state.equals(FAILURE)) {
                             }
                         });
-                    }else {
-                        FollowDetailActivity.enter(this,AppConfig.TRADE, followDetailEntity.getData());
+                    } else {
+                        FollowDetailActivity.enter(this, AppConfig.TRADE, followDetailEntity.getData());
                     }
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
@@ -1772,7 +1773,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.layout_mining:
             case R.id.text_mining:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, "/mining"), getString(R.string.text_mining_title));
+                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/mining"), getString(R.string.text_mining_title));
 
                 } else {
                     LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
@@ -1789,7 +1790,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(MainFollowActivity.this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null,"/deposit"), getResources().getString(R.string.text_recharge));
+                    WebActivity.getInstance().openUrl(MainFollowActivity.this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/deposit"), getResources().getString(R.string.text_recharge));
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
@@ -1825,7 +1826,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         break;
                 }
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, url_api), getResources().getString(R.string.text_fabi_trade));
+                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, url_api), getResources().getString(R.string.text_fabi_trade));
                 } else {
                     LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
                 }

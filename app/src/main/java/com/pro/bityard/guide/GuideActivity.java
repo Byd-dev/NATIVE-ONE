@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainFollowActivity;
+import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;

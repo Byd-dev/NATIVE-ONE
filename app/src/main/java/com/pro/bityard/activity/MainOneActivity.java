@@ -149,6 +149,12 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
 
+    @BindView(R.id.img_search)
+    ImageView img_search;
+
+    @BindView(R.id.bar_market)
+    RelativeLayout bar_market;
+
     @BindView(R.id.swipeRefreshLayout_market)
     SwipeRefreshLayout swipeRefreshLayout_market;
 
@@ -304,7 +310,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
         } else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
-            Log.d("print", "update:余额:  "+balanceEntity);
+            Log.d("print", "update:余额:  " + balanceEntity);
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_available != null) {
                     for (BalanceEntity.DataBean data : balanceEntity.getData()) {
@@ -366,7 +372,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         } else if (o == NetIncomeManger.getInstance()) {
             netIncomeResult = (String) arg;
 
-              Log.d("netIncome", "update:273: " + isLogin() + "  --   " + netIncomeResult);
+            Log.d("netIncome", "update:273: " + isLogin() + "  --   " + netIncomeResult);
 
             String[] NetIncome = netIncomeResult.split(",");
             runOnUiThread(() -> {
@@ -374,7 +380,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 String netIncome = NetIncome[1];
                 String margin = NetIncome[2];
 
-                 Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
+                Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
 
                 if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
@@ -655,11 +661,12 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
         findViewById(R.id.text_login_register).setOnClickListener(this);
         quoteAdapter = new QuoteAdapter(this);
+        quoteAdapter.isShowVolume(false);
+        quoteAdapter.isShowIcon(false);
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_list.setAdapter(quoteAdapter);
-        quoteAdapter.isShowIcon(false);
 
-        Util.colorSwipe(this,swipeRefreshLayout);
+        Util.colorSwipe(this, swipeRefreshLayout);
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
@@ -672,7 +679,9 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         quoteAdapter_market = new QuoteAdapter(this);
         recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_market.setAdapter(quoteAdapter_market);
-        findViewById(R.id.img_search).setOnClickListener(this);
+        img_search.setVisibility(View.GONE);
+        img_search.setOnClickListener(this);
+        bar_market.setVisibility(View.VISIBLE);
 
 
         layout_null.setVisibility(View.GONE);
@@ -780,6 +789,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
 
         quoteAdapter_market.isShowIcon(true);
+        quoteAdapter_market.isShowVolume(false);
         @SuppressLint("InflateParams") View footView = LayoutInflater.from(this).inflate(R.layout.foot_tab_view, null);
 
         recyclerView_market.addFooterView(footView);
@@ -1278,7 +1288,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
         });
 
         SwipeRefreshLayout swipeRefreshLayout_market = view.findViewById(R.id.swipeRefreshLayout_market);
-        Util.colorSwipe(this,swipeRefreshLayout_market);
+        Util.colorSwipe(this, swipeRefreshLayout_market);
         /*刷新监听*/
         swipeRefreshLayout_market.setOnRefreshListener(() -> {
             swipeRefreshLayout_market.setRefreshing(false);
@@ -1482,7 +1492,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             case R.id.layout_activity:
                 if (isLogin()) {
                     WebActivity.getInstance().openUrl(this,
-                            NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, "/activity"),
+                            NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/activity"),
                             getResources().getString(R.string.text_trade_bonus));
                 } else {
                     LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
@@ -1764,7 +1774,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             case R.id.layout_mining:
             case R.id.text_mining:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, "/mining"), getString(R.string.text_mining_title));
+                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/mining"), getString(R.string.text_mining_title));
                 } else {
                     LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
                 }
@@ -1780,7 +1790,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(),null, "/deposit"), getResources().getString(R.string.text_recharge));
+                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/deposit"), getResources().getString(R.string.text_recharge));
                 } else {
                     LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
                 }
@@ -1803,20 +1813,20 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 break;
             /*法币充值*/
             case R.id.text_fiat:
-                String url_api=null;
-                switch (language){
+                String url_api = null;
+                switch (language) {
                     case AppConfig.ZH_SIMPLE:
-                        url_api="/cnRecharge";
+                        url_api = "/cnRecharge";
                         break;
                     case AppConfig.VI_VN:
-                        url_api="/viRecharge";
+                        url_api = "/viRecharge";
                         break;
                     case AppConfig.IN_ID:
-                        url_api="/idRecharge";
+                        url_api = "/idRecharge";
                         break;
                 }
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null,url_api), getResources().getString(R.string.text_fabi_trade));
+                    WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, url_api), getResources().getString(R.string.text_fabi_trade));
                 } else {
                     LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
                 }
