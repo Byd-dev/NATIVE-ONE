@@ -1846,7 +1846,6 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                         loginEntity.getUser().setUserName(result.toString());
                         SPUtils.putData(AppConfig.LOGIN, loginEntity);
                         onResume();
-
                     });
                 }
 

@@ -23,6 +23,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PositionAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -38,6 +39,7 @@ import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.OnPopResult;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -180,19 +182,29 @@ public class PositionFragment extends BaseFragment implements Observer {
         headerRecyclerView.addFooterView(footView);
 
         text_incomeAll = headView.findViewById(R.id.text_total_profit_loss);
+
+
         /*一键平仓*/
-        headView.findViewById(R.id.text_close_all).setOnClickListener(v -> NetManger.getInstance().closeAll(TradeUtil.positionIdList(positionEntity), tradeType, (state, response) -> {
-            if (state.equals(BUSY)) {
-                showProgressDialog();
-            } else if (state.equals(SUCCESS)) {
-                dismissProgressDialog();
-                TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
-                Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
-                initData();
-            } else if (state.equals(FAILURE)) {
-                dismissProgressDialog();
-            }
-        }));
+        headView.findViewById(R.id.text_close_all).setOnClickListener(v -> {
+            Util.lightOff(getActivity());
+            PopUtil.getInstance().showTip(getActivity(), layout_view, true, getString(R.string.text_close_all), state -> {
+                if (state){
+                    NetManger.getInstance().closeAll(TradeUtil.positionIdList(positionEntity), tradeType, (state1, response) -> {
+                        if (state1.equals(BUSY)) {
+                            showProgressDialog();
+                        } else if (state1.equals(SUCCESS)) {
+                            dismissProgressDialog();
+                            TipCloseEntity tipCloseEntity = (TipCloseEntity) response;
+                            Toast.makeText(getContext(), tipCloseEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                            initData();
+                        } else if (state1.equals(FAILURE)) {
+                            dismissProgressDialog();
+                        }
+                    });
+                }
+            });
+        });
+
 
 
         headerRecyclerView.setAdapter(positionAdapter);

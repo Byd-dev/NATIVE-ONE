@@ -527,5 +527,6 @@
     <string name="text_follower_tip"><![CDATA[<font color=\"#FFB31F\">%s人</font>实盘跟单中,持仓<font color=\"#FFB31F\">%s笔</font>跟随订单]]></string>
     <string name="text_trader_tip">跟随后，系统将按每笔跟单统计跟单收益，单笔盈利订单将有%s作为带单奖励分享给该交易员。</string>
     <string name="text_switch_tip">Depois de abrir uma ordem, seu perfil será mostrado na página inicial da comunidade de negociação e pode ser seguido e copiado por outros negociadores para obter mais lucro sem nenhum custo extra. Após fechar um pedido, seus pedidos deixarão de ser copiados e não afetarão os lucros de seus seguidores.</string>
+    <string name="text_close_all">Você tem certeza que deseja fechar tudo?</string>
 
 </resources>

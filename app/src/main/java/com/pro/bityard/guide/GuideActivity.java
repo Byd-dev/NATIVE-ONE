@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +27,9 @@ import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.WebSocketManager;
+import com.pro.bityard.utils.NetworkUtils;
 import com.pro.bityard.utils.PermissionUtil;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
@@ -65,6 +68,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     RelativeLayout layout_view;
 
     private List<GuideEntity> data;
+    private List<TradeListEntity> tradeListEntityList;
 
     @Override
     protected int setContentLayout() {
@@ -83,23 +87,34 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    protected void initView(View view) {
-
-
+    protected void onResume() {
+        super.onResume();
         PermissionUtil.getInstance().initPermission(this, response -> {
             if (response == SUCCESS) {
-                init();
+                if (NetworkUtils.iConnected(this)) {
+                    init();
+                } else {
+                    Util.lightOff(this);
+                    layout_view.post(() -> PopUtil.getInstance().showTip(GuideActivity.this, layout_view, true, "WIFI SETTINGS?", state -> {
+                        if (state) {
+                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS)); //直接进入手机中的wifi网络设置界面
+                        } else {
+                            GuideActivity.this.finish();
+                        }
+                    }));
+                }
             }
         });
+    }
 
-
+    @Override
+    protected void initView(View view) {
     }
 
 
     private void init() {
         //初始化webSocket 行情
         SocketQuoteManger.getInstance().initSocket();
-
         NetManger.getInstance().getInit((state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
@@ -118,7 +133,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     TradeListManger.getInstance().getTradeList(allList, (state1, response1) -> {
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
-                            List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
+                            tradeListEntityList = (List<TradeListEntity>) response1;
                             if (tradeListEntityList.size() == 0) {
                                 text_jump.setVisibility(View.GONE);
                                 text_err.setVisibility(View.VISIBLE);
@@ -133,8 +148,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                                 SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
                                 startScheduleJob(mHandler, 2000, 2000);
                                 run();
-
-
                             }
 
                         } else if (state1.equals(FAILURE)) {
@@ -146,12 +159,51 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             } else if (state.equals(FAILURE)) {
                 text_jump.setVisibility(View.GONE);
                 text_err.setVisibility(View.VISIBLE);
+                reconnect();
                 if (response != null) {
                     text_err.setText(response.toString());
                 }
             }
         });
     }
+
+    private int connectNum = 0;
+    private final static int MAX_NUM = 5;       // 最大重连数
+    private final static int MILLIS = 3000;     // 重连间隔时间，毫秒
+
+    public void reconnect() {
+        if (connectNum <= MAX_NUM) {
+            try {
+                Thread.sleep(MILLIS);
+                connect();
+                connectNum++;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            Util.lightOff(this);
+            PopUtil.getInstance().showTip(this, layout_view, true, "INIT FAILED ! EXIT OR RETRY ?", state -> {
+                if (state) {
+                    init();
+                } else {
+                    GuideActivity.this.finish();
+                }
+            });
+        }
+    }
+
+    public void connect() {
+        if (isConnect()) {
+            return;
+        } else {
+            init();
+        }
+    }
+
+    public boolean isConnect() {
+        return tradeListEntityList != null && tradeListEntityList.size() != 0;
+    }
+
 
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {

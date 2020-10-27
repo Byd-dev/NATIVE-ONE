@@ -209,8 +209,6 @@ public class PopUtil {
                 if (state.equals(SUCCESS)) {
                     onResult.setResult(edit_username.getText().toString());
                     popupWindow.dismiss();
-
-
                 } else if (state.equals(FAILURE)) {
                     Toast.makeText(activity, response.toString(), Toast.LENGTH_SHORT).show();
                 }

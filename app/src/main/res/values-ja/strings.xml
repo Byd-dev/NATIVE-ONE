@@ -528,6 +528,7 @@
     <string name="text_follower_tip"><![CDATA[<font color=\"#FFB31F\">%s人</font>实盘跟单中,持仓<font color=\"#FFB31F\">%s笔</font>跟随订单]]></string>
     <string name="text_trader_tip">フォロワーがトレードを行うごとに報酬がもらえます。フォロワーがトレードした約定代金の%s報酬として得られます。</string>
     <string name="text_switch_tip">開いた場合、本人のプロファイルは取引コミュニティに公開されます。利用者にフォローされた場合、利益を得ることができます。トレーダーの収益が倍になれます。閉じた場合、フォローされることができませんので、利用者の収益は当トレーダーと関係ありません。</string>
+    <string name="text_close_all">全てポジションを決済しますか?</string>
 
 
 </resources>
