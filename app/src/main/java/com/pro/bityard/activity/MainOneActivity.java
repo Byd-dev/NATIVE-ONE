@@ -583,6 +583,13 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 Util.lightOff(MainOneActivity.this);
                 PopUtil.getInstance().showSuccessTip(MainOneActivity.this, layout_view, state -> {
                     if (state) {
+                        if (isLogin()) {
+                            WebActivity.getInstance().openUrl(this,
+                                    NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/activity"),
+                                    getResources().getString(R.string.text_trade_bonus));
+                        } else {
+                            LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                        }
                     }
                 });
             }, 1000);

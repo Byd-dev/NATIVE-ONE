@@ -511,6 +511,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 Util.lightOff(MainFollowActivity.this);
                 PopUtil.getInstance().showSuccessTip(MainFollowActivity.this, layout_view, state -> {
                     if (state) {
+                        if (isLogin()) {
+                            WebActivity.getInstance().openUrl(this,
+                                    NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/activity"),
+                                    getResources().getString(R.string.text_trade_bonus));
+                        } else {
+                            LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                        }
                     }
                 });
             }, 1000);
@@ -724,6 +731,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
             }
         });
+
 
 
         quoteAdapter_market.isShowIcon(false);
