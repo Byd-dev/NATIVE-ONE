@@ -89,6 +89,7 @@ public class TradeUtil {
         String format = simpleDateFormat.format(date);
         return format;
     }
+
     public static String numberHalfUp(double value, int scale) {
         if (value != 0) {
             BigDecimal bd = new BigDecimal(value);
@@ -238,6 +239,14 @@ public class TradeUtil {
         return b1.subtract(b2).doubleValue();
     }
 
+
+    public static double compare(double v1, double v2) {
+        BigDecimal b1 = new BigDecimal(Double.toString(v1));
+        BigDecimal b2 = new BigDecimal(Double.toString(v2));
+        int i = b1.compareTo(b2);
+        return i;
+    }
+
     /*乘法*/
     public static double mul(double d1, double d2) {
         BigDecimal b1 = new BigDecimal(d1);
@@ -265,12 +274,13 @@ public class TradeUtil {
 
 
     }
-    public static String removeDigital(String value){
+
+    public static String removeDigital(String value) {
 
         Pattern p = Pattern.compile("[\\d]");
         Matcher matcher = p.matcher(value);
         String result = matcher.replaceAll("");
-        return  result;
+        return result;
     }
 
 
@@ -664,14 +674,18 @@ public class TradeUtil {
     /*价格从小到大*/
     public static List<String> priceLowToHigh(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
+
         Collections.sort(quoteList, (o1, o2) -> {
             String[] split1 = o1.split(",");
             String[] split2 = o2.split(",");
-            double sub = TradeUtil.sub(Double.parseDouble(split1[2]), Double.parseDouble(split2[2]));
+
+            double compare = compare(parseDouble(split1[2]), parseDouble(split2[2]));
+
+           /* double sub = TradeUtil.sub(Double.parseDouble(split1[2]), Double.parseDouble(split2[2]));
             if (sub == 0) {
                 return (int) TradeUtil.sub(Double.parseDouble(split2[2]), Double.parseDouble(split1[2]));
-            }
-            return (int) sub;
+            }*/
+            return (int) compare;
         });
         for (String quote : quoteList) {
             quoteList2.add(quote);
@@ -821,11 +835,14 @@ public class TradeUtil {
         Collections.sort(quoteList, (o1, o2) -> {
             String[] split1 = o1.split(",");
             String[] split2 = o2.split(",");
-            double sub = TradeUtil.sub(Double.parseDouble(split2[2]), Double.parseDouble(split1[2]));
+            double compare = compare(parseDouble(split2[2]), parseDouble(split1[2]));
+
+
+           /* double sub = TradeUtil.sub(Double.parseDouble(split2[2]), Double.parseDouble(split1[2]));
             if (sub == 0) {
                 return (int) TradeUtil.sub(Double.parseDouble(split1[2]), Double.parseDouble(split2[2]));
-            }
-            return (int) sub;
+            }*/
+            return (int) compare;
         });
         for (String quote : quoteList) {
             quoteList2.add(quote);
@@ -842,16 +859,17 @@ public class TradeUtil {
             String[] split2 = o2.split(",");
             double v = Double.valueOf(split1[2]);
             double v1 = Double.valueOf(split1[3]);
-            double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 2), 100);
+            double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 10), 100);
             double v2 = Double.valueOf(split2[2]);
             double v3 = Double.valueOf(split2[3]);
-            double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
+            double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 10), 100);
+            double compare = compare(mul,mul2);
 
-            double sub = TradeUtil.sub(mul, mul2);
+           /* double sub = TradeUtil.sub(mul, mul2);
             if (sub == 0) {
                 return (int) TradeUtil.sub(mul2, mul);
-            }
-            return (int) sub;
+            }*/
+            return (int) compare;
         });
         for (String quote : quoteList) {
             quoteList2.add(quote);
@@ -868,16 +886,19 @@ public class TradeUtil {
             String[] split2 = o2.split(",");
             double v = Double.valueOf(split1[2]);
             double v1 = Double.valueOf(split1[3]);
-            double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 2), 100);
+            double mul = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v, v1), v, 10), 100);
             double v2 = Double.valueOf(split2[2]);
             double v3 = Double.valueOf(split2[3]);
-            double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 2), 100);
+            double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 10), 100);
+            Log.d("print", "rangeHighToLow: 892: "+mul2+"   "+mul);
+            double compare = compare(mul2,mul);
 
-            double sub = TradeUtil.sub(mul2, mul);
+
+           /* double sub = TradeUtil.sub(mul2, mul);
             if (sub == 0) {
                 return (int) TradeUtil.sub(mul, mul2);
-            }
-            return (int) sub;
+            }*/
+            return (int) compare;
         });
         for (String quote : quoteList) {
             quoteList2.add(quote);

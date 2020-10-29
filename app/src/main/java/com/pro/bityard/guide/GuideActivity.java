@@ -108,6 +108,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+
     protected void initView(View view) {
     }
 
