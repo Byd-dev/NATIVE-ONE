@@ -11,7 +11,7 @@
     <color name="maincolor">#FFB31F</color>
     <color name="tab_color_normal">#848E9C</color>
     <color name="text_main_color">#ffffff</color>
-    <color name="text_secondcolor">#7F8AA1</color>
+    <color name="text_secondcolor">#637996</color>
     <color name="edit_color">#243048</color>
     <color name="color_hint">#848E9C</color>
     <color name="color_err">#D55F58</color>
@@ -21,7 +21,7 @@
     <color name="color_code">#333333</color>
     <color name="text_quote_color">#C2C2C2</color>
     <color name="text_quote_red">#D33B4F</color>
-    <color name="text_quote_green">#59C287</color>
+    <color name="text_quote_green">#1DAF9A</color>
     <color name="text_report_color">#ACB9BC</color>
     <color name="text_mainclor_black">#1D2A34</color>
     <color name="text_second_color">#ABBCD2</color>
