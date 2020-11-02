@@ -932,7 +932,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             });
 
             xBanner.setOnItemClickListener((banner, model, view, position) -> {
-
+                Log.d("print", "upBanner:点击的数据: "+data.get(position));
 
             });
         }

@@ -2311,12 +2311,12 @@ public class NetManger {
 
 
     /*提币*/
-    public void withdrawal(String money, String currency, String chain, String addressId, String email, String password, OnNetResult onNetResult) {
+    public void withdrawal(String money, String currency, String chain, String address, String email, String password, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("currency", currency);
         map.put("money", money);
         map.put("chain", chain);
-        map.put("addressId", addressId);
+        map.put("address", address);
         map.put("email", email);
         map.put("password", URLEncoder.encode(password));
         postRequest("/api/pay/withdraw/create", map, (state, response) -> {

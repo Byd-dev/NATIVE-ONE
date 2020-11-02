@@ -682,7 +682,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                         Log.d("print", "showTransferPopWindow:355:  " + tipEntity);
                         if (tipEntity.isCheck() == true) {
                             withdrawal(value_amount, user.getCurrency(),
-                                    chain, addressId, email, value_pass);
+                                    chain, value_address, email, value_pass);
 
                         } else {
                             Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -982,8 +982,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     }
 
-    private void withdrawal(String money, String currency, String chain, String addressId, String email, String password) {
-        NetManger.getInstance().withdrawal(money, currency, chain, addressId, email, password, (state, response) -> {
+    private void withdrawal(String money, String currency, String chain, String address, String email, String password) {
+        NetManger.getInstance().withdrawal(money, currency, chain, address, email, password, (state, response) -> {
             if (state.equals(SUCCESS)) {
                 initData();
                 TipEntity tipEntity = (TipEntity) response;
