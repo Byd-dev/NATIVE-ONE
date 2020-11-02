@@ -790,8 +790,10 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("ADA,XLM,XTZ,ZRX,BAT,KNC,LINK,DASH,UNI,FIL".contains(TradeUtil.listQuoteName(split[0]))) {
-                quoteList2.add(mainQuote);
+            if ("ADA,XLM,XTZ,ZRX,BAT,KNC,LINK,DASH,UNI".contains(TradeUtil.listQuoteName(split[0]))) {
+                if (!"NK".equals(TradeUtil.listQuoteName(split[0]))){
+                    quoteList2.add(mainQuote);
+                }
             }
         }
         return quoteList2;
@@ -805,7 +807,7 @@ public class TradeUtil {
             if ("SI,CL,NG,GC,HG,NQ,YM,CN,DAX,HSI,NK".contains(TradeUtil.listQuoteName(split[0]))) {
                 quoteList2.add(mainQuote);
             }
-        }
+         }
         return quoteList2;
     }
 
@@ -890,7 +892,6 @@ public class TradeUtil {
             double v2 = Double.valueOf(split2[2]);
             double v3 = Double.valueOf(split2[3]);
             double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 10), 100);
-            Log.d("print", "rangeHighToLow: 892: "+mul2+"   "+mul);
             double compare = compare(mul2,mul);
 
 

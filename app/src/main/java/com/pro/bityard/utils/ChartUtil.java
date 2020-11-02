@@ -668,6 +668,30 @@ public class ChartUtil {
                 img_bg.setVisibility(View.VISIBLE);
                 img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_cl));
                 break;
+            case "DOT":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dot));
+                break;
+            case "ATOM":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_atom));
+                break;
+            case "UNI":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_uni));
+                break;
+            case "DAX":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dax));
+                break;
+            case "HSI":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_hsi));
+                break;
+            case "NK":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_nk));
+                break;
             default:
                 img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt));
                 break;
@@ -725,6 +749,24 @@ public class ChartUtil {
             case "DASH":
                 img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dash),null,null,null);
 
+                break;
+            case "DOT":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dot),null,null,null);
+                break;
+            case "ATOM":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_atom),null,null,null);
+                break;
+            case "UNI":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_uni),null,null,null);
+                break;
+            case "DAX":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dax),null,null,null);
+                break;
+            case "HSI":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_hsi),null,null,null);
+                break;
+            case "NK":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_nk),null,null,null);
                 break;
             default:
                 img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt),null,null,null);

@@ -380,7 +380,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 String netIncome = NetIncome[1];
                 String margin = NetIncome[2];
 
-                Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
+              //  Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
 
                 if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
