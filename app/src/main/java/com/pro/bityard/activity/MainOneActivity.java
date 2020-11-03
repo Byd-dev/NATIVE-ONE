@@ -380,7 +380,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 String netIncome = NetIncome[1];
                 String margin = NetIncome[2];
 
-              //  Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
+                //  Log.d("print", "update:339: " + netIncome + "    保证金:" + margin);
 
                 if (NetIncome[0].equals("1") && tradeType.equals("1")) {
                     if (isLogin()) {
@@ -932,7 +932,28 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
             });
 
             xBanner.setOnItemClickListener((banner, model, view, position) -> {
-                Log.d("print", "upBanner:点击的数据: "+data.get(position));
+                String key = data.get(position).getKey();
+                switch (key) {
+                    case IntentConfig.Keys.KEY_KOL:
+                        break;
+                    case IntentConfig.Keys.KEY_TRADE_LIVE:
+                        QuoteDetailActivity.enter(this, "1", quoteList.get(0));
+                        break;
+                    case IntentConfig.Keys.KEY_MINING:
+                        if (isLogin()) {
+                            WebActivity.getInstance().openUrl(this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/mining"), getString(R.string.text_mining_title));
+                        } else {
+                            LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                        }
+                        break;
+                    case IntentConfig.Keys.KEY_REGISTER:
+                        LoginActivity.enter(this, IntentConfig.Keys.KEY_REGISTER);
+
+                        break;
+                    case IntentConfig.Keys.KEY_LOGIN:
+                        LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                        break;
+                }
 
             });
         }

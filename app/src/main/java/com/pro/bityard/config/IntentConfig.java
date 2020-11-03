@@ -61,6 +61,10 @@ public class IntentConfig {
         public static final String KEY_THEME = "KEY_THEME";
         //注册
         public static final String KEY_REGISTER = "KEY_REGISTER";
+        //KOL
+        public static final String KEY_KOL = "KEY_KOL";
+        //KOL
+        public static final String KEY_MINING = "KEY_MINING";
         //忘记密码
         public static final String KEY_FORGET = "KEY_FORGET";
         /**手机号码*/
