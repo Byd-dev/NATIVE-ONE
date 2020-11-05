@@ -1487,6 +1487,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
             /*首页 -----------------------------------------------------------------------------------*/
             case R.id.layout_announcement:
+                UserActivity.enter(this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
+                break;
                 /*最新公告*/
             case R.id.layout_nine:
                 UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);

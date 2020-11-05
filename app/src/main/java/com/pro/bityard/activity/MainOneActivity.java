@@ -1516,6 +1516,9 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
 
             /*首页 -----------------------------------------------------------------------------------*/
             case R.id.layout_announcement:
+
+                UserActivity.enter(this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
+                break;
                 /*最新公告*/
             case R.id.layout_activity:
                 if (isLogin()) {
