@@ -1962,8 +1962,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
                             text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), quoteMinEntity.getPrice()));
                             String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
-
-                            if (prizeTrade != null) {
+                            Log.d("print", "update:服务费:  "+service);
+                            if (prizeTrade != null&&service!=null) {
                                 text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
                                         service,
                                         TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
@@ -1977,7 +1977,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
                             text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), quoteMinEntity.getPrice()));
                             String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever);
-                            if (prizeTrade != null) {
+                            if (prizeTrade != null&&service!=null) {
                                 text_limit_all.setText(TradeUtil.total(edit_limit_margin.getText().toString(),
                                         service,
                                         TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
