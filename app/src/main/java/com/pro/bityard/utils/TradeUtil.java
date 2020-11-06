@@ -990,19 +990,6 @@ public class TradeUtil {
         return null;
     }
 
-    /*获取单个的手续费*/
-    public static Object chargeDetail(String code, List<ChargeUnitEntity> chargeUnitEntityList) {
-        if (chargeUnitEntityList == null) {
-            return null;
-        } else {
-            for (ChargeUnitEntity data : chargeUnitEntityList) {
-                if (data.getCode().equals(code)) {
-                    return data;
-                }
-            }
-        }
-        return null;
-    }
 
 
     /*获取单个的手续费*/
