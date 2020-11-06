@@ -2,6 +2,7 @@ package com.pro.bityard.utils;
 
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.api.TradeResult;
@@ -15,6 +16,9 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.switchlibrary.SPUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -791,7 +795,7 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             if ("ADA,XLM,XTZ,ZRX,BAT,KNC,LINK,DASH,UNI".contains(TradeUtil.listQuoteName(split[0]))) {
-                if (!"NK".equals(TradeUtil.listQuoteName(split[0]))){
+                if (!"NK".equals(TradeUtil.listQuoteName(split[0]))) {
                     quoteList2.add(mainQuote);
                 }
             }
@@ -807,7 +811,7 @@ public class TradeUtil {
             if ("SI,CL,NG,GC,HG,NQ,YM,CN,DAX,HSI,NK".contains(TradeUtil.listQuoteName(split[0]))) {
                 quoteList2.add(mainQuote);
             }
-         }
+        }
         return quoteList2;
     }
 
@@ -865,7 +869,7 @@ public class TradeUtil {
             double v2 = Double.valueOf(split2[2]);
             double v3 = Double.valueOf(split2[3]);
             double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 10), 100);
-            double compare = compare(mul,mul2);
+            double compare = compare(mul, mul2);
 
            /* double sub = TradeUtil.sub(mul, mul2);
             if (sub == 0) {
@@ -892,7 +896,7 @@ public class TradeUtil {
             double v2 = Double.valueOf(split2[2]);
             double v3 = Double.valueOf(split2[3]);
             double mul2 = TradeUtil.mul(TradeUtil.div(TradeUtil.sub(v2, v3), v2, 10), 100);
-            double compare = compare(mul2,mul);
+            double compare = compare(mul2, mul);
 
 
            /* double sub = TradeUtil.sub(mul2, mul);
@@ -998,6 +1002,27 @@ public class TradeUtil {
             }
         }
         return null;
+    }
+
+
+    /*获取单个的手续费*/
+    public static void chargeDetail(String code, JSONObject jsonObject, OnResult onResult) {
+
+        if (jsonObject == null) {
+            onResult.setResult(null);
+        } else {
+            try {
+                for (int i = 0; i < jsonObject.length(); i++) {
+                    JSONObject result = (JSONObject) jsonObject.get(code);
+                    ChargeUnitEntity chargeUnitEntity = new Gson().fromJson(result.toString(), ChargeUnitEntity.class);
+                    chargeUnitEntity.setCode(code);//因为后台返回没有加code  例如: BTCUSDT
+                    onResult.setResult(chargeUnitEntity);
+
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /*获取保证金范围*/
@@ -1241,6 +1266,9 @@ public class TradeUtil {
 
     /*计算抵扣金额 抵扣金额是=礼金抵扣+红包抵扣 */
     public static String deductionResult(String service, String margin, String prizeTrade) {
+        if (service == null) {
+            return null;
+        }
         double mul = TradeUtil.mul(parseDouble(margin), parseDouble(prizeTrade));
         double prize = BalanceManger.getInstance().getPrize();
         double prizeDou, luckyDou;
@@ -1254,7 +1282,7 @@ public class TradeUtil {
             prizeDou = 0.00;
         }
         double lucky = BalanceManger.getInstance().getLucky();
-        Log.d("print", "deductionResult:红包:  "+lucky);
+        Log.d("print", "deductionResult:红包:  " + lucky);
         if (Double.parseDouble(service) <= lucky) {
             luckyDou = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(service), 2));
         } else {

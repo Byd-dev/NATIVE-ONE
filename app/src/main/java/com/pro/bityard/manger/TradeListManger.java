@@ -54,7 +54,7 @@ public class TradeListManger extends Observable {
             if (state.equals(SUCCESS)) {
                 getTradeList(response.toString(), (state1, response1) -> {
                     if (state1.equals(SUCCESS)) {
-                        Log.d("print", "tradeList: 55:"+response);
+                        //Log.d("print", "tradeList: 55:"+response);
                         onNetResult.onNetResult(SUCCESS, response1);
                     }
                 });
