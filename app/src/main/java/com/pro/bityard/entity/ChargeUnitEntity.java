@@ -19,7 +19,7 @@ public class ChargeUnitEntity {
     private int chargeUnit;
     private boolean coins;
     private int discountType;
-    private int discountVal;
+    private double discountVal;
     private List<Double> chargeCoinList;
     private List<Double> chargeUnitList;
 
@@ -79,11 +79,11 @@ public class ChargeUnitEntity {
         this.discountType = discountType;
     }
 
-    public int getDiscountVal() {
+    public double getDiscountVal() {
         return discountVal;
     }
 
-    public void setDiscountVal(int discountVal) {
+    public void setDiscountVal(double discountVal) {
         this.discountVal = discountVal;
     }
 
