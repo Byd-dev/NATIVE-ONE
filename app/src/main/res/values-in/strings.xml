@@ -536,5 +536,7 @@ oleh setiap trading akan
 diberikan kepada trader.</string>
     <string name="text_switch_tip">Setelah dibuka, Anda akan muncul di komunitas trading dan memiliki beranda pribadi, pada saat yang sama, Anda dapat disalin oleh pengguna, dan Anda bisa mendapatkan penghasilan tambahan dari pesanan dengan biaya nol dan keuntungan ganda. Setelah penutupan, pesanan tidak dapat disalin oleh pengguna, dan pesanan menguntungkan yang dihasilkan oleh pengguna salinan tidak akan ada hubungannya dengan trader.</string>
     <string name="text_close_all">Apakah Anda yakin untuk menutup semua posisi?</string>
+    <string name="text_spot">现货</string>
+    <string name="text_contract">合约</string>
 
 </resources>

@@ -35,7 +35,6 @@ import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.chart.NoVolumeView;
@@ -115,11 +114,28 @@ import static com.pro.bityard.utils.TradeUtil.marginMin;
 import static com.pro.bityard.utils.TradeUtil.marginOrder;
 import static java.lang.Double.parseDouble;
 
-public class QuoteDetailActivity extends BaseActivity implements View.OnClickListener, Observer, RadioGroup.OnCheckedChangeListener {
+public class TradeActivity extends BaseActivity implements View.OnClickListener, Observer, RadioGroup.OnCheckedChangeListener {
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
     private static final String quoteType = "all";
     private int lever;
+
+    @BindView(R.id.tabLayout_title)
+    TabLayout tabLayout_title;
+    //现货
+    @BindView(R.id.layout_spot)
+    LinearLayout layout_spot;
+    @BindView(R.id.img_market)
+    ImageView img_market;
+    @BindView(R.id.img_star_spot)
+    ImageView img_star_spot;
+    //合约
+    @BindView(R.id.layout_contract)
+    LinearLayout layout_contract;
+    @BindView(R.id.layout_switch)
+    LinearLayout layout_switch;
+    @BindView(R.id.img_star_contract)
+    ImageView img_star_contract;
 
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
@@ -293,8 +309,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     @BindView(R.id.text_limit_currency)
     TextView text_limit_currency;
-    @BindView(R.id.img_star)
-    ImageView img_star;
+
     private boolean flag_optional = false;
     //当前行情号
     private String quote_code = null;
@@ -307,13 +322,20 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     private JSONObject chargeUnitEntityJson;
 
     public static void enter(Context context, String tradeType, String data) {
-        Intent intent = new Intent(context, QuoteDetailActivity.class);
+        Intent intent = new Intent(context, TradeActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(VALUE, data);
         bundle.putString(TYPE, tradeType);
         intent.putExtra("bundle", bundle);
         context.startActivity(intent);
     }
+
+
+    @Override
+    protected int setContentLayout() {
+        return R.layout.activity_trade;
+    }
+
 
     @Override
     protected void onResume() {
@@ -340,10 +362,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     }
 
-    @Override
-    protected int setContentLayout() {
-        return R.layout.activity_quote_detail;
-    }
 
     @Override
     protected void initPresenter() {
@@ -384,6 +402,54 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         handler.postDelayed(() -> initTabView(), 100);*/
 
 
+        initTabViewTitle();
+
+
+    }
+
+    /*头部*/
+    private void initTabViewTitle() {
+        layout_contract.setVisibility(View.GONE);
+
+        titleListContract = new ArrayList<>();
+        titleListContract.add(getString(R.string.text_spot));
+        titleListContract.add(getString(R.string.text_contract));
+
+        for (String market_name : titleListContract) {
+            tabLayout_title.addTab(tabLayout_title.newTab().setText(market_name));
+        }
+        tabLayout_title.getTabAt(0).select();
+        tabLayout_title.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
+                    case 0:
+                        layout_contract.setVisibility(View.GONE);
+                        layout_spot.setVisibility(View.VISIBLE);
+                        img_star_contract.setVisibility(View.GONE);
+                        img_star_spot.setVisibility(View.VISIBLE);
+
+                        break;
+                    case 1:
+                        layout_contract.setVisibility(View.VISIBLE);
+                        layout_spot.setVisibility(View.GONE);
+                        img_star_contract.setVisibility(View.VISIBLE);
+                        img_star_spot.setVisibility(View.GONE);
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     private void initTabView() {
@@ -617,13 +683,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 setList.add(a);
             }
             if (setList.contains(itemQuoteContCode(itemData))) {
-                img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
             } else {
-                img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
             }
         }
-
-
         text_market_currency.setText(TradeUtil.listQuoteName(itemData));
         text_limit_currency.setText(TradeUtil.listQuoteName(itemData));
         Handler handler = new Handler();
@@ -649,7 +713,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
 
-            /*获取输入框的范围保证金*/
+            //获取输入框的范围保证金
             TradeListManger.getInstance().tradeList((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     tradeListEntityList = (List<TradeListEntity>) response;
@@ -657,24 +721,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     setContent(tradeListEntity);
                 }
             });
-
-
-
-
-
-
             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     chargeUnitEntityJson = (JSONObject) response;
-                    TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityJson, response1 -> chargeUnitEntity= (ChargeUnitEntity) response1);
-                    Log.d("print", "initData:673:  "+chargeUnitEntity);
+                    TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
+                    Log.d("print", "initData:673:  " + chargeUnitEntity);
                 }
             });
 
-            }, 3000);
 
-
-
+        }, 3000);
 
 
         String[] split1 = Util.quoteList(itemQuoteContCode(itemData)).split(",");
@@ -736,7 +792,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
     /*设置 保证金和杠杆*/
     public void setContent(TradeListEntity tradeListEntity) {
-     //   Log.d("print", "setContent:659:  " + tradeListEntity);
+        //   Log.d("print", "setContent:659:  " + tradeListEntity);
         if (tradeListEntity != null) {
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
 
@@ -874,7 +930,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             super.handleMessage(msg);
             //发送行情包
             if (quote_code != null) {
-             //   Log.d("print", "handleMessage:845:  " + quote_code);
+                //   Log.d("print", "handleMessage:845:  " + quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
             }
 
@@ -919,7 +975,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     }
 
 
-    private List<String> titleList;
+    private List<String> titleList, titleListContract;
 
     private boolean flag_new_price = false;
     private boolean flag_up_down = false;
@@ -948,7 +1004,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         RecyclerView recyclerView_market = view.findViewById(R.id.recyclerView_market);
 
-        quoteAdapter_market = new QuoteAdapter(QuoteDetailActivity.this);
+        quoteAdapter_market = new QuoteAdapter(TradeActivity.this);
         recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_market.setAdapter(quoteAdapter_market);
 
@@ -1201,8 +1257,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             quote_code = TradeUtil.itemQuoteContCode(data);
             type = "1";
 
-            TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity= (ChargeUnitEntity) response1);
-            Log.d("print", "showQuotePopWindow:1201:  "+itemQuoteCode(quote_code)+"                 "+chargeUnitEntity);
+            TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
+            Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
             //自选的图标
             String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
             setList = new HashSet<>();
@@ -1212,9 +1268,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     setList.add(a);
                 }
                 if (setList.contains(itemQuoteContCode(data))) {
-                    img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {
-                    img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
                 }
             }
 
@@ -1378,19 +1434,19 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
                 if (quoteMinEntity != null) {
                     if (setList.contains(quoteMinEntity.getSymbol())) {
-                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
                         setList.remove(quoteMinEntity.getSymbol());
                     } else {
-                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                         setList.add(quoteMinEntity.getSymbol());
                     }
                     SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
                 } else {
                     if (setList.contains(listQuoteName(itemData))) {
-                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
                         setList.remove(listQuoteName(itemData));
                     } else {
-                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                         setList.add(listQuoteName(itemData));
                     }
                     SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
@@ -1402,9 +1458,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.img_setting:
                 if (isLogin()) {
-                    UserActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+                    UserActivity.enter(TradeActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
                 } else {
-                    LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(TradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
 
 
@@ -1421,7 +1477,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         fastOpen("true", priceMuch);
                     }
                 } else {
-                    LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(TradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
                 }
 
@@ -1436,7 +1492,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         fastOpen("false", priceEmpty);
                     }
                 } else {
-                    LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(TradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
 
@@ -1446,11 +1502,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 if (value_margin.equals("")) {
                     value_margin = "0.0";
                 }
-                Util.lightOff(QuoteDetailActivity.this);
+                Util.lightOff(TradeActivity.this);
                 if (prizeTrade != null) {
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, value_margin, lever);
                     String prizeDub = TradeUtil.deductionResult(service, value_margin, prizeTrade);
-                    PopUtil.getInstance().showLongTip(QuoteDetailActivity.this,
+                    PopUtil.getInstance().showLongTip(TradeActivity.this,
                             layout_view, false,
                             getString(R.string.text_service_tip),
                             getString(R.string.text_trade_fees),
@@ -1469,8 +1525,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 if (prizeTrade != null) {
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, value_margin_limit, lever);
                     String prizeDub = TradeUtil.deductionResult(service, value_margin_limit, prizeTrade);
-                    Util.lightOff(QuoteDetailActivity.this);
-                    PopUtil.getInstance().showLongTip(QuoteDetailActivity.this,
+                    Util.lightOff(TradeActivity.this);
+                    PopUtil.getInstance().showLongTip(TradeActivity.this,
                             layout_view, false,
                             getString(R.string.text_service_tip),
                             getString(R.string.text_trade_fees),
@@ -1483,9 +1539,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.text_position:
                 if (isLogin()) {
-                    UserActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_HOLD);
+                    UserActivity.enter(TradeActivity.this, IntentConfig.Keys.KEY_HOLD);
                 } else {
-                    LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(TradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             case R.id.text_one_hour:
@@ -1553,7 +1609,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             case R.id.layout_market_lever_select:
             case R.id.layout_limit_lever_select:
-                Util.lightOff(QuoteDetailActivity.this);
+                Util.lightOff(TradeActivity.this);
                 showLeverWindow(tradeListEntity);
 
 
@@ -1567,13 +1623,13 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         NetManger.getInstance().addScore((state, response) -> {
                             if (state.equals(SUCCESS)) {
                                 AddScoreEntity addScoreEntity = (AddScoreEntity) response;
-                                Toast.makeText(QuoteDetailActivity.this, addScoreEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(TradeActivity.this, addScoreEntity.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
 
                 } else {
-                    LoginActivity.enter(QuoteDetailActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(TradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*规则*/
@@ -1624,7 +1680,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
             });
         }
-        Util.dismiss(QuoteDetailActivity.this, popupWindow);
+        Util.dismiss(TradeActivity.this, popupWindow);
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setContentView(view);
@@ -1664,8 +1720,8 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> popupWindow.dismiss());
 
-        Util.dismiss(QuoteDetailActivity.this, popupWindow);
-        Util.isShowing(QuoteDetailActivity.this, popupWindow);
+        Util.dismiss(TradeActivity.this, popupWindow);
+        Util.isShowing(TradeActivity.this, popupWindow);
 
         popupWindow.setFocusable(false);
         popupWindow.setOutsideTouchable(true);
@@ -1688,16 +1744,16 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         String priceOrder = TradeUtil.priceOrder(orderType, Objects.requireNonNull(edit_limit_price.getText()).toString());
 
         if (margin == null) {
-            Toast.makeText(QuoteDetailActivity.this, getResources().getText(R.string.text_margin_input), Toast.LENGTH_SHORT).show();
+            Toast.makeText(TradeActivity.this, getResources().getText(R.string.text_margin_input), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (priceOrder == null) {
-            Toast.makeText(QuoteDetailActivity.this, getResources().getText(R.string.text_limit_price_input), Toast.LENGTH_SHORT).show();
+            Toast.makeText(TradeActivity.this, getResources().getText(R.string.text_limit_price_input), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity= (ChargeUnitEntity) response1);
+        TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
 
        /* TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityJson, new OnResult() {
             @Override
@@ -1709,20 +1765,20 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
         if (chargeUnitEntity == null) {
-            Toast.makeText(QuoteDetailActivity.this, R.string.text_failure, Toast.LENGTH_SHORT).show();
+            Toast.makeText(TradeActivity.this, R.string.text_failure, Toast.LENGTH_SHORT).show();
             return;
-        }else {
-             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                chargeUnitEntityJson = (JSONObject) response;
-                TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity= (ChargeUnitEntity) response1);
-            }
-        });
+        } else {
+            ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    chargeUnitEntityJson = (JSONObject) response;
+                    TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
+                }
+            });
         }
 
 
         String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
-        Util.lightOff(QuoteDetailActivity.this);
+        Util.lightOff(TradeActivity.this);
         showTip(isBuy, margin, serviceCharge);
 
     }
@@ -1746,26 +1802,26 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         //Log.d("print", "onClick: 保证金:" + margin + "  是否递延:" + defer + "  价格:" + priceOrder);
 
         if (margin == null) {
-            Toast.makeText(QuoteDetailActivity.this, getResources().getText(R.string.text_margin_input), Toast.LENGTH_SHORT).show();
+            Toast.makeText(TradeActivity.this, getResources().getText(R.string.text_margin_input), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (priceOrder == null) {
-            Toast.makeText(QuoteDetailActivity.this, getResources().getText(R.string.text_limit_price_input), Toast.LENGTH_SHORT).show();
+            Toast.makeText(TradeActivity.this, getResources().getText(R.string.text_limit_price_input), Toast.LENGTH_SHORT).show();
             return;
         }
-        TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity= (ChargeUnitEntity) response1);
+        TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
 
         if (chargeUnitEntity == null) {
-            Toast.makeText(QuoteDetailActivity.this, R.string.text_failure, Toast.LENGTH_SHORT).show();
+            Toast.makeText(TradeActivity.this, R.string.text_failure, Toast.LENGTH_SHORT).show();
             return;
-        }else {
-             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                chargeUnitEntityJson = (JSONObject) response;
-                TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity= (ChargeUnitEntity) response1);
-            }
-        });
+        } else {
+            ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
+                if (state.equals(SUCCESS)) {
+                    chargeUnitEntityJson = (JSONObject) response;
+                    TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
+                }
+            });
         }
         String serviceCharge = TradeUtil.serviceCharge(chargeUnitEntity, 3, margin, lever);
 
@@ -1779,7 +1835,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
-                        Toast.makeText(QuoteDetailActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TradeActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                         dismissProgressDialog();
                         PositionRealManger.getInstance().getHold();
                         PositionSimulationManger.getInstance().getHold();
@@ -1823,9 +1879,9 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                     setList.add(a);
                 }
                 if (setList.contains(itemQuoteContCode(data))) {
-                    img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {
-                    img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
                 }
             }
 
@@ -1989,7 +2045,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
                             text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), quoteMinEntity.getPrice()));
                             String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
-                           // Log.d("print", "update:服务费:  " +chargeUnitEntity +"            "+service);
+                            // Log.d("print", "update:服务费:  " +chargeUnitEntity +"            "+service);
 
                             if (prizeTrade != null && service != null) {
                                 text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
@@ -2291,7 +2347,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Toast.makeText(QuoteDetailActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
+        Toast.makeText(TradeActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
         //要取消计时 防止内存溢出
         cancelTimer();
         QuoteCurrentManger.getInstance().clear();

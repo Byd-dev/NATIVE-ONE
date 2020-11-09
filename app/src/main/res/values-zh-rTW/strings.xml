@@ -529,5 +529,7 @@
     <string name="text_trader_tip">跟隨後，系統將按每筆跟單統計跟單收益，單筆盈利訂單將有%s作為帶單獎勵分享給該交易員。</string>
     <string name="text_switch_tip">開啟後，您將出現在交易社區並擁有個人主頁，同時可被用戶跟單，零成本獲得額外帶單收益，雙重盈利。關閉後，將不被用戶跟單，跟單用戶所產生的盈利訂單將與交易員無關。</string>
     <string name="text_close_all">是否一鍵平倉所有訂單?</string>
+    <string name="text_spot">现货</string>
+    <string name="text_contract">合约</string>
 
 </resources>

@@ -529,5 +529,7 @@
     <string name="text_trader_tip">사용자가 트레이더의 주문을 팔로우해 수익이 날 경우, 트레이더에게 수익 금액의 %s 가 리딩 배당으로 주어집니다.</string>
     <string name="text_switch_tip">오픈 후에는 프로필이 거래 커뮤니티 홈페이지에 공개될 것이며, 추가 비용 없이 다른 사용자들의 팔로우를 받을 수 있고, 팔로우 수익을 얻을 수 있습니다. 끈 후에 팔로우가 되지 않게 되며, 팔로워가 얻은 수익은 트데이더과 무관됩니다.</string>
     <string name="text_close_all">전부 청산하시겠습니까?</string>
+    <string name="text_spot">现货</string>
+    <string name="text_contract">合约</string>
 
 </resources>

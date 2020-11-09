@@ -33,6 +33,11 @@
     <style name="MyTablayoutstyle" parent="Base.Widget.Design.TabLayout">
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="TabStyle" parent="Base.Widget.Design.TabLayout">
+        <item name="android:textSize">@dimen/size_bigger</item>
+    </style>
+
     <style name="MyTablayoutStyleQuote" parent="Base.Widget.Design.TabLayout">
         <item name="android:textSize">@dimen/size_normal</item>
     </style>

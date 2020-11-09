@@ -596,7 +596,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         quoteHomeAdapter = new QuoteHomeAdapter(this);
         recyclerView_hot.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView_hot.setAdapter(quoteHomeAdapter);
-        quoteHomeAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(this, "1", data));
+        quoteHomeAdapter.setOnItemClick(data -> TradeActivity.enter(this, "1", data));
         img_head.setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
