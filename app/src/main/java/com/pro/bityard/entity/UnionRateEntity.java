@@ -32,7 +32,7 @@ public class UnionRateEntity {
     private String unionTotal;
     private UnionBean union;
     private AssetBean asset;
-    private int unionVolume;
+    private double unionVolume;
     private String message;
 
     public int getCode() {
@@ -67,11 +67,11 @@ public class UnionRateEntity {
         this.asset = asset;
     }
 
-    public int getUnionVolume() {
+    public double getUnionVolume() {
         return unionVolume;
     }
 
-    public void setUnionVolume(int unionVolume) {
+    public void setUnionVolume(double unionVolume) {
         this.unionVolume = unionVolume;
     }
 

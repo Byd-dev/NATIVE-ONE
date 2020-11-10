@@ -550,6 +550,9 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
                 switch (tab.getPosition()) {
                     case 0:
+
+                        Quote1MinHistoryManger.getInstance().quote(quote_code, -1);
+
                         kline_1min_time.setVisibility(View.VISIBLE);
                         myKLineView_1Min.setVisibility(View.GONE);
                         myKLineView_3Min.setVisibility(View.GONE);
@@ -564,6 +567,9 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
                         break;
                     case 1:
+                        Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+                        Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.VISIBLE);
                         myKLineView_3Min.setVisibility(View.GONE);
@@ -576,6 +582,11 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                         myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 2:
+                        Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+
+                        Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+
+
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.GONE);
                         myKLineView_3Min.setVisibility(View.VISIBLE);
@@ -588,6 +599,10 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                         myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 3:
+                        Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+
+                        Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+
                         layout_more.setVisibility(View.GONE);
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.GONE);
@@ -599,7 +614,9 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                         myKLineView_1_week.setVisibility(View.GONE);
                         myKLineView_1_month.setVisibility(View.GONE);
                         break;
+                    //更多监听
                     case 4:
+
                         layout_more.setVisibility(View.GONE);
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.GONE);
@@ -692,26 +709,26 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         text_limit_currency.setText(TradeUtil.listQuoteName(itemData));
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
-            Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -1);
-            Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+            // Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -1);
+            /*Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
             Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
             Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
             Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
             QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
             QuoteWeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-            QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
+            QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);*/
             //开启单个刷新
             //  QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             //开启单个行情图
             // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
+           /* Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
+            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));*/
 
             //获取输入框的范围保证金
             TradeListManger.getInstance().tradeList((state, response) -> {
@@ -1290,23 +1307,23 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             edit_limit_price.setText(listQuotePrice(data));
 
             // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
 
 
-            Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            QuoteWeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
+            Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
 
             //相应选择
             popupWindow.dismiss();
@@ -1546,6 +1563,10 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.text_one_hour:
 
+                Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
+                Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+
+
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_hour.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
 
@@ -1562,6 +1583,10 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 myKLineView_1_month.setVisibility(View.GONE);
                 break;
             case R.id.text_one_day:
+                QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
+                QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+
+
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_day.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
 
@@ -1577,6 +1602,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 myKLineView_1_month.setVisibility(View.GONE);
                 break;
             case R.id.text_one_week:
+                QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
+                QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_week.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
                 layout_more.setVisibility(View.GONE);
@@ -1592,6 +1619,9 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
                 break;
             case R.id.text_one_month:
+                QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote_code), -2);
+                QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(quote_code));
+
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_month.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
                 layout_more.setVisibility(View.GONE);
@@ -1901,23 +1931,23 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             edit_limit_price.setText(listQuotePrice(data));
 
             // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
 
 
-            Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            QuoteWeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
-            QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(data), -2);
+            Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
 
             //相应选择
             quotePopAdapter.select(itemQuoteContCode(data));
