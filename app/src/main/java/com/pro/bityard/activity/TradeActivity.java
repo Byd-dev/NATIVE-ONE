@@ -2021,7 +2021,6 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
-
             if (quoteList != null && quoteAdapter_market != null) {
                 runOnUiThread(() -> {
                     //搜索框
