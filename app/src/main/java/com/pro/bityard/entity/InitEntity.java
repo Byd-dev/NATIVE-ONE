@@ -1,8 +1,9 @@
 package com.pro.bityard.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class InitEntity {
+public class InitEntity implements Serializable{
 
 
     /**
@@ -28,6 +29,16 @@ public class InitEntity {
     private BrandBean brand;
     private List<String> names;
     private List<GroupBean> group;
+    private List<DataBean> data;
+
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
 
     @Override
     public String toString() {
@@ -41,6 +52,7 @@ public class InitEntity {
                 ", brand=" + brand +
                 ", names=" + names +
                 ", group=" + group +
+                ", data=" + data +
                 '}';
     }
 
@@ -348,7 +360,7 @@ public class InitEntity {
         }
     }
 
-    public static class GroupBean {
+    public static class GroupBean implements Serializable{
         @Override
         public String toString() {
             return "GroupBean{" +
@@ -381,6 +393,62 @@ public class InitEntity {
 
         public void setList(String list) {
             this.list = list;
+        }
+    }
+
+    public static class DataBean implements Serializable {
+        /**
+         * code : EOSUSDT
+         * zone : 1
+         * name : 柚子币
+         * type : FT
+         */
+
+        private String code;
+        private Integer zone;
+        private String name;
+        private String type;
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "code='" + code + '\'' +
+                    ", zone=" + zone +
+                    ", name='" + name + '\'' +
+                    ", type='" + type + '\'' +
+                    '}';
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public Integer getZone() {
+            return zone;
+        }
+
+        public void setZone(Integer zone) {
+            this.zone = zone;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
         }
     }
 }

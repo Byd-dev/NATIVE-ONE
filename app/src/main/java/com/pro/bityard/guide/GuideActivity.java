@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
@@ -116,6 +117,9 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     private void init() {
         //初始化webSocket 行情
         SocketQuoteManger.getInstance().initSocket();
+
+
+
         NetManger.getInstance().getInit((state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
@@ -127,11 +131,18 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
 
-                    Log.d("print", "initQuote:103:  " + group);
+                    SPUtils.putData(AppConfig.KEY_COMMODITY,initEntity);
                     ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
                     String allList = Util.groupList(stringStringArrayMap);
-                    SPUtils.putString(AppConfig.CONTRACT_ID, allList);
-                    TradeListManger.getInstance().getTradeList(allList, (state1, response1) -> {
+
+                    Log.d("print", "initQuote:103:  " + allList);
+                    String allList2 = Util.initContractList(initEntity.getData());
+                    Log.d("print", "initQuote:137:" + allList2);
+
+
+
+                    SPUtils.putString(AppConfig.CONTRACT_ID, allList2);
+                    TradeListManger.getInstance().getTradeList(allList2, (state1, response1) -> {
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
                             tradeListEntityList = (List<TradeListEntity>) response1;
@@ -146,7 +157,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                                     stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
                                 }
                                 SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
-                                SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
+                                //SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
                                 startScheduleJob(mHandler, 2000, 2000);
                                 run();
                             }
@@ -217,6 +228,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 return;
             } else {
                 //发送行情包
+                Log.d("webSocket", "handleMessage:231:  "+quote_code);
                 WebSocketManager.getInstance().send("3001", quote_code);
             }
 

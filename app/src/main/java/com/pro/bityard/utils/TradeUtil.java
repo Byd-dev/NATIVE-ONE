@@ -10,6 +10,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.FundItemEntity;
+import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
@@ -778,10 +779,12 @@ public class TradeUtil {
 
     /*主区*/
     public static List<String> mainQuoteList(List<String> quoteList) {
+        Log.d("print", "mainQuoteList:782:  "+quoteList);
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("BTC,BCH,EOS,ETC,ETH,LTC,XRP,TRX,ATOM,DOT".contains(TradeUtil.listQuoteName(split[0]))) {
+            int length = split.length;
+            if (split[length-3].equals("FT")&&split[length-2].equals("1")) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -794,10 +797,9 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("ADA,XLM,XTZ,ZRX,BAT,KNC,LINK,DASH,UNI".contains(TradeUtil.listQuoteName(split[0]))) {
-                if (!"NK".equals(TradeUtil.listQuoteName(split[0]))) {
-                    quoteList2.add(mainQuote);
-                }
+            int length = split.length;
+            if (split[length-3].equals("FT")&&split[length-2].equals("2")) {
+                quoteList2.add(mainQuote);
             }
         }
         return quoteList2;
@@ -808,7 +810,21 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if ("SI,CL,NG,GC,HG,NQ,YM,CN,DAX,HSI,NK".contains(TradeUtil.listQuoteName(split[0]))) {
+            int length = split.length;
+            if (split[length-3].equals("FT")&&split[length-2].equals("3")) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
+
+    /* 现货*/
+    public static List<String> spotQuoteList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            int length = split.length;
+            if (split[length-3].equals("CH")&&split[length-2].equals("3")) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -1109,6 +1125,11 @@ public class TradeUtil {
         } else {
             return null;
         }
+    }
+
+    public static String newListQuoteName(String quote) {
+        String[] split = quote.split(",");
+        return split[split.length-1];
     }
 
     /*usdt*/

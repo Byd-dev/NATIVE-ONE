@@ -16,6 +16,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.adapter.TradeRecordAdapter;
 import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.InitEntity;
@@ -219,13 +220,28 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         String list = SPUtils.getString(AppConfig.CONTRACT_ID, null);
 
         if (list == null) {
-            NetManger.getInstance().getInit((state, response) -> {
+
+
+            NetManger.getInstance().codeList((state, response) -> {
+                if (state.equals(SUCCESS)){
+                    String[] contract = response.toString().split(";");
+                    contractList = new ArrayList<>();
+                    contractList.addAll(Arrays.asList(contract));
+                    contractList.add(0, "ALL");
+                    SPUtils.putString(AppConfig.CONTRACT_ID, response.toString());
+
+                }
+            });
+            /*NetManger.getInstance().getInit((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     InitEntity initEntity = (InitEntity) response;
                     if (initEntity.getGroup() != null) {
                         List<InitEntity.GroupBean> group = initEntity.getGroup();
                         ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
                         String allList = Util.groupList(stringStringArrayMap);
+
+
+
                         String[] contract = allList.split(";");
 
                         contractList = new ArrayList<>();
@@ -233,21 +249,10 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                         contractList.add(0, "ALL");
                         SPUtils.putString(AppConfig.CONTRACT_ID, allList);
 
-                       /* for (InitEntity.GroupBean data : group) {
-                            if (data.getName().equals("数字货币")) {
-                                String list2 = data.getList();
-                                String[] contract = list2.split(";");
-
-                                contractList = new ArrayList<>();
-                                contractList.addAll(Arrays.asList(contract));
-                                contractList.add(0, "ALL");
-                                SPUtils.putString(AppConfig.CONTRACT_ID, list2);
-                            }
-                        }*/
                     }
                 }
 
-            });
+            });*/
         } else {
             String[] contract = list.split(";");
 

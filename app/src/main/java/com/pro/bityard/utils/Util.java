@@ -119,16 +119,43 @@ public class Util {
     }
 
     public static List<String> quoteResult(String content) {
+        InitEntity data = SPUtils.getData(AppConfig.KEY_COMMODITY, InitEntity.class);
+        List<InitEntity.DataBean> dataDetail = data.getData();
         List<String> quoteList = new ArrayList<>();
         String[] split = content.split(";");
+        Log.d("print", "quoteResult: 126: "+split.length+"   "+dataDetail.size());
+        StringBuilder stringBuilder=null;
         if (split.length > 0) {
-            for (String a : split) {
+            for (int i = 0; i < split.length; i++) {
+                String a=split[i];
                 quoteList.add(a);
+
             }
+            Log.d("print", "quoteResult:136:  "+quoteList.size());
             return quoteList;
         } else {
             return null;
         }
+    }
+
+    public static List<String> quoteResultAdd(List<String> dataList) {
+        InitEntity data = SPUtils.getData(AppConfig.KEY_COMMODITY, InitEntity.class);
+        List<InitEntity.DataBean> dataDetail = data.getData();
+        List<String> quoteList = new ArrayList<>();
+        for (int i = 0; i <dataList.size() ; i++) {
+            String itemQuote = dataList.get(i);
+            String[] split = itemQuote.split(",");
+            for (int j = dataDetail.size()-1; j >0 ; j--) {
+                if (test(split[0]).equals(dataDetail.get(j).getCode())){
+                    quoteList.add(itemQuote+","+dataDetail.get(j).getType()+","+dataDetail.get(j).getZone()+","+dataDetail.get(j).getName());
+                }
+            }
+        }
+        return  quoteList;
+    }
+
+    private static String test(String content) {
+        return content.substring(0, content.length() - 4);
     }
 
     //            name = content.substring(0, content.length() - 8) + "/" + content.substring(content.length() - 8, content.length() - 4);
@@ -811,10 +838,12 @@ public class Util {
         lp.alpha = 0.5f;
         activity.getWindow().setAttributes(lp);
     }
-    public static void colorSwipe(Context context,SwipeRefreshLayout swipeRefreshLayout) {
+
+    public static void colorSwipe(Context context, SwipeRefreshLayout swipeRefreshLayout) {
         swipeRefreshLayout.setColorSchemeColors(context.getResources().getColor(R.color.maincolor));
 
     }
+
     public static void lightOn(Activity activity) {
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.alpha = 1f;
@@ -994,6 +1023,18 @@ public class Util {
             map.put(data.getName(), data.getList());
         }
         return map;
+    }
+
+    public static String initContractList(List<InitEntity.DataBean> group) {
+        List<String> allList = new ArrayList<>();
+        for (InitEntity.DataBean data : group) {
+            String code = data.getCode();
+            if (data.getType().equals("FT") || data.getType().equals("CH")) {
+                allList.add(code);
+            }
+        }
+        Log.d("print", "initContractList:1009:  " + allList.size());
+        return allList.toString().replaceAll(" ", "").replaceAll(",", ";").replaceAll("\\[", "").replaceAll("]", "");
     }
 
 

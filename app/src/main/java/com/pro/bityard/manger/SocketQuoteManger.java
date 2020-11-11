@@ -85,10 +85,13 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
             //行情列表
             case "3001":
                 String data = quoteEntity.getData();
-                List<String> strings = Util.quoteResult(data);
 
+                List<String> strings = Util.quoteResultAdd(Util.quoteResult(data));
                 //主区
                 List<String> mainQuoteList = TradeUtil.mainQuoteList(strings);
+
+                Log.d("print", "onMessage:90:  "+mainQuoteList.size());
+
                 //创新区
                 List<String> innovationQuoteList = TradeUtil.innovationQuoteList(strings);
                 //自选
@@ -204,7 +207,7 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put("28", stringList24);
                 arrayMap.put("29", stringList25);
                 Log.d("webSocket", "onMessage:384:  " + quoteEntity.getData());
-
+                Log.d("print", "onMessage:210:  "+arrayMap.get("0"));
                 postListQuote(arrayMap);
 
                 break;

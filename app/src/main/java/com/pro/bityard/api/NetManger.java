@@ -637,14 +637,9 @@ public class NetManger {
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
                     ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
                     String allList = Util.groupList(stringStringArrayMap);
-                    onNetResult.onNetResult(SUCCESS, allList);
-
-                    /*for (InitEntity.GroupBean data : group) {
-                        if (data.getName().equals("数字货币")) {
-                            String list = data.getList();
-                            onNetResult.onNetResult(SUCCESS, list);
-                        }
-                    }*/
+                    String allList2 = Util.initContractList(initEntity.getData());
+                    onNetResult.onNetResult(SUCCESS, allList2);
+                    SPUtils.putData(AppConfig.KEY_COMMODITY,initEntity);
                 }
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
@@ -977,8 +972,14 @@ public class NetManger {
                     List<InitEntity.GroupBean> group = initEntity.getGroup();
                     ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
                     String allList = Util.groupList(stringStringArrayMap);
-                    SPUtils.putString(AppConfig.CONTRACT_ID, allList);
-                    TradeListManger.getInstance().getTradeList(allList, (state1, response1) -> {
+
+                    SPUtils.putData(AppConfig.KEY_COMMODITY,initEntity);
+
+                    String allList2 = Util.initContractList(initEntity.getData());
+
+
+                    SPUtils.putString(AppConfig.CONTRACT_ID, allList2);
+                    TradeListManger.getInstance().getTradeList(allList2, (state1, response1) -> {
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
                             List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
@@ -987,32 +988,10 @@ public class NetManger {
                                 stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
                             }
                             SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
-                            SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
+                            //SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
                         } else if (state1.equals(FAILURE)) {
                         }
                     });//获取合约号
-
-
-                    // TODO: 2020/3/13 暂时这里只固定是数字货币的遍历
-                   /* for (InitEntity.GroupBean data : group) {
-                        if (data.getName().equals("数字货币")) {
-                            String list = data.getList();
-                            SPUtils.putString(AppConfig.CONTRACT_ID, list);
-                            NetManger.getInstance().getTradeList(list, (state1, response1) -> {
-                                if (state1.equals(BUSY)) {
-                                } else if (state1.equals(SUCCESS)) {
-                                    List<TradeListEntity> tradeListEntityList = (List<TradeListEntity>) response1;
-                                    StringBuilder stringBuilder = new StringBuilder();
-                                    for (int i = 0; i < tradeListEntityList.size(); i++) {
-                                        stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
-                                    }
-                                    SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
-                                    SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
-                                } else if (state1.equals(FAILURE)) {
-                                }
-                            });//获取合约号
-                        }
-                    }*/
                 }
             }
         });

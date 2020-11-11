@@ -12,7 +12,8 @@ public class AppConfig {
     public static final String TRADE = "TRADE";
     public static final String FOLLOW = "FOLLOW";
 
-
+    /*商品合约*/
+    public static final String KEY_COMMODITY = "KEY_COMMODITY";
     /*账户头像保存名称*/
     public static final String FIRST_OPEN = "first_open"; //安全认证信息
     /*缓存国家代码*/

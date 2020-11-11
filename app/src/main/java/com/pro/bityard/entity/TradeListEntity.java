@@ -44,6 +44,9 @@ public class TradeListEntity {
     private double maxHoldAll;
     private double maxHoldOne;
     private double maxHoldWay;
+    private double volumeMin;
+
+
 
     private List<Long> closeTime;
     private List<Integer> depositList;
@@ -54,7 +57,6 @@ public class TradeListEntity {
     private List<Double> stopLossList;
     private List<Double> stopProfitList;
     private List<Double> volumeList;
-
 
     @Override
     public String toString() {
@@ -99,6 +101,7 @@ public class TradeListEntity {
                 ", maxHoldAll=" + maxHoldAll +
                 ", maxHoldOne=" + maxHoldOne +
                 ", maxHoldWay=" + maxHoldWay +
+                ", volumeMin=" + volumeMin +
                 ", closeTime=" + closeTime +
                 ", depositList=" + depositList +
                 ", leverList=" + leverList +
@@ -133,6 +136,15 @@ public class TradeListEntity {
 
     public void setMaxHoldWay(double maxHoldWay) {
         this.maxHoldWay = maxHoldWay;
+    }
+
+
+    public double getVolumeMin() {
+        return volumeMin;
+    }
+
+    public void setVolumeMin(double volumeMin) {
+        this.volumeMin = volumeMin;
     }
 
     public String getAmClearingTime() {
