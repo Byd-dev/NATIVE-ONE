@@ -1539,7 +1539,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             /*行情 -----------------------------------------------------------------------------------*/
             case R.id.img_search:
                 Util.lightOff(this);
-                type = AppConfig.CONTRACT_ALL;
+                type = AppConfig.SPOT_ALL;
                 showQuotePopWindow();
                 break;
             case R.id.layout_new_price:
