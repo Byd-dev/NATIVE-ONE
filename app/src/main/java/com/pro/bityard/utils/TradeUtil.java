@@ -786,7 +786,8 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length - 3].equals(AppConfig.TYPE_FT)) {
+            if ((split[length - 3].equals(AppConfig.TYPE_FT)&&split[length - 2].equals(AppConfig.ZONE_MAIN))||
+                    (split[length - 3].equals(AppConfig.TYPE_FT)&&split[length - 2].equals(AppConfig.ZONE_INNOVATION))) {
                 quoteList2.add(mainQuote);
             }
         }
