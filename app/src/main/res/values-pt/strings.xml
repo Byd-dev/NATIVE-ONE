@@ -530,5 +530,6 @@
     <string name="text_close_all">Você tem certeza que deseja fechar tudo?</string>
     <string name="text_spot">现货</string>
     <string name="text_contract">合约</string>
+    <string name="hint_follow_amount">5~200</string>
 
 </resources>

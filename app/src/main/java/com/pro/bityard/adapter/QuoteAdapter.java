@@ -102,7 +102,24 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof MyViewHolder) {
 
 
-            String name = TradeUtil.listQuoteName(datas.get(position));
+            String type = TradeUtil.type(datas.get(position));
+            String zone = TradeUtil.zone(datas.get(position));
+            String name, currency;
+            if (type.equals(AppConfig.TYPE_FT) && zone.equals(AppConfig.ZONE_MAIN)) {
+                name = TradeUtil.listQuoteName(datas.get(position));
+                currency = TradeUtil.listQuoteUSD(datas.get(position));
+            } else {
+                name = TradeUtil.name(datas.get(position));
+                currency = null;
+            }
+
+
+            if (currency == null) {
+                ((MyViewHolder) holder).text_name_usdt.setText("");
+            } else {
+                ((MyViewHolder) holder).text_name_usdt.setText("/" + currency);
+            }
+
 
             if (isShow) {
                 ChartUtil.setIcon(name, ((MyViewHolder) holder).img_icon);
@@ -120,12 +137,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
             ((MyViewHolder) holder).text_name.setText(name);
-            String currency = TradeUtil.listQuoteUSD(datas.get(position));
-            if (currency == null) {
-                ((MyViewHolder) holder).text_name_usdt.setText("");
-            } else {
-                ((MyViewHolder) holder).text_name_usdt.setText("/" + currency);
-            }
 
 
             String price = TradeUtil.listQuotePrice(datas.get(position));

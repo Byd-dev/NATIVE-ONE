@@ -531,5 +531,6 @@
     <string name="text_close_all">전부 청산하시겠습니까?</string>
     <string name="text_spot">现货</string>
     <string name="text_contract">合约</string>
+    <string name="hint_follow_amount">5~200</string>
 
 </resources>

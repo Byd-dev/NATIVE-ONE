@@ -405,7 +405,7 @@ public class InitEntity implements Serializable{
          */
 
         private String code;
-        private Integer zone;
+        private String zone;
         private String name;
         private String type;
 
@@ -427,11 +427,11 @@ public class InitEntity implements Serializable{
             this.code = code;
         }
 
-        public Integer getZone() {
+        public String getZone() {
             return zone;
         }
 
-        public void setZone(Integer zone) {
+        public void setZone(String zone) {
             this.zone = zone;
         }
 

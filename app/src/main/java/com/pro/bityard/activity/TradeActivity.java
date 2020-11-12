@@ -997,14 +997,14 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
     private boolean flag_new_price = false;
     private boolean flag_up_down = false;
     private boolean flag_name = false;
-    private String type = "0";
-    private int zone_type = 1;//-1是自选 1是主区 0是创新区 2是衍生品
+    private String type =AppConfig.CONTRACT_ALL ;
+    private String zone_type = AppConfig.VIEW_CONTRACT;//-1是自选 1是主区 0是创新区 2是衍生品
     private ArrayMap<String, List<String>> arrayMap;
 
-    private QuoteAdapter quoteAdapter_market;
+    private QuoteAdapter quoteAdapter_market_pop;
 
     /*显示行情选择的按钮*/
-    private void showQuotePopWindow() {
+   /* private void showQuotePopWindow() {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.quote_market, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -1012,9 +1012,9 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
         TabLayout tabLayout_market = view.findViewById(R.id.tabLayout_market);
         titleList = new ArrayList<>();
-        titleList.add(getResources().getString(R.string.text_optional));
-        titleList.add(getResources().getString(R.string.text_main_zone));
-        titleList.add(getResources().getString(R.string.text_innovate));
+        titleList.add(getString(R.string.text_optional));
+        titleList.add(getString(R.string.text_spot));
+        titleList.add(getString(R.string.text_contract));
         titleList.add(getString(R.string.text_derived));
 
         LinearLayout layout_null = view.findViewById(R.id.layout_null);
@@ -1255,11 +1255,11 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
         SwipeRefreshLayout swipeRefreshLayout_market = view.findViewById(R.id.swipeRefreshLayout_market);
         Util.colorSwipe(this, swipeRefreshLayout_market);
-        /*刷新监听*/
+
         swipeRefreshLayout_market.setOnRefreshListener(() -> {
             swipeRefreshLayout_market.setRefreshing(false);
             quoteAdapter_market.setDatas(quoteList);
-          /*  String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
+            String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
             String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
             if (quote_host == null && quote_code == null) {
                 NetManger.getInstance().initQuote();
@@ -1267,7 +1267,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             } else {
                 assert quote_host != null;
                 // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
-            }*/
+            }
         });
 
         quoteAdapter_market.setOnItemClick(data -> {
@@ -1394,9 +1394,423 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         //   popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
         view.startAnimation(animation);
 
+    }*/
+
+    /*显示行情选择的按钮*/
+    private void showQuotePopWindow() {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.quote_market, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+
+        titleList = new ArrayList<>();
+        titleList.add(getString(R.string.text_optional));
+        titleList.add(getString(R.string.text_spot));
+        titleList.add(getString(R.string.text_contract));
+        titleList.add(getString(R.string.text_derived));
+
+        TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market);
+
+        LinearLayout layout_null = view.findViewById(R.id.layout_null);
+
+        RecyclerView recyclerView_market = view.findViewById(R.id.recyclerView_market);
+
+        quoteAdapter_market_pop = new QuoteAdapter(this);
+        recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_market.setAdapter(quoteAdapter_market_pop);
+
+        quoteAdapter_market_pop.setDatas(quoteList);
+        quoteAdapter_market_pop.isShowIcon(false);
+        ImageView img_price_triangle = view.findViewById(R.id.img_price_triangle);
+
+        ImageView img_rate_triangle = view.findViewById(R.id.img_rate_triangle);
+
+        ImageView img_name_triangle = view.findViewById(R.id.img_name_triangle);
+
+
+        for (String market_name : titleList) {
+            tabLayout_market_search.addTab(tabLayout_market_search.newTab().setText(market_name));
+        }
+        tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
+        view.findViewById(R.id.layout_new_price).setOnClickListener(v -> {
+            if (arrayMap == null) {
+                return;
+            }
+            if (flag_new_price) {
+                img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
+                flag_new_price = false;
+                switch (zone_type) {
+                    case AppConfig.VIEW_OPTIONAL:
+                        type = AppConfig.OPTIONAL_PRICE_HIGH2LOW;
+                        break;
+                    case AppConfig.VIEW_SPOT:
+                        type = AppConfig.SPOT_PRICE_HIGH2LOW;
+                        break;
+                    case AppConfig.VIEW_CONTRACT:
+                        type = AppConfig.CONTRACT_PRICE_HIGH2LOW;
+                        break;
+                    case AppConfig.VIEW_DERIVATIVES:
+                        type = AppConfig.DERIVATIVES_PRICE_HIGH2LOW;
+                        break;
+                }
+                List<String> quoteList = arrayMap.get(type);
+                quoteAdapter_market_pop.setDatas(quoteList);
+
+
+            } else {
+
+                img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
+                flag_new_price = true;
+                switch (zone_type) {
+                    case AppConfig.VIEW_OPTIONAL:
+                        type = AppConfig.OPTIONAL_PRICE_LOW2HIGH;
+                        break;
+                    case AppConfig.VIEW_SPOT:
+                        type = AppConfig.SPOT_PRICE_LOW2HIGH;
+                        break;
+                    case AppConfig.VIEW_CONTRACT:
+                        type = AppConfig.CONTRACT_PRICE_LOW2HIGH;
+                        break;
+                    case AppConfig.VIEW_DERIVATIVES:
+                        type = AppConfig.DERIVATIVES_PRICE_LOW2HIGH;
+                        break;
+                }
+                List<String> quoteList = arrayMap.get(type);
+                quoteAdapter_market_pop.setDatas(quoteList);
+
+            }
+            img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+            img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+
+        });
+        view.findViewById(R.id.layout_up_down).setOnClickListener(v -> {
+            if (arrayMap == null) {
+                return;
+            }
+            if (flag_up_down) {
+                img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
+                flag_up_down = false;
+                switch (zone_type) {
+                    case AppConfig.VIEW_OPTIONAL:
+                        type = AppConfig.OPTIONAL_RATE_HIGH2LOW;
+                        break;
+                    case AppConfig.VIEW_SPOT:
+                        type = AppConfig.SPOT_RATE_HIGH2LOW;
+                        break;
+                    case AppConfig.VIEW_CONTRACT:
+                        type = AppConfig.CONTRACT_RATE_HIGH2LOW;
+                        break;
+                    case AppConfig.VIEW_DERIVATIVES:
+                        type = AppConfig.DERIVATIVES_RATE_HIGH2LOW;
+                        break;
+                }
+                List<String> quoteList = arrayMap.get(type);
+                quoteAdapter_market_pop.setDatas(quoteList);
+
+            } else {
+                img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
+                flag_up_down = true;
+                switch (zone_type) {
+                    case AppConfig.VIEW_OPTIONAL:
+                        type = AppConfig.OPTIONAL_RATE_LOW2HIGH;
+                        break;
+                    case AppConfig.VIEW_SPOT:
+                        type = AppConfig.SPOT_RATE_LOW2HIGH;
+                        break;
+                    case AppConfig.VIEW_CONTRACT:
+                        type = AppConfig.CONTRACT_RATE_LOW2HIGH;
+                        break;
+                    case AppConfig.VIEW_DERIVATIVES:
+                        type = AppConfig.DERIVATIVES_RATE_LOW2HIGH;
+                        break;
+                }
+                List<String> quoteList = arrayMap.get(type);
+                quoteAdapter_market_pop.setDatas(quoteList);
+
+            }
+            img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+            img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+        });
+        view.findViewById(R.id.layout_name).setOnClickListener(v -> {
+            if (arrayMap == null) {
+                return;
+            }
+            if (flag_name) {
+                img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
+                flag_name = false;
+                switch (zone_type) {
+                    case AppConfig.VIEW_OPTIONAL:
+                        type = AppConfig.OPTIONAL_NAME_A2Z;
+                        break;
+                    case AppConfig.VIEW_SPOT:
+                        type = AppConfig.SPOT_NAME_A2Z;
+                        break;
+                    case AppConfig.VIEW_CONTRACT:
+                        type = AppConfig.CONTRACT_NAME_A2Z;
+                        break;
+                    case AppConfig.VIEW_DERIVATIVES:
+                        type = AppConfig.DERIVATIVES_NAME_A2Z;
+                        break;
+                }
+                List<String> quoteList = arrayMap.get(type);
+                quoteAdapter_market_pop.setDatas(quoteList);
+
+            } else {
+                img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
+                flag_name = true;
+                switch (zone_type) {
+                    case AppConfig.VIEW_OPTIONAL:
+                        type = AppConfig.OPTIONAL_NAME_Z2A;
+                        break;
+                    case AppConfig.VIEW_SPOT:
+                        type = AppConfig.SPOT_NAME_Z2A;
+                        break;
+                    case AppConfig.VIEW_CONTRACT:
+                        type = AppConfig.CONTRACT_NAME_Z2A;
+                        break;
+                    case AppConfig.VIEW_DERIVATIVES:
+                        type = AppConfig.DERIVATIVES_NAME_Z2A;
+                        break;
+                }
+                List<String> quoteList = arrayMap.get(type);
+                quoteAdapter_market_pop.setDatas(quoteList);
+
+            }
+            img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+            img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+        });
+
+        tabLayout_market_search.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                //切换都重置为默认
+                flag_new_price = false;
+                flag_up_down = false;
+                flag_name = false;
+                if (arrayMap == null) {
+                    return;
+                }
+
+                if (tab.getPosition() == 0) {
+                    type = AppConfig.OPTIONAL_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL;
+                    quoteList = arrayMap.get(type);
+                    Log.d("print", "onTabSelected:684:  " + quoteList + "  " + type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                } else if (tab.getPosition() == 1) {
+                    type = AppConfig.SPOT_ALL;
+                    zone_type = AppConfig.VIEW_SPOT;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                } else if (tab.getPosition() == 2) {
+                    type = AppConfig.CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_CONTRACT;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                } else if (tab.getPosition() == 3) {
+                    type = AppConfig.DERIVATIVES_ALL;
+                    zone_type = AppConfig.VIEW_DERIVATIVES;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        SwipeRefreshLayout swipeRefreshLayout_market = view.findViewById(R.id.swipeRefreshLayout_market);
+        swipeRefreshLayout_market.setColorSchemeColors(getResources().getColor(R.color.maincolor));
+        /*刷新监听*/
+        swipeRefreshLayout_market.setOnRefreshListener(() -> {
+            swipeRefreshLayout_market.setRefreshing(false);
+            quoteAdapter_market_pop.setDatas(quoteList);
+          /*  String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
+            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+            if (quote_host == null && quote_code == null) {
+                NetManger.getInstance().initQuote();
+                WebSocketManager.getInstance().reconnect();
+            } else {
+                assert quote_host != null;
+                // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
+            }*/
+        });
+
+        quoteAdapter_market_pop.setOnItemClick(data -> {
+            quote_code = TradeUtil.itemQuoteContCode(data);
+            type = "1";
+
+            TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
+            Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
+            //自选的图标
+            String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
+            setList = new HashSet<>();
+            if (optional != null) {
+                String[] split = optional.split(",");
+                for (String a : split) {
+                    setList.add(a);
+                }
+                if (setList.contains(itemQuoteContCode(data))) {
+                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                } else {
+                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                }
+            }
+
+
+            text_market_currency.setText(TradeUtil.listQuoteName(data));
+            text_limit_currency.setText(TradeUtil.listQuoteName(data));
+
+            text_name.setText(listQuoteName(data));
+            if (listQuoteUSD(data) == null) {
+                text_name_usdt.setText("");
+            } else {
+                text_name_usdt.setText(listQuoteUSD(data));
+            }
+            // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
+
+            edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
+            edit_limit_price.setText(listQuotePrice(data));
+
+            // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
+            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+
+
+            Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
+
+            //相应选择
+            popupWindow.dismiss();
+            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
+
+
+            setContent(tradeListEntity);
+
+        });
+
+
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            type =AppConfig.CONTRACT_ALL;
+            tabLayout_market_search.getTabAt(2).select();
+            popupWindow.dismiss();
+        });
+
+        RelativeLayout layout_bar = view.findViewById(R.id.layout_bar);
+
+        edit_search = view.findViewById(R.id.edit_search);
+
+        edit_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    layout_bar.setVisibility(View.GONE);
+                    tabLayout_market_search.setVisibility(View.GONE);
+                    tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
+                    type = "all";
+                    List<String> strings = arrayMap.get(type);
+                    List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
+                    quoteAdapter_market_pop.setDatas(searchQuoteList);
+                } else {
+                    layout_bar.setVisibility(View.VISIBLE);
+                    tabLayout_market_search.setVisibility(View.VISIBLE);
+                    type =AppConfig.CONTRACT_ALL;
+                    List<String> quoteList = arrayMap.get(type);
+                    quoteAdapter_market_pop.setDatas(quoteList);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        Util.dismiss(this, popupWindow);
+        Util.isShowing(this, popupWindow);
+
+
+        animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+        animation.setInterpolator(new AccelerateInterpolator());
+        animation.setDuration(300);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setContentView(view);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAsDropDown(layout_view);
+        //   popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        view.startAnimation(animation);
+
     }
-
-
     @Override
     public void onClick(View v) {
         TabLayout.Tab tabAt = tabLayout.getTabAt(5);
@@ -2021,14 +2435,14 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
-            if (quoteList != null && quoteAdapter_market != null) {
+            if (quoteList != null && quoteAdapter_market_pop != null) {
                 runOnUiThread(() -> {
                     //搜索框
                     if (edit_search.getText().toString().equals("")) {
-                        quoteAdapter_market.setDatas(quoteList);
+                        quoteAdapter_market_pop.setDatas(quoteList);
                     } else {
                         List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), quoteList);
-                        quoteAdapter_market.setDatas(searchQuoteList);
+                        quoteAdapter_market_pop.setDatas(searchQuoteList);
                     }
 
 

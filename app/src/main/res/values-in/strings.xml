@@ -538,5 +538,6 @@ diberikan kepada trader.</string>
     <string name="text_close_all">Apakah Anda yakin untuk menutup semua posisi?</string>
     <string name="text_spot">现货</string>
     <string name="text_contract">合约</string>
+    <string name="hint_follow_amount">5~200</string>
 
 </resources>

@@ -123,15 +123,15 @@ public class Util {
         List<InitEntity.DataBean> dataDetail = data.getData();
         List<String> quoteList = new ArrayList<>();
         String[] split = content.split(";");
-        Log.d("print", "quoteResult: 126: "+split.length+"   "+dataDetail.size());
-        StringBuilder stringBuilder=null;
+        Log.d("print", "quoteResult: 126: " + split.length + "   " + dataDetail.size());
+        StringBuilder stringBuilder = null;
         if (split.length > 0) {
             for (int i = 0; i < split.length; i++) {
-                String a=split[i];
+                String a = split[i];
                 quoteList.add(a);
 
             }
-            Log.d("print", "quoteResult:136:  "+quoteList.size());
+            Log.d("print", "quoteResult:136:  " + quoteList.size());
             return quoteList;
         } else {
             return null;
@@ -142,23 +142,34 @@ public class Util {
         InitEntity data = SPUtils.getData(AppConfig.KEY_COMMODITY, InitEntity.class);
         List<InitEntity.DataBean> dataDetail = data.getData();
         List<String> quoteList = new ArrayList<>();
-        for (int i = 0; i <dataList.size() ; i++) {
+        for (int i = 0; i < dataList.size(); i++) {
             String itemQuote = dataList.get(i);
             String[] split = itemQuote.split(",");
-            for (int j = dataDetail.size()-1; j >0 ; j--) {
-                if (test(split[0]).equals(dataDetail.get(j).getCode())){
-                    quoteList.add(itemQuote+","+dataDetail.get(j).getType()+","+dataDetail.get(j).getZone()+","+dataDetail.get(j).getName());
+            for (int j = dataDetail.size() - 1; j > 0; j--) {
+               // Log.d("print", "quoteResultAdd: "+split[0]+"   "+filter(split[0])+"   "+dataDetail.get(j).getCode()+"   "+filter(dataDetail.get(j).getCode()));
+                if (filter(split[0]).equals(filter(dataDetail.get(j).getCode()))) {
+                    quoteList.add(itemQuote + "," + dataDetail.get(j).getType() + "," + dataDetail.get(j).getZone() + "," + dataDetail.get(j).getName());
                 }
             }
         }
-        return  quoteList;
+        return quoteList;
     }
 
-    private static String test(String content) {
-        return content.substring(0, content.length() - 4);
+    private static String filter(String content) {
+        StringBuilder stringBuilder;
+        ArrayList<String> allSatisfyStr = getAllSatisfyStr(content, "[a-zA-Z]");
+        stringBuilder = new StringBuilder();
+        for (int i = 0; i < allSatisfyStr.size(); i++) {
+            stringBuilder.append(allSatisfyStr.get(i));
+        }
+        //return stringBuilder.toString();
+        if (stringBuilder.toString().contains("_")) {
+            return stringBuilder.toString().replaceAll("_", "");
+        } else {
+            return stringBuilder.toString();
+        }
     }
 
-    //            name = content.substring(0, content.length() - 8) + "/" + content.substring(content.length() - 8, content.length() - 4);
     public static String quoteNme(String content) {
         String name;
         StringBuilder stringBuilder;

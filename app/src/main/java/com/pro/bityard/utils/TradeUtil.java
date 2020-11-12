@@ -34,6 +34,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static com.pro.bityard.utils.Util.getAllSatisfyStr;
 import static java.lang.Double.parseDouble;
 
 public class TradeUtil {
@@ -717,7 +718,9 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String quote : quoteList) {
             String[] split = quote.split(",");
-            if (!split[0].contains("ETH") && !split[0].contains("BCH") && !split[0].contains("BTC")) {
+            if (split[0].contains("DASH") || split[0].contains("XRP") || split[0].contains("ETC")
+                    || split[0].contains("TRX") || split[0].contains("LTC") || split[0].contains("EOS")
+                    || split[0].contains("LINK")) {
                 quoteList2.add(quote);
             }
         }
@@ -777,14 +780,27 @@ public class TradeUtil {
         return quoteList2;
     }
 
-    /*主区*/
-    public static List<String> mainQuoteList(List<String> quoteList) {
-        Log.d("print", "mainQuoteList:782:  "+quoteList);
+    /* 合约*/
+    public static List<String> contractQuoteList(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length-3].equals("FT")&&split[length-2].equals("1")) {
+            if (split[length - 3].equals(AppConfig.TYPE_FT)) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
+
+    /*主区*/
+    public static List<String> mainQuoteList(List<String> quoteList) {
+        Log.d("print", "mainQuoteList:782:  " + quoteList);
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            int length = split.length;
+            if (split[length - 3].equals(AppConfig.TYPE_FT) && split[length - 2].equals(AppConfig.ZONE_MAIN)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -798,7 +814,7 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length-3].equals("FT")&&split[length-2].equals("2")) {
+            if (split[length - 3].equals(AppConfig.TYPE_FT) && split[length - 2].equals(AppConfig.ZONE_INNOVATION)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -811,7 +827,7 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length-3].equals("FT")&&split[length-2].equals("3")) {
+            if (split[length - 3].equals(AppConfig.TYPE_FT) && split[length - 2].equals(AppConfig.ZONE_DERIVATIVES)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -824,7 +840,33 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length-3].equals("CH")&&split[length-2].equals("3")) {
+            if (split[length - 3].equals(AppConfig.TYPE_CH)) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
+
+    /* 现货DEFI*/
+    public static List<String> spotDEFIQuoteList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            int length = split.length;
+            if (split[length - 3].equals(AppConfig.TYPE_CH) && split[length - 2].equals(AppConfig.ZONE_DEFI)) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
+
+    /* 现货DEFI*/
+    public static List<String> spotPOSQuoteList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            int length = split.length;
+            if (split[length - 3].equals(AppConfig.TYPE_CH) && split[length - 2].equals(AppConfig.ZONE_POS)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -842,7 +884,7 @@ public class TradeUtil {
             List<String> quoteList2 = new ArrayList<>();
             for (String mainQuote : quoteList) {
                 String[] split = mainQuote.split(",");
-                if (optional.contains(TradeUtil.listQuoteName(split[0]))) {
+                if (optional.contains(TradeUtil.filter(split[0]))) {
                     quoteList2.add(mainQuote);
                 }
             }
@@ -1007,7 +1049,6 @@ public class TradeUtil {
     }
 
 
-
     /*获取单个的手续费*/
     public static void chargeDetail(String code, JSONObject jsonObject, OnResult onResult) {
 
@@ -1113,6 +1154,22 @@ public class TradeUtil {
         return split[12];
     }
 
+    public static String filter(String content) {
+        StringBuilder stringBuilder;
+        ArrayList<String> allSatisfyStr = getAllSatisfyStr(content, "[a-zA-Z]");
+        stringBuilder = new StringBuilder();
+        for (int i = 0; i < allSatisfyStr.size(); i++) {
+            stringBuilder.append(allSatisfyStr.get(i));
+        }
+        //return stringBuilder.toString();
+        if (stringBuilder.toString().contains("_")) {
+            return stringBuilder.toString().replaceAll("_", "");
+        } else {
+            return stringBuilder.toString();
+        }
+    }
+
+
     /*名称*/
     public static String listQuoteName(String quote) {
         String[] split = quote.split(",");
@@ -1127,9 +1184,25 @@ public class TradeUtil {
         }
     }
 
+
+    /*获取商品类型*/
+    public static String type(String quote) {
+        String[] split = quote.split(",");
+        return split[split.length - 3];
+    }
+
+    public static String zone(String quote) {
+        String[] split = quote.split(",");
+        return split[split.length - 2];
+    }
+    public static String name(String quote) {
+        String[] split = quote.split(",");
+        return split[split.length - 1];
+    }
+
     public static String newListQuoteName(String quote) {
         String[] split = quote.split(",");
-        return split[split.length-1];
+        return split[split.length - 1];
     }
 
     /*usdt*/
