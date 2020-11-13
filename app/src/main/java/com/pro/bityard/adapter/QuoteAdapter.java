@@ -21,6 +21,7 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
+import static com.pro.bityard.utils.TradeUtil.tradeDetail;
 
 public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -104,15 +105,17 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             String type = TradeUtil.type(datas.get(position));
             String zone = TradeUtil.zone(datas.get(position));
-            String name, currency;
+            String name=null, currency = null;
             if (type.equals(AppConfig.TYPE_FT) && zone.equals(AppConfig.ZONE_MAIN)) {
                 name = TradeUtil.listQuoteName(datas.get(position));
                 currency = TradeUtil.listQuoteUSD(datas.get(position));
-            } else {
+            } else if (type.equals(AppConfig.TYPE_FT)&&zone.equals(AppConfig.ZONE_DERIVATIVES)){
+                name = TradeUtil.name(datas.get(position))+TradeUtil.listQuoteName(datas.get(position));
+                currency = null;
+            }else if (type.equals(AppConfig.TYPE_CH)){
                 name = TradeUtil.name(datas.get(position));
                 currency = null;
             }
-
 
             if (currency == null) {
                 ((MyViewHolder) holder).text_name_usdt.setText("");

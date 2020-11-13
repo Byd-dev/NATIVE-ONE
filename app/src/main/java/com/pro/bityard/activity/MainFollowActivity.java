@@ -1369,15 +1369,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
             popupWindow.dismiss();
-            type =AppConfig.CONTRACT_ALL;
+            type =AppConfig.SPOT_ALL;
             TradeActivity.enter(this, "1", data);
 
         });
 
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
-            type =AppConfig.CONTRACT_ALL;
-            tabLayout_market.getTabAt(2).select();
+            type =AppConfig.SPOT_ALL;
+            tabLayout_market.getTabAt(AppConfig.selectPosition).select();
             popupWindow.dismiss();
         });
 
