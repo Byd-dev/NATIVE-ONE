@@ -78,7 +78,6 @@ public class TradeListManger extends Observable {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("code", codeList);
         String[] codeSplitList = codeList.split(";");
-        Log.d("print", "getTradeList: "+codeList);
         NetManger.getInstance().getRequest("/api/trade/commodity/tradeList", map, new OnNetResult() {
             @Override
             public void onNetResult(String state, Object response) {

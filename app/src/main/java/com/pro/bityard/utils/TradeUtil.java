@@ -875,6 +875,7 @@ public class TradeUtil {
     /* 自选*/
     public static List<String> optionalQuoteList(List<String> quoteList) {
         String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
+        Log.d("print", "optionalQuoteList:878:  "+optional);
         if (optional == null) {
             return null;
         } else if (optional.equals("")) {
@@ -883,7 +884,7 @@ public class TradeUtil {
             List<String> quoteList2 = new ArrayList<>();
             for (String mainQuote : quoteList) {
                 String[] split = mainQuote.split(",");
-                if (optional.contains(TradeUtil.filter(split[0]))) {
+                if (optional.contains(TradeUtil.listSpotQuoteName(split[0]))) {
                     quoteList2.add(mainQuote);
                 }
             }
@@ -1172,7 +1173,8 @@ public class TradeUtil {
     /*名称*/
     public static String listQuoteName(String quote) {
         String[] split = quote.split(",");
-        String s = Util.quoteList(split[0]);
+        String cc = split[0].replaceAll("_CC", "");
+        String s = Util.quoteList(cc);
         if (s != null) {
             String[] split1 = s.split(",");
             return split1[0];

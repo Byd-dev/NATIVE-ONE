@@ -697,7 +697,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             for (String a : split) {
                 setList.add(a);
             }
-            if (setList.contains(itemQuoteContCode(itemData))) {
+            if (setList.contains(TradeUtil.name(itemData))) {
                 img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
             } else {
                 img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
@@ -997,398 +997,6 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
     private QuoteAdapter quoteAdapter_market_pop;
 
-    /*显示行情选择的按钮*/
-   /* private void showQuotePopWindow() {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.quote_market, null);
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-
-
-        TabLayout tabLayout_market = view.findViewById(R.id.tabLayout_market);
-        titleList = new ArrayList<>();
-        titleList.add(getString(R.string.text_optional));
-        titleList.add(getString(R.string.text_spot));
-        titleList.add(getString(R.string.text_contract));
-        titleList.add(getString(R.string.text_derived));
-
-        LinearLayout layout_null = view.findViewById(R.id.layout_null);
-
-        RecyclerView recyclerView_market = view.findViewById(R.id.recyclerView_market);
-
-        quoteAdapter_market = new QuoteAdapter(TradeActivity.this);
-        recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView_market.setAdapter(quoteAdapter_market);
-
-        quoteAdapter_market.setDatas(quoteList);
-        quoteAdapter_market.isShowIcon(false);
-        ImageView img_price_triangle = view.findViewById(R.id.img_price_triangle);
-
-        ImageView img_rate_triangle = view.findViewById(R.id.img_rate_triangle);
-
-        ImageView img_name_triangle = view.findViewById(R.id.img_name_triangle);
-
-
-        for (String market_name : titleList) {
-            tabLayout_market.addTab(tabLayout_market.newTab().setText(market_name));
-        }
-        tabLayout_market.getTabAt(1).select();
-        view.findViewById(R.id.layout_new_price).setOnClickListener(v -> {
-            if (arrayMap == null) {
-                return;
-            }
-
-            if (flag_new_price) {
-                img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
-                flag_new_price = false;
-                if (zone_type == 1) {
-                    type = "1";
-                } else if (zone_type == 0) {
-                    type = "10";
-                } else if (zone_type == -1) {
-                    type = "17";
-                } else if (zone_type == 2) {
-                    type = "24";
-                }
-                List<String> quoteList = arrayMap.get(type);
-                quoteAdapter_market.setDatas(quoteList);
-
-
-            } else {
-
-                img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
-                flag_new_price = true;
-                if (zone_type == 1) {
-                    type = "2";
-                } else if (zone_type == 0) {
-                    type = "11";
-
-                } else if (zone_type == -1) {
-                    type = "18";
-                } else if (zone_type == 2) {
-                    type = "25";
-                }
-                List<String> quoteList = arrayMap.get(type);
-                quoteAdapter_market.setDatas(quoteList);
-
-            }
-            img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-            img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-
-        });
-        view.findViewById(R.id.layout_up_down).setOnClickListener(v -> {
-            if (arrayMap == null) {
-                return;
-            }
-            if (flag_up_down) {
-                img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
-                flag_up_down = false;
-                if (zone_type == 1) {
-                    type = "3";
-                } else if (zone_type == 0) {
-                    type = "12";
-                } else if (zone_type == -1) {
-                    type = "19";
-                } else if (zone_type == 2) {
-                    type = "26";
-                }
-
-                List<String> quoteList = arrayMap.get(type);
-
-                quoteAdapter_market.setDatas(quoteList);
-
-            } else {
-                img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
-                flag_up_down = true;
-                if (zone_type == 1) {
-                    type = "4";
-                } else if (zone_type == 0) {
-                    type = "13";
-
-                } else if (zone_type == -1) {
-                    type = "20";
-                } else if (zone_type == 2) {
-                    type = "27";
-                }
-                List<String> quoteList = arrayMap.get(type);
-                quoteAdapter_market.setDatas(quoteList);
-
-            }
-            img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-            img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-        });
-        view.findViewById(R.id.layout_name).setOnClickListener(v -> {
-            if (arrayMap == null) {
-                return;
-            }
-            if (flag_name) {
-                img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
-                flag_name = false;
-                if (zone_type == 1) {
-                    type = "8";
-                } else if (zone_type == 0) {
-                    type = "15";
-
-                } else if (zone_type == -1) {
-                    type = "21";
-                } else if (zone_type == 2) {
-                    type = "28";
-                }
-                List<String> quoteList = arrayMap.get(type);
-                quoteAdapter_market.setDatas(quoteList);
-
-            } else {
-                img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
-                flag_name = true;
-                if (zone_type == 1) {
-                    type = "7";
-                } else if (zone_type == 0) {
-                    type = "14";
-
-                } else if (zone_type == -1) {
-                    type = "22";
-                } else if (zone_type == 2) {
-                    type = "29";
-                }
-                List<String> quoteList = arrayMap.get(type);
-                quoteAdapter_market.setDatas(quoteList);
-
-            }
-            img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-            img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-        });
-
-        tabLayout_market.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                //切换都重置为默认
-                flag_new_price = false;
-                flag_up_down = false;
-                flag_name = false;
-                if (arrayMap == null) {
-                    return;
-                }
-
-                if (tab.getPosition() == 0) {
-                    type = "16";
-
-                    quoteList = arrayMap.get(type);
-                    Log.d("print", "onTabSelected:684:  " + quoteList + "  " + type);
-                    if (quoteList == null) {
-                        layout_null.setVisibility(View.VISIBLE);
-                        recyclerView_market.setVisibility(View.GONE);
-                    } else {
-                        layout_null.setVisibility(View.GONE);
-                        recyclerView_market.setVisibility(View.VISIBLE);
-                        quoteAdapter_market.setDatas(quoteList);
-                    }
-                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    zone_type = -1;
-                } else if (tab.getPosition() == 1) {
-                    type = "0";
-
-                    quoteList = arrayMap.get(type);
-                    if (quoteList == null) {
-                        layout_null.setVisibility(View.VISIBLE);
-                        recyclerView_market.setVisibility(View.GONE);
-                    } else {
-                        layout_null.setVisibility(View.GONE);
-                        recyclerView_market.setVisibility(View.VISIBLE);
-                        quoteAdapter_market.setDatas(quoteList);
-                    }
-                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    zone_type = 1;
-                } else if (tab.getPosition() == 2) {
-                    type = "9";
-
-                    quoteList = arrayMap.get(type);
-                    if (quoteList == null) {
-                        layout_null.setVisibility(View.VISIBLE);
-                        recyclerView_market.setVisibility(View.GONE);
-                    } else {
-                        layout_null.setVisibility(View.GONE);
-                        recyclerView_market.setVisibility(View.VISIBLE);
-                        quoteAdapter_market.setDatas(quoteList);
-                    }
-                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    zone_type = 0;
-                } else if (tab.getPosition() == 3) {
-                    type = "23";
-
-                    quoteList = arrayMap.get(type);
-                    if (quoteList == null) {
-                        layout_null.setVisibility(View.VISIBLE);
-                        recyclerView_market.setVisibility(View.GONE);
-                    } else {
-                        layout_null.setVisibility(View.GONE);
-                        recyclerView_market.setVisibility(View.VISIBLE);
-                        quoteAdapter_market.setDatas(quoteList);
-                    }
-                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    zone_type = 2;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        SwipeRefreshLayout swipeRefreshLayout_market = view.findViewById(R.id.swipeRefreshLayout_market);
-        Util.colorSwipe(this, swipeRefreshLayout_market);
-
-        swipeRefreshLayout_market.setOnRefreshListener(() -> {
-            swipeRefreshLayout_market.setRefreshing(false);
-            quoteAdapter_market.setDatas(quoteList);
-            String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
-            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-            if (quote_host == null && quote_code == null) {
-                NetManger.getInstance().initQuote();
-                WebSocketManager.getInstance().reconnect();
-            } else {
-                assert quote_host != null;
-                // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
-            }
-        });
-
-        quoteAdapter_market.setOnItemClick(data -> {
-            quote_code = TradeUtil.itemQuoteContCode(data);
-            type = "1";
-
-            TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
-            Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
-            //自选的图标
-            String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
-            setList = new HashSet<>();
-            if (optional != null) {
-                String[] split = optional.split(",");
-                for (String a : split) {
-                    setList.add(a);
-                }
-                if (setList.contains(itemQuoteContCode(data))) {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                } else {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-                }
-            }
-
-
-            text_market_currency.setText(TradeUtil.listQuoteName(data));
-            text_limit_currency.setText(TradeUtil.listQuoteName(data));
-
-            text_name.setText(listQuoteName(data));
-            if (listQuoteUSD(data) == null) {
-                text_name_usdt.setText("");
-            } else {
-                text_name_usdt.setText(listQuoteUSD(data));
-            }
-            // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
-
-            edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
-            edit_limit_price.setText(listQuotePrice(data));
-
-            // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-
-
-            Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
-
-            //相应选择
-            popupWindow.dismiss();
-            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
-
-
-            setContent(tradeListEntity);
-
-
-        });
-
-
-        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
-            popupWindow.dismiss();
-            type = "1";
-        });
-
-        RelativeLayout layout_bar = view.findViewById(R.id.layout_bar);
-
-        edit_search = view.findViewById(R.id.edit_search);
-
-        edit_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.length() != 0) {
-                    layout_bar.setVisibility(View.GONE);
-                    tabLayout_market.setVisibility(View.GONE);
-                    tabLayout_market.getTabAt(1).select();
-                    type = "all";
-                    List<String> strings = arrayMap.get(type);
-                    List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
-                    quoteAdapter_market.setDatas(searchQuoteList);
-                } else {
-                    layout_bar.setVisibility(View.VISIBLE);
-                    tabLayout_market.setVisibility(View.VISIBLE);
-                    type = "1";
-                    List<String> quoteList = arrayMap.get(type);
-                    quoteAdapter_market.setDatas(quoteList);
-
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-
-        Util.dismiss(this, popupWindow);
-        Util.isShowing(this, popupWindow);
-
-
-        animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
-                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
-        animation.setInterpolator(new AccelerateInterpolator());
-        animation.setDuration(300);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        popupWindow.setFocusable(true);
-        popupWindow.setContentView(view);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.showAsDropDown(layout_view);
-        //   popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-        view.startAnimation(animation);
-
-    }*/
 
     /*显示行情选择的按钮*/
     private void showQuotePopWindow() {
@@ -1694,7 +1302,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 for (String a : split) {
                     setList.add(a);
                 }
-                if (setList.contains(itemQuoteContCode(data))) {
+                if (setList.contains(TradeUtil.name(data))) {
                     img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {
                     img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
@@ -1859,23 +1467,22 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             //自选的监听
             case R.id.layout_optional:
 
-                String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
                 if (quoteMinEntity != null) {
-                    if (setList.contains(quoteMinEntity.getSymbol())) {
+                    if (setList.contains(TradeUtil.listSpotQuoteName(quoteMinEntity.getSymbol()))) {
                         img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-                        setList.remove(quoteMinEntity.getSymbol());
+                        setList.remove(TradeUtil.listSpotQuoteName(quoteMinEntity.getSymbol()));
                     } else {
                         img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                        setList.add(quoteMinEntity.getSymbol());
+                        setList.add(TradeUtil.listSpotQuoteName(quoteMinEntity.getSymbol()));
                     }
                     SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
                 } else {
-                    if (setList.contains(listQuoteName(itemData))) {
+                    if (setList.contains(TradeUtil.name(itemData))) {
                         img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-                        setList.remove(listQuoteName(itemData));
+                        setList.remove(TradeUtil.name(itemData));
                     } else {
                         img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                        setList.add(listQuoteName(itemData));
+                        setList.add(TradeUtil.name(itemData));
                     }
                     SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
                 }
@@ -2319,7 +1926,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 for (String a : split) {
                     setList.add(a);
                 }
-                if (setList.contains(itemQuoteContCode(data))) {
+                if (setList.contains(TradeUtil.name(data))) {
                     img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {
                     img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
