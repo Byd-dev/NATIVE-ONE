@@ -108,7 +108,6 @@ import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
 import static com.pro.bityard.utils.TradeUtil.listQuoteName;
 import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
-import static com.pro.bityard.utils.TradeUtil.listQuoteUSD;
 import static com.pro.bityard.utils.TradeUtil.marginMax;
 import static com.pro.bityard.utils.TradeUtil.marginMin;
 import static com.pro.bityard.utils.TradeUtil.marginOrder;
@@ -583,7 +582,6 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                         break;
                     case 2:
                         Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-
                         Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
 
 
@@ -705,8 +703,11 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
             }
         }
-        text_market_currency.setText(TradeUtil.listQuoteName(itemData));
-        text_limit_currency.setText(TradeUtil.listQuoteName(itemData));
+        text_name.setText(TradeUtil.name(itemData));
+        text_name_usdt.setText(TradeUtil.currency(itemData));
+
+        text_market_currency.setText(TradeUtil.currency(itemData));
+        text_limit_currency.setText(TradeUtil.currency(itemData));
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             // Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -1);
@@ -750,13 +751,6 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         }, 3000);
 
 
-        String[] split1 = Util.quoteList(itemQuoteContCode(itemData)).split(",");
-        text_name.setText(split1[0]);
-        if (split1[1].equals("null")) {
-            text_name_usdt.setText("");
-        } else {
-            text_name_usdt.setText(split1[1]);
-        }
         text_lastPrice.setText(listQuotePrice(itemData));
         edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(itemData)));//根据不同的小数位限制
         edit_limit_price.setText(listQuotePrice(itemData));
@@ -997,8 +991,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
     private boolean flag_new_price = false;
     private boolean flag_up_down = false;
     private boolean flag_name = false;
-    private String type =AppConfig.CONTRACT_ALL ;
-    private String zone_type = AppConfig.VIEW_CONTRACT;//-1是自选 1是主区 0是创新区 2是衍生品
+    private String type = AppConfig.SPOT_ALL;
+    private String zone_type = AppConfig.VIEW_SPOT;//-1是自选 1是主区 0是创新区 2是衍生品
     private ArrayMap<String, List<String>> arrayMap;
 
     private QuoteAdapter quoteAdapter_market_pop;
@@ -1688,7 +1682,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
-            type = "1";
+            type = AppConfig.SPOT_ALL;
 
             TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
             Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
@@ -1708,15 +1702,16 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             }
 
 
-            text_market_currency.setText(TradeUtil.listQuoteName(data));
-            text_limit_currency.setText(TradeUtil.listQuoteName(data));
+            text_market_currency.setText(TradeUtil.currency(data));
+            text_limit_currency.setText(TradeUtil.currency(data));
 
-            text_name.setText(listQuoteName(data));
-            if (listQuoteUSD(data) == null) {
+            text_name.setText(TradeUtil.name(data));
+            text_name_usdt.setText(TradeUtil.currency(data));
+            /*if (listQuoteUSD(data) == null) {
                 text_name_usdt.setText("");
             } else {
                 text_name_usdt.setText(listQuoteUSD(data));
-            }
+            }*/
             // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
 
             edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
@@ -1752,8 +1747,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
-            type =AppConfig.CONTRACT_ALL;
-            tabLayout_market_search.getTabAt(2).select();
+            type = AppConfig.SPOT_ALL;
+            tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
             popupWindow.dismiss();
         });
 
@@ -1773,14 +1768,14 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                     layout_bar.setVisibility(View.GONE);
                     tabLayout_market_search.setVisibility(View.GONE);
                     tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
-                    type = "all";
+                    type = AppConfig.SPOT_ALL;
                     List<String> strings = arrayMap.get(type);
                     List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
                     quoteAdapter_market_pop.setDatas(searchQuoteList);
                 } else {
                     layout_bar.setVisibility(View.VISIBLE);
                     tabLayout_market_search.setVisibility(View.VISIBLE);
-                    type =AppConfig.CONTRACT_ALL;
+                    type = AppConfig.SPOT_ALL;
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market_pop.setDatas(quoteList);
 
@@ -1811,6 +1806,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         view.startAnimation(animation);
 
     }
+
     @Override
     public void onClick(View v) {
         TabLayout.Tab tabAt = tabLayout.getTabAt(5);
@@ -1823,6 +1819,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 break;
             case R.id.layout_product:
                 Util.lightOff(this);
+
                 showQuotePopWindow();
                 //showProductWindow(quoteList);
                 break;
@@ -2330,15 +2327,17 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             }
 
 
-            text_market_currency.setText(TradeUtil.listQuoteName(data));
-            text_limit_currency.setText(TradeUtil.listQuoteName(data));
+            text_market_currency.setText(TradeUtil.currency(data));
+            text_limit_currency.setText(TradeUtil.currency(data));
 
-            text_name.setText(listQuoteName(data));
-            if (listQuoteUSD(data) == null) {
+            text_name.setText(TradeUtil.name(data));
+            text_name_usdt.setText(TradeUtil.currency(data));
+
+           /* if (listQuoteUSD(data) == null) {
                 text_name_usdt.setText("");
             } else {
                 text_name_usdt.setText(listQuoteUSD(data));
-            }
+            }*/
             // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
 
             edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
@@ -2715,7 +2714,6 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             kData15MinHistory = ChartUtil.klineList(data);
 
             if (kData15MinHistory != null) {
-
                 myKLineView_15Min.initKDataList(kData15MinHistory);
             } else {
                 if (quoteMinEntity != null) {

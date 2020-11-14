@@ -85,8 +85,8 @@ public class QuotePopAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
             ((MyViewHolder) holder).text_price.setText(TradeUtil.listQuotePrice(datas.get(position)));
-            ((MyViewHolder) holder).text_name.setText(TradeUtil.listQuoteName(datas.get(position)));
-            ((MyViewHolder) holder).text_name_usdt.setText(TradeUtil.listQuoteUSD(datas.get(position)));
+            ((MyViewHolder) holder).text_name.setText(TradeUtil.name(datas.get(position)));
+            ((MyViewHolder) holder).text_name_usdt.setText(TradeUtil.currency(datas.get(position)));
 
             String Code = TradeUtil.itemQuoteContCode(datas.get(position));
             if (contCode==null){

@@ -92,7 +92,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
                 //现货
                 List<String> spotQuoteList = TradeUtil.spotQuoteList(strings);
-                Log.d("print", "onMessage: 95: "+spotQuoteList);
                 //价格从高到低
                 List<String> spotQuoteList_price_high2low = TradeUtil.priceHighToLow(spotQuoteList);
                 //价格从低到高
@@ -112,7 +111,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
                 //合约
                 List<String> contractQuoteList = TradeUtil.contractQuoteList(strings);
-                Log.d("print", "onMessage: 115: "+contractQuoteList);
 
                 //价格从高到低
                 List<String> contractQuoteList_price_high2low = TradeUtil.priceHighToLow(contractQuoteList);

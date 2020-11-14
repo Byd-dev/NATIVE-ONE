@@ -135,7 +135,6 @@ public class WithdrawHistoryAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             long createTime = datas.get(position).getCreateTime();
             long time = System.currentTimeMillis();
             long l = time - createTime;
-            Log.d("print", "onBindViewHolder:136:  " + createTime + "    " + time + "    差值:   " + l);
 
             if (l < 10 * 60 * 1000) {
                 ((MyViewHolder) holder).text_status.setText(R.string.text_cancel_position);

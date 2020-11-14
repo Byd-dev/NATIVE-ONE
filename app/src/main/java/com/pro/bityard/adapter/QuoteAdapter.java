@@ -1,6 +1,7 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,6 @@ import java.util.List;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
-import static com.pro.bityard.utils.TradeUtil.tradeDetail;
 
 public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
@@ -103,26 +103,16 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof MyViewHolder) {
 
 
-            String type = TradeUtil.type(datas.get(position));
-            String zone = TradeUtil.zone(datas.get(position));
-            String name=null, currency = null;
-            if (type.equals(AppConfig.TYPE_FT) && zone.equals(AppConfig.ZONE_MAIN)) {
-                name = TradeUtil.listQuoteName(datas.get(position));
-                currency = TradeUtil.listQuoteUSD(datas.get(position));
-            } else if (type.equals(AppConfig.TYPE_FT)&&zone.equals(AppConfig.ZONE_DERIVATIVES)){
-                name = TradeUtil.name(datas.get(position))+TradeUtil.listQuoteName(datas.get(position));
-                currency = null;
-            }else if (type.equals(AppConfig.TYPE_CH)){
-                name = TradeUtil.name(datas.get(position));
-                currency = null;
-            }
+
+            String name , currency ;
+            name = TradeUtil.name(datas.get(position));
+            currency = TradeUtil.currency(datas.get(position));
 
             if (currency == null) {
                 ((MyViewHolder) holder).text_name_usdt.setText("");
             } else {
                 ((MyViewHolder) holder).text_name_usdt.setText("/" + currency);
             }
-
 
             if (isShow) {
                 ChartUtil.setIcon(name, ((MyViewHolder) holder).img_icon);

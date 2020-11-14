@@ -940,7 +940,6 @@ public class DeviceUtil {
         String locationProvider = locationManager.getBestProvider(criteria, true);
 
 
-        Log.d("print", "judgeProvider:896:  " + locationProvider);
         // String locationProvider = null;
 
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED

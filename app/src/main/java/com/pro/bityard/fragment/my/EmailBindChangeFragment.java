@@ -119,7 +119,6 @@ public class EmailBindChangeFragment extends BaseFragment implements View.OnClic
     public void onResume() {
         super.onResume();
         loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-        Log.d("print", "onResume:136:  " + loginEntity);
         if (loginEntity != null) {
             LoginEntity.UserBean user = loginEntity.getUser();
 

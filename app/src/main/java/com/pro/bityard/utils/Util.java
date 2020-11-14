@@ -123,7 +123,6 @@ public class Util {
         List<InitEntity.DataBean> dataDetail = data.getData();
         List<String> quoteList = new ArrayList<>();
         String[] split = content.split(";");
-        Log.d("print", "quoteResult: 126: " + split.length + "   " + dataDetail.size());
         StringBuilder stringBuilder = null;
         if (split.length > 0) {
             for (int i = 0; i < split.length; i++) {
@@ -131,7 +130,6 @@ public class Util {
                 quoteList.add(a);
 
             }
-            Log.d("print", "quoteResult:136:  " + quoteList.size());
             return quoteList;
         } else {
             return null;
@@ -146,9 +144,13 @@ public class Util {
             String itemQuote = dataList.get(i);
             String[] split = itemQuote.split(",");
             for (int j = dataDetail.size() - 1; j > 0; j--) {
-               // Log.d("print", "quoteResultAdd: "+split[0]+"   "+filter(split[0])+"   "+dataDetail.get(j).getCode()+"   "+filter(dataDetail.get(j).getCode()));
+                // Log.d("print", "quoteResultAdd: "+split[0]+"   "+filter(split[0])+"   "+dataDetail.get(j).getCode()+"   "+filter(dataDetail.get(j).getCode()));
                 if (filter(split[0]).equals(filter(dataDetail.get(j).getCode()))) {
-                    quoteList.add(itemQuote + "," + dataDetail.get(j).getType() + "," + dataDetail.get(j).getZone() + "," + dataDetail.get(j).getName());
+                    quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
+                            + "," + dataDetail.get(j).getZone()
+                            + "," + dataDetail.get(j).getCode().replaceAll("_CC", "").replaceAll(data.getBrand().getDefaultCurrency(), "")
+                            + "," + data.getBrand().getDefaultCurrency()
+                    );
                 }
             }
         }

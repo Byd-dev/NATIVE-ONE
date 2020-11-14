@@ -10,7 +10,6 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.FundItemEntity;
-import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
@@ -786,8 +785,8 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if ((split[length - 3].equals(AppConfig.TYPE_FT)&&split[length - 2].equals(AppConfig.ZONE_MAIN))||
-                    (split[length - 3].equals(AppConfig.TYPE_FT)&&split[length - 2].equals(AppConfig.ZONE_INNOVATION))) {
+            if ((split[length - 4].equals(AppConfig.TYPE_FT) && split[length - 3].equals(AppConfig.ZONE_MAIN)) ||
+                    (split[length - 4].equals(AppConfig.TYPE_FT) && split[length - 3].equals(AppConfig.ZONE_INNOVATION))) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -796,12 +795,11 @@ public class TradeUtil {
 
     /*主区*/
     public static List<String> mainQuoteList(List<String> quoteList) {
-        Log.d("print", "mainQuoteList:782:  " + quoteList);
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length - 3].equals(AppConfig.TYPE_FT) && split[length - 2].equals(AppConfig.ZONE_MAIN)) {
+            if (split[length - 4].equals(AppConfig.TYPE_FT) && split[length - 3].equals(AppConfig.ZONE_MAIN)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -815,7 +813,7 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length - 3].equals(AppConfig.TYPE_FT) && split[length - 2].equals(AppConfig.ZONE_INNOVATION)) {
+            if (split[length - 4].equals(AppConfig.TYPE_FT) && split[length - 3].equals(AppConfig.ZONE_INNOVATION)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -828,7 +826,7 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length - 3].equals(AppConfig.TYPE_FT) && split[length - 2].equals(AppConfig.ZONE_DERIVATIVES)) {
+            if (split[length - 4].equals(AppConfig.TYPE_FT) && split[length - 3].equals(AppConfig.ZONE_DERIVATIVES)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -841,7 +839,7 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length - 3].equals(AppConfig.TYPE_CH)) {
+            if (split[length - 4].equals(AppConfig.TYPE_CH)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -854,7 +852,7 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length - 3].equals(AppConfig.TYPE_CH) && split[length - 2].equals(AppConfig.ZONE_DEFI)) {
+            if (split[length - 4].equals(AppConfig.TYPE_CH) && split[length - 3].equals(AppConfig.ZONE_DEFI)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -867,7 +865,7 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if (split[length - 3].equals(AppConfig.TYPE_CH) && split[length - 2].equals(AppConfig.ZONE_POS)) {
+            if (split[length - 4].equals(AppConfig.TYPE_CH) && split[length - 3].equals(AppConfig.ZONE_POS)) {
                 quoteList2.add(mainQuote);
             }
         }
@@ -1174,7 +1172,6 @@ public class TradeUtil {
     /*名称*/
     public static String listQuoteName(String quote) {
         String[] split = quote.split(",");
-
         String s = Util.quoteList(split[0]);
         if (s != null) {
             String[] split1 = s.split(",");
@@ -1185,18 +1182,31 @@ public class TradeUtil {
         }
     }
 
+    public static String listSpotQuoteName(String quote) {
+        String[] split = quote.split(",");
+        String cc = split[0].replaceAll("_CC", "");
+        String filter = filter(cc).replaceAll("USDT", "");
+        return filter;
+    }
+
 
     /*获取商品类型*/
     public static String type(String quote) {
         String[] split = quote.split(",");
-        return split[split.length - 3];
+        return split[split.length - 4];
     }
 
     public static String zone(String quote) {
         String[] split = quote.split(",");
+        return split[split.length - 3];
+    }
+
+    public static String name(String quote) {
+        String[] split = quote.split(",");
         return split[split.length - 2];
     }
-    public static String name(String quote) {
+
+    public static String currency(String quote) {
         String[] split = quote.split(",");
         return split[split.length - 1];
     }
@@ -1216,6 +1226,9 @@ public class TradeUtil {
             return split1[1];
         }
     }
+
+
+
 
     /*名称合起来*/
     public static String listQuoteNameUSD(String quote) {

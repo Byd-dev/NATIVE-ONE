@@ -90,7 +90,6 @@ public class TradeListManger extends Observable {
                     try {
                         jsonObject = new JSONObject(response.toString());
                         JSONObject jsonObject1 = (JSONObject) jsonObject.get("data");
-                        Log.d("print", "onNetResult:96:  " + jsonObject1.length());
                         tradeListEntityList = new ArrayList<>();
                         Iterator<String> keys = jsonObject1.keys();
                         while (keys.hasNext()){
@@ -103,7 +102,6 @@ public class TradeListManger extends Observable {
                                 }
                             }
                         }
-                        Log.d("print", "onNetResult:106: " + tradeListEntityList.size());
                         setTradeListEntityList(tradeListEntityList);
                         onNetResult.onNetResult(SUCCESS, tradeListEntityList);
                         postTradeList(tradeListEntityList);
