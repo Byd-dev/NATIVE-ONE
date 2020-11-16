@@ -1,6 +1,8 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +17,16 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
 import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
+import static com.pro.bityard.utils.TradeUtil.income;
 import static com.pro.bityard.utils.TradeUtil.positionPrice;
 
 public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -37,6 +42,7 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public boolean isLoadMore = false;
 
+    private ArrayMap<String,String> changeData;
 
     private List<Double> incomeList;
 
@@ -50,6 +56,13 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.datas = datas;
         this.quoteList = quoteList;
         this.notifyDataSetChanged();
+    }
+
+    public void refreshPartItem(int position, ArrayMap<String,String> map) {
+        // 局部刷新的主要api，参数一：更新的item位置，参数二：item中被标记的某个数据
+        this.changeData = map;
+        notifyItemChanged(position, map);  // changePos 为0：数据1   为1：数据2
+
     }
 
     public void addDatas(List<PositionEntity.DataBean> datas) {
@@ -98,6 +111,28 @@ public class PendingAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
     }
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        Log.d("PayloadAdapter", "onBindViewHolder payload PositionAdapter" + payloads);
+        if (holder instanceof MyViewHolder) {
+            if (payloads.isEmpty()) {
+                onBindViewHolder(holder, position);
+            } else {
+                String contractCode = datas.get(position).getContractCode();
+                Iterator<String> iterator = changeData.keySet().iterator();
+                while (iterator.hasNext()){
+                    String next = iterator.next();
+                    if (contractCode.equals(next)){
+                        String price = changeData.get(next);
+                        ((MyViewHolder) holder).text_price.setText(price);
+                    }
+                }
+            }
+        }
+
+
+    }
+
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {

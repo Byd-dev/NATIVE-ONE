@@ -1313,6 +1313,8 @@ public class PositionFragment extends BaseFragment implements Observer {
     }
 
 
+    ArrayMap<String, String> map;
+
     @Override
     public void update(Observable o, Object arg) {
 
@@ -1327,25 +1329,24 @@ public class PositionFragment extends BaseFragment implements Observer {
                         setIncome(quoteList, positionEntity); //整体盈亏
                         setNetIncome(tradeType, positionEntity.getData(), quoteList);  //整体净值
 
+                        map = new ArrayMap<>();
                         for (int i = 0; i < positionEntity.getData().size(); i++) {
                             for (int j = 0; j < quoteList.size(); j++) {
                                 String[] split1 = quoteList.get(j).split(",");
+
                                 if (TradeUtil.filter(positionEntity.getData().get(i).getContractCode()).equals(removeDigital(split1[0]))) {
-
-                                    
-
+                                    removeDigital(split1[0]);
                                     boolean isBuy = positionEntity.getData().get(i).isIsBuy();
                                     if (isBuy) {
-                                        positionAdapter.refreshPartItem(i, split1[4], 0);
+                                        map.put(positionEntity.getData().get(i).getContractCode(), split1[4]);
                                     } else {
-                                        positionAdapter.refreshPartItem(i, split1[6], 0);
+                                        map.put(positionEntity.getData().get(i).getContractCode(), split1[6]);
                                     }
+                                    positionAdapter.refreshPartItem(i, map);
                                     continue;
                                 }
                             }
                         }
-
-
 
                     } else {
                         positionEntity.getData().clear();

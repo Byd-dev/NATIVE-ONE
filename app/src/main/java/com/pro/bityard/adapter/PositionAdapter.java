@@ -1,6 +1,7 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,9 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,7 +49,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<Double> incomeList;
 
 
-    private String changeData;
+    private ArrayMap<String,String> changeData;
     private int changePosition;
 
     private static final String DATA_ONE = "dataOne";
@@ -66,19 +69,11 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.notifyDataSetChanged();
     }
 
-    // 局部刷新item数据
-    public void refreshPartItem(int position, String data, int changePos) {
-        // 局部刷新的主要api，参数一：更新的item位置，参数二：item中被标记的某个数据
-        this.changeData = data;
-        notifyItemChanged(position, changePos == 0 ? DATA_ONE : DATA_TWO);  // changePos 为0：数据1   为1：数据2
 
-    }
-
-    public void refreshPartItem(int position, String data) {
+    public void refreshPartItem(int position, ArrayMap<String,String> map) {
         // 局部刷新的主要api，参数一：更新的item位置，参数二：item中被标记的某个数据
-        this.changeData = data;
-        this.changePosition = position;
-        notifyItemChanged(position, data);  // changePos 为0：数据1   为1：数据2
+        this.changeData = map;
+        notifyItemChanged(position, map);  // changePos 为0：数据1   为1：数据2
 
     }
 
@@ -139,8 +134,27 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 onBindViewHolder(holder, position);
 
             } else {
-                Log.d("print", "onBindViewHolder:改变的数据:423:  " + changeData);
-                ((MyViewHolder) holder).text_price.setText(changeData);
+                Log.d("print", "onBindViewHolder:146:  "+changeData);
+
+                double opPrice = datas.get(position).getOpPrice();
+                double margin = datas.get(position).getMargin();
+                boolean isBuy = datas.get(position).isIsBuy();
+                double volume = datas.get(position).getVolume();
+                String contractCode = datas.get(position).getContractCode();
+                Iterator<String> iterator = changeData.keySet().iterator();
+                while (iterator.hasNext()){
+                    String next = iterator.next();
+                    if (contractCode.equals(next)){
+                        String price = changeData.get(next);
+                        Log.d("print", "onBindViewHolder:157:  "+ price);
+                        ((MyViewHolder) holder).text_price.setText(price);
+                        String income = income(isBuy, Double.parseDouble(price), opPrice, volume, 4);
+                        ((MyViewHolder) holder).text_income.setText(getNumberFormat(Double.parseDouble(income), 2));
+                        double incomeDouble = Double.parseDouble(income);
+                        //盈亏比
+                        ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(incomeDouble, margin));
+                    }
+                }
             }
         }
 
