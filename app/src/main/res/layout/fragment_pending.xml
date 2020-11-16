@@ -15,43 +15,31 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/layout_hold"
+            <com.pro.bityard.view.HeaderRecyclerView
+                android:id="@+id/headerRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:overScrollMode="never" />
 
-                <include layout="@layout/item_position_head_layout" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_3"
-                    android:background="@color/home_line"
-                    />
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/headerRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:overScrollMode="never" />
 
-            </LinearLayout>
-
-            <include layout="@layout/layout_null" />
+            <include layout="@layout/layout_null"/>
             <!--退出登录button-->
             <Button
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimen_btn"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_15"
-                android:layout_marginBottom="100dp"
                 android:background="@drawable/bg_shape_main_color"
                 android:padding="10dp"
+                android:layout_gravity="center"
                 android:text="@string/text_login"
                 android:textColor="@color/color_btn_text"
                 android:textSize="16sp"
-                android:visibility="gone" />
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="100dp"
+                android:visibility="gone"
+                />
 
         </RelativeLayout>
 

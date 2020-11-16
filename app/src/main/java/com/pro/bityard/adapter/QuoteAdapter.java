@@ -19,6 +19,7 @@ import com.pro.switchlibrary.SPUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
@@ -80,6 +81,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d("print", "onCreateViewHolder: "+"onCreateViewHolder QuoteAdapter");
         RecyclerView.ViewHolder holder;
 
 
@@ -99,10 +101,22 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        Log.d("print", "onCreateViewHolder: "+"onBindViewHolder payloads QuoteAdapter"+payloads);
+        if (payloads.isEmpty()){
+            onBindViewHolder(holder,position);
+        }else {
+
+        }
+
+
+    }
+
+    @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Log.d("print", "onCreateViewHolder: "+"onBindViewHolder position QuoteAdapter"+position);
+
         if (holder instanceof MyViewHolder) {
-
-
 
             String name , currency ;
             name = TradeUtil.name(datas.get(position));

@@ -1377,6 +1377,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             type =AppConfig.SPOT_ALL;
+            tabLayout_market.setVisibility(View.VISIBLE);
             tabLayout_market.getTabAt(AppConfig.selectPosition).select();
             popupWindow.dismiss();
         });
@@ -1513,11 +1514,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
             /*首页 -----------------------------------------------------------------------------------*/
             case R.id.layout_announcement:
-                UserActivity.enter(this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
-                break;
-            /*最新公告*/
+                /*最新公告*/
             case R.id.layout_nine:
-                UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
+                UserActivity.enter(this, IntentConfig.Keys.KEY_ANNOUNCEMENT);
                 break;
             case R.id.layout_activity:
                 if (isLogin()) {

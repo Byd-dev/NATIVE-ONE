@@ -12,6 +12,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.fragment.hold.HistoryFragment;
@@ -156,9 +157,8 @@ public class HoldFragment extends BaseFragment implements Observer {
         viewPager.setAdapter(myPagerAdapter);
     }
 
-    private List<String> quoteList;
-    private ArrayMap<String, List<String>> arrayMap;
-    private String type = "0";
+
+    private String type = AppConfig.CONTRACT_ALL;
 
     @Override
     public void update(Observable o, Object arg) {
@@ -183,7 +183,7 @@ public class HoldFragment extends BaseFragment implements Observer {
 
         }else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
-            Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
+           // Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
 
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_available != null) {

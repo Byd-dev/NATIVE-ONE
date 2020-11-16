@@ -126,7 +126,7 @@ public class HoldSimulationFragment extends BaseFragment implements Observer {
             TradeUtil.getRate(balanceEntity, "2", new TradeResult() {
                 @Override
                 public void setResult(Object response) {
-                    Log.d("print", "setResult:137虚拟:  " + response.toString());
+                    //Log.d("print", "setResult:137虚拟:  " + response.toString());
                 }
             });
 

@@ -2,6 +2,7 @@ package com.pro.bityard.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.pro.bityard.utils.TradeUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class AnnouncementAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -64,6 +66,7 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         RecyclerView.ViewHolder holder;
 
 
@@ -94,6 +97,12 @@ public class AnnouncementAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
         }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+
     }
 
     @Override

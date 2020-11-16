@@ -19,6 +19,7 @@ import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PendingAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
@@ -301,7 +302,7 @@ public class PendingFragment extends BaseFragment implements Observer {
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_open;
+        return R.layout.fragment_pending;
     }
 
     @Override
@@ -319,6 +320,7 @@ public class PendingFragment extends BaseFragment implements Observer {
                 } else if (state.equals(SUCCESS)) {
                     swipeRefreshLayout.setRefreshing(false);
                     positionEntity = (PositionEntity) response1;
+                    pendingAdapter.setDatas(positionEntity.getData(),quoteList);
                     if (positionEntity.getData().size() == 0) {
                         layout_null.setVisibility(View.VISIBLE);
                         headerRecyclerView.setVisibility(View.GONE);
@@ -342,20 +344,19 @@ public class PendingFragment extends BaseFragment implements Observer {
     public void update(Observable o, Object arg) {
         if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
-            quoteList = arrayMap.get("all");
+            quoteList = arrayMap.get(AppConfig.CONTRACT_ALL);
             runOnUiThread(() -> {
                 //现价和盈亏
 
-                if (positionEntity != null) {
+               /* if (positionEntity != null) {
                     if (isLogin()) {
                         pendingAdapter.setDatas(positionEntity.getData(), quoteList);
                     } else {
                         positionEntity.getData().clear();
-                        ;
                         pendingAdapter.setDatas(positionEntity.getData(), quoteList);
                     }
 
-                }
+                }*/
                 if (contractCode != null) {
                     TradeUtil.positionPrice(isBuy_pop,quoteList, contractCode, response -> {
                         if (text_price_pop != null) {

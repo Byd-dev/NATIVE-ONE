@@ -44,7 +44,7 @@
             app:tabIndicatorHeight="2dp"
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/maincolor"
-            app:tabTextAppearance="@style/MyTablayoutstyle"
+            app:tabTextAppearance="@style/TabStyle"
             app:tabTextColor="@color/text_second_color" />
 
 

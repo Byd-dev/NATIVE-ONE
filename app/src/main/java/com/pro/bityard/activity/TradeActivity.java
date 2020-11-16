@@ -105,7 +105,6 @@ import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
-import static com.pro.bityard.utils.TradeUtil.listQuoteName;
 import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 import static com.pro.bityard.utils.TradeUtil.marginMax;
@@ -149,9 +148,13 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
     @BindView(R.id.text_name)
     TextView text_name;
+    @BindView(R.id.text_name_spot)
+    TextView text_name_spot;
 
-    @BindView(R.id.text_usdt)
-    TextView text_name_usdt;
+    @BindView(R.id.text_currency)
+    TextView text_currency;
+    @BindView(R.id.text_currency_spot)
+    TextView text_currency_spot;
 
     @BindView(R.id.text_switch)
     TextView text_switch;
@@ -494,6 +497,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
         findViewById(R.id.img_setting).setOnClickListener(this);
         findViewById(R.id.layout_product).setOnClickListener(this);
+        findViewById(R.id.layout_product_spot).setOnClickListener(this);
         //加币 持仓
         findViewById(R.id.text_position).setOnClickListener(this);
         findViewById(R.id.text_charge).setOnClickListener(this);
@@ -685,6 +689,14 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         if (itemData.equals("")) {
             return;
         }
+        //根据合约还是现货跳转相应的页面
+        String isChOrFt = TradeUtil.type(itemData);
+        if (isChOrFt.equals(AppConfig.TYPE_CH)) {
+            tabLayout_title.getTabAt(0).select();
+        } else if (isChOrFt.equals(AppConfig.TYPE_FT)) {
+            tabLayout_title.getTabAt(1).select();
+        }
+
 
         quote_code = itemQuoteContCode(itemData);
         Log.d("print", "initData:进来的值:  " + itemQuoteContCode(itemData));
@@ -704,7 +716,10 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             }
         }
         text_name.setText(TradeUtil.name(itemData));
-        text_name_usdt.setText(TradeUtil.currency(itemData));
+        text_currency.setText(TradeUtil.currency(itemData));
+        text_name_spot.setText(TradeUtil.name(itemData));
+        text_currency_spot.setText(TradeUtil.currency(itemData));
+
 
         text_market_currency.setText(TradeUtil.currency(itemData));
         text_limit_currency.setText(TradeUtil.currency(itemData));
@@ -1314,7 +1329,9 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             text_limit_currency.setText(TradeUtil.currency(data));
 
             text_name.setText(TradeUtil.name(data));
-            text_name_usdt.setText(TradeUtil.currency(data));
+            text_currency.setText(TradeUtil.currency(data));
+            text_name_spot.setText(TradeUtil.name(data));
+            text_currency_spot.setText(TradeUtil.currency(data));
             /*if (listQuoteUSD(data) == null) {
                 text_name_usdt.setText("");
             } else {
@@ -1426,6 +1443,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 finish();
                 break;
             case R.id.layout_product:
+            case R.id.layout_product_spot:
                 Util.lightOff(this);
 
                 showQuotePopWindow();
@@ -1938,8 +1956,9 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             text_limit_currency.setText(TradeUtil.currency(data));
 
             text_name.setText(TradeUtil.name(data));
-            text_name_usdt.setText(TradeUtil.currency(data));
-
+            text_currency.setText(TradeUtil.currency(data));
+            text_name_spot.setText(TradeUtil.name(data));
+            text_currency_spot.setText(TradeUtil.currency(data));
            /* if (listQuoteUSD(data) == null) {
                 text_name_usdt.setText("");
             } else {

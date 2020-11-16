@@ -123,12 +123,7 @@ public class HoldRealFragment extends BaseFragment implements Observer {
 
             balanceEntity = (BalanceEntity) arg;
 
-            TradeUtil.getRate(balanceEntity, "1", new TradeResult() {
-                @Override
-                public void setResult(Object response) {
-                    Log.d("print", "setResult:137实盘:  " + response.toString());
-                }
-            });
+           // TradeUtil.getRate(balanceEntity, "1", response -> Log.d("print", "setResult:137实盘:  " + response.toString()));
 
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_balance != null) {

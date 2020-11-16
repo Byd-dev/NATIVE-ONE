@@ -23,7 +23,6 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.adapter.PositionAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -39,12 +38,10 @@ import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
-import com.pro.bityard.utils.OnPopResult;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
-import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
@@ -55,6 +52,7 @@ import java.util.Observer;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
@@ -73,12 +71,15 @@ import static com.pro.bityard.utils.TradeUtil.minMargin;
 import static com.pro.bityard.utils.TradeUtil.netIncome;
 import static com.pro.bityard.utils.TradeUtil.numberHalfUp;
 import static com.pro.bityard.utils.TradeUtil.profitRate;
+import static com.pro.bityard.utils.TradeUtil.removeDigital;
 import static com.pro.bityard.utils.TradeUtil.setNetIncome;
 import static com.pro.bityard.utils.TradeUtil.small;
 
 public class PositionFragment extends BaseFragment implements Observer {
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
+    @BindView(R.id.layout_hold)
+    LinearLayout layout_hold;
 
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
@@ -87,7 +88,7 @@ public class PositionFragment extends BaseFragment implements Observer {
     Button btn_login;
 
     @BindView(R.id.headerRecyclerView)
-    HeaderRecyclerView headerRecyclerView;
+    RecyclerView headerRecyclerView;
 
     private PositionAdapter positionAdapter;
 
@@ -155,11 +156,11 @@ public class PositionFragment extends BaseFragment implements Observer {
         TagManger.getInstance().addObserver(this);
 
         if (isLogin()) {
-            headerRecyclerView.setVisibility(View.VISIBLE);
+            layout_hold.setVisibility(View.VISIBLE);
             btn_login.setVisibility(View.GONE);
 
         } else {
-            headerRecyclerView.setVisibility(View.GONE);
+            layout_hold.setVisibility(View.GONE);
             btn_login.setVisibility(View.VISIBLE);
             layout_null.setVisibility(View.GONE);
         }
@@ -170,25 +171,26 @@ public class PositionFragment extends BaseFragment implements Observer {
     protected void initView(View view) {
 
 
-        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+        Util.colorSwipe(getActivity(), swipeRefreshLayout);
 
         positionAdapter = new PositionAdapter(getContext());
 
         headerRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         headView = LayoutInflater.from(getContext()).inflate(R.layout.item_position_head_layout, null);
 
         View footView = LayoutInflater.from(getContext()).inflate(R.layout.foot_tab_view, null);
 
-        headerRecyclerView.addFooterView(footView);
+        // headerRecyclerView.addFooterView(footView);
 
-        text_incomeAll = headView.findViewById(R.id.text_total_profit_loss);
+        text_incomeAll = view.findViewById(R.id.text_total_profit_loss);
 
 
         /*一键平仓*/
-        headView.findViewById(R.id.text_close_all).setOnClickListener(v -> {
+        view.findViewById(R.id.text_close_all).setOnClickListener(v -> {
             Util.lightOff(getActivity());
             PopUtil.getInstance().showTip(getActivity(), layout_view, true, getString(R.string.text_close_all), state -> {
-                if (state){
+                if (state) {
                     NetManger.getInstance().closeAll(TradeUtil.positionIdList(positionEntity), tradeType, (state1, response) -> {
                         if (state1.equals(BUSY)) {
                             showProgressDialog();
@@ -204,7 +206,6 @@ public class PositionFragment extends BaseFragment implements Observer {
                 }
             });
         });
-
 
 
         headerRecyclerView.setAdapter(positionAdapter);
@@ -1261,18 +1262,18 @@ public class PositionFragment extends BaseFragment implements Observer {
                     //这里根据持仓来是否显示头部视图
                     if (positionEntity.getData().size() == 0) {
                         text_incomeAll.setText("");
-                        headerRecyclerView.removeHeaderView(headView);
+                        // headerRecyclerView.removeHeaderView(headView);
                         layout_null.setVisibility(View.VISIBLE);
-                        headerRecyclerView.setVisibility(View.GONE);
+                        layout_hold.setVisibility(View.GONE);
 
                     } else {
                         //防止刷新已经有头布局 继续添加出现的bug
                         if (headerRecyclerView != null) {
-                            if (headerRecyclerView.getHeadersCount() == 0) {
+                          /*  if (headerRecyclerView.getHeadersCount() == 0) {
                                 headerRecyclerView.addHeaderView(headView);
-                            }
+                            }*/
                         }
-                        headerRecyclerView.setVisibility(View.VISIBLE);
+                        layout_hold.setVisibility(View.VISIBLE);
 
                         layout_null.setVisibility(View.GONE);
 
@@ -1317,20 +1318,40 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
-            quoteList = arrayMap.get("all");
-            if (positionEntity != null&&positionEntity.getData().size()>0) {
+            quoteList = arrayMap.get(AppConfig.CONTRACT_ALL);
+            if (positionEntity != null && positionEntity.getData().size() > 0) {
                 runOnUiThread(() -> {
+
                     if (isLogin()) {
-                        //整体盈亏
-                        setIncome(quoteList, positionEntity);
-                        //整体净值
-                        setNetIncome(tradeType, positionEntity.getData(), quoteList);
-                        positionAdapter.setDatas(positionEntity.getData(), quoteList);
+
+                        setIncome(quoteList, positionEntity); //整体盈亏
+                        setNetIncome(tradeType, positionEntity.getData(), quoteList);  //整体净值
+
+                        for (int i = 0; i < positionEntity.getData().size(); i++) {
+                            for (int j = 0; j < quoteList.size(); j++) {
+                                String[] split1 = quoteList.get(j).split(",");
+                                if (TradeUtil.filter(positionEntity.getData().get(i).getContractCode()).equals(removeDigital(split1[0]))) {
+
+                                    
+
+                                    boolean isBuy = positionEntity.getData().get(i).isIsBuy();
+                                    if (isBuy) {
+                                        positionAdapter.refreshPartItem(i, split1[4], 0);
+                                    } else {
+                                        positionAdapter.refreshPartItem(i, split1[6], 0);
+                                    }
+                                    continue;
+                                }
+                            }
+                        }
+
+
+
                     } else {
                         positionEntity.getData().clear();
-                        positionAdapter.setDatas(positionEntity.getData(), quoteList);
+                        // positionAdapter.setDatas(positionEntity.getData(), quoteList);
                         if (isAdded()) {
-                            headerRecyclerView.removeHeaderView(headView);
+                            // headerRecyclerView.removeHeaderView(headView);
                         }
 
                     }
@@ -1383,10 +1404,10 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         } else if (o == TagManger.getInstance()) {
             if (isLogin()) {
-                headerRecyclerView.setVisibility(View.VISIBLE);
+                layout_hold.setVisibility(View.VISIBLE);
                 btn_login.setVisibility(View.GONE);
             } else {
-                headerRecyclerView.setVisibility(View.GONE);
+                layout_hold.setVisibility(View.GONE);
                 btn_login.setVisibility(View.VISIBLE);
             }
             initData();

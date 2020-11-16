@@ -1,6 +1,7 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +19,21 @@ import com.pro.bityard.utils.Util;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import static com.pro.bityard.utils.TradeUtil.StopLossPrice;
 import static com.pro.bityard.utils.TradeUtil.StopProfitPrice;
 import static com.pro.bityard.utils.TradeUtil.getNumberFormat;
 import static com.pro.bityard.utils.TradeUtil.income;
+import static com.pro.bityard.utils.TradeUtil.netIncome;
 
 public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<PositionEntity.DataBean> datas;
 
     private List<String> quoteList;
+
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
@@ -42,15 +46,40 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<Double> incomeList;
 
 
+    private String changeData;
+    private int changePosition;
+
+    private static final String DATA_ONE = "dataOne";
+    private static final String DATA_TWO = "dataTwo";
+
+
     public PositionAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
+        quoteList = new ArrayList<>();
     }
 
+    //设置数据
     public void setDatas(List<PositionEntity.DataBean> datas, List<String> quoteList) {
         this.datas = datas;
         this.quoteList = quoteList;
         this.notifyDataSetChanged();
+    }
+
+    // 局部刷新item数据
+    public void refreshPartItem(int position, String data, int changePos) {
+        // 局部刷新的主要api，参数一：更新的item位置，参数二：item中被标记的某个数据
+        this.changeData = data;
+        notifyItemChanged(position, changePos == 0 ? DATA_ONE : DATA_TWO);  // changePos 为0：数据1   为1：数据2
+
+    }
+
+    public void refreshPartItem(int position, String data) {
+        // 局部刷新的主要api，参数一：更新的item位置，参数二：item中被标记的某个数据
+        this.changeData = data;
+        this.changePosition = position;
+        notifyItemChanged(position, data);  // changePos 为0：数据1   为1：数据2
+
     }
 
     public void addDatas(List<PositionEntity.DataBean> datas) {
@@ -82,6 +111,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.d("PayloadAdapter", "onCreateViewHolder PositionAdapter");
         RecyclerView.ViewHolder holder;
 
 
@@ -100,9 +130,29 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     }
 
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        Log.d("PayloadAdapter", "onBindViewHolder payload PositionAdapter" + payloads);
+        if (holder instanceof MyViewHolder) {
+            if (payloads.isEmpty()) {
+                onBindViewHolder(holder, position);
+
+            } else {
+                Log.d("print", "onBindViewHolder:改变的数据:423:  " + changeData);
+                ((MyViewHolder) holder).text_price.setText(changeData);
+            }
+        }
+
+
+    }
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        Log.d("PayloadAdapter", "onBindViewHolder position PositionAdapter " + position);
         if (holder instanceof MyViewHolder) {
+
+
             String[] split = Util.quoteList(datas.get(position).getContractCode()).split(",");
             ((MyViewHolder) holder).text_name.setText(split[0]);
             ((MyViewHolder) holder).text_volume.setText("×" + datas.get(position).getVolume());
@@ -158,8 +208,8 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 //盈亏比
                 ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(incomeDouble, margin));
 
-                /*String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
-                double netIncomeDouble = Double.parseDouble(netIncome);*/
+                String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
+                double netIncomeDouble = Double.parseDouble(netIncome);
 
                 ((MyViewHolder) holder).text_worth.setText(TradeUtil.numberHalfUp(incomeDouble, 2));
                 if (incomeDouble > 0) {
@@ -237,26 +287,26 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             itemView.findViewById(R.id.text_detail).setOnClickListener(v -> {
                 if (onDetailClick != null) {
-                    onDetailClick.onClickListener(datas.get(getPosition() - 1));
+                    onDetailClick.onClickListener(datas.get(getPosition()));
                 }
             });
 
 
             text_close_out.setOnClickListener(v -> {
                 if (closeClick != null) {
-                    closeClick.onCloseListener(datas.get(getPosition() - 1).getId());
+                    closeClick.onCloseListener(datas.get(getPosition()).getId());
                 }
             });
 
             text_profit_loss.setOnClickListener(v -> {
                 if (profitLossClick != null) {
-                    profitLossClick.onProfitLossListener(datas.get(getPosition() - 1));
+                    profitLossClick.onProfitLossListener(datas.get(getPosition()));
                 }
             });
 
             layout_add.setOnClickListener(v -> {
                 if (addMarginClick != null) {
-                    addMarginClick.onAddMarginClick(datas.get(getPosition() - 1));
+                    addMarginClick.onAddMarginClick(datas.get(getPosition()));
                 }
             });
 

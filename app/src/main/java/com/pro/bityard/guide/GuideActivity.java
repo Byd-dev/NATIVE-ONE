@@ -135,9 +135,9 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
                     String allList = Util.groupList(stringStringArrayMap);
 
-                    Log.d("print", "initQuote:103:  " + allList);
+                //    Log.d("print", "initQuote:103:  " + allList);
                     String allList2 = Util.initContractList(initEntity.getData());
-                    Log.d("print", "initQuote:137:" + allList2);
+                 //   Log.d("print", "initQuote:137:" + allList2);
 
 
 

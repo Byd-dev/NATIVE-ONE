@@ -639,8 +639,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
         }
 
 
-        text_market_currency.setText(TradeUtil.listQuoteName(itemData));
-        text_limit_currency.setText(TradeUtil.listQuoteName(itemData));
+        text_name.setText(TradeUtil.name(itemData));
+        text_name_usdt.setText(TradeUtil.currency(itemData));
+
+        text_market_currency.setText(TradeUtil.currency(itemData));
+        text_limit_currency.setText(TradeUtil.currency(itemData));
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             // Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -1);
@@ -687,13 +690,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
 
 
-        String[] split1 = Util.quoteList(itemQuoteContCode(itemData)).split(",");
-        text_name.setText(split1[0]);
-        if (split1[1].equals("null")) {
-            text_name_usdt.setText("");
-        } else {
-            text_name_usdt.setText(split1[1]);
-        }
+
         text_lastPrice.setText(listQuotePrice(itemData));
         edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(itemData)));//根据不同的小数位限制
         edit_limit_price.setText(listQuotePrice(itemData));
@@ -1232,7 +1229,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             text_market_currency.setText(TradeUtil.listQuoteName(data));
             text_limit_currency.setText(TradeUtil.listQuoteName(data));
 
-            text_name.setText(listQuoteName(data));
+            text_name.setText(TradeUtil.name(itemData));
             if (listQuoteUSD(data) == null) {
                 text_name_usdt.setText("");
             } else {
@@ -1853,15 +1850,11 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             }
 
 
-            text_market_currency.setText(TradeUtil.listQuoteName(data));
-            text_limit_currency.setText(TradeUtil.listQuoteName(data));
+            text_market_currency.setText(TradeUtil.currency(data));
+            text_limit_currency.setText(TradeUtil.currency(data));
 
-            text_name.setText(listQuoteName(data));
-            if (listQuoteUSD(data) == null) {
-                text_name_usdt.setText("");
-            } else {
-                text_name_usdt.setText(listQuoteUSD(data));
-            }
+            text_name.setText(TradeUtil.name(data));
+            text_name_usdt.setText(TradeUtil.currency(data));
             // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
 
             edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制

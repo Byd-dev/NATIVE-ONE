@@ -3,12 +3,8 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:background="@color/background_maincolor"
-    android:layout_height="match_parent">
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_3"
-        android:background="@color/home_line"
-        />
+    android:layout_height="wrap_content">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_50"

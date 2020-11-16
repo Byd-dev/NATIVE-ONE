@@ -142,7 +142,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_open;
+        return R.layout.fragment_pending;
     }
 
     @Override

@@ -875,7 +875,7 @@ public class TradeUtil {
     /* 自选*/
     public static List<String> optionalQuoteList(List<String> quoteList) {
         String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
-        Log.d("print", "optionalQuoteList:878:  "+optional);
+      //  Log.d("print", "optionalQuoteList:878:  "+optional);
         if (optional == null) {
             return null;
         } else if (optional.equals("")) {

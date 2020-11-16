@@ -47,10 +47,10 @@
                 android:text="/"
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/title_size"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <TextView
-                android:id="@+id/text_usdt"
+                android:id="@+id/text_currency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
