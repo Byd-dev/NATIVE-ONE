@@ -7,7 +7,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
@@ -87,7 +86,7 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     protected void initView(View view) {
 
-       // SocketQuoteManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
+        // SocketQuoteManger.getInstance().startScheduleJob(QUOTE_SECOND, QUOTE_SECOND);
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(v -> getActivity().finish());
 
@@ -106,7 +105,6 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     public void onResume() {
         super.onResume();
-        Toast.makeText(getActivity(),"注册了行情",Toast.LENGTH_SHORT).show();
 
         //行情初始化
         SocketQuoteManger.getInstance().addObserver(this);
@@ -172,10 +170,10 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     public void update(Observable o, Object arg) {
 
-         if (o == SocketQuoteManger.getInstance()) {
+        if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             List<String> quoteList = arrayMap.get(type);
-             Log.d("print", "update:持仓行情: "+quoteList.size());
+            Log.d("print", "update:持仓行情: " + quoteList.size());
             runOnUiThread(() -> {
                 assert quoteList != null;
                 if (quoteList.size() >= 3) {
@@ -191,9 +189,9 @@ public class HoldFragment extends BaseFragment implements Observer {
             });
 
 
-        }else if (o == BalanceManger.getInstance()) {
+        } else if (o == BalanceManger.getInstance()) {
             balanceEntity = (BalanceEntity) arg;
-           // Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
+            // Log.d("print", "setResult:137实盘:  " + tradeType + "  " + balanceEntity);
 
             runOnUiThread(() -> {
                 if (tradeType.equals("1") && text_available != null) {
@@ -216,7 +214,7 @@ public class HoldFragment extends BaseFragment implements Observer {
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
             if (positionRealList.size() == 0) {
-                if (isAdded()){
+                if (isAdded()) {
                     text_freeze.setText(getResources().getString(R.string.text_default));
                 }
             } else {
@@ -272,7 +270,7 @@ public class HoldFragment extends BaseFragment implements Observer {
                         if (text_worth != null) {
                             text_worth.setText(getResources().getString(R.string.text_default));
                         }
-                        if (isAdded()){
+                        if (isAdded()) {
                             text_worth_simulation.setText(getResources().getString(R.string.text_default));
                             text_available.setText(getResources().getString(R.string.text_default));
                             text_available_simulation.setText(getResources().getString(R.string.text_default));
@@ -295,7 +293,7 @@ public class HoldFragment extends BaseFragment implements Observer {
                             for (BalanceEntity.DataBean data : balanceEntity.getData()) {
                                 if (data.getCurrency().equals("USDT")) {
                                     double game = data.getGame();
-                                 //   Log.d("print", "update:337:模拟:  " + game);
+                                    //   Log.d("print", "update:337:模拟:  " + game);
                                     double add1 = TradeUtil.add(game, Double.parseDouble(margin));
                                     double add = TradeUtil.add(add1, Double.parseDouble(netIncome));
                                     text_worth_simulation.setText(TradeUtil.getNumberFormat(add, 2));
@@ -339,12 +337,10 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(getActivity(),"取消了注册行情",Toast.LENGTH_SHORT).show();
-        //行情初始化
+        //行情初
         SocketQuoteManger.getInstance().deleteObserver(this);
         //余额注册
         BalanceManger.getInstance().deleteObserver(this);
-
         //净值注册
         NetIncomeManger.getInstance().deleteObserver(this);
 

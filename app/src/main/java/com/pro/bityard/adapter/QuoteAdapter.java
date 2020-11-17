@@ -1,6 +1,7 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private boolean isShow = false;
     private boolean isShowVolume = false;
 
+    private ArrayMap<String, String> changeData;
 
     public boolean isLoadMore = false;
     private String contCode = null;
@@ -64,6 +67,13 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         this.notifyDataSetChanged();
     }
 
+    public void refreshPartItem(int position, ArrayMap<String, String> map) {
+        // 局部刷新的主要api，参数一：更新的item位置，参数二：item中被标记的某个数据
+        this.changeData = map;
+        notifyItemChanged(position, map);  // changePos 为0：数据1   为1：数据2
+
+    }
+
     public void sortPrice(boolean isHigh) {
         this.notifyDataSetChanged();
     }
@@ -85,7 +95,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 
         if (viewType == TYPE_ITEM) {
-
             View view = LayoutInflater.from(context).inflate(R.layout.item_quote_layout, parent, false);
             holder = new MyViewHolder(view);
             return holder;
@@ -101,11 +110,42 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
-        Log.d("print", "onCreateViewHolder: "+"onBindViewHolder payloads QuoteAdapter"+payloads);
-        if (payloads.isEmpty()){
-            onBindViewHolder(holder,position);
-        }else {
+        Log.d("print", "onCreateViewHolder: " + "onBindViewHolder payloads QuoteAdapter" + payloads);
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+            Iterator<String> iterator = changeData.keySet().iterator();
+            String contractCode = datas.get(position).split(",")[0];
+            while (iterator.hasNext()) {
+                String next = iterator.next();
+                Log.d("print", "onBindViewHolder: "+TradeUtil.removeDigital(contractCode)+"      "+next);
+                if (TradeUtil.removeDigital(contractCode).equals(next)) {
+                    String price = changeData.get(next);
+                    ((MyViewHolder) holder).text_price.setText(price);
+                    ((MyViewHolder) holder).text_change.setText(TradeUtil.quoteRange(price, listQuoteTodayPrice(datas.get(position))));
+                    ((MyViewHolder) holder).text_volume.setText(context.getResources().getText(R.string.kline_volume_detail) + ":" + TradeUtil.listQuoteBuyVolume(datas.get(position)));
+                    String tag = TradeUtil.listQuoteIsRange(datas.get(position));
+                    if (Integer.parseInt(tag) == 1) {
 
+                        // ((MyViewHolder) holder).text_change.setTextColor(context.getApplicationContext().getResources().getColor(R.color.text_quote_green));
+                        ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_green));
+                        //  ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_up));
+                    } else if (Integer.parseInt(tag) == -1) {
+
+                        //  ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                        ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_red));
+                        //  ((MyViewHolder) holder).img_up_down.setImageDrawable(context.getApplicationContext().getResources().getDrawable(R.mipmap.icon_down));
+
+                    } else if (Integer.parseInt(tag) == 0) {
+
+                        ((MyViewHolder) holder).text_change.setTextColor(context.getResources().getColor(R.color.text_main_color));
+                        ((MyViewHolder) holder).layout_bg.setBackground(context.getApplicationContext().getResources().getDrawable(R.drawable.bg_shape_normal));
+
+                    }
+                    String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                    ((MyViewHolder) holder).text_price_currency.setText(TradeUtil.numberHalfUp(TradeUtil.mul(Double.parseDouble(price), Double.parseDouble(string)), 2));
+                }
+            }
         }
 
 
@@ -116,7 +156,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         if (holder instanceof MyViewHolder) {
 
-            String name , currency ;
+            String name, currency;
             name = TradeUtil.name(datas.get(position));
             currency = TradeUtil.currency(datas.get(position));
 

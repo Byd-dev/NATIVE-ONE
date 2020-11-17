@@ -91,6 +91,7 @@ import butterknife.BindView;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static com.pro.bityard.utils.TradeUtil.removeDigital;
 
 public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener {
 
@@ -255,6 +256,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     private List<String> quoteList;
 
+    ArrayMap<String, String> map;
 
     @Override
     public void update(Observable o, Object arg) {
@@ -271,6 +273,17 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     quoteHomeAdapter.setDatas(arrayMap.get(AppConfig.HOME_HOT));
                     quoteAdapter.setDatas(arrayMap.get(AppConfig.HOME_LIST));
                     quoteAdapter_market.setDatas(quoteList);
+
+
+                   /* map = new ArrayMap<>();
+                    for (int i = 0; i < quoteList.size(); i++) {
+                        String[] split1 = quoteList.get(i).split(",");
+                        map.put(removeDigital(split1[0]), split1[4]);
+                        quoteAdapter_market.refreshPartItem(i, map);
+                        continue;
+                    }*/
+
+
                     if (quoteList.size() >= 3) {
                         if (isLogin()) {
                             if (tradeType.equals("1")) {
@@ -676,7 +689,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_SPOT;
 
                     quoteList = arrayMap.get(type);
-                    Log.d("print", "onTabSelected:680:  "+quoteList);
+                    Log.d("print", "onTabSelected:680:  " + quoteList);
                     if (quoteList == null) {
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -1369,14 +1382,14 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
             popupWindow.dismiss();
-            type =AppConfig.SPOT_ALL;
+            type = AppConfig.SPOT_ALL;
             TradeActivity.enter(this, "1", data);
 
         });
 
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
-            type =AppConfig.SPOT_ALL;
+            type = AppConfig.SPOT_ALL;
             tabLayout_market.setVisibility(View.VISIBLE);
             tabLayout_market.getTabAt(AppConfig.selectPosition).select();
             popupWindow.dismiss();
@@ -1405,7 +1418,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 } else {
                     layout_bar.setVisibility(View.VISIBLE);
                     tabLayout_market.setVisibility(View.VISIBLE);
-                    type =AppConfig.CONTRACT_ALL;
+                    type = AppConfig.CONTRACT_ALL;
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market_pop.setDatas(quoteList);
 
