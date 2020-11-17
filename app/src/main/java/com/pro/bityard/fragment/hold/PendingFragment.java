@@ -401,5 +401,7 @@ public class PendingFragment extends BaseFragment implements Observer {
     public void onDestroy() {
         super.onDestroy();
         TagManger.getInstance().clear();
+        SocketQuoteManger.getInstance().deleteObserver(this);
+
     }
 }

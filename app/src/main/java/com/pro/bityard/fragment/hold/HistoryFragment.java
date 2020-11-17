@@ -20,6 +20,7 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.HistoryEntity;
 import com.pro.bityard.entity.MarginHistoryEntity;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.PopUtil;
@@ -353,5 +354,6 @@ public class HistoryFragment extends BaseFragment implements Observer {
     public void onDestroy() {
         super.onDestroy();
         TagManger.getInstance().clear();
+
     }
 }

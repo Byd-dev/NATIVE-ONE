@@ -106,7 +106,6 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d("PayloadAdapter", "onCreateViewHolder PositionAdapter");
         RecyclerView.ViewHolder holder;
 
 

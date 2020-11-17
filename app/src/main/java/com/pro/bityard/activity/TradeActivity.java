@@ -2418,7 +2418,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         //要取消计时 防止内存溢出
         cancelTimer();
         QuoteCurrentManger.getInstance().clear();
-
+        SocketQuoteManger.getInstance().deleteObserver(this);
         Quote1MinHistoryManger.getInstance().clear();
         Quote1MinHistoryManger.getInstance().cancelTimer();
         Quote5MinHistoryManger.getInstance().clear();
@@ -2444,6 +2444,10 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         myKLineView_1D.cancelQuotaThread();
         myKLineView_1_week.cancelQuotaThread();
         myKLineView_1_month.cancelQuotaThread();
+
+
+
+
 
 
     }
@@ -2474,6 +2478,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
         }
     }
+
+
 
 
 }

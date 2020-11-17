@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
@@ -103,13 +104,21 @@ public class HoldFragment extends BaseFragment implements Observer {
     }
 
     @Override
-    protected void initData() {
+    public void onResume() {
+        super.onResume();
+        Toast.makeText(getActivity(),"注册了行情",Toast.LENGTH_SHORT).show();
+
         //行情初始化
         SocketQuoteManger.getInstance().addObserver(this);
         //余额注册
         BalanceManger.getInstance().addObserver(this);
         //净值注册
         NetIncomeManger.getInstance().addObserver(this);
+
+    }
+
+    @Override
+    protected void initData() {
 
         radioGroup_hold.getChildAt(0).performClick();
         radioGroup_hold.setOnCheckedChangeListener((group, checkedId) -> {
@@ -130,13 +139,13 @@ public class HoldFragment extends BaseFragment implements Observer {
         /*持仓 实盘 分割线-----------------------------------------------------------------------------*/
         //持仓注册
         PositionRealManger.getInstance().addObserver(this);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
         initViewPager(viewPager, "1");
 
         /*持仓 模拟 分割线-----------------------------------------------------------------------------*/
         PositionSimulationManger.getInstance().addObserver(this);
-        viewPager_simulation.setOffscreenPageLimit(3);
+        viewPager_simulation.setOffscreenPageLimit(2);
         tabLayout_simulation.setupWithViewPager(viewPager_simulation);
         initSimulationViewPager(viewPager_simulation, "2");
     }
@@ -166,6 +175,7 @@ public class HoldFragment extends BaseFragment implements Observer {
          if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             List<String> quoteList = arrayMap.get(type);
+             Log.d("print", "update:持仓行情: "+quoteList.size());
             runOnUiThread(() -> {
                 assert quoteList != null;
                 if (quoteList.size() >= 3) {
@@ -326,4 +336,17 @@ public class HoldFragment extends BaseFragment implements Observer {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(getActivity(),"取消了注册行情",Toast.LENGTH_SHORT).show();
+        //行情初始化
+        SocketQuoteManger.getInstance().deleteObserver(this);
+        //余额注册
+        BalanceManger.getInstance().deleteObserver(this);
+
+        //净值注册
+        NetIncomeManger.getInstance().deleteObserver(this);
+
+    }
 }

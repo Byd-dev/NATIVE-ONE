@@ -81,7 +81,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d("print", "onCreateViewHolder: "+"onCreateViewHolder QuoteAdapter");
         RecyclerView.ViewHolder holder;
 
 
@@ -114,7 +113,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.d("print", "onCreateViewHolder: "+"onBindViewHolder position QuoteAdapter"+position);
 
         if (holder instanceof MyViewHolder) {
 

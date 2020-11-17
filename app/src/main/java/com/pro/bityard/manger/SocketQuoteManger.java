@@ -22,7 +22,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
 
     public static SocketQuoteManger getInstance() {
-
         if (socketQuoteManger == null) {
             synchronized (SocketQuoteManger.class) {
                 if (socketQuoteManger == null) {
