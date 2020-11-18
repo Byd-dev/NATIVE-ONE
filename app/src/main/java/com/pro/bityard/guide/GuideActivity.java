@@ -129,17 +129,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     SPUtils.putString(AppConfig.PRIZE_TRADE, initEntity.getBrand().getPrizeTrade());//礼金抵扣比例
                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
                     SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
-                    List<InitEntity.GroupBean> group = initEntity.getGroup();
-
                     SPUtils.putData(AppConfig.KEY_COMMODITY,initEntity);
-                    ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
-                    String allList = Util.groupList(stringStringArrayMap);
-
-                //    Log.d("print", "initQuote:103:  " + allList);
                     String allList2 = Util.initContractList(initEntity.getData());
-                 //   Log.d("print", "initQuote:137:" + allList2);
-
-
 
                     SPUtils.putString(AppConfig.CONTRACT_ID, allList2);
                     TradeListManger.getInstance().getTradeList(allList2, (state1, response1) -> {

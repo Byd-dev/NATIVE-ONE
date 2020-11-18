@@ -689,7 +689,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_SPOT;
 
                     quoteList = arrayMap.get(type);
-                    Log.d("print", "onTabSelected:680:  " + quoteList);
                     if (quoteList == null) {
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);

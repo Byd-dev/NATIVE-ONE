@@ -118,7 +118,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             String contractCode = datas.get(position).split(",")[0];
             while (iterator.hasNext()) {
                 String next = iterator.next();
-                Log.d("print", "onBindViewHolder: "+TradeUtil.removeDigital(contractCode)+"      "+next);
+                Log.d("print", "onBindViewHolder: " + TradeUtil.removeDigital(contractCode) + "      " + next);
                 if (TradeUtil.removeDigital(contractCode).equals(next)) {
                     String price = changeData.get(next);
                     ((MyViewHolder) holder).text_price.setText(price);
@@ -213,7 +213,9 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             ((MyViewHolder) holder).text_volume.setText(context.getResources().getText(R.string.kline_volume_detail) + ":" + TradeUtil.listQuoteBuyVolume(datas.get(position)));
 
             String string = SPUtils.getString(AppConfig.USD_RATE, null);
-            ((MyViewHolder) holder).text_price_currency.setText(TradeUtil.numberHalfUp(TradeUtil.mul(Double.parseDouble(price), Double.parseDouble(string)), 2));
+            if (string != null) {
+                ((MyViewHolder) holder).text_price_currency.setText(TradeUtil.numberHalfUp(TradeUtil.mul(Double.parseDouble(price), Double.parseDouble(string)), 2));
+            }
 
 
         }

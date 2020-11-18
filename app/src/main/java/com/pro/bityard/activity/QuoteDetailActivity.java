@@ -1392,15 +1392,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                         setList.add(quoteMinEntity.getSymbol());
                     }
                     SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
-                } else {
-                    if (setList.contains(listQuoteName(itemData))) {
-                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-                        setList.remove(listQuoteName(itemData));
-                    } else {
-                        img_star.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                        setList.add(listQuoteName(itemData));
-                    }
-                    SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
                 }
 
 

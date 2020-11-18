@@ -148,7 +148,11 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 //创新区
                 List<String> innovationQuoteList = TradeUtil.innovationQuoteList(strings);
                 //自选
+                Log.d("print", "onMessage:151: "+"执行了这里");
                 List<String> optionalQuoteList = TradeUtil.optionalQuoteList(strings);
+
+
+
                 //BTC BCH ETH
                 List<String> hotQuoteList = TradeUtil.homeHot(contractQuoteList);
                 //除去 BTC BCH ETH

@@ -89,8 +89,10 @@ import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import androidx.annotation.Nullable;
+import androidx.collection.ArraySet;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -666,7 +668,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    private Set<String> setList;
+    private Set<String> optionalList;
 
     @Override
     protected void initData() {
@@ -701,20 +703,23 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         quote_code = itemQuoteContCode(itemData);
         Log.d("print", "initData:进来的值:  " + itemQuoteContCode(itemData));
         //自选的图标
-        String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
-        Log.d("print", "onClick:569:  " + optional);
-        setList = new HashSet<>();
-        if (optional != null) {
-            String[] split = optional.split(",");
-            for (String a : split) {
-                setList.add(a);
-            }
-            if (setList.contains(TradeUtil.name(itemData))) {
-                img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-            } else {
-                img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-            }
+        optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
+        if (optionalList.size() != 0) {
+            //判断当前是否存在自选
+            Util.isOptional(itemQuoteContCode(itemData), optionalList, response -> {
+                boolean isOptional = (boolean) response;
+                if (isOptional) {
+                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                } else {
+                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+
+                }
+            });
+        } else {
+            optionalList = new HashSet<>();
         }
+
+
         text_name.setText(TradeUtil.name(itemData));
         text_currency.setText(TradeUtil.currency(itemData));
         text_name_spot.setText(TradeUtil.name(itemData));
@@ -956,7 +961,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             super.handleMessage(msg);
             //发送行情包
             if (quote_code != null) {
-                //   Log.d("print", "handleMessage:845:  " + quote_code);
+                // Log.d("print", "handleMessage:845:  " + quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
             }
 
@@ -1311,18 +1316,17 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
             //自选的图标
             String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
-            setList = new HashSet<>();
-            if (optional != null) {
-                String[] split = optional.split(",");
-                for (String a : split) {
-                    setList.add(a);
-                }
-                if (setList.contains(TradeUtil.name(data))) {
+
+            //判断当前是否存在自选
+            Util.isOptional(quote_code, optionalList, response -> {
+                boolean isOptional = (boolean) response;
+                if (isOptional) {
                     img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {
                     img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+
                 }
-            }
+            });
 
 
             text_market_currency.setText(TradeUtil.currency(data));
@@ -1432,6 +1436,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onClick(View v) {
         TabLayout.Tab tabAt = tabLayout.getTabAt(5);
@@ -1484,26 +1489,38 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 break;
             //自选的监听
             case R.id.layout_optional:
-
+                optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
+                Log.d("print", "onClick:自选目前: " + optionalList);
+                //判断当前是否存在自选
                 if (quoteMinEntity != null) {
-                    if (setList.contains(TradeUtil.listSpotQuoteName(quoteMinEntity.getSymbol()))) {
-                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-                        setList.remove(TradeUtil.listSpotQuoteName(quoteMinEntity.getSymbol()));
+                    if (optionalList.size() != 0) {
+                        Util.isOptional(quoteMinEntity.getSymbol(), optionalList, response -> {
+                            boolean isOptional = (boolean) response;
+                            if (isOptional) {
+                                img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                                optionalList.remove(quoteMinEntity.getSymbol());
+                            } else {
+                                img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                                optionalList.add(quoteMinEntity.getSymbol());
+                            }
+                        });
                     } else {
                         img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                        setList.add(TradeUtil.listSpotQuoteName(quoteMinEntity.getSymbol()));
+                        optionalList.add(quoteMinEntity.getSymbol());
                     }
-                    SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
-                } else {
-                    if (setList.contains(TradeUtil.name(itemData))) {
-                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-                        setList.remove(TradeUtil.name(itemData));
-                    } else {
-                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                        setList.add(TradeUtil.name(itemData));
-                    }
-                    SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.deal(setList.toString()));
+                    SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.SPDeal(optionalList));
+
                 }
+               /* if (quoteMinEntity != null) {
+                    if (setList.contains(quoteMinEntity.getSymbol())) {
+                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                        setList.remove(quoteMinEntity.getSymbol());
+                    } else {
+                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                        setList.add(quoteMinEntity.getSymbol());
+                    }
+                    SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.SPDeal(setList));
+                }*/
 
 
                 break;
@@ -1915,6 +1932,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
 
     /*行情选择*/
+    @SuppressLint("NewApi")
     private void showProductWindow(List<String> quoteList) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_product_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
@@ -1935,21 +1953,20 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
         quotePopAdapter.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
-
             //自选的图标
-            String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
-            setList = new HashSet<>();
-            if (optional != null) {
-                String[] split = optional.split(",");
-                for (String a : split) {
-                    setList.add(a);
-                }
-                if (setList.contains(TradeUtil.name(data))) {
+            optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
+            //判断当前是否存在自选
+            if (optionalList.size()!=0){
+                 Util.isOptional(quote_code, optionalList, response -> {
+                boolean isOptional = (boolean) response;
+                if (isOptional) {
                     img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {
                     img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
                 }
+            });
             }
+
 
 
             text_market_currency.setText(TradeUtil.currency(data));
@@ -2069,8 +2086,6 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                         List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), quoteList);
                         quoteAdapter_market_pop.setDatas(searchQuoteList);
                     }
-
-
                 });
             }
 
@@ -2446,10 +2461,6 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         myKLineView_1_month.cancelQuotaThread();
 
 
-
-
-
-
     }
 
     @Override
@@ -2478,8 +2489,6 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
         }
     }
-
-
 
 
 }

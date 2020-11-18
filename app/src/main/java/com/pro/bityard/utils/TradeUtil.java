@@ -1,5 +1,6 @@
 package com.pro.bityard.utils;
 
+import android.os.Build;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -27,10 +28,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import androidx.annotation.RequiresApi;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.Util.getAllSatisfyStr;
@@ -874,24 +879,53 @@ public class TradeUtil {
 
     /* 自选*/
     public static List<String> optionalQuoteList(List<String> quoteList) {
-        String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
-      //  Log.d("print", "optionalQuoteList:878:  "+optional);
-        if (optional == null) {
-            return null;
-        } else if (optional.equals("")) {
+        Log.d("print", "onMessage:882: "+"执行了这里");
+        Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
+        Log.d("print", "optionalQuoteList:883:  "+optionalList);
+        if (optionalList.size() == 0) {
             return null;
         } else {
             List<String> quoteList2 = new ArrayList<>();
-            for (String mainQuote : quoteList) {
-                String[] split = mainQuote.split(",");
-                if (optional.contains(TradeUtil.listSpotQuoteName(split[0]))) {
-                    quoteList2.add(mainQuote);
+            Iterator<String> iterator = optionalList.iterator();
+            while (iterator.hasNext()){
+                String next = iterator.next();
+                for (String mainQuote : quoteList) {
+                    String[] split = mainQuote.split(",");
+                    if (split[0].equals(next)){
+                        quoteList2.add(mainQuote);
+                    }
                 }
             }
             return quoteList2;
         }
 
     }
+
+
+    /* 现货自选*/
+    public static List<String> optionalSpotQuoteList(List<String> quoteList) {
+        Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
+        Log.d("print", "optionalQuoteList:880: " + optionalList);
+        if (optionalList.size() == 0) {
+            return null;
+        } else {
+            List<String> quoteList2 = new ArrayList<>();
+            Iterator<String> iterator = optionalList.iterator();
+            while (iterator.hasNext()){
+                String next = iterator.next();
+                for (String mainQuote : quoteList) {
+                    String[] split = mainQuote.split(",");
+                    if (split[0].equals(next)){
+                        quoteList2.add(mainQuote);
+                    }
+                }
+            }
+            return quoteList2;
+        }
+
+    }
+
+
 
     /*价格从大到小*/
     public static List<String> priceHighToLow(List<String> quoteList) {
@@ -1228,8 +1262,6 @@ public class TradeUtil {
             return split1[1];
         }
     }
-
-
 
 
     /*名称合起来*/

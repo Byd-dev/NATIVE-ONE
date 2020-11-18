@@ -30,6 +30,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pro.bityard.R;
 import com.pro.bityard.api.OnResult;
 import com.pro.bityard.config.AppConfig;
@@ -41,6 +43,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -49,12 +52,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1028,6 +1034,39 @@ public class Util {
     public static String deal(String content) {
         String replace = content.replaceAll("\\[", "").replaceAll("]", "").replace(" ", "");
         return replace;
+    }
+
+    /*存放*/
+    public static String SPDeal(Set<String> setList) {
+        Gson gson = new Gson();
+        String s = gson.toJson(setList);
+        return s;
+    }
+
+    /*解析*/
+    public static Set<String> SPDealResult(String data) {
+        if (data == null) {
+            return new HashSet<>();
+        } else {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<Set<String>>() {
+            }.getType();
+            Set<String> list = gson.fromJson(data, listType);
+            return list;
+        }
+
+    }
+
+
+    public static void isOptional(String contCode, Set<String> list, OnResult onResult) {
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()) {
+            if (contCode.equals(iterator.next())) {
+                onResult.setResult(true);
+            } else {
+                onResult.setResult(false);
+            }
+        }
     }
 
     public static ArrayMap<String, String> groupData(List<InitEntity.GroupBean> group) {
