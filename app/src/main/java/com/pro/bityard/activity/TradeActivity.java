@@ -704,10 +704,12 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         Log.d("print", "initData:进来的值:  " + itemQuoteContCode(itemData));
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
+        Log.d("print", "initData:707:  "+optionalList);
         if (optionalList.size() != 0) {
             //判断当前是否存在自选
             Util.isOptional(itemQuoteContCode(itemData), optionalList, response -> {
                 boolean isOptional = (boolean) response;
+                Toast.makeText(TradeActivity.this,response.toString(),Toast.LENGTH_SHORT).show();
                 if (isOptional) {
                     img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {

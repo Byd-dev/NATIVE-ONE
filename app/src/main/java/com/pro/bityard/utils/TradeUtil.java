@@ -879,9 +879,8 @@ public class TradeUtil {
 
     /* 自选*/
     public static List<String> optionalQuoteList(List<String> quoteList) {
-        Log.d("print", "onMessage:882: "+"执行了这里");
         Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
-        Log.d("print", "optionalQuoteList:883:  "+optionalList);
+        Log.d("print", "optionalQuoteList:已选全部自选:  "+optionalList);
         if (optionalList.size() == 0) {
             return null;
         } else {
@@ -905,7 +904,6 @@ public class TradeUtil {
     /* 现货自选*/
     public static List<String> optionalSpotQuoteList(List<String> quoteList) {
         Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
-        Log.d("print", "optionalQuoteList:880: " + optionalList);
         if (optionalList.size() == 0) {
             return null;
         } else {
@@ -922,7 +920,6 @@ public class TradeUtil {
             }
             return quoteList2;
         }
-
     }
 
 
@@ -1026,7 +1023,7 @@ public class TradeUtil {
             return null;
         } else {
             String[] split = quote.split(",");
-            return split[0];
+            return split[0].replaceAll(" ","");
         }
 
     }

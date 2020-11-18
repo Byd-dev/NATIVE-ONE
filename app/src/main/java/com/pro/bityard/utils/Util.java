@@ -60,7 +60,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1059,15 +1058,16 @@ public class Util {
 
 
     public static void isOptional(String contCode, Set<String> list, OnResult onResult) {
-        Iterator<String> iterator = list.iterator();
-        while (iterator.hasNext()) {
-            if (contCode.equals(iterator.next())) {
-                onResult.setResult(true);
-            } else {
-                onResult.setResult(false);
-            }
+        if (list.toString().contains(contCode)){
+            onResult.setResult(true);
+        }else {
+            onResult.setResult(false);
         }
+
     }
+
+
+
 
     public static ArrayMap<String, String> groupData(List<InitEntity.GroupBean> group) {
         ArrayMap<String, String> map = new ArrayMap<>();
