@@ -151,11 +151,8 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 List<String> optionalQuoteList = TradeUtil.optionalQuoteList(strings);
 
                 List<String> optionalSpotQuoteList = TradeUtil.optionalQuoteList(spotQuoteList);
-                Log.d("quote", "onMessage:现货自选: "+optionalSpotQuoteList);
                 List<String> optionalContractQuoteList = TradeUtil.optionalQuoteList(contractQuoteList);
-                Log.d("quote", "onMessage:合约自选: "+optionalContractQuoteList);
                 List<String> optionalDerivedQuoteList = TradeUtil.optionalQuoteList(derivedQuoteList);
-                Log.d("quote", "onMessage:衍生品自选: "+optionalDerivedQuoteList);
                 //BTC BCH ETH
                 List<String> hotQuoteList = TradeUtil.homeHot(contractQuoteList);
                 //除去 BTC BCH ETH
@@ -219,6 +216,105 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                     arrayMap.put(AppConfig.OPTIONAL_RATE_LOW2HIGH, null);
                     arrayMap.put(AppConfig.OPTIONAL_NAME_A2Z, null);
                     arrayMap.put(AppConfig.OPTIONAL_NAME_Z2A, null);
+                }
+
+
+                //现货自选
+                if (optionalSpotQuoteList != null) {
+                    //价格从高到低
+                    List<String> optionalSpotQuoteList_price_high2low = TradeUtil.priceHighToLow(optionalSpotQuoteList);
+                    //价格从低到高
+                    List<String> optionalSpotQuoteList_price_low2high = TradeUtil.priceLowToHigh(optionalSpotQuoteList);
+                    //涨跌幅从高到低
+                    List<String> optionalSpotQuoteList_rate_high2low = TradeUtil.rangeHighToLow(optionalSpotQuoteList);
+                    //涨跌幅从低到高
+                    List<String> optionalSpotQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(optionalSpotQuoteList);
+                    //字母a-z
+                    List<String> optionalSpotQuoteList_name_a2z = TradeUtil.nameLowToHigh(optionalSpotQuoteList);
+                    //字母z-a
+                    List<String> optionalSpotQuoteList_name_z2a = TradeUtil.nameHighToLow(optionalSpotQuoteList);
+
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_ALL, optionalSpotQuoteList);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_PRICE_HIGH2LOW, optionalSpotQuoteList_price_high2low);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_PRICE_LOW2HIGH, optionalSpotQuoteList_price_low2high);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_RATE_HIGH2LOW, optionalSpotQuoteList_rate_high2low);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_RATE_LOW2HIGH, optionalSpotQuoteList_rate_low2high);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_NAME_A2Z, optionalSpotQuoteList_name_a2z);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_NAME_Z2A, optionalSpotQuoteList_name_z2a);
+                } else {
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_ALL, null);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_PRICE_HIGH2LOW, null);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_PRICE_LOW2HIGH, null);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_RATE_HIGH2LOW, null);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_RATE_LOW2HIGH, null);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_NAME_A2Z, null);
+                    arrayMap.put(AppConfig.OPTIONAL_SPOT_NAME_Z2A, null);
+                }
+
+
+                //合约自选
+                if (optionalContractQuoteList != null) {
+                    //价格从高到低
+                    List<String> optionalContractQuoteList_price_high2low = TradeUtil.priceHighToLow(optionalContractQuoteList);
+                    //价格从低到高
+                    List<String> optionalContractQuoteList_price_low2high = TradeUtil.priceLowToHigh(optionalContractQuoteList);
+                    //涨跌幅从高到低
+                    List<String> optionalContractQuoteList_rate_high2low = TradeUtil.rangeHighToLow(optionalContractQuoteList);
+                    //涨跌幅从低到高
+                    List<String> optionalContractQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(optionalContractQuoteList);
+                    //字母a-z
+                    List<String> optionalContractQuoteList_name_a2z = TradeUtil.nameLowToHigh(optionalContractQuoteList);
+                    //字母z-a
+                    List<String> optionalContractQuoteList_name_z2a = TradeUtil.nameHighToLow(optionalContractQuoteList);
+
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_ALL, optionalContractQuoteList);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_PRICE_HIGH2LOW, optionalContractQuoteList_price_high2low);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_PRICE_LOW2HIGH, optionalContractQuoteList_price_low2high);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_RATE_HIGH2LOW, optionalContractQuoteList_rate_high2low);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_RATE_LOW2HIGH, optionalContractQuoteList_rate_low2high);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_NAME_A2Z, optionalContractQuoteList_name_a2z);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_NAME_Z2A, optionalContractQuoteList_name_z2a);
+                } else {
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_ALL, null);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_PRICE_HIGH2LOW, null);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_PRICE_LOW2HIGH, null);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_RATE_HIGH2LOW, null);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_RATE_LOW2HIGH, null);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_NAME_A2Z, null);
+                    arrayMap.put(AppConfig.OPTIONAL_CONTRACT_NAME_Z2A, null);
+                }
+
+
+                //衍生品自选
+                if (optionalDerivedQuoteList != null) {
+                    //价格从高到低
+                    List<String> optionalDerivedQuoteList_price_high2low = TradeUtil.priceHighToLow(optionalDerivedQuoteList);
+                    //价格从低到高
+                    List<String> optionalDerivedQuoteList_price_low2high = TradeUtil.priceLowToHigh(optionalDerivedQuoteList);
+                    //涨跌幅从高到低
+                    List<String> optionalDerivedQuoteList_rate_high2low = TradeUtil.rangeHighToLow(optionalDerivedQuoteList);
+                    //涨跌幅从低到高
+                    List<String> optionalDerivedQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(optionalDerivedQuoteList);
+                    //字母a-z
+                    List<String> optionalDerivedQuoteList_name_a2z = TradeUtil.nameLowToHigh(optionalDerivedQuoteList);
+                    //字母z-a
+                    List<String> optionalDerivedQuoteList_name_z2a = TradeUtil.nameHighToLow(optionalDerivedQuoteList);
+
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_ALL, optionalDerivedQuoteList);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_PRICE_HIGH2LOW, optionalDerivedQuoteList_price_high2low);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_PRICE_LOW2HIGH, optionalDerivedQuoteList_price_low2high);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_RATE_HIGH2LOW, optionalDerivedQuoteList_rate_high2low);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_RATE_LOW2HIGH, optionalDerivedQuoteList_rate_low2high);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_NAME_A2Z, optionalDerivedQuoteList_name_a2z);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_NAME_Z2A, optionalDerivedQuoteList_name_z2a);
+                } else {
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_ALL, null);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_PRICE_HIGH2LOW, null);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_PRICE_LOW2HIGH, null);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_RATE_HIGH2LOW, null);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_RATE_LOW2HIGH, null);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_NAME_A2Z, null);
+                    arrayMap.put(AppConfig.OPTIONAL_DERIVATIVES_NAME_Z2A, null);
                 }
 
 

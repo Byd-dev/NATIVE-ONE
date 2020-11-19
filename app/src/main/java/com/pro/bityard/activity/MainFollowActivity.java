@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.FollowAdapter;
 import com.pro.bityard.adapter.MyPagerAdapter;
+import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
@@ -91,7 +92,6 @@ import butterknife.BindView;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
-import static com.pro.bityard.utils.TradeUtil.removeDigital;
 
 public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener {
 
@@ -148,8 +148,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
     /*market---------------------------------------------------*/
-    private List<String> titleList;
 
+
+    private List<String> titleList, optionalTitleList;
+
+    @BindView(R.id.layout_optional_select)
+    LinearLayout layout_optional_select;
+    @BindView(R.id.recyclerView_optional)
+    RecyclerView recyclerView_optional;
+    private OptionalSelectAdapter optionalSelectAdapter, optionalSelectAdapterPop;
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
 
@@ -641,6 +648,73 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_market.setAdapter(quoteAdapter_market);
 
+        optionalSelectAdapter = new OptionalSelectAdapter(this);
+        recyclerView_optional.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        recyclerView_optional.setAdapter(optionalSelectAdapter);
+        optionalTitleList = new ArrayList<>();
+        optionalTitleList.add(getString(R.string.text_spot));
+        optionalTitleList.add(getString(R.string.text_contract));
+        optionalTitleList.add(getString(R.string.text_derived));
+        optionalSelectAdapter.setDatas(optionalTitleList);
+        optionalSelectAdapter.select(getString(R.string.text_spot));
+        optionalSelectAdapter.setEnable(true);
+        /*自选的监听*/
+        optionalSelectAdapter.setOnItemClick((position, data) -> {
+            optionalSelectAdapter.select(data);
+            switch (position) {
+                case 0:
+                    type = AppConfig.OPTIONAL_SPOT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+                case 1:
+                    type = AppConfig.OPTIONAL_CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+                case 2:
+                    type = AppConfig.OPTIONAL_DERIVATIVES_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_DERIVATIVES;
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+            }
+        });
+
 
         findViewById(R.id.img_search).setOnClickListener(this);
 
@@ -669,8 +743,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
 
                 if (tab.getPosition() == 0) {
-                    type = AppConfig.OPTIONAL_ALL;
-                    zone_type = AppConfig.VIEW_OPTIONAL;
+                    optionalSelectAdapter.select(getString(R.string.text_spot));//按到自选自动跳到现货
+                    layout_optional_select.setVisibility(View.VISIBLE);
+                    type = AppConfig.OPTIONAL_SPOT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -685,6 +761,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 } else if (tab.getPosition() == 1) {
+                    layout_optional_select.setVisibility(View.GONE);
+
                     type = AppConfig.SPOT_ALL;
                     zone_type = AppConfig.VIEW_SPOT;
 
@@ -702,6 +780,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
 
                 } else if (tab.getPosition() == 2) {
+                    layout_optional_select.setVisibility(View.GONE);
+
                     type = AppConfig.CONTRACT_ALL;
                     zone_type = AppConfig.VIEW_CONTRACT;
 
@@ -720,6 +800,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
                 } else if (tab.getPosition() == 3) {
+                    layout_optional_select.setVisibility(View.GONE);
+
                     type = AppConfig.DERIVATIVES_ALL;
                     zone_type = AppConfig.VIEW_DERIVATIVES;
 
@@ -838,7 +920,11 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         });
 
         followAdapter.setOnFollowClick(dataBean -> {
-            FollowDetailActivity.enter(this, AppConfig.FOLLOW, dataBean);
+            if (isLogin()) {
+                FollowDetailActivity.enter(this, AppConfig.FOLLOW, dataBean);
+            } else {
+                LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+            }
         });
 
 
@@ -1102,7 +1188,21 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market);
+        TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market_search);
+
+        LinearLayout layout_optional_select_pop = view.findViewById(R.id.layout_optional_select_pop);
+
+        RecyclerView recyclerView_optional_select_pop = view.findViewById(R.id.recyclerView_optional_pop);
+
+        LinearLayout layout_null_pop = view.findViewById(R.id.layout_null);
+
+        optionalSelectAdapterPop = new OptionalSelectAdapter(this);
+        recyclerView_optional_select_pop.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        recyclerView_optional_select_pop.setAdapter(optionalSelectAdapterPop);
+        optionalSelectAdapterPop.setDatas(optionalTitleList);
+        optionalSelectAdapterPop.setEnable(true);
+        optionalSelectAdapterPop.select(getString(R.string.text_spot));
+
 
         LinearLayout layout_null = view.findViewById(R.id.layout_null);
 
@@ -1125,6 +1225,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             tabLayout_market_search.addTab(tabLayout_market_search.newTab().setText(market_name));
         }
         tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
+
         view.findViewById(R.id.layout_new_price).setOnClickListener(v -> {
             if (arrayMap == null) {
                 return;
@@ -1132,43 +1233,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             if (flag_new_price) {
                 img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                 flag_new_price = false;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_PRICE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_PRICE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_PRICE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_PRICE_HIGH2LOW;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+                List<String> quoteList = arrayMap.get(Util.priceTypeHigh2Low(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
-
-
             } else {
 
                 img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_new_price = true;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_PRICE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_PRICE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_PRICE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_PRICE_LOW2HIGH;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+                List<String> quoteList = arrayMap.get(Util.priceTypeLow2High(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             }
@@ -1183,41 +1254,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             if (flag_up_down) {
                 img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                 flag_up_down = false;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_RATE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_RATE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_RATE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_RATE_HIGH2LOW;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+                List<String> quoteList = arrayMap.get(Util.rateTypeHigh2Low(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             } else {
                 img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_up_down = true;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_RATE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_RATE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_RATE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_RATE_LOW2HIGH;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+                List<String> quoteList = arrayMap.get(Util.rateTypeLow2High(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             }
@@ -1231,47 +1274,76 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             if (flag_name) {
                 img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                 flag_name = false;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_NAME_A2Z;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_NAME_A2Z;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_NAME_A2Z;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_NAME_A2Z;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+                List<String> quoteList = arrayMap.get(Util.nameTypeA2Z(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             } else {
                 img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_name = true;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_NAME_Z2A;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_NAME_Z2A;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_NAME_Z2A;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_NAME_Z2A;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+                List<String> quoteList = arrayMap.get(Util.nameTypeZ2A(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             }
             img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
             img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
         });
+        /*自选的监听*/
+        optionalSelectAdapterPop.setOnItemClick((position, data) -> {
+            optionalSelectAdapterPop.select(data);
+            switch (position) {
+                case 0:
+                    type = AppConfig.OPTIONAL_SPOT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null_pop.setVisibility(View.VISIBLE);
+                        recyclerView_optional_select_pop.setVisibility(View.GONE);
+                    } else {
+                        layout_null_pop.setVisibility(View.GONE);
+                        recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+                case 1:
+                    type = AppConfig.OPTIONAL_CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null_pop.setVisibility(View.VISIBLE);
+                        recyclerView_optional_select_pop.setVisibility(View.GONE);
+                    } else {
+                        layout_null_pop.setVisibility(View.GONE);
+                        recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+                case 2:
+                    type = AppConfig.OPTIONAL_DERIVATIVES_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_DERIVATIVES;
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null_pop.setVisibility(View.VISIBLE);
+                        recyclerView_optional_select_pop.setVisibility(View.GONE);
+                    } else {
+                        layout_null_pop.setVisibility(View.GONE);
+                        recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+            }
+        });
+
 
         tabLayout_market_search.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
@@ -1285,8 +1357,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
 
                 if (tab.getPosition() == 0) {
-                    type = AppConfig.OPTIONAL_ALL;
-                    zone_type = AppConfig.VIEW_OPTIONAL;
+                    layout_optional_select_pop.setVisibility(View.VISIBLE);
+                    type = AppConfig.OPTIONAL_SPOT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
                     quoteList = arrayMap.get(type);
                     Log.d("print", "onTabSelected:684:  " + quoteList + "  " + type);
                     if (quoteList == null) {
@@ -1301,6 +1374,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 } else if (tab.getPosition() == 1) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+
                     type = AppConfig.SPOT_ALL;
                     zone_type = AppConfig.VIEW_SPOT;
 
@@ -1317,6 +1392,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 } else if (tab.getPosition() == 2) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+
                     type = AppConfig.CONTRACT_ALL;
                     zone_type = AppConfig.VIEW_CONTRACT;
 
@@ -1333,6 +1410,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 } else if (tab.getPosition() == 3) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+
                     type = AppConfig.DERIVATIVES_ALL;
                     zone_type = AppConfig.VIEW_DERIVATIVES;
 
@@ -1561,21 +1640,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (flag_new_price) {
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_new_price = false;
-                    switch (zone_type) {
-                        case AppConfig.VIEW_OPTIONAL:
-                            type = AppConfig.OPTIONAL_PRICE_HIGH2LOW;
-                            break;
-                        case AppConfig.VIEW_SPOT:
-                            type = AppConfig.SPOT_PRICE_HIGH2LOW;
-                            break;
-                        case AppConfig.VIEW_CONTRACT:
-                            type = AppConfig.CONTRACT_PRICE_HIGH2LOW;
-                            break;
-                        case AppConfig.VIEW_DERIVATIVES:
-                            type = AppConfig.DERIVATIVES_PRICE_HIGH2LOW;
-                            break;
-                    }
-                    List<String> quoteList = arrayMap.get(type);
+                    List<String> quoteList = arrayMap.get(Util.priceTypeHigh2Low(zone_type));
                     quoteAdapter_market.setDatas(quoteList);
 
 
@@ -1583,21 +1648,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_new_price = true;
-                    switch (zone_type) {
-                        case AppConfig.VIEW_OPTIONAL:
-                            type = AppConfig.OPTIONAL_PRICE_LOW2HIGH;
-                            break;
-                        case AppConfig.VIEW_SPOT:
-                            type = AppConfig.SPOT_PRICE_LOW2HIGH;
-                            break;
-                        case AppConfig.VIEW_CONTRACT:
-                            type = AppConfig.CONTRACT_PRICE_LOW2HIGH;
-                            break;
-                        case AppConfig.VIEW_DERIVATIVES:
-                            type = AppConfig.DERIVATIVES_PRICE_LOW2HIGH;
-                            break;
-                    }
-                    List<String> quoteList = arrayMap.get(type);
+                    List<String> quoteList = arrayMap.get(Util.priceTypeLow2High(zone_type));
                     quoteAdapter_market.setDatas(quoteList);
 
                 }
@@ -1612,41 +1663,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (flag_up_down) {
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_up_down = false;
-                    switch (zone_type) {
-                        case AppConfig.VIEW_OPTIONAL:
-                            type = AppConfig.OPTIONAL_RATE_HIGH2LOW;
-                            break;
-                        case AppConfig.VIEW_SPOT:
-                            type = AppConfig.SPOT_RATE_HIGH2LOW;
-                            break;
-                        case AppConfig.VIEW_CONTRACT:
-                            type = AppConfig.CONTRACT_RATE_HIGH2LOW;
-                            break;
-                        case AppConfig.VIEW_DERIVATIVES:
-                            type = AppConfig.DERIVATIVES_RATE_HIGH2LOW;
-                            break;
-                    }
-                    List<String> quoteList = arrayMap.get(type);
+
+                    List<String> quoteList = arrayMap.get(Util.rateTypeHigh2Low(zone_type));
                     quoteAdapter_market.setDatas(quoteList);
 
                 } else {
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_up_down = true;
-                    switch (zone_type) {
-                        case AppConfig.VIEW_OPTIONAL:
-                            type = AppConfig.OPTIONAL_RATE_LOW2HIGH;
-                            break;
-                        case AppConfig.VIEW_SPOT:
-                            type = AppConfig.SPOT_RATE_LOW2HIGH;
-                            break;
-                        case AppConfig.VIEW_CONTRACT:
-                            type = AppConfig.CONTRACT_RATE_LOW2HIGH;
-                            break;
-                        case AppConfig.VIEW_DERIVATIVES:
-                            type = AppConfig.DERIVATIVES_RATE_LOW2HIGH;
-                            break;
-                    }
-                    List<String> quoteList = arrayMap.get(type);
+
+                    List<String> quoteList = arrayMap.get(Util.rateTypeLow2High(zone_type));
                     quoteAdapter_market.setDatas(quoteList);
 
                 }
@@ -1661,41 +1686,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (flag_name) {
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_name = false;
-                    switch (zone_type) {
-                        case AppConfig.VIEW_OPTIONAL:
-                            type = AppConfig.OPTIONAL_NAME_A2Z;
-                            break;
-                        case AppConfig.VIEW_SPOT:
-                            type = AppConfig.SPOT_NAME_A2Z;
-                            break;
-                        case AppConfig.VIEW_CONTRACT:
-                            type = AppConfig.CONTRACT_NAME_A2Z;
-                            break;
-                        case AppConfig.VIEW_DERIVATIVES:
-                            type = AppConfig.DERIVATIVES_NAME_A2Z;
-                            break;
-                    }
-                    List<String> quoteList = arrayMap.get(type);
+
+                    List<String> quoteList = arrayMap.get(Util.nameTypeA2Z(zone_type));
                     quoteAdapter_market.setDatas(quoteList);
 
                 } else {
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_name = true;
-                    switch (zone_type) {
-                        case AppConfig.VIEW_OPTIONAL:
-                            type = AppConfig.OPTIONAL_NAME_Z2A;
-                            break;
-                        case AppConfig.VIEW_SPOT:
-                            type = AppConfig.SPOT_NAME_Z2A;
-                            break;
-                        case AppConfig.VIEW_CONTRACT:
-                            type = AppConfig.CONTRACT_NAME_Z2A;
-                            break;
-                        case AppConfig.VIEW_DERIVATIVES:
-                            type = AppConfig.DERIVATIVES_NAME_Z2A;
-                            break;
-                    }
-                    List<String> quoteList = arrayMap.get(type);
+
+                    List<String> quoteList = arrayMap.get(Util.nameTypeZ2A(zone_type));
                     quoteAdapter_market.setDatas(quoteList);
 
                 }

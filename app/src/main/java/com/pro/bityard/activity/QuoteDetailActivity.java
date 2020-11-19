@@ -944,7 +944,7 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        TabLayout tabLayout_market = view.findViewById(R.id.tabLayout_market);
+        TabLayout tabLayout_market = view.findViewById(R.id.tabLayout_market_search);
         titleList = new ArrayList<>();
         titleList.add(getResources().getString(R.string.text_optional));
         titleList.add(getResources().getString(R.string.text_main_zone));

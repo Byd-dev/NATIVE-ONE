@@ -1,3 +1,6 @@
+
+
+
 package com.pro.bityard.utils;
 
 import android.annotation.TargetApi;
@@ -1058,15 +1061,13 @@ public class Util {
 
 
     public static void isOptional(String contCode, Set<String> list, OnResult onResult) {
-        if (list.toString().contains(contCode)){
+        if (list.toString().contains(contCode)) {
             onResult.setResult(true);
-        }else {
+        } else {
             onResult.setResult(false);
         }
 
     }
-
-
 
 
     public static ArrayMap<String, String> groupData(List<InitEntity.GroupBean> group) {
@@ -1099,5 +1100,171 @@ public class Util {
         return append.toString();
     }
 
+
+    public static String priceTypeHigh2Low(String zone_type) {
+        String type;
+        switch (zone_type) {
+            case AppConfig.VIEW_OPTIONAL_SPOT:
+                type = AppConfig.OPTIONAL_SPOT_PRICE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_OPTIONAL_CONTRACT:
+                type = AppConfig.OPTIONAL_CONTRACT_PRICE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_OPTIONAL_DERIVATIVES:
+                type = AppConfig.OPTIONAL_DERIVATIVES_PRICE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_SPOT:
+                type = AppConfig.SPOT_PRICE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_CONTRACT:
+                type = AppConfig.CONTRACT_PRICE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_DERIVATIVES:
+                type = AppConfig.DERIVATIVES_PRICE_HIGH2LOW;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + zone_type);
+        }
+        return type;
+    }
+
+
+    public static String priceTypeLow2High(String zone_type) {
+        String type;
+        switch (zone_type) {
+            case AppConfig.VIEW_OPTIONAL_SPOT:
+                type = AppConfig.OPTIONAL_SPOT_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_OPTIONAL_CONTRACT:
+                type = AppConfig.OPTIONAL_CONTRACT_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_OPTIONAL_DERIVATIVES:
+                type = AppConfig.OPTIONAL_DERIVATIVES_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_SPOT:
+                type = AppConfig.SPOT_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_CONTRACT:
+                type = AppConfig.CONTRACT_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_DERIVATIVES:
+                type = AppConfig.DERIVATIVES_PRICE_LOW2HIGH;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + zone_type);
+        }
+        return type;
+    }
+
+
+    public static String rateTypeHigh2Low(String zone_type) {
+        String type;
+        switch (zone_type) {
+            case AppConfig.VIEW_OPTIONAL_SPOT:
+                type = AppConfig.OPTIONAL_SPOT_RATE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_OPTIONAL_CONTRACT:
+                type = AppConfig.OPTIONAL_CONTRACT_RATE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_OPTIONAL_DERIVATIVES:
+                type = AppConfig.OPTIONAL_DERIVATIVES_RATE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_SPOT:
+                type = AppConfig.SPOT_RATE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_CONTRACT:
+                type = AppConfig.CONTRACT_RATE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_DERIVATIVES:
+                type = AppConfig.DERIVATIVES_RATE_HIGH2LOW;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + zone_type);
+        }
+        return type;
+    }
+
+
+    public static String rateTypeLow2High(String zone_type) {
+        String type;
+        switch (zone_type) {
+            case AppConfig.VIEW_OPTIONAL_SPOT:
+                type = AppConfig.OPTIONAL_SPOT_RATE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_OPTIONAL_CONTRACT:
+                type = AppConfig.OPTIONAL_CONTRACT_RATE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_OPTIONAL_DERIVATIVES:
+                type = AppConfig.OPTIONAL_DERIVATIVES_RATE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_SPOT:
+                type = AppConfig.SPOT_RATE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_CONTRACT:
+                type = AppConfig.CONTRACT_RATE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_DERIVATIVES:
+                type = AppConfig.DERIVATIVES_RATE_LOW2HIGH;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + zone_type);
+        }
+        return type;
+    }
+
+    public static String nameTypeA2Z(String zone_type) {
+        String type;
+        switch (zone_type) {
+            case AppConfig.VIEW_OPTIONAL_SPOT:
+                type = AppConfig.OPTIONAL_SPOT_NAME_A2Z;
+                break;
+            case AppConfig.VIEW_OPTIONAL_CONTRACT:
+                type = AppConfig.OPTIONAL_CONTRACT_NAME_A2Z;
+                break;
+            case AppConfig.VIEW_OPTIONAL_DERIVATIVES:
+                type = AppConfig.OPTIONAL_DERIVATIVES_NAME_A2Z;
+                break;
+            case AppConfig.VIEW_SPOT:
+                type = AppConfig.SPOT_NAME_A2Z;
+                break;
+            case AppConfig.VIEW_CONTRACT:
+                type = AppConfig.CONTRACT_NAME_A2Z;
+                break;
+            case AppConfig.VIEW_DERIVATIVES:
+                type = AppConfig.DERIVATIVES_NAME_A2Z;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + zone_type);
+        }
+        return type;
+    }
+
+
+    public static String nameTypeZ2A(String zone_type) {
+        String type;
+        switch (zone_type) {
+            case AppConfig.VIEW_OPTIONAL_SPOT:
+                type = AppConfig.OPTIONAL_SPOT_NAME_Z2A;
+                break;
+            case AppConfig.VIEW_OPTIONAL_CONTRACT:
+                type = AppConfig.OPTIONAL_CONTRACT_NAME_Z2A;
+                break;
+            case AppConfig.VIEW_OPTIONAL_DERIVATIVES:
+                type = AppConfig.OPTIONAL_DERIVATIVES_NAME_Z2A;
+                break;
+            case AppConfig.VIEW_SPOT:
+                type = AppConfig.SPOT_NAME_Z2A;
+                break;
+            case AppConfig.VIEW_CONTRACT:
+                type = AppConfig.CONTRACT_NAME_Z2A;
+                break;
+            case AppConfig.VIEW_DERIVATIVES:
+                type = AppConfig.DERIVATIVES_NAME_Z2A;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + zone_type);
+        }
+        return type;
+    }
 
 }

@@ -26,6 +26,10 @@ public class AppConfig {
 
     //页面分区
     public static final String VIEW_OPTIONAL = "VIEW_OPTIONAL";//自选
+    public static final String VIEW_OPTIONAL_SPOT = "VIEW_OPTIONAL_SPOT";//自选
+    public static final String VIEW_OPTIONAL_CONTRACT = "VIEW_OPTIONAL_CONTRACT";//自选
+    public static final String VIEW_OPTIONAL_DERIVATIVES = "VIEW_OPTIONAL_DERIVATIVES";//自选
+
     public static final String VIEW_SPOT = "VIEW_SPOT";//现货
     public static final String VIEW_CONTRACT = "VIEW_CONTRACT";//合约主区
     public static final String VIEW_DERIVATIVES = "VIEW_DERIVATIVES";//合约创新
@@ -45,6 +49,55 @@ public class AppConfig {
     public static final String OPTIONAL_NAME_A2Z = "OPTIONAL_NAME_A2Z";
     //自选 名称Z到A
     public static final String OPTIONAL_NAME_Z2A = "OPTIONAL_NAME_Z2A";
+
+
+    //现货自选列表
+    public static final String OPTIONAL_SPOT_ALL = "OPTIONAL_SPOT_ALL";
+    //自选 价格高2低
+    public static final String OPTIONAL_SPOT_PRICE_HIGH2LOW = "OPTIONAL_SPOT_PRICE_HIGH2LOW";
+    //自选 价格低2高
+    public static final String OPTIONAL_SPOT_PRICE_LOW2HIGH = "OPTIONAL_SPOT_PRICE_LOW2HIGH";
+    //自选 涨跌幅高2低
+    public static final String OPTIONAL_SPOT_RATE_HIGH2LOW = "OPTIONAL_SPOT_RATE_HIGH2LOW";
+    //自选 涨跌幅低2高
+    public static final String OPTIONAL_SPOT_RATE_LOW2HIGH = "OPTIONAL_SPOT_RATE_LOW2HIGH";
+    //自选 名称A到Z
+    public static final String OPTIONAL_SPOT_NAME_A2Z = "OPTIONAL_SPOT_NAME_A2Z";
+    //自选 名称Z到A
+    public static final String OPTIONAL_SPOT_NAME_Z2A = "OPTIONAL_SPOT_NAME_Z2A";
+
+    //合约自选列表
+    public static final String OPTIONAL_CONTRACT_ALL = "OPTIONAL_CONTRACT_ALL";
+    //自选 价格高2低
+    public static final String OPTIONAL_CONTRACT_PRICE_HIGH2LOW = "OPTIONAL_CONTRACT_PRICE_HIGH2LOW";
+    //自选 价格低2高
+    public static final String OPTIONAL_CONTRACT_PRICE_LOW2HIGH = "OPTIONAL_CONTRACT_PRICE_LOW2HIGH";
+    //自选 涨跌幅高2低
+    public static final String OPTIONAL_CONTRACT_RATE_HIGH2LOW = "OPTIONAL_CONTRACT_RATE_HIGH2LOW";
+    //自选 涨跌幅低2高
+    public static final String OPTIONAL_CONTRACT_RATE_LOW2HIGH = "OPTIONAL_CONTRACT_RATE_LOW2HIGH";
+    //自选 名称A到Z
+    public static final String OPTIONAL_CONTRACT_NAME_A2Z = "OPTIONAL_CONTRACT_NAME_A2Z";
+    //自选 名称Z到A
+    public static final String OPTIONAL_CONTRACT_NAME_Z2A = "OPTIONAL_CONTRACT_NAME_Z2A";
+
+
+    //衍生品自选列表
+    public static final String OPTIONAL_DERIVATIVES_ALL = "OPTIONAL_DERIVATIVES_ALL";
+    //自选 价格高2低
+    public static final String OPTIONAL_DERIVATIVES_PRICE_HIGH2LOW = "OPTIONAL_DERIVATIVES_PRICE_HIGH2LOW";
+    //自选 价格低2高
+    public static final String OPTIONAL_DERIVATIVES_PRICE_LOW2HIGH = "OPTIONAL_DERIVATIVES_PRICE_LOW2HIGH";
+    //自选 涨跌幅高2低
+    public static final String OPTIONAL_DERIVATIVES_RATE_HIGH2LOW = "OPTIONAL_DERIVATIVES_RATE_HIGH2LOW";
+    //自选 涨跌幅低2高
+    public static final String OPTIONAL_DERIVATIVES_RATE_LOW2HIGH = "OPTIONAL_DERIVATIVES_RATE_LOW2HIGH";
+    //自选 名称A到Z
+    public static final String OPTIONAL_DERIVATIVES_NAME_A2Z = "OPTIONAL_DERIVATIVES_NAME_A2Z";
+    //自选 名称Z到A
+    public static final String OPTIONAL_DERIVATIVES_NAME_Z2A = "OPTIONAL_DERIVATIVES_NAME_Z2A";
+
+
 
     //现货列表
     public static final String SPOT_ALL = "SPOT_ALL";

@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
@@ -1008,8 +1009,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    private List<String> titleList, titleListContract;
-
+    private List<String> titleList, titleListContract,optionalTitleList;
+    private OptionalSelectAdapter optionalSelectAdapter;
     private boolean flag_new_price = false;
     private boolean flag_up_down = false;
     private boolean flag_name = false;
@@ -1027,13 +1028,36 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
 
+
         titleList = new ArrayList<>();
         titleList.add(getString(R.string.text_optional));
         titleList.add(getString(R.string.text_spot));
         titleList.add(getString(R.string.text_contract));
         titleList.add(getString(R.string.text_derived));
+        LinearLayout layout_optional_select_pop=view.findViewById(R.id.layout_optional_select_pop);
 
-        TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market);
+        RecyclerView recyclerView_optional_select_pop=view.findViewById(R.id.recyclerView_optional_pop);
+
+        LinearLayout layout_null_pop=view.findViewById(R.id.layout_null);
+
+        optionalSelectAdapter = new OptionalSelectAdapter(this);
+        recyclerView_optional_select_pop.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        recyclerView_optional_select_pop.setAdapter(optionalSelectAdapter);
+        optionalTitleList = new ArrayList<>();
+        optionalTitleList.add(getString(R.string.text_spot));
+        optionalTitleList.add(getString(R.string.text_contract));
+        optionalTitleList.add(getString(R.string.text_derived));
+        optionalSelectAdapter.setDatas(optionalTitleList);
+        optionalSelectAdapter.select(getString(R.string.text_spot));
+        optionalSelectAdapter.setEnable(true);
+
+
+
+
+
+
+
+        TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market_search);
 
         LinearLayout layout_null = view.findViewById(R.id.layout_null);
 
@@ -1051,6 +1075,63 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
         ImageView img_name_triangle = view.findViewById(R.id.img_name_triangle);
 
+        /*自选的监听*/
+        optionalSelectAdapter.setOnItemClick((position, data) -> {
+            optionalSelectAdapter.select(data);
+            switch (position) {
+                case 0:
+                    type = AppConfig.OPTIONAL_SPOT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null_pop.setVisibility(View.VISIBLE);
+                        recyclerView_optional_select_pop.setVisibility(View.GONE);
+                    } else {
+                        layout_null_pop.setVisibility(View.GONE);
+                        recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+                case 1:
+                    type = AppConfig.OPTIONAL_CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null_pop.setVisibility(View.VISIBLE);
+                        recyclerView_optional_select_pop.setVisibility(View.GONE);
+                    } else {
+                        layout_null_pop.setVisibility(View.GONE);
+                        recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+                case 2:
+                    type = AppConfig.OPTIONAL_DERIVATIVES_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_DERIVATIVES;
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null_pop.setVisibility(View.VISIBLE);
+                        recyclerView_optional_select_pop.setVisibility(View.GONE);
+                    } else {
+                        layout_null_pop.setVisibility(View.GONE);
+                        recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+            }
+        });
+
 
         for (String market_name : titleList) {
             tabLayout_market_search.addTab(tabLayout_market_search.newTab().setText(market_name));
@@ -1063,21 +1144,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             if (flag_new_price) {
                 img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                 flag_new_price = false;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_PRICE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_PRICE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_PRICE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_PRICE_HIGH2LOW;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+
+                List<String> quoteList = arrayMap.get(Util.priceTypeHigh2Low(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
 
@@ -1085,21 +1153,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
 
                 img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_new_price = true;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_PRICE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_PRICE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_PRICE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_PRICE_LOW2HIGH;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+
+                List<String> quoteList = arrayMap.get(Util.priceTypeLow2High(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             }
@@ -1114,41 +1169,15 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             if (flag_up_down) {
                 img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                 flag_up_down = false;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_RATE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_RATE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_RATE_HIGH2LOW;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_RATE_HIGH2LOW;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+
+                List<String> quoteList = arrayMap.get(Util.rateTypeHigh2Low(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             } else {
                 img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_up_down = true;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_RATE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_RATE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_RATE_LOW2HIGH;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_RATE_LOW2HIGH;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+
+                List<String> quoteList = arrayMap.get(Util.rateTypeLow2High(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             }
@@ -1162,41 +1191,15 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             if (flag_name) {
                 img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                 flag_name = false;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_NAME_A2Z;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_NAME_A2Z;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_NAME_A2Z;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_NAME_A2Z;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+
+                List<String> quoteList = arrayMap.get(Util.nameTypeA2Z(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             } else {
                 img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_name = true;
-                switch (zone_type) {
-                    case AppConfig.VIEW_OPTIONAL:
-                        type = AppConfig.OPTIONAL_NAME_Z2A;
-                        break;
-                    case AppConfig.VIEW_SPOT:
-                        type = AppConfig.SPOT_NAME_Z2A;
-                        break;
-                    case AppConfig.VIEW_CONTRACT:
-                        type = AppConfig.CONTRACT_NAME_Z2A;
-                        break;
-                    case AppConfig.VIEW_DERIVATIVES:
-                        type = AppConfig.DERIVATIVES_NAME_Z2A;
-                        break;
-                }
-                List<String> quoteList = arrayMap.get(type);
+
+                List<String> quoteList = arrayMap.get(Util.nameTypeZ2A(zone_type));
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             }
@@ -1216,8 +1219,9 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                 }
 
                 if (tab.getPosition() == 0) {
-                    type = AppConfig.OPTIONAL_ALL;
-                    zone_type = AppConfig.VIEW_OPTIONAL;
+                    layout_optional_select_pop.setVisibility(View.VISIBLE);
+                    type = AppConfig.OPTIONAL_SPOT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
                     quoteList = arrayMap.get(type);
                     Log.d("print", "onTabSelected:684:  " + quoteList + "  " + type);
                     if (quoteList == null) {
@@ -1232,6 +1236,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 } else if (tab.getPosition() == 1) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+
                     type = AppConfig.SPOT_ALL;
                     zone_type = AppConfig.VIEW_SPOT;
 
@@ -1248,6 +1254,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 } else if (tab.getPosition() == 2) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+
                     type = AppConfig.CONTRACT_ALL;
                     zone_type = AppConfig.VIEW_CONTRACT;
 
@@ -1264,6 +1272,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 } else if (tab.getPosition() == 3) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+
                     type = AppConfig.DERIVATIVES_ALL;
                     zone_type = AppConfig.VIEW_DERIVATIVES;
 
@@ -1299,15 +1309,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         swipeRefreshLayout_market.setOnRefreshListener(() -> {
             swipeRefreshLayout_market.setRefreshing(false);
             quoteAdapter_market_pop.setDatas(quoteList);
-          /*  String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
-            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-            if (quote_host == null && quote_code == null) {
-                NetManger.getInstance().initQuote();
-                WebSocketManager.getInstance().reconnect();
-            } else {
-                assert quote_host != null;
-                // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
-            }*/
+
         });
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
@@ -1338,11 +1340,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             text_currency.setText(TradeUtil.currency(data));
             text_name_spot.setText(TradeUtil.name(data));
             text_currency_spot.setText(TradeUtil.currency(data));
-            /*if (listQuoteUSD(data) == null) {
-                text_name_usdt.setText("");
-            } else {
-                text_name_usdt.setText(listQuoteUSD(data));
-            }*/
+
             // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
 
             edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
@@ -1933,145 +1931,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
     }
 
 
-    /*行情选择*/
-    @SuppressLint("NewApi")
-    private void showProductWindow(List<String> quoteList) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.item_product_layout, null);
-        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        RecyclerView recyclerView = view.findViewById(R.id.recyclerView_pop);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 4));
-        quotePopAdapter = new QuotePopAdapter(this);
-        recyclerView.setAdapter(quotePopAdapter);
-        if (quoteList != null) {
-            quotePopAdapter.setDatas(quoteList);
-        }
-        if (quoteMinEntity != null) {
-            quotePopAdapter.select(quoteMinEntity.getSymbol());
-
-        }
-
-
-        quotePopAdapter.setOnItemClick(data -> {
-            quote_code = TradeUtil.itemQuoteContCode(data);
-            //自选的图标
-            optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
-            //判断当前是否存在自选
-            if (optionalList.size()!=0){
-                 Util.isOptional(quote_code, optionalList, response -> {
-                boolean isOptional = (boolean) response;
-                if (isOptional) {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                } else {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-                }
-            });
-            }
-
-
-
-            text_market_currency.setText(TradeUtil.currency(data));
-            text_limit_currency.setText(TradeUtil.currency(data));
-
-            text_name.setText(TradeUtil.name(data));
-            text_currency.setText(TradeUtil.currency(data));
-            text_name_spot.setText(TradeUtil.name(data));
-            text_currency_spot.setText(TradeUtil.currency(data));
-           /* if (listQuoteUSD(data) == null) {
-                text_name_usdt.setText("");
-            } else {
-                text_name_usdt.setText(listQuoteUSD(data));
-            }*/
-            // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
-
-            edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
-            edit_limit_price.setText(listQuotePrice(data));
-
-            // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-
-
-            Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
-
-            //相应选择
-            quotePopAdapter.select(itemQuoteContCode(data));
-            popupWindow.dismiss();
-            Log.d("print", "showProductWindow:1360:  " + tradeListEntityList);
-            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
-
-
-            setContent(tradeListEntity);
-
-
-        });
-
-
-        Button btn_switch = view.findViewById(R.id.btn_switch);
-
-        if (tradeType.equals("1")) {
-            btn_switch.setText(getResources().getText(R.string.text_simulation_btn));
-
-        } else if (tradeType.equals("2")) {
-            btn_switch.setText(getResources().getText(R.string.text_real_btn));
-
-        }
-
-        btn_switch.setOnClickListener(v -> {
-            if (tradeType.equals("1")) {
-
-                tradeType = "2";
-                text_switch.setText(getResources().getText(R.string.text_simulation_trade));
-                radio_btn1.setVisibility(View.GONE);
-
-
-            } else if (tradeType.equals("2")) {
-
-                tradeType = "1";
-                text_switch.setText(getResources().getText(R.string.text_real_trade));
-                radio_btn1.setVisibility(View.VISIBLE);
-
-
-            }
-            radio_btn0.setChecked(true);
-            if (radio_btn0.isChecked()) {
-                layout_market_price.setVisibility(View.VISIBLE);
-                layout_limit_price.setVisibility(View.GONE);
-
-
-            }
-            //可用余额
-            if (tradeType.equals("1")) {
-                text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
-                text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
-            } else {
-                text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
-                text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
-            }
-
-            popupWindow.dismiss();
-
-
-        });
-
-        popupWindow.setFocusable(true);
-        popupWindow.setOutsideTouchable(true);
-        popupWindow.setContentView(view);
-        popupWindow.showAsDropDown(layout_bar);
-    }
 
 
     @Override

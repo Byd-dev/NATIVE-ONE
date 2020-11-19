@@ -76,7 +76,7 @@
 
         <!--持仓 挂单 历史-->
         <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout_market"
+            android:id="@+id/tabLayout_market_search"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tab_height"
             app:tabIndicatorColor="@color/maincolor"
@@ -86,6 +86,29 @@
             app:tabSelectedTextColor="@color/maincolor"
             app:tabTextAppearance="@style/MyTablayoutstyle"
             app:tabTextColor="@color/text_second_color" />
+
+
+        <LinearLayout
+            android:id="@+id/layout_optional_select_pop"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bar_height"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_optional_pop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginRight="@dimen/margin_5"
+
+                />
+
+
+        </LinearLayout>
+
+
 
         <View
             android:layout_width="match_parent"

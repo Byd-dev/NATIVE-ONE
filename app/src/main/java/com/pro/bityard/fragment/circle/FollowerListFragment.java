@@ -93,7 +93,6 @@ public class FollowerListFragment extends BaseFragment implements View.OnClickLi
         //跟单监听
         followAdapter.setOnFollowClick((dataBean) -> {
             FollowDetailActivity.enter(getActivity(), AppConfig.FOLLOW,dataBean);
-
         });
         swipeRefreshLayout_circle.setOnRefreshListener(() -> {
             page=1;

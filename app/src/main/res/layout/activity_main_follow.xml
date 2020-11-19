@@ -27,7 +27,7 @@
             <include layout="@layout/tab_home" />
 
             <!--行情-->
-            <include layout="@layout/tab_market" />
+            <include layout="@layout/tab_market_optional" />
 
             <!--持仓-->
             <include layout="@layout/tab_circle" />

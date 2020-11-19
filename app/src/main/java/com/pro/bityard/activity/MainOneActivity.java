@@ -1076,7 +1076,7 @@ public class MainOneActivity extends BaseActivity implements Observer, View.OnCl
                 LinearLayout.LayoutParams.MATCH_PARENT);
 
 
-        TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market);
+        TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market_search);
 
         LinearLayout layout_null = view.findViewById(R.id.layout_null);
 
