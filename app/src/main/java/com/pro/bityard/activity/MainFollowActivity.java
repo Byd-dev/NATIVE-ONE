@@ -38,6 +38,7 @@ import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
@@ -1233,13 +1234,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             if (flag_new_price) {
                 img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                 flag_new_price = false;
-                List<String> quoteList = arrayMap.get(Util.priceTypeHigh2Low(zone_type));
+                Util.priceTypeHigh2Low(zone_type, response -> type = (String) response);
+                List<String> quoteList = arrayMap.get(type);
                 quoteAdapter_market_pop.setDatas(quoteList);
             } else {
 
                 img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_new_price = true;
-                List<String> quoteList = arrayMap.get(Util.priceTypeLow2High(zone_type));
+                Util.priceTypeLow2High(zone_type, response -> type = (String) response);
+                List<String> quoteList = arrayMap.get(type);
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             }
@@ -1254,13 +1257,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             if (flag_up_down) {
                 img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                 flag_up_down = false;
-                List<String> quoteList = arrayMap.get(Util.rateTypeHigh2Low(zone_type));
+                Util.rateTypeHigh2Low(zone_type, response -> type= (String) response);
+                List<String> quoteList = arrayMap.get(type);
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             } else {
                 img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_up_down = true;
-                List<String> quoteList = arrayMap.get(Util.rateTypeLow2High(zone_type));
+                Util.rateTypeLow2High(zone_type, response -> type= (String) response);
+                List<String> quoteList = arrayMap.get(type);
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             }
@@ -1274,13 +1279,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             if (flag_name) {
                 img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                 flag_name = false;
-                List<String> quoteList = arrayMap.get(Util.nameTypeA2Z(zone_type));
+                Util.nameTypeA2Z(zone_type, response -> type= (String) response);
+                List<String> quoteList = arrayMap.get(type);
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             } else {
                 img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_name = true;
-                List<String> quoteList = arrayMap.get(Util.nameTypeZ2A(zone_type));
+                Util.nameTypeZ2A(zone_type, response -> type= (String) response);
+                List<String> quoteList = arrayMap.get(type);
                 quoteAdapter_market_pop.setDatas(quoteList);
 
             }
@@ -1640,7 +1647,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (flag_new_price) {
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_new_price = false;
-                    List<String> quoteList = arrayMap.get(Util.priceTypeHigh2Low(zone_type));
+                    Util.priceTypeHigh2Low(zone_type, response -> type = (String) response);
+                    List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
 
@@ -1648,7 +1656,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_new_price = true;
-                    List<String> quoteList = arrayMap.get(Util.priceTypeLow2High(zone_type));
+                    Util.priceTypeLow2High(zone_type, response -> type = (String) response);
+                    List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
                 }
@@ -1664,14 +1673,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_up_down = false;
 
-                    List<String> quoteList = arrayMap.get(Util.rateTypeHigh2Low(zone_type));
+                    Util.rateTypeHigh2Low(zone_type, response -> type= (String) response);
+                    List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
                 } else {
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_up_down = true;
 
-                    List<String> quoteList = arrayMap.get(Util.rateTypeLow2High(zone_type));
+                    Util.rateTypeLow2High(zone_type, response -> type= (String) response);
+                    List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
                 }
@@ -1687,14 +1698,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_name = false;
 
-                    List<String> quoteList = arrayMap.get(Util.nameTypeA2Z(zone_type));
+                    Util.nameTypeA2Z(zone_type, response -> type= (String) response);
+                    List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
                 } else {
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                     flag_name = true;
 
-                    List<String> quoteList = arrayMap.get(Util.nameTypeZ2A(zone_type));
+                    Util.nameTypeZ2A(zone_type, response -> type= (String) response);
+                    List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
 
                 }

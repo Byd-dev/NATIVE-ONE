@@ -1101,7 +1101,7 @@ public class Util {
     }
 
 
-    public static String priceTypeHigh2Low(String zone_type) {
+    public static void priceTypeHigh2Low(String zone_type,OnResult onResult) {
         String type;
         switch (zone_type) {
             case AppConfig.VIEW_OPTIONAL_SPOT:
@@ -1125,11 +1125,11 @@ public class Util {
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
         }
-        return type;
+       onResult.setResult(type);
     }
 
 
-    public static String priceTypeLow2High(String zone_type) {
+    public static void priceTypeLow2High(String zone_type,OnResult onResult) {
         String type;
         switch (zone_type) {
             case AppConfig.VIEW_OPTIONAL_SPOT:
@@ -1153,11 +1153,11 @@ public class Util {
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
         }
-        return type;
+        onResult.setResult(type);
     }
 
 
-    public static String rateTypeHigh2Low(String zone_type) {
+    public static void rateTypeHigh2Low(String zone_type,OnResult onResult) {
         String type;
         switch (zone_type) {
             case AppConfig.VIEW_OPTIONAL_SPOT:
@@ -1181,11 +1181,11 @@ public class Util {
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
         }
-        return type;
+        onResult.setResult(type);
     }
 
 
-    public static String rateTypeLow2High(String zone_type) {
+    public static void rateTypeLow2High(String zone_type,OnResult onResult) {
         String type;
         switch (zone_type) {
             case AppConfig.VIEW_OPTIONAL_SPOT:
@@ -1209,10 +1209,10 @@ public class Util {
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
         }
-        return type;
+        onResult.setResult(type);
     }
 
-    public static String nameTypeA2Z(String zone_type) {
+    public static void nameTypeA2Z(String zone_type,OnResult onResult) {
         String type;
         switch (zone_type) {
             case AppConfig.VIEW_OPTIONAL_SPOT:
@@ -1236,11 +1236,11 @@ public class Util {
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
         }
-        return type;
+        onResult.setResult(type);
     }
 
 
-    public static String nameTypeZ2A(String zone_type) {
+    public static void nameTypeZ2A(String zone_type,OnResult onResult) {
         String type;
         switch (zone_type) {
             case AppConfig.VIEW_OPTIONAL_SPOT:
@@ -1264,7 +1264,7 @@ public class Util {
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
         }
-        return type;
+        onResult.setResult(type);
     }
 
 }
