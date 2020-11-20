@@ -389,7 +389,7 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.DERIVATIVES_NAME_A2Z, derivedQuoteList_name_a2z);
                 arrayMap.put(AppConfig.DERIVATIVES_NAME_Z2A, derivedQuoteList_name_z2a);
 
-                Log.d("webSocket", "onMessage:384:  " + quoteEntity.getData());
+                Log.d("webSocket", "onMessage:384:  " + quoteEntity.getData().length());
                 postListQuote(arrayMap);
 
                 break;

@@ -964,7 +964,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
             super.handleMessage(msg);
             //发送行情包
             if (quote_code != null) {
-                // Log.d("print", "handleMessage:845:  " + quote_code);
+                 Log.d("print", "handleMessage:845:  " + quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
             }
 
@@ -2326,6 +2326,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         myKLineView_1D.cancelQuotaThread();
         myKLineView_1_week.cancelQuotaThread();
         myKLineView_1_month.cancelQuotaThread();
+
+        quote_code=null;
 
 
     }

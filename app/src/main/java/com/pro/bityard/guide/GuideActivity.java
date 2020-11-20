@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
 import android.util.ArrayMap;
@@ -219,7 +220,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 return;
             } else {
                 //发送行情包
-                Log.d("webSocket", "handleMessage:231:  "+quote_code);
+              //  Log.d("webSocket", "handleMessage:231:  "+quote_code);
                 WebSocketManager.getInstance().send("3001", quote_code);
             }
 
