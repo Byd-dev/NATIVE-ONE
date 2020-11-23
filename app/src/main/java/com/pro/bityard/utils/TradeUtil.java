@@ -1,6 +1,5 @@
 package com.pro.bityard.utils;
 
-import android.os.Build;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -34,8 +33,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import androidx.annotation.RequiresApi;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.Util.getAllSatisfyStr;
@@ -790,13 +787,28 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-            if ((split[length - 4].equals(AppConfig.TYPE_FT) && split[length - 3].equals(AppConfig.ZONE_MAIN)) ||
-                    (split[length - 4].equals(AppConfig.TYPE_FT) && split[length - 3].equals(AppConfig.ZONE_INNOVATION))) {
+            if ((split[length - 4].equals(AppConfig.TYPE_FT))) {
                 quoteList2.add(mainQuote);
             }
+
         }
         return quoteList2;
     }
+
+    /* 合约*/
+    public static List<String> contractMainQuoteList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            int length = split.length;
+            if ((split[length - 4].equals(AppConfig.TYPE_FT) && split[length - 3].equals(AppConfig.ZONE_MAIN))) {
+                quoteList2.add(mainQuote);
+            }
+
+        }
+        return quoteList2;
+    }
+
 
     /*主区*/
     public static List<String> mainQuoteList(List<String> quoteList) {
@@ -851,6 +863,19 @@ public class TradeUtil {
         return quoteList2;
     }
 
+    /* 外汇*/
+    public static List<String> foreignExchangeQuoteList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            int length = split.length;
+            if (split[length - 4].equals(AppConfig.TYPE_FE)) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
+
     /* 现货DEFI*/
     public static List<String> spotDEFIQuoteList(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
@@ -864,7 +889,7 @@ public class TradeUtil {
         return quoteList2;
     }
 
-    /* 现货DEFI*/
+    /* 现货pos*/
     public static List<String> spotPOSQuoteList(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
@@ -880,17 +905,17 @@ public class TradeUtil {
     /* 自选*/
     public static List<String> optionalQuoteList(List<String> quoteList) {
         Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
-        Log.d("print", "optionalQuoteList:已选全部自选:  "+optionalList);
+        Log.d("print", "optionalQuoteList:已选全部自选:  " + optionalList);
         if (optionalList.size() == 0) {
             return null;
         } else {
             List<String> quoteList2 = new ArrayList<>();
             Iterator<String> iterator = optionalList.iterator();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 String next = iterator.next();
                 for (String mainQuote : quoteList) {
                     String[] split = mainQuote.split(",");
-                    if (split[0].equals(next)){
+                    if (split[0].equals(next)) {
                         quoteList2.add(mainQuote);
                     }
                 }
@@ -909,11 +934,11 @@ public class TradeUtil {
         } else {
             List<String> quoteList2 = new ArrayList<>();
             Iterator<String> iterator = optionalList.iterator();
-            while (iterator.hasNext()){
+            while (iterator.hasNext()) {
                 String next = iterator.next();
                 for (String mainQuote : quoteList) {
                     String[] split = mainQuote.split(",");
-                    if (split[0].equals(next)){
+                    if (split[0].equals(next)) {
                         quoteList2.add(mainQuote);
                     }
                 }
@@ -921,7 +946,6 @@ public class TradeUtil {
             return quoteList2;
         }
     }
-
 
 
     /*价格从大到小*/
@@ -1023,7 +1047,7 @@ public class TradeUtil {
             return null;
         } else {
             String[] split = quote.split(",");
-            return split[0].replaceAll(" ","");
+            return split[0].replaceAll(" ", "");
         }
 
     }

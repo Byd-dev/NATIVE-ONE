@@ -2327,6 +2327,8 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
         myKLineView_1_week.cancelQuotaThread();
         myKLineView_1_month.cancelQuotaThread();
 
+
+
         quote_code=null;
 
 

@@ -1116,11 +1116,20 @@ public class Util {
             case AppConfig.VIEW_SPOT:
                 type = AppConfig.SPOT_PRICE_HIGH2LOW;
                 break;
+            case AppConfig.VIEW_SPOT_DEFI:
+                type = AppConfig.SPOT_DEFI_PRICE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_SPOT_POS:
+                type = AppConfig.SPOT_POS_PRICE_HIGH2LOW;
+                break;
             case AppConfig.VIEW_CONTRACT:
                 type = AppConfig.CONTRACT_PRICE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
                 type = AppConfig.DERIVATIVES_PRICE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_FOREIGN_EXCHANGE:
+                type = AppConfig.FOREIGN_EXCHANGE_PRICE_HIGH2LOW;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
@@ -1144,11 +1153,20 @@ public class Util {
             case AppConfig.VIEW_SPOT:
                 type = AppConfig.SPOT_PRICE_LOW2HIGH;
                 break;
+            case AppConfig.VIEW_SPOT_DEFI:
+                type = AppConfig.SPOT_DEFI_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_SPOT_POS:
+                type = AppConfig.SPOT_POS_PRICE_LOW2HIGH;
+                break;
             case AppConfig.VIEW_CONTRACT:
                 type = AppConfig.CONTRACT_PRICE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
                 type = AppConfig.DERIVATIVES_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_FOREIGN_EXCHANGE:
+                type = AppConfig.FOREIGN_EXCHANGE_PRICE_LOW2HIGH;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
@@ -1172,11 +1190,20 @@ public class Util {
             case AppConfig.VIEW_SPOT:
                 type = AppConfig.SPOT_RATE_HIGH2LOW;
                 break;
+            case AppConfig.VIEW_SPOT_DEFI:
+                type = AppConfig.SPOT_DEFI_RATE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_SPOT_POS:
+                type = AppConfig.SPOT_POS_RATE_HIGH2LOW;
+                break;
             case AppConfig.VIEW_CONTRACT:
                 type = AppConfig.CONTRACT_RATE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
                 type = AppConfig.DERIVATIVES_RATE_HIGH2LOW;
+                break;
+            case AppConfig.VIEW_FOREIGN_EXCHANGE:
+                type = AppConfig.FOREIGN_EXCHANGE_RATE_HIGH2LOW;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
@@ -1200,11 +1227,20 @@ public class Util {
             case AppConfig.VIEW_SPOT:
                 type = AppConfig.SPOT_RATE_LOW2HIGH;
                 break;
+            case AppConfig.VIEW_SPOT_DEFI:
+                type = AppConfig.SPOT_DEFI_RATE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_SPOT_POS:
+                type = AppConfig.SPOT_POS_RATE_LOW2HIGH;
+                break;
             case AppConfig.VIEW_CONTRACT:
                 type = AppConfig.CONTRACT_RATE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
                 type = AppConfig.DERIVATIVES_RATE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_FOREIGN_EXCHANGE:
+                type = AppConfig.FOREIGN_EXCHANGE_RATE_LOW2HIGH;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
@@ -1227,11 +1263,20 @@ public class Util {
             case AppConfig.VIEW_SPOT:
                 type = AppConfig.SPOT_NAME_A2Z;
                 break;
+            case AppConfig.VIEW_SPOT_DEFI:
+                type = AppConfig.SPOT_DEFI_NAME_A2Z;
+                break;
+            case AppConfig.VIEW_SPOT_POS:
+                type = AppConfig.SPOT_POS_NAME_A2Z;
+                break;
             case AppConfig.VIEW_CONTRACT:
                 type = AppConfig.CONTRACT_NAME_A2Z;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
                 type = AppConfig.DERIVATIVES_NAME_A2Z;
+                break;
+            case AppConfig.VIEW_FOREIGN_EXCHANGE:
+                type = AppConfig.FOREIGN_EXCHANGE_NAME_A2Z;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
@@ -1255,11 +1300,20 @@ public class Util {
             case AppConfig.VIEW_SPOT:
                 type = AppConfig.SPOT_NAME_Z2A;
                 break;
+            case AppConfig.VIEW_SPOT_DEFI:
+                type = AppConfig.SPOT_DEFI_NAME_Z2A;
+                break;
+            case AppConfig.VIEW_SPOT_POS:
+                type = AppConfig.SPOT_POS_NAME_Z2A;
+                break;
             case AppConfig.VIEW_CONTRACT:
                 type = AppConfig.CONTRACT_NAME_Z2A;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
                 type = AppConfig.DERIVATIVES_NAME_Z2A;
+                break;
+            case AppConfig.VIEW_FOREIGN_EXCHANGE:
+                type = AppConfig.FOREIGN_EXCHANGE_NAME_Z2A;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);

@@ -16,6 +16,8 @@ public class AppConfig {
     //后台返回商品分区
     public static final String TYPE_FT = "FT";//合约
     public static final String TYPE_CH = "CH";//现货
+    public static final String TYPE_FE = "FE";//现货
+
     public static final String ZONE_MAIN = "main";//合约主区
     public static final String ZONE_INNOVATION = "inno";//合约创新
     public static final String ZONE_DERIVATIVES = "deriv";//合约衍生
@@ -33,6 +35,9 @@ public class AppConfig {
     public static final String VIEW_SPOT = "VIEW_SPOT";//现货
     public static final String VIEW_CONTRACT = "VIEW_CONTRACT";//合约主区
     public static final String VIEW_DERIVATIVES = "VIEW_DERIVATIVES";//合约创新
+    public static final String VIEW_FOREIGN_EXCHANGE = "VIEW_FOREIGN_EXCHANGE";//合约创新
+    public static final String VIEW_SPOT_DEFI = "VIEW_SPOT_DEFI";//现货defi
+    public static final String VIEW_SPOT_POS = "VIEW_SPOT_POS";//现货defi
 
 
     //自选列表
@@ -114,6 +119,35 @@ public class AppConfig {
     //现货 名称Z到A
     public static final String SPOT_NAME_Z2A = "SPOT_NAME_Z2A";
 
+    //现货defi列表
+    public static final String SPOT_DEFI_ALL = "SPOT_DEFI_ALL";
+    //现货 价格高2低
+    public static final String SPOT_DEFI_PRICE_HIGH2LOW = "SPOT_DEFI_PRICE_HIGH2LOW";
+    //现货 价格低2高
+    public static final String SPOT_DEFI_PRICE_LOW2HIGH = "SPOT_DEFI_PRICE_LOW2HIGH";
+    //现货 涨跌幅高2低
+    public static final String SPOT_DEFI_RATE_HIGH2LOW = "SPOT_DEFI_RATE_HIGH2LOW";
+    //现货 涨跌幅低2高
+    public static final String SPOT_DEFI_RATE_LOW2HIGH = "SPOT_DEFI_RATE_LOW2HIGH";
+    //现货 名称A到Z
+    public static final String SPOT_DEFI_NAME_A2Z = "SPOT_DEFI_NAME_A2Z";
+    //现货 名称Z到A
+    public static final String SPOT_DEFI_NAME_Z2A = "SPOT_DEFI_NAME_Z2A";
+
+    //现货pos列表
+    public static final String SPOT_POS_ALL = "SPOT_POS_ALL";
+    //现货 价格高2低
+    public static final String SPOT_POS_PRICE_HIGH2LOW = "SPOT_POS_PRICE_HIGH2LOW";
+    //现货 价格低2高
+    public static final String SPOT_POS_PRICE_LOW2HIGH = "SPOT_POS_PRICE_LOW2HIGH";
+    //现货 涨跌幅高2低
+    public static final String SPOT_POS_RATE_HIGH2LOW = "SPOT_POS_RATE_HIGH2LOW";
+    //现货 涨跌幅低2高
+    public static final String SPOT_POS_RATE_LOW2HIGH = "SPOT_POS_RATE_LOW2HIGH";
+    //现货 名称A到Z
+    public static final String SPOT_POS_NAME_A2Z = "SPOT_POS_NAME_A2Z";
+    //现货 名称Z到A
+    public static final String SPOT_POS_NAME_Z2A = "SPOT_POS_NAME_Z2A";
 
     //合约列表
     public static final String CONTRACT_ALL = "CONTRACT_ALL";
@@ -151,6 +185,23 @@ public class AppConfig {
     public static final String DERIVATIVES_NAME_A2Z = "DERIVATIVES_NAME_A2Z";
     //衍生品 名称Z到A
     public static final String DERIVATIVES_NAME_Z2A = "DERIVATIVES_NAME_Z2A";
+
+
+
+    //外汇列表
+    public static final String FOREIGN_EXCHANGE_ALL = "FOREIGN_EXCHANGE_ALL";
+    //衍生品 价格高2低
+    public static final String FOREIGN_EXCHANGE_PRICE_HIGH2LOW = "FOREIGN_EXCHANGE_PRICE_HIGH2LOW";
+    //衍生品 价格低2高
+    public static final String FOREIGN_EXCHANGE_PRICE_LOW2HIGH = "FOREIGN_EXCHANGE_PRICE_LOW2HIGH";
+    //衍生品 涨跌幅高2低
+    public static final String FOREIGN_EXCHANGE_RATE_HIGH2LOW = "FOREIGN_EXCHANGE_RATE_HIGH2LOW";
+    //衍生品 涨跌幅低2高
+    public static final String FOREIGN_EXCHANGE_RATE_LOW2HIGH = "FOREIGN_EXCHANGE_RATE_LOW2HIGH";
+    //衍生品 名称A到Z
+    public static final String FOREIGN_EXCHANGE_NAME_A2Z = "FOREIGN_EXCHANGE_NAME_A2Z";
+    //衍生品 名称Z到A
+    public static final String FOREIGN_EXCHANGE_NAME_Z2A = "FOREIGN_EXCHANGE_NAME_Z2A";
 
     /*商品合约*/
     public static final String KEY_COMMODITY = "KEY_COMMODITY";

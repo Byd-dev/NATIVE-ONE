@@ -107,22 +107,55 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
 
 
+                /*现货defi*/
+                List<String> spotDEFIQuoteList = TradeUtil.spotDEFIQuoteList(spotQuoteList);
+                //价格从高到低
+                List<String> spotDeFiQuoteList_price_high2low = TradeUtil.priceHighToLow(spotDEFIQuoteList);
+                //价格从低到高
+                List<String> spotDeFiQuoteList_price_low2high = TradeUtil.priceLowToHigh(spotDEFIQuoteList);
+                //涨跌幅从高到低
+                List<String> spotDeFiQuoteList_rate_high2low = TradeUtil.rangeHighToLow(spotDEFIQuoteList);
+                //涨跌幅从低到高
+                List<String> spotDeFiQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(spotDEFIQuoteList);
+                //字母a-z
+                List<String> spotDeFiQuoteList_name_a2z = TradeUtil.nameLowToHigh(spotDEFIQuoteList);
+                //字母z-a
+                List<String> spotDeFiQuoteList_name_z2a = TradeUtil.nameHighToLow(spotDEFIQuoteList);
+
+
+                /*现货defi*/
+                List<String> spotPOSQuoteList = TradeUtil.spotPOSQuoteList(spotQuoteList);
+                //价格从高到低
+                List<String> spotPOSQuoteList_price_high2low = TradeUtil.priceHighToLow(spotPOSQuoteList);
+                //价格从低到高
+                List<String> spotPOSQuoteList_price_low2high = TradeUtil.priceLowToHigh(spotPOSQuoteList);
+                //涨跌幅从高到低
+                List<String> spotPOSQuoteList_rate_high2low = TradeUtil.rangeHighToLow(spotPOSQuoteList);
+                //涨跌幅从低到高
+                List<String> spotPOSQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(spotPOSQuoteList);
+                //字母a-z
+                List<String> spotPOSQuoteList_name_a2z = TradeUtil.nameLowToHigh(spotPOSQuoteList);
+                //字母z-a
+                List<String> spotPOSQuoteList_name_z2a = TradeUtil.nameHighToLow(spotPOSQuoteList);
 
                 //合约
                 List<String> contractQuoteList = TradeUtil.contractQuoteList(strings);
+                Log.d("print", "onMessage: 113:"+contractQuoteList.size());
+
+                List<String> contractMainQuoteList = TradeUtil.contractMainQuoteList(contractQuoteList);
 
                 //价格从高到低
-                List<String> contractQuoteList_price_high2low = TradeUtil.priceHighToLow(contractQuoteList);
+                List<String> contractQuoteList_price_high2low = TradeUtil.priceHighToLow(contractMainQuoteList);
                 //价格从低到高
-                List<String> contractQuoteList_price_low2high = TradeUtil.priceLowToHigh(contractQuoteList);
+                List<String> contractQuoteList_price_low2high = TradeUtil.priceLowToHigh(contractMainQuoteList);
                 //涨跌幅从高到低
-                List<String> contractQuoteList_rate_high2low = TradeUtil.rangeHighToLow(contractQuoteList);
+                List<String> contractQuoteList_rate_high2low = TradeUtil.rangeHighToLow(contractMainQuoteList);
                 //涨跌幅从低到高
-                List<String> contractQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(contractQuoteList);
-                //字母a-z
-                List<String> contractQuoteList_name_a2z = TradeUtil.nameLowToHigh(contractQuoteList);
+                List<String> contractQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(contractMainQuoteList);
+                //字母a-z:
+                List<String> contractQuoteList_name_a2z = TradeUtil.nameLowToHigh(contractMainQuoteList);
                 //字母z-a
-                List<String> contractQuoteList_name_z2a = TradeUtil.nameHighToLow(contractQuoteList);
+                List<String> contractQuoteList_name_z2a = TradeUtil.nameHighToLow(contractMainQuoteList);
 
 
                 //衍生区
@@ -141,7 +174,20 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 //字母z-a
                 List<String> derivedQuoteList_name_z2a = TradeUtil.nameHighToLow(derivedQuoteList);
 
-
+                //外汇
+                List<String> feQuoteList = TradeUtil.foreignExchangeQuoteList(strings);
+                //价格从高到低
+                List<String> feQuoteList_price_high2low = TradeUtil.priceHighToLow(feQuoteList);
+                //价格从低到高
+                List<String> feQuoteList_price_low2high = TradeUtil.priceLowToHigh(feQuoteList);
+                //涨跌幅从高到低
+                List<String> feQuoteList_rate_high2low = TradeUtil.rangeHighToLow(feQuoteList);
+                //涨跌幅从低到高
+                List<String> feQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(feQuoteList);
+                //字母a-z
+                List<String> feQuoteList_name_a2z = TradeUtil.nameLowToHigh(feQuoteList);
+                //字母z-a
+                List<String> feQuoteList_name_z2a = TradeUtil.nameHighToLow(feQuoteList);
                 /*-------------------------------------------------------------------------*/
                 //主区
                 List<String> mainQuoteList = TradeUtil.mainQuoteList(strings);
@@ -367,8 +413,26 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.SPOT_NAME_A2Z, spotQuoteList_name_a2z);
                 arrayMap.put(AppConfig.SPOT_NAME_Z2A, spotQuoteList_name_z2a);
 
+                //现货DeFi
+                arrayMap.put(AppConfig.SPOT_DEFI_ALL, spotDEFIQuoteList);
+                arrayMap.put(AppConfig.SPOT_DEFI_PRICE_HIGH2LOW, spotDeFiQuoteList_price_high2low);
+                arrayMap.put(AppConfig.SPOT_DEFI_PRICE_LOW2HIGH, spotDeFiQuoteList_price_low2high);
+                arrayMap.put(AppConfig.SPOT_DEFI_RATE_HIGH2LOW, spotDeFiQuoteList_rate_high2low);
+                arrayMap.put(AppConfig.SPOT_DEFI_RATE_LOW2HIGH, spotDeFiQuoteList_rate_low2high);
+                arrayMap.put(AppConfig.SPOT_DEFI_NAME_A2Z, spotDeFiQuoteList_name_a2z);
+                arrayMap.put(AppConfig.SPOT_DEFI_NAME_Z2A, spotDeFiQuoteList_name_z2a);
+
+                //现货POS
+                arrayMap.put(AppConfig.SPOT_POS_ALL, spotPOSQuoteList);
+                arrayMap.put(AppConfig.SPOT_POS_PRICE_HIGH2LOW, spotPOSQuoteList_price_high2low);
+                arrayMap.put(AppConfig.SPOT_POS_PRICE_LOW2HIGH, spotPOSQuoteList_price_low2high);
+                arrayMap.put(AppConfig.SPOT_POS_RATE_HIGH2LOW, spotPOSQuoteList_rate_high2low);
+                arrayMap.put(AppConfig.SPOT_POS_RATE_LOW2HIGH, spotPOSQuoteList_rate_low2high);
+                arrayMap.put(AppConfig.SPOT_POS_NAME_A2Z, spotPOSQuoteList_name_a2z);
+                arrayMap.put(AppConfig.SPOT_POS_NAME_Z2A, spotPOSQuoteList_name_z2a);
+
                 //合约
-                arrayMap.put(AppConfig.CONTRACT_ALL, contractQuoteList);
+                arrayMap.put(AppConfig.CONTRACT_ALL, contractMainQuoteList);
                 arrayMap.put(AppConfig.CONTRACT_PRICE_HIGH2LOW, contractQuoteList_price_high2low);
                 arrayMap.put(AppConfig.CONTRACT_PRICE_LOW2HIGH, contractQuoteList_price_low2high);
                 arrayMap.put(AppConfig.CONTRACT_RATE_HIGH2LOW, contractQuoteList_rate_high2low);
@@ -388,6 +452,15 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.DERIVATIVES_RATE_LOW2HIGH, derivedQuoteList_rate_low2high);
                 arrayMap.put(AppConfig.DERIVATIVES_NAME_A2Z, derivedQuoteList_name_a2z);
                 arrayMap.put(AppConfig.DERIVATIVES_NAME_Z2A, derivedQuoteList_name_z2a);
+
+                //外汇
+                arrayMap.put(AppConfig.FOREIGN_EXCHANGE_ALL, feQuoteList);
+                arrayMap.put(AppConfig.FOREIGN_EXCHANGE_PRICE_HIGH2LOW, feQuoteList_price_high2low);
+                arrayMap.put(AppConfig.FOREIGN_EXCHANGE_PRICE_LOW2HIGH, feQuoteList_price_low2high);
+                arrayMap.put(AppConfig.FOREIGN_EXCHANGE_RATE_HIGH2LOW, feQuoteList_rate_high2low);
+                arrayMap.put(AppConfig.FOREIGN_EXCHANGE_RATE_LOW2HIGH, feQuoteList_rate_low2high);
+                arrayMap.put(AppConfig.FOREIGN_EXCHANGE_NAME_A2Z, feQuoteList_name_a2z);
+                arrayMap.put(AppConfig.FOREIGN_EXCHANGE_NAME_Z2A, feQuoteList_name_z2a);
 
                 Log.d("webSocket", "onMessage:384:  " + quoteEntity.getData().length());
                 postListQuote(arrayMap);

@@ -532,6 +532,7 @@
     <string name="text_spot">现货</string>
     <string name="text_contract">合约</string>
     <string name="hint_follow_amount">5~200</string>
+    <string name="text_foreign_exchange">外汇</string>
 
 
 </resources>
