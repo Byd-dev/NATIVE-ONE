@@ -328,7 +328,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         if (historyQuoteList!=null){
                             quoteAdapter_history.setDatas(historyQuoteList);
                         }else {
-                            
+
                         }
 
                     }
@@ -1412,9 +1412,17 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         List<String> historyQuoteList = arrayMap.get(AppConfig.HISTORY_ALL);
         if (historyQuoteList!=null){
             quoteAdapter_history.setDatas(historyQuoteList);
+        }else {
+            layout_history_content.setVisibility(View.GONE);
+
         }
 
-        view.findViewById(R.id.img_clear_history).setOnClickListener(v -> SPUtils.remove(AppConfig.KEY_HISTORY));
+
+
+        view.findViewById(R.id.img_clear_history).setOnClickListener(v -> {
+            SPUtils.remove(AppConfig.KEY_HISTORY);
+            layout_history_content.setVisibility(View.GONE);
+        });
 
         ImageView img_price_triangle = view.findViewById(R.id.img_price_triangle);
 
