@@ -34,6 +34,8 @@ public class AppConfig {
 
     public static final String VIEW_SPOT = "VIEW_SPOT";//现货
     public static final String VIEW_CONTRACT = "VIEW_CONTRACT";//合约主区
+    public static final String VIEW_POP_SPOT = "VIEW_POP_SPOT";//现货
+    public static final String VIEW_POP_CONTRACT = "VIEW_POP_CONTRACT";//合约主区
     public static final String VIEW_DERIVATIVES = "VIEW_DERIVATIVES";//合约创新
     public static final String VIEW_FOREIGN_EXCHANGE = "VIEW_FOREIGN_EXCHANGE";//合约创新
     public static final String VIEW_SPOT_DEFI = "VIEW_SPOT_DEFI";//现货defi

@@ -1114,6 +1114,7 @@ public class Util {
                 type = AppConfig.OPTIONAL_DERIVATIVES_PRICE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_SPOT:
+            case AppConfig.VIEW_POP_SPOT:
                 type = AppConfig.SPOT_PRICE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_SPOT_DEFI:
@@ -1123,6 +1124,7 @@ public class Util {
                 type = AppConfig.SPOT_POS_PRICE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_POP_CONTRACT:
                 type = AppConfig.CONTRACT_PRICE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
@@ -1150,6 +1152,7 @@ public class Util {
             case AppConfig.VIEW_OPTIONAL_DERIVATIVES:
                 type = AppConfig.OPTIONAL_DERIVATIVES_PRICE_LOW2HIGH;
                 break;
+            case AppConfig.VIEW_POP_SPOT:
             case AppConfig.VIEW_SPOT:
                 type = AppConfig.SPOT_PRICE_LOW2HIGH;
                 break;
@@ -1159,6 +1162,7 @@ public class Util {
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_PRICE_LOW2HIGH;
                 break;
+            case AppConfig.VIEW_POP_CONTRACT:
             case AppConfig.VIEW_CONTRACT:
                 type = AppConfig.CONTRACT_PRICE_LOW2HIGH;
                 break;
@@ -1168,6 +1172,7 @@ public class Util {
             case AppConfig.VIEW_FOREIGN_EXCHANGE:
                 type = AppConfig.FOREIGN_EXCHANGE_PRICE_LOW2HIGH;
                 break;
+
             default:
                 throw new IllegalStateException("Unexpected value: " + zone_type);
         }
@@ -1188,6 +1193,7 @@ public class Util {
                 type = AppConfig.OPTIONAL_DERIVATIVES_RATE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_SPOT:
+            case AppConfig.VIEW_POP_SPOT:
                 type = AppConfig.SPOT_RATE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_SPOT_DEFI:
@@ -1197,6 +1203,7 @@ public class Util {
                 type = AppConfig.SPOT_POS_RATE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_POP_CONTRACT:
                 type = AppConfig.CONTRACT_RATE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
@@ -1225,6 +1232,7 @@ public class Util {
                 type = AppConfig.OPTIONAL_DERIVATIVES_RATE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_SPOT:
+            case AppConfig.VIEW_POP_SPOT:
                 type = AppConfig.SPOT_RATE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_SPOT_DEFI:
@@ -1234,6 +1242,7 @@ public class Util {
                 type = AppConfig.SPOT_POS_RATE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_POP_CONTRACT:
                 type = AppConfig.CONTRACT_RATE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
@@ -1261,6 +1270,8 @@ public class Util {
                 type = AppConfig.OPTIONAL_DERIVATIVES_NAME_A2Z;
                 break;
             case AppConfig.VIEW_SPOT:
+            case AppConfig.VIEW_POP_SPOT:
+
                 type = AppConfig.SPOT_NAME_A2Z;
                 break;
             case AppConfig.VIEW_SPOT_DEFI:
@@ -1270,6 +1281,8 @@ public class Util {
                 type = AppConfig.SPOT_POS_NAME_A2Z;
                 break;
             case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_POP_CONTRACT:
+
                 type = AppConfig.CONTRACT_NAME_A2Z;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
@@ -1298,6 +1311,8 @@ public class Util {
                 type = AppConfig.OPTIONAL_DERIVATIVES_NAME_Z2A;
                 break;
             case AppConfig.VIEW_SPOT:
+            case AppConfig.VIEW_POP_SPOT:
+
                 type = AppConfig.SPOT_NAME_Z2A;
                 break;
             case AppConfig.VIEW_SPOT_DEFI:
@@ -1307,6 +1322,8 @@ public class Util {
                 type = AppConfig.SPOT_POS_NAME_Z2A;
                 break;
             case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_POP_CONTRACT:
+
                 type = AppConfig.CONTRACT_NAME_Z2A;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
