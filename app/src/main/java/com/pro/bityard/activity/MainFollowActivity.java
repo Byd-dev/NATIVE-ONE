@@ -751,7 +751,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             contractSelectAdapter.select(data);
             switch (position) {
                 case 0:
-                    type = AppConfig.CONTRACT_ALL;
+                    type = AppConfig.CONTRACT_IN_ALL;
                     zone_type = AppConfig.VIEW_CONTRACT;
 
                     quoteList = arrayMap.get(type);
