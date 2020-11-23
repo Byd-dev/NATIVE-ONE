@@ -212,6 +212,9 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 //自选
                 List<String> optionalQuoteList = TradeUtil.optionalQuoteList(strings);
 
+                //历史记录
+                List<String> historyQuoteList = TradeUtil.historyQuoteList(strings);
+
                 List<String> optionalSpotQuoteList = TradeUtil.optionalQuoteList(spotQuoteList);
                 List<String> optionalContractQuoteList = TradeUtil.optionalQuoteList(contractQuoteList);
                 List<String> optionalDerivedQuoteList = TradeUtil.optionalQuoteList(derivedQuoteList);
@@ -487,6 +490,9 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.FOREIGN_EXCHANGE_RATE_LOW2HIGH, feQuoteList_rate_low2high);
                 arrayMap.put(AppConfig.FOREIGN_EXCHANGE_NAME_A2Z, feQuoteList_name_a2z);
                 arrayMap.put(AppConfig.FOREIGN_EXCHANGE_NAME_Z2A, feQuoteList_name_z2a);
+
+                //历史记录
+                arrayMap.put(AppConfig.HISTORY_ALL, historyQuoteList);
 
                 Log.d("webSocket", "onMessage:384:  " + quoteEntity.getData().length());
                 postListQuote(arrayMap);

@@ -134,6 +134,18 @@
         </RelativeLayout>
 
 
+        <ImageView
+            android:id="@+id/img_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_star_normal"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:visibility="gone"
+            />
+
+
     </RelativeLayout>
 
     <View

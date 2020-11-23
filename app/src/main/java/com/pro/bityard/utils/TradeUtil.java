@@ -926,6 +926,29 @@ public class TradeUtil {
     }
 
 
+    /* 历史记录*/
+    public static List<String> historyQuoteList(List<String> quoteList) {
+        Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
+        Log.d("print", "optionalQuoteList:历史记录:  " + optionalList);
+        if (optionalList.size() == 0) {
+            return null;
+        } else {
+            List<String> quoteList2 = new ArrayList<>();
+            Iterator<String> iterator = optionalList.iterator();
+            while (iterator.hasNext()) {
+                String next = iterator.next();
+                for (String mainQuote : quoteList) {
+                    String[] split = mainQuote.split(",");
+                    if (split[0].equals(next)) {
+                        quoteList2.add(mainQuote);
+                    }
+                }
+            }
+            return quoteList2;
+        }
+
+    }
+
     /* 现货自选*/
     public static List<String> optionalSpotQuoteList(List<String> quoteList) {
         Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));

@@ -220,6 +220,9 @@ public class AppConfig {
     //衍生品 名称Z到A
     public static final String FOREIGN_EXCHANGE_NAME_Z2A = "FOREIGN_EXCHANGE_NAME_Z2A";
 
+    //历史记录
+    public static final String HISTORY_ALL = "HISTORY_ALL";
+
     /*商品合约*/
     public static final String KEY_COMMODITY = "KEY_COMMODITY";
     /*账户头像保存名称*/
@@ -271,6 +274,8 @@ public class AppConfig {
     public static final String PRIZE_TRADE = "prizeTrade";
     /*本地自选*/
     public static final String KEY_OPTIONAL = "KEY_OPTIONAL";
+    /*本地历史*/
+    public static final String KEY_HISTORY = "KEY_HISTORY";
     /*是否开启极验*/
     public static final String KEY_VERIFICATION = "KEY_VERIFICATION";
     /*汇率*/

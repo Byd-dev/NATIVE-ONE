@@ -80,6 +80,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Set;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -93,6 +94,7 @@ import butterknife.BindView;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
 public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener {
 
@@ -321,7 +323,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         }
                     }
 
+                    if (quoteAdapter_history != null) {
+                        List<String> historyQuoteList = arrayMap.get(AppConfig.HISTORY_ALL);
+                        if (historyQuoteList!=null){
+                            quoteAdapter_history.setDatas(historyQuoteList);
+                        }else {
+                            
+                        }
 
+                    }
                 });
             } else {
                 layout_null.setVisibility(View.VISIBLE);
@@ -1338,7 +1348,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     }
 
 
-    private QuoteAdapter quoteAdapter_market_pop;
+    private QuoteAdapter quoteAdapter_market_pop, quoteAdapter_history;
     // 声明平移动画
     private TranslateAnimation animation;
     private EditText edit_search;
@@ -1346,17 +1356,20 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     private MarketSearchHotAdapter marketSearchHotAdapter;
     private List<String> hotSearchList;
+    private Set<String> historyList;
+
 
     /*显示行情选择的按钮*/
     private void showQuotePopWindow() {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(this).inflate(R.layout.quote_market_search, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-
+        /*热门搜索*/
         RecyclerView recyclerView_hot_search = view.findViewById(R.id.recyclerView_hot_search);
-
         LinearLayout layout_search_hot = view.findViewById(R.id.layout_search_hot);
 
+        LinearLayout layout_quote_content = view.findViewById(R.id.layout_quote_content);
+        LinearLayout layout_history_content = view.findViewById(R.id.layout_history_content);
 
         marketSearchHotAdapter = new MarketSearchHotAdapter(this);
         recyclerView_hot_search.setLayoutManager(new GridLayoutManager(this, 3, RecyclerView.VERTICAL, false));
@@ -1370,15 +1383,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         hotSearchList.add("LINK/USDT");
         marketSearchHotAdapter.setDatas(hotSearchList);
 
-
         TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market_search);
-
-
-        optionalSelectAdapterPop = new OptionalSelectAdapter(this);
-        optionalSelectAdapterPop.setDatas(optionalTitleList);
-        optionalSelectAdapterPop.setEnable(true);
-        optionalSelectAdapterPop.select(getString(R.string.text_spot));
-
 
         RecyclerView recyclerView_market_pop = view.findViewById(R.id.recyclerView_market_pop);
 
@@ -1386,9 +1391,30 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_market_pop.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_market_pop.setAdapter(quoteAdapter_market_pop);
 
+
+
         quoteAdapter_market_pop.setDatas(quoteList);
         quoteAdapter_market_pop.isShowIcon(false);
         quoteAdapter_market_pop.isShowVolume(true);
+
+        /*历史记录*/
+        RecyclerView recyclerView_history_search = view.findViewById(R.id.recyclerView_history_search);
+
+        quoteAdapter_history = new QuoteAdapter(this);
+        recyclerView_history_search.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_history_search.setAdapter(quoteAdapter_history);
+
+        Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
+        Log.d("print", "showQuotePopWindow:1398: " + historyList);
+        quoteAdapter_history.isShowIcon(false);
+        quoteAdapter_history.isShowVolume(false);
+        quoteAdapter_history.isShowStar(optionalList, true);
+        List<String> historyQuoteList = arrayMap.get(AppConfig.HISTORY_ALL);
+        if (historyQuoteList!=null){
+            quoteAdapter_history.setDatas(historyQuoteList);
+        }
+
+        view.findViewById(R.id.img_clear_history).setOnClickListener(v -> SPUtils.remove(AppConfig.KEY_HISTORY));
 
         ImageView img_price_triangle = view.findViewById(R.id.img_price_triangle);
 
@@ -1571,10 +1597,27 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             }*/
         });
 
+
         quoteAdapter_market_pop.setOnItemClick(data -> {
             popupWindow.dismiss();
             type = AppConfig.CONTRACT_ALL;
             TradeActivity.enter(this, "1", data);
+
+            historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
+
+
+            if (historyList.size() != 0) {
+                Util.isOptional(itemQuoteContCode(data), historyList, response -> {
+                    boolean isOptional = (boolean) response;
+                    if (!isOptional) {
+                        historyList.add(itemQuoteContCode(data));
+                    }
+                });
+            } else {
+                historyList.add(itemQuoteContCode(data));
+            }
+            SPUtils.putString(AppConfig.KEY_HISTORY, Util.SPDeal(historyList));
+
 
         });
 
@@ -1599,10 +1642,11 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (s.length() != 0) {
+                    layout_quote_content.setVisibility(View.VISIBLE);
+                    layout_history_content.setVisibility(View.GONE);
+
                     layout_bar.setVisibility(View.GONE);
                     layout_search_hot.setVisibility(View.GONE);
-                    tabLayout_market.setVisibility(View.GONE);
-                    tabLayout_market.getTabAt(AppConfig.selectPosition).select();
                     if (zone_type.equals(AppConfig.VIEW_POP_CONTRACT)) {
                         type = AppConfig.CONTRACT_ALL;
                     } else {
@@ -1612,9 +1656,11 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
                     quoteAdapter_market_pop.setDatas(searchQuoteList);
                 } else {
+                    layout_quote_content.setVisibility(View.GONE);
+                    layout_history_content.setVisibility(View.VISIBLE);
+
                     layout_bar.setVisibility(View.VISIBLE);
                     layout_search_hot.setVisibility(View.VISIBLE);
-                    tabLayout_market.setVisibility(View.VISIBLE);
                     type = AppConfig.CONTRACT_ALL;
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market_pop.setDatas(quoteList);
@@ -1749,7 +1795,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.img_search:
                 Util.lightOff(this);
                 type = AppConfig.CONTRACT_ALL;
-                zone_type=AppConfig.VIEW_POP_CONTRACT;
+                zone_type = AppConfig.VIEW_POP_CONTRACT;
                 showQuotePopWindow();
                 break;
             case R.id.layout_new_price:
