@@ -166,6 +166,21 @@ public class AppConfig {
     //合约 名称Z到A
     public static final String CONTRACT_NAME_Z2A = "CONTRACT_NAME_Z2A";
 
+    //合约中合约列表
+    public static final String CONTRACT_IN_ALL = "CONTRACT_IN_ALL";
+    //合约 价格高2低
+    public static final String CONTRACT_IN_PRICE_HIGH2LOW = "CONTRACT_IN_PRICE_HIGH2LOW";
+    //合约 价格低2高
+    public static final String CONTRACT_IN_PRICE_LOW2HIGH = "CONTRACT_IN_PRICE_LOW2HIGH";
+    //合约 涨跌幅高2低
+    public static final String CONTRACT_IN_RATE_HIGH2LOW = "CONTRACT_IN_RATE_HIGH2LOW";
+    //合约 涨跌幅低2高
+    public static final String CONTRACT_IN_RATE_LOW2HIGH = "CONTRACT_IN_RATE_LOW2HIGH";
+    //合约 名称A到Z
+    public static final String CONTRACT_IN_NAME_A2Z = "CONTRACT_IN_NAME_A2Z";
+    //合约 名称Z到A
+    public static final String CONTRACT_IN_NAME_Z2A = "CONTRACT_IN_NAME_Z2A";
+
 
     //热门
     public static final String HOME_HOT = "HOME_HOT";

@@ -138,24 +138,40 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 //字母z-a
                 List<String> spotPOSQuoteList_name_z2a = TradeUtil.nameHighToLow(spotPOSQuoteList);
 
-                //合约
+                //所有合约 包括衍生品
                 List<String> contractQuoteList = TradeUtil.contractQuoteList(strings);
                 Log.d("print", "onMessage: 113:"+contractQuoteList.size());
 
-                List<String> contractMainQuoteList = TradeUtil.contractMainQuoteList(contractQuoteList);
 
                 //价格从高到低
-                List<String> contractQuoteList_price_high2low = TradeUtil.priceHighToLow(contractMainQuoteList);
+                List<String> contractQuoteList_price_high2low = TradeUtil.priceHighToLow(contractQuoteList);
                 //价格从低到高
-                List<String> contractQuoteList_price_low2high = TradeUtil.priceLowToHigh(contractMainQuoteList);
+                List<String> contractQuoteList_price_low2high = TradeUtil.priceLowToHigh(contractQuoteList);
                 //涨跌幅从高到低
-                List<String> contractQuoteList_rate_high2low = TradeUtil.rangeHighToLow(contractMainQuoteList);
+                List<String> contractQuoteList_rate_high2low = TradeUtil.rangeHighToLow(contractQuoteList);
                 //涨跌幅从低到高
-                List<String> contractQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(contractMainQuoteList);
+                List<String> contractQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(contractQuoteList);
                 //字母a-z:
-                List<String> contractQuoteList_name_a2z = TradeUtil.nameLowToHigh(contractMainQuoteList);
+                List<String> contractQuoteList_name_a2z = TradeUtil.nameLowToHigh(contractQuoteList);
                 //字母z-a
-                List<String> contractQuoteList_name_z2a = TradeUtil.nameHighToLow(contractMainQuoteList);
+                List<String> contractQuoteList_name_z2a = TradeUtil.nameHighToLow(contractQuoteList);
+
+
+                //合约中的合约
+                List<String> contractMainQuoteList = TradeUtil.contractMainQuoteList(contractQuoteList);
+                //价格从高到低
+                List<String> contractMainQuoteList_price_high2low = TradeUtil.priceHighToLow(contractMainQuoteList);
+                //价格从低到高
+                List<String> contractMainQuoteList_price_low2high = TradeUtil.priceLowToHigh(contractMainQuoteList);
+                //涨跌幅从高到低
+                List<String> contractMainQuoteList_rate_high2low = TradeUtil.rangeHighToLow(contractMainQuoteList);
+                //涨跌幅从低到高
+                List<String> contractMainQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(contractMainQuoteList);
+                //字母a-z:
+                List<String> contractMainQuoteList_name_a2z = TradeUtil.nameLowToHigh(contractMainQuoteList);
+                //字母z-a
+                List<String> contractMainQuoteList_name_z2a = TradeUtil.nameHighToLow(contractMainQuoteList);
+
 
 
                 //衍生区
@@ -431,14 +447,24 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.SPOT_POS_NAME_A2Z, spotPOSQuoteList_name_a2z);
                 arrayMap.put(AppConfig.SPOT_POS_NAME_Z2A, spotPOSQuoteList_name_z2a);
 
-                //合约
-                arrayMap.put(AppConfig.CONTRACT_ALL, contractMainQuoteList);
+                //合约包括衍生品
+                arrayMap.put(AppConfig.CONTRACT_ALL, contractQuoteList);
                 arrayMap.put(AppConfig.CONTRACT_PRICE_HIGH2LOW, contractQuoteList_price_high2low);
                 arrayMap.put(AppConfig.CONTRACT_PRICE_LOW2HIGH, contractQuoteList_price_low2high);
                 arrayMap.put(AppConfig.CONTRACT_RATE_HIGH2LOW, contractQuoteList_rate_high2low);
                 arrayMap.put(AppConfig.CONTRACT_RATE_LOW2HIGH, contractQuoteList_rate_low2high);
                 arrayMap.put(AppConfig.CONTRACT_NAME_A2Z, contractQuoteList_name_a2z);
                 arrayMap.put(AppConfig.CONTRACT_NAME_Z2A, contractQuoteList_name_z2a);
+
+
+                //合约中合约
+                arrayMap.put(AppConfig.CONTRACT_IN_ALL, contractMainQuoteList);
+                arrayMap.put(AppConfig.CONTRACT_IN_PRICE_HIGH2LOW, contractMainQuoteList_price_high2low);
+                arrayMap.put(AppConfig.CONTRACT_IN_PRICE_LOW2HIGH, contractMainQuoteList_price_low2high);
+                arrayMap.put(AppConfig.CONTRACT_IN_RATE_HIGH2LOW, contractMainQuoteList_rate_high2low);
+                arrayMap.put(AppConfig.CONTRACT_IN_RATE_LOW2HIGH, contractMainQuoteList_rate_low2high);
+                arrayMap.put(AppConfig.CONTRACT_IN_NAME_A2Z, contractMainQuoteList_name_a2z);
+                arrayMap.put(AppConfig.CONTRACT_IN_NAME_Z2A, contractMainQuoteList_name_z2a);
                 //首页热门和列表
                 arrayMap.put(AppConfig.HOME_HOT, hotQuoteList);
                 arrayMap.put(AppConfig.HOME_LIST, homeList);

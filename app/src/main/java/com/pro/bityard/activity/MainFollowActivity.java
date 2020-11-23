@@ -192,8 +192,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     @BindView(R.id.img_name_triangle)
     ImageView img_name_triangle;
-    private String type = AppConfig.SPOT_ALL;
-    private String zone_type = AppConfig.VIEW_SPOT;
+    private String type = AppConfig.CONTRACT_IN_ALL;
+    private String zone_type = AppConfig.VIEW_CONTRACT;
 
 
     private ArrayMap<String, List<String>> arrayMap;
@@ -922,7 +922,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     layout_contract_select.setVisibility(View.VISIBLE);
                     layout_spot_select.setVisibility(View.GONE);
 
-                    type = AppConfig.CONTRACT_ALL;
+                    type = AppConfig.CONTRACT_IN_ALL;
                     zone_type = AppConfig.VIEW_CONTRACT;
 
                     quoteList = arrayMap.get(type);
@@ -1785,7 +1785,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (flag_up_down) {
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_down));
                     flag_up_down = false;
-
                     Util.rateTypeHigh2Low(zone_type, response -> type = (String) response);
                     List<String> quoteList = arrayMap.get(type);
                     quoteAdapter_market.setDatas(quoteList);
