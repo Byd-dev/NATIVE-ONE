@@ -1123,7 +1123,9 @@ public class Util {
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_PRICE_HIGH2LOW;
                 break;
-            case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_CONTRACT_IN:
+                type = AppConfig.CONTRACT_IN_PRICE_HIGH2LOW;
+                break;
             case AppConfig.VIEW_POP_CONTRACT:
                 type = AppConfig.CONTRACT_PRICE_HIGH2LOW;
                 break;
@@ -1163,8 +1165,10 @@ public class Util {
                 type = AppConfig.SPOT_POS_PRICE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_POP_CONTRACT:
-            case AppConfig.VIEW_CONTRACT:
                 type = AppConfig.CONTRACT_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_CONTRACT_IN:
+                type = AppConfig.CONTRACT_IN_PRICE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
                 type = AppConfig.DERIVATIVES_PRICE_LOW2HIGH;
@@ -1202,7 +1206,9 @@ public class Util {
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_RATE_HIGH2LOW;
                 break;
-            case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_CONTRACT_IN:
+                type = AppConfig.CONTRACT_IN_RATE_HIGH2LOW;
+                break;
             case AppConfig.VIEW_POP_CONTRACT:
                 type = AppConfig.CONTRACT_RATE_HIGH2LOW;
                 break;
@@ -1241,7 +1247,9 @@ public class Util {
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_RATE_LOW2HIGH;
                 break;
-            case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_CONTRACT_IN:
+                type = AppConfig.CONTRACT_IN_RATE_LOW2HIGH;
+                break;
             case AppConfig.VIEW_POP_CONTRACT:
                 type = AppConfig.CONTRACT_RATE_LOW2HIGH;
                 break;
@@ -1280,7 +1288,10 @@ public class Util {
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_NAME_A2Z;
                 break;
-            case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_CONTRACT_IN:
+                type = AppConfig.CONTRACT_IN_NAME_A2Z;
+
+                break;
             case AppConfig.VIEW_POP_CONTRACT:
 
                 type = AppConfig.CONTRACT_NAME_A2Z;
@@ -1321,7 +1332,10 @@ public class Util {
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_NAME_Z2A;
                 break;
-            case AppConfig.VIEW_CONTRACT:
+            case AppConfig.VIEW_CONTRACT_IN:
+                type = AppConfig.CONTRACT_IN_NAME_Z2A;
+
+                break;
             case AppConfig.VIEW_POP_CONTRACT:
 
                 type = AppConfig.CONTRACT_NAME_Z2A;

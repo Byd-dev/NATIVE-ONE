@@ -92,7 +92,7 @@ public class MarketSearchHotAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((MyViewHolder) holder).radioButton.setEnabled(false);
             }
 
-            ((MyViewHolder) holder).radioButton.setText(datas.get(position));
+            ((MyViewHolder) holder).radioButton.setText(datas.get(position).split(",")[0]);
             if (chain.equals(datas.get(position))) {
                 ((MyViewHolder) holder).radioButton.setChecked(true);
             } else {

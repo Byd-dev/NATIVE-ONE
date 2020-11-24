@@ -195,7 +195,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @BindView(R.id.img_name_triangle)
     ImageView img_name_triangle;
     private String type = AppConfig.CONTRACT_IN_ALL;
-    private String zone_type = AppConfig.VIEW_CONTRACT;
+    private String zone_type = AppConfig.VIEW_CONTRACT_IN;
 
 
     private ArrayMap<String, List<String>> arrayMap;
@@ -264,6 +264,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private LoginEntity loginEntity;
     private UserDetailEntity userDetailEntity;
     private FollowerDetailEntity followDetailEntity = null;
+    private LinearLayout layout_history_content;
 
 
     @Override
@@ -326,9 +327,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     if (quoteAdapter_history != null) {
                         List<String> historyQuoteList = arrayMap.get(AppConfig.HISTORY_ALL);
                         if (historyQuoteList!=null){
+                            if (layout_history_content!=null){
+                                layout_history_content.setVisibility(View.VISIBLE);
+                            }
                             quoteAdapter_history.setDatas(historyQuoteList);
-                        }else {
-
                         }
 
                     }
@@ -752,7 +754,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             switch (position) {
                 case 0:
                     type = AppConfig.CONTRACT_IN_ALL;
-                    zone_type = AppConfig.VIEW_CONTRACT;
+                    zone_type = AppConfig.VIEW_CONTRACT_IN;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -933,7 +935,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     layout_spot_select.setVisibility(View.GONE);
 
                     type = AppConfig.CONTRACT_IN_ALL;
-                    zone_type = AppConfig.VIEW_CONTRACT;
+                    zone_type = AppConfig.VIEW_CONTRACT_IN;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -1369,19 +1371,43 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         LinearLayout layout_search_hot = view.findViewById(R.id.layout_search_hot);
 
         LinearLayout layout_quote_content = view.findViewById(R.id.layout_quote_content);
-        LinearLayout layout_history_content = view.findViewById(R.id.layout_history_content);
+        layout_history_content = view.findViewById(R.id.layout_history_content);
 
         marketSearchHotAdapter = new MarketSearchHotAdapter(this);
         recyclerView_hot_search.setLayoutManager(new GridLayoutManager(this, 3, RecyclerView.VERTICAL, false));
         recyclerView_hot_search.setAdapter(marketSearchHotAdapter);
         hotSearchList = new ArrayList<>();
-        hotSearchList.add("DOT/USDT");
-        hotSearchList.add("ATOM/USDT");
-        hotSearchList.add("UNI/USDT");
-        hotSearchList.add("FIL/USDT");
-        hotSearchList.add("ETH/USDT");
-        hotSearchList.add("LINK/USDT");
+        hotSearchList.add("DOT/USDT,DOTUSDT1808");
+        hotSearchList.add("ATOM/USDT,ATOMUSDT1808");
+        hotSearchList.add("UNI/USDT,UNIUSDT1808");
+        hotSearchList.add("FIL/USDT,FILUSDT1808");
+        hotSearchList.add("ETH/USDT,ETHUSDT1808");
+        hotSearchList.add("LINK/USDT,LINKUSDT1808");
         marketSearchHotAdapter.setDatas(hotSearchList);
+
+        marketSearchHotAdapter.setOnItemClick((position, data) -> {
+            List<String> list = arrayMap.get(AppConfig.CONTRACT_IN_ALL);
+            String[] split1 = data.split(",");
+            for (int i = 0; i <list.size() ; i++) {
+                String[] split = list.get(i).split(",");
+                if (split[0].equals(split1[1])){
+                    TradeActivity.enter(MainFollowActivity.this,"1",list.get(i));
+                }
+            }
+            historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
+            if (historyList.size() != 0) {
+                Util.isOptional(split1[1], historyList, response -> {
+                    boolean isOptional = (boolean) response;
+                    if (!isOptional) {
+                        historyList.add(itemQuoteContCode(split1[1]));
+                    }
+                });
+            } else {
+                historyList.add(itemQuoteContCode(split1[1]));
+            }
+            SPUtils.putString(AppConfig.KEY_HISTORY, Util.SPDeal(historyList));
+
+        });
 
         TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market_search);
 
@@ -1414,8 +1440,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             quoteAdapter_history.setDatas(historyQuoteList);
         }else {
             layout_history_content.setVisibility(View.GONE);
-
         }
+
+        quoteAdapter_history.setOnItemClick(data -> TradeActivity.enter(MainFollowActivity.this, "1", data));
 
 
 
@@ -1607,7 +1634,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
-            popupWindow.dismiss();
+           // popupWindow.dismiss();
             type = AppConfig.CONTRACT_ALL;
             TradeActivity.enter(this, "1", data);
 
