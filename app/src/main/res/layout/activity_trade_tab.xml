@@ -20,7 +20,7 @@
         <ImageView
             android:id="@+id/img_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:paddingLeft="@dimen/margin_15"
             android:paddingRight="@dimen/margin_15"
@@ -52,14 +52,11 @@
 
 
     </RelativeLayout>
-    <!--合约-->
-    <include layout="@layout/layout_contract" />
-    <!--衍生品-->
-    <include layout="@layout/layout_derived" />
-    <!--外汇-->
-    <include layout="@layout/layout_foreign_exchange" />
-    <!--现货-->
-    <include layout="@layout/layout_spot" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

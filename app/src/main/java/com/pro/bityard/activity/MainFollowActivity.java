@@ -326,8 +326,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                     if (quoteAdapter_history != null) {
                         List<String> historyQuoteList = arrayMap.get(AppConfig.HISTORY_ALL);
-                        if (historyQuoteList!=null){
-                            if (layout_history_content!=null){
+                        if (historyQuoteList != null) {
+                            if (layout_history_content != null) {
                                 layout_history_content.setVisibility(View.VISIBLE);
                             }
                             quoteAdapter_history.setDatas(historyQuoteList);
@@ -455,7 +455,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     }
 
     private void onSuccessListener(String data) {
-        TradeActivity.enter(this, "1", data);
+        TradeTabActivity.enter(this, "1", data);
     }
 
 
@@ -639,7 +639,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         quoteHomeAdapter = new QuoteHomeAdapter(this);
         recyclerView_hot.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView_hot.setAdapter(quoteHomeAdapter);
-        quoteHomeAdapter.setOnItemClick(data -> TradeActivity.enter(this, "1", data));
+        quoteHomeAdapter.setOnItemClick(data -> TradeTabActivity.enter(this, "1", data));
         img_head.setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
@@ -658,7 +658,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
 
-        quoteAdapter.setOnItemClick(data -> TradeActivity.enter(this, "1", data));
+        quoteAdapter.setOnItemClick(data -> TradeTabActivity.enter(this, "1", data));
         findViewById(R.id.layout_simulation_home).setOnClickListener(this);
         findViewById(R.id.layout_activity).setOnClickListener(this);
 
@@ -1176,7 +1176,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     case IntentConfig.Keys.KEY_KOL:
                         break;
                     case IntentConfig.Keys.KEY_TRADE_LIVE:
-                        TradeActivity.enter(this, "1", quoteList.get(0));
+                        TradeTabActivity.enter(this, "1", quoteList.get(0));
                         break;
                     case IntentConfig.Keys.KEY_MINING:
                         if (isLogin()) {
@@ -1388,10 +1388,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         marketSearchHotAdapter.setOnItemClick((position, data) -> {
             List<String> list = arrayMap.get(AppConfig.CONTRACT_IN_ALL);
             String[] split1 = data.split(",");
-            for (int i = 0; i <list.size() ; i++) {
+            for (int i = 0; i < list.size(); i++) {
                 String[] split = list.get(i).split(",");
-                if (split[0].equals(split1[1])){
-                    TradeActivity.enter(MainFollowActivity.this,"1",list.get(i));
+                if (split[0].equals(split1[1])) {
+                    TradeTabActivity.enter(MainFollowActivity.this, "1", list.get(i));
                 }
             }
             historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
@@ -1418,7 +1418,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_market_pop.setAdapter(quoteAdapter_market_pop);
 
 
-
         quoteAdapter_market_pop.setDatas(quoteList);
         quoteAdapter_market_pop.isShowIcon(false);
         quoteAdapter_market_pop.isShowVolume(true);
@@ -1435,15 +1434,19 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         quoteAdapter_history.isShowIcon(false);
         quoteAdapter_history.isShowVolume(false);
         quoteAdapter_history.isShowStar(optionalList, true);
-        List<String> historyQuoteList = arrayMap.get(AppConfig.HISTORY_ALL);
-        if (historyQuoteList!=null){
-            quoteAdapter_history.setDatas(historyQuoteList);
-        }else {
-            layout_history_content.setVisibility(View.GONE);
+
+
+        if (arrayMap != null) {
+            List<String> historyQuoteList = arrayMap.get(AppConfig.HISTORY_ALL);
+            if (historyQuoteList != null) {
+                quoteAdapter_history.setDatas(historyQuoteList);
+            } else {
+                layout_history_content.setVisibility(View.GONE);
+            }
         }
 
-        quoteAdapter_history.setOnItemClick(data -> TradeActivity.enter(MainFollowActivity.this, "1", data));
 
+        quoteAdapter_history.setOnItemClick(data -> TradeTabActivity.enter(MainFollowActivity.this, "1", data));
 
 
         view.findViewById(R.id.img_clear_history).setOnClickListener(v -> {
@@ -1634,9 +1637,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
-           // popupWindow.dismiss();
+            // popupWindow.dismiss();
             type = AppConfig.CONTRACT_ALL;
-            TradeActivity.enter(this, "1", data);
+            TradeTabActivity.enter(this, "1", data);
 
             historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
 
@@ -1764,7 +1767,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (quoteList == null) {
                     return;
                 }
-                TradeActivity.enter(MainFollowActivity.this, "1", quoteList.get(0));
+                TradeTabActivity.enter(MainFollowActivity.this, "1", quoteList.get(0));
 
                 break;
 
@@ -1823,7 +1826,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (quoteList == null) {
                     return;
                 }
-                TradeActivity.enter(MainFollowActivity.this, "2", quoteList.get(0));
+                TradeTabActivity.enter(MainFollowActivity.this, "2", quoteList.get(0));
                 break;
 
             /*行情 -----------------------------------------------------------------------------------*/

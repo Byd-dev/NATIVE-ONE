@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_contract"
+    android:id="@+id/layout_derived"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_maincolor"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -15,7 +14,7 @@
 
 
         <LinearLayout
-            android:id="@+id/layout_product"
+            android:id="@+id/layout_product_derived"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin_10"
@@ -25,7 +24,7 @@
 
 
             <TextView
-                android:id="@+id/text_name"
+                android:id="@+id/text_name_derived"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -45,7 +44,7 @@
                 android:visibility="visible" />
 
             <TextView
-                android:id="@+id/text_currency"
+                android:id="@+id/text_currency_derived"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -56,7 +55,7 @@
                 android:textSize="@dimen/title_size" />
 
             <ImageView
-                android:id="@+id/img_right"
+                android:id="@+id/img_right_derived"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_5"
@@ -70,7 +69,7 @@
 
 
         <LinearLayout
-            android:id="@+id/layout_switch"
+            android:id="@+id/layout_switch_derived"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
@@ -81,7 +80,7 @@
             >
 
             <TextView
-                android:id="@+id/text_switch"
+                android:id="@+id/text_switch_derived"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_5"
@@ -102,7 +101,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_optional"
+            android:id="@+id/layout_optional_derived"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
@@ -114,17 +113,12 @@
 
 
             <ImageView
-                android:id="@+id/img_star_spot"
+                android:id="@+id/img_star_spot_derived"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/icon_star_normal" />
 
-            <ImageView
-                android:id="@+id/img_star_contract"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:src="@mipmap/icon_star_normal" />
+
 
         </LinearLayout>
 
@@ -156,7 +150,7 @@
                 >
 
                 <TextView
-                    android:id="@+id/text_lastPrice"
+                    android:id="@+id/text_lastPrice_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_default"
@@ -166,7 +160,7 @@
                     android:typeface="monospace" />
 
                 <ImageView
-                    android:id="@+id/img_up_down"
+                    android:id="@+id/img_up_down_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -182,7 +176,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_change"
+                    android:id="@+id/text_change_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -192,7 +186,7 @@
                     android:typeface="monospace" />
 
                 <TextView
-                    android:id="@+id/text_range"
+                    android:id="@+id/text_range_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -222,7 +216,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_max_stay"
+                    android:id="@+id/text_max_stay_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -231,12 +225,12 @@
                     android:textSize="@dimen/size_normal" />
 
                 <TextView
-                    android:id="@+id/text_max"
+                    android:id="@+id/text_max_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_5"
-                    android:layout_toRightOf="@id/text_max_stay"
+                    android:layout_toRightOf="@id/text_max_stay_derived"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal" />
@@ -251,7 +245,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_min_stay"
+                    android:id="@+id/text_min_stay_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -265,7 +259,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_5"
-                    android:layout_toRightOf="@id/text_min_stay"
+                    android:layout_toRightOf="@id/text_min_stay_derived"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal" />
@@ -281,7 +275,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/text_volume_stay"
+                    android:id="@+id/text_volume_stay_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -290,12 +284,12 @@
                     android:textSize="@dimen/size_normal" />
 
                 <TextView
-                    android:id="@+id/text_volume"
+                    android:id="@+id/text_volume_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_5"
-                    android:layout_toRightOf="@id/text_volume_stay"
+                    android:layout_toRightOf="@id/text_volume_stay_derived"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal" />
@@ -318,7 +312,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
+                android:id="@+id/tabLayout_derived"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -336,7 +330,7 @@
 
 
             <TextView
-                android:id="@+id/text_rule"
+                android:id="@+id/text_rule_derived"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
@@ -357,7 +351,7 @@
 
 
             <com.pro.bityard.chart.NoVolumeView
-                android:id="@+id/kline_1min_time"
+                android:id="@+id/kline_1min_time_derived"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible"
@@ -380,7 +374,7 @@
                 app:klTickMarkLineCol="@color/color_bg_left" />
 
             <com.pro.bityard.chart.NoVolumeView
-                android:id="@+id/kline_1min"
+                android:id="@+id/kline_1min_derived"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -398,7 +392,7 @@
                 app:klTickMarkLineCol="@color/color_bg_left" />
 
             <com.pro.bityard.chart.NoVolumeView
-                android:id="@+id/kline_5min"
+                android:id="@+id/kline_5min_derived"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -416,7 +410,7 @@
                 app:klTickMarkLineCol="@color/color_bg_left" />
 
             <com.pro.bityard.chart.NoVolumeView
-                android:id="@+id/kline_15min"
+                android:id="@+id/kline_15min_derived"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -434,7 +428,7 @@
                 app:klTickMarkLineCol="@color/color_bg_left" />
 
             <com.pro.bityard.chart.NoVolumeView
-                android:id="@+id/kline_3min"
+                android:id="@+id/kline_3min_derived"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -452,7 +446,7 @@
                 app:klTickMarkLineCol="@color/color_bg_left" />
 
             <com.pro.bityard.chart.NoVolumeView
-                android:id="@+id/kline_1h"
+                android:id="@+id/kline_1h_derived"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -470,7 +464,7 @@
                 app:klTickMarkLineCol="@color/color_bg_left" />
 
             <com.pro.bityard.chart.NoVolumeView
-                android:id="@+id/kline_1d"
+                android:id="@+id/kline_1d_derived"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -488,7 +482,7 @@
                 app:klTickMarkLineCol="@color/color_bg_left" />
 
             <com.pro.bityard.chart.NoVolumeView
-                android:id="@+id/kline_1week"
+                android:id="@+id/kline_1week_derived"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -506,7 +500,7 @@
                 app:klTickMarkLineCol="@color/color_bg_left" />
 
             <com.pro.bityard.chart.NoVolumeView
-                android:id="@+id/kline_1month"
+                android:id="@+id/kline_1month_derived"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"
@@ -524,7 +518,7 @@
                 app:klTickMarkLineCol="@color/color_bg_left" />
 
             <LinearLayout
-                android:id="@+id/layout_more"
+                android:id="@+id/layout_more_derived"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:layout_marginLeft="@dimen/margin_10"
@@ -534,7 +528,7 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/text_one_hour"
+                    android:id="@+id/text_one_hour_derived"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -553,7 +547,7 @@
                     android:background="@color/home_line" />
 
                 <TextView
-                    android:id="@+id/text_one_day"
+                    android:id="@+id/text_one_day_derived"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -572,7 +566,7 @@
                     android:background="@color/home_line" />
 
                 <TextView
-                    android:id="@+id/text_one_week"
+                    android:id="@+id/text_one_week_derived"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -591,7 +585,7 @@
                     android:background="@color/home_line" />
 
                 <TextView
-                    android:id="@+id/text_one_month"
+                    android:id="@+id/text_one_month_derived"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -607,19 +601,19 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/stay_view"
+        android:id="@+id/stay_view_derived"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line_big"
         android:background="@color/home_line" />
     <!--市价和限价-->
     <LinearLayout
-        android:id="@+id/layout_trade"
+        android:id="@+id/layout_trade_derived"
         android:layout_width="match_parent"
         android:layout_height="148dp"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/layout_radioGroup"
+            android:id="@+id/layout_radioGroup_derived"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_30"
             android:layout_alignParentRight="true"
@@ -628,7 +622,7 @@
 
 
             <TextView
-                android:id="@+id/img_setting"
+                android:id="@+id/img_setting_derived"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
@@ -642,7 +636,7 @@
                 android:visibility="visible" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/radioGroup_derived"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -651,7 +645,7 @@
                 android:visibility="visible">
 
                 <RadioButton
-                    android:id="@+id/radio_0"
+                    android:id="@+id/radio_0_derived"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

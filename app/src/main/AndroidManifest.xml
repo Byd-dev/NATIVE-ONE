@@ -92,6 +92,7 @@
         <activity android:name=".activity.FilterResultActivity" />
         <activity android:name=".activity.FollowDetailActivity" />
         <activity android:name=".activity.TradeActivity" />
+        <activity android:name=".activity.TradeTabActivity" />
 
         <!-- Optional facebook配置,authorities必须为com.facebook.app.FacebookContentProvider+APP_ID-->
 
