@@ -125,7 +125,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     }
 
 
-
     public ContractTradeFragment newInstance(String type, String value) {
         ContractTradeFragment fragment = new ContractTradeFragment();
         Bundle args = new Bundle();
@@ -134,8 +133,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         fragment.setArguments(args);
         return fragment;
     }
-
-
 
 
     @BindView(R.id.layout_switch)
@@ -213,7 +210,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     @BindView(R.id.edit_limit_margin)
     DecimalEditText edit_limit_margin;
-
 
 
     @BindView(R.id.text_market_volume)
@@ -313,9 +309,9 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     @BindView(R.id.text_limit_currency)
     TextView text_limit_currency;
 
-    private boolean flag_optional = false;
     //当前行情号
     private String quote_code = null;
+
     private QuoteMinEntity quoteMinEntity;
 
 
@@ -329,8 +325,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     private boolean flag_new_price = false;
     private boolean flag_up_down = false;
     private boolean flag_name = false;
-    private String type = AppConfig.SPOT_ALL;
-    private String zone_type = AppConfig.VIEW_SPOT;//-1是自选 1是主区 0是创新区 2是衍生品
+    private String type = AppConfig.CONTRACT_IN_ALL;
+    private String zone_type = AppConfig.VIEW_CONTRACT_IN;//-1是自选 1是主区 0是创新区 2是衍生品
     private ArrayMap<String, List<String>> arrayMap;
 
     private QuoteAdapter quoteAdapter_market_pop;
@@ -344,9 +340,9 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         titleList = new ArrayList<>();
         titleList.add(getString(R.string.text_optional));
-        titleList.add(getString(R.string.text_spot));
         titleList.add(getString(R.string.text_contract));
         titleList.add(getString(R.string.text_derived));
+        titleList.add(getString(R.string.text_spot));
         LinearLayout layout_optional_select_pop = view.findViewById(R.id.layout_optional_select_pop);
 
         RecyclerView recyclerView_optional_select_pop = view.findViewById(R.id.recyclerView_optional_pop);
@@ -357,11 +353,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         recyclerView_optional_select_pop.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         recyclerView_optional_select_pop.setAdapter(optionalSelectAdapter);
         optionalTitleList = new ArrayList<>();
-        optionalTitleList.add(getString(R.string.text_spot));
         optionalTitleList.add(getString(R.string.text_contract));
-        optionalTitleList.add(getString(R.string.text_derived));
+        optionalTitleList.add(getString(R.string.text_spot));
+        //optionalTitleList.add(getString(R.string.text_derived));
         optionalSelectAdapter.setDatas(optionalTitleList);
-        optionalSelectAdapter.select(getString(R.string.text_spot));
+        optionalSelectAdapter.select(getString(R.string.text_contract));
         optionalSelectAdapter.setEnable(true);
 
 
@@ -388,8 +384,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             optionalSelectAdapter.select(data);
             switch (position) {
                 case 0:
-                    type = AppConfig.OPTIONAL_SPOT_ALL;
-                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
+                    type = AppConfig.OPTIONAL_CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -405,8 +401,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     break;
                 case 1:
-                    type = AppConfig.OPTIONAL_CONTRACT_ALL;
-                    zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
+                    type = AppConfig.OPTIONAL_SPOT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -444,7 +440,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         for (String market_name : titleList) {
             tabLayout_market_search.addTab(tabLayout_market_search.newTab().setText(market_name));
         }
-        tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
+        tabLayout_market_search.getTabAt(1).select();
         view.findViewById(R.id.layout_new_price).setOnClickListener(v -> {
             if (arrayMap == null) {
                 return;
@@ -530,11 +526,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 if (arrayMap == null) {
                     return;
                 }
-
+                //自选
                 if (tab.getPosition() == 0) {
                     layout_optional_select_pop.setVisibility(View.VISIBLE);
-                    type = AppConfig.OPTIONAL_SPOT_ALL;
-                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
+                    type = AppConfig.OPTIONAL_CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
                     quoteList = arrayMap.get(type);
                     Log.d("print", "onTabSelected:684:  " + quoteList + "  " + type);
                     if (quoteList == null) {
@@ -548,11 +544,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                } else if (tab.getPosition() == 1) {
+                }//合约
+                else if (tab.getPosition() == 1) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
-                    type = AppConfig.SPOT_ALL;
-                    zone_type = AppConfig.VIEW_SPOT;
+                    type = AppConfig.CONTRACT_IN_ALL;
+                    zone_type = AppConfig.VIEW_CONTRACT_IN;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -566,29 +563,31 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                } else if (tab.getPosition() == 2) {
-                    layout_optional_select_pop.setVisibility(View.GONE);
-
-                    type = AppConfig.CONTRACT_ALL;
-                    zone_type = AppConfig.VIEW_CONTRACT;
-
-                    quoteList = arrayMap.get(type);
-                    if (quoteList == null) {
-                        layout_null.setVisibility(View.VISIBLE);
-                        recyclerView_market.setVisibility(View.GONE);
-                    } else {
-                        layout_null.setVisibility(View.GONE);
-                        recyclerView_market.setVisibility(View.VISIBLE);
-                        quoteAdapter_market_pop.setDatas(quoteList);
-                    }
-                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                } else if (tab.getPosition() == 3) {
+                }//衍生品
+                else if (tab.getPosition() == 2) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
                     type = AppConfig.DERIVATIVES_ALL;
                     zone_type = AppConfig.VIEW_DERIVATIVES;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                }//现货
+                else if (tab.getPosition() == 3) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+
+                    type = AppConfig.SPOT_ALL;
+                    zone_type = AppConfig.VIEW_SPOT;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -627,7 +626,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
-            type = AppConfig.SPOT_ALL;
+            type = AppConfig.CONTRACT_IN_ALL;
 
             TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
             Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
@@ -652,29 +651,22 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             text_name.setText(TradeUtil.name(data));
             text_currency.setText(TradeUtil.currency(data));
 
-            // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
-
             edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
             edit_limit_price.setText(listQuotePrice(data));
 
-            // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
 
 
             Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
             Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
             Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
             Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
             QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
             QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
             QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
+
+            recyclerView_market.postDelayed(() -> resetChart(),0);
+
 
             //相应选择
             popupWindow.dismiss();
@@ -829,9 +821,22 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         text_market_currency.setText(TradeUtil.currency(itemData));
         text_limit_currency.setText(TradeUtil.currency(itemData));
+
+
         Handler handler = new Handler();
         handler.postDelayed(() -> {
             startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
+
+
+            Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
+            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
+
 
             //获取输入框的范围保证金
             TradeListManger.getInstance().tradeList((state, response) -> {
@@ -845,12 +850,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 if (state.equals(SUCCESS)) {
                     chargeUnitEntityJson = (JSONObject) response;
                     TradeUtil.chargeDetail(itemQuoteCode(itemData), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
-                    Log.d("print", "initData:673:  " + chargeUnitEntity);
                 }
             });
 
 
-        }, 3000);
+        }, 50);
 
 
         text_lastPrice.setText(listQuotePrice(itemData));
@@ -940,7 +944,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         TagManger.getInstance().addObserver(this);
 
 
-
         view.findViewById(R.id.img_setting).setOnClickListener(this);
         view.findViewById(R.id.layout_product).setOnClickListener(this);
         //加币 持仓
@@ -995,11 +998,18 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 View view2 = tabAt.getCustomView();
                 ((TextView) view2.findViewById(R.id.text_title)).setText(titles.get(5));//设置一下文字
                 tabAt.setCustomView(view2);
-
                 switch (tab.getPosition()) {
                     case 0:
 
                         Quote1MinHistoryManger.getInstance().quote(quote_code, -1);
+
+                        if (kData1MinHistory != null) {
+                            kline_1min_time.initKDataList(kData1MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+                                Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
 
                         kline_1min_time.setVisibility(View.VISIBLE);
                         myKLineView_1Min.setVisibility(View.GONE);
@@ -1015,8 +1025,15 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
                         break;
                     case 1:
-                        Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-                        Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+                        Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
+
+                        if (kData1MinHistory != null) {
+                            myKLineView_1Min.initKDataList(kData1MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+                                Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
 
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.VISIBLE);
@@ -1030,9 +1047,16 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                         myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 2:
-                        Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-                        Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+                        Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
 
+                        if (kData3MinHistory != null) {
+                            myKLineView_3Min.initKDataList(kData3MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+
+                                Quote3MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
 
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.GONE);
@@ -1046,9 +1070,17 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                         myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 3:
-                        Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
 
-                        Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+                        Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+
+                        if (kData5MinHistory != null) {
+                            myKLineView_5Min.initKDataList(kData5MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+
+                                Quote5MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
 
                         layout_more.setVisibility(View.GONE);
                         kline_1min_time.setVisibility(View.GONE);
@@ -1063,6 +1095,16 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                         break;
                     //更多监听
                     case 4:
+                        Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+
+                        if (kData15MinHistory != null) {
+                            myKLineView_15Min.initKDataList(kData15MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+
+                                Quote15MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
 
                         layout_more.setVisibility(View.GONE);
                         kline_1min_time.setVisibility(View.GONE);
@@ -1275,8 +1317,15 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             super.handleMessage(msg);
             //发送行情包
             if (quote_code != null) {
-                Log.d("print", "handleMessage:845:  " + quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
+                String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
+                Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
+                Quote5MinCurrentManger.getInstance().quote(quote_host, quote_code);
+                Quote15MinCurrentManger.getInstance().quote(quote_host, quote_code);
+                Quote60MinCurrentManger.getInstance().quote(quote_host, quote_code);
+                QuoteDayCurrentManger.getInstance().quote(quote_host, quote_code);
+                QuoteWeekCurrentManger.getInstance().quote(quote_host, quote_code);
+                QuoteMonthCurrentManger.getInstance().quote(quote_host, quote_code);
             }
 
         }
@@ -1519,7 +1568,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     @Override
     public void update(Observable o, Object arg) {
         if (o == SocketQuoteManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             arrayMap = (ArrayMap<String, List<String>>) arg;
@@ -1538,7 +1587,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         } else if (o == BalanceManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
 
@@ -1564,24 +1613,24 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == TradeListManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             tradeListEntityList = (List<TradeListEntity>) arg;
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
             setContent(tradeListEntity);
         } else if (o == QuoteCurrentManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             quoteMinEntity = (QuoteMinEntity) arg;
             if (quoteMinEntity != null) {
-                //Log.d("print", "update:1549:  " + quoteMinEntity);
+                //Log.d("webSocket", "onReceive:1549:  " + quoteMinEntity);
                 runOnUiThread(() -> {
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
                         //仓位实时更新 服务费
-                        if (edit_market_margin==null){
+                        if (edit_market_margin == null) {
                             return;
                         }
                         if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
@@ -1678,12 +1727,13 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         } else if (o == Quote3MinCurrentManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
+
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData3MinHistory != null && quoteMinEntity != null&&myKLineView_3Min!=null) {
+            if (kData3MinHistory != null && quoteMinEntity != null && myKLineView_3Min != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_3Min.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1693,13 +1743,13 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
             }
         } else if (o == Quote5MinCurrentManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
 
-            if (kData5MinHistory != null && quoteMinEntity != null&&myKLineView_5Min!=null) {
+            if (kData5MinHistory != null && quoteMinEntity != null && myKLineView_5Min != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_5Min.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1710,12 +1760,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
             }
         } else if (o == Quote15MinCurrentManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData15MinHistory != null && quoteMinEntity != null&&myKLineView_15Min!=null) {
+            if (kData15MinHistory != null && quoteMinEntity != null && myKLineView_15Min != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_15Min.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1726,12 +1776,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
             }
         } else if (o == Quote60MinCurrentManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData60MinHistory != null && quoteMinEntity != null&&myKLineView_1H!=null) {
+            if (kData60MinHistory != null && quoteMinEntity != null && myKLineView_1H != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1H.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1741,12 +1791,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
             }
         } else if (o == QuoteDayCurrentManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataDayHistory != null && quoteMinEntity != null&&myKLineView_1D!=null) {
+            if (kDataDayHistory != null && quoteMinEntity != null && myKLineView_1D != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1D.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1756,12 +1806,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 }
             }
         } else if (o == QuoteWeekCurrentManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataWeekHistory != null && quoteMinEntity != null&&myKLineView_1_week!=null) {
+            if (kDataWeekHistory != null && quoteMinEntity != null && myKLineView_1_week != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1_week.addSingleData(kData.get(kData.size() - 1));
 
@@ -1773,12 +1823,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 }
             }
         } else if (o == QuoteMonthCurrentManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataMonthHistory != null && quoteMinEntity != null&&myKLineView_1_month!=null) {
+            if (kDataMonthHistory != null && quoteMinEntity != null && myKLineView_1_month != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1_month.addSingleData(kData.get(kData.size() - 1));
 
@@ -1791,7 +1841,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         }
         /*历史分割线-----------------------------------------------------------------------------------*/
         else if (o == Quote1MinHistoryManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
@@ -1808,7 +1858,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == Quote3MinHistoryManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
@@ -1825,7 +1875,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == Quote5MinHistoryManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
@@ -1840,7 +1890,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == Quote15MinHistoryManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
@@ -1856,7 +1906,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == Quote60MinHistoryManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
@@ -1873,7 +1923,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == QuoteDayHistoryManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
@@ -1889,7 +1939,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == QuoteWeekHistoryManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
@@ -1908,25 +1958,91 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == QuoteMonthHistoryManger.getInstance()) {
-            if (!isAdded()){
+            if (!isAdded()) {
                 return;
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kDataMonthHistory = ChartUtil.klineList(data);
             if (kDataMonthHistory != null) {
-
                 List<KData> monthList = ChartUtil.KlineMonthData(ChartUtil.getMonthKDataList(kDataMonthHistory));
                 myKLineView_1_month.initKDataList(monthList);
-
             } else {
                 if (quoteMinEntity != null) {
-
                     QuoteMonthHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
-
                 }
             }
 
         }
+    }
+
+
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.radio_0:
+                layout_market_price.setVisibility(View.VISIBLE);
+                layout_limit_price.setVisibility(View.GONE);
+                text_buy_much.setVisibility(View.VISIBLE);
+                text_buy_empty.setVisibility(View.VISIBLE);
+                radio_btn0.setTextSize(14);
+                radio_btn1.setTextSize(13);
+                orderType = "0";
+
+                break;
+            case R.id.radio_1:
+                layout_market_price.setVisibility(View.GONE);
+                layout_limit_price.setVisibility(View.VISIBLE);
+                text_buy_much.setVisibility(View.GONE);
+                text_buy_empty.setVisibility(View.GONE);
+                radio_btn0.setTextSize(13);
+                radio_btn1.setTextSize(14);
+                orderType = "1";
+                break;
+
+
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        Toast.makeText(getActivity(), "onDestroy", Toast.LENGTH_LONG).show();
+
+
+        cancelTimer();
+        QuoteCurrentManger.getInstance().clear();
+        SocketQuoteManger.getInstance().deleteObserver(this);
+        Quote1MinHistoryManger.getInstance().clear();
+        Quote1MinHistoryManger.getInstance().cancelTimer();
+        Quote5MinHistoryManger.getInstance().clear();
+        Quote5MinHistoryManger.getInstance().cancelTimer();
+        Quote15MinHistoryManger.getInstance().clear();
+        Quote15MinHistoryManger.getInstance().cancelTimer();
+        Quote3MinHistoryManger.getInstance().clear();
+        Quote3MinHistoryManger.getInstance().cancelTimer();
+        Quote60MinHistoryManger.getInstance().clear();
+        Quote60MinHistoryManger.getInstance().cancelTimer();
+        QuoteDayHistoryManger.getInstance().clear();
+        QuoteDayHistoryManger.getInstance().cancelTimer();
+        QuoteWeekHistoryManger.getInstance().clear();
+        QuoteWeekHistoryManger.getInstance().cancelTimer();
+        QuoteMonthHistoryManger.getInstance().clear();
+        QuoteMonthHistoryManger.getInstance().cancelTimer();
+        if (myKLineView_1Min != null) {
+            myKLineView_1Min.cancelQuotaThread();
+            myKLineView_5Min.cancelQuotaThread();
+            myKLineView_15Min.cancelQuotaThread();
+            myKLineView_3Min.cancelQuotaThread();
+            myKLineView_1H.cancelQuotaThread();
+            myKLineView_1D.cancelQuotaThread();
+            myKLineView_1_week.cancelQuotaThread();
+            myKLineView_1_month.cancelQuotaThread();
+        }
+
+        quote_code = null;
+
     }
 
     @Override
@@ -2105,7 +2221,16 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             case R.id.text_one_hour:
 
                 Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
-                Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+
+                if (kData60MinHistory != null) {
+
+                    myKLineView_1H.initKDataList(kData60MinHistory);
+                } else {
+                    if (quoteMinEntity != null) {
+
+                        Quote60MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                    }
+                }
 
 
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_hour.getText().toString());//设置一下文字颜色
@@ -2125,8 +2250,17 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 break;
             case R.id.text_one_day:
                 QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
-                QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
 
+
+                if (kDataDayHistory != null) {
+                    myKLineView_1D.initKDataList(kDataDayHistory);
+
+                } else {
+                    if (quoteMinEntity != null) {
+
+                        QuoteDayHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                    }
+                }
 
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_day.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
@@ -2144,7 +2278,17 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 break;
             case R.id.text_one_week:
                 QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
-                QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+
+                if (kDataWeekHistory != null) {
+                    List<KData> weekList = ChartUtil.KlineWeekData(ChartUtil.getWeekKDataList(kDataWeekHistory));
+                    myKLineView_1_week.initKDataList(weekList);
+                } else {
+                    if (quoteMinEntity != null) {
+                        QuoteWeekHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                    }
+                }
+
+
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_week.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
                 layout_more.setVisibility(View.GONE);
@@ -2161,7 +2305,15 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 break;
             case R.id.text_one_month:
                 QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote_code), -2);
-                QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(quote_code));
+
+                if (kDataMonthHistory != null) {
+                    List<KData> monthList = ChartUtil.KlineMonthData(ChartUtil.getMonthKDataList(kDataMonthHistory));
+                    myKLineView_1_month.initKDataList(monthList);
+                } else {
+                    if (quoteMinEntity != null) {
+                        QuoteMonthHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                    }
+                }
 
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_month.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
@@ -2216,30 +2368,88 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         }
     }
 
-    @Override
-    public void onCheckedChanged(RadioGroup group, int checkedId) {
-        switch (checkedId) {
-            case R.id.radio_0:
-                layout_market_price.setVisibility(View.VISIBLE);
-                layout_limit_price.setVisibility(View.GONE);
-                text_buy_much.setVisibility(View.VISIBLE);
-                text_buy_empty.setVisibility(View.VISIBLE);
-                radio_btn0.setTextSize(14);
-                radio_btn1.setTextSize(13);
-                orderType = "0";
 
-                break;
-            case R.id.radio_1:
-                layout_market_price.setVisibility(View.GONE);
-                layout_limit_price.setVisibility(View.VISIBLE);
-                text_buy_much.setVisibility(View.GONE);
-                text_buy_empty.setVisibility(View.GONE);
-                radio_btn0.setTextSize(13);
-                radio_btn1.setTextSize(14);
-                orderType = "1";
-                break;
-
-
+    private void resetChart(){
+        kline_1min_time.resetView();
+        myKLineView_1Min.resetView();
+        myKLineView_3Min.resetView();
+        myKLineView_5Min.resetView();
+        myKLineView_15Min.resetView();
+        myKLineView_1H.resetView();
+        myKLineView_1D.resetView();
+        myKLineView_1_week.resetView();
+        myKLineView_1_month.resetView();
+        Log.d("print", "resetChart:2384: "+kData3MinHistory);
+        if (kData1MinHistory != null) {
+            kline_1min_time.resetDataList(kData1MinHistory);
+            myKLineView_1Min.resetDataList(kData1MinHistory);
+        } else {
+            if (quoteMinEntity != null) {
+                Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+            }
         }
+
+        if (kData3MinHistory != null) {
+            myKLineView_3Min.resetDataList(kData3MinHistory);
+        } else {
+            if (quoteMinEntity != null) {
+
+                Quote3MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+            }
+        }
+        if (kData5MinHistory != null) {
+            myKLineView_5Min.resetDataList(kData5MinHistory);
+        } else {
+            if (quoteMinEntity != null) {
+
+                Quote5MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+            }
+        }
+
+        if (kData15MinHistory != null) {
+            myKLineView_15Min.resetDataList(kData15MinHistory);
+        } else {
+            if (quoteMinEntity != null) {
+
+                Quote15MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+            }
+        }
+        if (kData60MinHistory != null) {
+
+            myKLineView_1H.resetDataList(kData60MinHistory);
+        } else {
+            if (quoteMinEntity != null) {
+
+                Quote60MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+            }
+        }
+
+        if (kDataDayHistory != null) {
+            myKLineView_1D.resetDataList(kDataDayHistory);
+
+        } else {
+            if (quoteMinEntity != null) {
+
+                QuoteDayHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+            }
+        }
+
+        if (kDataWeekHistory != null) {
+            List<KData> weekList = ChartUtil.KlineWeekData(ChartUtil.getWeekKDataList(kDataWeekHistory));
+            myKLineView_1_week.resetDataList(weekList);
+        } else {
+            if (quoteMinEntity != null) {
+                QuoteWeekHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+            }
+        }
+        if (kDataMonthHistory != null) {
+            List<KData> monthList = ChartUtil.KlineMonthData(ChartUtil.getMonthKDataList(kDataMonthHistory));
+            myKLineView_1_month.resetDataList(monthList);
+        } else {
+            if (quoteMinEntity != null) {
+                QuoteMonthHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+            }
+        }
+
     }
 }

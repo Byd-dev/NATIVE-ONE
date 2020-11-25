@@ -126,7 +126,6 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
-        Log.d("print", "onCreateViewHolder: " + "onBindViewHolder payloads QuoteAdapter" + payloads);
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position);
         } else {

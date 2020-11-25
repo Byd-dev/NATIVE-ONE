@@ -94,8 +94,8 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         Log.d("print", "initViewPager:HoldRealFragment: " + tradeType);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         myPagerAdapter.addFragment(new ContractTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_contract));
-        myPagerAdapter.addFragment(new ContractTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_derived));
-        myPagerAdapter.addFragment(new ContractTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_foreign_exchange));
+        myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_derived));
+        myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_foreign_exchange));
         myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_spot));
         viewPager.setAdapter(myPagerAdapter);
 

@@ -905,7 +905,7 @@ public class TradeUtil {
     /* 自选*/
     public static List<String> optionalQuoteList(List<String> quoteList) {
         Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
-        Log.d("print", "optionalQuoteList:已选全部自选:  " + optionalList);
+        //Log.d("print", "optionalQuoteList:已选全部自选:  " + optionalList);
         if (optionalList.size() == 0) {
             return null;
         } else {
@@ -929,7 +929,7 @@ public class TradeUtil {
     /* 历史记录*/
     public static List<String> historyQuoteList(List<String> quoteList) {
         Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
-        Log.d("print", "optionalQuoteList:历史记录:  " + optionalList);
+       // Log.d("print", "optionalQuoteList:历史记录:  " + optionalList);
         if (optionalList.size() == 0) {
             return null;
         } else {

@@ -140,7 +140,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
                 //所有合约 包括衍生品
                 List<String> contractQuoteList = TradeUtil.contractQuoteList(strings);
-                Log.d("print", "onMessage: 113:"+contractQuoteList.size());
 
 
                 //价格从高到低

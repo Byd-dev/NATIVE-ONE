@@ -7,6 +7,8 @@ import android.graphics.CornerPathEffect;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
@@ -207,6 +209,16 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
     }
 
 
+    public void resetView() {
+        resetViewData();
+        curvePath.reset();
+        instantPath.reset();
+
+
+
+    }
+
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -214,6 +226,8 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
             return;
         }
 
+
+        
         resetData();
 
         drawTickMark(canvas);//刻度线
@@ -810,13 +824,16 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
         curvePath = new Path();
         instantPath = new Path();
 
+
         longPressRunnable = () -> {
             isLongPress = true;
-            isShowDetail = true;
             getClickKData(longPressDownX);
             invalidate();
         };
     }
+
+
+
 
     private void initQuotaThread() {
         Handler uiHandler = new Handler(this);
