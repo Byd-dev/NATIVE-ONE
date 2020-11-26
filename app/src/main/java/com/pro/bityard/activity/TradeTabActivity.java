@@ -104,12 +104,10 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
         if (isChOrFt.equals(AppConfig.TYPE_FT) && zone.equals(AppConfig.ZONE_MAIN)) {
             tabLayout_title.getTabAt(0).select();
-
         } else if (isChOrFt.equals(AppConfig.TYPE_FT) && zone.equals(AppConfig.ZONE_DERIVATIVES)) {
             tabLayout_title.getTabAt(1).select();
         } else if (isChOrFt.equals(AppConfig.TYPE_FE)) {
             tabLayout_title.getTabAt(2).select();
-
         } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
             tabLayout_title.getTabAt(3).select();
 

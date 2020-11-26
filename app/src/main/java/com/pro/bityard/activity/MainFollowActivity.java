@@ -1317,21 +1317,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     }
 
 
-    private void initViewPager(ViewPager viewPager, String tradeType) {
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open));
-        myPagerAdapter.addFragment(new PendingFragment().newInstance(tradeType), getString(R.string.text_order));
-        myPagerAdapter.addFragment(new HistoryFragment().newInstance(tradeType), getString(R.string.text_history));
 
-        viewPager.setAdapter(myPagerAdapter);
-    }
-
-    private void initSimulationViewPager(ViewPager viewPager, String tradeType) {
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open));
-        myPagerAdapter.addFragment(new HistoryFragment().newInstance(tradeType), getString(R.string.text_history));
-        viewPager.setAdapter(myPagerAdapter);
-    }
 
 
     @Override
@@ -1638,7 +1624,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
             // popupWindow.dismiss();
-            type = AppConfig.CONTRACT_ALL;
+            type = AppConfig.CONTRACT_IN_ALL;
+            zone_type = AppConfig.VIEW_CONTRACT_IN;
             TradeTabActivity.enter(this, "1", data);
 
             historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
@@ -1661,7 +1648,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
-            type = AppConfig.CONTRACT_ALL;
+            type = AppConfig.CONTRACT_IN_ALL;
+            zone_type = AppConfig.VIEW_CONTRACT_IN;
             tabLayout_market.setVisibility(View.VISIBLE);
             tabLayout_market.getTabAt(AppConfig.selectPosition).select();
             popupWindow.dismiss();
