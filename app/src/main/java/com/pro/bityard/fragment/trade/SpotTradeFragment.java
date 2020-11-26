@@ -103,7 +103,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.item_position_head_layout, null);
         recyclerView_spot.addHeaderView(headView);
-        
         Util.colorSwipe(getActivity(),swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             getPosition();
