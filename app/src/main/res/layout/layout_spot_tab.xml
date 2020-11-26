@@ -16,22 +16,17 @@
             android:id="@+id/layout_product"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginLeft="@dimen/margin_10"
             android:gravity="center"
             android:orientation="horizontal">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/icon_two_way" />
+
 
             <TextView
                 android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/margin_5"
                 android:gravity="center"
                 android:text="BTC"
                 android:textColor="@color/text_main_color"
@@ -58,7 +53,13 @@
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/title_size" />
 
-
+            <ImageView
+                android:id="@+id/img_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_two_way" />
         </LinearLayout>
 
         <ImageView

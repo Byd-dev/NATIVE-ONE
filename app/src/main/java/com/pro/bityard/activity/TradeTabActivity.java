@@ -94,15 +94,15 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         Log.d("print", "initViewPager:HoldRealFragment: " + tradeType);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         myPagerAdapter.addFragment(new ContractTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_contract));
-        myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_derived));
-        myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_foreign_exchange));
+        /*myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_derived));
+        myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_foreign_exchange));*/
         myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_spot));
         viewPager.setAdapter(myPagerAdapter);
 
         String isChOrFt = TradeUtil.type(itemData);
         String zone = TradeUtil.zone(itemData);
 
-        if (isChOrFt.equals(AppConfig.TYPE_FT) && zone.equals(AppConfig.ZONE_MAIN)) {
+        /*if (isChOrFt.equals(AppConfig.TYPE_FT) && zone.equals(AppConfig.ZONE_MAIN)) {
             tabLayout_title.getTabAt(0).select();
         } else if (isChOrFt.equals(AppConfig.TYPE_FT) && zone.equals(AppConfig.ZONE_DERIVATIVES)) {
             tabLayout_title.getTabAt(1).select();
@@ -110,8 +110,14 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             tabLayout_title.getTabAt(2).select();
         } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
             tabLayout_title.getTabAt(3).select();
+        }*/
 
+        if (isChOrFt.equals(AppConfig.TYPE_FT)) {
+            tabLayout_title.getTabAt(0).select();
+        }  else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
+            tabLayout_title.getTabAt(1).select();
         }
+
     }
 
 
