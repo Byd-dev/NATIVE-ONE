@@ -1058,6 +1058,24 @@ public class Util {
         }
 
     }
+    /*设置自选图标*/
+    public static void setOptional(Context context,Set<String> optionalList,String quote_code,ImageView img_star,OnResult onResult){
+        if (optionalList.size() != 0) {
+            onResult.setResult(true);
+            //判断当前是否存在自选
+            Util.isOptional(quote_code, optionalList, response -> {
+                boolean isOptional = (boolean) response;
+                if (isOptional) {
+                    img_star.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_star));
+                } else {
+                    img_star.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_star_normal));
+
+                }
+            });
+        } else {
+            onResult.setResult(false);
+        }
+    }
 
 
     public static void isOptional(String contCode, Set<String> list, OnResult onResult) {

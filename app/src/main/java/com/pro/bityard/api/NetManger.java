@@ -44,6 +44,7 @@ import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.RateEntity;
 import com.pro.bityard.entity.RateListEntity;
+import com.pro.bityard.entity.SpotPositionEntity;
 import com.pro.bityard.entity.StatEntity;
 import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TipCloseEntity;
@@ -3040,7 +3041,62 @@ public class NetManger {
             }
         });
     }
+    /*现货当前委托*/
+    public void userSpotPosition(String id,OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("?_", id);
+
+        getRequest("/api/order/position", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "spotPosition:现货当前持仓: "+response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    SpotPositionEntity spotPositionEntity = new Gson().fromJson(response.toString(), SpotPositionEntity.class);
+                    onNetResult.onNetResult(SUCCESS, spotPositionEntity);
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+    }
+
+    /*现货委托*/
+    public void spotPosition(String commodity, String buy, String type, String srcCurrency,String desCurrency,OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("commodity", commodity);
+        if (buy!=null){
+            map.put("buy", buy);
+        }
+        if (type!=null){
+            map.put("type", type);
+        }
+        if (srcCurrency!=null){
+            map.put("srcCurrency", srcCurrency);
+        }
+        if (desCurrency!=null){
+            map.put("desCurrency", desCurrency);
+        }
 
 
-
+        getRequest("/api/order/position", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "spotPosition:现货当前持仓: "+response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    /*FollowersListEntity followersListEntity = new Gson().fromJson(response.toString(), FollowersListEntity.class);
+                    onNetResult.onNetResult(SUCCESS, followersListEntity);*/
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+    }
 }

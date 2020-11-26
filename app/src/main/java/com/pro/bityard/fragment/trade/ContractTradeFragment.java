@@ -798,21 +798,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         Log.d("print", "initData:进来的值:  " + itemQuoteContCode(itemData));
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
-        Log.d("print", "initData:707:  " + optionalList);
-        if (optionalList.size() != 0) {
-            //判断当前是否存在自选
-            Util.isOptional(quote_code, optionalList, response -> {
-                boolean isOptional = (boolean) response;
-                if (isOptional) {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                } else {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-
-                }
-            });
-        } else {
-            optionalList = new HashSet<>();
-        }
+        Util.setOptional(getActivity(), optionalList, quote_code, img_star_contract, response -> {
+            if (!(boolean) response) {
+                optionalList = new HashSet<>();
+            }
+        });
 
 
         text_name.setText(TradeUtil.name(itemData));
