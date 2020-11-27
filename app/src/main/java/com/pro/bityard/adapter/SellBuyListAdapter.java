@@ -100,7 +100,6 @@ public class SellBuyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
-            Log.d("print", "onBindViewHolder:96:  " + datas);
             String price = datas.get(position).getPrice();
             String amount = datas.get(position).getAmount();
 
