@@ -249,7 +249,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             MainFollowActivity.enter(GuideActivity.this, MainFollowActivity.TAB_TYPE.TAB_HOME);
             GuideActivity.this.finish();
         } else {
-            layout_view.setBackgroundColor(getResources().getColor(R.color.background_maincolor));
+            layout_view.setBackgroundColor(getResources().getColor(R.color.background_main_color));
             text_jump.setOnClickListener(this);
             btn_sure.setOnClickListener(this);
             text_jump.setVisibility(View.VISIBLE);

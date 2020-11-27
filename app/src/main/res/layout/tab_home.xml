@@ -13,7 +13,7 @@
         android:id="@+id/bar"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/background_maincolor"
+        android:background="@color/background_main_color"
         android:orientation="vertical">
 
         <RelativeLayout

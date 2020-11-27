@@ -6,7 +6,7 @@
 
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
-    <color name="background_maincolor">#0E1A35</color>
+    <color name="background_main_color">#0E1A35</color>
     <color name="home_line">#1B243A</color>
     <color name="maincolor">#FFB31F</color>
     <color name="tab_color_normal">#848E9C</color>

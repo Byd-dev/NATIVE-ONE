@@ -23,7 +23,7 @@
 
             <corners android:radius="@dimen/margin_50"/>
 
-            <solid android:color="@color/background_maincolor"/>
+            <solid android:color="@color/background_main_color"/>
 
             <padding android:top="12dp"
                 android:bottom="12dp"/>

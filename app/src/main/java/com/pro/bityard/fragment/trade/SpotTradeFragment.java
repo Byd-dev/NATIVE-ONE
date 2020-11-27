@@ -8,14 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.SellBuyListAdapter;
 import com.pro.bityard.adapter.SpotPositionAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.SpotPositionEntity;
 import com.pro.bityard.manger.BalanceManger;
@@ -28,18 +30,23 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
@@ -66,7 +73,13 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    /*头部视图id*/
+    RelativeLayout layout_cancel;
+    View view_line_two;
     private SpotPositionAdapter spotPositionAdapter;
+
+
+    private SellBuyListAdapter sellAdapter, buyAdapter;
 
 
     @Override
@@ -101,12 +114,25 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         recyclerView_spot.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_spot.setAdapter(spotPositionAdapter);
 
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.item_position_head_layout, null);
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_layout, null);
         recyclerView_spot.addHeaderView(headView);
-        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+        layout_cancel = headView.findViewById(R.id.layout_cancel);
+        view_line_two = headView.findViewById(R.id.view_line_two);
+        Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             getPosition();
         });
+
+
+        sellAdapter = new SellBuyListAdapter(getActivity());
+        RecyclerView recyclerView_sell = headView.findViewById(R.id.recyclerView_sell);
+        recyclerView_sell.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView_sell.setAdapter(sellAdapter);
+
+        buyAdapter = new SellBuyListAdapter(getActivity());
+        RecyclerView recyclerView_buy = headView.findViewById(R.id.recyclerView_buy);
+        recyclerView_buy.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView_buy.setAdapter(buyAdapter);
 
 
     }
@@ -120,7 +146,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     @Override
     protected void initData() {
         Handler handler = new Handler();
-        handler.postDelayed(() -> startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND), 50);
+        handler.postDelayed(() -> startScheduleJob(mHandler, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND), 50);
 
 
         tradeType = getArguments().getString(TYPE);
@@ -145,26 +171,28 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     private void getPosition() {
         LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-        NetManger.getInstance().userSpotPosition(loginEntity.getUser().getUserId(), new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    swipeRefreshLayout.setRefreshing(true);
-                } else if (state.equals(SUCCESS)) {
-                    swipeRefreshLayout.setRefreshing(false);
-                    SpotPositionEntity spotPositionEntity = (SpotPositionEntity) response;
-                    if (spotPositionEntity.getData().size() == 0) {
-                        layout_null.setVisibility(View.VISIBLE);
-                        recyclerView_spot.setVisibility(View.GONE);
-                    } else {
-                        layout_null.setVisibility(View.GONE);
-                        recyclerView_spot.setVisibility(View.VISIBLE);
-                    }
-                    spotPositionAdapter.setDatas(spotPositionEntity.getData());
-                } else if (state.equals(FAILURE)) {
-                    swipeRefreshLayout.setRefreshing(false);
-
+        if (loginEntity == null) {
+            return;
+        }
+        NetManger.getInstance().userSpotPosition(loginEntity.getUser().getUserId(), (state, response) -> {
+            if (state.equals(BUSY)) {
+                swipeRefreshLayout.setRefreshing(true);
+            } else if (state.equals(SUCCESS)) {
+                swipeRefreshLayout.setRefreshing(false);
+                SpotPositionEntity spotPositionEntity = (SpotPositionEntity) response;
+                if (spotPositionEntity.getData().size() == 0) {
+                    layout_null.setVisibility(View.VISIBLE);
+                    layout_cancel.setVisibility(View.GONE);
+                    view_line_two.setVisibility(View.GONE);
+                } else {
+                    layout_null.setVisibility(View.GONE);
+                    layout_cancel.setVisibility(View.VISIBLE);
+                    view_line_two.setVisibility(View.VISIBLE);
                 }
+                spotPositionAdapter.setDatas(spotPositionEntity.getData());
+            } else if (state.equals(FAILURE)) {
+                swipeRefreshLayout.setRefreshing(false);
+
             }
         });
     }
@@ -210,6 +238,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         }
     };
 
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == QuoteSpotManger.getInstance()) {
@@ -218,7 +247,19 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
 
             String quote = (String) arg;
-            Log.d("print", "update:现货行情:  " + quote);
+
+            runOnUiThread(() -> {
+                List<BuySellEntity> buyList = Util.getBuyList(quote);
+                buyAdapter.isSell(false);
+                buyAdapter.setDatas(buyList.subList(0,6),Util.buyMax(quote));
+
+
+                List<BuySellEntity> sellList = Util.getSellList(quote);
+                sellAdapter.isSell(true);
+                sellAdapter.setDatas(sellList.subList(0,6),Util.sellMax(quote));
+            });
+
+
 
         }
     }

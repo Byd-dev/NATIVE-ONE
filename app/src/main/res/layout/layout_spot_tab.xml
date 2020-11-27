@@ -3,7 +3,7 @@
     android:id="@+id/layout_spot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_maincolor"
+    android:background="@color/background_main_color"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -116,7 +116,7 @@
                 android:layout_height="match_parent" />
 
 
-            <include layout="@layout/layout_optional_null" />
+           <include layout="@layout/layout_bottom_null"/>
 
 
         </RelativeLayout>

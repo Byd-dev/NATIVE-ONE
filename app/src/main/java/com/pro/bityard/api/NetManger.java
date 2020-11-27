@@ -3044,7 +3044,7 @@ public class NetManger {
     /*现货当前委托*/
     public void userSpotPosition(String id,OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("?_", id);
+        map.put("_", id);
 
         getRequest("/api/order/position", map, (state, response) -> {
             if (state.equals(BUSY)) {

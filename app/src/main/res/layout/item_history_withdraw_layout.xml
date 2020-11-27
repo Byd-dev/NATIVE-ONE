@@ -111,7 +111,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_line"
-            android:background="@color/background_maincolor" />
+            android:background="@color/background_main_color" />
 
         <RelativeLayout
             android:layout_width="match_parent"

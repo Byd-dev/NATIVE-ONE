@@ -197,7 +197,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             String tag = TradeUtil.listQuoteIsRange(datas.get(position));
 
             if (isStar) {
-                ((MyViewHolder) holder).layout_bg.setBackgroundColor(context.getApplicationContext().getResources().getColor(R.color.background_maincolor));
+                ((MyViewHolder) holder).layout_bg.setBackgroundColor(context.getApplicationContext().getResources().getColor(R.color.background_main_color));
                 ((MyViewHolder) holder).img_star.setVisibility(View.VISIBLE);
                 if (Integer.parseInt(tag) == 1) {
 
