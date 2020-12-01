@@ -123,7 +123,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     protected void initView(View view) {
-        //test3
         view.findViewById(R.id.layout_product).setOnClickListener(this);
         //自选监听
         view.findViewById(R.id.layout_optional).setOnClickListener(this);
