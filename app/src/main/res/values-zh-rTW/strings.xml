@@ -538,5 +538,8 @@
     <string name="text_spot_position">当前委托</string>
     <string name="text_cancel_all">撤销全部</string>
     <string name="text_usdt_brackets">(USDT)</string>
+    <string name="text_default_content">默认</string>
+    <string name="text_show_sell">展示卖单</string>
+    <string name="text_show_buy">展示买单</string>
 
 </resources>

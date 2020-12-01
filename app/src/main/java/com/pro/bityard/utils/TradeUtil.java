@@ -66,6 +66,29 @@ public class TradeUtil {
         }
     }
 
+
+    public static String scaleString(int priceDigit) {
+        if (priceDigit == 1) {
+            return "0.1";
+        } else if (priceDigit == 2) {
+            return "0.01";
+        } else if (priceDigit == 3) {
+            return "0.001";
+        } else if (priceDigit == 4) {
+            return "0.0001";
+        } else if (priceDigit == 5) {
+            return "0.00001";
+        } else if (priceDigit == 6) {
+            return "0.000001";
+        } else if (priceDigit == 7) {
+            return "0.0000001";
+        } else if (priceDigit == 9) {
+            return "0.00000001";
+        } else {
+            return "0";
+        }
+    }
+
     /*保留两位小数*/
     public static String getNumberFormat(double value, int scale) {
         BigDecimal bd = new BigDecimal(value);
@@ -283,7 +306,6 @@ public class TradeUtil {
     }
 
     public static String removeDigital(String value) {
-
         Pattern p = Pattern.compile("[\\d]");
         Matcher matcher = p.matcher(value);
         String result = matcher.replaceAll("");

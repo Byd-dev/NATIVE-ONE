@@ -1,13 +1,21 @@
 package com.pro.bityard.fragment.trade;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,8 +27,10 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.SpotPositionEntity;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.QuoteCurrentManger;
 import com.pro.bityard.manger.QuoteSpotManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.TradeUtil;
@@ -30,7 +40,6 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
@@ -47,12 +56,14 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
-import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
 public class SpotTradeFragment extends BaseFragment implements View.OnClickListener, Observer {
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
+    @BindView(R.id.layout_spot)
+    LinearLayout layout_view;
+
     @BindView(R.id.text_name)
     TextView text_name;
     @BindView(R.id.text_currency)
@@ -80,6 +91,15 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
     private SellBuyListAdapter sellAdapter, buyAdapter;
+    private RecyclerView recyclerView_sell;
+    private RecyclerView recyclerView_buy;
+    private List<BuySellEntity> buyList;
+    private List<BuySellEntity> sellList;
+    private String quote;
+    private TextView text_price;
+    private TextView text_currency_price;
+    private String value_rate;
+    private TextView text_scale;
 
 
     @Override
@@ -109,6 +129,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         BalanceManger.getInstance().addObserver(this);
         QuoteSpotManger.getInstance().addObserver(this);
+        QuoteCurrentManger.getInstance().addObserver(this);//1min 实时
+
 
         spotPositionAdapter = new SpotPositionAdapter(getActivity());
         recyclerView_spot.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -123,14 +145,21 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             getPosition();
         });
 
+        text_scale = headView.findViewById(R.id.text_scale);
+        text_price = headView.findViewById(R.id.text_price);
+        text_currency_price = headView.findViewById(R.id.text_currency_price);
+
+
+        headView.findViewById(R.id.layout_buy_sell_switch).setOnClickListener(this);
+
 
         sellAdapter = new SellBuyListAdapter(getActivity());
-        RecyclerView recyclerView_sell = headView.findViewById(R.id.recyclerView_sell);
+        recyclerView_sell = headView.findViewById(R.id.recyclerView_sell);
         recyclerView_sell.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_sell.setAdapter(sellAdapter);
 
         buyAdapter = new SellBuyListAdapter(getActivity());
-        RecyclerView recyclerView_buy = headView.findViewById(R.id.recyclerView_buy);
+        recyclerView_buy = headView.findViewById(R.id.recyclerView_buy);
         recyclerView_buy.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_buy.setAdapter(buyAdapter);
 
@@ -165,6 +194,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         });
 
         getPosition();
+
+        value_rate = SPUtils.getString(AppConfig.USD_RATE, null);
 
 
     }
@@ -222,6 +253,14 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.SPDeal(optionalList));
 
                 break;
+            /*买卖展示切换*/
+            case R.id.layout_buy_sell_switch:
+                if (quote != null) {
+                    Util.lightOff(getActivity());
+                    showBuySellSwitch(getActivity(), layout_view);
+                }
+
+                break;
         }
     }
 
@@ -233,12 +272,17 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             Log.d("print", "handleMessage:现货发送商号: " + quote_code);
             if (quote_code != null) {
                 WebSocketManager.getInstance().send("5001", quote_code);
+                WebSocketManager.getInstance().send("4001", quote_code);
+
             }
 
         }
     };
 
 
+    private int length = 5;
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void update(Observable o, Object arg) {
         if (o == QuoteSpotManger.getInstance()) {
@@ -246,22 +290,55 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
 
-            String quote = (String) arg;
+            quote = (String) arg;
+
 
             runOnUiThread(() -> {
-                List<BuySellEntity> buyList = Util.getBuyList(quote);
+                buyList = Util.getBuyList(quote);
                 buyAdapter.isSell(false);
-                buyAdapter.setDatas(buyList.subList(0,6),Util.buyMax(quote));
+                buyAdapter.setDatas(buyList.subList(0, length), Util.buyMax(quote));
 
 
-                List<BuySellEntity> sellList = Util.getSellList(quote);
+                sellList = Util.getSellList(quote);
                 sellAdapter.isSell(true);
-                sellAdapter.setDatas(sellList.subList(0,6),Util.sellMax(quote));
+                sellAdapter.setDatas(sellList.subList(0, length), Util.sellMax(quote));
             });
 
 
+        } else if (o == QuoteCurrentManger.getInstance()) {
+            if (!isAdded()) {
+                return;
+            }
+            QuoteMinEntity quoteMinEntity = (QuoteMinEntity) arg;
+            if (quoteMinEntity != null) {
+                runOnUiThread(() -> {
+                    if (text_price != null) {
+                        int isUp = quoteMinEntity.getIsUp();
+                        double price = quoteMinEntity.getPrice();
+                        text_price.setText(String.valueOf(price));
+                        text_scale.setText(TradeUtil.scaleString(TradeUtil.decimalPoint(String.valueOf(price))));
+                        if (value_rate != null) {
+                            text_currency_price.setText("≈" + TradeUtil.numberHalfUp(TradeUtil.mul(price, Double.parseDouble(value_rate)), 2));
+                        } else {
+                            text_currency_price.setText("≈" + price);
+                        }
+                        switch (isUp) {
+                            case -1:
+                                text_price.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
+                                break;
+                            case 1:
+                                text_price.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
+                                break;
+                            case 0:
+                                text_price.setTextColor(getActivity().getResources().getColor(R.color.text_main_color));
+                                break;
+                        }
 
+                    }
+                });
+            }
         }
+
     }
 
 
@@ -270,6 +347,72 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         super.onDestroy();
         cancelTimer();
 
+
+    }
+
+    /*买卖单显示切换*/
+    public void showBuySellSwitch(Activity activity, View layout_view) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_buy_sell_pop_layout, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        view.findViewById(R.id.text_default).setOnClickListener(view1 -> {
+
+            popupWindow.dismiss();
+            recyclerView_buy.setVisibility(View.VISIBLE);
+            recyclerView_sell.setVisibility(View.VISIBLE);
+            length = 5;
+
+            buyAdapter.setDatas(buyList.subList(0, length), Util.buyMax(quote));
+            sellAdapter.setDatas(sellList.subList(0, length), Util.sellMax(quote));
+
+        });
+
+
+        view.findViewById(R.id.text_show_sell).setOnClickListener(view12 -> {
+
+            popupWindow.dismiss();
+            recyclerView_buy.setVisibility(View.GONE);
+            recyclerView_sell.setVisibility(View.VISIBLE);
+            length = 10;
+            if (sellList != null) {
+                sellAdapter.setDatas(sellList.subList(0, length), Util.sellMax(quote));
+            }
+
+        });
+        view.findViewById(R.id.text_show_buy).setOnClickListener(view12 -> {
+
+            popupWindow.dismiss();
+            recyclerView_buy.setVisibility(View.VISIBLE);
+            recyclerView_sell.setVisibility(View.GONE);
+            length = 10;
+            if (buyList != null) {
+                buyAdapter.setDatas(buyList.subList(0, length), Util.buyMax(quote));
+            }
+
+        });
+
+
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+
+
+        Util.dismiss(activity, popupWindow);
+        Util.isShowing(activity, popupWindow);
+
+
+        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+        animation.setInterpolator(new AccelerateInterpolator());
+        animation.setDuration(100);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setContentView(view);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        view.startAnimation(animation);
 
     }
 }
