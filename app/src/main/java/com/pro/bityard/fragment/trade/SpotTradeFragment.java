@@ -355,8 +355,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_buy_sell_pop_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
-
-
         view.findViewById(R.id.text_default).setOnClickListener(view1 -> {
 
             popupWindow.dismiss();
