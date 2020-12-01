@@ -126,7 +126,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         view.findViewById(R.id.layout_product).setOnClickListener(this);
         //自选监听
         view.findViewById(R.id.layout_optional).setOnClickListener(this);
-
         BalanceManger.getInstance().addObserver(this);
         QuoteSpotManger.getInstance().addObserver(this);
         QuoteCurrentManger.getInstance().addObserver(this);//1min 实时
