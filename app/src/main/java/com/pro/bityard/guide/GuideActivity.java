@@ -93,7 +93,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         super.onResume();
         PermissionUtil.getInstance().initPermission(this, response -> {
             if (response == SUCCESS) {
-                if (NetworkUtils.iConnected(this)) {
+                if (NetworkUtils.isNetworkAvailable(this)) {
                     init();
                 } else {
                     Util.lightOff(this);

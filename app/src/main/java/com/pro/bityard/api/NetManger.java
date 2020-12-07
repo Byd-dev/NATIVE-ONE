@@ -87,7 +87,7 @@ public class NetManger {
     public static String FAILURE = "failure";
 
 
-    public static String BASE_URL = "https://test.bityard.com";   //测试
+    public static String BASE_URL = "http://byd-test.ttms.io";   //测试
 
     public static String H5_BASE_URL = "https://test7777.bityard.com";   //测试
 
