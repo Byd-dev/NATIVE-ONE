@@ -548,5 +548,7 @@ diberikan kepada trader.</string>
     <string name="text_default_content">默认</string>
     <string name="text_show_sell">展示卖单</string>
     <string name="text_show_buy">展示买单</string>
+    <string name="text_buy">买入</string>
+    <string name="text_sell">卖出</string>
 
 </resources>

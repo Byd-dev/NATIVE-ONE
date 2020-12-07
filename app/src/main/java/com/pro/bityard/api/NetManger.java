@@ -950,7 +950,11 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                onNetResult.onNetResult(SUCCESS, response.toString());
+                if (response.toString().replaceAll(" ","").startsWith("<")){
+                    onNetResult.onNetResult(FAILURE, null);
+                }else {
+                    onNetResult.onNetResult(SUCCESS, response.toString());
+                }
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
             }

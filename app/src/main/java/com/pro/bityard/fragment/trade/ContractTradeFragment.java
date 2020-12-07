@@ -130,6 +130,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         Bundle args = new Bundle();
         args.putString(TYPE, type);
         args.putString(VALUE, value);
+
         fragment.setArguments(args);
         return fragment;
     }
