@@ -46,4 +46,5 @@
     <color name="color_frame_bg">#1F2A40</color>
     <color name="color_blue_deep">#006CFE</color>
     <color name="color_search_bg">#18233D</color>
+    <color name="color_second_left">#1E2944</color>
 </resources>

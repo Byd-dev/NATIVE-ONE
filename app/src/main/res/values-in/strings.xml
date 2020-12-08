@@ -550,5 +550,8 @@ diberikan kepada trader.</string>
     <string name="text_show_buy">展示买单</string>
     <string name="text_buy">买入</string>
     <string name="text_sell">卖出</string>
+    <string name="text_limit_order">限价单</string>
+    <string name="text_market_order">市价单</string>
+    <string name="text_trade_amount">成交金额</string>
 
 </resources>

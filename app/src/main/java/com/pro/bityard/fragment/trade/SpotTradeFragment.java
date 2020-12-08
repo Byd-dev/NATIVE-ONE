@@ -20,32 +20,40 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.OptionalSelectAdapter;
+import com.pro.bityard.adapter.ProportionSelectAdapter;
+import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.adapter.SellBuyListAdapter;
 import com.pro.bityard.adapter.SpotPositionAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.SpotPositionEntity;
+import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.QuoteCurrentManger;
 import com.pro.bityard.manger.QuoteSpotManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
+import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -88,6 +96,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     RelativeLayout layout_cancel;
     View view_line_two;
     private SpotPositionAdapter spotPositionAdapter;
+    private ProportionSelectAdapter proportionSelectAdapter;
+    private List<Integer>proportionList;
 
 
     private SellBuyListAdapter sellAdapter, buyAdapter;
@@ -100,6 +110,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private TextView text_currency_price;
     private String value_rate;
     private TextView text_scale;
+    private RelativeLayout layout_switch_limit_price;
+    private TextView text_limit_market;
+    private TextView text_currency_head;
+    private DecimalEditText edit_amount;
 
 
     @Override
@@ -123,6 +137,35 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     protected void initView(View view) {
+        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_layout, null);
+
+        text_currency_head = headView.findViewById(R.id.text_currency_head);
+
+        RecyclerView recyclerView_proportion=headView.findViewById(R.id.recyclerView_proportion);
+        proportionList = new ArrayList<>();
+        proportionList.add(20);
+        proportionList.add(50);
+        proportionList.add(75);
+        proportionList.add(100);
+        proportionSelectAdapter = new ProportionSelectAdapter(getActivity());
+        recyclerView_proportion.setLayoutManager(new GridLayoutManager(getActivity(), proportionList.size()));
+        recyclerView_proportion.setAdapter(proportionSelectAdapter);
+
+
+        proportionSelectAdapter.setDatas(proportionList);
+
+        proportionSelectAdapter.select(5);
+        proportionSelectAdapter.setOnItemClick(new ProportionSelectAdapter.OnItemClick() {
+            @Override
+            public void onSuccessListener(Integer position, int data) {
+                proportionSelectAdapter.select(position);
+            }
+        });
+
+
+
+        edit_amount = headView.findViewById(R.id.edit_amount);
+
         view.findViewById(R.id.layout_product).setOnClickListener(this);
         //自选监听
         view.findViewById(R.id.layout_optional).setOnClickListener(this);
@@ -135,10 +178,12 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         recyclerView_spot.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_spot.setAdapter(spotPositionAdapter);
 
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_layout, null);
         recyclerView_spot.addHeaderView(headView);
         layout_cancel = headView.findViewById(R.id.layout_cancel);
         view_line_two = headView.findViewById(R.id.view_line_two);
+        layout_switch_limit_price = headView.findViewById(R.id.layout_switch_limit_price);
+        text_limit_market = headView.findViewById(R.id.text_limit_market);
+
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             getPosition();
@@ -150,6 +195,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
         headView.findViewById(R.id.layout_buy_sell_switch).setOnClickListener(this);
+       layout_switch_limit_price.setOnClickListener(this);
 
 
         sellAdapter = new SellBuyListAdapter(getActivity());
@@ -183,7 +229,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         quote_code = itemQuoteContCode(itemData);
         text_name.setText(TradeUtil.name(itemData));
         text_currency.setText(TradeUtil.currency(itemData));
-
+        text_currency_head.setText("("+TradeUtil.name(itemData)+")");
+        edit_amount.setHint(getResources().getString(R.string.text_amount_withdrawal)+" ("+TradeUtil.name(itemData)+")");
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
 
         Util.setOptional(getActivity(), optionalList, quote_code, img_star, response -> {
@@ -260,6 +307,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 }
 
                 break;
+            case R.id.layout_switch_limit_price:
+                showLimitPriceWindow();
+                break;
+
         }
     }
 
@@ -323,13 +374,13 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         }
                         switch (isUp) {
                             case -1:
-                                text_price.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
+                                text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
                                 break;
                             case 1:
-                                text_price.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
+                                text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_green));
                                 break;
                             case 0:
-                                text_price.setTextColor(getActivity().getResources().getColor(R.color.text_main_color));
+                                text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_main_color));
                                 break;
                         }
 
@@ -348,7 +399,33 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
     }
+    /*限价 市价的切换*/
+    private void showLimitPriceWindow() {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_switch_limit_layout, null);
+        PopupWindow popupWindowLimitMarket = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
 
+        view.findViewById(R.id.text_limit_order).setOnClickListener(v -> {
+
+            popupWindowLimitMarket.dismiss();
+            text_limit_market.setText(getResources().getText(R.string.text_limit_order));
+
+        });
+
+
+        view.findViewById(R.id.text_market_order).setOnClickListener(v -> {
+            popupWindowLimitMarket.dismiss();
+            text_limit_market.setText(getResources().getText(R.string.text_market_order));
+
+        });
+
+
+        Util.dismiss(getActivity(), popupWindowLimitMarket);
+        popupWindowLimitMarket.setFocusable(true);
+        popupWindowLimitMarket.setOutsideTouchable(true);
+        popupWindowLimitMarket.setContentView(view);
+        popupWindowLimitMarket.showAsDropDown(layout_switch_limit_price, Gravity.CENTER, 0, 0);
+    }
     /*买卖单显示切换*/
     public void showBuySellSwitch(Activity activity, View layout_view) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_buy_sell_pop_layout, null);
@@ -412,4 +489,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         view.startAnimation(animation);
 
     }
+
+
+
 }

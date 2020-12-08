@@ -6,8 +6,10 @@
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_40"
+        android:layout_height="@dimen/margin_35"
         android:background="@drawable/bg_color_left"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
         android:orientation="horizontal">
 
         <RadioButton
@@ -42,33 +44,229 @@
 
 
     <RelativeLayout
+        android:id="@+id/layout_switch_limit_price"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_40"
+        android:layout_height="@dimen/margin_35"
         android:layout_marginTop="@dimen/margin_10"
-        android:background="@drawable/bg_color_left"
-        >
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:background="@drawable/bg_color_left">
+
         <TextView
+            android:id="@+id/text_limit_market"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="限价单"
-            android:textSize="@dimen/size_normal_two"
+            android:text="@string/text_limit_order"
             android:textColor="@color/text_main_color"
-            />
+            android:textSize="@dimen/size_normal_two" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_trade_triangle"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_10"
-            android:layout_centerVertical="true"/>
+            android:src="@mipmap/icon_trade_triangle" />
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_40"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:background="@drawable/bg_color_left"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_sub_profit_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingRight="@dimen/margin_10"
+            android:text="－"
+            android:textColor="@color/text_second_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <com.pro.bityard.view.DecimalEditText
+            android:id="@+id/edit_profit_amount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:inputType="numberDecimal"
+            android:textColor="@color/text_main_color"
+            android:textColorHint="@color/text_second_color"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/size_normal" />
+
+        <TextView
+            android:id="@+id/text_add_profit_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/margin_10"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_10"
+            android:text="＋"
+            android:textColor="@color/text_second_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_40"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:background="@drawable/bg_color_left"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingRight="@dimen/margin_10"
+            android:text="－"
+            android:textColor="@color/text_second_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <com.pro.bityard.view.DecimalEditText
+            android:id="@+id/edit_amount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/text_amount_withdrawal"
+            android:inputType="numberDecimal"
+            android:textColor="@color/text_main_color"
+            android:textColorHint="@color/text_second_color"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/size_normal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginRight="@dimen/margin_10"
+            android:gravity="center"
+            android:paddingLeft="@dimen/margin_10"
+            android:text="＋"
+            android:textColor="@color/text_second_color"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_proportion"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_26"
+        android:layout_marginRight="6.5dp"
+        android:layout_marginLeft="6.5dp"
+        android:layout_marginTop="@dimen/margin_10" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_40"
+        android:layout_marginTop="@dimen/margin_10"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:background="@drawable/bg_color_left"
+        android:orientation="horizontal">
+
+
+        <com.pro.bityard.view.DecimalEditText
+            android:id="@+id/edit_trade_amount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_weight="1"
+            android:background="@null"
+            android:gravity="center"
+            android:hint="@string/text_trade_amount"
+            android:inputType="numberDecimal"
+            android:textColor="@color/text_main_color"
+            android:textColorHint="@color/text_second_color"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/size_normal" />
+
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_40"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:text="@string/text_available_add"
+            android:textColor="@color/text_second_color"
+            android:textSize="@dimen/size_normal" />
+
+
+        <TextView
+            android:id="@+id/text_market_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:text="@string/text_default"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_40"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginRight="@dimen/margin_10"
+        android:background="@drawable/bg_shape_green"
+        android:orientation="horizontal">
+
+
+
+
+        <TextView
+            android:id="@+id/text_buy_what"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/text_buy"
+            android:textColor="@color/text_main_color"
+            android:textSize="@dimen/size_normal_two" />
 
 
 
 
 
     </RelativeLayout>
+
 
 
 </LinearLayout>
