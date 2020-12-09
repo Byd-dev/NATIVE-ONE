@@ -119,6 +119,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private LinearLayout layout_spot_limit;
     private LinearLayout layout_spot_market;
     private TextView text_balance;
+    private DecimalEditText edit_price_limit;
 
 
     @Override
@@ -153,6 +154,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_layout, null);
+        //限价
+        edit_price_limit = headView.findViewById(R.id.edit_price_limit);
+
         RadioButton radioButton_buy = headView.findViewById(R.id.radio_buy);
         RadioButton radioButton_sell = headView.findViewById(R.id.radio_sell);
 
@@ -170,6 +174,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.radio_buy:
+                    count = 0;
                     radioButton_buy.setBackground(getActivity().getResources().getDrawable(R.mipmap.bg_spot_buy));
                     radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_color_left));
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_green));
@@ -177,6 +182,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     isBuy = true;
                     break;
                 case R.id.radio_sell:
+                    count = 0;
                     radioButton_buy.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_color_left));
                     radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.mipmap.bg_spot_sell));
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_red));
@@ -394,6 +400,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
     private int length = 5;
+    private int count = 0;//控制限价价格显示 手动切换才变数据
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -429,6 +436,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         int isUp = quoteMinEntity.getIsUp();
                         double price = quoteMinEntity.getPrice();
                         text_price.setText(String.valueOf(price));
+                        if (count == 0) {
+                            edit_price_limit.setText(String.valueOf(price));
+                            count++;
+                        }
                         text_scale.setText(TradeUtil.scaleString(TradeUtil.decimalPoint(String.valueOf(price))));
                         if (value_rate != null) {
                             text_currency_price.setText("≈" + TradeUtil.numberHalfUp(TradeUtil.mul(price, Double.parseDouble(value_rate)), 2));
@@ -446,6 +457,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                                 text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_main_color));
                                 break;
                         }
+
 
                     }
                 });
