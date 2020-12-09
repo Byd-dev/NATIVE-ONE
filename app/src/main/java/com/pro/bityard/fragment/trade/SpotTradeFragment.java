@@ -29,6 +29,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.QuoteMinEntity;
@@ -95,7 +96,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     RelativeLayout layout_cancel;
     View view_line_two;
     private SpotPositionAdapter spotPositionAdapter;
-    private ProportionSelectAdapter proportionLimitAdapter,proportionMarketAdapter;
+    private ProportionSelectAdapter proportionLimitAdapter, proportionMarketAdapter;
     private List<Integer> proportionList;
 
 
@@ -114,9 +115,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private TextView text_currency_head;
     private DecimalEditText edit_amount_limit;
 
-    private boolean isBuy=true;
+    private boolean isBuy = true;
     private LinearLayout layout_spot_limit;
     private LinearLayout layout_spot_market;
+    private TextView text_balance;
 
 
     @Override
@@ -134,22 +136,34 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        BalanceManger.getInstance().getBalance("USDT");
+
+    }
+
+    @Override
     protected void onLazyLoad() {
 
     }
 
     @Override
     protected void initView(View view) {
+        BalanceManger.getInstance().addObserver(this);
+
+
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_layout, null);
         RadioButton radioButton_buy = headView.findViewById(R.id.radio_buy);
         RadioButton radioButton_sell = headView.findViewById(R.id.radio_sell);
 
-        TextView text_buy_what=headView.findViewById(R.id.text_buy_what);
-        RelativeLayout layout_buy_what=headView.findViewById(R.id.layout_buy_what);
+        text_balance = headView.findViewById(R.id.text_balance);
+
+        TextView text_buy_what = headView.findViewById(R.id.text_buy_what);
+        RelativeLayout layout_buy_what = headView.findViewById(R.id.layout_buy_what);
 
         layout_spot_limit = headView.findViewById(R.id.layout_spot_limit);
         layout_spot_market = headView.findViewById(R.id.layout_spot_market);
-
+        layout_spot_market.setVisibility(View.GONE);
 
 
         RadioGroup radioGroup = headView.findViewById(R.id.radioGroup);
@@ -160,14 +174,14 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_color_left));
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_green));
                     text_buy_what.setText(getResources().getText(R.string.text_buy));
-                    isBuy=true;
+                    isBuy = true;
                     break;
                 case R.id.radio_sell:
                     radioButton_buy.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_color_left));
                     radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.mipmap.bg_spot_sell));
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_red));
                     text_buy_what.setText(getResources().getText(R.string.text_sell));
-                    isBuy=false;
+                    isBuy = false;
                     break;
             }
         });
@@ -436,6 +450,18 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     }
                 });
             }
+        } else if (o == BalanceManger.getInstance()) {
+            if (!isAdded()) {
+                return;
+            }
+
+            BalanceEntity balanceEntity = (BalanceEntity) arg;
+            if (balanceEntity == null) {
+                return;
+            }
+
+            text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+
         }
 
     }
