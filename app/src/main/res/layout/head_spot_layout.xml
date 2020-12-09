@@ -17,7 +17,7 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <include layout="@layout/item_spot_market"/>
+            <include layout="@layout/item_spot_quote"/>
 
 
         </LinearLayout>
