@@ -88,7 +88,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_10"
             android:text="@string/text_available_add"
             android:textColor="@color/text_second_color"
             android:textSize="@dimen/size_normal" />
@@ -100,7 +99,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_10"
             android:text="@string/text_default"
             android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal" />
