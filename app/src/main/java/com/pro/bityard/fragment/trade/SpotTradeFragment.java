@@ -217,10 +217,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
         });
 
-
-
         //根据当前价格的小数位确定输入框的小数位
-        edit_price_limit.setDecimalEndNumber(TradeUtil.decimalPoint(edit_price_limit.getText().toString()));
+
         //加号
         headView.findViewById(R.id.text_add_price_limit).setOnClickListener(v -> TradeUtil.addMyself(edit_price_limit, price));
         //减号
@@ -447,6 +445,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         text_price.setText(String.valueOf(price));
 
                         if (count == 0) {
+                            Log.d("print", "initView:221:  "+TradeUtil.decimalPoint(String.valueOf(price)));
+                            edit_price_limit.setDecimalEndNumber(TradeUtil.decimalPoint(String.valueOf(price)));
                             edit_price_limit.setText(String.valueOf(price));
                             count++;
                         }
