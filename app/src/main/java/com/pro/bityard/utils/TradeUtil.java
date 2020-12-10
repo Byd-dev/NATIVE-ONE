@@ -15,6 +15,7 @@ import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.TradeListManger;
+import com.pro.bityard.view.DecimalEditText;
 import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONException;
@@ -1559,5 +1560,25 @@ public class TradeUtil {
         }
     }
 
+
+    public static void addMyself(DecimalEditText editText,double price){
+        if (editText.getText().toString().length() == 0) {
+            double a = TradeUtil.add(0, TradeUtil.scale(2));
+            editText.setText(String.valueOf(a));
+        } else {
+            double a = TradeUtil.add(Double.parseDouble(editText.getText().toString()),TradeUtil.scale(TradeUtil.decimalPoint(String.valueOf(price))));
+            editText.setText(String.valueOf(a));
+
+        }
+    }
+
+    public static void subMyself(DecimalEditText editText,double price){
+        if (editText.getText().toString().length() == 0|| Double.parseDouble(editText.getText().toString()) <= 0) {
+            editText.setText(String.valueOf(0));
+        } else {
+            double a = TradeUtil.sub(Double.parseDouble(editText.getText().toString()),TradeUtil.scale(TradeUtil.decimalPoint(String.valueOf(price))));
+            editText.setText(String.valueOf(a));
+        }
+    }
 
 }

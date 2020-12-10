@@ -120,6 +120,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private LinearLayout layout_spot_market;
     private TextView text_balance;
     private DecimalEditText edit_price_limit;
+    private double price;
 
 
     @Override
@@ -215,6 +216,15 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 proportionLimitAdapter.select(position);
             }
         });
+
+
+
+        //根据当前价格的小数位确定输入框的小数位
+        edit_price_limit.setDecimalEndNumber(TradeUtil.decimalPoint(edit_price_limit.getText().toString()));
+        //加号
+        headView.findViewById(R.id.text_add_price_limit).setOnClickListener(v -> TradeUtil.addMyself(edit_price_limit, price));
+        //减号
+        headView.findViewById(R.id.text_sub_price_limit).setOnClickListener(v -> TradeUtil.subMyself(edit_price_limit, price));
 
         /*市价*/
         RecyclerView recyclerView_proportion_market = headView.findViewById(R.id.recyclerView_proportion_market);
@@ -388,7 +398,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
             //发送行情包
-            Log.d("print", "handleMessage:现货发送商号: " + quote_code);
             if (quote_code != null) {
                 WebSocketManager.getInstance().send("5001", quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
@@ -434,8 +443,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 runOnUiThread(() -> {
                     if (text_price != null) {
                         int isUp = quoteMinEntity.getIsUp();
-                        double price = quoteMinEntity.getPrice();
+                        price = quoteMinEntity.getPrice();
                         text_price.setText(String.valueOf(price));
+
                         if (count == 0) {
                             edit_price_limit.setText(String.valueOf(price));
                             count++;
