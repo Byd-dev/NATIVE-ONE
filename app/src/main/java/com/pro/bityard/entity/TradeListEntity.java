@@ -1,5 +1,6 @@
 package com.pro.bityard.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class TradeListEntity {
@@ -44,7 +45,7 @@ public class TradeListEntity {
     private double maxHoldAll;
     private double maxHoldOne;
     private double maxHoldWay;
-    private double volumeMin;
+    private BigDecimal volumeMin;
 
 
 
@@ -139,11 +140,11 @@ public class TradeListEntity {
     }
 
 
-    public double getVolumeMin() {
-        return volumeMin;
+    public String getVolumeMin() {
+        return volumeMin.stripTrailingZeros().toPlainString();
     }
 
-    public void setVolumeMin(double volumeMin) {
+    public void setVolumeMin(BigDecimal volumeMin) {
         this.volumeMin = volumeMin;
     }
 

@@ -68,6 +68,9 @@ public class TradeUtil {
     }
 
 
+
+
+
     public static String scaleString(int priceDigit) {
         if (priceDigit == 1) {
             return "0.1";
@@ -263,11 +266,25 @@ public class TradeUtil {
         return b1.add(b2).doubleValue();
     }
 
+    /*加法*/
+    public static String addBig(double v1, double v2) {
+        BigDecimal b1 = new BigDecimal(Double.toString(v1));
+        BigDecimal b2 = new BigDecimal(Double.toString(v2));
+        return b1.add(b2).stripTrailingZeros().toPlainString();
+    }
+
     /*减法*/
     public static double sub(double v1, double v2) {
         BigDecimal b1 = new BigDecimal(Double.toString(v1));
         BigDecimal b2 = new BigDecimal(Double.toString(v2));
         return b1.subtract(b2).doubleValue();
+    }
+
+    /*减法*/
+    public static String subBig(double v1, double v2) {
+        BigDecimal b1 = new BigDecimal(Double.toString(v1));
+        BigDecimal b2 = new BigDecimal(Double.toString(v2));
+        return b1.subtract(b2).stripTrailingZeros().toPlainString();
     }
 
 
@@ -1370,11 +1387,17 @@ public class TradeUtil {
 
     /*判断当前有几位小数*/
     public static int decimalPoint(String price) {
-        if (price.contains(".")) {
-            return price.length() - price.indexOf(".") - 1;
-        } else {
+        if (price==null){
             return 0;
+        }else {
+            if (price.contains(".")) {
+                return price.length() - price.indexOf(".") - 1;
+            } else {
+                return 0;
+            }
         }
+
+
     }
 
     /*价格变化*/
@@ -1561,23 +1584,26 @@ public class TradeUtil {
     }
 
 
-    public static void addMyself(DecimalEditText editText,double price){
+    public static void addMyself(DecimalEditText editText,double priceChange){
         if (editText.getText().toString().length() == 0) {
-            double a = TradeUtil.add(0, TradeUtil.scale(2));
-            editText.setText(String.valueOf(a));
+            String s = TradeUtil.addBig(0, priceChange);
+            BigDecimal bigDecimal=new BigDecimal(s);
+            editText.setText(bigDecimal.stripTrailingZeros().toPlainString());
         } else {
-            double a = TradeUtil.add(Double.parseDouble(editText.getText().toString()),TradeUtil.scale(TradeUtil.decimalPoint(String.valueOf(price))));
-            editText.setText(String.valueOf(a));
+            String a = TradeUtil.addBig(Double.parseDouble(editText.getText().toString()),priceChange);
+            BigDecimal bigDecimal=new BigDecimal(a);
+            editText.setText(bigDecimal.stripTrailingZeros().toPlainString());
 
         }
     }
 
-    public static void subMyself(DecimalEditText editText,double price){
+    public static void subMyself(DecimalEditText editText,double priceChange){
         if (editText.getText().toString().length() == 0|| Double.parseDouble(editText.getText().toString()) <= 0) {
             editText.setText(String.valueOf(0));
         } else {
-            double a = TradeUtil.sub(Double.parseDouble(editText.getText().toString()),TradeUtil.scale(TradeUtil.decimalPoint(String.valueOf(price))));
-            editText.setText(String.valueOf(a));
+            String a = TradeUtil.subBig(Double.parseDouble(editText.getText().toString()),priceChange);
+            BigDecimal bigDecimal=new BigDecimal(a);
+            editText.setText(bigDecimal.stripTrailingZeros().toPlainString());
         }
     }
 

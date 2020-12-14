@@ -47,6 +47,7 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -122,6 +123,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private TextView text_balance;
     private DecimalEditText edit_price_limit;
     private double price;
+    private TradeListEntity tradeDetail;
+    private TextView text_add_price_limit,text_sub_price_limit,text_add_amount_limit,text_sub_amount_limit;
 
 
     @Override
@@ -158,6 +161,15 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_layout, null);
         //限价
         edit_price_limit = headView.findViewById(R.id.edit_price_limit);
+        //限价数量
+        edit_amount_limit = headView.findViewById(R.id.edit_amount_limit);
+
+
+        text_add_price_limit = headView.findViewById(R.id.text_add_price_limit);
+        text_sub_price_limit=headView.findViewById(R.id.text_sub_price_limit);
+        text_add_amount_limit = headView.findViewById(R.id.text_add_amount_limit);
+        text_sub_amount_limit=headView.findViewById(R.id.text_sub_amount_limit);
+
 
         RadioButton radioButton_buy = headView.findViewById(R.id.radio_buy);
         RadioButton radioButton_sell = headView.findViewById(R.id.radio_sell);
@@ -218,12 +230,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
         });
 
-        //根据当前价格的小数位确定输入框的小数位
 
-        //加号
-        headView.findViewById(R.id.text_add_price_limit).setOnClickListener(v -> TradeUtil.addMyself(edit_price_limit, price));
-        //减号
-        headView.findViewById(R.id.text_sub_price_limit).setOnClickListener(v -> TradeUtil.subMyself(edit_price_limit, price));
 
         /*市价*/
         RecyclerView recyclerView_proportion_market = headView.findViewById(R.id.recyclerView_proportion_market);
@@ -244,7 +251,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
         });
 
-        edit_amount_limit = headView.findViewById(R.id.edit_amount_limit);
 
         view.findViewById(R.id.layout_product).setOnClickListener(this);
         //自选监听
@@ -322,8 +328,23 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
         List<TradeListEntity> tradeListEntityList = Util.SPDealEntityResult(string);
-        TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-        Log.d("print", "initData: 309: "+tradeListEntity);
+        tradeDetail = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+        Log.d("print", "initData: 309: "+ tradeDetail);
+
+        //根据当前价格的小数位确定输入框的小数位
+        edit_price_limit.setDecimalEndNumber(tradeDetail.getPriceDigit());
+        edit_amount_limit.setDecimalEndNumber(TradeUtil.decimalPoint(tradeDetail.getVolumeMin()));
+
+        //限价加号
+        text_add_price_limit.setOnClickListener(v -> TradeUtil.addMyself(edit_price_limit, tradeDetail.getPriceChange()));
+        //限价减号
+        text_sub_price_limit.setOnClickListener(v -> TradeUtil.subMyself(edit_price_limit, tradeDetail.getPriceChange()));
+
+        String minVolume = tradeDetail.getVolumeMin();
+        //限价加号
+        text_add_amount_limit.setOnClickListener(v -> TradeUtil.addMyself(edit_amount_limit, Double.parseDouble(minVolume)));
+        //限价减号
+        text_sub_amount_limit.setOnClickListener(v -> TradeUtil.subMyself(edit_amount_limit, Double.parseDouble(minVolume)));
 
 
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
@@ -464,7 +485,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
                         if (count == 0) {
                             Log.d("print", "initView:221:  " + TradeUtil.decimalPoint(String.valueOf(price)));
-                            edit_price_limit.setDecimalEndNumber(TradeUtil.decimalPoint(String.valueOf(price)));
                             edit_price_limit.setText(String.valueOf(price));
                             count++;
                         }
