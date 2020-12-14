@@ -34,6 +34,7 @@ import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.SpotPositionEntity;
+import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.QuoteCurrentManger;
 import com.pro.bityard.manger.QuoteSpotManger;
@@ -238,6 +239,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void onSuccessListener(Integer position, int data) {
                 proportionMarketAdapter.select(position);
+
+
             }
         });
 
@@ -294,8 +297,15 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+
+
     @Override
     protected void initData() {
+
+
+
+
+
         Handler handler = new Handler();
         handler.postDelayed(() -> startScheduleJob(mHandler, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND), 50);
 
@@ -308,6 +318,14 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         text_currency.setText(TradeUtil.currency(itemData));
         text_currency_head.setText("(" + TradeUtil.name(itemData) + ")");
         edit_amount_limit.setHint(getResources().getString(R.string.text_amount_withdrawal) + " (" + TradeUtil.name(itemData) + ")");
+
+
+        String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
+        List<TradeListEntity> tradeListEntityList = Util.SPDealEntityResult(string);
+        TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+        Log.d("print", "initData: 309: "+tradeListEntity);
+
+
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
 
         Util.setOptional(getActivity(), optionalList, quote_code, img_star, response -> {
@@ -445,7 +463,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         text_price.setText(String.valueOf(price));
 
                         if (count == 0) {
-                            Log.d("print", "initView:221:  "+TradeUtil.decimalPoint(String.valueOf(price)));
+                            Log.d("print", "initView:221:  " + TradeUtil.decimalPoint(String.valueOf(price)));
                             edit_price_limit.setDecimalEndNumber(TradeUtil.decimalPoint(String.valueOf(price)));
                             edit_price_limit.setText(String.valueOf(price));
                             count++;

@@ -829,14 +829,22 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
 
 
+
+            String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
+            tradeListEntityList = Util.SPDealEntityResult(string);
+
+            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+            Log.d("ptrint", "initData:837: "+tradeListEntity);
+            setContent(tradeListEntity);
+
             //获取输入框的范围保证金
-            TradeListManger.getInstance().tradeList((state, response) -> {
+            /*TradeListManger.getInstance().tradeList((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     tradeListEntityList = (List<TradeListEntity>) response;
                     tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
                     setContent(tradeListEntity);
                 }
-            });
+            });*/
             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     chargeUnitEntityJson = (JSONObject) response;
@@ -1173,7 +1181,9 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         //   Log.d("print", "setContent:659:  " + tradeListEntity);
         if (tradeListEntity != null) {
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
-
+            if (leverShowList.size()==0){
+                return;
+            }
             lever = leverShowList.get(oldSelect);
             text_lever_market.setText(lever + "X");
             text_lever_limit.setText(lever + "X");
@@ -1603,14 +1613,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
             }
 
-        } else if (o == TradeListManger.getInstance()) {
+        } /*else if (o == TradeListManger.getInstance()) {
             if (!isAdded()) {
                 return;
             }
             tradeListEntityList = (List<TradeListEntity>) arg;
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
             setContent(tradeListEntity);
-        } else if (o == QuoteCurrentManger.getInstance()) {
+        }*/ else if (o == QuoteCurrentManger.getInstance()) {
             if (!isAdded()) {
                 return;
             }

@@ -41,6 +41,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.TradeListEntity;
 import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONArray;
@@ -54,7 +55,6 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1059,8 +1059,29 @@ public class Util {
             Set<String> list = gson.fromJson(data, listType);
             return list;
         }
-
     }
+
+
+    /*存放*/
+    public static String SPDealContract(List<TradeListEntity> tradeListEntities) {
+        Gson gson = new Gson();
+        String s = gson.toJson(tradeListEntities);
+        return s;
+    }
+
+    /*解析*/
+    public static List<TradeListEntity> SPDealEntityResult(String data) {
+        if (data == null) {
+            return null;
+        } else {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<TradeListEntity>>() {
+            }.getType();
+            List<TradeListEntity> list = gson.fromJson(data, listType);
+            return list;
+        }
+    }
+
 
     /*设置自选图标*/
     public static void setOptional(Context context, Set<String> optionalList, String quote_code, ImageView img_star, OnResult onResult) {
@@ -1387,41 +1408,41 @@ public class Util {
         buyEntityList.add(new BuySellEntity(split[14], split[15]));
         buyEntityList.add(new BuySellEntity(split[16], split[17]));
         buyEntityList.add(new BuySellEntity(split[18], split[19]));
-        return  buyEntityList;
+        return buyEntityList;
     }
 
     public static Double buyMax(String quote) {
-        List<Double> list=new ArrayList<>();
+        List<Double> list = new ArrayList<>();
         String[] split = quote.split(",");
-        list.add(TradeUtil.mul(Double.parseDouble(split[0]),Double.parseDouble(split[1])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[2]),Double.parseDouble(split[3])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[4]),Double.parseDouble(split[5])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[6]),Double.parseDouble(split[7])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[8]),Double.parseDouble(split[9])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[10]),Double.parseDouble(split[11])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[12]),Double.parseDouble(split[13])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[14]),Double.parseDouble(split[15])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[16]),Double.parseDouble(split[17])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[18]),Double.parseDouble(split[19])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[0]), Double.parseDouble(split[1])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[2]), Double.parseDouble(split[3])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[4]), Double.parseDouble(split[5])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[6]), Double.parseDouble(split[7])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[8]), Double.parseDouble(split[9])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[10]), Double.parseDouble(split[11])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[12]), Double.parseDouble(split[13])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[14]), Double.parseDouble(split[15])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[16]), Double.parseDouble(split[17])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[18]), Double.parseDouble(split[19])));
         Double max = Collections.max(list);
-        return  max;
+        return max;
     }
 
     public static Double sellMax(String quote) {
-        List<Double> list=new ArrayList<>();
+        List<Double> list = new ArrayList<>();
         String[] split = quote.split(",");
-        list.add(TradeUtil.mul(Double.parseDouble(split[20]),Double.parseDouble(split[21])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[22]),Double.parseDouble(split[23])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[24]),Double.parseDouble(split[25])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[26]),Double.parseDouble(split[27])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[28]),Double.parseDouble(split[29])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[30]),Double.parseDouble(split[31])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[32]),Double.parseDouble(split[33])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[34]),Double.parseDouble(split[35])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[36]),Double.parseDouble(split[37])));
-        list.add(TradeUtil.mul(Double.parseDouble(split[38]),Double.parseDouble(split[39])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[20]), Double.parseDouble(split[21])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[22]), Double.parseDouble(split[23])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[24]), Double.parseDouble(split[25])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[26]), Double.parseDouble(split[27])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[28]), Double.parseDouble(split[29])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[30]), Double.parseDouble(split[31])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[32]), Double.parseDouble(split[33])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[34]), Double.parseDouble(split[35])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[36]), Double.parseDouble(split[37])));
+        list.add(TradeUtil.mul(Double.parseDouble(split[38]), Double.parseDouble(split[39])));
         Double max = Collections.max(list);
-        return  max;
+        return max;
     }
 
     public static List<BuySellEntity> getSellList(String quote) {
@@ -1437,11 +1458,11 @@ public class Util {
         sellEntityList.add(new BuySellEntity(split[34], split[35]));
         sellEntityList.add(new BuySellEntity(split[36], split[37]));
         sellEntityList.add(new BuySellEntity(split[38], split[39]));
-        return  sellEntityList;
+        return sellEntityList;
     }
 
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale+0.5f);
+        return (int) (dpValue * scale + 0.5f);
     }
 }

@@ -46,10 +46,10 @@ public class InitManger extends Observable {
     public void init() {
 
         //这里涉及到能否追加保证金
-        TradeListManger.getInstance().tradeList((state, response) -> {
+        /*TradeListManger.getInstance().tradeList((state, response) -> {
             if (state.equals(SUCCESS)) {
             }
-        });
+        });*/
 
         //判断是否登录
         NetManger.getInstance().isLogin(response -> {

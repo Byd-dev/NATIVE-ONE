@@ -25,6 +25,7 @@ public class ProportionSelectAdapter extends RecyclerView.Adapter<RecyclerView.V
     private String chain = "";
     private boolean isEnable=true;
     private Integer index = 0;
+    private boolean unSelect=false;
 
     public ProportionSelectAdapter(Context context) {
         this.context = context;
@@ -41,6 +42,8 @@ public class ProportionSelectAdapter extends RecyclerView.Adapter<RecyclerView.V
         this.notifyDataSetChanged();
 
     }
+
+
 
     public void setEnable(boolean isEnable){
         this.isEnable=isEnable;
@@ -94,6 +97,7 @@ public class ProportionSelectAdapter extends RecyclerView.Adapter<RecyclerView.V
             }
 
             ((MyViewHolder) holder).radioButton.setText(datas.get(position)+"%");
+
             if (index == position) {
                 ((MyViewHolder) holder).radioButton.setChecked(true);
             } else {

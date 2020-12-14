@@ -993,7 +993,7 @@ public class NetManger {
                                 stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
                             }
                             SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
-                            //SPUtils.putString(AppConfig.QUOTE_DETAIL, tradeListEntityList.toString());
+                            SPUtils.putString(AppConfig.QUOTE_DETAIL, Util.SPDealContract(tradeListEntityList));
                         } else if (state1.equals(FAILURE)) {
                         }
                     });//获取合约号

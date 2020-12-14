@@ -668,13 +668,19 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));*/
 
             //获取输入框的范围保证金
-            TradeListManger.getInstance().tradeList((state, response) -> {
+           /* TradeListManger.getInstance().tradeList((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     tradeListEntityList = (List<TradeListEntity>) response;
                     tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
                     setContent(tradeListEntity);
                 }
-            });
+            });*/
+
+            String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
+            tradeListEntityList = Util.SPDealEntityResult(string);
+            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
+            setContent(tradeListEntity);
+
             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     chargeUnitEntityJson = (JSONObject) response;
