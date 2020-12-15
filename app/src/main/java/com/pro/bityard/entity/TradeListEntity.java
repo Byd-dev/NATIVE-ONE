@@ -141,7 +141,11 @@ public class TradeListEntity {
 
 
     public String getVolumeMin() {
-        return volumeMin.stripTrailingZeros().toPlainString();
+        if (volumeMin==null){
+            return null;
+        }else {
+            return volumeMin.stripTrailingZeros().toPlainString();
+        }
     }
 
     public void setVolumeMin(BigDecimal volumeMin) {

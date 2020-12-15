@@ -1,5 +1,7 @@
 package com.pro.bityard.utils;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -68,9 +70,6 @@ public class TradeUtil {
     }
 
 
-
-
-
     public static String scaleString(int priceDigit) {
         if (priceDigit == 1) {
             return "0.1";
@@ -126,8 +125,8 @@ public class TradeUtil {
 
     public static String numberHalfUp(double value, int scale) {
         if (value != 0) {
-            BigDecimal bd = new BigDecimal(value);
-            String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五
+            BigDecimal bd = new BigDecimal(value).setScale(scale, BigDecimal.ROUND_HALF_UP);
+            String mon = bd.toString();//保留两位数字，四舍五
             return mon;
         } else {
             if (scale == 7) {
@@ -141,8 +140,8 @@ public class TradeUtil {
                 String mon = format.format(bigDecimal);//保留两位数字，四舍五
                 return mon;
             } else {
-                BigDecimal bd = new BigDecimal(value);
-                String mon = bd.setScale(scale, RoundingMode.HALF_DOWN).toString();//保留两位数字，四舍五
+                BigDecimal bd = new BigDecimal(value).setScale(scale, BigDecimal.ROUND_HALF_UP);
+                String mon = bd.toString();//保留两位数字，四舍五
                 return mon;
             }
         }
@@ -302,11 +301,25 @@ public class TradeUtil {
         return b1.multiply(b2).doubleValue();
     }
 
+    /*乘法*/
+    public static String mulBig(double d1, double d2) {
+        BigDecimal b1 = new BigDecimal(d1);
+        BigDecimal b2 = new BigDecimal(d2);
+        return b1.multiply(b2).stripTrailingZeros().toPlainString();
+    }
+
     /*除法*/
     public static double div(double d1, double d2, int len) {
         BigDecimal b1 = new BigDecimal(d1);
         BigDecimal b2 = new BigDecimal(d2);
         return b1.divide(b2, len, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
+    /*除法*/
+    public static String divBig(double d1, double d2, int len) {
+        BigDecimal b1 = new BigDecimal(d1);
+        BigDecimal b2 = new BigDecimal(d2);
+        return b1.divide(b2, len, BigDecimal.ROUND_HALF_UP).stripTrailingZeros().toPlainString();
     }
 
     /*价格*/
@@ -969,7 +982,7 @@ public class TradeUtil {
     /* 历史记录*/
     public static List<String> historyQuoteList(List<String> quoteList) {
         Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
-       // Log.d("print", "optionalQuoteList:历史记录:  " + optionalList);
+        // Log.d("print", "optionalQuoteList:历史记录:  " + optionalList);
         if (optionalList.size() == 0) {
             return null;
         } else {
@@ -1387,9 +1400,9 @@ public class TradeUtil {
 
     /*判断当前有几位小数*/
     public static int decimalPoint(String price) {
-        if (price==null){
+        if (price == null) {
             return 0;
-        }else {
+        } else {
             if (price.contains(".")) {
                 return price.length() - price.indexOf(".") - 1;
             } else {
@@ -1584,27 +1597,87 @@ public class TradeUtil {
     }
 
 
-    public static void addMyself(DecimalEditText editText,double priceChange){
+    public static void addMyself(DecimalEditText editText, double priceChange) {
         if (editText.getText().toString().length() == 0) {
             String s = TradeUtil.addBig(0, priceChange);
-            BigDecimal bigDecimal=new BigDecimal(s);
+            BigDecimal bigDecimal = new BigDecimal(s);
             editText.setText(bigDecimal.stripTrailingZeros().toPlainString());
         } else {
-            String a = TradeUtil.addBig(Double.parseDouble(editText.getText().toString()),priceChange);
-            BigDecimal bigDecimal=new BigDecimal(a);
+            String a = TradeUtil.addBig(Double.parseDouble(editText.getText().toString()), priceChange);
+            BigDecimal bigDecimal = new BigDecimal(a);
             editText.setText(bigDecimal.stripTrailingZeros().toPlainString());
 
         }
     }
 
-    public static void subMyself(DecimalEditText editText,double priceChange){
-        if (editText.getText().toString().length() == 0|| Double.parseDouble(editText.getText().toString()) <= 0) {
+    public static void subMyself(DecimalEditText editText, double priceChange) {
+        if (editText.getText().toString().length() == 0 || Double.parseDouble(editText.getText().toString()) <= 0) {
             editText.setText(String.valueOf(0));
         } else {
-            String a = TradeUtil.subBig(Double.parseDouble(editText.getText().toString()),priceChange);
-            BigDecimal bigDecimal=new BigDecimal(a);
+            String a = TradeUtil.subBig(Double.parseDouble(editText.getText().toString()), priceChange);
+            BigDecimal bigDecimal = new BigDecimal(a);
             editText.setText(bigDecimal.stripTrailingZeros().toPlainString());
         }
     }
 
+    /*交易金额*/
+    public static void setTradeAmount(DecimalEditText edit_price_limit, DecimalEditText edit_amount_limit, DecimalEditText edit_trade_amount_limit, int priceDigit) {
+        String price_limit = edit_price_limit.getText().toString();
+        String amount_limit = edit_amount_limit.getText().toString();
+        if (amount_limit.length() != 0) {
+            String amount_trade_limit = TradeUtil.mulBig(Double.parseDouble(price_limit), Double.parseDouble(amount_limit));
+            String numberFormat = TradeUtil.numberHalfUp(Double.parseDouble(amount_trade_limit), priceDigit);
+            edit_trade_amount_limit.setText(numberFormat);
+        }
+    }
+
+    /*输入框的监听*/
+    public static void setEditTrade(DecimalEditText edit_price_limit, DecimalEditText edit_amount_limit, DecimalEditText edit_trade_amount_limit, int priceDigit) {
+        edit_price_limit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    TradeUtil.setTradeAmount(edit_price_limit, edit_amount_limit, edit_trade_amount_limit, priceDigit);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+
+
+
+    public static void setEditVolume(DecimalEditText edit_trade_amount_limit,DecimalEditText edit_price_limit,DecimalEditText edit_amount_limit,int volumeDigit){
+        /*成交金额的监听*/
+        edit_trade_amount_limit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String value_price_limit = edit_price_limit.getText().toString();
+                if (s.length() != 0) {
+                    if (value_price_limit.length() != 0) {
+                        String value_amount = TradeUtil.divBig(Double.parseDouble(edit_trade_amount_limit.getText().toString()), Double.parseDouble(value_price_limit), volumeDigit);
+                        edit_amount_limit.setText(value_amount);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
 }

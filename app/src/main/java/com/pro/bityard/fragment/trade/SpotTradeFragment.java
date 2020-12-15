@@ -6,6 +6,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -47,7 +49,6 @@ import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -124,7 +125,19 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private DecimalEditText edit_price_limit;
     private double price;
     private TradeListEntity tradeDetail;
-    private TextView text_add_price_limit,text_sub_price_limit,text_add_amount_limit,text_sub_amount_limit;
+    private TextView text_add_price_limit, text_sub_price_limit, text_add_amount_limit, text_sub_amount_limit;
+    private RadioButton radioButton_buy;
+    private RadioButton radioButton_sell;
+    private RadioGroup radioGroup;
+    private TextView text_buy_what;
+    private RelativeLayout layout_buy_what;
+
+    private String tradeName = null;
+    private DecimalEditText edit_trade_amount_limit;
+    private int volumeDigit;
+    private TextWatcher watcher_price;
+    private TextWatcher watcher_amount;
+    private TextWatcher watcher_trade;
 
 
     @Override
@@ -163,48 +176,29 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         edit_price_limit = headView.findViewById(R.id.edit_price_limit);
         //限价数量
         edit_amount_limit = headView.findViewById(R.id.edit_amount_limit);
+        //限价成交金额
+        edit_trade_amount_limit = headView.findViewById(R.id.edit_trade_amount_limit);
 
 
         text_add_price_limit = headView.findViewById(R.id.text_add_price_limit);
-        text_sub_price_limit=headView.findViewById(R.id.text_sub_price_limit);
+        text_sub_price_limit = headView.findViewById(R.id.text_sub_price_limit);
         text_add_amount_limit = headView.findViewById(R.id.text_add_amount_limit);
-        text_sub_amount_limit=headView.findViewById(R.id.text_sub_amount_limit);
+        text_sub_amount_limit = headView.findViewById(R.id.text_sub_amount_limit);
 
+        radioGroup = headView.findViewById(R.id.radioGroup);
 
-        RadioButton radioButton_buy = headView.findViewById(R.id.radio_buy);
-        RadioButton radioButton_sell = headView.findViewById(R.id.radio_sell);
+        radioButton_buy = headView.findViewById(R.id.radio_buy);
+        radioButton_sell = headView.findViewById(R.id.radio_sell);
 
         text_balance = headView.findViewById(R.id.text_balance);
 
-        TextView text_buy_what = headView.findViewById(R.id.text_buy_what);
-        RelativeLayout layout_buy_what = headView.findViewById(R.id.layout_buy_what);
+        text_buy_what = headView.findViewById(R.id.text_buy_what);
+        layout_buy_what = headView.findViewById(R.id.layout_buy_what);
 
         layout_spot_limit = headView.findViewById(R.id.layout_spot_limit);
         layout_spot_market = headView.findViewById(R.id.layout_spot_market);
         layout_spot_market.setVisibility(View.GONE);
 
-
-        RadioGroup radioGroup = headView.findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId) {
-                case R.id.radio_buy:
-                    count = 0;
-                    radioButton_buy.setBackground(getActivity().getResources().getDrawable(R.mipmap.bg_spot_buy));
-                    radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_color_left));
-                    layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_green));
-                    text_buy_what.setText(getResources().getText(R.string.text_buy));
-                    isBuy = true;
-                    break;
-                case R.id.radio_sell:
-                    count = 0;
-                    radioButton_buy.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_color_left));
-                    radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.mipmap.bg_spot_sell));
-                    layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_red));
-                    text_buy_what.setText(getResources().getText(R.string.text_sell));
-                    isBuy = false;
-                    break;
-            }
-        });
 
         text_currency_head = headView.findViewById(R.id.text_currency_head);
         /*限价*/
@@ -304,12 +298,12 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     }
 
 
+    boolean flag_price = true;
+    boolean flag_amount = true;
+    boolean flag_trade = true;
 
     @Override
     protected void initData() {
-
-
-
 
 
         Handler handler = new Handler();
@@ -318,46 +312,185 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         tradeType = getArguments().getString(TYPE);
         itemData = getArguments().getString(VALUE);
+        tradeName = TradeUtil.name(itemData);
+
 
         quote_code = itemQuoteContCode(itemData);
-        text_name.setText(TradeUtil.name(itemData));
-        text_currency.setText(TradeUtil.currency(itemData));
-        text_currency_head.setText("(" + TradeUtil.name(itemData) + ")");
-        edit_amount_limit.setHint(getResources().getString(R.string.text_amount_withdrawal) + " (" + TradeUtil.name(itemData) + ")");
 
 
         String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
         List<TradeListEntity> tradeListEntityList = Util.SPDealEntityResult(string);
         tradeDetail = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-        Log.d("print", "initData: 309: "+ tradeDetail);
+        Log.d("print", "initData: 309: " + tradeDetail);
 
+
+        text_name.setText(TradeUtil.name(itemData));
+        text_currency.setText(TradeUtil.currency(itemData));
+        text_currency_head.setText("(" + tradeName + ")");
+        edit_amount_limit.setHint(getResources().getString(R.string.text_amount_withdrawal) + " (" + tradeName + ")");
         //根据当前价格的小数位确定输入框的小数位
-        edit_price_limit.setDecimalEndNumber(tradeDetail.getPriceDigit());
-        edit_amount_limit.setDecimalEndNumber(TradeUtil.decimalPoint(tradeDetail.getVolumeMin()));
+        int priceDigit = tradeDetail.getPriceDigit();
+        edit_price_limit.setDecimalEndNumber(priceDigit);
+        String volumeMin = tradeDetail.getVolumeMin();
+        if (volumeMin == null) {
+            volumeDigit = 0;
+        } else {
+            volumeDigit = TradeUtil.decimalPoint(volumeMin);
+        }
+        edit_amount_limit.setDecimalEndNumber(volumeDigit);
+        edit_trade_amount_limit.setDecimalEndNumber(priceDigit);
 
-        //限价加号
-        text_add_price_limit.setOnClickListener(v -> TradeUtil.addMyself(edit_price_limit, tradeDetail.getPriceChange()));
-        //限价减号
-        text_sub_price_limit.setOnClickListener(v -> TradeUtil.subMyself(edit_price_limit, tradeDetail.getPriceChange()));
 
-        String minVolume = tradeDetail.getVolumeMin();
+        watcher_price = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                edit_trade_amount_limit.removeTextChangedListener(watcher_trade);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    TradeUtil.setTradeAmount(edit_price_limit, edit_amount_limit, edit_trade_amount_limit, priceDigit);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edit_trade_amount_limit.addTextChangedListener(watcher_trade);
+
+            }
+        };
+
+        edit_price_limit.addTextChangedListener(watcher_price);
+
+
+        watcher_amount = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                edit_trade_amount_limit.removeTextChangedListener(watcher_trade);
+
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    TradeUtil.setTradeAmount(edit_amount_limit, edit_price_limit, edit_trade_amount_limit, priceDigit);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edit_trade_amount_limit.addTextChangedListener(watcher_trade);
+
+            }
+        };
+        edit_amount_limit.addTextChangedListener(watcher_amount);
+
+
+        watcher_trade = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                edit_amount_limit.removeTextChangedListener(watcher_amount);
+                
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String value_price_limit = edit_price_limit.getText().toString();
+                if (s.length() != 0) {
+                    if (value_price_limit.length() != 0) {
+                        String value_amount = TradeUtil.divBig(Double.parseDouble(edit_trade_amount_limit.getText().toString()), Double.parseDouble(value_price_limit), volumeDigit);
+                        edit_amount_limit.setText(value_amount);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                edit_amount_limit.addTextChangedListener(watcher_amount);
+            }
+        };
+
+        edit_trade_amount_limit.addTextChangedListener(watcher_trade);
+
+
+        //TradeUtil.setEditTrade(edit_price_limit, edit_amount_limit, edit_trade_amount_limit, priceDigit);
+
+        //TradeUtil.setEditTrade(edit_amount_limit, edit_price_limit, edit_trade_amount_limit, priceDigit);
         //限价加号
-        text_add_amount_limit.setOnClickListener(v -> TradeUtil.addMyself(edit_amount_limit, Double.parseDouble(minVolume)));
+        text_add_price_limit.setOnClickListener(v ->
+        {
+            TradeUtil.addMyself(edit_price_limit, tradeDetail.getPriceChange());
+            TradeUtil.setTradeAmount(edit_price_limit, edit_amount_limit, edit_trade_amount_limit, priceDigit);
+        });
         //限价减号
-        text_sub_amount_limit.setOnClickListener(v -> TradeUtil.subMyself(edit_amount_limit, Double.parseDouble(minVolume)));
+        text_sub_price_limit.setOnClickListener(v ->
+        {
+            TradeUtil.subMyself(edit_price_limit, tradeDetail.getPriceChange());
+            TradeUtil.setTradeAmount(edit_price_limit, edit_amount_limit, edit_trade_amount_limit, priceDigit);
+        });
+
+        String minVolume = volumeMin;
+        //限价加号
+        text_add_amount_limit.setOnClickListener(v ->
+        {
+            TradeUtil.addMyself(edit_amount_limit, Double.parseDouble(minVolume));
+            TradeUtil.setTradeAmount(edit_amount_limit, edit_price_limit, edit_trade_amount_limit, priceDigit);
+
+        });
+        //限价减号
+        text_sub_amount_limit.setOnClickListener(v ->
+
+        {
+            TradeUtil.subMyself(edit_amount_limit, Double.parseDouble(minVolume));
+            TradeUtil.setTradeAmount(edit_amount_limit, edit_price_limit, edit_trade_amount_limit, priceDigit);
+        });
 
 
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
 
-        Util.setOptional(getActivity(), optionalList, quote_code, img_star, response -> {
-            if (!(boolean) response) {
-                optionalList = new HashSet<>();
-            }
-        });
+        Util.setOptional(
+
+                getActivity(), optionalList, quote_code, img_star, response ->
+
+                {
+                    if (!(boolean) response) {
+                        optionalList = new HashSet<>();
+                    }
+                });
 
         getPosition();
 
         value_rate = SPUtils.getString(AppConfig.USD_RATE, null);
+
+        text_buy_what.setText(
+
+                getResources().
+
+                        getText(R.string.text_buy) + tradeName);
+        radioGroup.setOnCheckedChangeListener((group, checkedId) ->
+
+        {
+            switch (checkedId) {
+                case R.id.radio_buy:
+                    count = 0;
+                    radioButton_buy.setBackground(getActivity().getResources().getDrawable(R.mipmap.bg_spot_buy));
+                    radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_color_left));
+                    layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_green));
+                    text_buy_what.setText(getResources().getText(R.string.text_buy) + tradeName);
+                    isBuy = true;
+                    break;
+                case R.id.radio_sell:
+                    count = 0;
+                    radioButton_buy.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_color_left));
+                    radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.mipmap.bg_spot_sell));
+                    layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_red));
+                    text_buy_what.setText(getResources().getText(R.string.text_sell) + tradeName);
+                    isBuy = false;
+                    break;
+            }
+        });
 
 
     }
