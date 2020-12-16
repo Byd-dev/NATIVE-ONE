@@ -168,7 +168,7 @@ public class Util {
         return quoteList;
     }
 
-    private static String filter(String content) {
+    public static String filter(String content) {
         StringBuilder stringBuilder;
         ArrayList<String> allSatisfyStr = getAllSatisfyStr(content, "[a-zA-Z]");
         stringBuilder = new StringBuilder();
@@ -182,6 +182,18 @@ public class Util {
             return stringBuilder.toString();
         }
     }
+
+    public static String filterNumber(String content) {
+        StringBuilder stringBuilder;
+        ArrayList<String> allSatisfyStr = getAllSatisfyStr(content, "[\\u4e00-\\u9fa5_a-zA-Z_]{4,10}");
+        stringBuilder = new StringBuilder();
+        for (int i = 0; i < allSatisfyStr.size(); i++) {
+            stringBuilder.append(allSatisfyStr.get(i));
+        }
+        return stringBuilder.toString();
+
+    }
+
 
     public static String quoteNme(String content) {
         String name;

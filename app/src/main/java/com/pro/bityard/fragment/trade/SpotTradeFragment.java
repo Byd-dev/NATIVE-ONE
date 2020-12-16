@@ -497,7 +497,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
 
-            NetManger.getInstance().spotOpen(quote_code, isBuy, type, "USDT", tradeName, value_price_limit,
+
+            NetManger.getInstance().spotOpen(Util.filterNumber(quote_code), isBuy, type, "USDT", tradeName, value_price_limit,
                     value_amount_limit, "0", (state, response) -> {
                         if (state.equals(BUSY)){
                             showProgressDialog();
