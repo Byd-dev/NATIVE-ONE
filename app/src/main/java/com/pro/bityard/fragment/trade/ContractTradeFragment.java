@@ -1546,7 +1546,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         String stopProfit = SPUtils.getString(AppConfig.VALUE_PROFIT, "3");
         String stopLoss = SPUtils.getString(AppConfig.VALUE_LOSS, "-0.9");
-        NetManger.getInstance().order(tradeType, "2", tradeListEntity.getCode(),
+        NetManger.getInstance().contractOpen(tradeType, "2", tradeListEntity.getCode(),
                 tradeListEntity.getContractCode(), isBuy, margin, String.valueOf(lever), priceOrder, defer,
                 TradeUtil.deferFee(priceDigit, defer, tradeListEntity.getDeferFee(), margin, lever), stopProfit, stopLoss, serviceCharge,
                 "0", TradeUtil.volume(lever, margin, parseDouble(priceMuchOrEmpty)), "0", "USDT", (state, response) -> {

@@ -12,6 +12,8 @@ public class AppConfig {
     public static final String TRADE = "TRADE";
     public static final String FOLLOW = "FOLLOW";
 
+    public static String OPEN_SEED="0Aa1Bb2Cc3Dd4Ee5Ff6Gg7Hh8Ii9Jj0Kk1Ll2Mm3Nn4Oo5Pp6Qq7Rr8Ss9Tt0Uu1Vv2Ww3Xx4Yy5Zz6789";
+
 
     //后台返回商品分区
     public static final String TYPE_FT = "FT";//合约

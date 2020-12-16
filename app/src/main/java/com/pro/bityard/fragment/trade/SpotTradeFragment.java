@@ -22,12 +22,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.ProportionSelectAdapter;
 import com.pro.bityard.adapter.SellBuyListAdapter;
 import com.pro.bityard.adapter.SpotPositionAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -118,7 +120,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private TextView text_currency_head;
     private DecimalEditText edit_amount_limit;
 
-    private boolean isBuy = true;
+    private String isBuy = "true";
+    private String type = "0";
     private LinearLayout layout_spot_limit;
     private LinearLayout layout_spot_market;
     private TextView text_balance;
@@ -214,15 +217,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         recyclerView_proportion_limit.setAdapter(proportionLimitAdapter);
 
 
-        proportionLimitAdapter.setDatas(proportionList);
 
-        proportionLimitAdapter.select(5);
-        proportionLimitAdapter.setOnItemClick(new ProportionSelectAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(Integer position, int data) {
-                proportionLimitAdapter.select(position);
-            }
-        });
 
 
 
@@ -231,19 +226,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         proportionMarketAdapter = new ProportionSelectAdapter(getActivity());
         recyclerView_proportion_market.setLayoutManager(new GridLayoutManager(getActivity(), proportionList.size()));
         recyclerView_proportion_market.setAdapter(proportionMarketAdapter);
-
-
-        proportionMarketAdapter.setDatas(proportionList);
-
-        proportionMarketAdapter.select(5);
-        proportionMarketAdapter.setOnItemClick(new ProportionSelectAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(Integer position, int data) {
-                proportionMarketAdapter.select(position);
-
-
-            }
-        });
 
 
         view.findViewById(R.id.layout_product).setOnClickListener(this);
@@ -392,7 +374,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 edit_amount_limit.removeTextChangedListener(watcher_amount);
-                
+
             }
 
             @Override
@@ -451,9 +433,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
 
         Util.setOptional(
-
                 getActivity(), optionalList, quote_code, img_star, response ->
-
                 {
                     if (!(boolean) response) {
                         optionalList = new HashSet<>();
@@ -463,14 +443,11 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         getPosition();
 
         value_rate = SPUtils.getString(AppConfig.USD_RATE, null);
-
         text_buy_what.setText(
-
                 getResources().
 
                         getText(R.string.text_buy) + tradeName);
         radioGroup.setOnCheckedChangeListener((group, checkedId) ->
-
         {
             switch (checkedId) {
                 case R.id.radio_buy:
@@ -479,7 +456,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_color_left));
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_green));
                     text_buy_what.setText(getResources().getText(R.string.text_buy) + tradeName);
-                    isBuy = true;
+                    isBuy = "true";
                     break;
                 case R.id.radio_sell:
                     count = 0;
@@ -487,9 +464,51 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     radioButton_sell.setBackground(getActivity().getResources().getDrawable(R.mipmap.bg_spot_sell));
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_red));
                     text_buy_what.setText(getResources().getText(R.string.text_sell) + tradeName);
-                    isBuy = false;
+                    isBuy = "false";
                     break;
             }
+        });
+        /*限价*/
+        proportionLimitAdapter.setDatas(proportionList);
+        proportionLimitAdapter.select(5);
+        proportionLimitAdapter.setOnItemClick((position, data) -> {
+            proportionLimitAdapter.select(position);
+            double balanceReal = BalanceManger.getInstance().getBalanceReal();
+            String s = TradeUtil.mulBig(balanceReal, Double.parseDouble(TradeUtil.divBig(data, 100, 2)));
+            String numberFormat = TradeUtil.getNumberFormat(Double.parseDouble(s), priceDigit);
+            edit_trade_amount_limit.setText(numberFormat);
+        });
+
+        /*市价*/
+        proportionMarketAdapter.setDatas(proportionList);
+        proportionMarketAdapter.select(5);
+        proportionMarketAdapter.setOnItemClick((position, data) -> {
+            proportionMarketAdapter.select(position);
+        });
+        /*买入*/
+        layout_buy_what.setOnClickListener(v -> {
+
+            String value_price_limit = edit_price_limit.getText().toString();
+            if (value_price_limit.equals("")){
+                return;
+            }
+            String value_amount_limit = edit_amount_limit.getText().toString();
+            if (value_amount_limit.equals("")){
+                return;
+            }
+
+            NetManger.getInstance().spotOpen(quote_code, isBuy, type, "USDT", tradeName, value_price_limit,
+                    value_amount_limit, "0", (state, response) -> {
+                        if (state.equals(BUSY)){
+                            showProgressDialog();
+                        }else if (state.equals(SUCCESS)){
+                            dismissProgressDialog();
+                            Toast.makeText(getActivity(),response.toString(),Toast.LENGTH_SHORT).show();
+                        }else if (state.equals(FAILURE)){
+                            dismissProgressDialog();
+                        }
+                    });
+
         });
 
 
@@ -680,6 +699,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             text_limit_market.setText(getResources().getText(R.string.text_limit_order));
             layout_spot_limit.setVisibility(View.VISIBLE);
             layout_spot_market.setVisibility(View.GONE);
+            type = "0";
 
         });
 
@@ -689,6 +709,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             text_limit_market.setText(getResources().getText(R.string.text_market_order));
             layout_spot_limit.setVisibility(View.GONE);
             layout_spot_market.setVisibility(View.VISIBLE);
+            type = "1";
+
         });
 
 

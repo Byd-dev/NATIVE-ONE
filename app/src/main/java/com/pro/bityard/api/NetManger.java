@@ -113,7 +113,6 @@ public class NetManger {
     }
 
 
-
     /*H5地址*/
     public String h5Url(String token, String id, String url) {
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
@@ -148,13 +147,13 @@ public class NetManger {
                 break;
         }
         ArrayMap<String, String> map = new ArrayMap<>();
-        if (token!=null){
+        if (token != null) {
             map.put("token", token);
         }
-        if (id!=null){
-            map.put("id",id);
+        if (id != null) {
+            map.put("id", id);
         }
-        map.put("lang",language);
+        map.put("lang", language);
 
         return getH5URL(url, map);
 
@@ -506,10 +505,11 @@ public class NetManger {
                 substring_url = append.toString().substring(0, append.toString().length() - 1);
             }
             String url_result = H5_BASE_URL + url + "?" + substring_url;
-            Log.d("print", "getH5URL:508:  "+url_result);
+            Log.d("print", "getH5URL:508:  " + url_result);
             return url_result;
         }
     }
+
     public void getURL2(String url, ArrayMap map, OnNetResult onNetResult) {
 
         String substring_url = null;
@@ -640,7 +640,7 @@ public class NetManger {
                     String allList = Util.groupList(stringStringArrayMap);
                     String allList2 = Util.initContractList(initEntity.getData());
                     onNetResult.onNetResult(SUCCESS, allList2);
-                    SPUtils.putData(AppConfig.KEY_COMMODITY,initEntity);
+                    SPUtils.putData(AppConfig.KEY_COMMODITY, initEntity);
                 }
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
@@ -950,9 +950,9 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                if (response.toString().replaceAll(" ","").startsWith("<")){
+                if (response.toString().replaceAll(" ", "").startsWith("<")) {
                     onNetResult.onNetResult(FAILURE, null);
-                }else {
+                } else {
                     onNetResult.onNetResult(SUCCESS, response.toString());
                 }
             } else if (state.equals(FAILURE)) {
@@ -978,7 +978,7 @@ public class NetManger {
                     ArrayMap<String, String> stringStringArrayMap = Util.groupData(group);
                     String allList = Util.groupList(stringStringArrayMap);
 
-                    SPUtils.putData(AppConfig.KEY_COMMODITY,initEntity);
+                    SPUtils.putData(AppConfig.KEY_COMMODITY, initEntity);
 
                     String allList2 = Util.initContractList(initEntity.getData());
 
@@ -1198,14 +1198,14 @@ public class NetManger {
     }
 
     /*下单*/
-    public void order(String tradeType, String leverType,
-                      String commodity, String contract, String isBuy, String margin,
-                      String lever, String price, String defer, String deferFee,
-                      String stopProfit, String stopLoss, String serviceCharge,
-                      String eagleDeduction, String volume, String moneyType,
-                      String currency,
-                      OnNetResult onNetResult) {
-        String SEED = "0Aa1Bb2Cc3Dd4Ee5Ff6Gg7Hh8Ii9Jj0Kk1Ll2Mm3Nn4Oo5Pp6Qq7Rr8Ss9Tt0Uu1Vv2Ww3Xx4Yy5Zz6789";
+    public void contractOpen(String tradeType, String leverType,
+                             String commodity, String contract, String isBuy, String margin,
+                             String lever, String price, String defer, String deferFee,
+                             String stopProfit, String stopLoss, String serviceCharge,
+                             String eagleDeduction, String volume, String moneyType,
+                             String currency,
+                             OnNetResult onNetResult) {
+        String SEED = AppConfig.OPEN_SEED;
 
         Random random = new Random();
         StringBuffer stringBuffer = new StringBuffer();
@@ -2958,10 +2958,10 @@ public class NetManger {
     /*带单开关*/
     public void followerSwitch(String active, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
-        if (active!=null){
+        if (active != null) {
             map.put("active", active);
-        }else {
-            map=null;
+        } else {
+            map = null;
         }
         postRequest("/api/follow/trader/active", map, (state, response) -> {
             if (state.equals(BUSY)) {
@@ -3045,8 +3045,9 @@ public class NetManger {
             }
         });
     }
+
     /*现货当前委托*/
-    public void userSpotPosition(String id,OnNetResult onNetResult) {
+    public void userSpotPosition(String id, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("_", id);
 
@@ -3054,7 +3055,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "spotPosition:现货当前持仓: "+response.toString());
+                Log.d("print", "spotPosition:现货当前持仓: " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 500) {
                     onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
@@ -3069,19 +3070,19 @@ public class NetManger {
     }
 
     /*现货委托*/
-    public void spotPosition(String commodity, String buy, String type, String srcCurrency,String desCurrency,OnNetResult onNetResult) {
+    public void spotPosition(String commodity, String buy, String type, String srcCurrency, String desCurrency, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("commodity", commodity);
-        if (buy!=null){
+        if (buy != null) {
             map.put("buy", buy);
         }
-        if (type!=null){
+        if (type != null) {
             map.put("type", type);
         }
-        if (srcCurrency!=null){
+        if (srcCurrency != null) {
             map.put("srcCurrency", srcCurrency);
         }
-        if (desCurrency!=null){
+        if (desCurrency != null) {
             map.put("desCurrency", desCurrency);
         }
 
@@ -3090,7 +3091,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "spotPosition:现货当前持仓: "+response.toString());
+                Log.d("print", "spotPosition:现货当前持仓: " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 500) {
                     onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
@@ -3098,6 +3099,46 @@ public class NetManger {
                     /*FollowersListEntity followersListEntity = new Gson().fromJson(response.toString(), FollowersListEntity.class);
                     onNetResult.onNetResult(SUCCESS, followersListEntity);*/
                 }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+    }
+
+
+    /*现货买卖*/
+    public void spotOpen(String commodity, String buy, String type, String srcCurrency, String desCurrency,
+                         String price, String volume, String chargeEagle, OnNetResult onNetResult) {
+        String SEED = AppConfig.OPEN_SEED;
+        Random random = new Random();
+        StringBuffer stringBuffer = new StringBuffer();
+        for (int i = 0; i < 16; i++) {
+            int i1 = random.nextInt(SEED.length());
+            stringBuffer.append(SEED.charAt(i1));
+        }
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("identity", stringBuffer.toString());
+        map.put("commodity",commodity);
+        map.put("buy", buy);
+        map.put("type", type);
+        map.put("srcCurrency", srcCurrency);
+        map.put("desCurrency", desCurrency);
+        map.put("price", price);
+        map.put("volume", volume);
+        map.put("chargeEagle", chargeEagle);
+        map.put("platform", "Android");
+
+        postRequest("/api/order/open", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipEntity.getMessage());
+               /* if (tipEntity.getCode() == 500) {
+                } else {
+                    OrderEntity orderEntity = new Gson().fromJson(response.toString(), OrderEntity.class);
+                    onNetResult.onNetResult(SUCCESS, orderEntity.getMessage());
+                }*/
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
             }
