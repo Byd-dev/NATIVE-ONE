@@ -29,7 +29,6 @@ import com.pro.bityard.adapter.ProportionSelectAdapter;
 import com.pro.bityard.adapter.SellBuyListAdapter;
 import com.pro.bityard.adapter.SpotPositionAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -141,6 +140,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private TextWatcher watcher_price;
     private TextWatcher watcher_amount;
     private TextWatcher watcher_trade;
+    private String value_price_limit;
 
 
     @Override
@@ -488,24 +488,29 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         /*买入*/
         layout_buy_what.setOnClickListener(v -> {
 
-            String value_price_limit = edit_price_limit.getText().toString();
-            if (value_price_limit.equals("")){
-                return;
-            }
+
             String value_amount_limit = edit_amount_limit.getText().toString();
-            if (value_amount_limit.equals("")){
+            if (value_amount_limit.equals("")) {
                 return;
             }
 
-
+            if (type.equals("0")) {
+                value_price_limit = edit_price_limit.getText().toString();
+                if (value_price_limit.equals("")) {
+                    return;
+                }
+            } else {
+                value_price_limit = null;
+            }
+            
             NetManger.getInstance().spotOpen(Util.filterNumber(quote_code), isBuy, type, "USDT", tradeName, value_price_limit,
                     value_amount_limit, "0", (state, response) -> {
-                        if (state.equals(BUSY)){
+                        if (state.equals(BUSY)) {
                             showProgressDialog();
-                        }else if (state.equals(SUCCESS)){
+                        } else if (state.equals(SUCCESS)) {
                             dismissProgressDialog();
-                            Toast.makeText(getActivity(),response.toString(),Toast.LENGTH_SHORT).show();
-                        }else if (state.equals(FAILURE)){
+                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                        } else if (state.equals(FAILURE)) {
                             dismissProgressDialog();
                         }
                     });

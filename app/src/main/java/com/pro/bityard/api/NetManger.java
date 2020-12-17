@@ -3123,7 +3123,9 @@ public class NetManger {
         map.put("type", type);
         map.put("srcCurrency", srcCurrency);
         map.put("desCurrency", desCurrency);
-        map.put("price", price);
+        if (price!=null){
+            map.put("price", price);
+        }
         map.put("volume", volume);
         map.put("chargeEagle", chargeEagle);
         map.put("platform", "Android");
