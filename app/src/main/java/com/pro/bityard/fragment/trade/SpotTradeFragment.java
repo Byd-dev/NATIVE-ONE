@@ -246,6 +246,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         layout_switch_limit_price = headView.findViewById(R.id.layout_switch_limit_price);
         text_limit_market = headView.findViewById(R.id.text_limit_market);
 
+
+
+
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             getPosition();
@@ -502,7 +505,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             } else {
                 value_price_limit = null;
             }
-            
+
             NetManger.getInstance().spotOpen(Util.filterNumber(quote_code), isBuy, type, "USDT", tradeName, value_price_limit,
                     value_amount_limit, "0", (state, response) -> {
                         if (state.equals(BUSY)) {
