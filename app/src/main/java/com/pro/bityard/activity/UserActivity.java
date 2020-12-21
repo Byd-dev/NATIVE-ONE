@@ -40,6 +40,7 @@ import com.pro.bityard.fragment.my.TradeSettingsFragment;
 import com.pro.bityard.fragment.my.WithdrawalAddressFragment;
 import com.pro.bityard.fragment.my.WithdrawalFragment;
 import com.pro.bityard.fragment.tab.HoldFragment;
+import com.pro.bityard.fragment.trade.SpotTradeRecordFragment;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.io.Serializable;
@@ -186,9 +187,25 @@ public class UserActivity extends BaseActivity {
 
             case IntentConfig.Keys.KEY_FOLLOWER_MANGER:
                 addFollowerMangerFragment();
+                break;
+
+            case IntentConfig.Keys.KEY_SPOT_RECORD:
+                addSpotTradeFragment();
+                break;
         }
 
 
+    }
+
+
+    private void addSpotTradeFragment() {
+        String name = SpotTradeRecordFragment.class.getSimpleName();
+        //安全中心
+        SpotTradeRecordFragment fragment = new SpotTradeRecordFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addFollowerMangerFragment() {

@@ -546,6 +546,8 @@
     <string name="text_limit_order">限价单</string>
     <string name="text_market_order">市价单</string>
     <string name="text_trade_amount">成交金额</string>
+    <string name="text_history_spot_position">历史委托</string>
+    <string name="text_history_trade">成交历史</string>
 
 
 </resources>

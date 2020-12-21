@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.ProportionSelectAdapter;
 import com.pro.bityard.adapter.SellBuyListAdapter;
 import com.pro.bityard.adapter.SpotPositionAdapter;
@@ -32,6 +33,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.LoginEntity;
@@ -182,6 +184,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         //限价成交金额
         edit_trade_amount_limit = headView.findViewById(R.id.edit_trade_amount_limit);
 
+        headView.findViewById(R.id.img_record).setOnClickListener(v -> {
+            UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SPOT_RECORD);
+        });
+
 
         text_add_price_limit = headView.findViewById(R.id.text_add_price_limit);
         text_sub_price_limit = headView.findViewById(R.id.text_sub_price_limit);
@@ -245,8 +251,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         view_line_two = headView.findViewById(R.id.view_line_two);
         layout_switch_limit_price = headView.findViewById(R.id.layout_switch_limit_price);
         text_limit_market = headView.findViewById(R.id.text_limit_market);
-
-
 
 
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
