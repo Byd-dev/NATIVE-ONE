@@ -66,6 +66,6 @@
 
     <include layout="@layout/layout_line" />
 
-    <include layout="@layout/layout_spot_item_layout"/>
+    <include layout="@layout/head_spot_item_layout"/>
 
 </LinearLayout>
