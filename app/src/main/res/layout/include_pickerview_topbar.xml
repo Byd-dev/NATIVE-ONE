@@ -3,7 +3,7 @@
     android:id="@+id/rv_topbar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pickerview_bg_topbar">
+    android:background="@color/background_main_color">
 
     <Button
         android:id="@+id/btnCancel"
@@ -14,7 +14,7 @@
         android:paddingLeft="@dimen/pickerview_topbar_padding"
         android:text="@string/text_cancel_position"
         android:textAllCaps="false"
-        android:textColor="@drawable/selector_pickerview_btn"
+        android:textColor="@color/maincolor"
         android:textSize="@dimen/pickerview_topbar_btn_textsize" />
 
     <TextView
@@ -38,6 +38,6 @@
         android:paddingRight="@dimen/pickerview_topbar_padding"
         android:text="@string/text_sure"
         android:textAllCaps="false"
-        android:textColor="@drawable/selector_pickerview_btn"
+        android:textColor="@color/maincolor"
         android:textSize="@dimen/pickerview_topbar_btn_textsize" />
 </RelativeLayout>

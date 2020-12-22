@@ -2,6 +2,7 @@ package com.pro.bityard.view.timepicker;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -224,6 +225,7 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
         if (mPickerOptions.timeSelectListener != null) {
             try {
                 Date date = WheelTime.dateFormat.parse(wheelTime.getTime());
+                Log.d("print", "returnData:227:  "+wheelTime.getTime());
                 mPickerOptions.timeSelectListener.onTimeSelect(date, clickView);
             } catch (ParseException e) {
                 e.printStackTrace();

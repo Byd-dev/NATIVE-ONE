@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.SpotPositionAdapter;
@@ -14,7 +15,13 @@ import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.SpotPositionEntity;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
+import com.pro.bityard.view.timepicker.OnTimeSelectListener;
+import com.pro.bityard.view.timepicker.TimePickerBuilder;
+import com.pro.bityard.view.timepicker.TimePickerView;
 import com.pro.switchlibrary.SPUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -41,13 +48,8 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
     private SpotPositionAdapter spotPositionAdapter;
 
 
-
-
-
-
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-
 
 
     @Override
@@ -80,6 +82,46 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
 
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_history_layout, null);
+        TextView text_start = headView.findViewById(R.id.text_start);
+        TextView text_end = headView.findViewById(R.id.text_end);
+
+        headView.findViewById(R.id.layout_start).setOnClickListener(v -> {
+            TimePickerView timePickerView = new TimePickerBuilder(getActivity(), new OnTimeSelectListener() {
+                @Override
+                public void onTimeSelect(Date date, View v) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String format = simpleDateFormat.format(date);
+                    text_start.setText(format);
+                }
+            }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
+                    .setCancelColor(getResources().getColor(R.color.maincolor))
+                    .setTitleBgColor(getResources().getColor(R.color.background_main_color))//标题背景颜色 Night mode
+                    .setBgColor(getResources().getColor(R.color.background_main_color))
+                    .setTextColorCenter(getResources().getColor(R.color.text_main_color))
+                    .setTextColorOut(getResources().getColor(R.color.color_btn_bg))
+                    .build();//滚轮背景颜色 Night mode.build();//取消按钮文字颜色build();
+            timePickerView.show();
+
+        });
+
+        headView.findViewById(R.id.layout_end).setOnClickListener(v -> {
+            TimePickerView timePickerView = new TimePickerBuilder(getActivity(), new OnTimeSelectListener() {
+                @Override
+                public void onTimeSelect(Date date, View v) {
+                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                    String format = simpleDateFormat.format(date);
+                    text_end.setText(format);
+                }
+            }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
+                    .setCancelColor(getResources().getColor(R.color.maincolor))
+                    .setTitleBgColor(getResources().getColor(R.color.background_main_color))//标题背景颜色 Night mode
+                    .setBgColor(getResources().getColor(R.color.background_main_color))
+                    .setTextColorCenter(getResources().getColor(R.color.text_main_color)).
+                            setTextColorOut(getResources().getColor(R.color.color_btn_bg)).
+                            build();
+            timePickerView.show();
+
+        });
 
 
         spotPositionAdapter = new SpotPositionAdapter(getActivity());
@@ -87,8 +129,6 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         recyclerView_spot.setAdapter(spotPositionAdapter);
 
         recyclerView_spot.addHeaderView(headView);
-
-
 
 
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
@@ -104,8 +144,6 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
     protected void intPresenter() {
 
     }
-
-
 
 
     @Override
@@ -150,13 +188,6 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
     }
 
 
-
-
-
-
-
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -164,8 +195,6 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
 
     }
-
-
 
 
 }
