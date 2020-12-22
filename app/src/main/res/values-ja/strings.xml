@@ -548,6 +548,14 @@
     <string name="text_trade_amount">成交金额</string>
     <string name="text_history_spot_position">历史委托</string>
     <string name="text_history_trade">成交历史</string>
+    <string name="text_start">起始</string>
+    <string name="text_end">终止</string>
+    <string name="picker_year">年</string>
+    <string name="picker_month">月</string>
+    <string name="picker_day">日</string>
+    <string name="picker_hours">时</string>
+    <string name="picker_min">分</string>
+    <string name="picker_second">秒</string>
 
 
 </resources>

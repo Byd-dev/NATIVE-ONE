@@ -64,8 +64,8 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
     private void initViewPager(ViewPager viewPager) {
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         myPagerAdapter.addFragment(new SpotRecordItemFragment(), getString(R.string.text_spot_position));
-        myPagerAdapter.addFragment(new SpotRecordItemFragment(), getString(R.string.text_history_spot_position));
-        myPagerAdapter.addFragment(new SpotRecordItemFragment(), getString(R.string.text_history_trade));
+        myPagerAdapter.addFragment(new SpotHistoryItemFragment(), getString(R.string.text_history_spot_position));
+        myPagerAdapter.addFragment(new SpotHistoryItemFragment(), getString(R.string.text_history_trade));
 
         viewPager.setAdapter(myPagerAdapter);
     }
