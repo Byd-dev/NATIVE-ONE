@@ -99,6 +99,7 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                     .setBgColor(getResources().getColor(R.color.background_main_color))
                     .setTextColorCenter(getResources().getColor(R.color.text_main_color))
                     .setTextColorOut(getResources().getColor(R.color.color_btn_bg))
+                    .setSubCalSize(15)
                     .build();//滚轮背景颜色 Night mode.build();//取消按钮文字颜色build();
             timePickerView.show();
 
@@ -116,9 +117,10 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                     .setCancelColor(getResources().getColor(R.color.maincolor))
                     .setTitleBgColor(getResources().getColor(R.color.background_main_color))//标题背景颜色 Night mode
                     .setBgColor(getResources().getColor(R.color.background_main_color))
-                    .setTextColorCenter(getResources().getColor(R.color.text_main_color)).
-                            setTextColorOut(getResources().getColor(R.color.color_btn_bg)).
-                            build();
+                    .setTextColorCenter(getResources().getColor(R.color.text_main_color))
+                    .setTextColorOut(getResources().getColor(R.color.color_btn_bg))
+                    .setSubCalSize(15)
+                    .build();
             timePickerView.show();
 
         });

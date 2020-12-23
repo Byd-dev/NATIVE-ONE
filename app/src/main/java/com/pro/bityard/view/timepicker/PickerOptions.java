@@ -81,13 +81,13 @@ public class PickerOptions {
     public int bgColorWheel = PICKER_VIEW_BG_COLOR_DEFAULT;//滚轮背景颜色
     public int bgColorTitle = PICKER_VIEW_BG_COLOR_TITLE;//标题背景颜色
 
-    public int textSizeSubmitCancel = 17;//确定取消按钮大小
+    public int textSizeSubmitCancel = 15;//确定取消按钮大小
     public int textSizeTitle = 18;//标题文字大小
     public int textSizeContent = 18;//内容文字大小
 
     public int textColorOut = 0xFFa8a8a8; //分割线以外的文字颜色
     public int textColorCenter = 0xFF2a2a2a; //分割线之间的文字颜色
-    public int dividerColor = 0xFFd5d5d5; //分割线的颜色
+    public int dividerColor = 0x000000; //分割线的颜色
     public int outSideColor = -1; //显示时的外部背景色颜色,默认是灰色
 
     public float lineSpacingMultiplier = 1.6f; // 条目间距倍数 默认1.6
@@ -97,6 +97,6 @@ public class PickerOptions {
     public boolean isCenterLabel = false;//是否只显示中间的label,默认每个item都显示
     public Typeface font = Typeface.MONOSPACE;//字体样式
     public WheelView.DividerType dividerType = WheelView.DividerType.FILL;//分隔线类型
-    public int itemsVisibleCount = 9; //最大可见条目数
+    public int itemsVisibleCount = 7; //最大可见条目数
     public boolean isAlphaGradient = false; //透明度渐变
 }

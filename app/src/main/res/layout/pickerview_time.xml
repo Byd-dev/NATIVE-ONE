@@ -18,41 +18,65 @@
         android:minHeight="150dp"
         android:orientation="horizontal">
 
-        <com.pro.bityard.view.timepicker.WheelView
-            android:id="@+id/year"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="220dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.96" />
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <com.pro.bityard.view.timepicker.WheelView
-            android:id="@+id/month"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+            <com.pro.bityard.view.timepicker.WheelView
+                android:id="@+id/year"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+             />
+            <com.pro.bityard.view.timepicker.WheelView
+                android:id="@+id/month"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:layout_marginRight="@dimen/margin_20"
+                android:layout_height="match_parent"
 
-        <com.pro.bityard.view.timepicker.WheelView
-            android:id="@+id/day"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+                />
+
+            <com.pro.bityard.view.timepicker.WheelView
+                android:id="@+id/day"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+
+                />
+
+        </LinearLayout>
+
+
+
+
+
+
 
         <com.pro.bityard.view.timepicker.WheelView
             android:id="@+id/hour"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
 
         <com.pro.bityard.view.timepicker.WheelView
             android:id="@+id/min"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
 
         <com.pro.bityard.view.timepicker.WheelView
             android:id="@+id/second"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone" />
     </LinearLayout>
 
 
