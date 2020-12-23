@@ -55,6 +55,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -1476,5 +1477,19 @@ public class Util {
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    public static String getNowTime() {
+        Date newDate = new Date(System.currentTimeMillis());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = simpleDateFormat.format(newDate);
+        return  format;
+    }
+
+    public static String getBeforeNow7days(){
+        Date newDate = new Date(System.currentTimeMillis() - 604800000L); // 7 * 24 * 60 * 60 * 1000
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = simpleDateFormat.format(newDate);
+        return  format;
     }
 }

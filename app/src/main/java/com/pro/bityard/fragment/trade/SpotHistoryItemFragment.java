@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.trade;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -20,7 +21,9 @@ import com.pro.bityard.view.timepicker.TimePickerBuilder;
 import com.pro.bityard.view.timepicker.TimePickerView;
 import com.pro.switchlibrary.SPUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -85,6 +88,15 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         TextView text_start = headView.findViewById(R.id.text_start);
         TextView text_end = headView.findViewById(R.id.text_end);
 
+
+        String nowTime = Util.getNowTime();
+
+        text_end.setText(nowTime);
+
+        text_start.setText(Util.getBeforeNow7days());
+        Calendar selectedDate = Calendar.getInstance();
+        selectedDate.set(Calendar.DAY_OF_YEAR, selectedDate.get(Calendar.DAY_OF_YEAR) - 7);
+
         headView.findViewById(R.id.layout_start).setOnClickListener(v -> {
             TimePickerView timePickerView = new TimePickerBuilder(getActivity(), new OnTimeSelectListener() {
                 @Override
@@ -92,6 +104,10 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     String format = simpleDateFormat.format(date);
                     text_start.setText(format);
+
+                    boolean b = compareDate(text_start.getText().toString(), text_end.getText().toString());
+                    Log.d("print", "onTimeSelect:99: " + b);
+
                 }
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
                     .setCancelColor(getResources().getColor(R.color.maincolor))
@@ -99,6 +115,7 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                     .setBgColor(getResources().getColor(R.color.background_main_color))
                     .setTextColorCenter(getResources().getColor(R.color.text_main_color))
                     .setTextColorOut(getResources().getColor(R.color.color_btn_bg))
+                    .setDate(selectedDate)
                     .setSubCalSize(15)
                     .build();//滚轮背景颜色 Night mode.build();//取消按钮文字颜色build();
             timePickerView.show();
@@ -112,6 +129,9 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     String format = simpleDateFormat.format(date);
                     text_end.setText(format);
+                    boolean b = compareDate(text_start.getText().toString(), text_end.getText().toString());
+                    Log.d("print", "onTimeSelect:118: " + b);
+
                 }
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
                     .setCancelColor(getResources().getColor(R.color.maincolor))
@@ -141,6 +161,32 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
     }
 
+    public Date compareDate(Date nowDate, Date compareDate) {
+
+        boolean before = nowDate.before(compareDate);
+        if (before) {
+            return nowDate;
+        } else {
+            return compareDate;
+        }
+
+    }
+
+    public boolean compareDate(String nowDate, String compareDate) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date now = df.parse(nowDate);
+            Date compare = df.parse(compareDate);
+            if (now.before(compare)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     @Override
     protected void intPresenter() {
