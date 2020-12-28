@@ -642,7 +642,7 @@ public class PopUtil {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            Uri apkUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".MyFileProvider", file);
+            Uri apkUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".fileProvider", file);
             intent.setDataAndType(apkUri, "application/vnd.android.package-archive");
             activity.startActivity(intent);
         } else {
