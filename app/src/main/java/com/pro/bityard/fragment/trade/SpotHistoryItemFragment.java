@@ -1,7 +1,6 @@
 package com.pro.bityard.fragment.trade;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,7 +15,6 @@ import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.SpotPositionEntity;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
-import com.pro.bityard.view.timepicker.OnTimeSelectListener;
 import com.pro.bityard.view.timepicker.TimePickerBuilder;
 import com.pro.bityard.view.timepicker.TimePickerView;
 import com.pro.switchlibrary.SPUtils;
@@ -94,28 +92,28 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         text_end.setText(nowTime);
 
         text_start.setText(Util.getBeforeNow7days());
-        Calendar selectedDate = Calendar.getInstance();
-        selectedDate.set(Calendar.DAY_OF_YEAR, selectedDate.get(Calendar.DAY_OF_YEAR) - 7);
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
+        Calendar endDate = Calendar.getInstance();
+
 
         headView.findViewById(R.id.layout_start).setOnClickListener(v -> {
-            TimePickerView timePickerView = new TimePickerBuilder(getActivity(), new OnTimeSelectListener() {
-                @Override
-                public void onTimeSelect(Date date, View v) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String format = simpleDateFormat.format(date);
-                    text_start.setText(format);
+            TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v1) -> {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String format = simpleDateFormat.format(date);
+                String selectStart = Util.startFormatDate(format, text_end.getText().toString());
+                text_start.setText(selectStart);
 
-                    boolean b = compareDate(text_start.getText().toString(), text_end.getText().toString());
-                    Log.d("print", "onTimeSelect:99: " + b);
+                startDate.set(Util.str2Calendar(selectStart,"year"),Util.str2Calendar(selectStart,"month"),
+                        Util.str2Calendar(selectStart,"day"));
 
-                }
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
                     .setCancelColor(getResources().getColor(R.color.maincolor))
                     .setTitleBgColor(getResources().getColor(R.color.background_main_color))//标题背景颜色 Night mode
                     .setBgColor(getResources().getColor(R.color.background_main_color))
                     .setTextColorCenter(getResources().getColor(R.color.text_main_color))
                     .setTextColorOut(getResources().getColor(R.color.color_btn_bg))
-                    .setDate(selectedDate)
+                    .setDate(startDate)
                     .setSubCalSize(15)
                     .build();//滚轮背景颜色 Night mode.build();//取消按钮文字颜色build();
             timePickerView.show();
@@ -123,22 +121,20 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         });
 
         headView.findViewById(R.id.layout_end).setOnClickListener(v -> {
-            TimePickerView timePickerView = new TimePickerBuilder(getActivity(), new OnTimeSelectListener() {
-                @Override
-                public void onTimeSelect(Date date, View v) {
-                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    String format = simpleDateFormat.format(date);
-                    text_end.setText(format);
-                    boolean b = compareDate(text_start.getText().toString(), text_end.getText().toString());
-                    Log.d("print", "onTimeSelect:118: " + b);
-
-                }
+            TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v12) -> {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String format = simpleDateFormat.format(date);
+                String selectEnd = Util.endFormatDate(format, text_start.getText().toString());
+                text_end.setText(selectEnd);
+                endDate.set(Util.str2Calendar(selectEnd,"year"),Util.str2Calendar(selectEnd,"month"),
+                        Util.str2Calendar(selectEnd,"day"));
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
                     .setCancelColor(getResources().getColor(R.color.maincolor))
                     .setTitleBgColor(getResources().getColor(R.color.background_main_color))//标题背景颜色 Night mode
                     .setBgColor(getResources().getColor(R.color.background_main_color))
                     .setTextColorCenter(getResources().getColor(R.color.text_main_color))
                     .setTextColorOut(getResources().getColor(R.color.color_btn_bg))
+                    .setDate(endDate)
                     .setSubCalSize(15)
                     .build();
             timePickerView.show();

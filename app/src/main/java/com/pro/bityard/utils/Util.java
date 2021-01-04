@@ -388,6 +388,81 @@ public class Util {
         return String.valueOf(ts);
     }
 
+    public static boolean compareDate(String nowDate, String compareDate) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date now = df.parse(nowDate);
+            Date compare = df.parse(compareDate);
+            if (now.before(compare)) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static int str2Calendar(String str,String type) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date;
+        try {
+            date = sdf.parse(str);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            if (type.equals("year")){
+                return calendar.get(Calendar.YEAR);
+            }else if (type.equals("month")){
+                return calendar.get(Calendar.MONTH);
+            }else if (type.equals("day")){
+                return  calendar.get(Calendar.DAY_OF_MONTH);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    public static String startFormatDate(String selectTime, String compareDate) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date now = df.parse(selectTime);
+            Date compare = df.parse(compareDate);
+            Date newDate = new Date(System.currentTimeMillis());
+
+            if (now.before(compare) && now.before(newDate)) {
+                String format = df.format(now);
+                return format;
+            } else {
+                return getNowTime();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static String endFormatDate(String selectTime, String compareDate) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date now = df.parse(selectTime);
+            Date compare = df.parse(compareDate);
+            Date newDate = new Date(System.currentTimeMillis());
+
+            if (now.after(compare)) {
+                String format = df.format(now);
+                return format;
+            } else {
+                return getNowTime();
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static void changeViewVisibilityGone(View view) {
         if (view != null && view.getVisibility() == View.VISIBLE)
             view.setVisibility(View.GONE);
@@ -1483,13 +1558,13 @@ public class Util {
         Date newDate = new Date(System.currentTimeMillis());
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String format = simpleDateFormat.format(newDate);
-        return  format;
+        return format;
     }
 
-    public static String getBeforeNow7days(){
+    public static String getBeforeNow7days() {
         Date newDate = new Date(System.currentTimeMillis() - 604800000L); // 7 * 24 * 60 * 60 * 1000
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String format = simpleDateFormat.format(newDate);
-        return  format;
+        return format;
     }
 }
