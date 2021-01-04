@@ -3070,8 +3070,8 @@ public class NetManger {
     }
 
     /*历史委托*/
-    public void spotPositionHistory(String commodity, String buy, String type,String status, String srcCurrency, String desCurrency,
-                                    String createTimeGe,String createTimeLe,String page,String rows,
+    public void spotPositionHistory(String commodity, String buy, String type, String status, String srcCurrency, String desCurrency,
+                                    String createTimeGe, String createTimeLe, String page, String rows,
                                     OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         if (commodity != null) {
@@ -3110,11 +3110,11 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 Log.d("print", "spotPosition:现货历史: " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                if (tipEntity.getCode() == 500) {
-                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                if (tipEntity.getCode() == 200) {
+                    FollowersListEntity followersListEntity = new Gson().fromJson(response.toString(), FollowersListEntity.class);
+                    onNetResult.onNetResult(SUCCESS, followersListEntity);
                 } else {
-                    /*FollowersListEntity followersListEntity = new Gson().fromJson(response.toString(), FollowersListEntity.class);
-                    onNetResult.onNetResult(SUCCESS, followersListEntity);*/
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
                 }
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);
@@ -3135,12 +3135,12 @@ public class NetManger {
         }
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("identity", stringBuffer.toString());
-        map.put("commodity",commodity);
+        map.put("commodity", commodity);
         map.put("buy", buy);
         map.put("type", type);
         map.put("srcCurrency", srcCurrency);
         map.put("desCurrency", desCurrency);
-        if (price!=null){
+        if (price != null) {
             map.put("price", price);
         }
         map.put("volume", volume);
@@ -3151,7 +3151,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "spotOpen:现货下单: "+response);
+                Log.d("print", "spotOpen:现货下单: " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity.getMessage());
                /* if (tipEntity.getCode() == 500) {

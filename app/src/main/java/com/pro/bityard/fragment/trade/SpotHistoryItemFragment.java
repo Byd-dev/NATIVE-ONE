@@ -97,16 +97,19 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
         Calendar endDate = Calendar.getInstance();
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String startTime = sdf.format(startDate.getTime());
+        String endTime = sdf.format(endDate.getTime());
 
-        createTimeGe = ChartUtil.getTodayZero();
-        createTimeLe = ChartUtil.getTodayLastTime();
+        createTimeGe = ChartUtil.getSelectZero(startTime);
+        createTimeLe = ChartUtil.getSelectLastTime(endTime);
         page = 0;
 
         headView.findViewById(R.id.layout_start).setOnClickListener(v -> {
             TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v1) -> {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String format = simpleDateFormat.format(date);
-                String selectStart = Util.startFormatDate(format, text_end.getText().toString());
+                String selectStart = Util.startFormatDate(format,  text_end.getText().toString());
                 text_start.setText(selectStart);
                 startDate.set(Util.str2Calendar(selectStart, "year"), Util.str2Calendar(selectStart, "month"),
                         Util.str2Calendar(selectStart, "day"));
@@ -123,7 +126,7 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                     .setTextColorOut(getResources().getColor(R.color.color_btn_bg))
                     .setDate(startDate)
                     .setSubCalSize(15)
-                    .build();//滚轮背景颜色 Night mode.build();//取消按钮文字颜色build();
+                      .build();//滚轮背景颜色 Night mode.build();//取消按钮文字颜色build();
             timePickerView.show();
 
         });
