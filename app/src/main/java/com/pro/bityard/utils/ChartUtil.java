@@ -14,6 +14,7 @@ import com.pro.bityard.entity.KlineEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -191,6 +192,38 @@ public class ChartUtil {
         long zeroT = (date.getTime() - (date.getTime() % l) - 8 * 60 * 60 * 1000);  //今天零点零分零秒的毫秒数
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(zeroT);
     }
+
+    /*当天0点时间*/
+    public static String getSelectZero(String selectStart) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date;
+        try {
+            date = sdf.parse(selectStart);
+            long l = 24 * 60 * 60 * 1000; //每天的毫秒数
+            long zeroT = (date.getTime() - (date.getTime() % l) - 8 * 60 * 60 * 1000);  //今天零点零分零秒的毫秒数
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(zeroT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return  null;
+        }
+    }
+
+    /*当天最后一秒*/
+    public static String getSelectLastTime(String selectStart) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date;
+        try {
+            date = sdf.parse(selectStart);
+            long l = 24 * 60 * 60 * 1000; //每天的毫秒数
+            long zeroT = (date.getTime() - (date.getTime() % l) - 8 * 60 * 60 * 1000);  //今天零点零分零秒的毫秒数
+            long endT = zeroT + 24 * 60 * 60 * 1000 - 1;  //今天23点59分59秒的毫秒数
+            return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endT);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return  null;
+        }
+    }
+
 
     /*当天最后一秒*/
     public static String getTodayLastTime() {
@@ -704,72 +737,72 @@ public class ChartUtil {
             case "":
                 break;
             case "EOS":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eos),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eos), null, null, null);
                 break;
             case "LTC":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ltc),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ltc), null, null, null);
 
                 break;
             case "BCH":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bch),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bch), null, null, null);
 
                 break;
             case "ETC":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_etc),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_etc), null, null, null);
 
                 break;
             case "USDT":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt), null, null, null);
 
                 break;
             case "BTC":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btc),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btc), null, null, null);
 
                 break;
             case "ETH":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eth),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_eth), null, null, null);
 
                 break;
             case "XRP":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xrp),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xrp), null, null, null);
 
                 break;
             case "TRX":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_trx),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_trx), null, null, null);
 
                 break;
             case "HT":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ht),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ht), null, null, null);
 
                 break;
             case "LINK":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_link), null, null, null);
 
                 break;
             case "DASH":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dash),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dash), null, null, null);
 
                 break;
             case "DOT":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dot),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dot), null, null, null);
                 break;
             case "ATOM":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_atom),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_atom), null, null, null);
                 break;
             case "UNI":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_uni),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_uni), null, null, null);
                 break;
             case "DAX":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dax),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_dax), null, null, null);
                 break;
             case "HSI":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_hsi),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_hsi), null, null, null);
                 break;
             case "NK":
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_nk),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_nk), null, null, null);
                 break;
             default:
-                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt),null,null,null);
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt), null, null, null);
 
                 break;
 

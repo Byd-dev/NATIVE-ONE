@@ -3069,15 +3069,22 @@ public class NetManger {
         });
     }
 
-    /*现货委托*/
-    public void spotPosition(String commodity, String buy, String type, String srcCurrency, String desCurrency, OnNetResult onNetResult) {
+    /*历史委托*/
+    public void spotPositionHistory(String commodity, String buy, String type,String status, String srcCurrency, String desCurrency,
+                                    String createTimeGe,String createTimeLe,String page,String rows,
+                                    OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("commodity", commodity);
+        if (commodity != null) {
+            map.put("commodity", commodity);
+        }
         if (buy != null) {
             map.put("buy", buy);
         }
         if (type != null) {
             map.put("type", type);
+        }
+        if (status != null) {
+            map.put("status", status);
         }
         if (srcCurrency != null) {
             map.put("srcCurrency", srcCurrency);
@@ -3085,13 +3092,23 @@ public class NetManger {
         if (desCurrency != null) {
             map.put("desCurrency", desCurrency);
         }
-
-
-        getRequest("/api/order/position", map, (state, response) -> {
+        if (createTimeGe != null) {
+            map.put("createTimeGe", createTimeGe);
+        }
+        if (createTimeLe != null) {
+            map.put("createTimeLe", createTimeLe);
+        }
+        if (page != null) {
+            map.put("page", page);
+        }
+        if (rows != null) {
+            map.put("rows", rows);
+        }
+        getRequest("/api/order/history", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "spotPosition:现货当前持仓: " + response.toString());
+                Log.d("print", "spotPosition:现货历史: " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 500) {
                     onNetResult.onNetResult(FAILURE, tipEntity.getMessage());

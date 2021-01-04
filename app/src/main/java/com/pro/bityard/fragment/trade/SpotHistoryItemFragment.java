@@ -12,17 +12,15 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.LoginEntity;
-import com.pro.bityard.entity.SpotPositionEntity;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.view.timepicker.TimePickerBuilder;
 import com.pro.bityard.view.timepicker.TimePickerView;
 import com.pro.switchlibrary.SPUtils;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -51,6 +49,9 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+    private String createTimeGe;
+    private String createTimeLe;
+    private int page;
 
 
     @Override
@@ -97,15 +98,22 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         Calendar endDate = Calendar.getInstance();
 
 
+        createTimeGe = ChartUtil.getTodayZero();
+        createTimeLe = ChartUtil.getTodayLastTime();
+        page = 0;
+
         headView.findViewById(R.id.layout_start).setOnClickListener(v -> {
             TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v1) -> {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String format = simpleDateFormat.format(date);
                 String selectStart = Util.startFormatDate(format, text_end.getText().toString());
                 text_start.setText(selectStart);
+                startDate.set(Util.str2Calendar(selectStart, "year"), Util.str2Calendar(selectStart, "month"),
+                        Util.str2Calendar(selectStart, "day"));
 
-                startDate.set(Util.str2Calendar(selectStart,"year"),Util.str2Calendar(selectStart,"month"),
-                        Util.str2Calendar(selectStart,"day"));
+                createTimeGe = ChartUtil.getSelectZero(selectStart);
+                createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
+                getHistoryPosition();
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
                     .setCancelColor(getResources().getColor(R.color.maincolor))
@@ -126,8 +134,14 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                 String format = simpleDateFormat.format(date);
                 String selectEnd = Util.endFormatDate(format, text_start.getText().toString());
                 text_end.setText(selectEnd);
-                endDate.set(Util.str2Calendar(selectEnd,"year"),Util.str2Calendar(selectEnd,"month"),
-                        Util.str2Calendar(selectEnd,"day"));
+                endDate.set(Util.str2Calendar(selectEnd, "year"), Util.str2Calendar(selectEnd, "month"),
+                        Util.str2Calendar(selectEnd, "day"));
+
+                createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
+                createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
+                getHistoryPosition();
+
+
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
                     .setCancelColor(getResources().getColor(R.color.maincolor))
                     .setTitleBgColor(getResources().getColor(R.color.background_main_color))//标题背景颜色 Night mode
@@ -151,38 +165,12 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            getPosition();
+            getHistoryPosition();
         });
 
 
     }
 
-    public Date compareDate(Date nowDate, Date compareDate) {
-
-        boolean before = nowDate.before(compareDate);
-        if (before) {
-            return nowDate;
-        } else {
-            return compareDate;
-        }
-
-    }
-
-    public boolean compareDate(String nowDate, String compareDate) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            Date now = df.parse(nowDate);
-            Date compare = df.parse(compareDate);
-            if (now.before(compare)) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     @Override
     protected void intPresenter() {
@@ -194,33 +182,29 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
     protected void initData() {
 
 
-        getPosition();
+        getHistoryPosition();
 
 
     }
 
-    private void getPosition() {
+    private void getHistoryPosition() {
+
         LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity == null) {
             return;
         }
-        NetManger.getInstance().userSpotPosition(loginEntity.getUser().getUserId(), (state, response) -> {
-            if (state.equals(BUSY)) {
-                swipeRefreshLayout.setRefreshing(true);
-            } else if (state.equals(SUCCESS)) {
-                swipeRefreshLayout.setRefreshing(false);
-                SpotPositionEntity spotPositionEntity = (SpotPositionEntity) response;
-                if (spotPositionEntity.getData().size() == 0) {
-                    layout_null.setVisibility(View.VISIBLE);
-                } else {
-                    layout_null.setVisibility(View.GONE);
-                }
-                spotPositionAdapter.setDatas(spotPositionEntity.getData());
-            } else if (state.equals(FAILURE)) {
-                swipeRefreshLayout.setRefreshing(false);
+        NetManger.getInstance().spotPositionHistory(null, null, null, null, null,
+                null, createTimeGe, createTimeLe, String.valueOf(page), "10", (state, response) -> {
+                    if (state.equals(BUSY)) {
+                        swipeRefreshLayout.setRefreshing(true);
+                    } else if (state.equals(SUCCESS)) {
+                        swipeRefreshLayout.setRefreshing(false);
 
-            }
-        });
+                    } else if (state.equals(FAILURE)) {
+                        swipeRefreshLayout.setRefreshing(false);
+
+                    }
+                });
     }
 
     @Override
