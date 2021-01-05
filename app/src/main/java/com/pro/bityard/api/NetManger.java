@@ -3112,8 +3112,8 @@ public class NetManger {
                 Log.d("print", "spotPosition:现货历史: " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
-                    FollowersListEntity followersListEntity = new Gson().fromJson(response.toString(), FollowersListEntity.class);
-                    onNetResult.onNetResult(SUCCESS, followersListEntity);
+                    SpotHistoryEntity spotHistoryEntity = new Gson().fromJson(response.toString(), SpotHistoryEntity.class);
+                    onNetResult.onNetResult(SUCCESS, spotHistoryEntity);
                 } else {
                     onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
                 }

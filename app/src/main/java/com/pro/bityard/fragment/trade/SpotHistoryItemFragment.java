@@ -7,11 +7,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.SpotHistoryAdapter;
 import com.pro.bityard.adapter.SpotPositionAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.entity.SpotHistoryEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -44,7 +46,7 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
     private String itemData;
     private String quote_code = null;
 
-    private SpotPositionAdapter spotPositionAdapter;
+    private SpotHistoryAdapter spotHistoryAdapter;
 
 
     @BindView(R.id.swipeRefreshLayout)
@@ -159,9 +161,9 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         });
 
 
-        spotPositionAdapter = new SpotPositionAdapter(getActivity());
+        spotHistoryAdapter = new SpotHistoryAdapter(getActivity());
         recyclerView_spot.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView_spot.setAdapter(spotPositionAdapter);
+        recyclerView_spot.setAdapter(spotHistoryAdapter);
 
         recyclerView_spot.addHeaderView(headView);
 
@@ -202,6 +204,8 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                         swipeRefreshLayout.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
                         swipeRefreshLayout.setRefreshing(false);
+                        SpotHistoryEntity spotHistoryEntity= (SpotHistoryEntity) response;
+
 
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout.setRefreshing(false);

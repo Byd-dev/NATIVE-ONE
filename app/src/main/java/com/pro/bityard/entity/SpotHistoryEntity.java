@@ -15,12 +15,26 @@ public class SpotHistoryEntity {
      * message :
      */
 
+
+
     private String total;
     private Integer code;
     private Integer size;
     private Integer page;
     private String message;
     private List<DataBean> data;
+
+    @Override
+    public String toString() {
+        return "SpotHistoryEntity{" +
+                "total='" + total + '\'' +
+                ", code=" + code +
+                ", size=" + size +
+                ", page=" + page +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
 
     public String getTotal() {
         return total;
@@ -71,6 +85,44 @@ public class SpotHistoryEntity {
     }
 
     public static class DataBean {
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "amount=" + amount +
+                    ", brand=" + brand +
+                    ", buy=" + buy +
+                    ", charge=" + charge +
+                    ", chargeEagle=" + chargeEagle +
+                    ", chargeLucky=" + chargeLucky +
+                    ", commodity='" + commodity + '\'' +
+                    ", commodityName='" + commodityName + '\'' +
+                    ", createTime=" + createTime +
+                    ", desCurrency='" + desCurrency + '\'' +
+                    ", id='" + id + '\'' +
+                    ", identity='" + identity + '\'' +
+                    ", message=" + message +
+                    ", opAmount=" + opAmount +
+                    ", opPrice=" + opPrice +
+                    ", opVolume=" + opVolume +
+                    ", orAmount=" + orAmount +
+                    ", orVolume=" + orVolume +
+                    ", platform='" + platform + '\'' +
+                    ", price=" + price +
+                    ", server=" + server +
+                    ", srcCurrency='" + srcCurrency + '\'' +
+                    ", status=" + status +
+                    ", type=" + type +
+                    ", unionMoney=" + unionMoney +
+                    ", unionRatio=" + unionRatio +
+                    ", unionUser=" + unionUser +
+                    ", updateTime=" + updateTime +
+                    ", userId='" + userId + '\'' +
+                    ", username='" + username + '\'' +
+                    ", version='" + version + '\'' +
+                    ", volume=" + volume +
+                    '}';
+        }
+
         /**
          * amount : 39.84
          * brand : null
@@ -105,6 +157,8 @@ public class SpotHistoryEntity {
          * version : 0
          * volume : 100.0
          */
+
+
 
         private Double amount;
         private Object brand;
