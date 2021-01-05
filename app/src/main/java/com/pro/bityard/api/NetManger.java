@@ -44,6 +44,7 @@ import com.pro.bityard.entity.OrderEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.RateEntity;
 import com.pro.bityard.entity.RateListEntity;
+import com.pro.bityard.entity.SpotHistoryEntity;
 import com.pro.bityard.entity.SpotPositionEntity;
 import com.pro.bityard.entity.StatEntity;
 import com.pro.bityard.entity.StyleEntity;
@@ -3165,7 +3166,7 @@ public class NetManger {
                 Log.d("print", "spotPosition:成交历史: " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
-                    FollowersListEntity followersListEntity = new Gson().fromJson(response.toString(), FollowersListEntity.class);
+                    SpotHistoryEntity followersListEntity = new Gson().fromJson(response.toString(), SpotHistoryEntity.class);
                     onNetResult.onNetResult(SUCCESS, followersListEntity);
                 } else {
                     onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
