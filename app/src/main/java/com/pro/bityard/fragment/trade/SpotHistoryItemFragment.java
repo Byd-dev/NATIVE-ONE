@@ -205,7 +205,7 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                     } else if (state.equals(SUCCESS)) {
                         swipeRefreshLayout.setRefreshing(false);
                         SpotHistoryEntity spotHistoryEntity= (SpotHistoryEntity) response;
-
+                        spotHistoryAdapter.setDatas(spotHistoryEntity.getData());
 
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout.setRefreshing(false);
