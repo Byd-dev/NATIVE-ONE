@@ -3123,6 +3123,59 @@ public class NetManger {
     }
 
 
+    /*成交历史*/
+    public void spotPositionTradeHistory(String commodity, String buy, String type, String status, String srcCurrency, String desCurrency,
+                                    String createTimeGe, String createTimeLe, String page, String rows,
+                                    OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        if (commodity != null) {
+            map.put("commodity", commodity);
+        }
+        if (srcCurrency != null) {
+            map.put("srcCurrency", srcCurrency);
+        }
+        if (desCurrency != null) {
+            map.put("desCurrency", desCurrency);
+        }
+        if (buy != null) {
+            map.put("buy", buy);
+        }
+        if (type != null) {
+            map.put("type", type);
+        }
+        if (status != null) {
+            map.put("status", status);
+        }
+        if (createTimeGe != null) {
+            map.put("createTimeGe", createTimeGe);
+        }
+        if (createTimeLe != null) {
+            map.put("createTimeLe", createTimeLe);
+        }
+        if (page != null) {
+            map.put("page", page);
+        }
+        if (rows != null) {
+            map.put("rows", rows);
+        }
+        getRequest("/api/order/detail-list", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "spotPosition:成交历史: " + response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 200) {
+                    FollowersListEntity followersListEntity = new Gson().fromJson(response.toString(), FollowersListEntity.class);
+                    onNetResult.onNetResult(SUCCESS, followersListEntity);
+                } else {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+    }
+
     /*现货买卖*/
     public void spotOpen(String commodity, String buy, String type, String srcCurrency, String desCurrency,
                          String price, String volume, String chargeEagle, OnNetResult onNetResult) {
