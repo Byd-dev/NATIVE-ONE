@@ -57,7 +57,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.layout_spot_item;
+        return R.layout.layout_spot_commit;
     }
 
     public SpotCommitHistoryFragment newInstance(String type, String value) {

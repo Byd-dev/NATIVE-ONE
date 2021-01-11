@@ -2,13 +2,17 @@ package com.pro.bityard.fragment.trade;
 
 import android.os.Handler;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.manger.ControlManger;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
@@ -21,6 +25,13 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
+    @BindView(R.id.img_spot_filter)
+    ImageView img_spot_filter;
+
+    @BindView(R.id.drawerLayout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.layout_right)
+    LinearLayout layout_right;
 
     @Override
     protected void onLazyLoad() {
@@ -40,6 +51,28 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
         initViewPager(viewPager);
+        img_spot_filter.setOnClickListener(this);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition()==2){
+                    img_spot_filter.setVisibility(View.VISIBLE);
+                }else {
+                    img_spot_filter.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
     }
 
     @Override
@@ -71,6 +104,9 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
         switch (v.getId()) {
             case R.id.img_back:
                 getActivity().finish();
+                break;
+            case R.id.img_spot_filter:
+                drawerLayout.openDrawer(layout_right);
                 break;
         }
     }

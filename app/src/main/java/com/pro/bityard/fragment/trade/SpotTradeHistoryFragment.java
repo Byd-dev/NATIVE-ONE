@@ -1,6 +1,8 @@
 package com.pro.bityard.fragment.trade;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,6 +14,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.manger.ControlManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -21,29 +24,32 @@ import com.pro.switchlibrary.SPUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Observable;
+import java.util.Observer;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class SpotTradeHistoryFragment extends BaseFragment implements View.OnClickListener {
+public class SpotTradeHistoryFragment extends BaseFragment implements View.OnClickListener, Observer {
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
     @BindView(R.id.layout_spot)
     LinearLayout layout_view;
+
     @BindView(R.id.recyclerView_spot)
     HeaderRecyclerView recyclerView_spot;
 
+
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
-    private String tradeType = "1";//实盘=1 模拟=2
-    private String itemData;
-    private String quote_code = null;
 
     private SpotTradeHistoryAdapter spotTradeHistoryAdapter;
     private int lastVisibleItem;
@@ -58,7 +64,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.layout_spot_item;
+        return R.layout.layout_trade_history;
     }
 
     public SpotTradeHistoryFragment newInstance(String type, String value) {
@@ -84,6 +90,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
     @Override
     protected void initView(View view) {
 
+        ControlManger.getInstance().addObserver(this);
 
         TextView text_start = view.findViewById(R.id.text_start);
         TextView text_end = view.findViewById(R.id.text_end);
@@ -250,4 +257,10 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
     }
 
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o==ControlManger.getInstance()){
+
+        }
+    }
 }

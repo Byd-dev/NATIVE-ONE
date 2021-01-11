@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+
+
+        <!--默认止盈比例-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_20"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:text="@string/text_stop_profit_rate"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/size_normal_two" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_profit"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_30"
+                android:layout_marginLeft="6dp"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginRight="6dp" />
+
+
+        </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_sure"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_btn"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginTop="60dp"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@drawable/bg_shape_main_color"
+            android:padding="10dp"
+            android:text="@string/text_sure"
+            android:textColor="@color/color_btn_text"
+            android:textSize="16sp"
+            tools:ignore="HardcodedText" />
+</LinearLayout>
