@@ -8,10 +8,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.fragment.my.FundExchangeItemFragment;
-import com.pro.bityard.fragment.my.FundFiatItemFragment;
-import com.pro.bityard.fragment.my.FundStatementItemFragment;
-import com.pro.bityard.fragment.my.FundTransferFragment;
 
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
@@ -64,7 +60,7 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
     private void initViewPager(ViewPager viewPager) {
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         myPagerAdapter.addFragment(new SpotRecordItemFragment(), getString(R.string.text_spot_position));
-        myPagerAdapter.addFragment(new SpotHistoryItemFragment(), getString(R.string.text_history_spot_position));
+        myPagerAdapter.addFragment(new SpotCommitHistoryFragment(), getString(R.string.text_history_spot_position));
         myPagerAdapter.addFragment(new SpotTradeHistoryFragment(), getString(R.string.text_history_trade));
 
         viewPager.setAdapter(myPagerAdapter);

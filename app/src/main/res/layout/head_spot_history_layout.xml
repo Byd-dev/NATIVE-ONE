@@ -40,7 +40,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_spot_switch"/>
+                    android:src="@mipmap/icon_date_select"/>
 
                 <TextView
                     android:id="@+id/text_start"
@@ -87,7 +87,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@mipmap/icon_spot_switch"/>
+                    android:src="@mipmap/icon_date_select"/>
 
                 <TextView
                     android:id="@+id/text_end"

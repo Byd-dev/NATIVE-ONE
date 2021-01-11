@@ -1,14 +1,12 @@
 package com.pro.bityard.fragment.trade;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.SpotHistoryAdapter;
-import com.pro.bityard.adapter.SpotPositionAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -26,6 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
@@ -33,7 +32,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class SpotHistoryItemFragment extends BaseFragment implements View.OnClickListener {
+public class SpotCommitHistoryFragment extends BaseFragment implements View.OnClickListener {
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
     @BindView(R.id.layout_spot)
@@ -43,12 +42,11 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
-    private String tradeType = "1";//实盘=1 模拟=2
-    private String itemData;
-    private String quote_code = null;
+
 
     private SpotHistoryAdapter spotHistoryAdapter;
-
+    private int lastVisibleItem;
+    private LinearLayoutManager linearLayoutManager;
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -62,8 +60,8 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         return R.layout.layout_spot_item;
     }
 
-    public SpotHistoryItemFragment newInstance(String type, String value) {
-        SpotHistoryItemFragment fragment = new SpotHistoryItemFragment();
+    public SpotCommitHistoryFragment newInstance(String type, String value) {
+        SpotCommitHistoryFragment fragment = new SpotCommitHistoryFragment();
         Bundle args = new Bundle();
         args.putString(TYPE, type);
         args.putString(VALUE, value);
@@ -105,7 +103,7 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
         createTimeGe = ChartUtil.getSelectZero(startTime);
         createTimeLe = ChartUtil.getSelectLastTime(endTime);
-        page = 0;
+
 
         view.findViewById(R.id.layout_start).setOnClickListener(v -> {
             TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v1) -> {
@@ -118,7 +116,8 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
                 createTimeGe = ChartUtil.getSelectZero(selectStart);
                 createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
-                getHistoryPosition();
+                page = 0;
+                getHistoryPosition(AppConfig.FIRST,page);
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
                     .setCancelColor(getResources().getColor(R.color.maincolor))
@@ -144,7 +143,8 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
                 createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
                 createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
-                getHistoryPosition();
+                page=0;
+                getHistoryPosition(AppConfig.FIRST,page);
 
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
@@ -162,14 +162,35 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
 
         spotHistoryAdapter = new SpotHistoryAdapter(getActivity());
-        recyclerView_spot.setLayoutManager(new LinearLayoutManager(getActivity()));
+        linearLayoutManager=new LinearLayoutManager(getActivity());
+        recyclerView_spot.setLayoutManager(linearLayoutManager);
         recyclerView_spot.setAdapter(spotHistoryAdapter);
 
 
 
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            getHistoryPosition();
+            page=0;
+            getHistoryPosition(AppConfig.FIRST,page);
+        });
+        recyclerView_spot.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (swipeRefreshLayout.isRefreshing()) return;
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == spotHistoryAdapter.getItemCount() - 1) {
+                    spotHistoryAdapter.startLoad();
+                    page = page + 1;
+                    getHistoryPosition(AppConfig.LOAD,page);
+
+                }
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+            }
         });
 
 
@@ -185,13 +206,12 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
     @Override
     protected void initData() {
 
-
-        getHistoryPosition();
+        getHistoryPosition(AppConfig.FIRST,0);
 
 
     }
 
-    private void getHistoryPosition() {
+    private void getHistoryPosition(String type,int page) {
 
         LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity == null) {
@@ -205,12 +225,19 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                         swipeRefreshLayout.setRefreshing(false);
                         SpotHistoryEntity spotHistoryEntity= (SpotHistoryEntity) response;
                         List<SpotHistoryEntity.DataBean> data = spotHistoryEntity.getData();
-                        if (data.size()==0){
-                            layout_null.setVisibility(View.VISIBLE);
+
+                        if (type.equals(AppConfig.LOAD)){
+                            spotHistoryAdapter.addDatas(data);
                         }else {
-                            layout_null.setVisibility(View.GONE);
+                            if (data.size() != 0) {
+                                spotHistoryAdapter.setDatas(data);
+                                layout_null.setVisibility(View.GONE);
+                            } else {
+                                layout_null.setVisibility(View.VISIBLE);
+                            }
                         }
-                        spotHistoryAdapter.setDatas(data);
+
+
 
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout.setRefreshing(false);
