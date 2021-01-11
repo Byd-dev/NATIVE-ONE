@@ -23,6 +23,7 @@ import com.pro.switchlibrary.SPUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -85,9 +86,8 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
     protected void initView(View view) {
 
 
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_history_layout, null);
-        TextView text_start = headView.findViewById(R.id.text_start);
-        TextView text_end = headView.findViewById(R.id.text_end);
+        TextView text_start = view.findViewById(R.id.text_start);
+        TextView text_end = view.findViewById(R.id.text_end);
 
 
         String nowTime = Util.getNowTime();
@@ -107,7 +107,7 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         createTimeLe = ChartUtil.getSelectLastTime(endTime);
         page = 0;
 
-        headView.findViewById(R.id.layout_start).setOnClickListener(v -> {
+        view.findViewById(R.id.layout_start).setOnClickListener(v -> {
             TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v1) -> {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String format = simpleDateFormat.format(date);
@@ -133,7 +133,7 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
 
         });
 
-        headView.findViewById(R.id.layout_end).setOnClickListener(v -> {
+        view.findViewById(R.id.layout_end).setOnClickListener(v -> {
             TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v12) -> {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 String format = simpleDateFormat.format(date);
@@ -165,7 +165,6 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
         recyclerView_spot.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_spot.setAdapter(spotHistoryAdapter);
 
-        recyclerView_spot.addHeaderView(headView);
 
 
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
@@ -205,7 +204,13 @@ public class SpotHistoryItemFragment extends BaseFragment implements View.OnClic
                     } else if (state.equals(SUCCESS)) {
                         swipeRefreshLayout.setRefreshing(false);
                         SpotHistoryEntity spotHistoryEntity= (SpotHistoryEntity) response;
-                        spotHistoryAdapter.setDatas(spotHistoryEntity.getData());
+                        List<SpotHistoryEntity.DataBean> data = spotHistoryEntity.getData();
+                        if (data.size()==0){
+                            layout_null.setVisibility(View.VISIBLE);
+                        }else {
+                            layout_null.setVisibility(View.GONE);
+                        }
+                        spotHistoryAdapter.setDatas(data);
 
                     } else if (state.equals(FAILURE)) {
                         swipeRefreshLayout.setRefreshing(false);

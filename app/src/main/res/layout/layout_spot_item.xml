@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
 
+    <include layout="@layout/head_spot_history_layout" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
@@ -26,7 +27,7 @@
                 android:layout_height="match_parent" />
 
 
-           <include layout="@layout/layout_null"/>
+            <include layout="@layout/layout_null" />
 
 
         </RelativeLayout>
