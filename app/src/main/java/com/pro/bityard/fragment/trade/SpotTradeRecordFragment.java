@@ -8,12 +8,21 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.ChainListAdapter;
 import com.pro.bityard.adapter.MyPagerAdapter;
+import com.pro.bityard.adapter.RadioDateAdapter;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.manger.ControlManger;
 
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 
 public class SpotTradeRecordFragment extends BaseFragment implements View.OnClickListener {
@@ -32,6 +41,16 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
     DrawerLayout drawerLayout;
     @BindView(R.id.layout_right)
     LinearLayout layout_right;
+
+    @BindView(R.id.recyclerView_date)
+    RecyclerView recyclerView_date;
+
+    @BindView(R.id.recyclerView_type)
+    RecyclerView recyclerView_type;
+
+    private RadioDateAdapter radioDateAdapter,radioTypeAdapter;//杠杆适配器
+    private List<String> dataList,typeList;
+
 
     @Override
     protected void onLazyLoad() {
@@ -73,6 +92,32 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
             }
         });
+        radioDateAdapter = new RadioDateAdapter(getActivity());
+        recyclerView_date.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        recyclerView_date.setAdapter(radioDateAdapter);
+
+        dataList = new ArrayList<>();
+        dataList.add("最近1天");
+        dataList.add("最近1周");
+        dataList.add("最近1月");
+        dataList.add("最近1月");
+
+        radioDateAdapter.setDatas(dataList);
+        radioDateAdapter.setOnItemClick((position, data) -> radioDateAdapter.select(data));
+
+
+        radioTypeAdapter = new RadioDateAdapter(getActivity());
+        recyclerView_type.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        recyclerView_type.setAdapter(radioTypeAdapter);
+
+        typeList = new ArrayList<>();
+        typeList.add("买&卖");
+        typeList.add("买入");
+        typeList.add("卖出");
+
+        radioTypeAdapter.setDatas(typeList);
+        radioTypeAdapter.setOnItemClick((position, data) -> radioTypeAdapter.select(data));
+
     }
 
     @Override

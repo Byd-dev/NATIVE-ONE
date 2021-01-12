@@ -555,5 +555,7 @@
     <string name="picker_hours">时</string>
     <string name="picker_min">分</string>
     <string name="picker_second">秒</string>
+    <string name="text_order_filter">订单筛选</string>
+    <string name="text_date">日期</string>
 
 </resources>
