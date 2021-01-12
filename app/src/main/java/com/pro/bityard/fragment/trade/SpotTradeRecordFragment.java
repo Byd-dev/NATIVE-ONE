@@ -100,7 +100,7 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
         dataList.add("最近1天");
         dataList.add("最近1周");
         dataList.add("最近1月");
-        dataList.add("最近1月");
+        dataList.add("最近3月");
 
         radioDateAdapter.setDatas(dataList);
         radioDateAdapter.setOnItemClick((position, data) -> radioDateAdapter.select(data));

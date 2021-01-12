@@ -4,8 +4,8 @@
     <item android:state_checked="true">
         <shape>
             <corners android:radius="@dimen/radius_size" />
-            <stroke android:width="@dimen/size_frame" android:color="@color/maincolor" />
-            <solid android:color="@color/text_quote_green" />
+            <stroke android:width="@dimen/size_frame" android:color="@color/text_quote_green" />
+            <solid android:color="@color/color_bg_left" />
 
         </shape>
     </item>
