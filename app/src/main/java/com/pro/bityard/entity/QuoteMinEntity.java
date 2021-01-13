@@ -77,7 +77,7 @@ public class QuoteMinEntity {
     private double sellVolume;
     private double max;
     private double min;
-    private String volume;
+    private double volume;
     private double open;
     private double close;
     private double settle_price_yes;
@@ -220,11 +220,11 @@ public class QuoteMinEntity {
         this.min = min;
     }
 
-    public String getVolume() {
+    public double getVolume() {
         return volume;
     }
 
-    public void setVolume(String volume) {
+    public void setVolume(double volume) {
         this.volume = volume;
     }
 

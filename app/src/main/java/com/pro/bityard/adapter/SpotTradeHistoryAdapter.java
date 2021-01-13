@@ -4,13 +4,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.entity.SpotPositionEntity;
 import com.pro.bityard.entity.SpotTradeHistoryEntity;
 import com.pro.bityard.utils.TradeUtil;
 
@@ -100,16 +98,18 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
 
 
             ((MyViewHolder) holder).text_price.setText(String.valueOf(datas.get(position).getOpPrice()));
-            ((MyViewHolder) holder).text_service.setText(String.valueOf(datas.get(position).getCharge()));
+
+
+            ((MyViewHolder) holder).text_service.setText(TradeUtil.justDisplay(datas.get(position).getCharge()));
 
 
             ((MyViewHolder) holder).text_amount.setText(String.valueOf(datas.get(position).getOpAmount()));
             ((MyViewHolder) holder).text_amount_all.setText(String.valueOf(datas.get(position).getOpVolume()));
             Boolean buy = datas.get(position).getBuy();
-            if (buy){
+            if (buy) {
                 ((MyViewHolder) holder).text_buy.setText(context.getApplicationContext().getText(R.string.text_buy_tip));
                 ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_green));
-            }else {
+            } else {
                 ((MyViewHolder) holder).text_buy.setText(R.string.text_sell_tip);
                 ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
@@ -146,8 +146,7 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_buy,text_name, text_currency, text_time, text_amount, text_price,text_service,text_amount_all;
-
+        TextView text_buy, text_name, text_currency, text_time, text_amount, text_price, text_service, text_amount_all;
 
 
         public MyViewHolder(View itemView) {
@@ -160,9 +159,6 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
             text_service = itemView.findViewById(R.id.text_service);
             text_amount = itemView.findViewById(R.id.text_amount);
             text_amount_all = itemView.findViewById(R.id.text_amount_all);
-
-
-
 
 
         }

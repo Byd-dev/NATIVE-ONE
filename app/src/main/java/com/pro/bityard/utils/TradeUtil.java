@@ -99,6 +99,11 @@ public class TradeUtil {
         return mon;
     }
 
+    public static String justDisplay(double value){
+        BigDecimal bg=new BigDecimal(value+"");
+        return bg.toString();
+    }
+
     /*long转时间*/
     public static String dateToStamp(long time) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

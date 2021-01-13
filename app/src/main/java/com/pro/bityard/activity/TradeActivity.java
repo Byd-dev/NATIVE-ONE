@@ -2059,7 +2059,7 @@ public class TradeActivity extends BaseActivity implements View.OnClickListener,
                         }
                         text_max.setText(String.valueOf(quoteMinEntity.getMax()));
                         text_min.setText(String.valueOf(quoteMinEntity.getMin()));
-                        text_volume.setText(quoteMinEntity.getVolume());
+                        text_volume.setText(TradeUtil.justDisplay(quoteMinEntity.getVolume()));
 
 
                         String spread = TradeUtil.spread(quoteMinEntity.getSymbol(), tradeListEntityList);
