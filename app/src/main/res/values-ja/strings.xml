@@ -558,6 +558,13 @@
     <string name="picker_second">秒</string>
     <string name="text_order_filter">订单筛选</string>
     <string name="text_date">日期</string>
+    <string name="text_near_one_day">最近1天</string>
+    <string name="text_near_one_week">最近1周</string>
+    <string name="text_near_one_month">最近1月</string>
+    <string name="text_near_three_month">最近3月</string>
+    <string name="text_buy_and_sell"><![CDATA[买&卖]]></string>
+    <string name="text_buy_tip">买</string>
+    <string name="text_sell_tip">卖</string>
 
 
 </resources>

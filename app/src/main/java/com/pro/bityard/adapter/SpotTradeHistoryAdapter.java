@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.SpotPositionEntity;
+import com.pro.bityard.entity.SpotTradeHistoryEntity;
 import com.pro.bityard.utils.TradeUtil;
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<SpotPositionEntity.DataBean> datas;
+    private List<SpotTradeHistoryEntity.DataBean> datas;
 
 
     private static final int TYPE_ITEM = 0;
@@ -39,12 +40,12 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<SpotPositionEntity.DataBean> datas) {
+    public void setDatas(List<SpotTradeHistoryEntity.DataBean> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<SpotPositionEntity.DataBean> datas) {
+    public void addDatas(List<SpotTradeHistoryEntity.DataBean> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -98,11 +99,22 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getCreateTime()));
 
 
-            ((MyViewHolder) holder).text_price.setText(TradeUtil.getNumberFormat(datas.get(position).getPrice(), 2));
+            ((MyViewHolder) holder).text_price.setText(String.valueOf(datas.get(position).getOpPrice()));
+            ((MyViewHolder) holder).text_service.setText(String.valueOf(datas.get(position).getCharge()));
 
 
-            ((MyViewHolder) holder).text_amount.setText(datas.get(position).getVolume() + "/"
-                    + datas.get(position).getAmount());
+            ((MyViewHolder) holder).text_amount.setText(String.valueOf(datas.get(position).getOpAmount()));
+            ((MyViewHolder) holder).text_amount_all.setText(String.valueOf(datas.get(position).getOpVolume()));
+            Boolean buy = datas.get(position).getBuy();
+            if (buy){
+                ((MyViewHolder) holder).text_buy.setText(context.getApplicationContext().getText(R.string.text_buy_tip));
+                ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+            }else {
+                ((MyViewHolder) holder).text_buy.setText(R.string.text_sell_tip);
+                ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+
+            }
+
         }
 
     }
@@ -134,17 +146,21 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_currency, text_time, text_amount, text_price;
+        TextView text_buy,text_name, text_currency, text_time, text_amount, text_price,text_service,text_amount_all;
 
-        ImageView img_buy;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            text_buy = itemView.findViewById(R.id.text_buy);
             text_name = itemView.findViewById(R.id.text_name);
             text_currency = itemView.findViewById(R.id.text_currency);
-            text_amount = itemView.findViewById(R.id.text_amount);
-            text_price = itemView.findViewById(R.id.text_price);
             text_time = itemView.findViewById(R.id.text_time);
+            text_price = itemView.findViewById(R.id.text_price);
+            text_service = itemView.findViewById(R.id.text_service);
+            text_amount = itemView.findViewById(R.id.text_amount);
+            text_amount_all = itemView.findViewById(R.id.text_amount_all);
+
 
 
 
@@ -161,7 +177,7 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public interface OnDetailClick {
-        void onClickListener(SpotPositionEntity.DataBean data);
+        void onClickListener(SpotTradeHistoryEntity.DataBean data);
 
 
     }

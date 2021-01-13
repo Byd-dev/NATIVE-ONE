@@ -258,6 +258,18 @@ public class ChartUtil {
 
     }
 
+    /*本月的零点*/
+    public static String getThreeMonthZero() {
+        Calendar ca = Calendar.getInstance();
+        ca.set(Calendar.HOUR_OF_DAY, 0);
+        ca.clear(Calendar.MINUTE);
+        ca.clear(Calendar.SECOND);
+        ca.clear(Calendar.MILLISECOND);
+        ca.set(Calendar.DAY_OF_MONTH, -3);
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(ca.getTimeInMillis());
+
+    }
+
     public static String getDate(Long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date d1 = new Date(time);

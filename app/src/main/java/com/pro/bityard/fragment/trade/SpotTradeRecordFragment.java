@@ -1,28 +1,28 @@
 package com.pro.bityard.fragment.trade;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.ChainListAdapter;
 import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.RadioDateAdapter;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.manger.ControlManger;
 
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 public class SpotTradeRecordFragment extends BaseFragment implements View.OnClickListener {
@@ -48,8 +48,16 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
     @BindView(R.id.recyclerView_type)
     RecyclerView recyclerView_type;
 
-    private RadioDateAdapter radioDateAdapter,radioTypeAdapter;//杠杆适配器
-    private List<String> dataList,typeList;
+    @BindView(R.id.btn_sure)
+    Button btn_sure;
+    @BindView(R.id.btn_return)
+    Button btn_return;
+
+    @BindView(R.id.edit_search)
+    EditText edit_search;
+
+    private RadioDateAdapter radioDateAdapter, radioTypeAdapter;//杠杆适配器
+    private List<String> dataList, typeList;
 
 
     @Override
@@ -61,10 +69,15 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
     protected void initView(View view) {
         text_title.setText(getResources().getString(R.string.text_spot));
         view.findViewById(R.id.img_back).setOnClickListener(this);
+        btn_return.setOnClickListener(this);
+        btn_sure.setOnClickListener(this);
 
         Handler handler = new Handler();
         handler.postDelayed(() -> initContent(), 50);
     }
+
+    private String value_date = null;
+    private String value_type = null;
 
     private void initContent() {
         viewPager.setOffscreenPageLimit(3);
@@ -75,9 +88,9 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition()==2){
+                if (tab.getPosition() == 2) {
                     img_spot_filter.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     img_spot_filter.setVisibility(View.GONE);
                 }
             }
@@ -92,31 +105,44 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
             }
         });
+
+
+        value_date = getActivity().getString(R.string.text_near_one_day);
+        value_type = getActivity().getString(R.string.text_buy_and_sell);
+
         radioDateAdapter = new RadioDateAdapter(getActivity());
-        recyclerView_date.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        recyclerView_date.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView_date.setAdapter(radioDateAdapter);
 
         dataList = new ArrayList<>();
-        dataList.add("最近1天");
-        dataList.add("最近1周");
-        dataList.add("最近1月");
-        dataList.add("最近3月");
+        dataList.add(getString(R.string.text_near_one_day));
+        dataList.add(getString(R.string.text_near_one_week));
+        dataList.add(getString(R.string.text_near_one_month));
+        dataList.add(getString(R.string.text_near_three_month));
 
         radioDateAdapter.setDatas(dataList);
-        radioDateAdapter.setOnItemClick((position, data) -> radioDateAdapter.select(data));
+        radioDateAdapter.select(getString(R.string.text_near_one_day));
+        radioDateAdapter.setOnItemClick((position, data) -> {
+            radioDateAdapter.select(data);
+            value_date = data;
+        });
 
 
         radioTypeAdapter = new RadioDateAdapter(getActivity());
-        recyclerView_type.setLayoutManager(new GridLayoutManager(getActivity(),3));
+        recyclerView_type.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView_type.setAdapter(radioTypeAdapter);
 
         typeList = new ArrayList<>();
-        typeList.add("买&卖");
-        typeList.add("买入");
-        typeList.add("卖出");
+        typeList.add(getString(R.string.text_buy_and_sell));
+        typeList.add(getString(R.string.text_buy));
+        typeList.add(getString(R.string.text_sell));
+        radioTypeAdapter.select(getString(R.string.text_buy_and_sell));
 
         radioTypeAdapter.setDatas(typeList);
-        radioTypeAdapter.setOnItemClick((position, data) -> radioTypeAdapter.select(data));
+        radioTypeAdapter.setOnItemClick((position, data) -> {
+            radioTypeAdapter.select(data);
+            value_type = data;
+        });
 
     }
 
@@ -152,6 +178,19 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
                 break;
             case R.id.img_spot_filter:
                 drawerLayout.openDrawer(layout_right);
+                break;
+            case R.id.btn_sure:
+                String value_search = edit_search.getText().toString();
+                String value = value_date + "," + value_search + "," + value_type;
+                ControlManger.getInstance().postTag(value);
+                drawerLayout.closeDrawer(layout_right);
+                break;
+            case R.id.btn_return:
+                radioDateAdapter.select(getString(R.string.text_near_one_day));
+                radioTypeAdapter.select(getString(R.string.text_buy_and_sell));
+                edit_search.setText("");
+                value_date = getActivity().getString(R.string.text_near_one_day);
+                value_type = getActivity().getString(R.string.text_buy_and_sell);
                 break;
         }
     }

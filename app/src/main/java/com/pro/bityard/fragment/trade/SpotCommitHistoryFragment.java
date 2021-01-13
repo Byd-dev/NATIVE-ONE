@@ -232,8 +232,11 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                             if (data.size() != 0) {
                                 spotHistoryAdapter.setDatas(data);
                                 layout_null.setVisibility(View.GONE);
+                                recyclerView_spot.setVisibility(View.VISIBLE);
                             } else {
                                 layout_null.setVisibility(View.VISIBLE);
+                                recyclerView_spot.setVisibility(View.GONE);
+
                             }
                         }
 
