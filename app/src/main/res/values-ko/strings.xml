@@ -565,5 +565,6 @@
     <string name="text_buy_and_sell"><![CDATA[买&卖]]></string>
     <string name="text_buy_tip">买</string>
     <string name="text_sell_tip">卖</string>
+    <string name="text_all_commission">所有委托</string>
 
 </resources>

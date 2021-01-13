@@ -53,7 +53,7 @@
                     android:layout_alignParentRight="true"
                     android:text="--"
                     android:layout_marginRight="@dimen/margin_15"
-                    android:textColor="@color/text_main_color"
+                    android:textColor="@color/text_second_color"
                     android:textSize="@dimen/size_normal"
                     android:typeface="monospace" />
 

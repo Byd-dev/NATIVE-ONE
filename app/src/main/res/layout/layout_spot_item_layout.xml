@@ -13,12 +13,15 @@
         >
 
         <TextView
+            android:id="@+id/text_commission"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_10"
-            android:text="所有委托"
+            android:gravity="center"
             android:drawableRight="@mipmap/icon_trade_triangle"
+            android:drawablePadding="@dimen/margin_5"
+            android:text="@string/text_all_commission"
             android:textColor="@color/text_second_color"
             android:textSize="@dimen/size_big" />
 

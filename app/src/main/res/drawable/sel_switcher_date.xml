@@ -13,7 +13,7 @@
     <item android:state_checked="false">
         <shape>
             <corners android:radius="@dimen/radius_size" />
-            <stroke android:width="@dimen/size_frame" android:color="@color/text_edit_pop" />
+            <stroke android:width="@dimen/size_frame" android:color="@color/color_bg_left" />
             <solid android:color="@color/color_bg_left" />
         </shape>
     </item>

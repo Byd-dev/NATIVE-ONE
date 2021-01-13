@@ -1,9 +1,9 @@
 package com.pro.bityard.fragment.trade;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.SpotPositionAdapter;
@@ -34,25 +34,21 @@ public class SpotRecordItemFragment extends BaseFragment implements View.OnClick
 
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
-    private String tradeType = "1";//实盘=1 模拟=2
-    private String itemData;
-    private String quote_code = null;
+
+    @BindView(R.id.text_commission)
+    TextView text_commission;
+
 
     private SpotPositionAdapter spotPositionAdapter;
-
-
-
-
 
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
 
-
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.layout_spot_commit;
+        return R.layout.layout_spot_current_record;
     }
 
     public SpotRecordItemFragment newInstance(String type, String value) {
@@ -79,16 +75,11 @@ public class SpotRecordItemFragment extends BaseFragment implements View.OnClick
     protected void initView(View view) {
 
 
-        View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_spot_item_layout, null);
-
-
         spotPositionAdapter = new SpotPositionAdapter(getActivity());
         recyclerView_spot.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_spot.setAdapter(spotPositionAdapter);
 
-        recyclerView_spot.addHeaderView(headView);
-
-
+        text_commission.setOnClickListener(this);
 
 
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
@@ -104,8 +95,6 @@ public class SpotRecordItemFragment extends BaseFragment implements View.OnClick
     protected void intPresenter() {
 
     }
-
-
 
 
     @Override
@@ -144,17 +133,12 @@ public class SpotRecordItemFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.text_commission:
 
+                break;
 
         }
     }
-
-
-
-
-
-
-
 
 
     @Override
@@ -164,8 +148,6 @@ public class SpotRecordItemFragment extends BaseFragment implements View.OnClick
 
 
     }
-
-
 
 
 }

@@ -13,6 +13,7 @@
 
         <include layout="@layout/head_spot_history_layout" />
 
+    <include layout="@layout/layout_spot_item_layout"/>
 
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
