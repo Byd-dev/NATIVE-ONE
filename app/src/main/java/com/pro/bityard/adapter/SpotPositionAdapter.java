@@ -103,6 +103,9 @@ public class SpotPositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             ((MyViewHolder) holder).text_amount.setText(datas.get(position).getVolume() + "/"
                     + datas.get(position).getAmount());
+
+
+
         }
 
     }
@@ -145,6 +148,12 @@ public class SpotPositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             text_amount = itemView.findViewById(R.id.text_amount);
             text_price = itemView.findViewById(R.id.text_price);
             text_time = itemView.findViewById(R.id.text_time);
+
+            itemView.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+                if (onDetailClick!=null){
+                    onDetailClick.onClickListener(datas.get(getAdapterPosition()));
+                }
+            });
 
 
 

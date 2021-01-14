@@ -3049,9 +3049,50 @@ public class NetManger {
     }
 
     /*现货当前委托*/
-    public void userSpotPosition(String id, OnNetResult onNetResult) {
+    public void userSpotPosition(String commodity, String buy, String type,
+                                String srcCurrency, String desCurrency,
+                                 OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("_", id);
+        if (commodity != null) {
+            map.put("commodity", commodity);
+        }
+        if (buy != null) {
+            map.put("buy", buy);
+        }
+        if (type != null) {
+            map.put("type", type);
+        }
+        if (srcCurrency != null) {
+            map.put("srcCurrency", srcCurrency);
+        }
+        if (desCurrency != null) {
+            map.put("desCurrency", desCurrency);
+        }
+        getRequest("/api/order/position", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "spotPosition:现货当前持仓: " + response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    SpotPositionEntity spotPositionEntity = new Gson().fromJson(response.toString(), SpotPositionEntity.class);
+                    onNetResult.onNetResult(SUCCESS, spotPositionEntity);
+                }
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+    }
+
+    /*现货当前委托*/
+    public void userSpotPosition(String id,
+                                 OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        if (id != null) {
+            map.put("_", id);
+        }
 
         getRequest("/api/order/position", map, (state, response) -> {
             if (state.equals(BUSY)) {
@@ -3207,6 +3248,32 @@ public class NetManger {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
                 Log.d("print", "spotOpen:现货下单: " + response);
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                onNetResult.onNetResult(SUCCESS, tipEntity.getMessage());
+               /* if (tipEntity.getCode() == 500) {
+                } else {
+                    OrderEntity orderEntity = new Gson().fromJson(response.toString(), OrderEntity.class);
+                    onNetResult.onNetResult(SUCCESS, orderEntity.getMessage());
+                }*/
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+    }
+
+
+    /*现货撤单*/
+    public void spotClose(String orderId, OnNetResult onNetResult) {
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("orderId", orderId);
+
+
+        postRequest("/api/order/revoke", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "spotOpen:现货撤单: " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipEntity.getMessage());
                /* if (tipEntity.getCode() == 500) {

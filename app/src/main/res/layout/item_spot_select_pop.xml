@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="90dp"
+        android:layout_height="140dp"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_triangle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/icon_trade_triangle_pop" />
+
+
+        <LinearLayout
+            android:id="@+id/layout_lever_market"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/img_triangle"
+            android:background="@drawable/bg_kuang_second_color"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/text_all_commission"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_all_commission"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
+            <TextView
+                android:id="@+id/text_sell_commission"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_sell_commission"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
+
+            <TextView
+                android:id="@+id/text_buy_commission"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_buy_commission"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

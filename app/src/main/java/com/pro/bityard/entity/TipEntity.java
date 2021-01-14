@@ -19,6 +19,8 @@ public class TipEntity {
     private boolean verify_phone;
     private boolean verify_ga;
     private String token;
+    private String successNum;
+    private String failureNum;
 
     @Override
     public String toString() {
@@ -34,7 +36,25 @@ public class TipEntity {
                 ", verify_phone=" + verify_phone +
                 ", verify_ga=" + verify_ga +
                 ", token='" + token + '\'' +
+                ", successNum='" + successNum + '\'' +
+                ", failureNum='" + failureNum + '\'' +
                 '}';
+    }
+
+    public String getSuccessNum() {
+        return successNum;
+    }
+
+    public void setSuccessNum(String successNum) {
+        this.successNum = successNum;
+    }
+
+    public String getFailureNum() {
+        return failureNum;
+    }
+
+    public void setFailureNum(String failureNum) {
+        this.failureNum = failureNum;
     }
 
     public String getToken() {

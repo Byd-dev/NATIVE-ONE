@@ -565,5 +565,7 @@
     <string name="text_buy_tip">买</string>
     <string name="text_sell_tip">卖</string>
     <string name="text_all_commission">所有委托</string>
+    <string name="text_sell_commission">卖出委托</string>
+    <string name="text_buy_commission">买入委托</string>
 
 </resources>
