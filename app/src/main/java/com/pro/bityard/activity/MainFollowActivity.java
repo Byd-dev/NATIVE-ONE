@@ -266,7 +266,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     ImageView img_edit;
     @BindView(R.id.text_byd_balance)
     TextView text_byd_balance;
-    @BindView(R.id.text_fiat)
     TextView text_fiat;
 
     private boolean isEyeOpen = true;
@@ -354,6 +353,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         } else if (o == BalanceManger.getInstance()) {
 
             balanceEntity = (BalanceEntity) arg;
+            if (accountAdapter != null) {
+                accountAdapter.setDatas(balanceEntity.getData());
+            }
+
+            setBonus(balanceEntity);
+            setGift(balanceEntity);
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
 
@@ -493,7 +498,54 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         InitManger.getInstance().init();
     }
 
+    private void setBonus(BalanceEntity balanceEntity) {
+        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+            if (data.getCurrency().equals("USDT")) {
+                text_bonus_balance.setText(TradeUtil.getNumberFormat(data.getPrize(), 2));
+                String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                text_bonus_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data.getPrize(), Double.parseDouble(string)), 2));
 
+
+                //汇率是实时的
+              /*  TradeUtil.getRateList(balanceEntity, "2", response -> {
+                    double money = Double.parseDouble(response.toString());//所有钱包的和
+
+                    if (isEyeOpen) {
+                        if (isAdded()) {
+                            text_bonus_balance.setText(TradeUtil.getNumberFormat(money, 2));
+                            String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                            text_bonus_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(money, Double.parseDouble(string)), 2));
+                        }
+                    }
+                });*/
+
+            }
+        }
+    }
+
+    private void setGift(BalanceEntity balanceEntity) {
+        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+            if (data.getCurrency().equals("USDT")) {
+                text_gift_balance.setText(TradeUtil.getNumberFormat(data.getLucky(), 2));
+                String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                text_gift_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data.getLucky(), Double.parseDouble(string)), 2));
+
+              /*  //汇率是实时的
+                TradeUtil.getRateList(balanceEntity, "3", response -> {
+                    double money = Double.parseDouble(response.toString());//所有钱包的和
+
+                    if (isEyeOpen) {
+                        if (isAdded()) {
+                            text_gift_balance.setText(TradeUtil.getNumberFormat(money, 2));
+                            String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                            text_gift_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(money, Double.parseDouble(string)), 2));
+                        }
+                    }
+                });*/
+
+            }
+        }
+    }
     public static void enter(Context context, int tabIndex) {
 
         Intent intent = new Intent(context, MainFollowActivity.class);
@@ -1118,7 +1170,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         /*我的 分割线-----------------------------------------------------------------------------*/
-        findViewById(R.id.layout_balance).setOnClickListener(this);
         findViewById(R.id.layout_one).setOnClickListener(this);//安全中心监听
         findViewById(R.id.layout_two).setOnClickListener(this);
         findViewById(R.id.layout_three).setOnClickListener(this);
@@ -1130,8 +1181,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         findViewById(R.id.layout_nine).setOnClickListener(this);
         findViewById(R.id.layout_login).setOnClickListener(this);
         text_register.findViewById(R.id.text_register).setOnClickListener(this);
-        findViewById(R.id.text_account).setOnClickListener(this);
-        /*findViewById(R.id.text_deposit).setOnClickListener(this);
+       /* findViewById(R.id.text_account).setOnClickListener(this);
+        findViewById(R.id.text_deposit).setOnClickListener(this);
         findViewById(R.id.text_withdrawal).setOnClickListener(this);
         findViewById(R.id.text_quick_exchange).setOnClickListener(this);
         findViewById(R.id.text_fiat).setOnClickListener(this);*/
@@ -1178,6 +1229,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         View headView = LayoutInflater.from(this).inflate(R.layout.layout_account_head, null);
         text_balance = headView.findViewById(R.id.text_balance);
         text_balance_currency = headView.findViewById(R.id.text_balance_currency);
+        text_fiat=headView.findViewById(R.id.text_fiat);
         img_eye_switch = headView.findViewById(R.id.img_eye_switch);
         text_currency = headView.findViewById(R.id.text_currency);
         img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
@@ -2041,7 +2093,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 UserActivity.enter(this, IntentConfig.Keys.KEY_SET_UP);
 
                 break;
-            case R.id.layout_balance:
+            case R.id.img_eye_switch:
 
                 if (isEyeOpen) {
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
@@ -2166,13 +2218,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
                 break;
             /*资金账户*/
-            case R.id.text_account:
+           /* case R.id.text_account:
                 if (isLogin()) {
                     UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_ACCOUNT);
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
-                break;
+                break;*/
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
