@@ -130,4 +130,9 @@
         <item name="android:windowEnterAnimation">@anim/pickerview_slide_in_bottom</item>
         <item name="android:windowExitAnimation">@anim/pickerview_slide_out_bottom</item>
     </style>
+
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/maincolor</item>
+        <item name="colorControlActivated">@color/maincolor</item>
+    </style>
 </resources>

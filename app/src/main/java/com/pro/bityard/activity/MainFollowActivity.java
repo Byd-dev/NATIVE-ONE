@@ -223,6 +223,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     /*我的  ---------------------------------------------------*/
     @BindView(R.id.tabLayout_my)
     TabLayout tabLayout_my;
+    @BindView(R.id.img_record)
+    ImageView img_record;
     @BindView(R.id.layout_assets_my)
     LinearLayout layout_assets_my;
     @BindView(R.id.layout_account_my)
@@ -1207,9 +1209,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (tab.getPosition() == 0) {
                     layout_assets_my.setVisibility(View.VISIBLE);
                     layout_account_my.setVisibility(View.GONE);
+                    img_record.setVisibility(View.VISIBLE);
+
                 } else if (tab.getPosition() == 1) {
                     layout_assets_my.setVisibility(View.GONE);
                     layout_account_my.setVisibility(View.VISIBLE);
+                    img_record.setVisibility(View.GONE);
+
                 }
             }
 
@@ -1226,6 +1232,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         //我的 资产页面
+        img_record.setVisibility(View.GONE);
+        img_record.setOnClickListener(this);
+
         View headView = LayoutInflater.from(this).inflate(R.layout.layout_account_head, null);
         text_balance = headView.findViewById(R.id.text_balance);
         text_balance_currency = headView.findViewById(R.id.text_balance_currency);
@@ -1252,9 +1261,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_assets.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_assets.addHeaderView(headView);
         recyclerView_assets.setAdapter(accountAdapter);
-        Util.colorSwipe(this, swipeRefreshLayout);
+        Util.colorSwipe(this, swipeRefreshLayout_assets);
 
-        swipeRefreshLayout_assets.setOnRefreshListener(() -> BalanceManger.getInstance().getBalance("USDT"));
+        swipeRefreshLayout_assets.setOnRefreshListener(() -> {BalanceManger.getInstance().getBalance("USDT");
+        swipeRefreshLayout_assets.setRefreshing(false);});
 
         headView.findViewById(R.id.stay_bonus).setOnClickListener(this);
         headView.findViewById(R.id.stay_gift).setOnClickListener(this);
@@ -2152,6 +2162,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
                 break;
             //资金记录
+            case R.id.img_record:
             case R.id.layout_two:
                 if (isLogin()) {
                     UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_FUND_STATEMENT);

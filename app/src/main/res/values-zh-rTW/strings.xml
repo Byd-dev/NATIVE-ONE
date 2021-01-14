@@ -570,5 +570,6 @@
     <string name="text_buy_commission">买入委托</string>
     <string name="text_assets">资产</string>
     <string name="text_account_my">账户</string>
+    <string name="text_hide_small_coin">隐藏小额币种</string>
 
 </resources>

@@ -9,8 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginTop="@dimen/margin_15"
-        android:scrollbars="none"
-        >
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,8 +19,8 @@
             <LinearLayout
                 android:layout_width="250dp"
                 android:layout_height="110dp"
-                android:background="@mipmap/icon_account_one"
                 android:layout_marginLeft="@dimen/margin_15"
+                android:background="@mipmap/icon_account_one"
                 android:orientation="vertical">
 
                 <!--余额名称-->
@@ -139,26 +138,24 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="@dimen/margin_10"
+                        android:drawableRight="@mipmap/icon_account_question"
+                        android:drawablePadding="@dimen/margin_5"
                         android:text="@string/text_bonus_balance"
                         android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_big"
-                        android:drawablePadding="@dimen/margin_5"
-                        android:drawableRight="@mipmap/icon_account_question"
                         android:textStyle="bold"
                         android:typeface="monospace" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(USDT)"
-                        android:layout_marginLeft="@dimen/margin_5"
-                        android:textSize="@dimen/size_big"
-                        android:layout_toRightOf="@+id/stay_bonus"
                         android:layout_alignParentBottom="true"
-                        android:textColor="@color/text_main_color"
+                        android:layout_marginLeft="@dimen/margin_5"
                         android:layout_marginBottom="@dimen/margin_10"
-                        />
-
+                        android:layout_toRightOf="@+id/stay_bonus"
+                        android:text="(USDT)"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big" />
 
 
                 </RelativeLayout>
@@ -244,25 +241,24 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="@dimen/margin_10"
+                        android:drawableRight="@mipmap/icon_account_question"
+                        android:drawablePadding="@dimen/margin_5"
                         android:text="@string/text_gift_money"
                         android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_big"
-                        android:drawableRight="@mipmap/icon_account_question"
-                        android:drawablePadding="@dimen/margin_5"
                         android:textStyle="bold"
                         android:typeface="monospace" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(USDT)"
-                        android:layout_marginLeft="@dimen/margin_5"
-                        android:textSize="@dimen/size_big"
-                        android:layout_toRightOf="@+id/stay_gift"
                         android:layout_alignParentBottom="true"
-                        android:textColor="@color/text_main_color"
+                        android:layout_marginLeft="@dimen/margin_5"
                         android:layout_marginBottom="@dimen/margin_10"
-                        />
+                        android:layout_toRightOf="@+id/stay_gift"
+                        android:text="(USDT)"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_big" />
                 </RelativeLayout>
                 <!--余额-->
                 <LinearLayout
@@ -392,12 +388,12 @@
             android:typeface="monospace" />
     </LinearLayout>
 
-    <include layout="@layout/layout_line_big"/>
+    <include layout="@layout/layout_line_big" />
 
 
     <!--列表-->
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_42">
 
@@ -405,21 +401,49 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/margin_15"
             android:text="@string/text_asset_statement"
             android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal_two" />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_15"
+            android:orientation="horizontal">
 
-    </LinearLayout>
+            <CheckBox
+                android:id="@+id/checkbox_tags"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:buttonTint="@color/maincolor"
+
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                android:text="@string/text_hide_small_coin"
+                android:textColor="@color/maincolor"
+                android:textSize="@dimen/size_big" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
     <include layout="@layout/layout_line" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_42"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="0dp"
@@ -440,5 +464,7 @@
 
     </LinearLayout>
 
-    <include layout="@layout/layout_line" />
+    <include
+        layout="@layout/layout_line"
+        android:visibility="gone" />
 </LinearLayout>

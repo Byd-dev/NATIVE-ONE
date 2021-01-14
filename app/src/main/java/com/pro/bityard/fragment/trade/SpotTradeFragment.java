@@ -536,7 +536,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             if (state.equals(BUSY)) {
                 swipeRefreshLayout.setRefreshing(true);
             } else if (state.equals(SUCCESS)) {
-                swipeRefreshLayout.setRefreshing(false);
+                if (isAdded()){
+                    swipeRefreshLayout.setRefreshing(false);
+                }
                 SpotPositionEntity spotPositionEntity = (SpotPositionEntity) response;
                 if (spotPositionEntity.getData().size() == 0) {
                     layout_null.setVisibility(View.VISIBLE);
