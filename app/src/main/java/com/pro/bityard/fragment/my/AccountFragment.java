@@ -42,9 +42,7 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
 
-    TextView text_balance;
 
-    TextView text_balance_currency;
     private boolean isEyeOpen = true;
     ImageView img_eye_switch;
     TextView text_currency;
@@ -52,9 +50,9 @@ public class AccountFragment extends BaseFragment implements View.OnClickListene
 
 
     //礼金余额
-    private TextView text_bonus_balance, text_bonus_balance_currency, text_bonus_currency;
+    private TextView text_balance,text_bonus_balance, text_bonus_balance_currency, text_bonus_currency;
     //红包余额
-    private TextView text_gift_balance, text_gift_balance_currency, text_gift_currency;
+    private TextView text_balance_currency,text_gift_balance, text_gift_balance_currency, text_gift_currency;
 
 
     private AccountAdapter accountAdapter;

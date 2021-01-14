@@ -194,7 +194,7 @@
     <string name="text_low">Low</string>
     <string name="text_high">High</string>
     <string name="text_account">Account</string>
-    <string name="text_commission_rate">Commission Rate</string>
+    <string name="text_commission_rate">Commission Rate:</string>
     <string name="text_fund_statement">Fund Statement</string>
     <string name="text_orders">Orders</string>
     <string name="text_affiliate_stats">Affiliate Stats</string>
@@ -567,5 +567,7 @@
     <string name="text_all_commission">所有委托</string>
     <string name="text_sell_commission">卖出委托</string>
     <string name="text_buy_commission">买入委托</string>
+    <string name="text_assets">资产</string>
+    <string name="text_account_my">账户</string>
 
 </resources>

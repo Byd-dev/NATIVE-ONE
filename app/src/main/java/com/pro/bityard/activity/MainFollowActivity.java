@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,9 +33,9 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.AccountAdapter;
 import com.pro.bityard.adapter.FollowAdapter;
 import com.pro.bityard.adapter.MarketSearchHotAdapter;
-import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
@@ -49,9 +50,6 @@ import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.UserDetailEntity;
-import com.pro.bityard.fragment.hold.HistoryFragment;
-import com.pro.bityard.fragment.hold.PendingFragment;
-import com.pro.bityard.fragment.hold.PositionFragment;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.InitManger;
 import com.pro.bityard.manger.NetIncomeManger;
@@ -88,7 +86,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -224,24 +221,39 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
     /*我的  ---------------------------------------------------*/
+    @BindView(R.id.tabLayout_my)
+    TabLayout tabLayout_my;
+    @BindView(R.id.layout_assets_my)
+    LinearLayout layout_assets_my;
+    @BindView(R.id.layout_account_my)
+    ScrollView layout_account_my;
+
+    @BindView(R.id.layout_commissionRate)
+    LinearLayout layout_commissionRate;
+
+    private List<String> myTitleList;
+
     @BindView(R.id.text_userName)
     TextView text_userName;
-    @BindView(R.id.img_service_my)
-    ImageView img_service_my;
+
     @BindView(R.id.img_head)
     CircleImageView img_head;
     @BindView(R.id.text_uid)
     TextView text_uid;
 
-    @BindView(R.id.text_currency)
-    TextView text_currency;
+    /*@BindView(R.id.text_currency)
+    TextView text_currency;*/
+    private String prizeTradeValue;
 
-    @BindView(R.id.text_balance)
-    TextView text_balance;
-    @BindView(R.id.text_balance_currency)
-    TextView text_balance_currency;
-
-    @BindView(R.id.img_eye_switch)
+    //礼金余额
+    private TextView text_balance,text_currency, text_bonus_balance, text_bonus_balance_currency, text_bonus_currency;
+    //红包余额
+    private TextView text_balance_currency, text_gift_balance, text_gift_balance_currency, text_gift_currency;
+    private AccountAdapter accountAdapter;
+    @BindView(R.id.recyclerView_assets)
+    HeaderRecyclerView recyclerView_assets;
+    @BindView(R.id.swipeRefreshLayout_assets)
+    SwipeRefreshLayout swipeRefreshLayout_assets;
     ImageView img_eye_switch;
     @BindView(R.id.text_commissionRate)
     TextView text_commissionRate;
@@ -520,10 +532,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             text_register.setVisibility(View.GONE);
             img_edit.setVisibility(View.VISIBLE);
             layout_login_register.setVisibility(View.GONE);
-            img_service_my.setVisibility(View.VISIBLE);
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head_circle);
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head);
-
+            layout_commissionRate.setVisibility(View.VISIBLE);
 
         } else {
 
@@ -535,9 +546,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             layout_login_register.setVisibility(View.VISIBLE);
             text_byd_balance.setText(getResources().getString(R.string.text_default));
             text_commissionRate.setText(getResources().getString(R.string.text_default));
-            img_service_my.setVisibility(View.GONE);
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head_circle);
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head);
+            layout_commissionRate.setVisibility(View.GONE);
 
         }
 
@@ -545,6 +556,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         //我的页面 火币结算单位
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         text_currency.setText("(" + cny + ")");
+        text_bonus_currency.setText("(" + cny + ")");
+        text_gift_currency.setText("(" + cny + ")");
+
 
         String register_success = SPUtils.getString(AppConfig.POP_LOGIN, null);
         if (register_success != null) {
@@ -1105,7 +1119,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         /*我的 分割线-----------------------------------------------------------------------------*/
         findViewById(R.id.layout_balance).setOnClickListener(this);
-        img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
         findViewById(R.id.layout_one).setOnClickListener(this);//安全中心监听
         findViewById(R.id.layout_two).setOnClickListener(this);
         findViewById(R.id.layout_three).setOnClickListener(this);
@@ -1118,15 +1131,81 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         findViewById(R.id.layout_login).setOnClickListener(this);
         text_register.findViewById(R.id.text_register).setOnClickListener(this);
         findViewById(R.id.text_account).setOnClickListener(this);
-        findViewById(R.id.text_deposit).setOnClickListener(this);
+        /*findViewById(R.id.text_deposit).setOnClickListener(this);
         findViewById(R.id.text_withdrawal).setOnClickListener(this);
         findViewById(R.id.text_quick_exchange).setOnClickListener(this);
-        findViewById(R.id.text_fiat).setOnClickListener(this);
+        findViewById(R.id.text_fiat).setOnClickListener(this);*/
         findViewById(R.id.img_edit).setOnClickListener(this);
         findViewById(R.id.text_mining).setOnClickListener(this);
-        img_service_my.setOnClickListener(this);
 
 
+        myTitleList = new ArrayList<>();
+        myTitleList.add(getString(R.string.text_assets));
+        myTitleList.add(getString(R.string.text_account_my));
+        for (String market_name : myTitleList) {
+            tabLayout_my.addTab(tabLayout_my.newTab().setText(market_name));
+        }
+        tabLayout_my.getTabAt(1).select();
+
+
+        tabLayout_my.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+
+                if (tab.getPosition() == 0) {
+                    layout_assets_my.setVisibility(View.VISIBLE);
+                    layout_account_my.setVisibility(View.GONE);
+                } else if (tab.getPosition() == 1) {
+                    layout_assets_my.setVisibility(View.GONE);
+                    layout_account_my.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+        //我的 资产页面
+        View headView = LayoutInflater.from(this).inflate(R.layout.layout_account_head, null);
+        text_balance = headView.findViewById(R.id.text_balance);
+        text_balance_currency = headView.findViewById(R.id.text_balance_currency);
+        img_eye_switch = headView.findViewById(R.id.img_eye_switch);
+        text_currency = headView.findViewById(R.id.text_currency);
+        img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+
+
+        text_bonus_balance = headView.findViewById(R.id.text_bonus_balance);
+        text_bonus_balance_currency = headView.findViewById(R.id.text_bonus_balance_currency);
+        text_bonus_currency = headView.findViewById(R.id.text_bonus_currency);
+
+        text_gift_balance = headView.findViewById(R.id.text_gift_balance);
+        text_gift_balance_currency = headView.findViewById(R.id.text_gift_balance_currency);
+        text_gift_currency = headView.findViewById(R.id.text_gift_currency);
+
+        img_eye_switch.setOnClickListener(this);
+        headView.findViewById(R.id.text_deposit).setOnClickListener(this);
+        headView.findViewById(R.id.text_withdrawal).setOnClickListener(this);
+        headView.findViewById(R.id.text_quick_exchange).setOnClickListener(this);
+        headView.findViewById(R.id.text_fiat).setOnClickListener(this);
+        accountAdapter = new AccountAdapter(this);
+        recyclerView_assets.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_assets.addHeaderView(headView);
+        recyclerView_assets.setAdapter(accountAdapter);
+        Util.colorSwipe(this, swipeRefreshLayout);
+
+        swipeRefreshLayout_assets.setOnRefreshListener(() -> BalanceManger.getInstance().getBalance("USDT"));
+
+        headView.findViewById(R.id.stay_bonus).setOnClickListener(this);
+        headView.findViewById(R.id.stay_gift).setOnClickListener(this);
     }
 
     @SuppressLint("HandlerLeak")
@@ -1315,9 +1394,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
     }
-
-
-
 
 
     @Override
@@ -1934,6 +2010,28 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
+            case R.id.stay_bonus:
+                String prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
+                if (prizeTrade!=null){
+                    prizeTradeValue = TradeUtil.mul(Double.parseDouble(prizeTrade), 100)+"%";
+                }else {
+                    prizeTradeValue=null;
+                }
+                String format = String.format(getString(R.string.text_used_to_deduct), prizeTradeValue);
+
+                Util.lightOff(this);
+                PopUtil.getInstance().showTip(this, layout_view, false, format,
+                        state -> {
+
+                        });
+                break;
+            case R.id.stay_gift:
+                Util.lightOff(this);
+                PopUtil.getInstance().showTip(this, layout_view, false, getString(R.string.text_trading_fees),
+                        state -> {
+
+                        });
+                break;
 
             case R.id.text_register:
                 RegisterActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_REGISTER);
@@ -2047,7 +2145,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
             case R.id.img_service:
             case R.id.layout_seven:
-            case R.id.img_service_my:
 
                 String url;
                 if (isLogin()) {

@@ -195,7 +195,7 @@
     <string name="text_low">Rendah</string>
     <string name="text_high">Tinggi</string>
     <string name="text_account">Akun</string>
-    <string name="text_commission_rate">Tingkat komisi</string>
+    <string name="text_commission_rate">Tingkat komisi:</string>
     <string name="text_fund_statement">Catatan dana</string>
     <string name="text_orders">Pesanan</string>
     <string name="text_affiliate_stats">Status Afiliasi</string>
@@ -575,5 +575,7 @@ diberikan kepada trader.</string>
     <string name="text_all_commission">所有委托</string>
     <string name="text_sell_commission">卖出委托</string>
     <string name="text_buy_commission">买入委托</string>
+    <string name="text_assets">资产</string>
+    <string name="text_account_my">账户</string>
 
 </resources>

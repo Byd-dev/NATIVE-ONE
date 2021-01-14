@@ -195,7 +195,7 @@
     <string name="text_low">低</string>
     <string name="text_high">高</string>
     <string name="text_account">資金帳戶</string>
-    <string name="text_commission_rate">佣金比例</string>
+    <string name="text_commission_rate">佣金比:</string>
     <string name="text_fund_statement">資金紀錄</string>
     <string name="text_orders">交易紀錄</string>
     <string name="text_affiliate_stats">邀請記錄</string>
@@ -568,5 +568,7 @@
     <string name="text_all_commission">所有委托</string>
     <string name="text_sell_commission">卖出委托</string>
     <string name="text_buy_commission">买入委托</string>
+    <string name="text_assets">资产</string>
+    <string name="text_account_my">账户</string>
 
 </resources>

@@ -42,7 +42,7 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <include layout="@layout/tab_my" />
+            <include layout="@layout/tab_assets_account" />
 
         </LinearLayout>
 

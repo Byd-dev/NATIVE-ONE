@@ -195,7 +195,7 @@
     <string name="text_low">Низкий</string>
     <string name="text_high">Высокий</string>
     <string name="text_account">Аккуант</string>
-    <string name="text_commission_rate">Ставка комиссии</string>
+    <string name="text_commission_rate">Ставка комиссии:</string>
     <string name="text_fund_statement">История активов</string>
     <string name="text_orders">История ордеров</string>
     <string name="text_affiliate_stats">История комиссии</string>
@@ -568,5 +568,7 @@
     <string name="text_all_commission">所有委托</string>
     <string name="text_sell_commission">卖出委托</string>
     <string name="text_buy_commission">买入委托</string>
+    <string name="text_assets">资产</string>
+    <string name="text_account_my">账户</string>
 
 </resources>
