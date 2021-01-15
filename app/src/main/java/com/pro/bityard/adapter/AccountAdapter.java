@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     public boolean isLoadMore = false;
 
     private boolean isHide = true;
+    private boolean hideSmall=false;
     private int scale;
 
 
@@ -56,6 +58,11 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void setHide(boolean isHide) {
         this.isHide = isHide;
+    }
+
+    public void hideSmallCoin(boolean hideSmall){
+        this.hideSmall=hideSmall;
+        this.notifyDataSetChanged();
     }
 
 
@@ -109,6 +116,18 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
 
 
+            if (hideSmall){
+                if (money==0){
+                    ((MyViewHolder) holder).setVisibility(false);
+
+                }else {
+                    ((MyViewHolder) holder).setVisibility(true);
+
+                }
+            }
+
+
+
             if (isHide) {
                 if (currency.equals("USDT")) {
                     ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, 2) + currency);
@@ -124,8 +143,12 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((MyViewHolder) holder).text_balance.setText("***≈***");
             }
 
+
         }
+
     }
+
+
 
     private void getRate(String currency, double money, OnResult onResult) {
         RateListEntity rateListEntity = SPUtils.getData(AppConfig.RATE_LIST, RateListEntity.class);
@@ -169,6 +192,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_currency, text_balance;
         ImageView img_bg;
+        LinearLayout layout_item;
+        View line;
 
 
         public MyViewHolder(View itemView) {
@@ -176,9 +201,26 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             text_currency = itemView.findViewById(R.id.text_currency);
             text_balance = itemView.findViewById(R.id.text_balance);
             img_bg = itemView.findViewById(R.id.img_bg);
+            layout_item = itemView.findViewById(R.id.layout_item);
+            line = itemView.findViewById(R.id.line);
 
 
         }
+
+        public void setVisibility(boolean isVisible){
+            RecyclerView.LayoutParams param = (RecyclerView.LayoutParams)itemView.getLayoutParams();
+            if (isVisible){
+                param.height = LinearLayout.LayoutParams.WRAP_CONTENT;
+                param.width = LinearLayout.LayoutParams.MATCH_PARENT;
+                itemView.setVisibility(View.VISIBLE);
+            }else{
+                itemView.setVisibility(View.GONE);
+                param.height = 0;
+                param.width = 0;
+            }
+            itemView.setLayoutParams(param);
+        }
+
     }
 
     private OnDetailClick detailClick;

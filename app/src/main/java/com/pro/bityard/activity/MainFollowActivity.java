@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -1236,6 +1238,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         img_record.setOnClickListener(this);
 
         View headView = LayoutInflater.from(this).inflate(R.layout.layout_account_head, null);
+
         text_balance = headView.findViewById(R.id.text_balance);
         text_balance_currency = headView.findViewById(R.id.text_balance_currency);
         text_fiat=headView.findViewById(R.id.text_fiat);
@@ -1262,6 +1265,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_assets.addHeaderView(headView);
         recyclerView_assets.setAdapter(accountAdapter);
         Util.colorSwipe(this, swipeRefreshLayout_assets);
+        CheckBox checkBox_hide=headView.findViewById(R.id.checkbox_hide);
+        checkBox_hide.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                accountAdapter.hideSmallCoin(true);
+            }else {
+                accountAdapter.hideSmallCoin(false);
+
+            }
+        });
 
         swipeRefreshLayout_assets.setOnRefreshListener(() -> {BalanceManger.getInstance().getBalance("USDT");
         swipeRefreshLayout_assets.setRefreshing(false);});
