@@ -133,8 +133,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                     ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, 2) + currency);
                 } else {
                     getRate(currency, money, response -> {
-                        ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, scale) + currency + "≈"
-                                + response.toString() + "USDT");
+                        ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, scale) + currency );
+                        ((MyViewHolder) holder).text_balance_transfer.setText("≈" + response.toString() + "USDT");
                     });
                 }
 
@@ -190,7 +190,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_currency, text_balance;
+        TextView text_currency, text_balance,text_balance_transfer;
         ImageView img_bg;
         LinearLayout layout_item;
         View line;
@@ -200,6 +200,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             super(itemView);
             text_currency = itemView.findViewById(R.id.text_currency);
             text_balance = itemView.findViewById(R.id.text_balance);
+            text_balance_transfer = itemView.findViewById(R.id.text_balance_transfer);
+
             img_bg = itemView.findViewById(R.id.img_bg);
             layout_item = itemView.findViewById(R.id.layout_item);
             line = itemView.findViewById(R.id.line);
