@@ -25,6 +25,8 @@ public class AppConfig {
     public static final String ZONE_DERIVATIVES = "deriv";//合约衍生
     public static final String ZONE_DEFI = "defi";//现货
     public static final String ZONE_POS = "pos";//现货
+    public static final String ZONE_GRAY = "gray";//现货
+
     //默认选中那个位置
     public static final int selectPosition=1;
 
