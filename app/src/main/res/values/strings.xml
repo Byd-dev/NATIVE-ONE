@@ -48,7 +48,7 @@
     <string name="text_all_balance">总净资产(USDT)</string>
     <string name="text_mining">前往挖矿</string>
     <string name="text_fabi_trade">法币充值</string>
-    <string name="text_coin_turn">币币闪兑</string>
+    <string name="text_coin_turn">闪兑</string>
     <string name="text_withdrawal">提币</string>
     <string name="text_recharge">充币</string>
     <string name="text_unlogin">请登录</string>

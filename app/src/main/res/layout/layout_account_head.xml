@@ -7,7 +7,7 @@
 
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="190dp"
         android:layout_marginTop="@dimen/margin_15"
         android:scrollbars="none">
 
@@ -17,10 +17,10 @@
             android:orientation="horizontal">
             <!--总净资产-->
             <LinearLayout
-                android:layout_width="250dp"
-                android:layout_height="110dp"
+                android:layout_width="@dimen/size_bg"
+                android:layout_height="180dp"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:background="@mipmap/icon_account_one"
+                android:background="@color/color_bg_left"
                 android:orientation="vertical">
 
                 <!--余额名称-->
@@ -40,7 +40,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginBottom="@dimen/margin_10"
                         android:text="@string/text_all_balance"
-                        android:textColor="@color/text_main_color_black"
+                        android:textColor="@color/text_second_color"
                         android:textSize="@dimen/size_big"
                         android:textStyle="bold"
                         android:typeface="monospace" />
@@ -63,7 +63,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/margin_15"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <TextView
@@ -71,8 +71,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0.00"
-                        android:textColor="@color/text_main_color_black"
-                        android:textSize="@dimen/size_bigger"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_balance"
                         android:textStyle="bold"
                         android:typeface="monospace" />
 
@@ -80,46 +80,119 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="(USDT)"
-                        android:textColor="@color/text_main_color_black"
+                        android:textColor="@color/text_second_color"
                         android:textSize="@dimen/size_normal_two"
                         android:typeface="monospace"
                         android:visibility="gone" />
-
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="≈"
-                        android:textColor="@color/text_main_color_black"
-                        android:textSize="@dimen/size_big"
-                        android:typeface="monospace" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="≈"
+                            android:textColor="@color/text_second_color"
+                            android:textSize="@dimen/size_big"
+                            android:typeface="monospace" />
+
+                        <TextView
+                            android:id="@+id/text_balance_currency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="0.0"
+                            android:textColor="@color/text_second_color"
+                            android:textSize="@dimen/size_normal"
+                            android:typeface="monospace" />
+                        <TextView
+                            android:id="@+id/text_currency"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="(CNY)"
+                            android:textColor="@color/text_second_color"
+                            android:textSize="@dimen/size_normal"
+                            android:typeface="monospace" />
+                    </LinearLayout>
+
+
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:paddingRight="@dimen/margin_10"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/text_balance_currency"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="0.0"
-                        android:textColor="@color/text_main_color_black"
-                        android:textSize="@dimen/size_bigger"
-                        android:typeface="monospace" />
-
-                    <TextView
-                        android:id="@+id/text_currency"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="(CNY)"
+                        android:id="@+id/text_deposit"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:text="@string/text_recharge"
+                        android:background="@drawable/gradient_bg_main"
                         android:textColor="@color/text_main_color_black"
                         android:textSize="@dimen/size_normal"
                         android:typeface="monospace" />
-                </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/text_withdrawal"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_withdrawal"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_quick_exchange"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_coin_turn"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+                    <TextView
+                        android:id="@+id/text_fiat"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_fabi_trade"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:visibility="gone"
+                        android:typeface="monospace" />
+
+
+
+                </LinearLayout>
 
             </LinearLayout>
             <!--礼金余额-->
             <LinearLayout
                 android:layout_width="250dp"
-                android:layout_height="110dp"
+                android:layout_height="180dp"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:background="@mipmap/icon_account_two"
+                android:background="@color/color_bg_left"
                 android:orientation="vertical">
 
                 <!--余额名称-->
@@ -165,7 +238,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/margin_15"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <TextView
@@ -174,7 +247,7 @@
                         android:layout_height="wrap_content"
                         android:text="0.00"
                         android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_bigger"
+                        android:textSize="@dimen/size_balance"
                         android:textStyle="bold"
                         android:typeface="monospace" />
 
@@ -182,10 +255,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="(USDT)"
-                        android:textColor="@color/text_main_color_black"
+                        android:textColor="@color/text_second_color"
                         android:textSize="@dimen/size_normal_two"
                         android:typeface="monospace"
                         android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -201,7 +279,7 @@
                         android:layout_height="wrap_content"
                         android:text="0.0"
                         android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_bigger"
+                        android:textSize="@dimen/size_normal"
                         android:typeface="monospace" />
 
                     <TextView
@@ -212,17 +290,83 @@
                         android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal"
                         android:typeface="monospace" />
-                </LinearLayout>
 
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:paddingRight="@dimen/margin_10"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_deposit_two"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:text="@string/text_recharge"
+                        android:background="@drawable/gradient_bg_main"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_withdrawal_two"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_withdrawal"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_quick_exchange_two"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_coin_turn"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+                    <TextView
+                        android:id="@+id/text_fiat_two"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_fabi_trade"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+
+
+
+                </LinearLayout>
 
             </LinearLayout>
             <!--红包余额-->
             <LinearLayout
                 android:layout_width="250dp"
-                android:layout_height="110dp"
+                android:layout_height="180dp"
                 android:layout_marginLeft="@dimen/margin_15"
                 android:layout_marginRight="@dimen/margin_15"
-                android:background="@mipmap/icon_account_three"
+                android:background="@color/color_bg_left"
                 android:orientation="vertical">
 
                 <!--余额名称-->
@@ -266,7 +410,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/margin_15"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <TextView
@@ -275,7 +419,7 @@
                         android:layout_height="wrap_content"
                         android:text="0.00"
                         android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_bigger"
+                        android:textSize="@dimen/size_balance"
                         android:textStyle="bold"
                         android:typeface="monospace" />
 
@@ -287,6 +431,11 @@
                         android:textSize="@dimen/size_normal_two"
                         android:typeface="monospace"
                         android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -302,7 +451,7 @@
                         android:layout_height="wrap_content"
                         android:text="0.0"
                         android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_bigger"
+                        android:textSize="@dimen/size_normal"
                         android:typeface="monospace" />
 
                     <TextView
@@ -313,8 +462,74 @@
                         android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal"
                         android:typeface="monospace" />
-                </LinearLayout>
 
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:paddingRight="@dimen/margin_10"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_deposit_three"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:text="@string/text_recharge"
+                        android:background="@drawable/gradient_bg_main"
+                        android:textColor="@color/text_main_color_black"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_withdrawal_three"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_withdrawal"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+
+                    <TextView
+                        android:id="@+id/text_quick_exchange_three"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_coin_turn"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+                    <TextView
+                        android:id="@+id/text_fiat_three"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_fabi_trade"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+
+
+
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
@@ -323,70 +538,7 @@
     </HorizontalScrollView>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/text_deposit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawableTop="@mipmap/icon_recharge"
-            android:drawablePadding="@dimen/margin_4"
-            android:gravity="center"
-            android:text="@string/text_recharge"
-            android:textColor="@color/text_second_color"
-            android:textSize="@dimen/size_normal"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/text_withdrawal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawableTop="@mipmap/icon_withdrawal"
-            android:drawablePadding="@dimen/margin_4"
-            android:gravity="center"
-            android:text="@string/text_withdrawal"
-            android:textColor="@color/text_second_color"
-
-            android:textSize="@dimen/size_normal"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/text_quick_exchange"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawableTop="@mipmap/icon_coin_three"
-            android:drawablePadding="@dimen/margin_4"
-            android:gravity="center"
-            android:text="@string/text_coin_turn"
-            android:textColor="@color/text_second_color"
-
-            android:textSize="@dimen/size_normal"
-            android:typeface="monospace" />
-
-        <TextView
-            android:id="@+id/text_fiat"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:drawableTop="@mipmap/icon_coin_four"
-            android:drawablePadding="@dimen/margin_4"
-            android:gravity="center"
-            android:text="@string/text_fabi_trade"
-            android:textColor="@color/text_second_color"
-
-            android:textSize="@dimen/size_normal"
-            android:typeface="monospace" />
-    </LinearLayout>
 
     <include layout="@layout/layout_line_big" />
 

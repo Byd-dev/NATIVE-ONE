@@ -49,7 +49,7 @@
     <string name="text_all_balance">總淨資產(USDT)</string>
     <string name="text_mining">前往挖礦</string>
     <string name="text_fabi_trade">法幣充值</string>
-    <string name="text_coin_turn">幣幣閃兌</string>
+    <string name="text_coin_turn">閃兌</string>
     <string name="text_withdrawal">提幣</string>
     <string name="text_recharge">充幣</string>
     <string name="text_unlogin">请登錄</string>

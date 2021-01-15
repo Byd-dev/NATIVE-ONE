@@ -636,10 +636,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             }, 1000);
 
         }
-
+        //暂时永久关闭法币充值入口
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, null);
         if (language.equals(AppConfig.ZH_SIMPLE) || language.equals(AppConfig.VI_VN) || language.equals(AppConfig.IN_ID)) {
-            text_fiat.setVisibility(View.VISIBLE);
+            text_fiat.setVisibility(View.GONE);
         } else {
             text_fiat.setVisibility(View.GONE);
         }
