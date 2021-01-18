@@ -93,6 +93,8 @@ public class NetManger {
 
     public static String H5_BASE_URL = "https://test7777.bityard.com";   //测试
 
+    public static String H5_HELP_CENTER="https://support.bityard.com";
+
 
     public static String QUOTE_SOCKET = "wss://quote.76bao.hk/wsquote";
 

@@ -509,7 +509,7 @@
                             android:drawableLeft="@mipmap/icon_my_six"
                             android:drawablePadding="@dimen/margin_16"
                             android:gravity="center"
-                            android:text="系统设置"
+                            android:text="@string/text_system_settings"
                             android:textColor="@color/text_main_color"
 
                             android:textSize="@dimen/size_normal"

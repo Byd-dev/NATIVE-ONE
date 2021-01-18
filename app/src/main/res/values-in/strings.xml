@@ -578,5 +578,8 @@ diberikan kepada trader.</string>
     <string name="text_assets">资产</string>
     <string name="text_account_my">账户</string>
     <string name="text_hide_small_coin">隐藏小额币种</string>
+    <string name="text_help_center">帮助中心</string>
+    <string name="text_my_hold">我的持仓</string>
+    <string name="text_spot_record">现货记录</string>
 
 </resources>

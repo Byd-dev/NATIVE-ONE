@@ -6,6 +6,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.LoginActivity;
+import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
@@ -116,6 +118,7 @@ public class SafeCenterFragment extends BaseFragment implements View.OnClickList
         view.findViewById(R.id.layout_three).setOnClickListener(this);
         view.findViewById(R.id.layout_four).setOnClickListener(this);
 
+        view.findViewById(R.id.layout_six).setOnClickListener(this);
 
     }
 
@@ -159,7 +162,15 @@ public class SafeCenterFragment extends BaseFragment implements View.OnClickList
                 UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SAFE_CENTER_BIND_CHANGE_EMAIL);
 
                 break;
+            /*提币地址管理*/
+            case R.id.layout_six:
 
+                if (isLogin()) {
+                    UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS);
+                } else {
+                    LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
 
         }
     }

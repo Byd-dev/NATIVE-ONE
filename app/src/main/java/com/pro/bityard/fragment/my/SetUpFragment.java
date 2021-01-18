@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.pro.bityard.R;
+import com.pro.bityard.activity.LoginActivity;
+import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
@@ -94,6 +96,7 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
         view.findViewById(R.id.layout_one).setOnClickListener(this);
         view.findViewById(R.id.layout_two).setOnClickListener(this);
         view.findViewById(R.id.layout_three).setOnClickListener(this);
+        view.findViewById(R.id.layout_help_center).setOnClickListener(this);
 
         if (isLogin()) {
             btn_logout.setVisibility(View.VISIBLE);
@@ -139,7 +142,13 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
 
                 break;
 
-
+            case R.id.layout_help_center:
+                if (isLogin()) {
+                    UserActivity.enter(getContext(), IntentConfig.Keys.KEY_SAFE_CENTER);
+                } else {
+                    LoginActivity.enter(getContext(), IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
             case R.id.btn_logout:
 
                 NetManger.getInstance().postRequest("/api/sso/user_logout", null, new OnNetResult() {

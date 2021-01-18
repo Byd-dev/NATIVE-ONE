@@ -262,8 +262,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @BindView(R.id.text_commissionRate)
     TextView text_commissionRate;
 
-    @BindView(R.id.view_four)
-    View view_four;
+
     @BindView(R.id.text_register)
     TextView text_register;
     @BindView(R.id.img_edit)
@@ -1174,13 +1173,22 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         /*我的 分割线-----------------------------------------------------------------------------*/
+        findViewById(R.id.layout_hold).setOnClickListener(this);//我的持仓
         findViewById(R.id.layout_one).setOnClickListener(this);//安全中心监听
         findViewById(R.id.layout_two).setOnClickListener(this);
         findViewById(R.id.layout_three).setOnClickListener(this);
         findViewById(R.id.layout_four).setOnClickListener(this);
+        findViewById(R.id.layout_spot_record).setOnClickListener(this);
+        //带单管理
+        findViewById(R.id.layout_copied_manger).setOnClickListener(this);
+        findViewById(R.id.layout_copy_manger).setOnClickListener(this);
+
+
         findViewById(R.id.layout_five).setOnClickListener(this);
         findViewById(R.id.layout_six).setOnClickListener(this);
         findViewById(R.id.layout_seven).setOnClickListener(this);
+        findViewById(R.id.layout_help).setOnClickListener(this);//系统设置
+
         findViewById(R.id.layout_eight).setOnClickListener(this);//系统设置
         findViewById(R.id.layout_nine).setOnClickListener(this);
         findViewById(R.id.layout_login).setOnClickListener(this);
@@ -2051,6 +2059,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 break;
             //跟单管理
             case R.id.text_follow_settings:
+            case R.id.layout_copy_manger:
                 if (isLogin()) {
                     UserActivity.enter(this, IntentConfig.Keys.KEY_FOLLOW_SETTINGS);
                 } else {
@@ -2111,6 +2120,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 RegisterActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_REGISTER);
                 break;
 
+                //帮助中心
+            case R.id.layout_help:
+                WebActivity.getInstance().openUrl(this, NetManger.H5_HELP_CENTER, getString(R.string.text_help_center));
+
+
+                break;
+
             case R.id.layout_eight:
                 UserActivity.enter(this, IntentConfig.Keys.KEY_SET_UP);
 
@@ -2165,6 +2181,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
 
                 break;
+            case R.id.layout_hold:
+                if (isLogin()) {
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_HOLD);
+                } else {
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
             //安全中心
             case R.id.layout_one:
                 if (isLogin()) {
@@ -2178,6 +2201,14 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.layout_two:
                 if (isLogin()) {
                     UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_FUND_STATEMENT);
+                } else {
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
+            case R.id.layout_spot_record:
+                if (isLogin()) {
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_SPOT_RECORD);
+
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
@@ -2199,6 +2230,19 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
+
+                /*带单管理*/
+
+            case R.id.layout_copied_manger:
+
+                if (isLogin()) {
+                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_FOLLOWER_MANGER);
+                } else {
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                 break;
+                 /*跟单管理*/
+
             /*交易设置*/
             case R.id.layout_five:
                 if (isLogin()) {

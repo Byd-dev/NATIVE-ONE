@@ -263,10 +263,45 @@
             </LinearLayout>-->
 
             <include layout="@layout/layout_line_big" />
+            <RelativeLayout
+                android:id="@+id/layout_hold"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawableLeft="@mipmap/icon_my_one"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_my_hold"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:src="@mipmap/icon_right_gray" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:background="@color/home_line" />
 
             <RelativeLayout
                 android:id="@+id/layout_one"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="55dp">
 
                 <TextView
@@ -297,6 +332,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_line"
                 android:layout_marginLeft="@dimen/margin_15"
+                android:visibility="gone"
                 android:background="@color/home_line" />
 
             <RelativeLayout
@@ -375,6 +411,43 @@
                 android:background="@color/home_line" />
 
             <RelativeLayout
+                android:id="@+id/layout_spot_record"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawableLeft="@mipmap/icon_my_record"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_spot_record"
+                    android:textColor="@color/text_main_color"
+
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:src="@mipmap/icon_right_gray" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line"
+                android:layout_marginLeft="@dimen/margin_15"
+
+                android:background="@color/home_line" />
+
+            <RelativeLayout
                 android:id="@+id/layout_four"
                 android:layout_width="match_parent"
                 android:layout_height="55dp">
@@ -404,17 +477,13 @@
 
             </RelativeLayout>
 
-            <View
-                android:id="@+id/view_four"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
+            <include layout="@layout/layout_line_big" />
 
-                android:background="@color/home_line" />
 
             <RelativeLayout
                 android:id="@+id/layout_five"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="55dp">
 
                 <TextView
@@ -446,12 +515,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_line"
                 android:layout_marginLeft="@dimen/margin_15"
-
+                android:visibility="gone"
                 android:background="@color/home_line" />
 
             <RelativeLayout
                 android:id="@+id/layout_six"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="55dp">
 
                 <TextView
@@ -483,12 +553,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_line"
                 android:layout_marginLeft="@dimen/margin_15"
-
+                android:visibility="gone"
                 android:background="@color/home_line" />
 
             <RelativeLayout
                 android:id="@+id/layout_seven"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="55dp">
 
                 <TextView
@@ -500,6 +571,116 @@
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
                     android:text="@string/text_my_service"
+                    android:textColor="@color/text_main_color"
+
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:src="@mipmap/icon_right_gray" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:visibility="gone"
+                android:background="@color/home_line" />
+            <RelativeLayout
+                android:id="@+id/layout_copied_manger"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawableLeft="@mipmap/icon_my_six"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_being_copied"
+                    android:textColor="@color/text_main_color"
+
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:src="@mipmap/icon_right_gray" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line"
+                android:layout_marginLeft="@dimen/margin_15"
+
+                android:background="@color/home_line" />
+            <RelativeLayout
+                android:id="@+id/layout_copy_manger"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawableLeft="@mipmap/icon_my_six"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_monitor_copy_trading"
+                    android:textColor="@color/text_main_color"
+
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:src="@mipmap/icon_right_gray" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line"
+                android:layout_marginLeft="@dimen/margin_15"
+
+                android:background="@color/home_line" />
+
+
+            <RelativeLayout
+                android:id="@+id/layout_help"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawableLeft="@mipmap/icon_my_six"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_help_center"
                     android:textColor="@color/text_main_color"
 
                     android:textSize="@dimen/size_normal_two"
@@ -563,6 +744,7 @@
             <RelativeLayout
                 android:id="@+id/layout_nine"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="55dp">
 
                 <TextView
@@ -594,7 +776,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_line"
                 android:layout_marginLeft="@dimen/margin_15"
-
+                android:visibility="gone"
                 android:background="@color/home_line" />
 
             <LinearLayout

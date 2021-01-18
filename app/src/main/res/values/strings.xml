@@ -52,7 +52,7 @@
     <string name="text_withdrawal">提币</string>
     <string name="text_recharge">充币</string>
     <string name="text_unlogin">请登录</string>
-    <string name="text_setup">系统设置</string>
+    <string name="text_setup">系统管理</string>
     <string name="text_logout">退出登录</string>
     <string name="text_theme">主题切换</string>
     <string name="text_rate">汇率</string>
@@ -195,12 +195,12 @@
     <string name="text_high">高</string>
     <string name="text_account">资金账户</string>
     <string name="text_commission_rate">佣金比:</string>
-    <string name="text_fund_statement">资金记录</string>
-    <string name="text_orders">交易记录</string>
+    <string name="text_fund_statement">资金明细</string>
+    <string name="text_orders">合约记录</string>
     <string name="text_affiliate_stats">邀请记录</string>
     <string name="text_trade_settings">交易设置</string>
     <string name="text_withdrawal_address">提币地址管理</string>
-    <string name="text_system_settings">系统设置</string>
+    <string name="text_system_settings">系统管理</string>
     <string name="text_announcements">最新公告</string>
     <string name="text_d_w">充提记录</string>
     <string name="text_transfer">转账记录</string>
@@ -570,5 +570,8 @@
     <string name="text_assets">资产</string>
     <string name="text_account_my">账户</string>
     <string name="text_hide_small_coin">隐藏小额币种</string>
+    <string name="text_help_center">帮助中心</string>
+    <string name="text_my_hold">我的持仓</string>
+    <string name="text_spot_record">现货记录</string>
 
 </resources>
