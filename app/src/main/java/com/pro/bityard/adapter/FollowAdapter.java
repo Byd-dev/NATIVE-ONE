@@ -131,21 +131,20 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((MyViewHolder) holder).text_type.setText(value_type);
 
 
-            double mul = TradeUtil.mul(datas.get(position).getTrader30DaysRate(),1);
+            double mul = TradeUtil.mul(datas.get(position).getTrader30DaysIncome(),1);
             if (mul >= 0) {
-                ((MyViewHolder) holder).text_trader_30_days_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                ((MyViewHolder) holder).text_trader_30_days_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
 
             } else {
-                ((MyViewHolder) holder).text_trader_30_days_rate.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                ((MyViewHolder) holder).text_trader_30_days_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
             }
-            ((MyViewHolder) holder).text_trader_30_days_rate.setText(TradeUtil.getNumberFormat(mul, 2) + "%");
+            ((MyViewHolder) holder).text_trader_30_days_income.setText(TradeUtil.getNumberFormat(mul, 2) + "%");
 
             double mul1 = TradeUtil.mul(datas.get(position).getTraderTotalIncome(), 1);
             ((MyViewHolder) holder).text_trader_30_days_defeat.setText(TradeUtil.getNumberFormat(mul1, 2) + "%");
 
-            double mul2 = TradeUtil.mul(datas.get(position).getTrader30DaysIncome(), 1);
-            ((MyViewHolder) holder).text_trader_total_income.setText(TradeUtil.getNumberFormat(datas.get(position).getTraderTotalIncome(),2));
+            ((MyViewHolder) holder).text_trader_total_rate.setText(TradeUtil.getNumberFormat(datas.get(position).getTrader30DaysRate(),2));
 
             ((MyViewHolder) holder).text_bet_days.setText(datas.get(position).getBetDays());
 
@@ -188,7 +187,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_trader_30_days_rate, text_trader_30_days_defeat, text_trader_total_income,
+        TextView text_name, text_trader_30_days_income, text_trader_30_days_defeat, text_trader_total_rate,
                 text_bet_days, text_trader_30_days_count, text_follower, text_type, text_follow;
         CircleImageView img_head;
         LinearLayout layout_tags;
@@ -196,9 +195,9 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public MyViewHolder(View itemView) {
             super(itemView);
             text_name = itemView.findViewById(R.id.text_userName);
-            text_trader_30_days_rate = itemView.findViewById(R.id.text_trader_30_days_rate);
+            text_trader_30_days_income = itemView.findViewById(R.id.text_trader_30_days_income);
             text_trader_30_days_defeat = itemView.findViewById(R.id.text_trader_30_days_defeat);
-            text_trader_total_income = itemView.findViewById(R.id.text_trader_total_income);
+            text_trader_total_rate = itemView.findViewById(R.id.text_trader_total_rate);
             text_bet_days = itemView.findViewById(R.id.text_bet_days);
             text_trader_30_days_count = itemView.findViewById(R.id.text_trader_30_days_count);
             text_follower = itemView.findViewById(R.id.text_follower);

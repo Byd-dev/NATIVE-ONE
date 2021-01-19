@@ -121,7 +121,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/text_trader_30_days_rate"
+                    android:id="@+id/text_trader_total_rate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_default"
@@ -132,7 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
-                    android:text="@string/text_trader_30_days_rate"
+                    android:text="@string/text_trader_total_income"
                     android:textColor="@color/text_second_color"
                     android:textSize="@dimen/size_normal" />
 
@@ -174,7 +174,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/text_trader_total_income"
+                    android:id="@+id/text_trader_30_days_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/text_default"
@@ -190,7 +190,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/text_trader_total_income"
+                        android:text="@string/text_trader_30_days_income"
                         android:drawablePadding="@dimen/margin_5"
                         android:textColor="@color/text_second_color"
                         android:textSize="@dimen/size_normal" />

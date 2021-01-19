@@ -510,7 +510,7 @@
     <string name="text_follower_detail">跟随者</string>
     <string name="text_trader_30_days_income">30天带单收益</string>
     <string name="text_profit_share_ratio">带单利润分成比例:%s</string>
-    <string name="text_trader_total_income">带单总收益</string>
+    <string name="text_trader_total_income">累计收益率</string>
     <string name="text_ratio_tip">跟随后，系统将按每笔跟单统计跟单收益，单笔盈利订单将有%s作为带单奖励分享给该交易员。</string>
     <string name="text_income_rate">收益率</string>
     <string name="text_order_type">订单类型</string>
