@@ -133,18 +133,18 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             double mul = TradeUtil.mul(datas.get(position).getTrader30DaysIncome(),1);
             if (mul >= 0) {
-                ((MyViewHolder) holder).text_trader_30_days_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                ((MyViewHolder) holder).text_trader_total_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
 
             } else {
-                ((MyViewHolder) holder).text_trader_30_days_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                ((MyViewHolder) holder).text_trader_total_rate.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
             }
-            ((MyViewHolder) holder).text_trader_30_days_income.setText(TradeUtil.getNumberFormat(mul, 2) + "%");
+            ((MyViewHolder) holder).text_trader_30_days_income.setText(datas.get(position).getTrader30DaysRate() + "%");
 
             double mul1 = TradeUtil.mul(datas.get(position).getTraderTotalIncome(), 1);
-            ((MyViewHolder) holder).text_trader_30_days_defeat.setText(TradeUtil.getNumberFormat(mul1, 2) + "%");
+            ((MyViewHolder) holder).text_trader_30_days_defeat.setText(datas.get(position).getTrader30DaysDefeat() + "%");
 
-            ((MyViewHolder) holder).text_trader_total_rate.setText(TradeUtil.getNumberFormat(datas.get(position).getTrader30DaysRate(),2));
+            ((MyViewHolder) holder).text_trader_total_rate.setText(TradeUtil.getNumberFormat(datas.get(position).getTraderTotalIncome(),2)+"%");
 
             ((MyViewHolder) holder).text_bet_days.setText(datas.get(position).getBetDays());
 
