@@ -58,6 +58,7 @@ import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UpdateEntity;
 import com.pro.bityard.entity.UserAssetEntity;
 import com.pro.bityard.entity.UserDetailEntity;
+import com.pro.bityard.entity.WithdrawCurrencyEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.PopUtil;
@@ -1163,6 +1164,22 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 TipCloseEntity tipCloseEntity = new Gson().fromJson(response.toString(), TipCloseEntity.class);
                 onNetResult.onNetResult(SUCCESS, tipCloseEntity);
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    /*支持提币币种*/
+    public void withdrawalCurrencyList( OnNetResult onNetResult) {
+        getRequest("/api/setting/withdraw-currency", null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                WithdrawCurrencyEntity withdrawCurrencyEntity=new Gson().fromJson(response.toString(),WithdrawCurrencyEntity.class);
+                onNetResult.onNetResult(SUCCESS, withdrawCurrencyEntity);
 
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);

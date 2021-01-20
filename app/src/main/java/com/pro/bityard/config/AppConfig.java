@@ -282,6 +282,9 @@ public class AppConfig {
     public static final String KEY_OPTIONAL = "KEY_OPTIONAL";
     /*本地历史*/
     public static final String KEY_HISTORY = "KEY_HISTORY";
+    /*提币选择历史*/
+    public static final String KEY_WITHDRAW_CURRENCY_HISTORY = "KEY_WITHDRAW_CURRENCY_HISTORY";
+
     /*是否开启极验*/
     public static final String KEY_VERIFICATION = "KEY_VERIFICATION";
     /*汇率*/

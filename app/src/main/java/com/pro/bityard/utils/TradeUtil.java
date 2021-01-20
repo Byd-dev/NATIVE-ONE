@@ -839,6 +839,17 @@ public class TradeUtil {
         return quoteList2;
     }
 
+    /*搜素币种*/
+    public static List<String> searchCurrencyList(String content, List<String> currencyBaseList) {
+        List<String> currencyList = new ArrayList<>();
+        for (String currency : currencyBaseList) {
+            if (Objects.requireNonNull(currency).toLowerCase().contains(content.toLowerCase())) {
+                currencyList.add(currency);
+            }
+        }
+        return currencyList;
+    }
+
     /* 合约*/
     public static List<String> contractQuoteList(List<String> quoteList) {
         List<String> quoteList2 = new ArrayList<>();
@@ -1006,6 +1017,8 @@ public class TradeUtil {
         }
 
     }
+
+
 
     /* 现货自选*/
     public static List<String> optionalSpotQuoteList(List<String> quoteList) {

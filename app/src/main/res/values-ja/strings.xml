@@ -577,6 +577,7 @@
     <string name="text_follow_close">跟随交易员平仓</string>
     <string name="text_follow_close_tip">如勾选，订单默认跟随交易员平仓；如未勾选，订单会按照您设置的止损比例平仓.</string>
     <string name="text_stop_loss_follow_tip">订单止损比例</string>
+    <string name="text_search_main">请输入关键字搜索</string>
 
 
 </resources>

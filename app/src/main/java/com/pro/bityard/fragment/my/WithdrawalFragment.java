@@ -5,6 +5,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +26,8 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.ChainListAdapter;
+import com.pro.bityard.adapter.CurrencyHistoryAdapter;
+import com.pro.bityard.adapter.WithdrawCurrencyAdapter;
 import com.pro.bityard.adapter.WithdrawHistoryAdapter;
 import com.pro.bityard.adapter.WithdrawalAddressAdapter;
 import com.pro.bityard.api.Gt3Util;
@@ -37,6 +41,7 @@ import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.UnionRateEntity;
 import com.pro.bityard.entity.UserDetailEntity;
+import com.pro.bityard.entity.WithdrawCurrencyEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.utils.PopUtil;
@@ -48,6 +53,7 @@ import com.pro.switchlibrary.SPUtils;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -139,10 +145,14 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     TextView text_getCode_transfer;
     @BindView(R.id.btn_submit_transfer)
     Button btn_submit_transfer;
+
+    @BindView(R.id.text_withdraw_currency)
+    TextView text_withdraw_currency;
     private String email;
     private DepositWithdrawEntity depositWithdrawEntity;
 
     private WithdrawHistoryAdapter withdrawHistoryAdapter;
+    private WithdrawCurrencyEntity withdrawCurrencyEntity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -234,6 +244,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
         view.findViewById(R.id.img_back).setOnClickListener(this);
         view.findViewById(R.id.text_address_manage).setOnClickListener(this);
+        view.findViewById(R.id.layout_withdrawal_pop).setOnClickListener(this);
         text_address.setOnClickListener(this);
         text_record.setOnClickListener(this);
 
@@ -414,6 +425,18 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         text_balance_transfer.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
 
 
+        getWithdrawCurrency();
+
+    }
+
+    private void getWithdrawCurrency() {
+        //查看可以支持提币的币种
+        NetManger.getInstance().withdrawalCurrencyList((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                withdrawCurrencyEntity = (WithdrawCurrencyEntity) response;
+            }
+        });
+
     }
 
 
@@ -435,7 +458,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         TextView text_title = view.findViewById(R.id.text_title);
         text_title.setText(R.string.text_withdrawal_history_detail);
         SwipeRefreshLayout swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
-        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+        Util.colorSwipe(getActivity(), swipeRefreshLayout);
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
             getWithdrawalHistory((state, response) -> {
@@ -560,7 +583,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 Util.setEye(getActivity(), edit_pass_transfer, img_eye_transfer);
                 break;
             case R.id.text_getCode:
-                NetManger.getInstance().getEmailCode(getActivity(),layout_view,email, "CREATE_WITHDRAW", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(getActivity(), layout_view, email, "CREATE_WITHDRAW", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -615,7 +638,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.text_getCode_transfer:
 
-                NetManger.getInstance().getEmailCode(getActivity(),layout_view,email, "CREATE_WITHDRAW", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(getActivity(), layout_view, email, "CREATE_WITHDRAW", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -817,6 +840,14 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 text_title.setTextColor(getResources().getColor(R.color.text_main_color));
                 text_transfer_title.setTextColor(getResources().getColor(R.color.maincolor));
                 break;
+            case R.id.layout_withdrawal_pop:
+                if (withdrawCurrencyEntity != null) {
+                    showWithdrawCurrencyPopWindow(withdrawCurrencyEntity);
+                } else {
+                    getWithdrawCurrency();
+                }
+                break;
+
         }
     }
 
@@ -887,9 +918,9 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             recyclerView.setAdapter(chainListAdapter);
 
             String withdrawChain = data.getWithdrawChain();
-            Log.d("print", "showAddressPopWindow:886:  "+data);
-            if (withdrawChain==null){
-                switch (data.getChain()){
+            Log.d("print", "showAddressPopWindow:886:  " + data);
+            if (withdrawChain == null) {
+                switch (data.getChain()) {
                     case "ERC20":
                         text_fee.setText("6 " + getResources().getString(R.string.text_usdt));
 
@@ -903,12 +934,11 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
                         break;
                 }
-            }else {
+            } else {
                 TradeUtil.getFee(withdrawChain, chain, response -> {
-                    text_fee.setText(response.toString()+" " + getResources().getString(R.string.text_usdt));
+                    text_fee.setText(response.toString() + " " + getResources().getString(R.string.text_usdt));
                 });
             }
-
 
 
         });
@@ -1036,6 +1066,131 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
             }
         });
+    }
+
+
+    private WithdrawCurrencyAdapter withdrawCurrencyAdapter;
+    private CurrencyHistoryAdapter currencyHistoryAdapter;
+    private Set<String> historyList;
+
+    private void showWithdrawCurrencyPopWindow(WithdrawCurrencyEntity withdrawCurrencyEntity) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_withdrawal_currency, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+        popupWindow.setFocusable(true);
+        RecyclerView recyclerView_withdraw_currency = view.findViewById(R.id.recyclerView_withdraw_currency);
+
+        LinearLayout layout_null_currency = view.findViewById(R.id.layout_currency_null);
+        //列表
+        withdrawCurrencyAdapter = new WithdrawCurrencyAdapter(getActivity());
+        recyclerView_withdraw_currency.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView_withdraw_currency.setAdapter(withdrawCurrencyAdapter);
+        withdrawCurrencyAdapter.setDatas(withdrawCurrencyEntity.getData());
+        layout_null_currency.setVisibility(View.GONE);
+
+        EditText edit_search_currency = view.findViewById(R.id.edit_search_currency);
+
+        LinearLayout layout_history_content = view.findViewById(R.id.layout_history_content);
+        //历史记录
+
+        currencyHistoryAdapter = new CurrencyHistoryAdapter(getActivity());
+        RecyclerView recyclerView_history_search = view.findViewById(R.id.recyclerView_history_search);
+        recyclerView_history_search.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
+        recyclerView_history_search.setAdapter(currencyHistoryAdapter);
+        historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_WITHDRAW_CURRENCY_HISTORY, null));
+        List<String> list = new ArrayList<>(historyList);
+        Log.d("print", "showWithdrawCurrencyPopWindow:历史记录: " + list);
+        if (list.size() != 0) {
+            currencyHistoryAdapter.setDatas(list);
+        } else {
+            layout_history_content.setVisibility(View.GONE);
+        }
+
+        currencyHistoryAdapter.setOnItemClick(new CurrencyHistoryAdapter.OnItemClick() {
+            @Override
+            public void onSuccessListener(Integer position, String data) {
+                List<String> searchList = TradeUtil.searchCurrencyList(data, withdrawCurrencyEntity.getData());
+                withdrawCurrencyAdapter.setDatas(searchList);
+            }
+        });
+
+        edit_search_currency.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    layout_history_content.setVisibility(View.GONE);
+                    List<String> searchList = TradeUtil.searchCurrencyList(s.toString(), withdrawCurrencyEntity.getData());
+                    withdrawCurrencyAdapter.setDatas(searchList);
+                } else {
+                    historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_WITHDRAW_CURRENCY_HISTORY, null));
+                    List<String> list = new ArrayList<>(historyList);
+                    if (list.size() != 0) {
+                        layout_history_content.setVisibility(View.VISIBLE);
+                        currencyHistoryAdapter.setDatas(list);
+                    } else {
+                        layout_history_content.setVisibility(View.GONE);
+
+                    }
+                    withdrawCurrencyAdapter.setDatas(withdrawCurrencyEntity.getData());
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        withdrawCurrencyAdapter.setDetailClick(data -> {
+            historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_WITHDRAW_CURRENCY_HISTORY, null));
+            if (historyList.size() != 0) {
+                Util.isOptional(data, historyList, response -> {
+                    boolean isOptional = (boolean) response;
+                    if (!isOptional) {
+                        historyList.add(data);
+                    }
+                });
+            } else {
+                historyList.add(data);
+            }
+            SPUtils.putString(AppConfig.KEY_WITHDRAW_CURRENCY_HISTORY, Util.SPDeal(historyList));
+            popupWindow.dismiss();
+        });
+
+
+        view.findViewById(R.id.img_clear_history).setOnClickListener(v -> {
+            SPUtils.remove(AppConfig.KEY_WITHDRAW_CURRENCY_HISTORY);
+            layout_history_content.setVisibility(View.GONE);
+        });
+
+        popupWindow.setContentView(view);
+        popupWindow.setOutsideTouchable(true);
+        List<String> data = withdrawCurrencyEntity.getData();
+        view.findViewById(R.id.text_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        SwipeRefreshLayout swipeRefreshLayout_currency = view.findViewById(R.id.swipeRefreshLayout_currency);
+        Util.colorSwipe(getActivity(),swipeRefreshLayout_currency);
+
+        swipeRefreshLayout_currency.setOnRefreshListener(() -> {
+            swipeRefreshLayout_currency.setRefreshing(false);
+            getWithdrawCurrency();
+        });
+
+        popupWindow.showAsDropDown(layout_address, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        //view.startAnimation(animation);
+
     }
 
     @Override

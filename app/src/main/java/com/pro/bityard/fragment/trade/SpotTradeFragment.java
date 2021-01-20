@@ -536,19 +536,23 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             if (state.equals(BUSY)) {
                 swipeRefreshLayout.setRefreshing(true);
             } else if (state.equals(SUCCESS)) {
-                if (isAdded()){
+                if (isAdded()) {
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 SpotPositionEntity spotPositionEntity = (SpotPositionEntity) response;
-                if (spotPositionEntity.getData().size() == 0) {
-                    layout_null.setVisibility(View.VISIBLE);
-                    layout_cancel.setVisibility(View.GONE);
-                    view_line_two.setVisibility(View.GONE);
-                } else {
-                    layout_null.setVisibility(View.GONE);
-                    layout_cancel.setVisibility(View.VISIBLE);
-                    view_line_two.setVisibility(View.VISIBLE);
+                if (isAdded()) {
+                    if (spotPositionEntity.getData().size() == 0) {
+
+                        layout_null.setVisibility(View.VISIBLE);
+                        layout_cancel.setVisibility(View.GONE);
+                        view_line_two.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        layout_cancel.setVisibility(View.VISIBLE);
+                        view_line_two.setVisibility(View.VISIBLE);
+                    }
                 }
+
                 spotPositionAdapter.setDatas(spotPositionEntity.getData());
             } else if (state.equals(FAILURE)) {
                 swipeRefreshLayout.setRefreshing(false);

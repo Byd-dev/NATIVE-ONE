@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <RadioButton
+        android:id="@+id/radio_lever"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:paddingLeft="@dimen/margin_10"
+        android:paddingRight="@dimen/margin_10"
+        android:paddingTop="@dimen/margin_5"
+        android:paddingBottom="@dimen/margin_5"
+        android:layout_weight="1"
+        android:background="@drawable/bg_color_left"
+        android:button="@null"
+        android:gravity="center"
+        android:maxLines="1"
+        android:text="BTC"
+        android:textColor="@color/text_main_color"
+        android:textSize="@dimen/size_normal_two"
+        android:typeface="monospace" />
+
+
+</RelativeLayout>
