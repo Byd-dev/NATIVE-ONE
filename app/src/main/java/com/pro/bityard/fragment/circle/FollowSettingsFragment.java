@@ -230,17 +230,17 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
 
         String value_amount = edit_amount.getText().toString();
-        setEdit("1", edit_amount, null, 200, 1);
+        setEdit("1", edit_amount, null, 400, 1);
         setAdd(text_amount_add, edit_amount, value_amount, 5);
         setSub(text_amount_sub, edit_amount, value_amount, 5);
 
         String value_position = edit_copy_trade_position.getText().toString();
-        setEdit("2", edit_copy_trade_position, null, 4000, 1);
+        setEdit("2", edit_copy_trade_position, null, 8000, 1);
         setAdd(text_add_trade_position, edit_copy_trade_position, value_position, 5);
         setSub(text_sub_trade_position, edit_copy_trade_position, value_position, 5);
 
         String value_max = edit_max_trade_position.getText().toString();
-        setEdit("2", edit_max_trade_position, null, 4000, 1);
+        setEdit("2", edit_max_trade_position, null, 8000, 1);
         setAdd(text_add_max_position, edit_max_trade_position, value_max, 5);
         setSub(text_sub_max_position, edit_max_trade_position, value_max, 5);
 
@@ -257,17 +257,17 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         setEdit("3", edit_copy_rate_proportion, bar_proportion_rate, 500, 0);
 
         String value_warning = edit_warning_proportion.getText().toString();
-        setEdit("2", edit_warning_proportion, null, 200, 5);
+        setEdit("2", edit_warning_proportion, null, 400, 5);
         setAdd(text_add_warning, edit_warning_proportion, value_warning, 5);
         setSub(text_sub_warning, edit_warning_proportion, value_warning, 5);
 
         String value_day_proportion = edit_day_amount_proportion.getText().toString();
-        setEdit("2", edit_day_amount_proportion, null, 4000, 1);
+        setEdit("2", edit_day_amount_proportion, null, 8000, 1);
         setAdd(text_add_day_amount_proportion, edit_day_amount_proportion, value_day_proportion, 5);
         setSub(text_sub_day_amount_proportion, edit_day_amount_proportion, value_day_proportion, 5);
 
         String value_max_proportion = edit_max_amount_proportion.getText().toString();
-        setEdit("2", edit_max_amount_proportion, null, 4000, 1);
+        setEdit("2", edit_max_amount_proportion, null, 8000, 1);
         setAdd(text_add_max_proportion, edit_max_amount_proportion, value_max_proportion, 5);
         setSub(text_sub_max_proportion, edit_max_amount_proportion, value_max_proportion, 5);
 
