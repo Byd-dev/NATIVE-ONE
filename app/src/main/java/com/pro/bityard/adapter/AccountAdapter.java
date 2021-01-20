@@ -130,11 +130,16 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             if (isHide) {
                 if (currency.equals("USDT")) {
-                    ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, 2) + currency);
+                    ((MyViewHolder) holder).text_balance.setText(money+ currency);
+                    String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                    ((MyViewHolder) holder).text_balance_transfer.setText("≈" +TradeUtil.mul(money, Double.parseDouble(string)));
+
                 } else {
                     getRate(currency, money, response -> {
                         ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, scale) + currency );
-                        ((MyViewHolder) holder).text_balance_transfer.setText("≈" + response.toString() + "USDT");
+                        String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                        ((MyViewHolder) holder).text_balance_transfer.setText("≈" +TradeUtil.mul(Double.parseDouble(response.toString()), Double.parseDouble(string)));
+                        // ((MyViewHolder) holder).text_balance_transfer.setText("≈" + response.toString() + "USDT");
                     });
                 }
 

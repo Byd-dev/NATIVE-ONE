@@ -230,6 +230,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
 
         text_title.setText(getResources().getString(R.string.text_withdrawal));
+        text_title.setTextColor(getResources().getColor(R.color.maincolor));
+
         view.findViewById(R.id.img_back).setOnClickListener(this);
         view.findViewById(R.id.text_address_manage).setOnClickListener(this);
         text_address.setOnClickListener(this);
@@ -360,13 +362,14 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             });
         } else {
             if (unionRateEntity.getUnion() != null) {
-                if (TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) > 5) {
+                //内部转账都打开
+               /* if (TradeUtil.mul(unionRateEntity.getUnion().getCommRatio(), 100) > 5) {
                     text_transfer_title.setVisibility(View.VISIBLE);
                     text_title.setTextColor(getResources().getColor(R.color.maincolor));
                 } else {
                     text_transfer_title.setVisibility(View.GONE);
 
-                }
+                }*/
             }
 
         }
