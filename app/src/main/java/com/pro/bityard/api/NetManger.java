@@ -2644,8 +2644,8 @@ public class NetManger {
 
     /*社区 列表*/
     /*持仓列表*/
-    public void followList(String traderId, String type, String username, String currency, String tags, String defeatGe,
-                           String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe, String page, String rows, OnNetResult onNetResult) {
+    public void followList(String traderId, String type, String username, String currency, String tags, String rateGe,
+                           String rateLe, String drawGe, String drawLe, String daysGe, String daysLe, String page, String rows, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         if (traderId != null) {
             map.put("traderId", traderId);
@@ -2662,11 +2662,11 @@ public class NetManger {
         if (tags != null) {
             map.put("tags", tags);
         }
-        if (defeatGe != null) {
-            map.put("defeatGe", defeatGe);
+        if (rateGe != null) {
+            map.put("rateGe", rateGe);
         }
-        if (defeatLe != null) {
-            map.put("defeatLe", defeatLe);
+        if (rateLe != null) {
+            map.put("rateLe", rateLe);
         }
         if (drawGe != null) {
             map.put("drawGe", drawGe);

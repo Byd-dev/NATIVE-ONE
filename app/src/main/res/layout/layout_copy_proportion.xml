@@ -34,11 +34,11 @@
             android:id="@+id/bar_proportion_rate"
             android:layout_width="0dp"
             android:layout_height="@dimen/margin_30"
-            android:thumbOffset="0dp"
-            android:layout_marginLeft="@dimen/margin_5"
             android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/margin_5"
             android:layout_weight="1"
-            android:thumb="@mipmap/green_bar" />
+            android:thumb="@mipmap/green_bar"
+            android:thumbOffset="0dp" />
 
         <LinearLayout
             android:layout_width="62dp"
@@ -56,8 +56,8 @@
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center"
-                android:text="39"
                 android:inputType="numberDecimal"
+                android:text="39"
                 android:textColor="@color/text_main_color"
                 android:textColorHint="@color/text_second_color"
                 android:textCursorDrawable="@null"
@@ -118,8 +118,8 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
-                    android:text="5"
                     android:inputType="numberDecimal"
+                    android:text="5"
                     android:textColor="@color/text_main_color"
                     android:textColorHint="@color/text_second_color"
                     android:textCursorDrawable="@null"
@@ -216,8 +216,8 @@
                     android:layout_weight="1"
                     android:background="@null"
                     android:gravity="center"
-                    android:text="8000"
                     android:inputType="numberDecimal"
+                    android:text="8000"
                     android:textColor="@color/text_main_color"
                     android:textColorHint="@color/text_second_color"
                     android:textCursorDrawable="@null"
@@ -331,8 +331,8 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:gravity="center"
-                        android:text="8000"
                         android:inputType="numberDecimal"
+                        android:text="8000"
                         android:textColor="@color/text_main_color"
                         android:textColorHint="@color/text_second_color"
                         android:textCursorDrawable="@null"
@@ -376,70 +376,113 @@
 
             <TextView
 
-                android:id="@+id/text_stop_loss_ratio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:text="订单止损比例"
+                android:text="@string/text_follow_close"
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_big" />
 
 
+            <CheckBox
+                android:id="@+id/checkbox_proportion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:buttonTint="@color/text_quote_green"
+                android:paddingLeft="@dimen/margin_15" />
+
+
         </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <SeekBar
-                android:id="@+id/bar_stop_loss_proportion"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/margin_30"
-                android:thumbOffset="0dp"
-                android:layout_marginLeft="@dimen/margin_5"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:thumb="@mipmap/green_bar" />
-
-            <LinearLayout
-                android:layout_width="62dp"
-                android:layout_height="25dp"
-                android:layout_gravity="center_vertical"
-                android:gravity="center"
-                android:layout_marginRight="37.5dp"
-                android:background="@drawable/bg_shape_blue"
-                android:orientation="horizontal">
-
-                <com.pro.bityard.view.DecimalEditText
-                    android:id="@+id/edit_stop_loss_rate"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:hint="@string/text_unlimited_copy"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/text_main_color"
-                    android:textColorHint="@color/text_second_color"
-                    android:textCursorDrawable="@null"
-                    android:textSize="@dimen/size_big" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_15"
-            android:text="@string/text_stop_loss_tip"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:layout_marginBottom="@dimen/margin_15"
+            android:text="@string/text_follow_close_tip"
             android:textColor="@color/text_second_color"
             android:textSize="@dimen/size_normal" />
 
+        <LinearLayout
+            android:id="@+id/layout_stop_loss_proportion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bar_height">
+
+                <TextView
+
+                    android:id="@+id/text_stop_loss_ratio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:text="@string/text_stop_loss_follow_tip"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_big" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/bar_stop_loss_proportion"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/margin_30"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_weight="1"
+                    android:thumb="@mipmap/green_bar"
+                    android:thumbOffset="0dp" />
+
+                <LinearLayout
+                    android:layout_width="62dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="37.5dp"
+                    android:background="@drawable/bg_shape_blue"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <com.pro.bityard.view.DecimalEditText
+                        android:id="@+id/edit_stop_loss_rate"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:hint="@string/text_unlimited_copy"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/text_main_color"
+                        android:textColorHint="@color/text_second_color"
+                        android:textCursorDrawable="@null"
+                        android:textSize="@dimen/size_big" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_15"
+                android:text="@string/text_stop_loss_tip"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
+
+        </LinearLayout>
     </LinearLayout>
 
 

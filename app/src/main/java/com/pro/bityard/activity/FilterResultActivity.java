@@ -25,6 +25,7 @@ import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TagEntity;
 import com.pro.bityard.utils.PopUtil;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
@@ -239,8 +240,8 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
 
     /*过滤*/
     private void filter(String loadType,int page) {
-        String defeatGe = null;
-        String defeatLe = null;
+        String rateGe = null;
+        String rateLe = null;
         String drawGe = null;
         String drawLe = null;
         String daysGe = null;
@@ -260,12 +261,12 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
                 stringBuilder.append(code).append(",");
             } else if (type.equals(AppConfig.type_rate)) {
                 if (code.equals("null")) {
-                    defeatGe = null;
-                    defeatLe = null;
+                    rateGe = null;
+                    rateLe = null;
                 } else {
                     String[] split = code.split(",");
-                    defeatGe = split[0];
-                    defeatLe = split[1];
+                    rateGe = String.valueOf(TradeUtil.div(Double.parseDouble(split[0]),100,2));
+                    rateLe = String.valueOf(TradeUtil.div(Double.parseDouble(split[1]),100,2));
                 }
             } else if (type.equals(AppConfig.type_draw)) {
                 if (code.equals("null")) {
@@ -293,13 +294,13 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
             tags = null;
         }
 
-        getFollowList(loadType,tags, defeatGe, defeatLe, drawGe, drawLe, daysGe, daysLe,page);
+        getFollowList(loadType,tags, rateGe, rateLe, drawGe, drawLe, daysGe, daysLe,page);
     }
 
 
-    private void getFollowList(String loadType,String tags, String defeatGe, String defeatLe, String drawGe, String drawLe, String daysGe, String daysLe,int page) {
+    private void getFollowList(String loadType,String tags, String rateGe, String rateLe, String drawGe, String drawLe, String daysGe, String daysLe,int page) {
         NetManger.getInstance().followList(null, null,
-                null, null, tags, defeatGe, defeatLe, drawGe,
+                null, null, tags, rateGe, rateLe, drawGe,
                 drawLe, daysGe, daysLe,String.valueOf(page),"10", (state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);

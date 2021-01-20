@@ -573,5 +573,8 @@
     <string name="text_help_center">帮助中心</string>
     <string name="text_my_hold">我的持仓</string>
     <string name="text_spot_record">现货记录</string>
+    <string name="text_follow_close">跟随交易员平仓</string>
+    <string name="text_follow_close_tip">如勾选，订单默认跟随交易员平仓；如未勾选，订单会按照您设置的止损比例平仓.</string>
+    <string name="text_stop_loss_follow_tip">订单止损比例</string>
 
 </resources>

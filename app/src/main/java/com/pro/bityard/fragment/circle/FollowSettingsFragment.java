@@ -6,6 +6,8 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -20,7 +22,6 @@ import com.pro.bityard.adapter.AmountListAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.TradeUtil;
@@ -150,6 +151,15 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     @BindView(R.id.edit_stop_loss_rate)
     DecimalEditText edit_stop_loss_rate;
 
+    @BindView(R.id.layout_stop_loss_amount)
+    LinearLayout layout_stop_loss_amount;
+    @BindView(R.id.layout_stop_loss_proportion)
+    LinearLayout layout_stop_loss_proportion;
+
+    @BindView(R.id.checkbox_amount)
+    CheckBox checkBox_amount;
+    @BindView(R.id.checkbox_proportion)
+    CheckBox checkbox_proportion;
 
     private FollowerDetailEntity.DataBean followerUser;
     private String traderId;
@@ -275,6 +285,37 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         setEdit("3", edit_stop_loss_rate, bar_stop_loss_proportion, 90, 0);
 
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
+
+        layout_stop_loss_amount.setVisibility(View.GONE);
+        layout_stop_loss_proportion.setVisibility(View.GONE);
+        checkBox_amount.setChecked(true);
+        checkbox_proportion.setChecked(true);
+
+        checkBox_amount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    layout_stop_loss_amount.setVisibility(View.GONE);
+                    slRatio="-1";
+                } else {
+                    layout_stop_loss_amount.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
+
+        checkbox_proportion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    layout_stop_loss_proportion.setVisibility(View.GONE);
+                    slRatio="-1";
+                } else {
+                    layout_stop_loss_proportion.setVisibility(View.VISIBLE);
+
+                }
+            }
+        });
 
 
     }
@@ -450,7 +491,11 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                     followVal = edit_amount.getText().toString();
                     maxDay = edit_copy_trade_position.getText().toString();
                     maxHold = edit_max_trade_position.getText().toString();
-                    slRatio = edit_amount_bar.getText().toString();
+                    if (checkBox_amount.isChecked()){
+                        slRatio="-1";
+                    }else {
+                        slRatio = edit_amount_bar.getText().toString();
+                    }
                     followMax = "0";
 
 
@@ -462,13 +507,16 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
 
                     maxDay = edit_day_amount_proportion.getText().toString();
                     maxHold = edit_max_amount_proportion.getText().toString();
-                    slRatio = edit_stop_loss_rate.getText().toString();
+
+                    if (checkbox_proportion.isChecked()){
+                        slRatio="-1";
+                    }else {
+                        slRatio = edit_stop_loss_rate.getText().toString();
+                    }
                     followMax = edit_warning_proportion.getText().toString();
 
                 }
-                if (slRatio.equals("")) {
-                    slRatio = "-1";
-                }
+
                 NetManger.getInstance().follow(traderId, "USDT", followWay, followVal, followMax, maxDay, maxHold, slRatio, "true", (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
