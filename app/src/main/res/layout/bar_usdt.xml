@@ -8,14 +8,21 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
+        <ImageView
+            android:id="@+id/img_bg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:src="@mipmap/icon_usdt"/>
+
         <TextView
             android:id="@+id/text_withdraw_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:drawableLeft="@mipmap/icon_usdt"
-            android:drawablePadding="@dimen/margin_16"
+            android:layout_toRightOf="@+id/img_bg"
+            android:layout_marginLeft="@dimen/margin_5"
             android:gravity="center"
             android:text="@string/text_usdt_tether_us"
             android:textColor="@color/text_main_color"

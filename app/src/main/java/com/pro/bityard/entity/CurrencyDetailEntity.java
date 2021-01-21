@@ -22,6 +22,15 @@ public class CurrencyDetailEntity {
     @SerializedName("data")
     private List<DataBean> data;
 
+    @Override
+    public String toString() {
+        return "CurrencyDetailEntity{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", data=" + data +
+                '}';
+    }
+
     public Integer getCode() {
         return code;
     }
@@ -47,6 +56,36 @@ public class CurrencyDetailEntity {
     }
 
     public static class DataBean implements Serializable {
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "chain='" + chain + '\'' +
+                    ", chainShow='" + chainShow + '\'' +
+                    ", code='" + code + '\'' +
+                    ", currency='" + currency + '\'' +
+                    ", id='" + id + '\'' +
+                    ", recharge=" + recharge +
+                    ", rechargeDesc='" + rechargeDesc + '\'' +
+                    ", rechargeMin=" + rechargeMin +
+                    ", sort=" + sort +
+                    ", transfer=" + transfer +
+                    ", transferMax=" + transferMax +
+                    ", transferMin=" + transferMin +
+                    ", valid=" + valid +
+                    ", withdraw=" + withdraw +
+                    ", withdrawDay=" + withdrawDay +
+                    ", withdrawDesc='" + withdrawDesc + '\'' +
+                    ", withdrawFee=" + withdrawFee +
+                    ", withdrawKyc=" + withdrawKyc +
+                    ", withdrawKyc0=" + withdrawKyc0 +
+                    ", withdrawKyc1=" + withdrawKyc1 +
+                    ", withdrawKyc2=" + withdrawKyc2 +
+                    ", withdrawMax=" + withdrawMax +
+                    ", withdrawMin=" + withdrawMin +
+                    ", withdrawTag=" + withdrawTag +
+                    '}';
+        }
+
         /**
          * chain : OMNI
          * chainShow : true
@@ -73,6 +112,7 @@ public class CurrencyDetailEntity {
          * withdrawMin : 50.0
          * withdrawTag : false
          */
+
 
         @SerializedName("chain")
         private String chain;

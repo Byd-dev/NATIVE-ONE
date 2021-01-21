@@ -46,6 +46,7 @@ import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.entity.WithdrawCurrencyEntity;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.SmsTimeUtils;
 import com.pro.bityard.utils.TradeUtil;
@@ -150,6 +151,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     @BindView(R.id.text_withdraw_currency)
     TextView text_withdraw_currency;
+    @BindView(R.id.img_bg)
+    ImageView img_bg;
     private String email;
     private DepositWithdrawEntity depositWithdrawEntity;
 
@@ -441,7 +444,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                     CurrencyDetailEntity currencyDetailEntity = (CurrencyDetailEntity) response;
                     currencyChainAdapter.setDatas(currencyDetailEntity.getData());
                     currencyChainAdapter.select(currencyDetailEntity.getData().get(0).getChain());
-
+                    Log.d("print", "onNetResult:444: "+currencyDetailEntity);
                 } else if (state.equals(FAILURE)) {
                     dismissProgressDialog();
                 }
@@ -1182,6 +1185,9 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             }
             SPUtils.putString(AppConfig.KEY_WITHDRAW_CURRENCY_HISTORY, Util.SPDeal(historyList));
             getDetailCurrency(data);
+            text_withdraw_currency.setText(data);
+            ChartUtil.setIcon(data,img_bg);
+
             popupWindow.dismiss();
         });
 
