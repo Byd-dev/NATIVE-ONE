@@ -23,6 +23,7 @@ import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.CountryCodeEntity;
+import com.pro.bityard.entity.CurrencyDetailEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.ExchangeRecordEntity;
 import com.pro.bityard.entity.FollowEntity;
@@ -1180,6 +1181,26 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 WithdrawCurrencyEntity withdrawCurrencyEntity=new Gson().fromJson(response.toString(),WithdrawCurrencyEntity.class);
                 onNetResult.onNetResult(SUCCESS, withdrawCurrencyEntity);
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    /*支持提币币种*/
+    public void currencyDetail(String currency, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("currency", currency);
+        getRequest("/api/setting/chains", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                CurrencyDetailEntity currencyDetailEntity=new Gson().fromJson(response.toString(),CurrencyDetailEntity.class);
+                Log.d("print", "currencyDetail: 1199:"+response.toString());
+
+                onNetResult.onNetResult(SUCCESS, currencyDetailEntity);
 
             } else if (state.equals(FAILURE)) {
                 onNetResult.onNetResult(FAILURE, null);

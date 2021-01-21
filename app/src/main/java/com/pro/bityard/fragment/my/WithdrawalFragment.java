@@ -26,6 +26,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.ChainListAdapter;
+import com.pro.bityard.adapter.CurrencyChainAdapter;
 import com.pro.bityard.adapter.CurrencyHistoryAdapter;
 import com.pro.bityard.adapter.WithdrawCurrencyAdapter;
 import com.pro.bityard.adapter.WithdrawHistoryAdapter;
@@ -36,6 +37,7 @@ import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.entity.CurrencyDetailEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.TipEntity;
@@ -60,6 +62,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
@@ -105,8 +108,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     @BindView(R.id.text_record)
     TextView text_record;
 
-    private ChainListAdapter chainListAdapter;//杠杆适配器
-    private List<String> dataList;
+    private CurrencyChainAdapter currencyChainAdapter;//连名称
 
     private String chain = "OMNI";
     private LoginEntity loginEntity;
@@ -301,22 +303,18 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         img_record.setOnClickListener(this);
 
 
-        chainListAdapter = new ChainListAdapter(getActivity());
+        currencyChainAdapter = new CurrencyChainAdapter(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
-        recyclerView.setAdapter(chainListAdapter);
+        recyclerView.setAdapter(currencyChainAdapter);
 
 
-        dataList = new ArrayList<>();
-        dataList.add("OMNI");
-        dataList.add("ERC20");
-        dataList.add("TRC20");
-        chainListAdapter.setDatas(dataList);
-        chainListAdapter.setEnable(false);
 
-        chainListAdapter.setOnItemClick((position, data) -> {
-            chainListAdapter.select(data);
-            recyclerView.setAdapter(chainListAdapter);
-            chain = data;
+        currencyChainAdapter.setEnable(true);
+
+        currencyChainAdapter.setOnItemClick((position, data) -> {
+            currencyChainAdapter.select(data.getChain());
+            recyclerView.setAdapter(currencyChainAdapter);
+            chain = data.getChain();
         });
 
 
@@ -424,9 +422,31 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
         text_balance_transfer.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
 
-
+        //获取可以支持的币种
         getWithdrawCurrency();
+        //当前提币的详情
+        getDetailCurrency("USDT");
 
+    }
+
+    private void getDetailCurrency(String currency) {
+
+        NetManger.getInstance().currencyDetail(currency, new OnNetResult() {
+            @Override
+            public void onNetResult(String state, Object response) {
+                if (state.equals(BUSY)) {
+                    showProgressDialog();
+                } else if (state.equals(SUCCESS)) {
+                    dismissProgressDialog();
+                    CurrencyDetailEntity currencyDetailEntity = (CurrencyDetailEntity) response;
+                    currencyChainAdapter.setDatas(currencyDetailEntity.getData());
+                    currencyChainAdapter.select(currencyDetailEntity.getData().get(0).getChain());
+
+                } else if (state.equals(FAILURE)) {
+                    dismissProgressDialog();
+                }
+            }
+        });
     }
 
     private void getWithdrawCurrency() {
@@ -914,8 +934,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             addressId = data.getId();
             popupWindow.dismiss();
             chain = data.getChain();
-            chainListAdapter.select(chain);
-            recyclerView.setAdapter(chainListAdapter);
+            currencyChainAdapter.select(chain);
+            recyclerView.setAdapter(currencyChainAdapter);
 
             String withdrawChain = data.getWithdrawChain();
             Log.d("print", "showAddressPopWindow:886:  " + data);
@@ -1161,6 +1181,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 historyList.add(data);
             }
             SPUtils.putString(AppConfig.KEY_WITHDRAW_CURRENCY_HISTORY, Util.SPDeal(historyList));
+            getDetailCurrency(data);
             popupWindow.dismiss();
         });
 
@@ -1181,7 +1202,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         });
 
         SwipeRefreshLayout swipeRefreshLayout_currency = view.findViewById(R.id.swipeRefreshLayout_currency);
-        Util.colorSwipe(getActivity(),swipeRefreshLayout_currency);
+        Util.colorSwipe(getActivity(), swipeRefreshLayout_currency);
 
         swipeRefreshLayout_currency.setOnRefreshListener(() -> {
             swipeRefreshLayout_currency.setRefreshing(false);
