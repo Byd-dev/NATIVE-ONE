@@ -4,6 +4,7 @@ import android.util.ArrayMap;
 
 import com.google.gson.Gson;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.TipEntity;
 
@@ -104,6 +105,38 @@ public class BalanceManger extends Observable {
                         }
                     }
                     postBalance(balanceEntity);
+
+
+                }
+
+            } else if (state.equals(FAILURE)) {
+
+            }
+        });
+    }
+
+
+    public void getBalance(String moneyType, OnResult onResult) {
+
+
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("type", "1");
+
+        NetManger.getInstance().getRequest("/api/user/asset/list", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 401) {
+
+                } else if (tipEntity.getCode() == 200) {
+                    BalanceEntity balanceEntity = new Gson().fromJson(response.toString(), BalanceEntity.class);
+
+                    for (BalanceEntity.DataBean data : balanceEntity.getData()) {
+                        if (data.getCurrency().equals(moneyType)) {
+                            onResult.setResult(data);
+
+                        }
+                    }
 
 
                 }

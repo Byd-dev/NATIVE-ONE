@@ -99,8 +99,8 @@ public class TradeUtil {
         return mon;
     }
 
-    public static String justDisplay(double value){
-        BigDecimal bg=new BigDecimal(value+"");
+    public static String justDisplay(double value) {
+        BigDecimal bg = new BigDecimal(value + "");
         return bg.toString();
     }
 
@@ -1019,7 +1019,6 @@ public class TradeUtil {
     }
 
 
-
     /* 现货自选*/
     public static List<String> optionalSpotQuoteList(List<String> quoteList) {
         Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
@@ -1672,15 +1671,14 @@ public class TradeUtil {
     }
 
 
-
-
-    public static void setEditVolume(DecimalEditText edit_trade_amount_limit,DecimalEditText edit_price_limit,DecimalEditText edit_amount_limit,int volumeDigit){
+    public static void setEditVolume(DecimalEditText edit_trade_amount_limit, DecimalEditText edit_price_limit, DecimalEditText edit_amount_limit, int volumeDigit) {
         /*成交金额的监听*/
         edit_trade_amount_limit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String value_price_limit = edit_price_limit.getText().toString();
@@ -1697,5 +1695,13 @@ public class TradeUtil {
 
             }
         });
+    }
+
+    public static void getBalance(List<BalanceEntity.DataBean> dataBean, String moneyType, OnResult onResult) {
+        for (BalanceEntity.DataBean data : dataBean) {
+            if (data.getCurrency().equals(moneyType)) {
+                onResult.setResult(data.getMoney());
+            }
+        }
     }
 }

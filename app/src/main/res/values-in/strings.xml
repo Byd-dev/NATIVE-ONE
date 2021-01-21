@@ -284,10 +284,10 @@
     <string name="text_balance">Saldo </string>
     <string name="text_select_coin">Pilih koin</string>
     <string name="text_amount_withdrawal">Jumlah</string>
-    <string name="text_usdt_address">Alamat penarikan USDT</string>
+    <string name="text_usdt_address">Alamat penarikan</string>
     <string name="text_manage_address">Alamat penarikan</string>
     <string name="text_withdrawal_limit">Limit penarikan</string>
-    <string name="text_withdrawal_tip_one">Minimal jumlah penarikan adalah 50USDT,jika tidak akan gagal</string>
+    <string name="text_withdrawal_tip_one">Minimal jumlah penarikan adalah %s</string>
     <string name="text_withdrawal_tip_two">Mohon dipastikan alamat penarikan telahdiisi dengan benar</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
     <string name="text_coin_exchange">Tukar</string>
@@ -444,7 +444,7 @@
     <string name="text_address_my">所在地</string>
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
-    <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
+    <string name="text_withdrawal_tip_three">Batas penarikan perhari: %s</string>
     <string name="text_trader_30_days_rate">30 hari terakhirrasio keuntungan</string>
     <string name="text_trader_30_days_defeat">30 hari terakhirrasio menang</string>
     <string name="text_trader_30_days_draw">30 hari terakhir rasio kerugian</string>
@@ -585,5 +585,10 @@ diberikan kepada trader.</string>
     <string name="text_follow_close_tip">如勾选，订单默认跟随交易员平仓；如未勾选，订单会按照您设置的止损比例平仓.</string>
     <string name="text_stop_loss_follow_tip">订单止损比例</string>
     <string name="text_search_main">请输入关键字搜索</string>
+    <string name="text_withdrawal_tip_four">Please make sure the address is valid. Otherwise, your funds will be lost forever</string>
+    <string name="text_withdrawal_tip_five">Please make sure the address tag is correct. Otherwise, your funds will be lost forever</string>
+    <string name="text_withdrawal_tip_six">Your deposit address won’t change often. If there are any changes, we will notify you via announcement or email</string>
+    <string name="text_withdrawal_tip_seven">Please make sure that your computer and browser are secure and your information is protected from being tampered or leaked</string>
+    <string name="text_withdrawal_tip_eight">Waktu penarikan (SGT): Hari Senin-Minggujam 9:00-21.00</string>
 
 </resources>

@@ -284,10 +284,10 @@
     <string name="text_balance">Баланс кошелька</string>
     <string name="text_select_coin">Выберите монету</string>
     <string name="text_amount_withdrawal">Количество</string>
-    <string name="text_usdt_address">Адрес снятия USDT</string>
+    <string name="text_usdt_address">Адрес снятия</string>
     <string name="text_manage_address">Управлять адресом</string>
     <string name="text_withdrawal_limit">Лимит снятия</string>
-    <string name="text_withdrawal_tip_one">Минимальная сумма снятия для одного аккаунта составляет50USDT, меньшие суммы не обрабатываются</string>
+    <string name="text_withdrawal_tip_one">Минимальная сумма снятия для одного аккаунта составляет %s</string>
     <string name="text_withdrawal_tip_two">Пожалуйста,  проверите правильность адреса, неправильный адрес приведет к ошибке снятия.</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
     <string name="text_coin_exchange">Обмен</string>
@@ -443,7 +443,7 @@
     <string name="text_address_my">所在地</string>
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
-    <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
+    <string name="text_withdrawal_tip_three">Однодневный лимит на снятие: %s</string>
     <string name="text_trader_30_days_rate">Прибыльность от трейдинга (30 дней)</string>
     <string name="text_trader_30_days_defeat"> % прибыльных сделок (30 дней)</string>
     <string name="text_trader_30_days_draw">Макс. убыток (30 дней)</string>
@@ -578,5 +578,10 @@
     <string name="text_follow_close_tip">如勾选，订单默认跟随交易员平仓；如未勾选，订单会按照您设置的止损比例平仓.</string>
     <string name="text_stop_loss_follow_tip">订单止损比例</string>
     <string name="text_search_main">请输入关键字搜索</string>
+    <string name="text_withdrawal_tip_four">Пожалуйста, подтвердите, что целевой адрес существует и активирован, в противном случае вывод не будет выполнен, и активы не будут восстановлены</string>
+    <string name="text_withdrawal_tip_five">Не забудьте заполнить и тщательно проверить тег, который является уникальным идентификатором вашей учетной записи, иначе активы не будут восстановлены</string>
+    <string name="text_withdrawal_tip_six">Чтобы обеспечить безопасность ваших средств, ваш запрос на снятие будет проверен вручную, если будет изменена ваша стратегия безопасности или пароль. Дождитесь телефонного звонка или электронного письма от наших сотрудников</string>
+    <string name="text_withdrawal_tip_seven">Убедитесь, что ваш компьютер и браузер защищены, а ваша информация защищена от несанкционированного доступа или утечки</string>
+    <string name="text_withdrawal_tip_eight">Время вывода (SGT): с понедельника по воскресенье с 9:00 до 21:00</string>
 
 </resources>

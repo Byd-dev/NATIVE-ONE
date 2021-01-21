@@ -284,10 +284,10 @@
     <string name="text_balance">残高</string>
     <string name="text_select_coin">コインを選択してください</string>
     <string name="text_amount_withdrawal">利用可能残高</string>
-    <string name="text_usdt_address">USDT出金アドレス</string>
+    <string name="text_usdt_address">出金アドレス</string>
     <string name="text_manage_address">アドレス管理</string>
     <string name="text_withdrawal_limit">出金限度額</string>
-    <string name="text_withdrawal_tip_one">単回出金申請の際、最低金額は50USDTを越えなければなりません</string>
+    <string name="text_withdrawal_tip_one">単回出金申請の際、最低金額は%sを越えなければなりません</string>
     <string name="text_withdrawal_tip_two">出金申請の前、必ずアドレスを確認してください。誤った場合、出金申請が取り消しされます</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
     <string name="text_coin_exchange">両替</string>
@@ -443,7 +443,7 @@
     <string name="text_address_my">所在地</string>
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
-    <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
+    <string name="text_withdrawal_tip_three">1日出金限度額は：%sとなります</string>
     <string name="text_trader_30_days_rate">過去30日間にフォロワー収益率</string>
     <string name="text_trader_30_days_defeat">過去30日間に取引勝率</string>
     <string name="text_trader_30_days_draw">過去30日間に最大ドローダウン</string>
@@ -578,6 +578,11 @@
     <string name="text_follow_close_tip">如勾选，订单默认跟随交易员平仓；如未勾选，订单会按照您设置的止损比例平仓.</string>
     <string name="text_stop_loss_follow_tip">订单止损比例</string>
     <string name="text_search_main">请输入关键字搜索</string>
+    <string name="text_withdrawal_tip_four">请确认目标提币地址是否存在且被激活，否则将会导致提币失败，且资产不可找回。</string>
+    <string name="text_withdrawal_tip_five">如有地址标签，请务必仔细核对地址标签，否则将造成资产损失并不可找回。</string>
+    <string name="text_withdrawal_tip_six">为保障资金安全，当您账户安全策略变更、密码修改、我们会对提币进行人工审核，请耐心等待工作人员电话或邮件联系。</string>
+    <string name="text_withdrawal_tip_seven">请务必确认电脑及浏览器安全，防止信息被篡改或泄露</string>
+    <string name="text_withdrawal_tip_eight">提币时间（SGT）：周一到周日的9:00-21:00。</string>
 
 
 </resources>

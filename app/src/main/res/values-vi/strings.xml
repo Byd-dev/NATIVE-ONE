@@ -284,10 +284,10 @@
     <string name="text_balance">Khả dụng</string>
     <string name="text_select_coin">Chọn tiền</string>
     <string name="text_amount_withdrawal">Số lượng</string>
-    <string name="text_usdt_address">Địa chỉ rút tiền USDT</string>
+    <string name="text_usdt_address">Địa chỉ rút tiền</string>
     <string name="text_manage_address">Danh sách địa chỉ</string>
     <string name="text_withdrawal_limit">Hạn mức rút tiền</string>
-    <string name="text_withdrawal_tip_one">Mỗi lệnh rút tiền không thể thấp hơn 50USDT</string>
+    <string name="text_withdrawal_tip_one">Mỗi lệnh rút tiền không thể thấp hơn %s</string>
     <string name="text_withdrawal_tip_two">Vui lòng xác nhận chính xác địa chỉ trước khi rút tiền</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
     <string name="text_coin_exchange">Trao đổi </string>
@@ -443,7 +443,7 @@
     <string name="text_address_my">所在地</string>
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
-    <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
+    <string name="text_withdrawal_tip_three">Hạn mức rút trong ngày：%s</string>
     <string name="text_trader_30_days_rate">Tỷ lệ lợi nhuận 30 ngày gần đây</string>
     <string name="text_trader_30_days_defeat">Tỷ lệ thắng 30 ngày gần đây</string>
     <string name="text_trader_30_days_draw">Lỗ tối đa 30 ngày gần đây</string>
@@ -578,5 +578,10 @@
     <string name="text_follow_close_tip">如勾选，订单默认跟随交易员平仓；如未勾选，订单会按照您设置的止损比例平仓.</string>
     <string name="text_stop_loss_follow_tip">订单止损比例</string>
     <string name="text_search_main">请输入关键字搜索</string>
+    <string name="text_withdrawal_tip_four">Kiểm tra chính xác địa chỉ rút tiền, nếu không có thể mất tài sản</string>
+    <string name="text_withdrawal_tip_five">Kiểm tra chính xác địa chỉ rút tiền, nếu không có thể mất tài sản</string>
+    <string name="text_withdrawal_tip_six">Trong trường hợp bạn thay đổi bảo mật tài sản, mật khẩu của mình, chúng tôi cần duyệt thủ công để bảo vệ người dùng, vui lòng chờ đợi</string>
+    <string name="text_withdrawal_tip_seven">Chắc chắn máy tính và trình duyệt của bạn an toàn, tránh để lộ thông tin tài khoản</string>
+    <string name="text_withdrawal_tip_eight">Thời gian rút tiền (SGT):Thứ 2 đến chủ nhật 9:00-21:00</string>
 
 </resources>

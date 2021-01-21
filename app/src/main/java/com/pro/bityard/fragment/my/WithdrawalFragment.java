@@ -25,7 +25,6 @@ import android.widget.Toast;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.UserActivity;
-import com.pro.bityard.adapter.ChainListAdapter;
 import com.pro.bityard.adapter.CurrencyChainAdapter;
 import com.pro.bityard.adapter.CurrencyHistoryAdapter;
 import com.pro.bityard.adapter.WithdrawCurrencyAdapter;
@@ -37,6 +36,7 @@ import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.CurrencyDetailEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
 import com.pro.bityard.entity.LoginEntity;
@@ -63,7 +63,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.SimpleItemAnimator;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
@@ -86,6 +85,8 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     EditText edit_amount;
     @BindView(R.id.text_address)
     TextView text_address;
+    @BindView(R.id.text_range)
+    TextView text_range;
     @BindView(R.id.edit_pass_withdraw)
     EditText edit_pass_withdraw;
     @BindView(R.id.btn_submit)
@@ -96,8 +97,22 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     ImageView img_eye;
     @BindView(R.id.text_getCode)
     TextView text_getCode;
-
-
+    @BindView(R.id.text_withdrawal_tip_one)
+    TextView text_withdrawal_tip_one;
+    @BindView(R.id.text_withdrawal_tip_two)
+    TextView text_withdrawal_tip_two;
+    @BindView(R.id.text_withdrawal_tip_three)
+    TextView text_withdrawal_tip_three;
+    @BindView(R.id.text_withdrawal_tip_four)
+    TextView text_withdrawal_tip_four;
+    @BindView(R.id.text_withdrawal_tip_five)
+    TextView text_withdrawal_tip_five;
+    @BindView(R.id.text_withdrawal_tip_six)
+    TextView text_withdrawal_tip_six;
+    @BindView(R.id.text_withdrawal_tip_seven)
+    TextView text_withdrawal_tip_seven;
+    @BindView(R.id.text_withdrawal_tip_eight)
+    TextView text_withdrawal_tip_eight;
     @BindView(R.id.text_transfer_title)
     TextView text_transfer_title;
 
@@ -116,6 +131,9 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     @BindView(R.id.text_fee)
     TextView text_fee;
+    @BindView(R.id.text_today_fee)
+    TextView text_transfer_fee;
+
     //private String account;
 
     @BindView(R.id.layout_address)
@@ -151,13 +169,18 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     @BindView(R.id.text_withdraw_currency)
     TextView text_withdraw_currency;
+    @BindView(R.id.text_withdraw_currency_transfer)
+    TextView text_withdraw_currency_transfer;
     @BindView(R.id.img_bg)
     ImageView img_bg;
+    @BindView(R.id.img_bg_transfer)
+    ImageView img_bg_transfer;
     private String email;
     private DepositWithdrawEntity depositWithdrawEntity;
 
     private WithdrawHistoryAdapter withdrawHistoryAdapter;
     private WithdrawCurrencyEntity withdrawCurrencyEntity;
+    private BalanceEntity balanceEntity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -244,17 +267,28 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     protected void initView(View view) {
 
 
+        layout_transfer.setVisibility(View.GONE);
+
         text_title.setText(getResources().getString(R.string.text_withdrawal));
         text_title.setTextColor(getResources().getColor(R.color.maincolor));
 
         view.findViewById(R.id.img_back).setOnClickListener(this);
         view.findViewById(R.id.text_address_manage).setOnClickListener(this);
         view.findViewById(R.id.layout_withdrawal_pop).setOnClickListener(this);
+        view.findViewById(R.id.layout_withdrawal_transfer).setOnClickListener(this);
+
         text_address.setOnClickListener(this);
         text_record.setOnClickListener(this);
 
         text_title.setOnClickListener(this);
         text_transfer_title.setOnClickListener(this);
+
+        text_withdrawal_tip_two.setText("3." + getResources().getString(R.string.text_withdrawal_tip_two));
+        text_withdrawal_tip_four.setText("4." + getResources().getString(R.string.text_withdrawal_tip_four));
+        text_withdrawal_tip_five.setText("5." + getResources().getString(R.string.text_withdrawal_tip_five));
+        text_withdrawal_tip_six.setText("6." + getResources().getString(R.string.text_withdrawal_tip_six));
+        text_withdrawal_tip_seven.setText("7." + getResources().getString(R.string.text_withdrawal_tip_seven));
+        text_withdrawal_tip_eight.setText("8." + getResources().getString(R.string.text_withdrawal_tip_eight));
 
 
         img_eye.setOnClickListener(this);
@@ -309,7 +343,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         currencyChainAdapter = new CurrencyChainAdapter(getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
         recyclerView.setAdapter(currencyChainAdapter);
-
 
 
         currencyChainAdapter.setEnable(true);
@@ -422,32 +455,64 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
         });
 
 
-        text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+        text_balance.setText(String.valueOf(BalanceManger.getInstance().getBalanceReal()) + getResources().getString(R.string.text_usdt));
         text_balance_transfer.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
 
         //获取可以支持的币种
         getWithdrawCurrency();
         //当前提币的详情
-        getDetailCurrency("USDT");
+        getDetailCurrency(false, false, "USDT");
+
 
     }
 
-    private void getDetailCurrency(String currency) {
+    private void getDetailCurrency(boolean isAddress, boolean isTransfer, String currency) {
 
-        NetManger.getInstance().currencyDetail(currency, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    showProgressDialog();
-                } else if (state.equals(SUCCESS)) {
-                    dismissProgressDialog();
-                    CurrencyDetailEntity currencyDetailEntity = (CurrencyDetailEntity) response;
+        NetManger.getInstance().currencyDetail(currency, (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                CurrencyDetailEntity currencyDetailEntity = (CurrencyDetailEntity) response;
+
+                if (isTransfer) {
+                    text_transfer_fee.setText(TradeUtil.justDisplay(currencyDetailEntity.getData().get(0).getTransferMin()) + "~" +
+                            TradeUtil.justDisplay(currencyDetailEntity.getData().get(0).getTransferMax()) + " " + "USDT");
+                } else {
                     currencyChainAdapter.setDatas(currencyDetailEntity.getData());
-                    currencyChainAdapter.select(currencyDetailEntity.getData().get(0).getChain());
-                    Log.d("print", "onNetResult:444: "+currencyDetailEntity);
-                } else if (state.equals(FAILURE)) {
-                    dismissProgressDialog();
+
+                    if (!isAddress) {
+                        currencyChainAdapter.select(currencyDetailEntity.getData().get(0).getChain());
+                    }
+                    Double withdrawMin = currencyDetailEntity.getData().get(0).getWithdrawMin();
+                    Double withdrawDay = currencyDetailEntity.getData().get(0).getWithdrawDay();
+
+                    text_range.setText(withdrawMin + "~" + currencyDetailEntity.getData().get(0).getWithdrawMax() + " " + currency);
+                    text_fee.setText(currencyDetailEntity.getData().get(0).getWithdrawFee() + " " + currency);
+
+                    String format = String.format(getString(R.string.text_withdrawal_tip_one), withdrawMin + " " + currency);
+
+                    text_withdrawal_tip_one.setText("1." + format);
+
+
+                    text_withdrawal_tip_three.setText("2." + String.format(getString(R.string.text_withdrawal_tip_three), withdrawDay + " " + currency));
+
+                    Log.d("print", "onNetResult:444: " + currencyDetailEntity);
+                    currencyChainAdapter.setOnItemClick((position, dataBean) -> {
+                        currencyChainAdapter.select(dataBean.getChain());
+                        for (CurrencyDetailEntity.DataBean detailEntity : currencyDetailEntity.getData()) {
+                            if (dataBean.getChain().equals(detailEntity.getChain())) {
+                                text_range.setText(detailEntity.getWithdrawMin() + "~" + detailEntity.getWithdrawMax() + " " + currency);
+                                text_fee.setText(detailEntity.getWithdrawFee() + " " + currency);
+
+                            }
+                        }
+                    });
                 }
+
+
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
             }
         });
     }
@@ -865,12 +930,18 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 break;
             case R.id.layout_withdrawal_pop:
                 if (withdrawCurrencyEntity != null) {
-                    showWithdrawCurrencyPopWindow(withdrawCurrencyEntity);
+                    showWithdrawCurrencyPopWindow(false, withdrawCurrencyEntity);
                 } else {
                     getWithdrawCurrency();
                 }
                 break;
-
+            case R.id.layout_withdrawal_transfer:
+                if (withdrawCurrencyEntity != null) {
+                    showWithdrawCurrencyPopWindow(true, withdrawCurrencyEntity);
+                } else {
+                    getWithdrawCurrency();
+                }
+                break;
         }
     }
 
@@ -939,29 +1010,21 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
             chain = data.getChain();
             currencyChainAdapter.select(chain);
             recyclerView.setAdapter(currencyChainAdapter);
-
-            String withdrawChain = data.getWithdrawChain();
-            Log.d("print", "showAddressPopWindow:886:  " + data);
-            if (withdrawChain == null) {
-                switch (data.getChain()) {
-                    case "ERC20":
-                        text_fee.setText("6 " + getResources().getString(R.string.text_usdt));
-
-                        break;
-                    case "OMNI":
-                        text_fee.setText("5.92 " + getResources().getString(R.string.text_usdt));
-
-                        break;
-                    case "TRC20":
-                        text_fee.setText("0 " + getResources().getString(R.string.text_usdt));
-
-                        break;
-                }
-            } else {
-                TradeUtil.getFee(withdrawChain, chain, response -> {
-                    text_fee.setText(response.toString() + " " + getResources().getString(R.string.text_usdt));
+            //获取链细节
+            getDetailCurrency(true, false, data.getCurrency());
+            text_withdraw_currency.setText(data.getCurrency());
+            ChartUtil.setIcon(data.getCurrency(), img_bg);
+            BalanceManger.getInstance().getBalance(data.getCurrency(), response -> {
+                BalanceEntity.DataBean data1 = (BalanceEntity.DataBean) response;
+                TradeUtil.getScale(data1.getCurrency(), response2 -> {
+                    int scale = (int) response2;
+                    double money = data1.getMoney();
+                    text_balance.setText(TradeUtil.numberHalfUp(money, scale) + " " + data1.getCurrency());
+                    text_balance_transfer.setText(TradeUtil.numberHalfUp(money, scale) + " " + data1.getCurrency());
                 });
-            }
+
+
+            });
 
 
         });
@@ -1096,7 +1159,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     private CurrencyHistoryAdapter currencyHistoryAdapter;
     private Set<String> historyList;
 
-    private void showWithdrawCurrencyPopWindow(WithdrawCurrencyEntity withdrawCurrencyEntity) {
+    private void showWithdrawCurrencyPopWindow(boolean isTransfer, WithdrawCurrencyEntity withdrawCurrencyEntity) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.pop_withdrawal_currency, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -1184,9 +1247,35 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 historyList.add(data);
             }
             SPUtils.putString(AppConfig.KEY_WITHDRAW_CURRENCY_HISTORY, Util.SPDeal(historyList));
-            getDetailCurrency(data);
-            text_withdraw_currency.setText(data);
-            ChartUtil.setIcon(data,img_bg);
+            //获取链细节
+            if (isTransfer) {
+                getDetailCurrency(false, true, data);
+                text_withdraw_currency_transfer.setText(data);
+                ChartUtil.setIcon(data, img_bg_transfer);
+
+            } else {
+                getDetailCurrency(false, false, data);
+                text_withdraw_currency.setText(data);
+                ChartUtil.setIcon(data, img_bg);
+            }
+
+
+            BalanceManger.getInstance().getBalance(data, response -> {
+                BalanceEntity.DataBean data1 = (BalanceEntity.DataBean) response;
+                TradeUtil.getScale(data1.getCurrency(), response2 -> {
+                    int scale = (int) response2;
+                    double money = data1.getMoney();
+                    if (isTransfer) {
+                        text_balance_transfer.setText(TradeUtil.numberHalfUp(money, scale) + " " + data1.getCurrency());
+                    } else {
+                        text_balance.setText(TradeUtil.numberHalfUp(money, scale) + " " + data1.getCurrency());
+                        text_address.setText(data1.getCurrency() + getResources().getString(R.string.text_usdt_address));
+                    }
+                });
+
+
+            });
+
 
             popupWindow.dismiss();
         });
@@ -1220,6 +1309,7 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
     }
 
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -1227,4 +1317,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
 
     }
+
+
 }

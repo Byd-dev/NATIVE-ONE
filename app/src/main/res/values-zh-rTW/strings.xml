@@ -284,10 +284,10 @@
     <string name="text_balance">餘額</string>
     <string name="text_select_coin">選擇幣種</string>
     <string name="text_amount_withdrawal">數量</string>
-    <string name="text_usdt_address">USDT提幣地址</string>
+    <string name="text_usdt_address">提幣地址</string>
     <string name="text_manage_address">地址管理</string>
     <string name="text_withdrawal_limit">提幣限額</string>
-    <string name="text_withdrawal_tip_one">單次提幣不得低於50USDT,小於此金額將不會成功</string>
+    <string name="text_withdrawal_tip_one">單次提幣不得低於%s</string>
     <string name="text_withdrawal_tip_two">每一次提幣前，需要確保地址準確無誤，錯誤地址會導致提幣失敗</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
     <string name="text_coin_exchange">貨幣兌換</string>
@@ -443,7 +443,7 @@
     <string name="text_address_my">所在地</string>
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
-    <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
+    <string name="text_withdrawal_tip_three">單日提幣限額為：%s</string>
     <string name="text_trader_30_days_rate">近30天带单收益率</string>
     <string name="text_trader_30_days_defeat">近30天交易胜率</string>
     <string name="text_trader_30_days_draw">近30天最大回撤</string>
@@ -578,5 +578,10 @@
     <string name="text_follow_close_tip">如勾选，订单默认跟随交易员平仓；如未勾选，订单会按照您设置的止损比例平仓.</string>
     <string name="text_stop_loss_follow_tip">订单止损比例</string>
     <string name="text_search_main">请输入关键字搜索</string>
+    <string name="text_withdrawal_tip_four">請確認目標提幣地址是否存在且被激活，否則將會導致提幣失敗，且資產不可找回</string>
+    <string name="text_withdrawal_tip_five">如有地址標簽，請務必仔細核對地址標簽，否則將造成資產損失並不可找回</string>
+    <string name="text_withdrawal_tip_six">為保障資金安全，當您帳戶安全策略變更、密碼修改、我們會對提幣進行人工審核，請耐心等待工作人員電話或郵件聯系</string>
+    <string name="text_withdrawal_tip_seven">請務必確認電腦及瀏覽器安全，防止信息被篡改或洩露</string>
+    <string name="text_withdrawal_tip_eight">提幣時間（SGT）：週一到週日的9：00-21：00</string>
 
 </resources>

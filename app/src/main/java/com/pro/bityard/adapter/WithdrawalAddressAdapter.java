@@ -5,12 +5,14 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.WithdrawalAdressEntity;
+import com.pro.bityard.utils.ChartUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +102,10 @@ public class WithdrawalAddressAdapter extends RecyclerView.Adapter<RecyclerView.
 
             ((MyViewHolder) holder).text_chain.setText(datas.get(position).getChain());
 
+
+            ChartUtil.setIcon(datas.get(position).getCurrency(),((MyViewHolder) holder).img_bg);
+
+
             ((MyViewHolder) holder).text_userName.setText(datas.get(position).getRemark());
             ((MyViewHolder) holder).text_address.setText(datas.get(position).getAddress());
         }
@@ -133,6 +139,7 @@ public class WithdrawalAddressAdapter extends RecyclerView.Adapter<RecyclerView.
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_userName, text_chain, text_address;
+        ImageView img_bg;
 
 
         public MyViewHolder(View itemView) {
@@ -141,7 +148,7 @@ public class WithdrawalAddressAdapter extends RecyclerView.Adapter<RecyclerView.
             text_userName = itemView.findViewById(R.id.text_userName);
             text_chain = itemView.findViewById(R.id.text_chain);
             text_address = itemView.findViewById(R.id.text_address);
-
+            img_bg=itemView.findViewById(R.id.img_bg);
 
             itemView.findViewById(R.id.layout_address).setOnClickListener(v -> {
                 if (onCopyClick != null) {

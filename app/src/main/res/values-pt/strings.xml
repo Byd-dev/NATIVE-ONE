@@ -283,10 +283,10 @@
     <string name="text_balance">Saldo</string>
     <string name="text_select_coin">Selecionar moeda</string>
     <string name="text_amount_withdrawal">Quantidade</string>
-    <string name="text_usdt_address">Endereço de saque USDT</string>
+    <string name="text_usdt_address">Endereço de saque</string>
     <string name="text_manage_address">Gerenciar endereço</string>
     <string name="text_withdrawal_limit">Limite para saque</string>
-    <string name="text_withdrawal_tip_one">O valor mínimo para saque é de 50 USD.</string>
+    <string name="text_withdrawal_tip_one">O valor mínimo para saque é de %s</string>
     <string name="text_withdrawal_tip_two">Verifique se o endereço de saque foi preenchido corretamente</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
     <string name="text_coin_exchange">Câmbio</string>
@@ -442,7 +442,7 @@
     <string name="text_address_my">所在地</string>
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
-    <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
+    <string name="text_withdrawal_tip_three">O limite de saque de um dia é: %s</string>
     <string name="text_trader_30_days_rate">近30天带单收益率</string>
     <string name="text_trader_30_days_defeat">近30天交易胜率</string>
     <string name="text_trader_30_days_draw">近30天最大回撤</string>
@@ -577,5 +577,10 @@
     <string name="text_follow_close_tip">如勾选，订单默认跟随交易员平仓；如未勾选，订单会按照您设置的止损比例平仓.</string>
     <string name="text_stop_loss_follow_tip">订单止损比例</string>
     <string name="text_search_main">请输入关键字搜索</string>
+    <string name="text_withdrawal_tip_four">Por favor, confirme se o endereço de levanta existe e está ativado, caso contrário, a levanta falhará e o ativo não será recuperado</string>
+    <string name="text_withdrawal_tip_five">Verifique cuidadosamente o tag de endereço, caso contrário, a perda de ativos não será recuperada</string>
+    <string name="text_withdrawal_tip_six">Para garantir a segurança de seus fundos, sua solicitação de levanta será revisada manualmente se sua estratégia ou senha de segurança for alterada. Por favor, aguarde por telefonemas ou emails de nossa equipa</string>
+    <string name="text_withdrawal_tip_seven">Por favor, verifique-se a segurança do seu computador e navegador para evitar que as informações sejam violadas ou divulgadas</string>
+    <string name="text_withdrawal_tip_eight">Horário de retirada (SGT): segunda a domingo, das 9h às 21h</string>
 
 </resources>

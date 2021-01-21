@@ -284,10 +284,10 @@
     <string name="text_balance">잔고</string>
     <string name="text_select_coin">코인 선택</string>
     <string name="text_amount_withdrawal">수량</string>
-    <string name="text_usdt_address">USDT 출금 주소</string>
+    <string name="text_usdt_address">출금 주소</string>
     <string name="text_manage_address">주소 관리</string>
     <string name="text_withdrawal_limit">최소 출금 금액</string>
-    <string name="text_withdrawal_tip_one">최소 출금액이50USDT 이상입니다. 금액이 부족하는 경우, 제출히지는 못합니다. </string>
+    <string name="text_withdrawal_tip_one">최소 출금액이%s 이상입니다 </string>
     <string name="text_withdrawal_tip_two">인출 주소가 올바르게 입력되었는지 확인하십시오.</string>
     <string name="text_usdt_tether_us">USDT Tether US</string>
     <string name="text_coin_exchange">화폐 교환</string>
@@ -443,7 +443,7 @@
     <string name="text_address_my">所在地</string>
     <string name="text_photo">拍照</string>
     <string name="text_album">相册</string>
-    <string name="text_withdrawal_tip_three">提币时间：周一到周日的9:00-21:00</string>
+    <string name="text_withdrawal_tip_three">당일 출금 한도 : %s</string>
     <string name="text_trader_30_days_rate">최근 30일 리딩 수익율</string>
     <string name="text_trader_30_days_defeat">최근 30일 거래 승률</string>
     <string name="text_trader_30_days_draw">최근 30일 최대 철회율</string>
@@ -578,5 +578,10 @@
     <string name="text_follow_close_tip">如勾选，订单默认跟随交易员平仓；如未勾选，订单会按照您设置的止损比例平仓.</string>
     <string name="text_stop_loss_follow_tip">订单止损比例</string>
     <string name="text_search_main">请输入关键字搜索</string>
+    <string name="text_withdrawal_tip_four">출금 주소가 존재하고 활성화되어 있는지를 확인하지 않은 경우 출금이 실패될 수 있고 되찾을 수 없습니다</string>
+    <string name="text_withdrawal_tip_five">주소 태그를 신중하게 확인하십시오. 잘못된 태그인 경우 자산 되찾을 수 없습니다</string>
+    <string name="text_withdrawal_tip_six">자산 안전을 위해 계정 보안 및 비밀번호 변경 시, 출금에 대한 인공적인 심사가 필요합니다. 담당자의 전화나 이메일 연락을 기다려 주십시오</string>
+    <string name="text_withdrawal_tip_seven">정보가 변조되거나 유출되지 않도록 컴퓨터와 브라우저가 신뢰할 수 있는지 확인하십시오</string>
+    <string name="text_withdrawal_tip_eight">출금 가능 시간 (SGT) : 매일 9:00 - 21:00</string>
 
 </resources>
