@@ -144,7 +144,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             double mul1 = TradeUtil.mul(datas.get(position).getTraderTotalIncome(), 1);
             ((MyViewHolder) holder).text_trader_30_days_defeat.setText(datas.get(position).getTrader30DaysDefeat() + "%");
 
-            ((MyViewHolder) holder).text_trader_total_rate.setText(TradeUtil.getNumberFormat(datas.get(position).getTraderTotalIncome(),2)+"%");
+            ((MyViewHolder) holder).text_trader_total_rate.setText(TradeUtil.getNumberFormat(datas.get(position).getIncomeRate(),2)+"%");
 
             ((MyViewHolder) holder).text_bet_days.setText(datas.get(position).getBetDays());
 

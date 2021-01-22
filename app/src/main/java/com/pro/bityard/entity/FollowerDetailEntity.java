@@ -51,35 +51,6 @@ public class FollowerDetailEntity implements Serializable{
 
     public static class DataBean implements Serializable {
 
-        @Override
-        public String toString() {
-            return "DataBean{" +
-                    "avatar='" + avatar + '\'' +
-                    ", betDays='" + betDays + '\'' +
-                    ", brand='" + brand + '\'' +
-                    ", currency='" + currency + '\'' +
-                    ", follower='" + follower + '\'' +
-                    ", idearTag='" + idearTag + '\'' +
-                    ", registerTime=" + registerTime +
-                    ", selectedRegion=" + selectedRegion +
-                    ", sex=" + sex +
-                    ", styleTag='" + styleTag + '\'' +
-                    ", trader30DaysCost='" + trader30DaysCost + '\'' +
-                    ", trader30DaysCount=" + trader30DaysCount +
-                    ", trader30DaysDefeat=" + trader30DaysDefeat +
-                    ", trader30DaysDraw=" + trader30DaysDraw +
-                    ", trader30DaysIncome=" + trader30DaysIncome +
-                    ", trader30DaysRate=" + trader30DaysRate +
-                    ", traderRatio=" + traderRatio +
-                    ", traderTotalIncome=" + traderTotalIncome +
-                    ", type=" + type +
-                    ", userId='" + userId + '\'' +
-                    ", username='" + username + '\'' +
-                    ", idearTags=" + idearTags +
-                    ", styleTags=" + styleTags +
-                    '}';
-        }
-
         /**
          * avatar :
          * betDays : 62
@@ -122,12 +93,51 @@ public class FollowerDetailEntity implements Serializable{
         private double trader30DaysIncome;
         private double trader30DaysRate;
         private double traderRatio;
+        private double incomeRate;
         private double traderTotalIncome;
         private int type;
         private String userId;
         private String username;
         private List<String> idearTags;
         private List<String> styleTags;
+
+        public double getIncomeRate() {
+            return incomeRate;
+        }
+
+        public void setIncomeRate(double incomeRate) {
+            this.incomeRate = incomeRate;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "avatar='" + avatar + '\'' +
+                    ", betDays='" + betDays + '\'' +
+                    ", brand='" + brand + '\'' +
+                    ", currency='" + currency + '\'' +
+                    ", follower='" + follower + '\'' +
+                    ", idearTag='" + idearTag + '\'' +
+                    ", registerTime=" + registerTime +
+                    ", selectedRegion=" + selectedRegion +
+                    ", sex=" + sex +
+                    ", styleTag='" + styleTag + '\'' +
+                    ", trader30DaysCost='" + trader30DaysCost + '\'' +
+                    ", trader30DaysCount=" + trader30DaysCount +
+                    ", trader30DaysDefeat=" + trader30DaysDefeat +
+                    ", trader30DaysDraw=" + trader30DaysDraw +
+                    ", trader30DaysIncome=" + trader30DaysIncome +
+                    ", trader30DaysRate=" + trader30DaysRate +
+                    ", traderRatio=" + traderRatio +
+                    ", incomeRate=" + incomeRate +
+                    ", traderTotalIncome=" + traderTotalIncome +
+                    ", type=" + type +
+                    ", userId='" + userId + '\'' +
+                    ", username='" + username + '\'' +
+                    ", idearTags=" + idearTags +
+                    ", styleTags=" + styleTags +
+                    '}';
+        }
 
         public String getAvatar() {
             return avatar;

@@ -2736,6 +2736,7 @@ public class NetManger {
                 if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
                 } else {
+                    Log.d("print", "followList:2739:  "+response.toString());
                     FollowEntity followEntity = new Gson().fromJson(response.toString(), FollowEntity.class);
                     onNetResult.onNetResult(SUCCESS, followEntity);
                 }
