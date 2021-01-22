@@ -3010,9 +3010,10 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("print", "followerSwitch:带单开关:  "+response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() != 200) {
-                    onNetResult.onNetResult(FAILURE, null);
+                    onNetResult.onNetResult(FAILURE, tipEntity);
                 } else {
                     onNetResult.onNetResult(SUCCESS, tipEntity);
                 }

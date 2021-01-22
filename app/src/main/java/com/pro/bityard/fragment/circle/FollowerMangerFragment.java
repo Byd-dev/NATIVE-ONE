@@ -103,8 +103,13 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
                             if (state2 == true) {
                                 btn_switch.setChecked(true);
                                 NetManger.getInstance().followerSwitch("true", (state, response) -> {
-                                    if (state.equals(SUCCESS)) {
+                                    if (state.equals(BUSY)) {
+                                        showProgressDialog();
+                                    } else if (state.equals(SUCCESS)) {
+                                        dismissProgressDialog();
                                         Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+                                    } else if (state.equals(FAILURE)) {
+                                        dismissProgressDialog();
                                     }
                                 });
                             } else {
@@ -116,8 +121,13 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
 
             } else {
                 NetManger.getInstance().followerSwitch("false", (state, response) -> {
-                    if (state.equals(SUCCESS)) {
+                    if (state.equals(BUSY)) {
+                        showProgressDialog();
+                    } else if (state.equals(SUCCESS)) {
+                        dismissProgressDialog();
                         Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+                    } else if (state.equals(FAILURE)) {
+                        dismissProgressDialog();
                     }
                 });
             }
