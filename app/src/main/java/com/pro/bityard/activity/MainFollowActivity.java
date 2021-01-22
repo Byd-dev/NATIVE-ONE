@@ -49,6 +49,7 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
+import com.pro.bityard.entity.FollowerIncomeEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.UserDetailEntity;
@@ -231,6 +232,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     LinearLayout layout_assets_my;
     @BindView(R.id.layout_account_my)
     ScrollView layout_account_my;
+    @BindView(R.id.text_all_profit)
+    TextView text_all_profit;
 
     @BindView(R.id.layout_commissionRate)
     LinearLayout layout_commissionRate;
@@ -1370,11 +1373,26 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         //个人详情
         if (isLogin()) {
             UserDetailManger.getInstance().detail();
-
         }
+        //带单总收益
+        getFollowIncome();
 
 
     }
+
+    private void getFollowIncome(){
+        NetManger.getInstance().followerIncome((state, response) -> {
+            if (state.equals(SUCCESS)) {
+                FollowerIncomeEntity followerIncomeEntity = (FollowerIncomeEntity) response;
+
+                text_all_profit.setText(getResources().getString(R.string.text_all_profit)
+                        +": "+followerIncomeEntity.getIncomeAll());
+
+
+            }
+        });
+    }
+
 
     private void getFollowList() {
         NetManger.getInstance().followList(null, null,

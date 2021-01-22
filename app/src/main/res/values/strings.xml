@@ -517,7 +517,7 @@
     <string name="text_copy_trade_amount_item">跟单总额</string>
     <string name="text_go_trade">去交易</string>
     <string name="text_being_copied">带单管理</string>
-    <string name="text_all_profit">累计总收益</string>
+    <string name="text_all_profit">总收益</string>
     <string name="text_week_profit">本周收益</string>
     <string name="text_day_profit">今日收益</string>
     <string name="text_follower_switch">带单开关</string>
