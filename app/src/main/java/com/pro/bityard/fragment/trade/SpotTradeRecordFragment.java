@@ -1,7 +1,6 @@
 package com.pro.bityard.fragment.trade;
 
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +13,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.RadioDateAdapter;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.manger.CommissionManger;
 import com.pro.bityard.manger.ControlManger;
 
 import java.util.ArrayList;
@@ -34,8 +34,10 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-    @BindView(R.id.img_spot_filter)
-    ImageView img_spot_filter;
+    @BindView(R.id.img_spot_position_filter)
+    ImageView img_spot_position_filter;
+    @BindView(R.id.img_spot_history_filter)
+    ImageView img_spot_history_filter;
 
     @BindView(R.id.drawerLayout)
     DrawerLayout drawerLayout;
@@ -58,6 +60,8 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
     private RadioDateAdapter radioDateAdapter, radioTypeAdapter;//杠杆适配器
     private List<String> dataList, typeList;
+
+    private boolean isCommission = true;
 
 
     @Override
@@ -83,15 +87,24 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
         initViewPager(viewPager);
-        img_spot_filter.setOnClickListener(this);
+        img_spot_history_filter.setOnClickListener(this);
+        img_spot_position_filter.setOnClickListener(this);
+
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 2) {
-                    img_spot_filter.setVisibility(View.VISIBLE);
-                } else {
-                    img_spot_filter.setVisibility(View.GONE);
+                if (tab.getPosition() == 0) {
+                    img_spot_position_filter.setVisibility(View.GONE);
+                    img_spot_history_filter.setVisibility(View.GONE);
+                } else if (tab.getPosition() == 1) {
+                    img_spot_position_filter.setVisibility(View.VISIBLE);
+                    img_spot_history_filter.setVisibility(View.GONE);
+                    isCommission = true;
+                } else if (tab.getPosition() == 2) {
+                    img_spot_position_filter.setVisibility(View.GONE);
+                    img_spot_history_filter.setVisibility(View.VISIBLE);
+                    isCommission = false;
                 }
             }
 
@@ -176,13 +189,20 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
             case R.id.img_back:
                 getActivity().finish();
                 break;
-            case R.id.img_spot_filter:
+            case R.id.img_spot_position_filter:
+            case R.id.img_spot_history_filter:
                 drawerLayout.openDrawer(layout_right);
                 break;
+
+
             case R.id.btn_sure:
                 String value_search = edit_search.getText().toString();
                 String value = value_date + "," + value_search + "," + value_type;
-                ControlManger.getInstance().postTag(value);
+                if (isCommission) {
+                    CommissionManger.getInstance().postTag(value);
+                } else {
+                    ControlManger.getInstance().postTag(value);
+                }
                 drawerLayout.closeDrawer(layout_right);
                 break;
             case R.id.btn_return:

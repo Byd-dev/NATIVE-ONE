@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.trade;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -12,6 +13,8 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.SpotHistoryEntity;
+import com.pro.bityard.manger.CommissionManger;
+import com.pro.bityard.manger.ControlManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
@@ -22,6 +25,8 @@ import com.pro.switchlibrary.SPUtils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,7 +37,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class SpotCommitHistoryFragment extends BaseFragment implements View.OnClickListener {
+public class SpotCommitHistoryFragment extends BaseFragment implements View.OnClickListener, Observer {
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
     @BindView(R.id.layout_spot)
@@ -83,6 +88,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
     @Override
     protected void initView(View view) {
 
+        CommissionManger.getInstance().addObserver(this);
 
         TextView text_start = view.findViewById(R.id.text_start);
         TextView text_end = view.findViewById(R.id.text_end);
@@ -117,7 +123,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                 createTimeGe = ChartUtil.getSelectZero(selectStart);
                 createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
                 page = 0;
-                getHistoryPosition(AppConfig.FIRST,page);
+                getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
                     .setCancelColor(getResources().getColor(R.color.maincolor))
@@ -144,7 +150,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                 createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
                 createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
                 page=0;
-                getHistoryPosition(AppConfig.FIRST,page);
+                getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
 
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
@@ -171,7 +177,8 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             page=0;
-            getHistoryPosition(AppConfig.FIRST,page);
+            getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
+
         });
         recyclerView_spot.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -181,7 +188,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == spotHistoryAdapter.getItemCount() - 1) {
                     spotHistoryAdapter.startLoad();
                     page = page + 1;
-                    getHistoryPosition(AppConfig.LOAD,page);
+                    getHistoryPosition(AppConfig.LOAD,null,null,null,null,page);
 
                 }
             }
@@ -206,18 +213,18 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
     @Override
     protected void initData() {
 
-        getHistoryPosition(AppConfig.FIRST,0);
+        getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
 
 
     }
 
-    private void getHistoryPosition(String type,int page) {
+    private void getHistoryPosition(String addType, String commodity, String buy, String type, String srcCurrency, int page) {
 
         LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity == null) {
             return;
         }
-        NetManger.getInstance().spotPositionHistory(null, null, null, null, null,
+        NetManger.getInstance().spotPositionHistory(commodity, buy, type, null, srcCurrency,
                 null, createTimeGe, createTimeLe, String.valueOf(page), "10", (state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout.setRefreshing(true);
@@ -226,7 +233,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                         SpotHistoryEntity spotHistoryEntity= (SpotHistoryEntity) response;
                         List<SpotHistoryEntity.DataBean> data = spotHistoryEntity.getData();
 
-                        if (type.equals(AppConfig.LOAD)){
+                        if (addType.equals(AppConfig.LOAD)){
                             spotHistoryAdapter.addDatas(data);
                         }else {
                             if (data.size() != 0) {
@@ -266,5 +273,46 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
     }
 
+    private String edit_search;
+    private String buy_sell;
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == CommissionManger.getInstance()) {
+            String value = (String) arg;
+            String[] split = value.split(",");
+            String value_date = split[0];
+            String value_search = split[1];
+            String value_type = split[2];
+            Log.d("print", "onClick:179:  " + value_search + "   " + value_date + "   " + value_type);
+            buy_sell = null;
+            if (value_search.equals("")) {
+                edit_search = null;
+            } else {
+                edit_search = value_search;
+            }
+            if (value_type.equals(getString(R.string.text_buy_and_sell))) {
+                buy_sell = null;
+            } else if (value_type.equals(getString(R.string.text_buy))) {
+                buy_sell = "true";
+            } else if (value_type.equals(getString(R.string.text_sell))) {
+                buy_sell = "false";
+            }
 
+            if (value_date.equals(getString(R.string.text_near_one_day))) {
+                createTimeGe = ChartUtil.getTodayZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+            } else if (value_date.equals(getString(R.string.text_near_one_week))) {
+                createTimeGe = ChartUtil.getWeekZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+            } else if (value_date.equals(getString(R.string.text_near_one_month))) {
+                createTimeGe = ChartUtil.getMonthZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+            } else if (value_date.equals(getString(R.string.text_near_three_month))) {
+                createTimeGe = ChartUtil.getThreeMonthZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+            }
+            page = 0;
+            getHistoryPosition(AppConfig.FIRST, edit_search, buy_sell, null, null, page);
+        }
+    }
 }

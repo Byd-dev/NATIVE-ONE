@@ -127,7 +127,19 @@
             android:visibility="gone"
             />
         <ImageView
-            android:id="@+id/img_spot_filter"
+            android:id="@+id/img_spot_position_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/icon_spot_filter"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/margin_15"
+            android:paddingLeft="@dimen/margin_15"
+            android:visibility="gone"
+            />
+
+        <ImageView
+            android:id="@+id/img_spot_history_filter"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:src="@mipmap/icon_spot_filter"
