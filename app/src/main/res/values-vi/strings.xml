@@ -583,5 +583,6 @@
     <string name="text_withdrawal_tip_six">Trong trường hợp bạn thay đổi bảo mật tài sản, mật khẩu của mình, chúng tôi cần duyệt thủ công để bảo vệ người dùng, vui lòng chờ đợi</string>
     <string name="text_withdrawal_tip_seven">Chắc chắn máy tính và trình duyệt của bạn an toàn, tránh để lộ thông tin tài khoản</string>
     <string name="text_withdrawal_tip_eight">Thời gian rút tiền (SGT):Thứ 2 đến chủ nhật 9:00-21:00</string>
+    <string name="text_follow_profit_rate">收益率</string>
 
 </resources>

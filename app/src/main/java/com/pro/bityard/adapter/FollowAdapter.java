@@ -131,7 +131,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             ((MyViewHolder) holder).text_type.setText(value_type);
 
 
-            double mul = TradeUtil.mul(datas.get(position).getTrader30DaysIncome(),1);
+            double mul = TradeUtil.mul(datas.get(position).getIncomeRate(),1);
             if (mul >= 0) {
                 ((MyViewHolder) holder).text_trader_total_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
 

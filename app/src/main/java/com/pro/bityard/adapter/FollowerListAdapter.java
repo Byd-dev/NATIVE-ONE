@@ -103,7 +103,7 @@ public class FollowerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             double income = datas.get(position).getSumIncome();
 
-            ((MyViewHolder) holder).text_income_rate.setText(TradeUtil.getNumberFormat(income, 2) + "%");
+            ((MyViewHolder) holder).text_income_rate.setText(TradeUtil.getNumberFormat(income, 2));
             if (income > 0) {
                 ((MyViewHolder) holder).text_income_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
 
@@ -112,6 +112,9 @@ public class FollowerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             }
 
+
+            ((MyViewHolder) holder).text_rate_tip.setText(context.getResources().getText(R.string.text_income_rate)+
+                    "("+context.getResources().getString(R.string.text_usdt)+")");
 
             Glide.with(context.getApplicationContext())
                     .load(datas.get(position).getAvatar())
@@ -149,7 +152,7 @@ public class FollowerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_id, text_copy_trade_amount_item,
-                text_income_rate;
+                text_income_rate,text_rate_tip;
         CircleImageView img_head;
 
         public MyViewHolder(View itemView) {
@@ -158,7 +161,7 @@ public class FollowerListAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             text_id = itemView.findViewById(R.id.text_id);
             text_copy_trade_amount_item = itemView.findViewById(R.id.text_copy_trade_amount_item);
             text_income_rate = itemView.findViewById(R.id.text_income_rate);
-
+            text_rate_tip=itemView.findViewById(R.id.text_rate_tip);
 
         }
     }

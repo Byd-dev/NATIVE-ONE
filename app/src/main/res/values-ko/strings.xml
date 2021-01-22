@@ -583,5 +583,6 @@
     <string name="text_withdrawal_tip_six">자산 안전을 위해 계정 보안 및 비밀번호 변경 시, 출금에 대한 인공적인 심사가 필요합니다. 담당자의 전화나 이메일 연락을 기다려 주십시오</string>
     <string name="text_withdrawal_tip_seven">정보가 변조되거나 유출되지 않도록 컴퓨터와 브라우저가 신뢰할 수 있는지 확인하십시오</string>
     <string name="text_withdrawal_tip_eight">출금 가능 시간 (SGT) : 매일 9:00 - 21:00</string>
+    <string name="text_follow_profit_rate">收益率</string>
 
 </resources>

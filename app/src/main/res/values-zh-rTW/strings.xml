@@ -513,7 +513,7 @@
     <string name="text_profit_share_ratio">带单利润分成比例</string>
     <string name="text_trader_total_income">累计總收益</string>
     <string name="text_ratio_tip">跟随后，系统将按每笔跟单统计跟单收益，单笔盈利订单将有%s作为带单奖励分享给该交易员。</string>
-    <string name="text_income_rate">收益率</string>
+    <string name="text_income_rate">跟单收益</string>
     <string name="text_order_type">订单类型</string>
     <string name="text_copy_trade_amount_item">跟单总额</string>
     <string name="text_go_trade">去交易</string>
@@ -583,5 +583,6 @@
     <string name="text_withdrawal_tip_six">為保障資金安全，當您帳戶安全策略變更、密碼修改、我們會對提幣進行人工審核，請耐心等待工作人員電話或郵件聯系</string>
     <string name="text_withdrawal_tip_seven">請務必確認電腦及瀏覽器安全，防止信息被篡改或洩露</string>
     <string name="text_withdrawal_tip_eight">提幣時間（SGT）：週一到週日的9：00-21：00</string>
+    <string name="text_follow_profit_rate">收益率</string>
 
 </resources>

@@ -175,7 +175,7 @@ public class FollowHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_margin, text_open_price,
                 text_buy, text_close_price, text_income_rate,
-                text_open_time, text_close_time, text_order_id, text_order_type;
+                text_open_time, text_close_time, text_order_id, text_order_type,text_rate_tip;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -184,6 +184,7 @@ public class FollowHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
             text_open_price = itemView.findViewById(R.id.text_open_price);
             text_close_price = itemView.findViewById(R.id.text_close_price);
             text_buy = itemView.findViewById(R.id.text_buy);
+            text_rate_tip=itemView.findViewById(R.id.text_rate_tip);
 
 
             text_income_rate = itemView.findViewById(R.id.text_income_rate);

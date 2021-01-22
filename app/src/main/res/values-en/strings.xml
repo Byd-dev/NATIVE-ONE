@@ -582,5 +582,6 @@
     <string name="text_withdrawal_tip_six">For the fund security when you change your security setting or code, we will confirm with you by telephone or mail. Please wait for the contact</string>
     <string name="text_withdrawal_tip_seven">Please make sure that the computer and browser are reliable to prevent the information from being tampered with or leaked</string>
     <string name="text_withdrawal_tip_eight">Withdraw hours (SGT): Monday to Sunday 9:00 - 21:00</string>
+    <string name="text_follow_profit_rate">收益率</string>
 
 </resources>

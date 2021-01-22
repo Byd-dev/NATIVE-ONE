@@ -582,5 +582,6 @@
     <string name="text_withdrawal_tip_six">Para garantir a segurança de seus fundos, sua solicitação de levanta será revisada manualmente se sua estratégia ou senha de segurança for alterada. Por favor, aguarde por telefonemas ou emails de nossa equipa</string>
     <string name="text_withdrawal_tip_seven">Por favor, verifique-se a segurança do seu computador e navegador para evitar que as informações sejam violadas ou divulgadas</string>
     <string name="text_withdrawal_tip_eight">Horário de retirada (SGT): segunda a domingo, das 9h às 21h</string>
+    <string name="text_follow_profit_rate">收益率</string>
 
 </resources>
