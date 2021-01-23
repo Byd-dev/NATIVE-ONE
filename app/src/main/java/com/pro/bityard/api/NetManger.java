@@ -3281,7 +3281,9 @@ public class NetManger {
         if (price != null) {
             map.put("price", price);
         }
-        map.put("volume", volume);
+        if (volume!=null){
+            map.put("volume", volume);
+        }
         map.put("chargeEagle", chargeEagle);
         map.put("platform", "Android");
 

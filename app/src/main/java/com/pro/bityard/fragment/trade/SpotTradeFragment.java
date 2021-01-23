@@ -139,12 +139,14 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private RelativeLayout layout_buy_what;
 
     private String tradeName = null;
-    private DecimalEditText edit_trade_amount_limit;
+    private DecimalEditText edit_trade_amount_limit,edit_trade_amount_market;
     private int volumeDigit;
     private TextWatcher watcher_price;
     private TextWatcher watcher_amount;
     private TextWatcher watcher_trade;
-    private String value_price_limit;
+    private String value_price;
+    private BalanceEntity.DataBean balanceEntity;
+    private String value_volume;
 
 
     @Override
@@ -185,6 +187,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         edit_amount_limit = headView.findViewById(R.id.edit_amount_limit);
         //限价成交金额
         edit_trade_amount_limit = headView.findViewById(R.id.edit_trade_amount_limit);
+
+        //市价成交金额
+        edit_trade_amount_market = headView.findViewById(R.id.edit_trade_amount_market);
 
         headView.findViewById(R.id.img_record).setOnClickListener(v -> {
             UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_SPOT_RECORD);
@@ -466,6 +471,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_green));
                     text_buy_what.setText(getResources().getText(R.string.text_buy) + tradeName);
                     isBuy = "true";
+                    text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+
                     break;
                 case R.id.radio_sell:
                     count = 0;
@@ -474,6 +481,16 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_red));
                     text_buy_what.setText(getResources().getText(R.string.text_sell) + tradeName);
                     isBuy = "false";
+                    if (balanceEntity!=null){
+                        TradeUtil.getScale(balanceEntity.getCurrency(), response2 -> {
+                            double money = balanceEntity.getMoney();
+                            int scale= (int) response2;
+                            text_balance.setText(TradeUtil.getNumberFormat(money,scale)+" "+tradeName);
+                        });
+                    }else {
+                        getBalance();
+                    }
+
                     break;
             }
         });
@@ -482,10 +499,22 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         proportionLimitAdapter.select(5);
         proportionLimitAdapter.setOnItemClick((position, data) -> {
             proportionLimitAdapter.select(position);
-            double balanceReal = BalanceManger.getInstance().getBalanceReal();
-            String s = TradeUtil.mulBig(balanceReal, Double.parseDouble(TradeUtil.divBig(data, 100, 2)));
-            String numberFormat = TradeUtil.getNumberFormat(Double.parseDouble(s), priceDigit);
-            edit_trade_amount_limit.setText(numberFormat);
+            if (isBuy.equals("true")){
+                double balanceReal = BalanceManger.getInstance().getBalanceReal();
+                String s = TradeUtil.mulBig(balanceReal, Double.parseDouble(TradeUtil.divBig(data, 100, 2)));
+                String numberFormat = TradeUtil.getNumberFormat(Double.parseDouble(s), priceDigit);
+                edit_trade_amount_limit.setText(numberFormat);
+            }else {
+                if (balanceEntity!=null){
+                    double money = balanceEntity.getMoney();
+                    String s = TradeUtil.mulBig(money, Double.parseDouble(TradeUtil.divBig(data, 100, 2)));
+                    String numberFormat = TradeUtil.getNumberFormat(Double.parseDouble(s), priceDigit);
+                    edit_trade_amount_limit.setText(numberFormat);
+                }else {
+                    getBalance();
+                }
+            }
+
         });
 
         /*市价*/
@@ -493,27 +522,45 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         proportionMarketAdapter.select(5);
         proportionMarketAdapter.setOnItemClick((position, data) -> {
             proportionMarketAdapter.select(position);
+            if (isBuy.equals("true")){
+                double balanceReal = BalanceManger.getInstance().getBalanceReal();
+                String s = TradeUtil.mulBig(balanceReal, Double.parseDouble(TradeUtil.divBig(data, 100, 2)));
+                String numberFormat = TradeUtil.getNumberFormat(Double.parseDouble(s), priceDigit);
+                edit_trade_amount_market.setText(numberFormat);
+            }else {
+                if (balanceEntity!=null){
+                    double money = balanceEntity.getMoney();
+                    String s = TradeUtil.mulBig(money, Double.parseDouble(TradeUtil.divBig(data, 100, 2)));
+                    String numberFormat = TradeUtil.getNumberFormat(Double.parseDouble(s), priceDigit);
+                    edit_trade_amount_market.setText(numberFormat);
+                }else {
+                    getBalance();
+                }
+            }
+
         });
         /*买入*/
         layout_buy_what.setOnClickListener(v -> {
 
 
-            String value_amount_limit = edit_amount_limit.getText().toString();
-            if (value_amount_limit.equals("")) {
-                return;
-            }
+
 
             if (type.equals("0")) {
-                value_price_limit = edit_price_limit.getText().toString();
-                if (value_price_limit.equals("")) {
+                value_price = edit_price_limit.getText().toString();
+                value_volume = edit_amount_limit.getText().toString();
+
+                if (value_price.equals("")) {
                     return;
                 }
+
             } else {
-                value_price_limit = null;
+                value_price = "0";
+                value_volume = edit_trade_amount_market.getText().toString();
+
             }
 
-            NetManger.getInstance().spotOpen(Util.filterNumber(quote_code), isBuy, type, "USDT", tradeName, value_price_limit,
-                    value_amount_limit, "0", (state, response) -> {
+            NetManger.getInstance().spotOpen(Util.filterNumber(quote_code), isBuy, type, "USDT", tradeName, value_price,
+                    value_volume, "0", (state, response) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
                         } else if (state.equals(SUCCESS)) {
@@ -526,6 +573,26 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         });
 
+
+        getBalance();
+
+    }
+
+
+    private void getBalance(){
+        BalanceManger.getInstance().getBalance(tradeName, response -> {
+            balanceEntity = (BalanceEntity.DataBean) response;
+            TradeUtil.getScale(balanceEntity.getCurrency(), response2 -> {
+                double money = balanceEntity.getMoney();
+                int scale= (int) response2;
+                if (isBuy.equals("true")){
+                    text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+                }else {
+                    text_balance.setText(TradeUtil.getNumberFormat(money,scale)+" "+tradeName);
+                }
+            });
+
+        });
 
     }
 

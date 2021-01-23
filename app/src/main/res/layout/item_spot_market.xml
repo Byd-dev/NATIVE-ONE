@@ -3,7 +3,7 @@
     android:id="@+id/layout_spot_market"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:visibility="gone"
+    android:visibility="visible"
     android:orientation="vertical">
 
 
