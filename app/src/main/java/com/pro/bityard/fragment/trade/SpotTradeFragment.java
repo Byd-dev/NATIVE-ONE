@@ -53,6 +53,8 @@ import com.pro.switchlibrary.SPUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
@@ -638,6 +640,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
                 sellList = Util.getSellList(quote);
                 sellAdapter.isSell(true);
+
+                Collections.reverse(sellList);
                 sellAdapter.setDatas(sellList.subList(0, length), Util.sellMax(quote));
             });
 
