@@ -419,7 +419,7 @@
 
                 <TextView
 
-                    android:id="@+id/text_stop_loss_ratio"
+                    android:id="@+id/text_stop_loss_ratio_proportion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"

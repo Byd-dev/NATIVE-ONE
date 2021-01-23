@@ -9,6 +9,8 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.TimeUtils;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -161,6 +163,14 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
     TextView text_copy_switch_tip;
 
 
+    @BindView(R.id.checkbox_amount)
+    CheckBox checkBox_amount;
+    @BindView(R.id.checkbox_proportion)
+    CheckBox checkbox_proportion;
+    @BindView(R.id.layout_stop_loss_amount)
+    LinearLayout layout_stop_loss_amount;
+    @BindView(R.id.layout_stop_loss_proportion)
+    LinearLayout layout_stop_loss_proportion;
     private CopyMangerEntity.DataBean followerUser;
     private String traderId;
     private String followVal;
@@ -306,6 +316,47 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
         setEdit("3", edit_stop_loss_rate, bar_stop_loss_proportion, 90, 0);
 
         view.findViewById(R.id.btn_submit).setOnClickListener(this);
+        layout_stop_loss_amount.setVisibility(View.GONE);
+        layout_stop_loss_proportion.setVisibility(View.GONE);
+
+        checkBox_amount.setChecked(true);
+        checkbox_proportion.setChecked(true);
+
+        checkBox_amount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    layout_stop_loss_amount.setVisibility(View.GONE);
+                    slRatio="-1";
+                } else {
+                    layout_stop_loss_amount.setVisibility(View.VISIBLE);
+                    bar_amount.post(() -> {
+                        bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
+                    });
+                    edit_amount_bar.setText(90+"");
+
+
+                }
+            }
+        });
+
+        checkbox_proportion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    layout_stop_loss_proportion.setVisibility(View.GONE);
+                    slRatio="-1";
+                } else {
+                    layout_stop_loss_proportion.setVisibility(View.VISIBLE);
+                    bar_amount.post(() -> {
+                        bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
+                    });
+                    edit_amount_bar.setText(90+"");
+
+
+                }
+            }
+        });
 
 
     }

@@ -75,6 +75,8 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     TextView text_maximum_position_amount;
     @BindView(R.id.text_stop_loss_ratio)
     TextView text_stop_loss_ratio;
+    @BindView(R.id.text_stop_loss_ratio_proportion)
+    TextView text_stop_loss_ratio_proportion;
     @BindView(R.id.layout_unfold_settings)
     LinearLayout layout_unfold_settings;
     private boolean isShow_amount = false;
@@ -217,6 +219,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         text_maximum_position_amount.setText(Html.fromHtml(strMsg3));
         String strMsg4 = getString(R.string.text_stop_loss_ratio);
         text_stop_loss_ratio.setText(Html.fromHtml(strMsg4));
+        text_stop_loss_ratio_proportion.setText(Html.fromHtml(strMsg4));
 
         view.findViewById(R.id.layout_advanced_settings).setOnClickListener(this);
         view.findViewById(R.id.layout_advanced_settings_proportion).setOnClickListener(this);
@@ -299,7 +302,10 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                     slRatio="-1";
                 } else {
                     layout_stop_loss_amount.setVisibility(View.VISIBLE);
-
+                    bar_amount.post(() -> {
+                        bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
+                    });
+                    edit_amount_bar.setText(90+"");
                 }
             }
         });
@@ -312,6 +318,11 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                     slRatio="-1";
                 } else {
                     layout_stop_loss_proportion.setVisibility(View.VISIBLE);
+                    bar_stop_loss_proportion.post(() -> {
+                        bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
+                    });
+                    edit_stop_loss_rate.setText(90+"");
+
 
                 }
             }
