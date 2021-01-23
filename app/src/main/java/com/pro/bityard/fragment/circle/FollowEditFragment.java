@@ -348,10 +348,10 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                     slRatio="-1";
                 } else {
                     layout_stop_loss_proportion.setVisibility(View.VISIBLE);
-                    bar_amount.post(() -> {
-                        bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
+                    bar_stop_loss_proportion.post(() -> {
+                        bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
                     });
-                    edit_amount_bar.setText(90+"");
+                    edit_stop_loss_rate.setText(90+"");
 
 
                 }

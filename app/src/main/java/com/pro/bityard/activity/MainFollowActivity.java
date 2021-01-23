@@ -581,7 +581,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         }
 
         //跟单列表
-        getFollowList();
+      //  getFollowList();
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             text_userName.setText(loginEntity.getUser().getUserName());
@@ -1948,6 +1948,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 layout_circle.setVisibility(View.VISIBLE);
                 layout_my.setVisibility(View.GONE);
                 layout_status.setVisibility(View.VISIBLE);
+                getFollowList();
 
                 break;
             case R.id.radio_4:
