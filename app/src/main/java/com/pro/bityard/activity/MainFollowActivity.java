@@ -1377,7 +1377,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         //带单总收益
         getFollowIncome();
 
-
+        getFollowList();
     }
 
     private void getFollowIncome(){
@@ -1405,7 +1405,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                         FollowEntity followEntity = (FollowEntity) response;
                         List<FollowerDetailEntity.DataBean> followEntityData = followEntity.getData();
-                        Log.d("print", "getFollowList:社区第一个数据:  "+followEntityData.get(1));
                         if (followEntityData.size() == 0) {
                             layout_circle_null.setVisibility(View.VISIBLE);
                             recyclerView_circle.setVisibility(View.GONE);
@@ -1948,7 +1947,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 layout_circle.setVisibility(View.VISIBLE);
                 layout_my.setVisibility(View.GONE);
                 layout_status.setVisibility(View.VISIBLE);
-                getFollowList();
+                //getFollowList();
 
                 break;
             case R.id.radio_4:
