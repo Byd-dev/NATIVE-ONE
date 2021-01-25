@@ -36,6 +36,7 @@
             android:gravity="center"
             android:paddingLeft="@dimen/margin_15"
             android:paddingTop="@dimen/margin_5"
+            android:visibility="gone"
             android:paddingRight="@dimen/margin_15"
             android:paddingBottom="@dimen/margin_5"
             android:text="@string/text_cancel_all"
