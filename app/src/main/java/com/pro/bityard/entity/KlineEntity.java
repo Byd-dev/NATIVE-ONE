@@ -2,7 +2,7 @@ package com.pro.bityard.entity;
 
 public class KlineEntity {
 
-    private long time=0;
+    private long time;
     private double openPrice;
     private double closePrice;
     private double highPrice;
