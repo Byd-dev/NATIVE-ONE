@@ -404,19 +404,19 @@ public class Util {
         }
     }
 
-    public static int str2Calendar(String str,String type) {
+    public static int str2Calendar(String str, String type) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date;
         try {
             date = sdf.parse(str);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            if (type.equals("year")){
+            if (type.equals("year")) {
                 return calendar.get(Calendar.YEAR);
-            }else if (type.equals("month")){
+            } else if (type.equals("month")) {
                 return calendar.get(Calendar.MONTH);
-            }else if (type.equals("day")){
-                return  calendar.get(Calendar.DAY_OF_MONTH);
+            } else if (type.equals("day")) {
+                return calendar.get(Calendar.DAY_OF_MONTH);
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -1567,4 +1567,6 @@ public class Util {
         String format = simpleDateFormat.format(newDate);
         return format;
     }
+
+
 }

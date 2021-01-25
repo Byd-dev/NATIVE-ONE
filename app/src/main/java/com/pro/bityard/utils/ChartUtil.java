@@ -38,7 +38,6 @@ public class ChartUtil {
             return null;
         } else {
 
-
             List<KlineEntity> klineEntityList;
             List<Long> t = data.getT();
             List<Double> c = data.getC();
@@ -46,10 +45,14 @@ public class ChartUtil {
             List<Double> h = data.getH();
             List<Double> l = data.getL();
             List<Double> v = data.getV();
+
             klineEntityList = new ArrayList<>();
             for (int i = 0; i < t.size(); i++) {
-                klineEntityList.add(new KlineEntity(t.get(i), op.get(i), c.get(i), h.get(i), l.get(i), v.get(i)));
+                if (op.get(i)!=null&&c.get(i)!=null&&h.get(i)!=null&&l.get(i)!=null&&v.get(i)!=null){
+                    klineEntityList.add(new KlineEntity(t.get(i), op.get(i), c.get(i), h.get(i), l.get(i), v.get(i)));
+                }
             }
+
             List<KData> dataList = new ArrayList<>();
             long start;
             double openPrice;

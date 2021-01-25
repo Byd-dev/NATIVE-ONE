@@ -1842,10 +1842,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         }
         /*历史分割线-----------------------------------------------------------------------------------*/
         else if (o == Quote1MinHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            Log.d("print", "klineList:1846: "+data.getT().size()+" "+data.getO().size()+" "+data.getC().size()+" "+data.getH().size()+" "+data.getL().size()+" "+data.getV().size());
+
             if (!isAdded()) {
                 return;
             }
-            QuoteChartEntity data = (QuoteChartEntity) arg;
+
+
             kData1MinHistory = ChartUtil.klineList(data);
             if (kData1MinHistory != null) {
                 myKLineView_1Min.initKDataList(kData1MinHistory);
@@ -1859,10 +1863,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == Quote3MinHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
             if (!isAdded()) {
                 return;
             }
-            QuoteChartEntity data = (QuoteChartEntity) arg;
             kData3MinHistory = ChartUtil.klineList(data);
 
             if (kData3MinHistory != null) {
@@ -1876,11 +1880,13 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == Quote5MinHistoryManger.getInstance()) {
+
+            QuoteChartEntity data = (QuoteChartEntity) arg;
             if (!isAdded()) {
                 return;
             }
-            QuoteChartEntity data = (QuoteChartEntity) arg;
             kData5MinHistory = ChartUtil.klineList(data);
+
             if (kData5MinHistory != null) {
                 myKLineView_5Min.initKDataList(kData5MinHistory);
             } else {
@@ -1889,12 +1895,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     Quote5MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
                 }
             }
-
         } else if (o == Quote15MinHistoryManger.getInstance()) {
-            if (!isAdded()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            if (!isAdded()&&data==null) {
                 return;
             }
-            QuoteChartEntity data = (QuoteChartEntity) arg;
             kData15MinHistory = ChartUtil.klineList(data);
 
             if (kData15MinHistory != null) {
@@ -1907,10 +1912,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == Quote60MinHistoryManger.getInstance()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
             if (!isAdded()) {
                 return;
             }
-            QuoteChartEntity data = (QuoteChartEntity) arg;
             kData60MinHistory = ChartUtil.klineList(data);
 
             if (kData60MinHistory != null) {
@@ -1924,11 +1929,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         } else if (o == QuoteDayHistoryManger.getInstance()) {
-            if (!isAdded()) {
+            QuoteChartEntity data = (QuoteChartEntity) arg;
+            if (!isAdded()&&data==null) {
                 return;
             }
-            QuoteChartEntity data = (QuoteChartEntity) arg;
             kDataDayHistory = ChartUtil.klineList(data);
+
             if (kDataDayHistory != null) {
                 myKLineView_1D.initKDataList(kDataDayHistory);
 
@@ -1945,6 +1951,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kDataWeekHistory = ChartUtil.klineList(data);
+
             if (kDataWeekHistory != null) {
 
                 List<KData> weekList = ChartUtil.KlineWeekData(ChartUtil.getWeekKDataList(kDataWeekHistory));
@@ -1964,6 +1971,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kDataMonthHistory = ChartUtil.klineList(data);
+
             if (kDataMonthHistory != null) {
                 List<KData> monthList = ChartUtil.KlineMonthData(ChartUtil.getMonthKDataList(kDataMonthHistory));
                 myKLineView_1_month.initKDataList(monthList);
