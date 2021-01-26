@@ -85,7 +85,7 @@
 
 
             <ImageView
-                android:id="@+id/img_star"
+                android:id="@+id/img_star_spot"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
