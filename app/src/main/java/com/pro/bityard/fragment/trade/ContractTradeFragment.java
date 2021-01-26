@@ -796,7 +796,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         quote_code = itemQuoteContCode(itemData);
-        Log.d("print", "initData:进来的值:  " + itemQuoteContCode(itemData));
+        Log.d("print", "initData:合约进来的值:  " + itemQuoteContCode(itemData));
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
         Util.setOptional(getActivity(), optionalList, quote_code, img_star_contract, response -> {

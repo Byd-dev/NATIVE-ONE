@@ -337,6 +337,11 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         edit_amount_limit.setHint(getResources().getString(R.string.text_amount_withdrawal) + " (" + tradeName + ")");
         //根据当前价格的小数位确定输入框的小数位
         priceDigit = tradeDetail.getPriceDigit();
+        if (isBuy.equals("true")){
+            text_buy_what.setText(getResources().getText(R.string.text_buy) + tradeName);
+        }else {
+            text_buy_what.setText(getResources().getText(R.string.text_sell) + tradeName);
+        }
 
 
         getBalance();
@@ -352,6 +357,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         tradeType = getArguments().getString(TYPE);
         itemData = getArguments().getString(VALUE);
+        Log.d("print", "initData:现货进来的值:  " + itemQuoteContCode(itemData));
 
         setContent(itemData);
         edit_price_limit.setDecimalEndNumber(priceDigit);
@@ -708,6 +714,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
             //发送行情包
+           // Log.d("print", "handleMessage:发送:  "+quote_code);
             if (quote_code != null) {
                 WebSocketManager.getInstance().send("5001", quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
@@ -732,7 +739,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
 
             quote = (String) arg;
-
+           // Log.d("print", "update:获取:  "+quote);
 
             runOnUiThread(() -> {
                 buyList = Util.getBuyList(quote);
@@ -780,7 +787,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         text_price.setText(String.valueOf(price));
 
                         if (count == 0) {
-                            Log.d("print", "initView:221:  " + TradeUtil.decimalPoint(String.valueOf(price)));
                             edit_price_limit.setText(String.valueOf(price));
                             count++;
                         }
