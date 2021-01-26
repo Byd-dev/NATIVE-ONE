@@ -154,6 +154,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private String value_price;
     private BalanceEntity.DataBean balanceEntity;
     private String value_volume;
+    private TextView text_add_amount_market;
+    private TextView text_sub_amount_market;
+    private int priceDigit;
 
 
     @Override
@@ -195,6 +198,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         edit_amount_limit = headView.findViewById(R.id.edit_amount_limit);
         //限价成交金额
         edit_trade_amount_limit = headView.findViewById(R.id.edit_trade_amount_limit);
+
 
         //市价成交金额
         edit_trade_amount_market = headView.findViewById(R.id.edit_trade_amount_market);
@@ -251,6 +255,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
         view.findViewById(R.id.layout_product).setOnClickListener(this);
+
+
         //自选监听
         view.findViewById(R.id.layout_optional).setOnClickListener(this);
         BalanceManger.getInstance().addObserver(this);
@@ -280,6 +286,11 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
         headView.findViewById(R.id.layout_buy_sell_switch).setOnClickListener(this);
+
+        //市价的成交金额加
+        text_add_amount_market = headView.findViewById(R.id.text_add_amount_market);
+        text_sub_amount_market = headView.findViewById(R.id.text_sub_amount_market);
+
         layout_switch_limit_price.setOnClickListener(this);
 
 
@@ -307,19 +318,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     boolean flag_amount = true;
     boolean flag_trade = true;
 
-    @Override
-    protected void initData() {
 
-
-        Handler handler = new Handler();
-        handler.postDelayed(() -> startScheduleJob(mHandler, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND), 50);
-
-
-        tradeType = getArguments().getString(TYPE);
-        itemData = getArguments().getString(VALUE);
+    private void setContent(String itemData) {
+        Log.d("print", "setContent:313:  " + itemData);
         tradeName = TradeUtil.name(itemData);
-
-
         quote_code = itemQuoteContCode(itemData);
 
 
@@ -334,7 +336,24 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         text_currency_head.setText("(" + tradeName + ")");
         edit_amount_limit.setHint(getResources().getString(R.string.text_amount_withdrawal) + " (" + tradeName + ")");
         //根据当前价格的小数位确定输入框的小数位
-        int priceDigit = tradeDetail.getPriceDigit();
+        priceDigit = tradeDetail.getPriceDigit();
+
+
+        getBalance();
+    }
+
+    @Override
+    protected void initData() {
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(() -> startScheduleJob(mHandler, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND), 50);
+
+
+        tradeType = getArguments().getString(TYPE);
+        itemData = getArguments().getString(VALUE);
+
+        setContent(itemData);
         edit_price_limit.setDecimalEndNumber(priceDigit);
         String volumeMin = tradeDetail.getVolumeMin();
         if (volumeMin == null) {
@@ -420,9 +439,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         edit_trade_amount_limit.addTextChangedListener(watcher_trade);
 
 
-        //TradeUtil.setEditTrade(edit_price_limit, edit_amount_limit, edit_trade_amount_limit, priceDigit);
-
-        //TradeUtil.setEditTrade(edit_amount_limit, edit_price_limit, edit_trade_amount_limit, priceDigit);
         //限价加号
         text_add_price_limit.setOnClickListener(v ->
         {
@@ -527,6 +543,14 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         });
 
         /*市价*/
+
+        //市价的成交金额加
+        text_add_amount_market.setOnClickListener(v -> {
+            TradeUtil.addMyself(edit_trade_amount_market, tradeDetail.getPriceChange());
+        });
+        //市价的成交金额减
+        text_sub_amount_market.setOnClickListener(v -> TradeUtil.subMyself(edit_trade_amount_market, tradeDetail.getPriceChange()));
+
         proportionMarketAdapter.setDatas(proportionList);
         proportionMarketAdapter.select(5);
         proportionMarketAdapter.setOnItemClick((position, data) -> {
@@ -579,9 +603,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     });
 
         });
-
-
-        getBalance();
 
     }
 
@@ -733,7 +754,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
-            Log.d("print", "update:735:  "+quoteList);
             if (quoteList != null && quoteAdapter_market_pop != null) {
                 runOnUiThread(() -> {
                     //搜索框
@@ -1223,6 +1243,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         });
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
+
+            Log.d("print", "showQuotePopWindow:1231:  " + data);
+            setContent(data);
             quote_code = TradeUtil.itemQuoteContCode(data);
             type = AppConfig.CONTRACT_IN_ALL;
 
@@ -1241,20 +1264,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
             text_name.setText(TradeUtil.name(data));
             text_currency.setText(TradeUtil.currency(data));
-
-
-
-
-
-        /*    Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);*/
-
 
             //相应选择
             popupWindow.dismiss();
