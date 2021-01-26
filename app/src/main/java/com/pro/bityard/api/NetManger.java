@@ -2883,7 +2883,7 @@ public class NetManger {
                 if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, null);
                 } else {
-                    CopyMangerEntity copyMangerEntity = new Gson().fromJson(response.toString(), CopyMangerEntity.class);
+                    FollowEntity copyMangerEntity = new Gson().fromJson(response.toString(), FollowEntity.class);
                     onNetResult.onNetResult(SUCCESS, copyMangerEntity);
                 }
 

@@ -299,7 +299,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         double trader30DaysCount = followerUser.getTrader30DaysCount();//30天交易笔数
         double trader30DaysRate = followerUser.getTrader30DaysRate();//30天带单收益率
         double trader30DaysDefeat = followerUser.getTrader30DaysDefeat();//30天交易胜率
-        double traderTotalIncome = followerUser.getTraderTotalIncome();//带单总收益
+        double traderTotalIncome = followerUser.getTraderIncome();//带单总收益
         String follower = followerUser.getFollower();//跟随者
 
 

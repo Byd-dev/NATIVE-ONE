@@ -19,7 +19,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -253,7 +252,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private String prizeTradeValue;
 
     //礼金余额
-    private TextView text_balance,text_currency, text_bonus_balance, text_bonus_balance_currency, text_bonus_currency;
+    private TextView text_balance, text_currency, text_bonus_balance, text_bonus_balance_currency, text_bonus_currency;
     //红包余额
     private TextView text_balance_currency, text_gift_balance, text_gift_balance_currency, text_gift_currency;
     private AccountAdapter accountAdapter;
@@ -552,6 +551,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             }
         }
     }
+
     public static void enter(Context context, int tabIndex) {
 
         Intent intent = new Intent(context, MainFollowActivity.class);
@@ -581,7 +581,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         }
 
         //跟单列表
-      //  getFollowList();
+        //  getFollowList();
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             text_userName.setText(loginEntity.getUser().getUserName());
@@ -1167,7 +1167,20 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         followAdapter.setOnFollowClick(dataBean -> {
             if (isLogin()) {
-                FollowDetailActivity.enter(this, AppConfig.FOLLOW, dataBean);
+                if (dataBean.isFollow()) {
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_EDIT_FOLLOW, dataBean);
+                } else {
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, dataBean);
+                }
+            } else {
+                LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+            }
+        });
+
+
+        followAdapter.setOnDetailClick(dataBean -> {
+            if (isLogin()) {
+                FollowDetailActivity.enter(MainFollowActivity.this, AppConfig.FOLLOW, dataBean);
             } else {
                 LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
             }
@@ -1252,7 +1265,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         text_balance = headView.findViewById(R.id.text_balance);
         text_balance_currency = headView.findViewById(R.id.text_balance_currency);
-        text_fiat=headView.findViewById(R.id.text_fiat);
+        text_fiat = headView.findViewById(R.id.text_fiat);
         img_eye_switch = headView.findViewById(R.id.img_eye_switch);
         text_currency = headView.findViewById(R.id.text_currency);
         img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
@@ -1276,18 +1289,20 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_assets.addHeaderView(headView);
         recyclerView_assets.setAdapter(accountAdapter);
         Util.colorSwipe(this, swipeRefreshLayout_assets);
-        CheckBox checkBox_hide=headView.findViewById(R.id.checkbox_hide);
+        CheckBox checkBox_hide = headView.findViewById(R.id.checkbox_hide);
         checkBox_hide.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked){
+            if (isChecked) {
                 accountAdapter.hideSmallCoin(true);
-            }else {
+            } else {
                 accountAdapter.hideSmallCoin(false);
 
             }
         });
 
-        swipeRefreshLayout_assets.setOnRefreshListener(() -> {BalanceManger.getInstance().getBalance("USDT");
-        swipeRefreshLayout_assets.setRefreshing(false);});
+        swipeRefreshLayout_assets.setOnRefreshListener(() -> {
+            BalanceManger.getInstance().getBalance("USDT");
+            swipeRefreshLayout_assets.setRefreshing(false);
+        });
 
         headView.findViewById(R.id.stay_bonus).setOnClickListener(this);
         headView.findViewById(R.id.stay_gift).setOnClickListener(this);
@@ -1380,13 +1395,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         getFollowList();
     }
 
-    private void getFollowIncome(){
+    private void getFollowIncome() {
         NetManger.getInstance().followerIncome((state, response) -> {
             if (state.equals(SUCCESS)) {
                 FollowerIncomeEntity followerIncomeEntity = (FollowerIncomeEntity) response;
 
                 text_all_profit.setText(getResources().getString(R.string.text_all_profit)
-                        +": "+followerIncomeEntity.getIncomeAll());
+                        + ": " + followerIncomeEntity.getIncomeAll());
 
 
             }
@@ -2114,10 +2129,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 break;
             case R.id.stay_bonus:
                 String prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
-                if (prizeTrade!=null){
-                    prizeTradeValue = TradeUtil.mul(Double.parseDouble(prizeTrade), 100)+"%";
-                }else {
-                    prizeTradeValue=null;
+                if (prizeTrade != null) {
+                    prizeTradeValue = TradeUtil.mul(Double.parseDouble(prizeTrade), 100) + "%";
+                } else {
+                    prizeTradeValue = null;
                 }
                 String format = String.format(getString(R.string.text_used_to_deduct), prizeTradeValue);
 
@@ -2139,7 +2154,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 RegisterActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_REGISTER);
                 break;
 
-                //帮助中心
+            //帮助中心
             case R.id.layout_help:
                 WebActivity.getInstance().openUrl(this, NetManger.H5_HELP_CENTER, getString(R.string.text_help_center));
 
@@ -2250,7 +2265,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
                 break;
 
-                /*带单管理*/
+            /*带单管理*/
 
             case R.id.layout_copied_manger:
 
@@ -2259,8 +2274,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 } else {
                     LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
-                 break;
-                 /*跟单管理*/
+                break;
+            /*跟单管理*/
 
             /*交易设置*/
             case R.id.layout_five:

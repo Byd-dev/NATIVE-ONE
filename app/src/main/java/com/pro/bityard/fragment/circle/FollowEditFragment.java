@@ -27,6 +27,7 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.CopyMangerEntity;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -171,7 +172,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
     LinearLayout layout_stop_loss_amount;
     @BindView(R.id.layout_stop_loss_proportion)
     LinearLayout layout_stop_loss_proportion;
-    private CopyMangerEntity.DataBean followerUser;
+    private FollowerDetailEntity.DataBean followerUser;
     private String traderId;
     private String followVal;
     private String maxDay;
@@ -180,7 +181,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
     private String followMax=null;
 
 
-    public FollowEditFragment newInstance(CopyMangerEntity.DataBean value) {
+    public FollowEditFragment newInstance(FollowerDetailEntity.DataBean value) {
         FollowEditFragment fragment = new FollowEditFragment();
         Bundle args = new Bundle();
         args.putSerializable("DATA_VALUE", value);
@@ -460,7 +461,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
-        followerUser = (CopyMangerEntity.DataBean) getArguments().getSerializable("DATA_VALUE");
+        followerUser = (FollowerDetailEntity.DataBean) getArguments().getSerializable("DATA_VALUE");
         Log.d("print", "initData:403:  "+followerUser);
         if (followerUser.isActive()){
             btn_switch.setChecked(true);
@@ -527,18 +528,18 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
         text_userName.setText(followerUser.getTraderName());
 
         String value_type = null;
-        String type = followerUser.getTraderType();
+        int type = followerUser.getType();
         switch (type) {
-            case "1":
+            case 1:
                 value_type = getString(R.string.text_normal_user);
                 text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_normal_user), null, null, null);
 
                 break;
-            case "2":
+            case 2:
                 value_type = getString(R.string.text_normal_trader);
                 text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_normal_trader), null, null, null);
                 break;
-            case "3":
+            case 3:
                 value_type = getString(R.string.text_pro_trader);
                 text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_pro_trader), null, null, null);
 

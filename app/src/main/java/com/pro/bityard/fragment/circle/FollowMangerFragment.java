@@ -12,6 +12,8 @@ import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CopyMangerEntity;
+import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.StatEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -153,7 +155,7 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
                 if (isAdded()){
                     swipeRefreshLayout_traders.setRefreshing(false);
                 }
-                CopyMangerEntity copyMangerEntity = (CopyMangerEntity) response;
+                FollowEntity copyMangerEntity = (FollowEntity) response;
                 if (type.equals(LOAD)) {
                     copyMangerAdapter.addDatas(copyMangerEntity.getData());
                 } else {

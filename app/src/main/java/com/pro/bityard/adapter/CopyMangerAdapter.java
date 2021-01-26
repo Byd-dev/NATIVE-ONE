@@ -13,6 +13,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.FollowEntity;
+import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.CircleImageView;
 
@@ -23,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<CopyMangerEntity.DataBean> datas;
+    private List<FollowerDetailEntity.DataBean> datas;
 
 
     private static final int TYPE_ITEM = 0;
@@ -38,12 +39,12 @@ public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<CopyMangerEntity.DataBean> datas) {
+    public void setDatas(List<FollowerDetailEntity.DataBean> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<CopyMangerEntity.DataBean> datas) {
+    public void addDatas(List<FollowerDetailEntity.DataBean> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -206,7 +207,7 @@ public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public interface OnFollowClick {
-        void onClickListener(CopyMangerEntity.DataBean dataBean);
+        void onClickListener(FollowerDetailEntity.DataBean dataBean);
 
 
     }

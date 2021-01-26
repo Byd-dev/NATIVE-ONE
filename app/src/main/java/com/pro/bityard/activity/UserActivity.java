@@ -9,6 +9,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.CopyMangerEntity;
+import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.fragment.circle.FollowEditFragment;
 import com.pro.bityard.fragment.circle.FollowLogFragment;
@@ -178,7 +179,7 @@ public class UserActivity extends BaseActivity {
                 addFollowMangerFragment();
                 break;
             case IntentConfig.Keys.KEY_CIRCLE_EDIT_FOLLOW:
-                CopyMangerEntity.DataBean dataBean2 = (CopyMangerEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
+                FollowerDetailEntity.DataBean dataBean2 = (FollowerDetailEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
                 addFollowEditFragment(dataBean2);
                 break;
             case IntentConfig.Keys.KEY_FOLLOW_LOG:
@@ -226,7 +227,7 @@ public class UserActivity extends BaseActivity {
         ft.commitAllowingStateLoss();
     }
 
-    private void addFollowEditFragment(CopyMangerEntity.DataBean dataBean) {
+    private void addFollowEditFragment(FollowerDetailEntity.DataBean dataBean) {
         String name = FollowEditFragment.class.getSimpleName();
         FollowEditFragment fragment = new FollowEditFragment().newInstance(dataBean);
         ft = getSupportFragmentManager().beginTransaction();

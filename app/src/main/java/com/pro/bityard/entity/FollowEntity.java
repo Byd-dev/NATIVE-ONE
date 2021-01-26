@@ -14,16 +14,48 @@ public class FollowEntity implements Serializable{
 
     private int total;
     private int code;
-    private List<FollowerDetailEntity.DataBean> data;
+    private int size;
+    private int page;
+    private String message;
+
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     @Override
     public String toString() {
         return "FollowEntity{" +
-                "total='" + total + '\'' +
+                "total=" + total +
                 ", code=" + code +
+                ", size=" + size +
+                ", page=" + page +
+                ", message='" + message + '\'' +
                 ", data=" + data +
                 '}';
     }
+
+    private List<FollowerDetailEntity.DataBean> data;
 
     public int getTotal() {
         return total;

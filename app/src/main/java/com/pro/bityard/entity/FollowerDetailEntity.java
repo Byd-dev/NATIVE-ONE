@@ -76,6 +76,8 @@ public class FollowerDetailEntity implements Serializable{
          */
 
 
+
+
         private String avatar;
         private String betDays;
         private String brand;
@@ -86,7 +88,8 @@ public class FollowerDetailEntity implements Serializable{
         private Object selectedRegion;
         private int sex;
         private String styleTag;
-        private String trader30DaysCost;
+        private String trader30DaysMargin;
+        private double traderProfitRate;
         private double trader30DaysCount;
         private double trader30DaysDefeat;
         private double trader30DaysDraw;
@@ -94,20 +97,35 @@ public class FollowerDetailEntity implements Serializable{
         private double trader30DaysRate;
         private double traderRatio;
         private double incomeRate;
-        private double traderTotalIncome;
+        private double traderIncome;
         private int type;
         private String userId;
         private String username;
         private List<String> idearTags;
         private List<String> styleTags;
+        private boolean follow;
 
-        public double getIncomeRate() {
-            return incomeRate;
-        }
 
-        public void setIncomeRate(double incomeRate) {
-            this.incomeRate = incomeRate;
-        }
+
+        private boolean active;
+        private long createTime;
+        private double followVal;
+        private double followMax;
+        private int followWay;
+        private String id;
+        private Object lastCode;
+        private Object lastData;
+        private long lastTime;
+        private double maxDay;
+        private double maxHold;
+        private double slRatio;
+        private double sumIncome;
+        private double sumMargin;
+        private String traderAvatar;
+        private String traderId;
+        private String traderName;
+        private String traderType;
+        private long updateTime;
 
         @Override
         public String toString() {
@@ -122,7 +140,8 @@ public class FollowerDetailEntity implements Serializable{
                     ", selectedRegion=" + selectedRegion +
                     ", sex=" + sex +
                     ", styleTag='" + styleTag + '\'' +
-                    ", trader30DaysCost='" + trader30DaysCost + '\'' +
+                    ", trader30DaysMargin='" + trader30DaysMargin + '\'' +
+                    ", traderProfitRate=" + traderProfitRate +
                     ", trader30DaysCount=" + trader30DaysCount +
                     ", trader30DaysDefeat=" + trader30DaysDefeat +
                     ", trader30DaysDraw=" + trader30DaysDraw +
@@ -130,14 +149,229 @@ public class FollowerDetailEntity implements Serializable{
                     ", trader30DaysRate=" + trader30DaysRate +
                     ", traderRatio=" + traderRatio +
                     ", incomeRate=" + incomeRate +
-                    ", traderTotalIncome=" + traderTotalIncome +
+                    ", traderIncome=" + traderIncome +
                     ", type=" + type +
                     ", userId='" + userId + '\'' +
                     ", username='" + username + '\'' +
                     ", idearTags=" + idearTags +
                     ", styleTags=" + styleTags +
+                    ", follow=" + follow +
+                    ", active=" + active +
+                    ", createTime=" + createTime +
+                    ", followVal=" + followVal +
+                    ", followMax=" + followMax +
+                    ", followWay=" + followWay +
+                    ", id='" + id + '\'' +
+                    ", lastCode=" + lastCode +
+                    ", lastData=" + lastData +
+                    ", lastTime=" + lastTime +
+                    ", maxDay=" + maxDay +
+                    ", maxHold=" + maxHold +
+                    ", slRatio=" + slRatio +
+                    ", sumIncome=" + sumIncome +
+                    ", sumMargin=" + sumMargin +
+                    ", traderAvatar='" + traderAvatar + '\'' +
+                    ", traderId='" + traderId + '\'' +
+                    ", traderName='" + traderName + '\'' +
+                    ", traderType='" + traderType + '\'' +
+                    ", updateTime=" + updateTime +
                     '}';
         }
+
+        public long getCreateTime() {
+            return createTime;
+        }
+
+        public void setCreateTime(long createTime) {
+            this.createTime = createTime;
+        }
+
+        public Object getLastCode() {
+            return lastCode;
+        }
+
+        public void setLastCode(Object lastCode) {
+            this.lastCode = lastCode;
+        }
+
+        public Object getLastData() {
+            return lastData;
+        }
+
+        public void setLastData(Object lastData) {
+            this.lastData = lastData;
+        }
+
+        public long getUpdateTime() {
+            return updateTime;
+        }
+
+        public void setUpdateTime(long updateTime) {
+            this.updateTime = updateTime;
+        }
+
+        public boolean isActive() {
+            return active;
+        }
+
+        public void setActive(boolean active) {
+            this.active = active;
+        }
+
+        public double getSlRatio() {
+            return slRatio;
+        }
+
+        public void setSlRatio(double slRatio) {
+            this.slRatio = slRatio;
+        }
+
+        public long getLastTime() {
+            return lastTime;
+        }
+
+        public void setLastTime(long lastTime) {
+            this.lastTime = lastTime;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public double getSumIncome() {
+            return sumIncome;
+        }
+
+        public void setSumIncome(double sumIncome) {
+            this.sumIncome = sumIncome;
+        }
+
+        public double getSumMargin() {
+            return sumMargin;
+        }
+
+        public void setSumMargin(double sumMargin) {
+            this.sumMargin = sumMargin;
+        }
+
+        public double getMaxDay() {
+            return maxDay;
+        }
+
+        public void setMaxDay(double maxDay) {
+            this.maxDay = maxDay;
+        }
+
+        public double getMaxHold() {
+            return maxHold;
+        }
+
+        public void setMaxHold(double maxHold) {
+            this.maxHold = maxHold;
+        }
+
+        public double getFollowVal() {
+            return followVal;
+        }
+
+        public void setFollowVal(double followVal) {
+            this.followVal = followVal;
+        }
+
+        public double getFollowMax() {
+            return followMax;
+        }
+
+        public void setFollowMax(double followMax) {
+            this.followMax = followMax;
+        }
+
+        public int getFollowWay() {
+            return followWay;
+        }
+
+        public void setFollowWay(int followWay) {
+            this.followWay = followWay;
+        }
+
+        public String getTraderAvatar() {
+            return traderAvatar;
+        }
+
+        public void setTraderAvatar(String traderAvatar) {
+            this.traderAvatar = traderAvatar;
+        }
+
+        public String getTraderId() {
+            return traderId;
+        }
+
+        public void setTraderId(String traderId) {
+            this.traderId = traderId;
+        }
+
+        public String getTraderName() {
+            return traderName;
+        }
+
+        public void setTraderName(String traderName) {
+            this.traderName = traderName;
+        }
+
+        public String getTraderType() {
+            return traderType;
+        }
+
+        public void setTraderType(String traderType) {
+            this.traderType = traderType;
+        }
+
+        public boolean isFollow() {
+            return follow;
+        }
+
+        public void setFollow(boolean follow) {
+            this.follow = follow;
+        }
+
+        public String getTrader30DaysMargin() {
+            return trader30DaysMargin;
+        }
+
+        public void setTrader30DaysMargin(String trader30DaysMargin) {
+            this.trader30DaysMargin = trader30DaysMargin;
+        }
+
+        public double getTraderProfitRate() {
+            return traderProfitRate;
+        }
+
+        public void setTraderProfitRate(double traderProfitRate) {
+            this.traderProfitRate = traderProfitRate;
+        }
+
+        public double getTraderIncome() {
+            return traderIncome;
+        }
+
+        public void setTraderIncome(double traderIncome) {
+            this.traderIncome = traderIncome;
+        }
+
+        public double getIncomeRate() {
+            return incomeRate;
+        }
+
+        public void setIncomeRate(double incomeRate) {
+            this.incomeRate = incomeRate;
+        }
+
+
+
 
         public String getAvatar() {
             return avatar;
@@ -219,13 +453,7 @@ public class FollowerDetailEntity implements Serializable{
             this.styleTag = styleTag;
         }
 
-        public String getTrader30DaysCost() {
-            return trader30DaysCost;
-        }
 
-        public void setTrader30DaysCost(String trader30DaysCost) {
-            this.trader30DaysCost = trader30DaysCost;
-        }
 
         public double getTrader30DaysCount() {
             return trader30DaysCount;
@@ -275,13 +503,7 @@ public class FollowerDetailEntity implements Serializable{
             this.traderRatio = traderRatio;
         }
 
-        public double getTraderTotalIncome() {
-            return traderTotalIncome;
-        }
 
-        public void setTraderTotalIncome(double traderTotalIncome) {
-            this.traderTotalIncome = traderTotalIncome;
-        }
 
         public int getType() {
             return type;

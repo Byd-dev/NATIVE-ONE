@@ -141,7 +141,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
             ((MyViewHolder) holder).text_trader_30_days_income.setText(datas.get(position).getTrader30DaysRate() + "%");
 
-            double mul1 = TradeUtil.mul(datas.get(position).getTraderTotalIncome(), 1);
+            double mul1 = TradeUtil.mul(datas.get(position).getTraderIncome(), 1);
             ((MyViewHolder) holder).text_trader_30_days_defeat.setText(datas.get(position).getTrader30DaysDefeat() + "%");
 
             ((MyViewHolder) holder).text_trader_total_rate.setText(TradeUtil.getNumberFormat(datas.get(position).getIncomeRate(),2)+"%");
@@ -157,6 +157,32 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     onFollowClick.onClickListener(datas.get(position));
                 }
             });
+
+
+            ((MyViewHolder) holder).layout_name.setOnClickListener(v -> {
+                if (onDetailClick != null) {
+                    onDetailClick.onClickListener(datas.get(position));
+                }
+            });
+
+            ((MyViewHolder) holder).img_head.setOnClickListener(v -> {
+                if (onDetailClick != null) {
+                    onDetailClick.onClickListener(datas.get(position));
+                }
+            });
+
+            if (datas.get(position).isFollow()){
+                ((MyViewHolder) holder).text_follow.setText(context.getResources().getString(R.string.text_edit));
+                ((MyViewHolder) holder).text_follow.setBackground(context.getDrawable(R.drawable.gradient_bg_copy_main));
+                ((MyViewHolder) holder).text_follow.setTextColor(context.getResources().getColor(R.color.text_main_color_black));
+
+            }else {
+                ((MyViewHolder) holder).text_follow.setText(context.getResources().getString(R.string.text_copy_trade));
+                ((MyViewHolder) holder).text_follow.setBackground(context.getDrawable(R.drawable.gradient_bg_blue));
+                ((MyViewHolder) holder).text_follow.setTextColor(context.getResources().getColor(R.color.text_main_color));
+
+            }
+
         }
     }
 
@@ -190,7 +216,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView text_name, text_trader_30_days_income, text_trader_30_days_defeat, text_trader_total_rate,
                 text_bet_days, text_trader_30_days_count, text_follower, text_type, text_follow;
         CircleImageView img_head;
-        LinearLayout layout_tags;
+        LinearLayout layout_tags,layout_name;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -203,6 +229,8 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             text_follower = itemView.findViewById(R.id.text_follower);
             img_head = itemView.findViewById(R.id.img_head);
             layout_tags = itemView.findViewById(R.id.layout_tags);
+            layout_name = itemView.findViewById(R.id.layout_name);
+
             text_type = itemView.findViewById(R.id.text_type);
             text_follow = itemView.findViewById(R.id.text_follow);
 
@@ -229,6 +257,19 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     }
 
+
+    //查看详情的监听
+    private OnDetailClick onDetailClick;
+
+    public void setOnDetailClick(OnDetailClick onDetailClick) {
+        this.onDetailClick = onDetailClick;
+    }
+
+    public interface OnDetailClick {
+        void onClickListener(FollowerDetailEntity.DataBean dataBean);
+
+
+    }
 
     //平仓的监听
     private WarningClick warningClick;
