@@ -694,14 +694,27 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private void setContent(String itemData) {
+        Log.d("print", "setContent:313:  " + itemData);
+        quote_code = itemQuoteContCode(itemData);
 
-    private List<String> titleList, optionalTitleList;
+
+
+
+
+        text_name.setText(TradeUtil.name(itemData));
+        text_currency.setText(TradeUtil.currency(itemData));
+
+    }
+
+
+    private List<String> titleList, titleListContract, optionalTitleList;
     private OptionalSelectAdapter optionalSelectAdapter;
     private boolean flag_new_price = false;
     private boolean flag_up_down = false;
     private boolean flag_name = false;
-    private String type = AppConfig.SPOT_ALL;
-    private String zone_type = AppConfig.VIEW_SPOT;//-1是自选 1是主区 0是创新区 2是衍生品
+    private String type = AppConfig.CONTRACT_IN_ALL;
+    private String zone_type = AppConfig.VIEW_CONTRACT_IN;//-1是自选 1是主区 0是创新区 2是衍生品
     private ArrayMap<String, List<String>> arrayMap;
 
     private QuoteAdapter quoteAdapter_market_pop;
@@ -716,9 +729,9 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         titleList = new ArrayList<>();
         titleList.add(getString(R.string.text_optional));
-        titleList.add(getString(R.string.text_spot));
         titleList.add(getString(R.string.text_contract));
         titleList.add(getString(R.string.text_derived));
+        titleList.add(getString(R.string.text_spot));
         LinearLayout layout_optional_select_pop = view.findViewById(R.id.layout_optional_select_pop);
 
         RecyclerView recyclerView_optional_select_pop = view.findViewById(R.id.recyclerView_optional_pop);
@@ -729,11 +742,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         recyclerView_optional_select_pop.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         recyclerView_optional_select_pop.setAdapter(optionalSelectAdapter);
         optionalTitleList = new ArrayList<>();
-        optionalTitleList.add(getString(R.string.text_spot));
         optionalTitleList.add(getString(R.string.text_contract));
-        optionalTitleList.add(getString(R.string.text_derived));
+        optionalTitleList.add(getString(R.string.text_spot));
+        //optionalTitleList.add(getString(R.string.text_derived));
         optionalSelectAdapter.setDatas(optionalTitleList);
-        optionalSelectAdapter.select(getString(R.string.text_spot));
+        optionalSelectAdapter.select(getString(R.string.text_contract));
         optionalSelectAdapter.setEnable(true);
 
 
@@ -760,8 +773,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             optionalSelectAdapter.select(data);
             switch (position) {
                 case 0:
-                    type = AppConfig.OPTIONAL_SPOT_ALL;
-                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
+                    type = AppConfig.OPTIONAL_CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -777,8 +790,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     break;
                 case 1:
-                    type = AppConfig.OPTIONAL_CONTRACT_ALL;
-                    zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
+                    type = AppConfig.OPTIONAL_SPOT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -816,7 +829,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         for (String market_name : titleList) {
             tabLayout_market_search.addTab(tabLayout_market_search.newTab().setText(market_name));
         }
-        tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
+        tabLayout_market_search.getTabAt(1).select();
         view.findViewById(R.id.layout_new_price).setOnClickListener(v -> {
             if (arrayMap == null) {
                 return;
@@ -902,11 +915,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 if (arrayMap == null) {
                     return;
                 }
-
+                //自选
                 if (tab.getPosition() == 0) {
                     layout_optional_select_pop.setVisibility(View.VISIBLE);
-                    type = AppConfig.OPTIONAL_SPOT_ALL;
-                    zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
+                    type = AppConfig.OPTIONAL_CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
                     quoteList = arrayMap.get(type);
                     Log.d("print", "onTabSelected:684:  " + quoteList + "  " + type);
                     if (quoteList == null) {
@@ -920,11 +933,12 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                } else if (tab.getPosition() == 1) {
+                }//合约
+                else if (tab.getPosition() == 1) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
-                    type = AppConfig.SPOT_ALL;
-                    zone_type = AppConfig.VIEW_SPOT;
+                    type = AppConfig.CONTRACT_IN_ALL;
+                    zone_type = AppConfig.VIEW_CONTRACT_IN;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -938,29 +952,31 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                } else if (tab.getPosition() == 2) {
-                    layout_optional_select_pop.setVisibility(View.GONE);
-
-                    type = AppConfig.CONTRACT_ALL;
-                    zone_type = AppConfig.VIEW_CONTRACT;
-
-                    quoteList = arrayMap.get(type);
-                    if (quoteList == null) {
-                        layout_null.setVisibility(View.VISIBLE);
-                        recyclerView_market.setVisibility(View.GONE);
-                    } else {
-                        layout_null.setVisibility(View.GONE);
-                        recyclerView_market.setVisibility(View.VISIBLE);
-                        quoteAdapter_market_pop.setDatas(quoteList);
-                    }
-                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                } else if (tab.getPosition() == 3) {
+                }//衍生品
+                else if (tab.getPosition() == 2) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
                     type = AppConfig.DERIVATIVES_ALL;
                     zone_type = AppConfig.VIEW_DERIVATIVES;
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                }//现货
+                else if (tab.getPosition() == 3) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+
+                    type = AppConfig.SPOT_ALL;
+                    zone_type = AppConfig.VIEW_SPOT;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -998,13 +1014,12 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         });
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
-            quote_code = TradeUtil.itemQuoteContCode(data);
-            type = AppConfig.SPOT_ALL;
 
-            TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
-            Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
-            //自选的图标
-            String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
+            Log.d("print", "showQuotePopWindow:1231:  " + data);
+            setContent(data);
+            quote_code = TradeUtil.itemQuoteContCode(data);
+            type = AppConfig.CONTRACT_IN_ALL;
+
 
             //判断当前是否存在自选
             Util.isOptional(quote_code, optionalList, response -> {
@@ -1018,36 +1033,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             });
 
 
-
             text_name.setText(TradeUtil.name(data));
             text_currency.setText(TradeUtil.currency(data));
 
-            // QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, itemQuoteContCode(data));
-
-
-            // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(data));
-            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-
-
-            Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
-
             //相应选择
             popupWindow.dismiss();
-            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
-
 
 
         });
