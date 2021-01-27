@@ -591,5 +591,7 @@ diberikan kepada trader.</string>
     <string name="text_withdrawal_tip_seven">Please make sure that your computer and browser are secure and your information is protected from being tampered or leaked</string>
     <string name="text_withdrawal_tip_eight">Waktu penarikan (SGT): Hari Senin-Minggujam 9:00-21.00</string>
     <string name="text_follow_profit_rate">收益率</string>
+    <string name="text_record_commission">委托订单</string>
+    <string name="text_new_trade">最新成交</string>
 
 </resources>

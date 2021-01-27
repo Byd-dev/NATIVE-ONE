@@ -183,6 +183,87 @@
         android:background="@color/home_line" />
 
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="148dp"
+        android:orientation="vertical"
+        >
+        <RelativeLayout
+            android:id="@+id/layout_radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_30"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:id="@+id/img_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin_10"
+                android:text="@string/text_trade_rule"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal"
+                android:visibility="visible" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <RadioButton
+                    android:id="@+id/radio_0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:text="@string/text_record_commission"
+                    android:textColor="@color/sel_switcher_txt"
+                    android:textSize="14sp"
+                    android:typeface="monospace"
+
+                    />
+
+
+                <RadioButton
+                    android:id="@+id/radio_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:checked="false"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/margin_15"
+                    android:text="@string/text_new_trade"
+                    android:textColor="@color/sel_switcher_txt"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace"
+
+                    />
+
+
+            </RadioGroup>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
 
 
     <LinearLayout

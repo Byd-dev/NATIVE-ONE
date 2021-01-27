@@ -583,5 +583,7 @@
     <string name="text_withdrawal_tip_seven">Por favor, verifique-se a segurança do seu computador e navegador para evitar que as informações sejam violadas ou divulgadas</string>
     <string name="text_withdrawal_tip_eight">Horário de retirada (SGT): segunda a domingo, das 9h às 21h</string>
     <string name="text_follow_profit_rate">收益率</string>
+    <string name="text_record_commission">委托订单</string>
+    <string name="text_new_trade">最新成交</string>
 
 </resources>

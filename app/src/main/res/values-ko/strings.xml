@@ -584,5 +584,7 @@
     <string name="text_withdrawal_tip_seven">정보가 변조되거나 유출되지 않도록 컴퓨터와 브라우저가 신뢰할 수 있는지 확인하십시오</string>
     <string name="text_withdrawal_tip_eight">출금 가능 시간 (SGT) : 매일 9:00 - 21:00</string>
     <string name="text_follow_profit_rate">收益率</string>
+    <string name="text_record_commission">委托订单</string>
+    <string name="text_new_trade">最新成交</string>
 
 </resources>

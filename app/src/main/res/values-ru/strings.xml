@@ -584,5 +584,7 @@
     <string name="text_withdrawal_tip_seven">Убедитесь, что ваш компьютер и браузер защищены, а ваша информация защищена от несанкционированного доступа или утечки</string>
     <string name="text_withdrawal_tip_eight">Время вывода (SGT): с понедельника по воскресенье с 9:00 до 21:00</string>
     <string name="text_follow_profit_rate">收益率</string>
+    <string name="text_record_commission">委托订单</string>
+    <string name="text_new_trade">最新成交</string>
 
 </resources>
