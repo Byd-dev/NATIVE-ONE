@@ -28,6 +28,8 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
+import com.pro.bityard.activity.SpotTradeActivity;
+import com.pro.bityard.activity.TradeActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.ProportionSelectAdapter;
@@ -303,6 +305,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         recyclerView_buy = headView.findViewById(R.id.recyclerView_buy);
         recyclerView_buy.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_buy.setAdapter(buyAdapter);
+
+        view.findViewById(R.id.img_market).setOnClickListener(this);
 
 
     }
@@ -704,6 +708,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.layout_switch_limit_price:
                 showLimitPriceWindow();
+                break;
+            case R.id.img_market:
+                SpotTradeActivity.enter(getActivity(),tradeType,itemData);
                 break;
 
         }

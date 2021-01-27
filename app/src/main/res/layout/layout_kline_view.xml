@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        >
+
+
+        <com.pro.bityard.chart.NoVolumeView
+            android:id="@+id/kline_1min_time"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+            app:klAbscissaTextCol="@color/text_second_color"
+            app:klDetailBgCol="@color/background_main_color"
+            app:klDetailFrameCol="@color/text_edit_pop"
+            app:klMinuteColor="@color/white"
+            app:klMinuteRadiusSize="5"
+            app:klMinuteShadowColorAbove="@color/color_shadow_above"
+            app:klMinuteShadowColorBelow="@color/color_shadow_below"
+            app:klMinuteStrokeWidthSize="3"
+            app:klPriceCloseCol="@color/text_second_color"
+            app:klPriceFallCol="@color/text_quote_red"
+            app:klPriceIncreaseCol="@color/text_quote_green"
+            app:klPriceMaxCol="@color/text_second_color"
+            app:klPriceMaxLabelCol="@color/color_bg_left"
+            app:klPriceMaxLabelTextCol="@color/text_second_color"
+            app:klPriceMinCol="@color/text_second_color"
+            app:klPriceOpenCol="@color/text_second_color"
+            app:klTickMarkLineCol="@color/color_bg_left" />
+
+        <com.pro.bityard.chart.NoVolumeView
+            android:id="@+id/kline_1min"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:klAbscissaTextCol="@color/text_second_color"
+            app:klDetailBgCol="@color/background_main_color"
+            app:klDetailFrameCol="@color/text_edit_pop"
+            app:klPriceCloseCol="@color/text_second_color"
+            app:klPriceFallCol="@color/text_quote_red"
+            app:klPriceIncreaseCol="@color/text_quote_green"
+            app:klPriceMaxCol="@color/text_second_color"
+            app:klPriceMaxLabelCol="@color/color_bg_left"
+            app:klPriceMaxLabelTextCol="@color/text_second_color"
+            app:klPriceMinCol="@color/text_second_color"
+            app:klPriceOpenCol="@color/text_second_color"
+            app:klTickMarkLineCol="@color/color_bg_left" />
+
+        <com.pro.bityard.chart.NoVolumeView
+            android:id="@+id/kline_5min"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:klAbscissaTextCol="@color/text_second_color"
+            app:klDetailBgCol="@color/background_main_color"
+            app:klDetailFrameCol="@color/text_edit_pop"
+            app:klPriceCloseCol="@color/text_second_color"
+            app:klPriceFallCol="@color/text_quote_red"
+            app:klPriceIncreaseCol="@color/text_quote_green"
+            app:klPriceMaxCol="@color/text_second_color"
+            app:klPriceMaxLabelCol="@color/color_bg_left"
+            app:klPriceMaxLabelTextCol="@color/text_second_color"
+            app:klPriceMinCol="@color/text_second_color"
+            app:klPriceOpenCol="@color/text_second_color"
+            app:klTickMarkLineCol="@color/color_bg_left" />
+
+        <com.pro.bityard.chart.NoVolumeView
+            android:id="@+id/kline_15min"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:klAbscissaTextCol="@color/text_second_color"
+            app:klDetailBgCol="@color/background_main_color"
+            app:klDetailFrameCol="@color/text_edit_pop"
+            app:klPriceCloseCol="@color/text_second_color"
+            app:klPriceFallCol="@color/text_quote_red"
+            app:klPriceIncreaseCol="@color/text_quote_green"
+            app:klPriceMaxCol="@color/text_second_color"
+            app:klPriceMaxLabelCol="@color/color_bg_left"
+            app:klPriceMaxLabelTextCol="@color/text_second_color"
+            app:klPriceMinCol="@color/text_second_color"
+            app:klPriceOpenCol="@color/text_second_color"
+            app:klTickMarkLineCol="@color/color_bg_left" />
+
+        <com.pro.bityard.chart.NoVolumeView
+            android:id="@+id/kline_3min"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:klAbscissaTextCol="@color/text_second_color"
+            app:klDetailBgCol="@color/background_main_color"
+            app:klDetailFrameCol="@color/text_edit_pop"
+            app:klPriceCloseCol="@color/text_second_color"
+            app:klPriceFallCol="@color/text_quote_red"
+            app:klPriceIncreaseCol="@color/text_quote_green"
+            app:klPriceMaxCol="@color/text_second_color"
+            app:klPriceMaxLabelCol="@color/color_bg_left"
+            app:klPriceMaxLabelTextCol="@color/text_second_color"
+            app:klPriceMinCol="@color/text_second_color"
+            app:klPriceOpenCol="@color/text_second_color"
+            app:klTickMarkLineCol="@color/color_bg_left" />
+
+        <com.pro.bityard.chart.NoVolumeView
+            android:id="@+id/kline_1h"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:klAbscissaTextCol="@color/text_second_color"
+            app:klDetailBgCol="@color/background_main_color"
+            app:klDetailFrameCol="@color/text_edit_pop"
+            app:klPriceCloseCol="@color/text_second_color"
+            app:klPriceFallCol="@color/text_quote_red"
+            app:klPriceIncreaseCol="@color/text_quote_green"
+            app:klPriceMaxCol="@color/text_second_color"
+            app:klPriceMaxLabelCol="@color/color_bg_left"
+            app:klPriceMaxLabelTextCol="@color/text_second_color"
+            app:klPriceMinCol="@color/text_second_color"
+            app:klPriceOpenCol="@color/text_second_color"
+            app:klTickMarkLineCol="@color/color_bg_left" />
+
+        <com.pro.bityard.chart.NoVolumeView
+            android:id="@+id/kline_1d"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:klAbscissaTextCol="@color/text_second_color"
+            app:klDetailBgCol="@color/background_main_color"
+            app:klDetailFrameCol="@color/text_edit_pop"
+            app:klPriceCloseCol="@color/text_second_color"
+            app:klPriceFallCol="@color/text_quote_red"
+            app:klPriceIncreaseCol="@color/text_quote_green"
+            app:klPriceMaxCol="@color/text_second_color"
+            app:klPriceMaxLabelCol="@color/color_bg_left"
+            app:klPriceMaxLabelTextCol="@color/text_second_color"
+            app:klPriceMinCol="@color/text_second_color"
+            app:klPriceOpenCol="@color/text_second_color"
+            app:klTickMarkLineCol="@color/color_bg_left" />
+
+        <com.pro.bityard.chart.NoVolumeView
+            android:id="@+id/kline_1week"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:klAbscissaTextCol="@color/text_second_color"
+            app:klDetailBgCol="@color/background_main_color"
+            app:klDetailFrameCol="@color/text_edit_pop"
+            app:klPriceCloseCol="@color/text_second_color"
+            app:klPriceFallCol="@color/text_quote_red"
+            app:klPriceIncreaseCol="@color/text_quote_green"
+            app:klPriceMaxCol="@color/text_second_color"
+            app:klPriceMaxLabelCol="@color/color_bg_left"
+            app:klPriceMaxLabelTextCol="@color/text_second_color"
+            app:klPriceMinCol="@color/text_second_color"
+            app:klPriceOpenCol="@color/text_second_color"
+            app:klTickMarkLineCol="@color/color_bg_left" />
+
+        <com.pro.bityard.chart.NoVolumeView
+            android:id="@+id/kline_1month"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:klAbscissaTextCol="@color/text_second_color"
+            app:klDetailBgCol="@color/background_main_color"
+            app:klDetailFrameCol="@color/text_edit_pop"
+            app:klPriceCloseCol="@color/text_second_color"
+            app:klPriceFallCol="@color/text_quote_red"
+            app:klPriceIncreaseCol="@color/text_quote_green"
+            app:klPriceMaxCol="@color/text_second_color"
+            app:klPriceMaxLabelCol="@color/color_bg_left"
+            app:klPriceMaxLabelTextCol="@color/text_second_color"
+            app:klPriceMinCol="@color/text_second_color"
+            app:klPriceOpenCol="@color/text_second_color"
+            app:klTickMarkLineCol="@color/color_bg_left" />
+
+        <LinearLayout
+            android:id="@+id/layout_more"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:background="@drawable/bg_kuang_background"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/text_one_hour"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_1h"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
+
+            <View
+                android:layout_width="@dimen/size_line"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginBottom="@dimen/margin_5"
+
+                android:background="@color/home_line" />
+
+            <TextView
+                android:id="@+id/text_one_day"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_1day"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
+
+            <View
+                android:layout_width="@dimen/size_line"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginBottom="@dimen/margin_5"
+
+                android:background="@color/home_line" />
+
+            <TextView
+                android:id="@+id/text_one_week"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_1week"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
+
+            <View
+                android:layout_width="@dimen/size_line"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginBottom="@dimen/margin_5"
+
+                android:background="@color/home_line" />
+
+            <TextView
+                android:id="@+id/text_one_month"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/text_1month"
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>
