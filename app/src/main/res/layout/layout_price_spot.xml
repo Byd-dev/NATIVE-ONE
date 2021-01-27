@@ -13,7 +13,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin_10"
-            android:layout_weight="1"
+            android:layout_weight="2"
+            android:layout_marginRight="@dimen/margin_20"
             android:orientation="horizontal">
 
             <RelativeLayout
@@ -78,14 +79,14 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginLeft="@dimen/margin_20"
             android:layout_marginRight="@dimen/margin_10"
             android:layout_weight="1"
-            android:gravity="center|right"
+            android:gravity="center"
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
@@ -104,6 +105,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
+
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_toRightOf="@id/text_max_stay"
                     android:text="@string/text_default"
@@ -114,7 +118,7 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:orientation="horizontal">
@@ -134,6 +138,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_5"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
                     android:layout_toRightOf="@id/text_min_stay"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
@@ -163,6 +169,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:gravity="right"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_toRightOf="@id/text_volume_stay"
                     android:text="@string/text_default"
