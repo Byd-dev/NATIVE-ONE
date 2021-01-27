@@ -127,8 +127,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     ImageView img_star_spot;
 
 
-    @BindView(R.id.img_star_contract)
-    ImageView img_star_contract;
+
 
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
@@ -575,9 +574,9 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 boolean isOptional = (boolean) response;
                 Toast.makeText(SpotTradeActivity.this, response.toString(), Toast.LENGTH_SHORT).show();
                 if (isOptional) {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
 
                 }
             });
@@ -1011,9 +1010,9 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             Util.isOptional(quote_code, optionalList, response -> {
                 boolean isOptional = (boolean) response;
                 if (isOptional) {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
 
                 }
             });
@@ -1143,15 +1142,15 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                         Util.isOptional(quoteMinEntity.getSymbol(), optionalList, response -> {
                             boolean isOptional = (boolean) response;
                             if (isOptional) {
-                                img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                                img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
                                 optionalList.remove(quoteMinEntity.getSymbol());
                             } else {
-                                img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                                img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                                 optionalList.add(quoteMinEntity.getSymbol());
                             }
                         });
                     } else {
-                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                        img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                         optionalList.add(quoteMinEntity.getSymbol());
                     }
                     SPUtils.putString(AppConfig.KEY_OPTIONAL, Util.SPDeal(optionalList));
