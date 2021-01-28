@@ -52,7 +52,6 @@
                 android:orientation="horizontal">
 
 
-
                 <TextView
                     android:id="@+id/text_name"
                     android:layout_width="wrap_content"
@@ -88,16 +87,10 @@
                     android:id="@+id/img_right"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_5"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_5"
                     android:src="@mipmap/icon_two_way" />
             </LinearLayout>
-
-
-
-
-
-
 
 
             <LinearLayout
@@ -122,8 +115,8 @@
                     android:id="@+id/img_star_contract"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:src="@mipmap/icon_star_normal" />
+                    android:src="@mipmap/icon_star_normal"
+                    android:visibility="gone" />
 
             </LinearLayout>
 
@@ -131,13 +124,11 @@
         </RelativeLayout>
 
 
-
-
     </RelativeLayout>
 
 
     <!--头部-->
-   <include layout="@layout/layout_price_spot"/>
+    <include layout="@layout/layout_price_spot" />
     <!--中间-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -169,11 +160,9 @@
                 app:tabTextColor="@color/text_second_color" />
 
 
-
-
         </LinearLayout>
 
-        <include layout="@layout/layout_kline_view"/>
+        <include layout="@layout/layout_kline_view" />
     </LinearLayout>
 
     <View
@@ -185,85 +174,103 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="148dp"
-        android:orientation="vertical"
-        >
+        android:layout_height="198dp"
+        android:orientation="vertical">
+
         <RelativeLayout
             android:id="@+id/layout_radioGroup"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_30"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="@dimen/margin_10"
+            android:layout_height="@dimen/margin_35"
             android:orientation="horizontal">
 
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout_trade"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:tabIndicatorColor="@color/maincolor"
+                app:tabIndicatorFullWidth="false"
+                app:tabIndicatorHeight="1dp"
+                app:tabMaxWidth="200dp"
+                app:tabMinWidth="20dp"
+                app:tabMode="scrollable"
+                app:tabPaddingEnd="@dimen/margin_8"
+                app:tabPaddingStart="@dimen/margin_10"
+                app:tabSelectedTextColor="@color/maincolor"
+                app:tabTextAppearance="@style/TradeTablayoutstyle"
+                app:tabTextColor="@color/text_second_color" />
 
             <TextView
                 android:id="@+id/img_setting"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
+                android:layout_toLeftOf="@+id/text_contract"
                 android:drawablePadding="@dimen/margin_5"
                 android:gravity="center"
                 android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_5"
                 android:text="@string/text_trade_rule"
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal"
                 android:visibility="visible" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
+            <TextView
+                android:id="@+id/text_contract"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="visible">
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_5"
+                android:layout_toLeftOf="@+id/stay_img_right"
+                android:background="@drawable/gradient_bg_main"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingRight="@dimen/margin_10"
+                android:text="100×"
+                android:textColor="@color/text_main_color_black"
+                android:textStyle="bold" />
 
-                <RadioButton
-                    android:id="@+id/radio_0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/margin_15"
-                    android:text="@string/text_record_commission"
-                    android:textColor="@color/sel_switcher_txt"
-                    android:textSize="14sp"
-                    android:typeface="monospace"
+            <ImageView
+                android:id="@+id/stay_img_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_10"
+                android:src="@mipmap/icon_market_right"
 
-                    />
-
-
-                <RadioButton
-                    android:id="@+id/radio_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:checked="false"
-                    android:gravity="center"
-                    android:maxLines="1"
-                    android:paddingLeft="@dimen/margin_15"
-                    android:text="@string/text_new_trade"
-                    android:textColor="@color/sel_switcher_txt"
-                    android:textSize="@dimen/size_normal_two"
-                    android:typeface="monospace"
-
-                    />
-
-
-            </RadioGroup>
+                />
 
 
         </RelativeLayout>
 
+        <include layout="@layout/layout_line" />
+
+        <LinearLayout
+            android:id="@+id/layout_commission_record"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_sell"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView_buy"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView_trade"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent" />
+
 
     </LinearLayout>
-
-
 
 
     <LinearLayout
@@ -353,7 +360,6 @@
                     android:text="@string/text_sell"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_bigger" />
-
 
 
             </LinearLayout>

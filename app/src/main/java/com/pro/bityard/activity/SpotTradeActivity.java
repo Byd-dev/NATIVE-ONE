@@ -11,7 +11,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -21,17 +20,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
@@ -40,6 +31,7 @@ import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
+import com.pro.bityard.adapter.SellBuyListAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
@@ -48,6 +40,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.BalanceEntity;
+import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
@@ -55,8 +48,6 @@ import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.ChargeUnitManger;
-import com.pro.bityard.manger.PositionRealManger;
-import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.Quote15MinCurrentManger;
 import com.pro.bityard.manger.Quote15MinHistoryManger;
 import com.pro.bityard.manger.Quote1MinHistoryManger;
@@ -71,6 +62,7 @@ import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
 import com.pro.bityard.manger.QuoteMonthCurrentManger;
 import com.pro.bityard.manger.QuoteMonthHistoryManger;
+import com.pro.bityard.manger.QuoteSpotManger;
 import com.pro.bityard.manger.QuoteWeekCurrentManger;
 import com.pro.bityard.manger.QuoteWeekHistoryManger;
 import com.pro.bityard.manger.SocketQuoteManger;
@@ -78,10 +70,8 @@ import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ChartUtil;
-import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
-import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
@@ -89,17 +79,19 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
 
-import static com.pro.bityard.api.NetManger.BUSY;
-import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
@@ -108,25 +100,16 @@ import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
 import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
-import static com.pro.bityard.utils.TradeUtil.marginMax;
-import static com.pro.bityard.utils.TradeUtil.marginMin;
-import static com.pro.bityard.utils.TradeUtil.marginOrder;
-import static java.lang.Double.parseDouble;
 
-public class SpotTradeActivity extends BaseActivity implements View.OnClickListener, Observer{
+public class SpotTradeActivity extends BaseActivity implements View.OnClickListener, Observer {
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
     private static final String quoteType = "all";
     private int lever;
 
 
-
-
-
     @BindView(R.id.img_star_spot)
     ImageView img_star_spot;
-
-
 
 
     @BindView(R.id.layout_view)
@@ -148,9 +131,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     TextView text_currency;
 
 
-
-
-
     @BindView(R.id.text_lastPrice)
     TextView text_lastPrice;
 
@@ -169,13 +149,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     TextView text_min;
     @BindView(R.id.text_volume)
     TextView text_volume;
-
-
-
-
-
-
-
 
 
     @BindView(R.id.tabLayout)
@@ -222,20 +195,22 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.text_one_month)
     TextView text_one_month;
 
+    @BindView(R.id.tabLayout_trade)
+    TabLayout tabLayout_trade;
+    @BindView(R.id.recyclerView_sell)
+    RecyclerView recyclerView_sell;
+    @BindView(R.id.recyclerView_buy)
+    RecyclerView recyclerView_buy;
 
-
+    @BindView(R.id.layout_commission_record)
+    LinearLayout layout_commission_record;
+    @BindView(R.id.recyclerView_trade)
+    RecyclerView recyclerView_trade;
     @BindView(R.id.stay_view)
     View stay_view;
     private List<String> titles = new ArrayList<>();
+    private List<String> titleTrade;
     private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData3MinHistory, kData60MinHistory, kDataDayHistory, kDataWeekHistory, kDataMonthHistory;
-
-
-
-
-
-
-
-
 
 
     private TradeListEntity tradeListEntity;
@@ -247,6 +222,9 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     //当前行情号
     private String quote_code = null;
     private QuoteMinEntity quoteMinEntity;
+
+
+    private SellBuyListAdapter sellAdapter, buyAdapter;
 
 
     // 声明平移动画
@@ -274,7 +252,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         BalanceManger.getInstance().getBalance("USDT");
-
 
 
     }
@@ -335,7 +312,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private void initTabViewTitle() {
 
 
-
     }
 
     private void initTabView() {
@@ -372,6 +348,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
 
         TradeListManger.getInstance().addObserver(this);
+        QuoteSpotManger.getInstance().addObserver(this);
 
         ChargeUnitManger.getInstance().addObserver(this);
         TagManger.getInstance().addObserver(this);
@@ -402,8 +379,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         recyclerView_limit.setAdapter(radioGroupAdapter);*/
 
 
-
-
         for (int i = 0; i < titles.size(); i++) {
             tabLayout.addTab(tabLayout.newTab());
         }
@@ -411,6 +386,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             tabLayout.getTabAt(i).setText(titles.get(i));
         }
         setTabStyle();
+
+        setTabTrade();
 
         kline_1min_time.setShowInstant(true);
 
@@ -540,6 +517,46 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         //杠杆选择
     }
 
+    private void setTabTrade() {
+        titleTrade = new ArrayList<>();
+        titleTrade.add(getResources().getString(R.string.text_record_commission));
+        titleTrade.add(getResources().getString(R.string.text_new_trade));
+
+        for (String market_name : titleTrade) {
+            tabLayout_trade.addTab(tabLayout_trade.newTab().setText(market_name));
+        }
+        tabLayout_trade.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab.getPosition()==0){
+                    layout_commission_record.setVisibility(View.VISIBLE);
+                    recyclerView_trade.setVisibility(View.GONE);
+                }else {
+                    layout_commission_record.setVisibility(View.GONE);
+                    recyclerView_trade.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        sellAdapter = new SellBuyListAdapter(this);
+        recyclerView_sell.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_sell.setAdapter(sellAdapter);
+
+        buyAdapter = new SellBuyListAdapter(this);
+        recyclerView_buy.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_buy.setAdapter(buyAdapter);
+    }
+
 
     private Set<String> optionalList;
 
@@ -563,7 +580,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         String zone = TradeUtil.zone(itemData);
 
 
-            quote_code = itemQuoteContCode(itemData);
+        quote_code = itemQuoteContCode(itemData);
         Log.d("print", "initData:进来的值:  " + itemQuoteContCode(itemData));
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
@@ -671,8 +688,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-
-
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
@@ -688,7 +703,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     };
 
 
-
     @Override
     protected void initEvent() {
 
@@ -697,9 +711,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private void setContent(String itemData) {
         Log.d("print", "setContent:313:  " + itemData);
         quote_code = itemQuoteContCode(itemData);
-
-
-
 
 
         text_name.setText(TradeUtil.name(itemData));
@@ -1161,8 +1172,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
 
 
-
-
             case R.id.layout_much:
 
                 if (isLogin()) {
@@ -1180,8 +1189,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
-
-
 
 
             case R.id.text_one_hour:
@@ -1261,7 +1268,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
 
 
-
             case R.id.text_charge:
                 if (isLogin()) {
                     if (tradeType.equals("1")) {
@@ -1285,17 +1291,38 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
 
     private int oldSelect = 0;
-
-
-
-
-
-
-
-
+    private int length = 0;
+    private int count = 0;//控制限价价格显示 手动切换才变数据
+    private String quote;
+    private List<BuySellEntity> buyList;
+    private List<BuySellEntity> sellList;
     @Override
     public void update(Observable o, Object arg) {
-        if (o == SocketQuoteManger.getInstance()) {
+        if (o == QuoteSpotManger.getInstance()) {
+
+            quote = (String) arg;
+            runOnUiThread(() -> {
+                buyList = Util.getBuyList(quote);
+                buyAdapter.isSell(false);
+                sellList = Util.getSellList(quote);
+                sellAdapter.isSell(true);
+
+                Collections.reverse(sellList);
+                if (length==0){
+                    buyAdapter.setDatas(buyList, Util.buyMax(quote));
+                    sellAdapter.setDatas(sellList, Util.sellMax(quote));
+
+                }else {
+                    buyAdapter.setDatas(buyList.subList(0, length), Util.buyMax(quote));
+                    sellAdapter.setDatas(sellList.subList(0, length), Util.sellMax(quote));
+                }
+
+
+
+            });
+
+
+        } else if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
             if (quoteList != null && quoteAdapter_market_pop != null) {
@@ -1340,8 +1367,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                         //仓位实时更新 服务费
 
 
-
-
                         if (quotePopAdapter != null) {
                             quotePopAdapter.select(quoteMinEntity.getSymbol());
                         }
@@ -1377,7 +1402,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
 
                         String spread = TradeUtil.spread(quoteMinEntity.getSymbol(), tradeListEntityList);
-
 
 
                         // List<KData> kData = ChartUtil.klineList(data);
@@ -1647,8 +1671,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
 
     }
-
-
 
 
 }
