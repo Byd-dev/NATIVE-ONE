@@ -329,6 +329,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         SocketQuoteManger.getInstance().addObserver(this);
         BalanceManger.getInstance().addObserver(this);
         //QuoteItemManger.getInstance().addObserver(this);
+        QuoteCodeManger.getInstance().addObserver(this);
+
 
         QuoteCurrentManger.getInstance().addObserver(this);//1min 实时
         Quote5MinCurrentManger.getInstance().addObserver(this);//5min 实时
@@ -705,10 +707,10 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             super.handleMessage(msg);
             //发送行情包
             if (quote_code != null) {
-                Log.d("print", "handleMessage:845:  " + quote_code);
+                Log.d("print", "handleMessage:activity订阅:  " + quote_code);
                 old_code=quote_code;
-                WebSocketManager.getInstance().send("4001", quote_code);
-                WebSocketManager.getInstance().send("5001", quote_code);
+               /* WebSocketManager.getInstance().send("5001", quote_code);
+                WebSocketManager.getInstance().send("4001", quote_code);*/
                 WebSocketManager.getInstance().send("6001", quote_code);
 
             }
@@ -1044,7 +1046,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             setContent(data);
             itemData=data;
             quote_code = TradeUtil.itemQuoteContCode(data);
-            WebSocketManager.getInstance().send("4002", old_code);
+          //  WebSocketManager.getInstance().send("4002", old_code);
+            QuoteCodeManger.getInstance().postTag(data);
 
             type = AppConfig.CONTRACT_IN_ALL;
 
@@ -1339,10 +1342,14 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             });
 
             //最新成交
-        } else if (o== TradeSpotManger.getInstance()){
+        } else if (o==QuoteCodeManger.getInstance()){
+            itemData= (String) arg;
+            setContent(itemData);
+            quote_code = itemQuoteContCode(itemData);
+
+        }else if (o== TradeSpotManger.getInstance()){
             String trade= (String) arg;
-            tradeList.add(trade);
-            Log.d("print", "update:最新成交: "+tradeList);
+           // tradeList.add(trade);
            // tradeNewAdapter.setDatas(tradeList);
         }else if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;

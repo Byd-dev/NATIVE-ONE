@@ -726,7 +726,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
            // Log.d("print", "handleMessage:发送:  "+quote_code);
             if (quote_code != null) {
                 old_code=quote_code;
-                Log.d("print", "handleMessage:订阅: "+quote_code);
+                Log.d("print", "handleMessage:fragment订阅: "+quote_code);
                 WebSocketManager.getInstance().send("5001", quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
 
@@ -1270,7 +1270,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             setContent(data);
             quote_code = TradeUtil.itemQuoteContCode(data);
             type = AppConfig.CONTRACT_IN_ALL;
-            WebSocketManager.getInstance().send("4002", old_code);
+          //  WebSocketManager.getInstance().send("4002", old_code);
+            QuoteCodeManger.getInstance().postTag(data);
 
 
             //判断当前是否存在自选

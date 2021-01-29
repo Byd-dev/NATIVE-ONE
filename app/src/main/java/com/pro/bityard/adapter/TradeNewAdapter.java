@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
-import com.pro.bityard.entity.BuySellEntity;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -99,24 +101,24 @@ public class TradeNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof MyViewHolder) {
 
 
-            String price = datas.get(position).split(",")[1];
-            String amount = datas.get(position).split(",")[2];
+            String[] split = datas.get(position).split(",");
+            String price = split[1];
+            String amount = split[2];
+            long time = Long.parseLong(split[0]);
+
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+            Date d1 = new Date(time);
+            ((MyViewHolder) holder).text_time.setText(format.format(d1));
 
             ((MyViewHolder) holder).text_price.setText(price);
             ((MyViewHolder) holder).text_amount.setText(amount);
-            String up = datas.get(position).split(",")[0];
-            if (up.equals("1")){
+            String up = split[0];
+            if (up.equals("1")) {
                 ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_quote_green));
-            }else {
+            } else {
                 ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
             }
-
-
-
-
-
-
 
 
         }
@@ -158,8 +160,7 @@ public class TradeNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_time,text_amount, text_price;
-
+        TextView text_time, text_amount, text_price;
 
 
         public MyViewHolder(View itemView) {
@@ -168,7 +169,6 @@ public class TradeNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             text_time = itemView.findViewById(R.id.text_time);
             text_price = itemView.findViewById(R.id.text_price);
             text_amount = itemView.findViewById(R.id.text_amount);
-
 
 
         }
