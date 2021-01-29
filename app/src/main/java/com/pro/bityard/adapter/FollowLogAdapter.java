@@ -85,7 +85,7 @@ public class FollowLogAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((MyViewHolder) holder).text_userName.setText(datas.get(position).getTraderName());
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getCreateTime()));
 
-            ((MyViewHolder) holder).text_err.setText(datas.get(position).getLogData());
+            ((MyViewHolder) holder).text_err.setText(datas.get(position).getTagContent());
 
         }
     }

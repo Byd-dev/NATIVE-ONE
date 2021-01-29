@@ -32,6 +32,7 @@ import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.adapter.SellBuyListAdapter;
+import com.pro.bityard.adapter.TradeNewAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
@@ -69,6 +70,7 @@ import com.pro.bityard.manger.QuoteWeekHistoryManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
+import com.pro.bityard.manger.TradeSpotManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -350,6 +352,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         TradeListManger.getInstance().addObserver(this);
         QuoteSpotManger.getInstance().addObserver(this);
+        TradeSpotManger.getInstance().addObserver(this);
 
         ChargeUnitManger.getInstance().addObserver(this);
         TagManger.getInstance().addObserver(this);
@@ -556,6 +559,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         buyAdapter = new SellBuyListAdapter(this);
         recyclerView_buy.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_buy.setAdapter(buyAdapter);
+
+
+        tradeNewAdapter=new TradeNewAdapter(this);
+        recyclerView_trade.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView_trade.setAdapter(tradeNewAdapter);
     }
 
 
@@ -701,6 +709,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 old_code=quote_code;
                 WebSocketManager.getInstance().send("4001", quote_code);
                 WebSocketManager.getInstance().send("5001", quote_code);
+                WebSocketManager.getInstance().send("6001", quote_code);
+
             }
 
         }
@@ -1299,12 +1309,16 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private List<BuySellEntity> buyList;
     private List<BuySellEntity> sellList;
 
+    private TradeNewAdapter tradeNewAdapter;
+    private List<String> tradeList=new ArrayList<>();
+
     @Override
     public void update(Observable o, Object arg) {
+        //买卖列表
         if (o == QuoteSpotManger.getInstance()) {
 
             quote = (String) arg;
-            Log.d("print", "update:1305:  " + quote);
+          //  Log.d("print", "update:1305:  " + quote);
             runOnUiThread(() -> {
                 buyList = Util.getBuyList(quote);
                 buyAdapter.isSell(false);
@@ -1324,8 +1338,13 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
             });
 
-
-        } else if (o == SocketQuoteManger.getInstance()) {
+            //最新成交
+        } else if (o== TradeSpotManger.getInstance()){
+            String trade= (String) arg;
+            tradeList.add(trade);
+            Log.d("print", "update:最新成交: "+tradeList);
+           // tradeNewAdapter.setDatas(tradeList);
+        }else if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
             if (quoteList != null && quoteAdapter_market_pop != null) {

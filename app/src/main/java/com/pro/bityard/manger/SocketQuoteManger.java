@@ -503,13 +503,14 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 //Log.d("webSocket", "onMessage:收到3:  " + quoteEntity.getData());
                 QuoteSpotManger.getInstance().postQuote(quoteEntity.getData());
                 break;
+            case "6001":
+                TradeSpotManger.getInstance().postQuote(quoteEntity.getData());
+                break;
 
         }
 
 
     }
-
-
 
 
 }
