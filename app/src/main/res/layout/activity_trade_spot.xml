@@ -341,7 +341,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layout_much"
+            android:id="@+id/layout_buy"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/margin_10"
@@ -373,7 +373,7 @@
 
 
         <LinearLayout
-            android:id="@+id/layout_empty"
+            android:id="@+id/layout_sell"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/margin_10"

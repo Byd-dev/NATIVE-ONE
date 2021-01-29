@@ -48,6 +48,7 @@ import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.SpotPositionEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteCurrentManger;
 import com.pro.bityard.manger.QuoteSpotManger;
 import com.pro.bityard.manger.SocketQuoteManger;
@@ -191,7 +192,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     protected void initView(View view) {
         BalanceManger.getInstance().addObserver(this);
         SocketQuoteManger.getInstance().addObserver(this);
-
+        QuoteCodeManger.getInstance().addObserver(this);
 
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_layout, null);
         //限价
@@ -715,6 +716,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         }
     }
+    private String old_code=null;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -723,6 +725,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             //发送行情包
            // Log.d("print", "handleMessage:发送:  "+quote_code);
             if (quote_code != null) {
+                old_code=quote_code;
+                Log.d("print", "handleMessage:订阅: "+quote_code);
                 WebSocketManager.getInstance().send("5001", quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
 
@@ -746,7 +750,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
 
             quote = (String) arg;
-           // Log.d("print", "update:获取:  "+quote);
+            Log.d("print", "update:获取:  "+quote);
 
             runOnUiThread(() -> {
                 buyList = Util.getBuyList(quote);
@@ -762,7 +766,12 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             });
 
 
-        } else if (o == SocketQuoteManger.getInstance()) {
+        }else if (o==QuoteCodeManger.getInstance()){
+            itemData= (String) arg;
+            setContent(itemData);
+            quote_code = itemQuoteContCode(itemData);
+
+        }else if (o == SocketQuoteManger.getInstance()) {
             if (!isAdded()) {
                 return;
             }
@@ -1257,10 +1266,11 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
 
-            Log.d("print", "showQuotePopWindow:1231:  " + data);
+            Log.d("print", "showQuotePopWindow:1231:  " + data+"  "+old_code);
             setContent(data);
             quote_code = TradeUtil.itemQuoteContCode(data);
             type = AppConfig.CONTRACT_IN_ALL;
+            WebSocketManager.getInstance().send("4002", old_code);
 
 
             //判断当前是否存在自选

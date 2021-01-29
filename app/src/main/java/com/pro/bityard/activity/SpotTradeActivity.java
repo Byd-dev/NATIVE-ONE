@@ -57,6 +57,7 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
+import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
@@ -361,8 +362,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         findViewById(R.id.text_charge).setOnClickListener(this);
 
 
-        findViewById(R.id.layout_much).setOnClickListener(this);
-        findViewById(R.id.layout_empty).setOnClickListener(this);
+        findViewById(R.id.layout_buy).setOnClickListener(this);
+        findViewById(R.id.layout_sell).setOnClickListener(this);
 
 
         //更多的监听
@@ -528,10 +529,10 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         tabLayout_trade.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition()==0){
+                if (tab.getPosition() == 0) {
                     layout_commission_record.setVisibility(View.VISIBLE);
                     recyclerView_trade.setVisibility(View.GONE);
-                }else {
+                } else {
                     layout_commission_record.setVisibility(View.GONE);
                     recyclerView_trade.setVisibility(View.VISIBLE);
                 }
@@ -688,6 +689,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     }
 
 
+    private String old_code=null;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
@@ -696,7 +698,9 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             //发送行情包
             if (quote_code != null) {
                 Log.d("print", "handleMessage:845:  " + quote_code);
+                old_code=quote_code;
                 WebSocketManager.getInstance().send("4001", quote_code);
+                WebSocketManager.getInstance().send("5001", quote_code);
             }
 
         }
@@ -1026,9 +1030,12 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
 
-            Log.d("print", "showQuotePopWindow:1231:  " + data);
+            Log.d("print", "showQuotePopWindow:1231:  " + data+"   "+old_code);
             setContent(data);
+            itemData=data;
             quote_code = TradeUtil.itemQuoteContCode(data);
+            WebSocketManager.getInstance().send("4002", old_code);
+
             type = AppConfig.CONTRACT_IN_ALL;
 
 
@@ -1172,22 +1179,17 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
 
 
-            case R.id.layout_much:
-
+            case R.id.layout_buy:
+            case R.id.layout_sell:
                 if (isLogin()) {
-
+                    finish();
+                    QuoteCodeManger.getInstance().postTag(itemData);
                 } else {
                     LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
                 }
 
-                break;
-            case R.id.layout_empty:
-                if (isLogin()) {
 
-                } else {
-                    LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
-                }
                 break;
 
 
@@ -1296,11 +1298,13 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private String quote;
     private List<BuySellEntity> buyList;
     private List<BuySellEntity> sellList;
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == QuoteSpotManger.getInstance()) {
 
             quote = (String) arg;
+            Log.d("print", "update:1305:  " + quote);
             runOnUiThread(() -> {
                 buyList = Util.getBuyList(quote);
                 buyAdapter.isSell(false);
@@ -1308,15 +1312,14 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 sellAdapter.isSell(true);
 
                 Collections.reverse(sellList);
-                if (length==0){
+                if (length == 0) {
                     buyAdapter.setDatas(buyList, Util.buyMax(quote));
                     sellAdapter.setDatas(sellList, Util.sellMax(quote));
 
-                }else {
+                } else {
                     buyAdapter.setDatas(buyList.subList(0, length), Util.buyMax(quote));
                     sellAdapter.setDatas(sellList.subList(0, length), Util.sellMax(quote));
                 }
-
 
 
             });
@@ -1360,7 +1363,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == QuoteCurrentManger.getInstance()) {
             quoteMinEntity = (QuoteMinEntity) arg;
             if (quoteMinEntity != null) {
-                //Log.d("print", "update:1549:  " + quoteMinEntity);
+                Log.d("print", "update:1549:  " + quoteMinEntity);
                 runOnUiThread(() -> {
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
