@@ -109,7 +109,6 @@ public class TradeNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
             Date d1 = new Date(time);
             ((MyViewHolder) holder).text_time.setText(format.format(d1));
-
             ((MyViewHolder) holder).text_price.setText(price);
             ((MyViewHolder) holder).text_amount.setText(amount);
             String up = split[0];
