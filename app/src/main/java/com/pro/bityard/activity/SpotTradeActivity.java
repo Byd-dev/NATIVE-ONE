@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -713,6 +714,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 WebSocketManager.getInstance().send("4001", quote_code);*/
                 WebSocketManager.getInstance().send("6001", quote_code);
 
+
             }
 
         }
@@ -1349,8 +1351,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         }else if (o== TradeSpotManger.getInstance()){
             String trade= (String) arg;
-           // tradeList.add(trade);
-           // tradeNewAdapter.setDatas(tradeList);
+           /* tradeList.add(trade);
+            tradeNewAdapter.setDatas(tradeList);*/
         }else if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
@@ -1669,6 +1671,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         cancelTimer();
         QuoteCurrentManger.getInstance().clear();
         SocketQuoteManger.getInstance().deleteObserver(this);
+        TradeSpotManger.getInstance().clear();
+        TradeSpotManger.getInstance().deleteObserver(this);
         Quote1MinHistoryManger.getInstance().clear();
         Quote1MinHistoryManger.getInstance().cancelTimer();
         Quote5MinHistoryManger.getInstance().clear();
@@ -1694,6 +1698,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         myKLineView_1D.cancelQuotaThread();
         myKLineView_1_week.cancelQuotaThread();
         myKLineView_1_month.cancelQuotaThread();
+
+
 
 
         quote_code = null;

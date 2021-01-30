@@ -1318,6 +1318,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             super.handleMessage(msg);
             //发送行情包
             if (quote_code != null) {
+                Log.d("print", "handleMessage:合约fragment订阅: "+quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
                 String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
                 Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
@@ -1626,7 +1627,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
             quoteMinEntity = (QuoteMinEntity) arg;
             if (quoteMinEntity != null) {
-                //Log.d("webSocket", "onReceive:1549:  " + quoteMinEntity);
+                Log.d("print", "onReceive:1549:合约行情:  " + quoteMinEntity);
                 runOnUiThread(() -> {
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();

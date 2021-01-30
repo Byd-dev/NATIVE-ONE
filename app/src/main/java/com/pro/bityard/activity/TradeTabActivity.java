@@ -73,6 +73,8 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    private String defaultContract = "BTCUSDT1808,-1,31603.68,34457.51,31601.71,0.5521,31604.92,0.5521,34616.86,31312.54,48911.0,FT,main,BTC,USDT";
+    private String defaultSpot = "BTCUSDT_CC1808,-1,31619.20,33528.86,31619.2,0.0025,31619.2,0.0025,34875.0,31311.93,88386.8095,CH,defi,BTC,USDT";
 
     @Override
     protected void initView(View view) {
@@ -93,15 +95,17 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     private void initViewPager(ViewPager viewPager) {
         Log.d("print", "initViewPager:HoldRealFragment:实盘模拟: " + tradeType);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
-        myPagerAdapter.addFragment(new ContractTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_contract));
-        myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, itemData), getString(R.string.text_spot));
+        myPagerAdapter.addFragment(new ContractTradeFragment().newInstance(tradeType, defaultContract), getString(R.string.text_contract));
+        myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, defaultSpot), getString(R.string.text_spot));
         viewPager.setAdapter(myPagerAdapter);
 
         String isChOrFt = TradeUtil.type(itemData);
         if (isChOrFt.equals(AppConfig.TYPE_FT)) {
             tabLayout_title.getTabAt(0).select();
+
         } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
             tabLayout_title.getTabAt(1).select();
+
         }
 
     }
@@ -114,6 +118,13 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
         Log.d("print", "initData:590:  " + itemData);
+
+        String isChOrFt = TradeUtil.type(itemData);
+        if (isChOrFt.equals(AppConfig.TYPE_FT)) {
+            defaultContract = itemData;
+        } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
+            defaultSpot = itemData;
+        }
         //根据合约还是现货跳转相应的页面
 //BTCUSDT1808,-1,31603.68,34457.51,31601.71,0.5521,31604.92,0.5521,34616.86,31312.54,48911.0,FT,main,BTC,USDT
 //BTCUSDT_CC1808,-1,31619.20,33528.86,31619.2,0.0025,31619.2,0.0025,34875.0,31311.93,88386.8095,CH,defi,BTC,USDT

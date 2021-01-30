@@ -222,6 +222,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 //发送行情包
               //  Log.d("webSocket", "handleMessage:231:  "+quote_code);
                 WebSocketManager.getInstance().send("3001", quote_code);
+
             }
 
 

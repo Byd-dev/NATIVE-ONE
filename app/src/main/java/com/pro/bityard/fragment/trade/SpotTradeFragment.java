@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -491,6 +492,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 });
 
         getPosition();
+        getBalance();
 
         value_rate = SPUtils.getString(AppConfig.USD_RATE, null);
         text_buy_what.setText(
@@ -727,9 +729,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
            // Log.d("print", "handleMessage:发送:  "+quote_code);
             if (quote_code != null) {
                 old_code=quote_code;
-                Log.d("print", "handleMessage:fragment订阅: "+quote_code);
+                Log.d("print", "handleMessage:现货fragment订阅: "+quote_code);
                 WebSocketManager.getInstance().send("5001", quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
+
 
             }
 
@@ -751,7 +754,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
 
             quote = (String) arg;
-            Log.d("print", "update:获取:  "+quote);
+            Log.d("print", "update:现货获取:  "+quote);
 
             runOnUiThread(() -> {
                 buyList = Util.getBuyList(quote);
@@ -839,7 +842,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
 
-         //   text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+            text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
 
         }
 

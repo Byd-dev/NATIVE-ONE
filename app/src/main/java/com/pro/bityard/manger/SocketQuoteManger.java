@@ -490,20 +490,21 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 //历史记录
                 arrayMap.put(AppConfig.HISTORY_ALL, historyQuoteList);
 
-                Log.d("webSocket", "onMessage:384:  " + quoteEntity.getData().length());
+                Log.d("webSocket", "onMessage:3001:  " + quoteEntity.getData().length());
                 postListQuote(arrayMap);
 
                 break;
             case "4001":
                 QuoteMinEntity quoteMinEntity = new Gson().fromJson(quoteEntity.getData(), QuoteMinEntity.class);
-                //Log.d("webSocket", "onMessage:400:  " + quoteEntity.getData());
+                Log.d("webSocket", "onMessage:单个行情4001:  " + quoteEntity.getData().length());
                 QuoteCurrentManger.getInstance().postQuote(quoteMinEntity);
                 break;
             case "5001":
-                //Log.d("webSocket", "onMessage:收到3:  " + quoteEntity.getData());
+                Log.d("webSocket", "onMessage:现货买卖5001:  " + quoteEntity.getData().length());
                 QuoteSpotManger.getInstance().postQuote(quoteEntity.getData());
                 break;
             case "6001":
+                Log.d("webSocket", "onMessage:最新成交6001:  " + quoteEntity.getData());
                 TradeSpotManger.getInstance().postQuote(quoteEntity.getData());
                 break;
 
