@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -564,7 +563,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         recyclerView_buy.setAdapter(buyAdapter);
 
 
-        tradeNewAdapter=new TradeNewAdapter(this);
+        tradeNewAdapter = new TradeNewAdapter(this);
         recyclerView_trade.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_trade.setAdapter(tradeNewAdapter);
     }
@@ -700,7 +699,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    private String old_code=null;
+    private String old_code = null;
     @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
@@ -709,7 +708,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             //发送行情包
             if (quote_code != null) {
                 Log.d("print", "handleMessage:activity订阅:  " + quote_code);
-                old_code=quote_code;
+                old_code = quote_code;
                /* WebSocketManager.getInstance().send("5001", quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);*/
                 WebSocketManager.getInstance().send("6001", quote_code);
@@ -1044,9 +1043,9 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
 
-            Log.d("print", "showQuotePopWindow:1231:  " + data+"   "+old_code);
+            Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
             setContent(data);
-            itemData=data;
+            itemData = data;
             quote_code = TradeUtil.itemQuoteContCode(data);
             WebSocketManager.getInstance().send("4002", old_code);
             QuoteCodeManger.getInstance().postTag(data);
@@ -1315,7 +1314,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private List<BuySellEntity> sellList;
 
     private TradeNewAdapter tradeNewAdapter;
-    private List<String> tradeList=new ArrayList<>();
+    private List<String> tradeList = new ArrayList<>();
 
     @Override
     public void update(Observable o, Object arg) {
@@ -1323,7 +1322,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         if (o == QuoteSpotManger.getInstance()) {
 
             quote = (String) arg;
-          //  Log.d("print", "update:1305:  " + quote);
+            //  Log.d("print", "update:1305:  " + quote);
             runOnUiThread(() -> {
                 buyList = Util.getBuyList(quote);
                 buyAdapter.isSell(false);
@@ -1344,16 +1343,19 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             });
 
             //最新成交
-        } else if (o==QuoteCodeManger.getInstance()){
-            itemData= (String) arg;
+        } else if (o == QuoteCodeManger.getInstance()) {
+            itemData = (String) arg;
             setContent(itemData);
             quote_code = itemQuoteContCode(itemData);
 
-        }else if (o== TradeSpotManger.getInstance()){
-            String trade= (String) arg;
-           /* tradeList.add(trade);
-            tradeNewAdapter.setDatas(tradeList);*/
-        }else if (o == SocketQuoteManger.getInstance()) {
+        } else if (o == TradeSpotManger.getInstance()) {
+            String trade = (String) arg;
+            tradeList.add(trade);
+            tradeNewAdapter.setDatas(tradeList);
+            //Log.d("print", "update:1359:  "+queue.deQueue()+"   "+queue.QueueLength());
+            //tradeNewAdapter.setDatas(tradeList);
+
+        } else if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
             if (quoteList != null && quoteAdapter_market_pop != null) {
@@ -1698,8 +1700,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         myKLineView_1D.cancelQuotaThread();
         myKLineView_1_week.cancelQuotaThread();
         myKLineView_1_month.cancelQuotaThread();
-
-
 
 
         quote_code = null;
