@@ -138,7 +138,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     String price = changeData.get(next);
                     ((MyViewHolder) holder).text_price.setText(price);
                     ((MyViewHolder) holder).text_change.setText(TradeUtil.quoteRange(price, listQuoteTodayPrice(datas.get(position))));
-                    ((MyViewHolder) holder).text_volume.setText(context.getResources().getText(R.string.kline_volume_detail) + ":" + TradeUtil.listQuoteBuyVolume(datas.get(position)));
+                    ((MyViewHolder) holder).text_volume.setText(context.getResources().getText(R.string.kline_volume_detail) + ":" + TradeUtil.justDisplay(Double.parseDouble(TradeUtil.listQuoteBuyVolume(datas.get(position)))));
                     String tag = TradeUtil.listQuoteIsRange(datas.get(position));
                     if (Integer.parseInt(tag) == 1) {
 
