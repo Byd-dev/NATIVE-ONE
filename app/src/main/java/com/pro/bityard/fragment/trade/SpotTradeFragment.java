@@ -521,7 +521,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         TradeUtil.getScale(balanceEntity.getCurrency(), response2 -> {
                             double money = balanceEntity.getMoney();
                             int scale = (int) response2;
-                            text_balance.setText(TradeUtil.getNumberFormat(money, scale) + " " + tradeName);
+                            text_balance.setText(TradeUtil.justDisplay(money) + " " + tradeName);
                         });
                     } else {
                         getBalance();
@@ -621,13 +621,14 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private void getBalance() {
         BalanceManger.getInstance().getBalance(tradeName, response -> {
             balanceEntity = (BalanceEntity.DataBean) response;
+            Log.d("print", "getBalance:余额: "+balanceEntity.getMoney());
             TradeUtil.getScale(balanceEntity.getCurrency(), response2 -> {
                 double money = balanceEntity.getMoney();
                 int scale = (int) response2;
                 if (isBuy.equals("true")) {
                     text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
                 } else {
-                    text_balance.setText(TradeUtil.getNumberFormat(money, scale) + " " + tradeName);
+                    text_balance.setText(TradeUtil.justDisplay(money) + " " + tradeName);
                 }
             });
 
@@ -838,7 +839,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
 
-            text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+         //   text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
 
         }
 
@@ -1270,7 +1271,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             setContent(data);
             quote_code = TradeUtil.itemQuoteContCode(data);
             type = AppConfig.CONTRACT_IN_ALL;
-          //  WebSocketManager.getInstance().send("4002", old_code);
+            WebSocketManager.getInstance().send("4002", old_code);
             QuoteCodeManger.getInstance().postTag(data);
 
 

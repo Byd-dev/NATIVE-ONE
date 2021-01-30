@@ -1046,7 +1046,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             setContent(data);
             itemData=data;
             quote_code = TradeUtil.itemQuoteContCode(data);
-          //  WebSocketManager.getInstance().send("4002", old_code);
+            WebSocketManager.getInstance().send("4002", old_code);
             QuoteCodeManger.getInstance().postTag(data);
 
             type = AppConfig.CONTRACT_IN_ALL;
