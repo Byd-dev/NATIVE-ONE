@@ -44,6 +44,7 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.entity.MyQueue;
 import com.pro.bityard.entity.QuoteChartEntity;
 import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.TradeListEntity;
@@ -84,6 +85,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -1315,6 +1317,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
     private TradeNewAdapter tradeNewAdapter;
     private List<String> tradeList = new ArrayList<>();
+    MyQueue myQueue = new MyQueue();
+    private LinkedList list = new LinkedList();
 
     @Override
     public void update(Observable o, Object arg) {
@@ -1350,10 +1354,14 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         } else if (o == TradeSpotManger.getInstance()) {
             String trade = (String) arg;
-            tradeList.add(trade);
-            tradeNewAdapter.setDatas(tradeList);
-            //Log.d("print", "update:1359:  "+queue.deQueue()+"   "+queue.QueueLength());
-            //tradeNewAdapter.setDatas(tradeList);
+
+            runOnUiThread(() -> {
+                list.addFirst(trade);
+                tradeNewAdapter.setDatas(list);
+            });
+
+
+
 
         } else if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;

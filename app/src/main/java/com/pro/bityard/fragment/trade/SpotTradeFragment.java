@@ -799,6 +799,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
             QuoteMinEntity quoteMinEntity = (QuoteMinEntity) arg;
+            Log.d("print", "onReceive:1549:现货行情:  " + quoteMinEntity);
+
             if (quoteMinEntity != null) {
                 runOnUiThread(() -> {
                     if (text_price != null) {
