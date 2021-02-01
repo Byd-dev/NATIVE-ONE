@@ -138,7 +138,8 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
                 //所有合约 包括衍生品
                 List<String> contractQuoteList = TradeUtil.contractQuoteList(strings);
-
+                //BTC BCH ETH
+                List<String> hotQuoteList = TradeUtil.homeHot(contractQuoteList);
 
                 //价格从高到低
                 List<String> contractQuoteList_price_high2low = TradeUtil.priceHighToLow(contractQuoteList);
@@ -214,8 +215,8 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 List<String> optionalSpotQuoteList = TradeUtil.optionalQuoteList(spotQuoteList);
                 List<String> optionalContractQuoteList = TradeUtil.optionalQuoteList(contractQuoteList);
                 List<String> optionalDerivedQuoteList = TradeUtil.optionalQuoteList(derivedQuoteList);
-                //BTC BCH ETH
-                List<String> hotQuoteList = TradeUtil.homeHot(contractQuoteList);
+
+
                 //除去 BTC BCH ETH
                 List<String> homeList = TradeUtil.homeList(mainQuoteList);
 

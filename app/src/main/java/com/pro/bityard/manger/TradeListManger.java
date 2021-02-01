@@ -78,44 +78,41 @@ public class TradeListManger extends Observable {
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("code", codeList);
         String[] codeSplitList = codeList.split(";");
-        NetManger.getInstance().getRequest("/api/trade/commodity/tradeList", map, new OnNetResult() {
-            @Override
-            public void onNetResult(String state, Object response) {
-                if (state.equals(BUSY)) {
-                    onNetResult.onNetResult(BUSY, null);
+        NetManger.getInstance().getRequest("/api/trade/commodity/tradeList", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
 
-                } else if (state.equals(SUCCESS)) {
-                    JSONObject jsonObject;
-                    try {
-                        jsonObject = new JSONObject(response.toString());
-                        JSONObject jsonObject1 = (JSONObject) jsonObject.get("data");
-                        tradeListEntityList = new ArrayList<>();
-                        Iterator<String> keys = jsonObject1.keys();
-                        while (keys.hasNext()){
-                            String s = keys.next();
-                            for (int i = 0; i < codeSplitList.length; i++) {
-                                if (codeSplitList[i].equals(s)){
-                                    JSONObject trxusdt = (JSONObject) jsonObject1.get(codeSplitList[i]);  //trxusdt.length() =46
-                                    TradeListEntity tradeListEntity = new Gson().fromJson(trxusdt.toString(), TradeListEntity.class);
-                                    tradeListEntityList.add(tradeListEntity);
-                                }
+            } else if (state.equals(SUCCESS)) {
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(response.toString());
+                    JSONObject jsonObject1 = (JSONObject) jsonObject.get("data");
+                    tradeListEntityList = new ArrayList<>();
+                    Iterator<String> keys = jsonObject1.keys();
+                    while (keys.hasNext()){
+                        String s = keys.next();
+                        for (int i = 0; i < codeSplitList.length; i++) {
+                            if (codeSplitList[i].equals(s)){
+                                JSONObject trxusdt = (JSONObject) jsonObject1.get(codeSplitList[i]);  //trxusdt.length() =46
+                                TradeListEntity tradeListEntity = new Gson().fromJson(trxusdt.toString(), TradeListEntity.class);
+                                tradeListEntityList.add(tradeListEntity);
                             }
                         }
-                        setTradeListEntityList(tradeListEntityList);
-                        onNetResult.onNetResult(SUCCESS, tradeListEntityList);
-                        postTradeList(tradeListEntityList);
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+                    setTradeListEntityList(tradeListEntityList);
+                    onNetResult.onNetResult(SUCCESS, tradeListEntityList);
+                    postTradeList(tradeListEntityList);
 
 
-                } else if (state.equals(FAILURE)) {
-                    onNetResult.onNetResult(FAILURE, null);
-                    setTradeListEntityList(null);
-
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+                setTradeListEntityList(null);
+
             }
         });
     }

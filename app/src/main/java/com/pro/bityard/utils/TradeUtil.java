@@ -764,7 +764,10 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String quote : quoteList) {
             String[] split = quote.split(",");
-            if (split[0].contains("ETH") || split[0].contains("BCH") || split[0].contains("BTC")) {
+            int length = split.length;
+            if (split[length-2].toLowerCase().equals("eth")
+                    || split[length-2].toLowerCase().equals("bch")
+                    || split[length-2].toLowerCase().equals("btc")) {
                 quoteList2.add(quote);
             }
         }
@@ -777,9 +780,11 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String quote : quoteList) {
             String[] split = quote.split(",");
-            if (split[0].contains("DASH") || split[0].contains("XRP") || split[0].contains("ETC")
-                    || split[0].contains("TRX") || split[0].contains("LTC") || split[0].contains("EOS")
-                    || split[0].contains("LINK")) {
+            int length = split.length;
+
+            if (split[length-2].contains("DASH") || split[length-2].contains("XRP") || split[length-2].contains("ETC")
+                    || split[length-2].contains("TRX") || split[length-2].contains("LTC") || split[length-2].contains("EOS")
+                    || split[length-2].contains("LINK")) {
                 quoteList2.add(quote);
             }
         }
@@ -856,8 +861,10 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
+           // Log.d("print", "contractQuoteList:所有合约: "+split[length-2]+"-"+split[length-4]);
             if ((split[length - 4].equals(AppConfig.TYPE_FT))) {
                 quoteList2.add(mainQuote);
+             //   Log.d("print", "contractQuoteList:过滤好的: "+split[length-2]+"-"+split[length-4]);
             }
 
         }

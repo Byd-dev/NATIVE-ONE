@@ -131,16 +131,12 @@ public class Util {
     }
 
     public static List<String> quoteResult(String content) {
-        InitEntity data = SPUtils.getData(AppConfig.KEY_COMMODITY, InitEntity.class);
-        List<InitEntity.DataBean> dataDetail = data.getData();
         List<String> quoteList = new ArrayList<>();
         String[] split = content.split(";");
-        StringBuilder stringBuilder = null;
         if (split.length > 0) {
             for (int i = 0; i < split.length; i++) {
                 String a = split[i];
                 quoteList.add(a);
-
             }
             return quoteList;
         } else {
@@ -156,8 +152,9 @@ public class Util {
             String itemQuote = dataList.get(i);
             String[] split = itemQuote.split(",");
             for (int j = dataDetail.size() - 1; j > 0; j--) {
-                // Log.d("print", "quoteResultAdd: "+split[0]+"   "+filter(split[0])+"   "+dataDetail.get(j).getCode()+"   "+filter(dataDetail.get(j).getCode()));
+               // Log.d("print", "quoteResultAdd:155: "+split[0]+"--"+dataDetail.get(j).getCode());
                 if (filter(split[0]).equals(filter(dataDetail.get(j).getCode()))) {
+                  //  Log.d("print", "quoteResultAdd:156: "+filter(split[0])+"--"+filter(dataDetail.get(j).getCode()));
                     quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
                             + "," + dataDetail.get(j).getZone()
                             + "," + dataDetail.get(j).getCode().replaceAll("_CC", "").replaceAll(data.getBrand().getDefaultCurrency(), "")
@@ -176,7 +173,6 @@ public class Util {
         for (int i = 0; i < allSatisfyStr.size(); i++) {
             stringBuilder.append(allSatisfyStr.get(i));
         }
-        //return stringBuilder.toString();
         if (stringBuilder.toString().contains("_")) {
             return stringBuilder.toString().replaceAll("_", "");
         } else {
@@ -1213,9 +1209,13 @@ public class Util {
         List<String> allList = new ArrayList<>();
         for (InitEntity.DataBean data : group) {
             String code = data.getCode();
-            if (data.getType().equals("FT") || data.getType().equals("CH")) {
-                allList.add(code);
+            //排除股票
+            if (!data.getZone().equals("")){
+                if (data.getType().equals(AppConfig.TYPE_FT) || data.getType().equals(AppConfig.TYPE_CH)) {
+                    allList.add(code);
+                }
             }
+
         }
         Log.d("print", "initContractList:1009:  " + allList.size());
         return allList.toString().replaceAll(" ", "").replaceAll(",", ";").replaceAll("\\[", "").replaceAll("]", "");
