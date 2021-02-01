@@ -225,6 +225,8 @@ public class Util {
             for (int i = 0; i < allSatisfyStr.size(); i++) {
                 stringBuilder.append(allSatisfyStr.get(i));
             }
+
+
             if (stringBuilder.toString().contains("USDT")) {
                 name = stringBuilder.substring(0, content.length() - 8) + "," + stringBuilder.substring(content.length() - 8, content.length() - 4);
             } else {

@@ -96,7 +96,6 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
             String desCurrency = datas.get(position).getDesCurrency();
             String srcCurrency = datas.get(position).getSrcCurrency();
 
-            ((MyViewHolder) holder).text_name.setText(desCurrency + "/" + srcCurrency);
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getCreateTime()));
 
 
@@ -112,11 +111,13 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
                 ((MyViewHolder) holder).text_buy.setText(context.getApplicationContext().getText(R.string.text_buy_tip));
                 ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_green));
                 ((MyViewHolder) holder).text_service.setText(datas.get(position).getCharge()+" "+desCurrency);
+                ((MyViewHolder) holder).text_name.setText(desCurrency + "/" + srcCurrency);
 
             } else {
                 ((MyViewHolder) holder).text_buy.setText(R.string.text_sell_tip);
                 ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_red));
-                ((MyViewHolder) holder).text_service.setText(datas.get(position).getCharge()+" "+srcCurrency);
+                ((MyViewHolder) holder).text_service.setText(datas.get(position).getCharge()+" "+desCurrency);
+                ((MyViewHolder) holder).text_name.setText(srcCurrency + "/" + desCurrency);
 
             }
 

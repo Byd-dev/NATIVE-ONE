@@ -1778,6 +1778,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                             type = AppConfig.SPOT_ALL;
                         }
                         List<String> strings = arrayMap.get(type);
+                        Log.d("search", "onTabSelected:1781:  "+strings);
                         List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
                         quoteAdapter_market_pop.setDatas(searchQuoteList);
                     }

@@ -840,9 +840,12 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if (Objects.requireNonNull(TradeUtil.listQuoteName(split[0])).toLowerCase().contains(content.toLowerCase())) {
+            if (Objects.requireNonNull(split[split.length-2]).toLowerCase().contains(content.toLowerCase())) {
                 quoteList2.add(mainQuote);
             }
+           /* if (Objects.requireNonNull(TradeUtil.listQuoteName(split[0])).toLowerCase().contains(content.toLowerCase())) {
+                quoteList2.add(mainQuote);
+            }*/
         }
         return quoteList2;
     }
