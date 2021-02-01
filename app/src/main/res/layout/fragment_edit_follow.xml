@@ -65,9 +65,9 @@
                         android:drawablePadding="@dimen/margin_5"
                         android:gravity="left|center"
                         android:paddingLeft="@dimen/margin_10"
-                        android:paddingTop="@dimen/margin_3"
+
                         android:paddingRight="@dimen/margin_10"
-                        android:paddingBottom="@dimen/margin_3"
+
                         android:text="明星10%"
                         android:textColor="@color/maincolor"
                         android:textSize="@dimen/size_normal" />

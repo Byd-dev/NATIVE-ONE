@@ -134,7 +134,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     String allList2 = Util.initContractList(initEntity.getData());
 
                     SPUtils.putString(AppConfig.CONTRACT_ID, allList2);
-                    Log.d("print", "init:137:  "+allList2);
+                   // Log.d("print", "init:137:  "+allList2);
                     TradeListManger.getInstance().getTradeList(allList2, (state1, response1) -> {
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
@@ -221,7 +221,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 return;
             } else {
                 //发送行情包
-                Log.d("webSocket", "handleMessage:231:  "+quote_code);
                 WebSocketManager.getInstance().send("3001", quote_code);
 
             }

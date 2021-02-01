@@ -1209,12 +1209,15 @@ public class Util {
         List<String> allList = new ArrayList<>();
         for (InitEntity.DataBean data : group) {
             String code = data.getCode();
-            //排除股票
+            if (data.getType().equals(AppConfig.TYPE_FT) || data.getType().equals(AppConfig.TYPE_CH)) {
+                allList.add(code);
+            }
+           /* //排除股票
             if (!data.getZone().equals("")){
                 if (data.getType().equals(AppConfig.TYPE_FT) || data.getType().equals(AppConfig.TYPE_CH)) {
                     allList.add(code);
                 }
-            }
+            }*/
 
         }
         Log.d("print", "initContractList:1009:  " + allList.size());
@@ -1559,6 +1562,26 @@ public class Util {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         String format = simpleDateFormat.format(newDate);
         return format;
+    }
+
+    public static String timestamp2Date(String str_num) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        if (str_num.length() == 13) {
+            String date = sdf.format(new Date(Long.parseLong(str_num)));
+            return date;
+        } else {
+            String date = sdf.format(new Date(Integer.parseInt(str_num) * 1000L));
+            return date;
+        }
+    }
+
+
+    public static String stampToTime(long stamp) {
+        String time;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+        Date date = new Date(stamp*1000);
+        time = simpleDateFormat.format(date);
+        return time;
     }
 
     public static String getBeforeNow7days() {

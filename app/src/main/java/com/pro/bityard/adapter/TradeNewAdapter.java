@@ -2,6 +2,7 @@ package com.pro.bityard.adapter;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
+import com.pro.bityard.utils.Util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -100,16 +102,11 @@ public class TradeNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
-            Log.d("print", "onBindViewHolder:105:  "+datas.get(position));
 
             String[] split = datas.get(position).split(",");
             String price = split[1];
             String amount = split[2];
-            long time = Long.parseLong(split[0]);
-
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-            Date d1 = new Date(time);
-            ((MyViewHolder) holder).text_time.setText(format.format(d1));
+            ((MyViewHolder) holder).text_time.setText(Util.timestamp2Date(split[3]));
             ((MyViewHolder) holder).text_price.setText(price);
             ((MyViewHolder) holder).text_amount.setText(amount);
             String up = split[0];

@@ -334,7 +334,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
         List<TradeListEntity> tradeListEntityList = Util.SPDealEntityResult(string);
         tradeDetail = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-        Log.d("print", "initData: 309: " + tradeDetail);
 
 
         text_name.setText(TradeUtil.name(itemData));
@@ -730,8 +729,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             if (quote_code != null) {
                 old_code=quote_code;
                 Log.d("print", "handleMessage:现货fragment订阅: "+quote_code);
-                WebSocketManager.getInstance().send("5001", quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
+                WebSocketManager.getInstance().send("5001", quote_code);
 
 
             }

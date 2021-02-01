@@ -50,8 +50,6 @@
                 android:gravity="left|center"
                 android:paddingLeft="@dimen/margin_10"
                 android:drawablePadding="@dimen/margin_5"
-                android:paddingBottom="@dimen/margin_3"
-                android:paddingTop="@dimen/margin_3"
                 android:paddingRight="@dimen/margin_10"
                 android:text="明星10%"
                 android:textColor="@color/maincolor"
