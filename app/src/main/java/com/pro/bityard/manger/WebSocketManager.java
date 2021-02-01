@@ -1,5 +1,6 @@
 package com.pro.bityard.manger;
 
+import android.os.Looper;
 import android.util.Log;
 
 import com.pro.bityard.utils.MD5Util;
@@ -207,6 +208,7 @@ public final class WebSocketManager {
             json.put("symbols", symbols);
             json.put("sign", value_sign);
             WebSocketManager.getInstance().sendMessage(json.toString());
+
 
         } catch (JSONException e) {
             e.printStackTrace();

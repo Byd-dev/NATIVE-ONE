@@ -41,11 +41,14 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
@@ -115,11 +118,20 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
+
+
     private void init() {
         //初始化webSocket 行情
         SocketQuoteManger.getInstance().initSocket();
 
-
+        task = new TimerTask() {
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = 1;
+                handler.sendMessage(message);
+            }
+        };
 
         NetManger.getInstance().getInit((state, response) -> {
             if (state.equals(BUSY)) {
@@ -152,6 +164,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                                 SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
                                 SPUtils.putString(AppConfig.QUOTE_DETAIL, Util.SPDealContract(tradeListEntityList));
                                 startScheduleJob(mHandler, 2000, 2000);
+                                //timer.schedule(task,2000,2000);
                                 run();
                             }
 
@@ -220,15 +233,30 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 NetManger.getInstance().initQuote();
                 return;
             } else {
-                //发送行情包
                 WebSocketManager.getInstance().send("3001", quote_code);
 
             }
 
-
         }
     };
+    private final Timer timer = new Timer();
+    private TimerTask task;
 
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+            if (quote_code == null) {
+                NetManger.getInstance().initQuote();
+                return;
+            } else {
+                WebSocketManager.getInstance().send("3001", quote_code);
+
+            }
+            super.handleMessage(msg);
+        }
+
+    };
 
     @Override
     protected void initData() {

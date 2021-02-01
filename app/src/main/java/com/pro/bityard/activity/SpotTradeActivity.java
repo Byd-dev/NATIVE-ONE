@@ -607,7 +607,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                 } else {
                     img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-
                 }
             });
         } else {
@@ -662,12 +661,10 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             });
 
 
-        }, 3000);
+        }, 50);
 
 
         text_lastPrice.setText(listQuotePrice(itemData));
-
-
         text_change.setText(TradeUtil.quoteChange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
         text_range.setText(TradeUtil.quoteRange(listQuotePrice(itemData), listQuoteTodayPrice(itemData)));
 
@@ -1326,7 +1323,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         if (o == QuoteSpotManger.getInstance()) {
 
             quote = (String) arg;
-            //  Log.d("print", "update:1305:  " + quote);
+            Log.d("print", "update:现货activity买卖列表获取:  "+quote);
+
             runOnUiThread(() -> {
                 buyList = Util.getBuyList(quote);
                 buyAdapter.isSell(false);
@@ -1401,7 +1399,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == QuoteCurrentManger.getInstance()) {
             quoteMinEntity = (QuoteMinEntity) arg;
             if (quoteMinEntity != null) {
-                Log.d("print", "update:1549:  " + quoteMinEntity);
+                Log.d("print", "update:1549:现货activity行情:" + quoteMinEntity);
                 runOnUiThread(() -> {
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
