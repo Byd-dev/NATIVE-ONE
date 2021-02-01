@@ -502,11 +502,11 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
 
                 break;
-            case "5001":
+           case "5001":
                 Log.d("webSocket", "onMessage:现货买卖5001:  " + quoteEntity.getData().length());
                 QuoteSpotManger.getInstance().postQuote(quoteEntity.getData());
                 break;
-            case "6001":
+             case "6001":
                 Log.d("webSocket", "onMessage:最新成交6001:  " + quoteEntity.getData());
                 TradeSpotManger.getInstance().postQuote(quoteEntity.getData());
                 break;

@@ -45,32 +45,9 @@ public class TradeSpotManger extends Observable {
 
 
     private Timer mTimer;
-    private String quote_code;
 
-    public void startScheduleJob(long delay, long interval, String quote_code) {
-        this.quote_code = quote_code;
 
-        if (mTimer != null) cancelTimer();
 
-        mTimer = new Timer();
-        mTimer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (handler != null) {
-                    handler.sendEmptyMessage(0);
-                }
-            }
-        }, delay, interval);
-    }
-
-    @SuppressLint("HandlerLeak")
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            WebSocketManager.getInstance().send("6001", quote_code);
-        }
-    };
 
 
     public void cancelTimer() {

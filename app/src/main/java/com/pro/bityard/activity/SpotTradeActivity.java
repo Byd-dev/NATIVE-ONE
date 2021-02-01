@@ -616,6 +616,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         text_name.setText(TradeUtil.name(itemData));
         text_currency.setText(TradeUtil.currency(itemData));
+        startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -631,7 +632,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             //  QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             //开启单个行情图
             // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
            /* Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
