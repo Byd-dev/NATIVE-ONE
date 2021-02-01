@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -333,8 +332,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         Log.d("print", "setContent:313:  " + itemData);
         tradeName = TradeUtil.name(itemData);
         quote_code = itemQuoteContCode(itemData);
-        srcCurrency="USDT";
-        desCurrency=tradeName;
+        srcCurrency = "USDT";
+        desCurrency = tradeName;
 
 
         String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
@@ -367,13 +366,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             if (quote_code != null) {
                 old_code = quote_code;
                 Log.d("print", "handleMessage:现货fragment订阅: " + quote_code);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        WebSocketManager.getInstance().send("4001", quote_code);
-                        WebSocketManager.getInstance().send("5001", quote_code);
-                    }
-                });
+                WebSocketManager.getInstance().send("4001", quote_code);
+                WebSocketManager.getInstance().send("5001", quote_code);
 
             }
             super.handleMessage(msg);
@@ -394,8 +388,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         };
 
 
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(() -> timer.schedule(task, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND), 50);
+        /*Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(() ->, 50);
+*/
+        timer.schedule(task, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
 
 
         tradeType = getArguments().getString(TYPE);
@@ -547,8 +543,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     text_buy_what.setText(getResources().getText(R.string.text_buy) + tradeName);
                     isBuy = "true";
                     text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
-                    srcCurrency="USDT";
-                    desCurrency=tradeName;
+                    srcCurrency = "USDT";
+                    desCurrency = tradeName;
                     break;
                 case R.id.radio_sell:
                     count = 0;
@@ -557,8 +553,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_red));
                     text_buy_what.setText(getResources().getText(R.string.text_sell) + tradeName);
                     isBuy = "false";
-                    srcCurrency=tradeName;
-                    desCurrency="USDT";
+                    srcCurrency = tradeName;
+                    desCurrency = "USDT";
                     if (balanceEntity != null) {
                         TradeUtil.getScale(balanceEntity.getCurrency(), response2 -> {
                             double money = balanceEntity.getMoney();
@@ -793,10 +789,12 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             if (!isAdded()) {
                 return;
             }
+            quote = (String) arg;
+            Log.d("print", "update:现货fragment买卖列表获取:  " + quote);
+            buyList = Util.getBuyList(quote);
+
+
             runOnUiThread(() -> {
-                quote = (String) arg;
-                Log.d("print", "update:现货fragment买卖列表获取:  " + quote);
-                buyList = Util.getBuyList(quote);
                 buyAdapter.isSell(false);
                 buyAdapter.setDatas(buyList.subList(0, length), Util.buyMax(quote));
                 sellList = Util.getSellList(quote);
@@ -805,8 +803,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 sellAdapter.setDatas(sellList.subList(0, length), Util.sellMax(quote));
             });
         } else if (o == QuoteCodeManger.getInstance()) {
+            itemData = (String) arg;
             runOnUiThread(() -> {
-                itemData = (String) arg;
                 setContent(itemData);
                 quote_code = itemQuoteContCode(itemData);
             });
@@ -816,9 +814,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             if (!isAdded()) {
                 return;
             }
+            arrayMap = (ArrayMap<String, List<String>>) arg;
+            quoteList = arrayMap.get(type);
             runOnUiThread(() -> {
-                arrayMap = (ArrayMap<String, List<String>>) arg;
-                quoteList = arrayMap.get(type);
                 if (quoteList != null && quoteAdapter_market_pop != null) {
                     //搜索框
                     if (edit_search.getText().toString().equals("")) {
@@ -837,7 +835,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
             QuoteMinEntity quoteMinEntity = (QuoteMinEntity) arg;
-            Log.d("print", "onReceive:1549:现货行情:  " + quoteMinEntity);
+            Log.d("print", "onReceive:1549:现货fragment行情:  " + quoteMinEntity);
 
             if (quoteMinEntity != null) {
                 runOnUiThread(() -> {

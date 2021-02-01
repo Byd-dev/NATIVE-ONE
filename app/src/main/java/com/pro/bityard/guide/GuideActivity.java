@@ -123,15 +123,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     private void init() {
         //初始化webSocket 行情
         SocketQuoteManger.getInstance().initSocket();
-
-        task = new TimerTask() {
-            @Override
-            public void run() {
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
-            }
-        };
+        startScheduleJob(mHandler, 2000, 2000);
 
         NetManger.getInstance().getInit((state, response) -> {
             if (state.equals(BUSY)) {
@@ -163,8 +155,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                                 }
                                 SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
                                 SPUtils.putString(AppConfig.QUOTE_DETAIL, Util.SPDealContract(tradeListEntityList));
-                                startScheduleJob(mHandler, 2000, 2000);
-                                //timer.schedule(task,2000,2000);
                                 run();
                             }
 
@@ -224,7 +214,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
 
     @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
+    private Handler mHandler = new Handler(Looper.getMainLooper()) {
         @Override
         public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
@@ -238,24 +228,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             }
 
         }
-    };
-    private final Timer timer = new Timer();
-    private TimerTask task;
-
-    Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-            if (quote_code == null) {
-                NetManger.getInstance().initQuote();
-                return;
-            } else {
-                WebSocketManager.getInstance().send("3001", quote_code);
-
-            }
-            super.handleMessage(msg);
-        }
-
     };
 
     @Override
