@@ -589,10 +589,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         layout_buy_what.setOnClickListener(v -> {
 
 
-            if (type.equals("0")) {
+            if (limit_market_type.equals("0")) {
                 value_price = edit_price_limit.getText().toString();
                 value_volume = edit_amount_limit.getText().toString();
-
                 if (value_price.equals("")) {
                     return;
                 }
@@ -603,7 +602,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
             }
 
-            NetManger.getInstance().spotOpen(Util.filterNumber(quote_code), isBuy, type, "USDT", tradeName, value_price,
+            NetManger.getInstance().spotOpen(Util.filterNumber(quote_code), isBuy, limit_market_type, "USDT", tradeName, value_price,
                     value_volume, "0", (state, response) -> {
                         if (state.equals(BUSY)) {
                             showProgressDialog();
@@ -861,6 +860,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+
+    private String limit_market_type="0";
     /*限价 市价的切换*/
     private void showLimitPriceWindow() {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_switch_limit_layout, null);
@@ -873,7 +874,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             text_limit_market.setText(getResources().getText(R.string.text_limit_order));
             layout_spot_limit.setVisibility(View.VISIBLE);
             layout_spot_market.setVisibility(View.GONE);
-            type = "0";
+            limit_market_type = "0";
 
         });
 
@@ -883,7 +884,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             text_limit_market.setText(getResources().getText(R.string.text_market_order));
             layout_spot_limit.setVisibility(View.GONE);
             layout_spot_market.setVisibility(View.VISIBLE);
-            type = "1";
+            limit_market_type = "1";
 
         });
 
