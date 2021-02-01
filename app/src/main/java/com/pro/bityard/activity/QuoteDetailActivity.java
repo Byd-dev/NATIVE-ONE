@@ -644,7 +644,10 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
 
         text_market_currency.setText(TradeUtil.currency(itemData));
         text_limit_currency.setText(TradeUtil.currency(itemData));
+        startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
+
         Handler handler = new Handler();
+
         handler.postDelayed(() -> {
             // Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -1);
             /*Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
@@ -658,7 +661,6 @@ public class QuoteDetailActivity extends BaseActivity implements View.OnClickLis
             //  QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             //开启单个行情图
             // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
            /* Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
             Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));

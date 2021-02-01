@@ -82,6 +82,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
+import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
 public class SpotTradeFragment extends BaseFragment implements View.OnClickListener, Observer {
@@ -390,8 +391,11 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         /*Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(() ->, 50);
+
+
 */
-        timer.schedule(task, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
+      //  timer.schedule(task, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
+        startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
 
         tradeType = getArguments().getString(TYPE);
