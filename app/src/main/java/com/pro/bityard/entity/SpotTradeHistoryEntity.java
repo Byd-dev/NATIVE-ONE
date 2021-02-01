@@ -129,11 +129,11 @@ public class SpotTradeHistoryEntity {
             this.buy = buy;
         }
 
-        public Double getCharge() {
+        public String getCharge() {
             return charge;
         }
 
-        public void setCharge(Double charge) {
+        public void setCharge(String charge) {
             this.charge = charge;
         }
 
@@ -233,11 +233,11 @@ public class SpotTradeHistoryEntity {
             this.opPrice = opPrice;
         }
 
-        public Double getOpVolume() {
+        public String getOpVolume() {
             return opVolume;
         }
 
-        public void setOpVolume(Double opVolume) {
+        public void setOpVolume(String opVolume) {
             this.opVolume = opVolume;
         }
 
@@ -338,9 +338,9 @@ public class SpotTradeHistoryEntity {
 
         private String brand;
         private Boolean buy;
-        private Double charge;
-        private Double chargeEagle;
-        private Double chargeLucky;
+        private String charge;
+        private double chargeEagle;
+        private double chargeLucky;
         private String commodity;
         private String commodityName;
         private Long createTime;
@@ -351,7 +351,7 @@ public class SpotTradeHistoryEntity {
         private String identity;
         private Double opAmount;
         private Double opPrice;
-        private Double opVolume;
+        private String opVolume;
         private String orderId;
         private String srcCurrency;
         private Long tradeTime;

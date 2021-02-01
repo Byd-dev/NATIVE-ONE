@@ -230,9 +230,13 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
         NetManger.getInstance().spotPositionTradeHistory(commodity, buy, null, type, srcCurrency,
                 null, createTimeGe, createTimeLe, String.valueOf(page), null, (state, response) -> {
                     if (state.equals(BUSY)) {
-                        swipeRefreshLayout.setRefreshing(true);
+                        if (isAdded()){
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
                     } else if (state.equals(SUCCESS)) {
-                        swipeRefreshLayout.setRefreshing(false);
+                        if (isAdded()){
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
                         SpotTradeHistoryEntity spotTradeHistoryEntity= (SpotTradeHistoryEntity) response;
                         List<SpotTradeHistoryEntity.DataBean> data = spotTradeHistoryEntity.getData();
 
@@ -253,7 +257,9 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
 
 
                     } else if (state.equals(FAILURE)) {
-                        swipeRefreshLayout.setRefreshing(false);
+                        if (isAdded()){
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
 
                     }
                 });

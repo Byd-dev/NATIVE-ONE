@@ -93,25 +93,30 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
-            ((MyViewHolder) holder).text_name.setText(datas.get(position).getDesCurrency() + "/" + datas.get(position).getSrcCurrency());
+            String desCurrency = datas.get(position).getDesCurrency();
+            String srcCurrency = datas.get(position).getSrcCurrency();
+
+            ((MyViewHolder) holder).text_name.setText(desCurrency + "/" + srcCurrency);
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getCreateTime()));
 
 
             ((MyViewHolder) holder).text_price.setText(String.valueOf(datas.get(position).getOpPrice()));
 
 
-            ((MyViewHolder) holder).text_service.setText(TradeUtil.justDisplay(datas.get(position).getCharge()));
 
 
             ((MyViewHolder) holder).text_amount.setText(String.valueOf(datas.get(position).getOpAmount()));
-            ((MyViewHolder) holder).text_amount_all.setText(String.valueOf(datas.get(position).getOpVolume()));
+            ((MyViewHolder) holder).text_amount_all.setText(datas.get(position).getOpVolume());
             Boolean buy = datas.get(position).getBuy();
             if (buy) {
                 ((MyViewHolder) holder).text_buy.setText(context.getApplicationContext().getText(R.string.text_buy_tip));
                 ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                ((MyViewHolder) holder).text_service.setText(datas.get(position).getCharge()+" "+desCurrency);
+
             } else {
                 ((MyViewHolder) holder).text_buy.setText(R.string.text_sell_tip);
                 ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                ((MyViewHolder) holder).text_service.setText(datas.get(position).getCharge()+" "+srcCurrency);
 
             }
 

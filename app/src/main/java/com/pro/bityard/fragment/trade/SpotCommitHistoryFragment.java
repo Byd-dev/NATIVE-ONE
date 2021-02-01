@@ -290,7 +290,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
             } else {
                 edit_search = value_search;
             }
-            if (value_type.equals(getString(R.string.text_buy_and_sell))) {
+            if (value_type.equals(getActivity().getResources().getString(R.string.text_buy_and_sell))) {
                 buy_sell = null;
             } else if (value_type.equals(getString(R.string.text_buy))) {
                 buy_sell = "true";

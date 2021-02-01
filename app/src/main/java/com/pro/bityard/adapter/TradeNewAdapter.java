@@ -117,7 +117,6 @@ public class TradeNewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             }
 
-
         }
 
     }

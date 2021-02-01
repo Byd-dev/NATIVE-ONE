@@ -150,6 +150,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private RelativeLayout layout_buy_what;
 
     private String tradeName = null;
+    //成交金额
     private DecimalEditText edit_trade_amount_limit, edit_trade_amount_market;
     private int volumeDigit;
     private TextWatcher watcher_price;

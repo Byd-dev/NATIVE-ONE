@@ -1679,7 +1679,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         Toast.makeText(SpotTradeActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
         //要取消计时 防止内存溢出
         cancelTimer();
-        QuoteCurrentManger.getInstance().clear();
+      //  QuoteCurrentManger.getInstance().clear();
         SocketQuoteManger.getInstance().deleteObserver(this);
         TradeSpotManger.getInstance().clear();
         TradeSpotManger.getInstance().deleteObserver(this);

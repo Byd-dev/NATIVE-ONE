@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/text_default"
                         android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_big" />
+                        android:textSize="@dimen/size_normal" />
 
 
                 </LinearLayout>
@@ -124,7 +124,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/text_default"
                         android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_big" />
+                        android:textSize="@dimen/size_normal" />
 
 
                 </LinearLayout>
@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/text_default"
                         android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_big" />
+                        android:textSize="@dimen/size_normal" />
 
 
                 </LinearLayout>
@@ -175,7 +175,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/text_default"
                         android:textColor="@color/text_main_color"
-                        android:textSize="@dimen/size_big" />
+                        android:textSize="@dimen/size_normal" />
 
 
                 </LinearLayout>
