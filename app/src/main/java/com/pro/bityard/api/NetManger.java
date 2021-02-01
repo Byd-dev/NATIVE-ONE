@@ -3318,7 +3318,7 @@ public class NetManger {
             } else if (state.equals(SUCCESS)) {
                 Log.d("print", "spotOpen:现货撤单: " + response);
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
-                onNetResult.onNetResult(SUCCESS, tipEntity.getMessage());
+                onNetResult.onNetResult(SUCCESS, tipEntity);
                /* if (tipEntity.getCode() == 500) {
                 } else {
                     OrderEntity orderEntity = new Gson().fromJson(response.toString(), OrderEntity.class);

@@ -333,6 +333,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         Log.d("print", "setContent:313:  " + itemData);
         tradeName = TradeUtil.name(itemData);
         quote_code = itemQuoteContCode(itemData);
+        srcCurrency="USDT";
+        desCurrency=tradeName;
 
 
         String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
