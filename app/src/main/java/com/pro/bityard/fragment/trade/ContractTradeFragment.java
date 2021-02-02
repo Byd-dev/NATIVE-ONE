@@ -61,7 +61,7 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
-import com.pro.bityard.manger.QuoteCurrentManger;
+import com.pro.bityard.manger.QuoteContractCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
 import com.pro.bityard.manger.QuoteMonthCurrentManger;
@@ -813,10 +813,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         text_market_currency.setText(TradeUtil.currency(itemData));
         text_limit_currency.setText(TradeUtil.currency(itemData));
 
+        startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
 
             Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
@@ -917,7 +917,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         BalanceManger.getInstance().addObserver(this);
         //QuoteItemManger.getInstance().addObserver(this);
 
-        QuoteCurrentManger.getInstance().addObserver(this);//1min 实时
+        QuoteContractCurrentManger.getInstance().addObserver(this);//1min 实时
         Quote5MinCurrentManger.getInstance().addObserver(this);//5min 实时
         Quote15MinCurrentManger.getInstance().addObserver(this);//15min 实时
         Quote3MinCurrentManger.getInstance().addObserver(this);//30min 实时
@@ -1621,7 +1621,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             tradeListEntityList = (List<TradeListEntity>) arg;
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
             setContent(tradeListEntity);
-        }*/ else if (o == QuoteCurrentManger.getInstance()) {
+        }*/ else if (o == QuoteContractCurrentManger.getInstance()) {
             if (!isAdded()) {
                 return;
             }
@@ -2022,7 +2022,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         cancelTimer();
-        QuoteCurrentManger.getInstance().clear();
+        QuoteContractCurrentManger.getInstance().clear();
         SocketQuoteManger.getInstance().deleteObserver(this);
         Quote1MinHistoryManger.getInstance().clear();
         Quote1MinHistoryManger.getInstance().cancelTimer();
