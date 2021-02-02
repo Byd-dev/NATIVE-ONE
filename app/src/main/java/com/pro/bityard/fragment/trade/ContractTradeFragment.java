@@ -61,6 +61,7 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
+import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteContractCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
@@ -628,6 +629,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         quoteAdapter_market_pop.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
             type = AppConfig.CONTRACT_IN_ALL;
+            QuoteCodeManger.getInstance().postTag(data);
+
 
             TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
             Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
@@ -813,7 +816,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         text_market_currency.setText(TradeUtil.currency(itemData));
         text_limit_currency.setText(TradeUtil.currency(itemData));
 
-        startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
+        //startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -1311,7 +1314,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         }
     }
 
-    @SuppressLint("HandlerLeak")
+   /* @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(@NotNull Message msg) {
@@ -1331,7 +1334,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         }
-    };
+    };*/
 
     private int oldSelect = 0;
 
@@ -1627,7 +1630,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
             quoteMinEntity = (QuoteMinEntity) arg;
             if (quoteMinEntity != null) {
-                Log.d("print", "onReceive:1549:合约行情:  " + quoteMinEntity);
+                Log.d("print", "onReceive:1549:合约fragment行情:  " + quoteMinEntity);
                 runOnUiThread(() -> {
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();

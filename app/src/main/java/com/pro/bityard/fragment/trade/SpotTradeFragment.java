@@ -51,6 +51,7 @@ import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteCurrentManger;
 import com.pro.bityard.manger.QuoteSpotManger;
 import com.pro.bityard.manger.SocketQuoteManger;
+import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -197,7 +198,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     protected void initView(View view) {
         BalanceManger.getInstance().addObserver(this);
         SocketQuoteManger.getInstance().addObserver(this);
-        QuoteCodeManger.getInstance().addObserver(this);
+        SpotCodeManger.getInstance().addObserver(this);
 
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.head_spot_layout, null);
         //限价
@@ -358,7 +359,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         getBalance();
     }
 
-    private final Timer timer = new Timer();
+    /*private final Timer timer = new Timer();
     private TimerTask task;
 
     Handler handler = new Handler() {
@@ -374,19 +375,19 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             super.handleMessage(msg);
         }
 
-    };
+    };*/
 
 
     @Override
     protected void initData() {
-        task = new TimerTask() {
+       /* task = new TimerTask() {
             @Override
             public void run() {
                 Message message = new Message();
                 message.what = 1;
                 handler.sendMessage(message);
             }
-        };
+        };*/
 
 
         /*Handler handler = new Handler(Looper.getMainLooper());
@@ -395,7 +396,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 */
       //  timer.schedule(task, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
-        startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
+        //startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
 
         tradeType = getArguments().getString(TYPE);
@@ -762,7 +763,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     private String old_code = null;
 
-    private Handler mHandler = new Handler() {
+   /* private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
@@ -778,7 +779,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
 
         }
-    };
+    };*/
 
 
     private int length = 5;
@@ -806,7 +807,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 Collections.reverse(sellList);
                 sellAdapter.setDatas(sellList.subList(0, length), Util.sellMax(quote));
             });
-        } else if (o == QuoteCodeManger.getInstance()) {
+        } else if (o == SpotCodeManger.getInstance()) {
             itemData = (String) arg;
             runOnUiThread(() -> {
                 setContent(itemData);
@@ -1321,6 +1322,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             type = AppConfig.CONTRACT_IN_ALL;
             WebSocketManager.getInstance().send("4002", old_code);
             QuoteCodeManger.getInstance().postTag(data);
+            SpotCodeManger.getInstance().postTag(data);
 
 
             //判断当前是否存在自选

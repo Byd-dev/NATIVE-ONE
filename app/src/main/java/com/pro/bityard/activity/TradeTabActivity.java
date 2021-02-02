@@ -22,9 +22,11 @@ import com.pro.bityard.manger.Quote15MinCurrentManger;
 import com.pro.bityard.manger.Quote3MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
+import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteMonthCurrentManger;
 import com.pro.bityard.manger.QuoteWeekCurrentManger;
+import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -35,16 +37,19 @@ import androidx.viewpager.widget.ViewPager;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 
+import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
-public class TradeTabActivity extends BaseActivity implements View.OnClickListener {
+public class TradeTabActivity extends BaseActivity implements View.OnClickListener, Observer {
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
     private static final String quoteType = "all";
@@ -58,7 +63,8 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
     private String quote_code;
 
-    private  boolean isContract=true;
+    private boolean isContract = true;
+
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, TradeTabActivity.class);
         Bundle bundle = new Bundle();
@@ -107,8 +113,10 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         @Override
         public void handleMessage(Message msg) {
             if (quote_code != null) {
-                Log.d("print", "handleMessage:TradeTabd订阅: " + quote_code);
-                if (isContract){
+                if (isContract) {
+                    quote_code = itemQuoteContCode(defaultContract);
+
+                    Log.d("print", "handleMessage:TradeTabd订阅合约: " + isContract + "  " + quote_code);
                     WebSocketManager.getInstance().send("4001", quote_code);
                     String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
                     Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
@@ -119,11 +127,13 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
                     QuoteWeekCurrentManger.getInstance().quote(quote_host, quote_code);
                     QuoteMonthCurrentManger.getInstance().quote(quote_host, quote_code);
 
-                }else {
+                } else {
+                    Log.d("print", "handleMessage:TradeTabd订阅现货: " + isContract + "  " + quote_code);
+                    quote_code = itemQuoteContCode(defaultSpot);
+
                     WebSocketManager.getInstance().send("4001", quote_code);
                     WebSocketManager.getInstance().send("5001", quote_code);
                 }
-
 
 
             }
@@ -141,6 +151,9 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         handler.postDelayed(() -> initContent(), 50);
         findViewById(R.id.img_back).setOnClickListener(v -> finish());
 
+        QuoteCodeManger.getInstance().addObserver(this);
+        SpotCodeManger.getInstance().addObserver(this);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -149,13 +162,11 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onPageSelected(int position) {
-                if (position==0){
-                    quote_code = itemQuoteContCode(defaultContract);
-                    isContract=true;
+                if (position == 0) {
+                    isContract = true;
 
-                }else if (position==1){
-                    quote_code = itemQuoteContCode(defaultSpot);
-                    isContract=false;
+                } else if (position == 1) {
+                    isContract = false;
                 }
             }
 
@@ -166,7 +177,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         });
 
     }
-
 
 
     private void initContent() {
@@ -249,10 +259,41 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         super.onDestroy();
         Toast.makeText(TradeTabActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
         //要取消计时 防止内存溢出
-        cancelTimer();
+        timer.cancel();
 
 
     }
 
 
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == QuoteCodeManger.getInstance()) {
+            defaultContract = (String) arg;
+            Log.d("print", "update:272: "+defaultContract);
+            isContract=true;
+            String isChOrFt = TradeUtil.type(defaultContract);
+            if (isChOrFt.equals(AppConfig.TYPE_FT)) {
+                tabLayout_title.getTabAt(0).select();
+
+            } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
+                tabLayout_title.getTabAt(1).select();
+
+            }
+
+        }else if (o==SpotCodeManger.getInstance()){
+            defaultSpot = (String) arg;
+            Log.d("print", "update:285: "+defaultSpot);
+
+            isContract=false;
+            String isChOrFt = TradeUtil.type(defaultSpot);
+            if (isChOrFt.equals(AppConfig.TYPE_FT)) {
+                tabLayout_title.getTabAt(0).select();
+
+            } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
+                tabLayout_title.getTabAt(1).select();
+
+            }
+        }
+
+    }
 }

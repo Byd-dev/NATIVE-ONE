@@ -59,7 +59,7 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
-import com.pro.bityard.manger.QuoteCodeManger;
+import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.QuoteCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
@@ -331,7 +331,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         SocketQuoteManger.getInstance().addObserver(this);
         BalanceManger.getInstance().addObserver(this);
         //QuoteItemManger.getInstance().addObserver(this);
-        QuoteCodeManger.getInstance().addObserver(this);
+        SpotCodeManger.getInstance().addObserver(this);
 
 
         QuoteCurrentManger.getInstance().addObserver(this);//1min 实时
@@ -708,8 +708,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             if (quote_code != null) {
                 Log.d("print", "handleMessage:activity订阅:  " + quote_code);
                 old_code = quote_code;
-               /* WebSocketManager.getInstance().send("5001", quote_code);
-                WebSocketManager.getInstance().send("4001", quote_code);*/
                 WebSocketManager.getInstance().send("6001", quote_code);
 
 
@@ -1047,7 +1045,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             itemData = data;
             quote_code = TradeUtil.itemQuoteContCode(data);
             WebSocketManager.getInstance().send("4002", old_code);
-            QuoteCodeManger.getInstance().postTag(data);
+            SpotCodeManger.getInstance().postTag(data);
 
             type = AppConfig.CONTRACT_IN_ALL;
 
@@ -1196,7 +1194,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             case R.id.layout_sell:
                 if (isLogin()) {
                     finish();
-                    QuoteCodeManger.getInstance().postTag(itemData);
+                    SpotCodeManger.getInstance().postTag(itemData);
                 } else {
                     LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
@@ -1345,7 +1343,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             });
 
             //最新成交
-        } else if (o == QuoteCodeManger.getInstance()) {
+        } else if (o == SpotCodeManger.getInstance()) {
             itemData = (String) arg;
             setContent(itemData);
             quote_code = itemQuoteContCode(itemData);
