@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.trade;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -28,6 +29,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -58,7 +60,12 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
     private String createTimeGe;
     private String createTimeLe;
     private int page;
-
+    private Activity activity;
+    @Override
+    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity=getActivity();
+    }
 
     @Override
     protected int setLayoutResourceID() {
@@ -236,15 +243,18 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                         if (addType.equals(AppConfig.LOAD)){
                             spotHistoryAdapter.addDatas(data);
                         }else {
-                            if (data.size() != 0) {
-                                spotHistoryAdapter.setDatas(data);
-                                layout_null.setVisibility(View.GONE);
-                                recyclerView_spot.setVisibility(View.VISIBLE);
-                            } else {
-                                layout_null.setVisibility(View.VISIBLE);
-                                recyclerView_spot.setVisibility(View.GONE);
+                            if (isAdded()){
+                                if (data.size() != 0) {
+                                    spotHistoryAdapter.setDatas(data);
+                                    layout_null.setVisibility(View.GONE);
+                                    recyclerView_spot.setVisibility(View.VISIBLE);
+                                } else {
+                                    layout_null.setVisibility(View.VISIBLE);
+                                    recyclerView_spot.setVisibility(View.GONE);
 
+                                }
                             }
+
                         }
 
 
@@ -290,27 +300,28 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
             } else {
                 edit_search = value_search;
             }
-            if (value_type.equals(getActivity().getResources().getString(R.string.text_buy_and_sell))) {
+            if (value_type.equals(activity.getResources().getString(R.string.text_buy_and_sell))) {
                 buy_sell = null;
-            } else if (value_type.equals(getString(R.string.text_buy))) {
+            } else if (value_type.equals(activity.getString(R.string.text_buy))) {
                 buy_sell = "true";
-            } else if (value_type.equals(getString(R.string.text_sell))) {
+            } else if (value_type.equals(activity.getString(R.string.text_sell))) {
                 buy_sell = "false";
             }
 
-            if (value_date.equals(getString(R.string.text_near_one_day))) {
+            if (value_date.equals(activity.getString(R.string.text_near_one_day))) {
                 createTimeGe = ChartUtil.getTodayZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
-            } else if (value_date.equals(getString(R.string.text_near_one_week))) {
+            } else if (value_date.equals(activity.getString(R.string.text_near_one_week))) {
                 createTimeGe = ChartUtil.getWeekZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
-            } else if (value_date.equals(getString(R.string.text_near_one_month))) {
+            } else if (value_date.equals(activity.getString(R.string.text_near_one_month))) {
                 createTimeGe = ChartUtil.getMonthZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
-            } else if (value_date.equals(getString(R.string.text_near_three_month))) {
+            } else if (value_date.equals(activity.getString(R.string.text_near_three_month))) {
                 createTimeGe = ChartUtil.getThreeMonthZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
+
             page = 0;
             getHistoryPosition(AppConfig.FIRST, edit_search, buy_sell, null, null, page);
         }
