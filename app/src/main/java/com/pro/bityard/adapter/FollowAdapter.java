@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -182,6 +183,12 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((MyViewHolder) holder).text_follow.setTextColor(context.getResources().getColor(R.color.text_main_color));
 
             }
+            if (position>=3){
+                ((MyViewHolder) holder).img_fire.setVisibility(View.GONE);
+            }else {
+                ((MyViewHolder) holder).img_fire.setVisibility(View.VISIBLE);
+
+            }
 
         }
     }
@@ -216,6 +223,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         TextView text_name, text_trader_30_days_income, text_trader_30_days_defeat, text_trader_total_rate,
                 text_bet_days, text_trader_30_days_count, text_follower, text_type, text_follow;
         CircleImageView img_head;
+        ImageView img_fire;
         LinearLayout layout_tags,layout_name;
 
         public MyViewHolder(View itemView) {
@@ -230,6 +238,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             img_head = itemView.findViewById(R.id.img_head);
             layout_tags = itemView.findViewById(R.id.layout_tags);
             layout_name = itemView.findViewById(R.id.layout_name);
+            img_fire=itemView.findViewById(R.id.img_fire);
 
             text_type = itemView.findViewById(R.id.text_type);
             text_follow = itemView.findViewById(R.id.text_follow);

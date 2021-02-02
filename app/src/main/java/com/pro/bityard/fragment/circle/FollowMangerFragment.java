@@ -1,5 +1,7 @@
 package com.pro.bityard.fragment.circle;
 
+import android.app.Activity;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -19,6 +21,7 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -50,6 +53,13 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
 
     @BindView(R.id.swipeRefreshLayout_traders)
     SwipeRefreshLayout swipeRefreshLayout_traders;
+    private Activity activity;
+
+    @Override
+    public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity=getActivity();
+    }
 
     @Override
     public void onResume() {
@@ -131,9 +141,16 @@ public class FollowMangerFragment extends BaseFragment implements View.OnClickLi
         NetManger.getInstance().followerStat((state, response) -> {
             if (state.equals(SUCCESS)) {
                 StatEntity statEntity = (StatEntity) response;
+                double sumIncome = statEntity.getSumIncome();
+                if (sumIncome>0){
+                    text_copy_trade_profit.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+                }else {
+                    text_copy_trade_profit.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
+
+                }
 
                 text_copy_total_amount.setText(String.valueOf(statEntity.getSumMargin()));
-                text_copy_trade_profit.setText(TradeUtil.getNumberFormat(statEntity.getSumIncome(), 2));
+                text_copy_trade_profit.setText(TradeUtil.getNumberFormat(sumIncome, 2));
             }
         });
         page = 1;

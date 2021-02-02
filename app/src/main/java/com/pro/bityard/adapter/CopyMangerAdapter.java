@@ -128,7 +128,15 @@ public class CopyMangerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             ((MyViewHolder) holder).text_copy_total_amount.setText(String.valueOf(datas.get(position).getSumMargin()));
 
-            ((MyViewHolder) holder).text_copy_trade_profit.setText(TradeUtil.getNumberFormat(datas.get(position).getSumIncome(), 2));
+            double sumIncome = datas.get(position).getSumIncome();
+            if (sumIncome>0){
+                ((MyViewHolder) holder).text_copy_trade_profit.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+            }else {
+                ((MyViewHolder) holder).text_copy_trade_profit.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+
+            }
+
+            ((MyViewHolder) holder).text_copy_trade_profit.setText(TradeUtil.getNumberFormat(sumIncome, 2));
 
 
             ((MyViewHolder) holder).text_day_copy_amount.setText(String.valueOf(datas.get(position).getMaxDay()));

@@ -1134,6 +1134,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_circle.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_circle.addHeaderView(head_circle);
         recyclerView_circle.addFooterView(footView_circle);
+        findViewById(R.id.img_log).setOnClickListener(this);
 
         head_circle.findViewById(R.id.text_follow_settings).setOnClickListener(this);
         img_head_circle.setOnClickListener(this);
@@ -2091,6 +2092,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
 
+                break;
+                //
+            case R.id.img_log:
+                if (isLogin()) {
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_FOLLOW_LOG);
+
+                } else {
+                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                }
                 break;
             //跟单管理
             case R.id.text_follow_settings:

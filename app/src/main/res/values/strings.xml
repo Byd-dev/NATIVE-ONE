@@ -435,7 +435,7 @@
     <string name="text_img_code_input">请输入图形验证码</string>
     <string name="text_derived">衍生品</string>
     <string name="text_pt">Português</string>
-    <string name="text_tab_follow">社区</string>
+    <string name="text_tab_follow">跟单</string>
     <string name="text_person_information">个人资料</string>
     <string name="text_head">头像</string>
     <string name="text_sex">性别</string>
@@ -449,9 +449,9 @@
     <string name="text_bet_days">交易天数</string>
     <string name="text_trader_30_days_count">30天交易笔数</string>
     <string name="text_follower">累计跟随人数</string>
-    <string name="text_normal_user">普通用户</string>
-    <string name="text_normal_trader">普通交易员</string>
-    <string name="text_pro_trader">专业交易员</string>
+    <string name="text_normal_user">普通</string>
+    <string name="text_normal_trader">普通</string>
+    <string name="text_pro_trader">专业</string>
     <string name="text_watch_more"><![CDATA[查看平台优质投资者>]]></string>
     <string name="text_circle_warning">最大回撤率是指在特定周期内遭遇过最大资产亏损,壳作为衡量交易员的风险评估值,回撤率越大风险越高.</string>
     <string name="text_copy_trade">跟单</string>
@@ -544,7 +544,7 @@
     <string name="text_sell">卖出</string>
     <string name="text_limit_order">限价单</string>
     <string name="text_market_order">市价单</string>
-    <string name="text_trade_amount">成交金额</string>
+    <string name="text_trade_amount">成交额</string>
     <string name="text_history_spot_position">历史委托</string>
     <string name="text_history_trade">成交历史</string>
     <string name="text_start">起始</string>
