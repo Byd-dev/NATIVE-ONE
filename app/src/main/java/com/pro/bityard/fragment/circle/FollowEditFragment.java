@@ -7,7 +7,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TimeUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -26,7 +25,6 @@ import com.pro.bityard.adapter.AmountListAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.utils.TradeUtil;
@@ -178,7 +176,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
     private String maxDay;
     private String maxHold;
     private String slRatio;
-    private String followMax=null;
+    private String followMax = null;
 
 
     public FollowEditFragment newInstance(FollowerDetailEntity.DataBean value) {
@@ -220,13 +218,13 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
             if (!btn_switch.isPressed()) {
                 return;
             }
-            String active ;
+            String active;
             if (isChecked) {
                 active = "true";
                 text_copy_switch_tip.setText(getResources().getString(R.string.text_copy_switch_tip));
             } else {
                 active = "false";
-                text_copy_switch_tip.setText(getString(R.string.text_last_time)+":"+ Util.stampToDate(followerUser.getLastTime())+"\n"+getString(R.string.text_close_reason)+":");
+                text_copy_switch_tip.setText(getString(R.string.text_last_time) + ":" + Util.stampToDate(followerUser.getLastTime()) + "\n" + getString(R.string.text_close_reason) + ":");
 
             }
             NetManger.getInstance().followSwitch(active, followerUser.getId(), (state, response) -> {
@@ -242,7 +240,6 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
 
         String strMsg = getString(R.string.text_copy_trade_amount);
         text_copy_trade_amount.setText(Html.fromHtml(strMsg));
-
 
 
         String strMsg3 = getString(R.string.text_maximum_position_amount);
@@ -320,25 +317,26 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
         layout_stop_loss_amount.setVisibility(View.GONE);
         layout_stop_loss_proportion.setVisibility(View.GONE);
 
-        checkBox_amount.setChecked(true);
-        checkbox_proportion.setChecked(true);
+        /*checkBox_amount.setChecked(true);
+        checkbox_proportion.setChecked(true);*/
 
         checkBox_amount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     layout_stop_loss_amount.setVisibility(View.GONE);
-                    slRatio="-1";
+                    slRatio = "-1";
                 } else {
                     layout_stop_loss_amount.setVisibility(View.VISIBLE);
-                    if (slRatio==null){
+                    Log.d("print", "onCheckedChanged:331:  "+slRatio);
+                    if (slRatio .equals("-1")) {
                         bar_amount.post(() -> {
-                            bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
+                            bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90, 0)));
                         });
-                        edit_amount_bar.setText(90+"");
-                    }else {
+                        edit_amount_bar.setText(90 + "");
+                    } else {
                         bar_amount.post(() -> {
-                            bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0)));
+                            bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio), 0)));
                         });
                         edit_amount_bar.setText(slRatio);
                     }
@@ -353,22 +351,21 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     layout_stop_loss_proportion.setVisibility(View.GONE);
-                    slRatio="-1";
+                    slRatio = "-1";
                 } else {
                     layout_stop_loss_proportion.setVisibility(View.VISIBLE);
-                    Log.d("print", "onCheckedChanged:360: "+slRatio);
-                    if (slRatio==null){
+                    Log.d("print", "onCheckedChanged:360: " + slRatio);
+                    if (slRatio.equals("-1")) {
                         bar_stop_loss_proportion.post(() -> {
-                            bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
+                            bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90, 0)));
                         });
-                        edit_stop_loss_rate.setText(90+"");
-                    }else {
+                        edit_stop_loss_rate.setText(90 + "");
+                    } else {
                         bar_stop_loss_proportion.post(() -> {
-                            bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0)));
+                            bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio), 0)));
                         });
                         edit_stop_loss_rate.setText(slRatio);
                     }
-
 
 
                 }
@@ -478,25 +475,28 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
     @Override
     protected void initData() {
         followerUser = (FollowerDetailEntity.DataBean) getArguments().getSerializable("DATA_VALUE");
-        Log.d("print", "initData:403:  "+followerUser);
-        if (followerUser.isActive()){
+        Log.d("print", "initData:403:  " + followerUser);
+        if (followerUser.isActive()) {
             btn_switch.setChecked(true);
             text_copy_switch_tip.setText(getResources().getString(R.string.text_copy_switch_tip));
-        }else {
+        } else {
             btn_switch.setChecked(false);
-            text_copy_switch_tip.setText(getString(R.string.text_last_time)+":"+ Util.stampToDate(followerUser.getLastTime())+"\n"+getString(R.string.text_close_reason)+":"+followerUser.getLastData());
+            text_copy_switch_tip.setText(getString(R.string.text_last_time) + ":" + Util.stampToDate(followerUser.getLastTime()) + "\n" + getString(R.string.text_close_reason) + ":" + followerUser.getLastData());
         }
 
 
         //比例
 
         //根据跟单方式显示
-         followWay = String.valueOf(followerUser.getFollowWay());
+        followWay = String.valueOf(followerUser.getFollowWay());
         double followVal = followerUser.getFollowVal();
-       String  slRatio = String.valueOf(followerUser.getSlRatio());
+        double slRatio = followerUser.getSlRatio();
         double maxDay = followerUser.getMaxDay();
         double maxHold = followerUser.getMaxHold();
-        switch (followWay){
+
+
+
+        switch (followWay) {
             case "1":
                 radio_fixed_margin.setBackground(getResources().getDrawable(R.mipmap.bg_blue_left));
                 radio_proportional_margin.setBackground(getResources().getDrawable(R.mipmap.bg_normal_right));
@@ -504,13 +504,25 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                 layout_copy_amount.setVisibility(View.VISIBLE);
                 layout_copy_proportion.setVisibility(View.GONE);
 
-                edit_amount.setText(TradeUtil.getNumberFormat(followVal,0));
-                edit_copy_trade_position.setText(TradeUtil.getNumberFormat(maxDay,0));
-                edit_max_trade_position.setText(TradeUtil.getNumberFormat(maxHold,0));
-                edit_amount_bar.setText(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0));
-                bar_amount.post(() -> {
-                    bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0)));
-                });
+                edit_amount.setText(TradeUtil.getNumberFormat(followVal, 0));
+                edit_copy_trade_position.setText(TradeUtil.getNumberFormat(maxDay, 0));
+                edit_max_trade_position.setText(TradeUtil.getNumberFormat(maxHold, 0));
+                edit_amount_bar.setText(TradeUtil.getNumberFormat(slRatio, 0));
+                if (slRatio!=-1){
+                    checkBox_amount.setChecked(false);
+                    layout_stop_loss_amount.setVisibility(View.VISIBLE);
+                    bar_amount.post(() -> {
+                        bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(slRatio, 0)));
+                    });
+                }else {
+                    layout_stop_loss_amount.setVisibility(View.GONE);
+                    checkBox_amount.setChecked(true);
+                    bar_amount.post(() -> {
+                        bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90, 0)));
+                    });
+                    edit_amount_bar.setText(90 + "");
+                }
+
 
 
                 break;
@@ -521,12 +533,24 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                 layout_copy_amount.setVisibility(View.GONE);
                 layout_copy_proportion.setVisibility(View.VISIBLE);
 
-                edit_day_amount_proportion.setText(TradeUtil.getNumberFormat(maxDay,0));
-                edit_max_amount_proportion.setText(TradeUtil.getNumberFormat(maxHold,0));
-                edit_stop_loss_rate.setText(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0));
-                bar_stop_loss_proportion.post(() -> {
-                    bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0)));
-                });
+                edit_day_amount_proportion.setText(TradeUtil.getNumberFormat(maxDay, 0));
+                edit_max_amount_proportion.setText(TradeUtil.getNumberFormat(maxHold, 0));
+                edit_stop_loss_rate.setText(TradeUtil.getNumberFormat(slRatio, 0));
+                if (slRatio!=-1){
+                    checkbox_proportion.setChecked(false);
+                    layout_stop_loss_proportion.setVisibility(View.VISIBLE);
+                    bar_stop_loss_proportion.post(() -> {
+                        bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(slRatio, 0)));
+                    });
+                }else {
+                    layout_stop_loss_proportion.setVisibility(View.GONE);
+                    checkbox_proportion.setChecked(true);
+                    bar_stop_loss_proportion.post(() -> {
+                        bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90, 0)));
+                    });
+                    edit_stop_loss_rate.setText(90 + "");
+                }
+
                 double followVal_dou = TradeUtil.mul(followVal, 100);
                 String numberFormat = TradeUtil.getNumberFormat(followVal_dou, 0);
                 edit_copy_rate_proportion.setText(numberFormat);
@@ -535,7 +559,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                     bar_proportion_rate.setProgress(Integer.parseInt(numberFormat));
                 });
 
-                edit_warning_proportion.setText(TradeUtil.getNumberFormat(followerUser.getFollowMax(),0));
+                edit_warning_proportion.setText(TradeUtil.getNumberFormat(followerUser.getFollowMax(), 0));
                 break;
 
         }
@@ -611,22 +635,31 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                     followVal = edit_amount.getText().toString();
                     maxDay = edit_copy_trade_position.getText().toString();
                     maxHold = edit_max_trade_position.getText().toString();
-                    slRatio = edit_amount_bar.getText().toString();
-                    followMax="0";
+                    followMax = "0";
+                    if (checkBox_amount.isChecked()){
+                        slRatio = "-1";
+                    }else {
+                        slRatio = edit_amount_bar.getText().toString();
 
+                    }
                 } else {
                     double v1 = Double.parseDouble(edit_copy_rate_proportion.getText().toString());
                     double div = TradeUtil.div(v1, 100, 2);
                     followVal = String.valueOf(div);
                     maxDay = edit_day_amount_proportion.getText().toString();
                     maxHold = edit_max_amount_proportion.getText().toString();
-                    slRatio = edit_stop_loss_rate.getText().toString();
                     followMax = edit_warning_proportion.getText().toString();
+                    if (checkbox_proportion.isChecked()){
+                        slRatio="-1";
+                    }else {
+                        slRatio = edit_stop_loss_rate.getText().toString();
+                    }
                 }
-                if (slRatio.equals("")) {
+
+                /*if (slRatio.equals("")) {
                     slRatio = "-1";
-                }
-                NetManger.getInstance().follow(traderId, "USDT", followWay, followVal,followMax, maxDay, maxHold, slRatio, "true", (state, response) -> {
+                }*/
+                NetManger.getInstance().follow(traderId, "USDT", followWay, followVal, followMax, maxDay, maxHold, slRatio, "true", (state, response) -> {
                             if (state.equals(BUSY)) {
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
