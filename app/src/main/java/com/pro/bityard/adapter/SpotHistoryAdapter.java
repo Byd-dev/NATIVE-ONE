@@ -95,11 +95,57 @@ public class SpotHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
-            ((MyViewHolder) holder).text_name.setText(datas.get(position).getDesCurrency() + "/" + datas.get(position).getSrcCurrency());
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getCreateTime()));
+            int type = datas.get(position).getType();
 
+            boolean buy = datas.get(position).getBuy();
+            Integer status = datas.get(position).getStatus();
+
+            if (status==6){
+                ((MyViewHolder) holder).text_name.setTextColor(context.getResources().getColor(R.color.text_second_color));
+                ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_second_color));
+
+            }else {
+                ((MyViewHolder) holder).text_name.setTextColor(context.getResources().getColor(R.color.text_main_color));
+                ((MyViewHolder) holder).text_price.setTextColor(context.getResources().getColor(R.color.text_main_color));
+
+            }
+
+            if (buy){
+                ((MyViewHolder) holder).text_name.setText(datas.get(position).getDesCurrency() + "/" + datas.get(position).getSrcCurrency());
+
+                if (type==0){
+                    ((MyViewHolder) holder).text_buy.setText(R.string.text_limit_buy);
+                }else {
+                    ((MyViewHolder) holder).text_buy.setText(R.string.text_market_buy);
+
+                }
+                if (status==6){
+                    ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.color_bg_green));
+                }else {
+                    ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                }
+
+            }else {
+                ((MyViewHolder) holder).text_name.setText(datas.get(position).getSrcCurrency() + "/" + datas.get(position).getDesCurrency());
+
+                if (type==0){
+                    ((MyViewHolder) holder).text_buy.setText(R.string.text_limit_sell);
+                }else {
+                    ((MyViewHolder) holder).text_buy.setText(R.string.text_market_sell);
+
+                }
+                if (status==6){
+                    ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.color_bg_red));
+
+                }else {
+                    ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                }
+
+            }
 
             ((MyViewHolder) holder).text_price.setText(TradeUtil.getNumberFormat(datas.get(position).getPrice(), 2));
+
 
 
             ((MyViewHolder) holder).text_amount.setText(datas.get(position).getVolume() + "/"
@@ -135,7 +181,7 @@ public class SpotHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_currency, text_time, text_amount, text_price;
+        TextView text_name, text_buy,text_currency, text_time, text_amount, text_price;
 
         ImageView img_buy;
 
@@ -146,6 +192,7 @@ public class SpotHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             text_amount = itemView.findViewById(R.id.text_amount);
             text_price = itemView.findViewById(R.id.text_price);
             text_time = itemView.findViewById(R.id.text_time);
+            text_buy = itemView.findViewById(R.id.text_buy);
 
 
 

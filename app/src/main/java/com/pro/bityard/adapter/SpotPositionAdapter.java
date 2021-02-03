@@ -97,6 +97,31 @@ public class SpotPositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MyViewHolder) holder).text_name.setText(datas.get(position).getDesCurrency() + "/" + datas.get(position).getSrcCurrency());
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getCreateTime()));
 
+            int type = datas.get(position).getType();
+
+            boolean buy = datas.get(position).isBuy();
+
+            if (buy){
+                if (type==0){
+                    ((MyViewHolder) holder).text_buy.setText(R.string.text_limit_buy);
+                }else {
+                    ((MyViewHolder) holder).text_buy.setText(R.string.text_market_buy);
+
+                }
+                ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+
+            }else {
+                if (type==0){
+                    ((MyViewHolder) holder).text_buy.setText(R.string.text_limit_sell);
+                }else {
+                    ((MyViewHolder) holder).text_buy.setText(R.string.text_market_sell);
+
+                }
+                ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+
+            }
+
+
 
             ((MyViewHolder) holder).text_price.setText(TradeUtil.getNumberFormat(datas.get(position).getPrice(), 2));
 
@@ -137,13 +162,16 @@ public class SpotPositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView text_name, text_currency, text_time, text_amount, text_price;
+        TextView text_name,text_buy, text_currency, text_time, text_amount, text_price;
 
         ImageView img_buy;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
             text_name = itemView.findViewById(R.id.text_name);
+            text_buy = itemView.findViewById(R.id.text_buy);
+
             text_currency = itemView.findViewById(R.id.text_currency);
             text_amount = itemView.findViewById(R.id.text_amount);
             text_price = itemView.findViewById(R.id.text_price);

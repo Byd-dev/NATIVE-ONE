@@ -160,7 +160,7 @@ public class SpotHistoryEntity {
 
 
 
-        private Double amount;
+        private String amount;
         private Object brand;
         private Boolean buy;
         private Double charge;
@@ -191,13 +191,13 @@ public class SpotHistoryEntity {
         private String userId;
         private String username;
         private String version;
-        private Double volume;
+        private String volume;
 
-        public Double getAmount() {
+        public String getAmount() {
             return amount;
         }
 
-        public void setAmount(Double amount) {
+        public void setAmount(String amount) {
             this.amount = amount;
         }
 
@@ -441,11 +441,11 @@ public class SpotHistoryEntity {
             this.version = version;
         }
 
-        public Double getVolume() {
+        public String getVolume() {
             return volume;
         }
 
-        public void setVolume(Double volume) {
+        public void setVolume(String volume) {
             this.volume = volume;
         }
     }

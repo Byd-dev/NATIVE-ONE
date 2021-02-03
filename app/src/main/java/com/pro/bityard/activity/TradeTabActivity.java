@@ -1,6 +1,5 @@
 package com.pro.bityard.activity;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,21 +31,16 @@ import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
-import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
-
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
-import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
-import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
 public class TradeTabActivity extends BaseActivity implements View.OnClickListener, Observer {
@@ -269,8 +263,8 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     public void update(Observable o, Object arg) {
         if (o == QuoteCodeManger.getInstance()) {
             defaultContract = (String) arg;
-            Log.d("print", "update:272: "+defaultContract);
-            isContract=true;
+            Log.d("print", "update:272: " + defaultContract);
+            isContract = true;
             String isChOrFt = TradeUtil.type(defaultContract);
             if (isChOrFt.equals(AppConfig.TYPE_FT)) {
                 tabLayout_title.getTabAt(0).select();
@@ -280,11 +274,11 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
             }
 
-        }else if (o==SpotCodeManger.getInstance()){
+        } else if (o == SpotCodeManger.getInstance()) {
             defaultSpot = (String) arg;
-            Log.d("print", "update:285: "+defaultSpot);
+            Log.d("print", "update:285: " + defaultSpot);
 
-            isContract=false;
+            isContract = false;
             String isChOrFt = TradeUtil.type(defaultSpot);
             if (isChOrFt.equals(AppConfig.TYPE_FT)) {
                 tabLayout_title.getTabAt(0).select();
