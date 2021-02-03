@@ -331,10 +331,17 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                     slRatio="-1";
                 } else {
                     layout_stop_loss_amount.setVisibility(View.VISIBLE);
-                    bar_amount.post(() -> {
-                        bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
-                    });
-                    edit_amount_bar.setText(90+"");
+                    if (slRatio==null){
+                        bar_amount.post(() -> {
+                            bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
+                        });
+                        edit_amount_bar.setText(90+"");
+                    }else {
+                        bar_amount.post(() -> {
+                            bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0)));
+                        });
+                        edit_amount_bar.setText(slRatio);
+                    }
 
 
                 }
@@ -349,10 +356,19 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                     slRatio="-1";
                 } else {
                     layout_stop_loss_proportion.setVisibility(View.VISIBLE);
-                    bar_stop_loss_proportion.post(() -> {
-                        bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
-                    });
-                    edit_stop_loss_rate.setText(90+"");
+                    Log.d("print", "onCheckedChanged:360: "+slRatio);
+                    if (slRatio==null){
+                        bar_stop_loss_proportion.post(() -> {
+                            bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(90,0)));
+                        });
+                        edit_stop_loss_rate.setText(90+"");
+                    }else {
+                        bar_stop_loss_proportion.post(() -> {
+                            bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0)));
+                        });
+                        edit_stop_loss_rate.setText(slRatio);
+                    }
+
 
 
                 }
@@ -477,7 +493,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
         //根据跟单方式显示
          followWay = String.valueOf(followerUser.getFollowWay());
         double followVal = followerUser.getFollowVal();
-        double slRatio = followerUser.getSlRatio();
+       String  slRatio = String.valueOf(followerUser.getSlRatio());
         double maxDay = followerUser.getMaxDay();
         double maxHold = followerUser.getMaxHold();
         switch (followWay){
@@ -491,10 +507,11 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                 edit_amount.setText(TradeUtil.getNumberFormat(followVal,0));
                 edit_copy_trade_position.setText(TradeUtil.getNumberFormat(maxDay,0));
                 edit_max_trade_position.setText(TradeUtil.getNumberFormat(maxHold,0));
-                edit_amount_bar.setText(TradeUtil.getNumberFormat(slRatio,0));
+                edit_amount_bar.setText(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0));
                 bar_amount.post(() -> {
-                    bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(slRatio,0)));
+                    bar_amount.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0)));
                 });
+
 
                 break;
             case "2":
@@ -506,9 +523,9 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
 
                 edit_day_amount_proportion.setText(TradeUtil.getNumberFormat(maxDay,0));
                 edit_max_amount_proportion.setText(TradeUtil.getNumberFormat(maxHold,0));
-                edit_stop_loss_rate.setText(TradeUtil.getNumberFormat(slRatio,0));
+                edit_stop_loss_rate.setText(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0));
                 bar_stop_loss_proportion.post(() -> {
-                    bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(slRatio,0)));
+                    bar_stop_loss_proportion.setProgress(Integer.parseInt(TradeUtil.getNumberFormat(Double.parseDouble(slRatio),0)));
                 });
                 double followVal_dou = TradeUtil.mul(followVal, 100);
                 String numberFormat = TradeUtil.getNumberFormat(followVal_dou, 0);
