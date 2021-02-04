@@ -101,7 +101,7 @@ public class SpotHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (holder instanceof MyViewHolder) {
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getCreateTime()));
             int type = datas.get(position).getType();
-
+            //0 限价   1市价
             boolean buy = datas.get(position).getBuy();
             Integer status = datas.get(position).getStatus();
 
@@ -126,27 +126,30 @@ public class SpotHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (type == 0) {
                 ((MyViewHolder) holder).text_amount.setText(OpVolume + "/"
                         + volume);
-                if (opVolume_double!=0){
-                    div_limit = TradeUtil.divBig(opVolume_double, opVolume_double, 0);
+                if (volume_double!=0){
+                    div_limit = TradeUtil.divBig(opVolume_double, volume_double, 0);
                 }else {
-                    div_limit="0";
+                    div_market="0";
+
                 }
+                Log.d("print", "onBindViewHolder:135: "+div_limit);
 
                 value_circle = TradeUtil.mulBig(Double.parseDouble(div_limit), 100);
 
             } else {
                 ((MyViewHolder) holder).text_amount.setText(OpVolume + "/"
                         + OpVolume);
-                if (volume_double!=0){
-                    div_market = TradeUtil.divBig(opVolume_double, volume_double, 0);
+                if (opVolume_double!=0){
+                    div_market = TradeUtil.divBig(opVolume_double, opVolume_double, 0);
                 }else {
-                    div_market ="0";
-
+                    div_market="0";
                 }
-
+                Log.d("print", "onBindViewHolder:146: "+div_market);
                 value_circle = TradeUtil.mulBig(Double.parseDouble(div_market), 100);
 
             }
+            Log.d("print", "onBindViewHolder: "+value_circle);
+
 
             ((MyViewHolder) holder).circleView.setProgress(Integer.parseInt(value_circle));
 
