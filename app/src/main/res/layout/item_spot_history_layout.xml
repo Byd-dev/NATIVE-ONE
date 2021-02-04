@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
@@ -10,37 +11,49 @@
         android:layout_height="120dp"
         android:background="@color/background_main_color"
         android:orientation="horizontal">
+
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_weight="0.1"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:layout_weight="0.1"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/text_buy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="限价买入"
-                android:layout_marginTop="@dimen/margin_10"
-                android:textColor="@color/text_quote_green"
                 android:layout_gravity="center"
-                />
+                android:layout_marginTop="@dimen/margin_10"
+                android:text="限价买入"
+                android:textColor="@color/text_quote_green" />
+
+
+          <com.pro.bityard.view.CircleView
+              android:id="@+id/circle"
+              android:layout_width="@dimen/margin_50"
+              android:layout_height="@dimen/margin_50"
+              android:layout_marginTop="@dimen/margin_20"
+              android:layout_gravity="center"
+              app:roundColor="@color/color_bg_left"
+              app:textColor="@color/text_quote_green"
+              app:roundProgressColor="@color/color_bg_left"
+              app:textSize="@dimen/margin_12"
+              app:roundWidth="5dp"
+              />
 
 
         </LinearLayout>
         <!--1-->
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                >
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/text_name"
@@ -60,19 +73,19 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/text_name"
                     android:text="/USDT"
-                    android:visibility="gone"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big"
-                    android:typeface="monospace" />
+                    android:typeface="monospace"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/text_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_alignParentRight="true"
-                    android:text="--"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/margin_15"
+                    android:text="--"
                     android:textColor="@color/text_second_color"
                     android:textSize="@dimen/size_normal"
                     android:typeface="monospace" />
@@ -82,8 +95,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                >
+                android:layout_weight="2">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -93,30 +105,27 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="left|center"
                         android:layout_weight="1
 "
-                        >
+                        android:gravity="left|center"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_15"
                             android:text="@string/text_amount_withdrawal"
                             android:textColor="@color/text_second_color"
-                            android:textSize="@dimen/size_big"
-                            android:layout_marginLeft="@dimen/margin_15"
-                            />
+                            android:textSize="@dimen/size_big" />
 
                         <TextView
                             android:id="@+id/text_amount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/size_big"
-                            android:textColor="@color/text_second_color"
                             android:layout_marginLeft="@dimen/margin_20"
-                            android:text="@string/text_default"/>
-
-
+                            android:text="@string/text_default"
+                            android:textColor="@color/text_second_color"
+                            android:textSize="@dimen/size_big" />
 
 
                     </LinearLayout>
@@ -125,30 +134,27 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:gravity="left|center"
                         android:layout_weight="1
 "
-                        >
+                        android:gravity="left|center"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/margin_15"
                             android:text="@string/text_price_tab"
                             android:textColor="@color/text_second_color"
-                            android:textSize="@dimen/size_big"
-                            android:layout_marginLeft="@dimen/margin_15"
-                            />
+                            android:textSize="@dimen/size_big" />
 
                         <TextView
                             android:id="@+id/text_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/size_big"
-                            android:textColor="@color/text_main_color"
                             android:layout_marginLeft="@dimen/margin_20"
-                            android:text="@string/text_default"/>
-
-
+                            android:text="@string/text_default"
+                            android:textColor="@color/text_main_color"
+                            android:textSize="@dimen/size_big" />
 
 
                     </LinearLayout>
@@ -156,22 +162,10 @@
                 </LinearLayout>
 
 
-
-
-
-
-
-
-
             </RelativeLayout>
 
 
-
-
         </LinearLayout>
-
-
-
 
 
     </LinearLayout>
