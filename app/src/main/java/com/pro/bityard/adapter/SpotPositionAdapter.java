@@ -198,6 +198,15 @@ public class SpotPositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             ((MyViewHolder) holder).text_price.setText(value_price);
 
+            ((MyViewHolder) holder).text_cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onDetailClick!=null){
+                        onDetailClick.onClickListener(datas.get(position));
+                    }
+                }
+            });
+
         }
 
     }
@@ -234,6 +243,8 @@ public class SpotPositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         ImageView img_buy;
         CircleView circleView;
 
+        TextView text_cancel;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -245,12 +256,8 @@ public class SpotPositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             text_price = itemView.findViewById(R.id.text_price);
             text_time = itemView.findViewById(R.id.text_time);
             circleView = itemView.findViewById(R.id.circle);
+            text_cancel=itemView.findViewById(R.id.text_cancel);
 
-            itemView.findViewById(R.id.text_cancel).setOnClickListener(v -> {
-                if (onDetailClick!=null){
-                    onDetailClick.onClickListener(datas.get(getAdapterPosition()));
-                }
-            });
 
 
 

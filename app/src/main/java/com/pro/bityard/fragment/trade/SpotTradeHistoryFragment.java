@@ -185,6 +185,8 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
         recyclerView_spot.setAdapter(spotTradeHistoryAdapter);
 
 
+
+
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             page = 0;

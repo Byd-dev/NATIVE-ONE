@@ -282,7 +282,7 @@
     <string name="text_asset_statement">资产明细</string>
     <string name="text_balance">余额</string>
     <string name="text_select_coin">选择币种</string>
-    <string name="text_amount_withdrawal">数量</string>
+    <string name="text_amount_withdrawal">成交数量</string>
     <string name="text_usdt_address">提币地址</string>
     <string name="text_manage_address">地址管理</string>
     <string name="text_withdrawal_limit">提币限额</string>
@@ -589,5 +589,10 @@
     <string name="text_market_buy">市价买入</string>
     <string name="text_limit_sell">限价卖出</string>
     <string name="text_market_sell">市价卖出</string>
+    <string name="text_all_amount_spot">总量</string>
+    <string name="text_average_price">均价/价格</string>
+    <string name="text_trade_detail_spot">成交详情</string>
+    <string name="text_amount_spot">数量</string>
+    <string name="text_trade_volume">成交数量/数量</string>
 
 </resources>

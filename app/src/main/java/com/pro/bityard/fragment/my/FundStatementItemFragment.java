@@ -143,7 +143,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
     /*显示详情*/
     private void showDetailPopWindow(DepositWithdrawEntity.DataBean dataBean) {
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_fund_detail_pop, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_spot_detail_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
 

@@ -597,5 +597,10 @@ diberikan kepada trader.</string>
     <string name="text_market_buy">市价买入</string>
     <string name="text_limit_sell">限价卖出</string>
     <string name="text_market_sell">市价卖出</string>
+    <string name="text_all_amount_spot">总量</string>
+    <string name="text_average_price">均价/价格</string>
+    <string name="text_trade_detail_spot">成交详情</string>
+    <string name="text_amount_spot">数量</string>
+    <string name="text_trade_volume">成交数量/数量</string>
 
 </resources>

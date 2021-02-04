@@ -45,6 +45,7 @@ import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.SpotPositionEntity;
+import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.QuoteCodeManger;
@@ -277,6 +278,26 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         recyclerView_spot.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_spot.setAdapter(spotPositionAdapter);
 
+        spotPositionAdapter.setOnDetailClick(data -> NetManger.getInstance().spotClose(data.getId(), (state, response) -> {
+            if (state.equals(BUSY)) {
+                showProgressDialog();
+            } else if (state.equals(SUCCESS)) {
+                dismissProgressDialog();
+                TipEntity tipEntity = (TipEntity) response;
+                if (tipEntity.getCode() == 200) {
+                    Toast.makeText(getActivity(), getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.text_failure), Toast.LENGTH_SHORT).show();
+
+                }
+
+                getPosition();
+            } else if (state.equals(FAILURE)) {
+                dismissProgressDialog();
+
+            }
+        }));
+
         recyclerView_spot.addHeaderView(headView);
         layout_cancel = headView.findViewById(R.id.layout_cancel);
         view_line_two = headView.findViewById(R.id.view_line_two);
@@ -359,19 +380,13 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         getBalance();
     }
 
-    /*private final Timer timer = new Timer();
+   /* private final Timer timer = new Timer();
     private TimerTask task;
 
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            if (quote_code != null) {
-                old_code = quote_code;
-                Log.d("print", "handleMessage:现货fragment订阅: " + quote_code);
-                WebSocketManager.getInstance().send("4001", quote_code);
-                WebSocketManager.getInstance().send("5001", quote_code);
-
-            }
+            getPosition();
             super.handleMessage(msg);
         }
 
@@ -390,12 +405,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         };*/
 
 
-        /*Handler handler = new Handler(Looper.getMainLooper());
-        handler.postDelayed(() ->, 50);
 
-
-*/
-      //  timer.schedule(task, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
+       // timer.schedule(task, QUOTE_SECOND, QUOTE_SECOND);
         //startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
 
@@ -651,6 +662,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         } else if (state.equals(SUCCESS)) {
                             dismissProgressDialog();
                             Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                            getPosition();
+
                         } else if (state.equals(FAILURE)) {
                             dismissProgressDialog();
                         }
@@ -898,6 +911,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         cancelTimer();
         QuoteCurrentManger.getInstance().clear();
         SocketQuoteManger.getInstance().deleteObserver(this);
+        //timer.cancel();
 
 
     }

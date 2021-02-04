@@ -1,10 +1,15 @@
 package com.pro.bityard.fragment.trade;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
@@ -14,9 +19,10 @@ import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.SpotHistoryEntity;
+import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.manger.CommissionManger;
-import com.pro.bityard.manger.ControlManger;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.view.timepicker.TimePickerBuilder;
@@ -178,7 +184,14 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
         linearLayoutManager=new LinearLayoutManager(getActivity());
         recyclerView_spot.setLayoutManager(linearLayoutManager);
         recyclerView_spot.setAdapter(spotHistoryAdapter);
-
+        spotHistoryAdapter.setOnDetailClick(new SpotHistoryAdapter.OnDetailClick() {
+            @Override
+            public void onClickListener(SpotHistoryEntity.DataBean data) {
+                if (data.getStatus()!=6){
+                    showDetailPopWindow(data);
+                }
+            }
+        });
 
 
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
@@ -210,6 +223,77 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
     }
 
+
+
+    /*显示详情*/
+    private void showDetailPopWindow(SpotHistoryEntity.DataBean dataBean) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_spot_detail_pop, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+        TextView text_title = view.findViewById(R.id.text_title);
+        text_title.setText(R.string.text_trade_detail_spot);
+        Log.d("print", "showDetailPopWindow:234:  "+dataBean);
+        TextView text_name = view.findViewById(R.id.text_name);
+        Integer type = dataBean.getType();
+        Boolean buy = dataBean.getBuy();
+        TextView text_type = view.findViewById(R.id.text_type);
+        TextView text_type_name=view.findViewById(R.id.text_type_name);
+        TextView text_status=view.findViewById(R.id.text_status);
+        TextView text_volume=view.findViewById(R.id.text_volume);
+        TextView text_average_price=view.findViewById(R.id.text_average_price);
+        TextView text_charge=view.findViewById(R.id.text_charge);
+        TextView text_trade_amount = view.findViewById(R.id.text_trade_amount);
+        TextView text_time = view.findViewById(R.id.text_time);
+        TextView text_price=view.findViewById(R.id.text_price);
+        TextView text_amount_spot=view.findViewById(R.id.text_amount_spot);
+        if (buy){
+           text_name.setText(dataBean.getDesCurrency() + "/" + dataBean.getSrcCurrency());
+            text_type.setText(activity.getResources().getString(R.string.text_buy));
+            text_type.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+            text_type_name.setText(activity.getResources().getString(R.string.text_buy_tip));
+            text_type_name.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
+            text_charge.setText(TradeUtil.justDisplay(dataBean.getCharge())+dataBean.getDesCurrency());
+            text_trade_amount.setText(TradeUtil.justDisplay(dataBean.getAmount())+dataBean.getSrcCurrency());
+
+
+        }else {
+            text_name.setText(dataBean.getSrcCurrency() + "/" + dataBean.getDesCurrency());
+            text_type.setText(activity.getResources().getString(R.string.text_sell));
+            text_type.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
+            text_type_name.setText(activity.getResources().getString(R.string.text_sell_tip));
+            text_type_name.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
+            text_charge.setText(TradeUtil.justDisplay(dataBean.getCharge())+dataBean.getSrcCurrency());
+            text_trade_amount.setText(TradeUtil.justDisplay(dataBean.getAmount())+dataBean.getDesCurrency());
+        }
+
+        
+        text_status.setText(dataBean.getStatus().toString());
+        text_volume.setText(TradeUtil.justDisplay(dataBean.getOpVolume()));
+        text_average_price.setText(TradeUtil.justDisplay(dataBean.getOpPrice())+"/"+TradeUtil.justDisplay(dataBean.getOpPrice()));
+
+
+
+        text_price.setText(TradeUtil.justDisplay(dataBean.getPrice()));
+        text_amount_spot.setText(TradeUtil.justDisplay(dataBean.getOpAmount()));
+        text_time.setText(ChartUtil.getDate(dataBean.getCreateTime()));
+
+
+
+
+
+
+
+        view.findViewById(R.id.img_back).setOnClickListener(v -> {
+            popupWindow.dismiss();
+
+        });
+
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setContentView(view);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+    }
 
     @Override
     protected void intPresenter() {

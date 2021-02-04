@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.SpotTradeHistoryEntity;
+import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 
 import java.util.ArrayList;
@@ -99,28 +100,32 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MyViewHolder) holder).text_time.setText(TradeUtil.dateToStamp(datas.get(position).getCreateTime()));
 
 
-            ((MyViewHolder) holder).text_price.setText(String.valueOf(datas.get(position).getOpPrice()));
+            ((MyViewHolder) holder).text_price.setText(TradeUtil.justDisplay(datas.get(position).getOpPrice()));
 
 
-
-
-            ((MyViewHolder) holder).text_amount.setText(String.valueOf(datas.get(position).getOpAmount()));
-            ((MyViewHolder) holder).text_amount_all.setText(datas.get(position).getOpVolume());
+            ((MyViewHolder) holder).text_amount.setText(TradeUtil.justDisplay(datas.get(position).getOpAmount()));
+            ((MyViewHolder) holder).text_amount_all.setText(TradeUtil.justDisplay(datas.get(position).getOpVolume()));
             Boolean buy = datas.get(position).getBuy();
             if (buy) {
                 ((MyViewHolder) holder).text_buy.setText(context.getApplicationContext().getText(R.string.text_buy_tip));
                 ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_green));
-                ((MyViewHolder) holder).text_service.setText(datas.get(position).getCharge()+" "+desCurrency);
+                ((MyViewHolder) holder).text_service.setText(TradeUtil.justDisplay(datas.get(position).getCharge()) + " " + desCurrency);
                 ((MyViewHolder) holder).text_name.setText(desCurrency + "/" + srcCurrency);
 
             } else {
                 ((MyViewHolder) holder).text_buy.setText(R.string.text_sell_tip);
                 ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_red));
-                ((MyViewHolder) holder).text_service.setText(datas.get(position).getCharge()+" "+desCurrency);
+                ((MyViewHolder) holder).text_service.setText(TradeUtil.justDisplay(datas.get(position).getCharge()) + " " + desCurrency);
                 ((MyViewHolder) holder).text_name.setText(srcCurrency + "/" + desCurrency);
 
             }
 
+
+            holder.itemView.setOnClickListener(v -> {
+                if (onDetailClick != null) {
+                    onDetailClick.onClickListener(datas.get(position));
+                }
+            });
         }
 
     }

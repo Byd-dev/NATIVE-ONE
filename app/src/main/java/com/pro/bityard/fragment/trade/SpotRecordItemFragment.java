@@ -110,7 +110,7 @@ public class SpotRecordItemFragment extends BaseFragment implements View.OnClick
 
                 }
 
-                initData();
+                getPosition(null, buySell, null, null, null);
             } else if (state.equals(FAILURE)) {
                 dismissProgressDialog();
 

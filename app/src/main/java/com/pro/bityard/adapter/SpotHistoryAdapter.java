@@ -199,6 +199,12 @@ public class SpotHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             ((MyViewHolder) holder).text_price.setText(value_price);
 
+            holder.itemView.setOnClickListener(v -> {
+                if (onDetailClick!=null){
+                    onDetailClick.onClickListener(datas.get(position));
+                }
+            });
+
 
         }
 
