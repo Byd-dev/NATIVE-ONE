@@ -161,7 +161,7 @@ public class Util {
                             + "," + data.getBrand().getDefaultCurrency()
                     );
 
-                   /* quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
+                    /*quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
                             + "," + dataDetail.get(j).getZone()
                             + "," + dataDetail.get(j).getName()
                             + "," + data.getBrand().getDefaultCurrency()
@@ -1262,6 +1262,9 @@ public class Util {
             case AppConfig.VIEW_SPOT_DEFI:
                 type = AppConfig.SPOT_DEFI_PRICE_HIGH2LOW;
                 break;
+            case AppConfig.VIEW_SPOT_GRAY:
+                type = AppConfig.SPOT_GRAY_PRICE_HIGH2LOW;
+                break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_PRICE_HIGH2LOW;
                 break;
@@ -1302,6 +1305,9 @@ public class Util {
                 break;
             case AppConfig.VIEW_SPOT_DEFI:
                 type = AppConfig.SPOT_DEFI_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_SPOT_GRAY:
+                type = AppConfig.SPOT_GRAY_PRICE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_PRICE_LOW2HIGH;
@@ -1345,6 +1351,9 @@ public class Util {
             case AppConfig.VIEW_SPOT_DEFI:
                 type = AppConfig.SPOT_DEFI_RATE_HIGH2LOW;
                 break;
+            case AppConfig.VIEW_SPOT_GRAY:
+                type = AppConfig.SPOT_GRAY_RATE_HIGH2LOW;
+                break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_RATE_HIGH2LOW;
                 break;
@@ -1386,6 +1395,9 @@ public class Util {
             case AppConfig.VIEW_SPOT_DEFI:
                 type = AppConfig.SPOT_DEFI_RATE_LOW2HIGH;
                 break;
+            case AppConfig.VIEW_SPOT_GRAY:
+                type = AppConfig.SPOT_GRAY_RATE_LOW2HIGH;
+                break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_RATE_LOW2HIGH;
                 break;
@@ -1426,6 +1438,9 @@ public class Util {
                 break;
             case AppConfig.VIEW_SPOT_DEFI:
                 type = AppConfig.SPOT_DEFI_NAME_A2Z;
+                break;
+            case AppConfig.VIEW_SPOT_GRAY:
+                type = AppConfig.SPOT_GRAY_NAME_A2Z;
                 break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_NAME_A2Z;
@@ -1470,6 +1485,9 @@ public class Util {
                 break;
             case AppConfig.VIEW_SPOT_DEFI:
                 type = AppConfig.SPOT_DEFI_NAME_Z2A;
+                break;
+            case AppConfig.VIEW_SPOT_GRAY:
+                type = AppConfig.SPOT_GRAY_NAME_Z2A;
                 break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_NAME_Z2A;

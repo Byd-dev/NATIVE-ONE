@@ -984,6 +984,19 @@ public class TradeUtil {
         return quoteList2;
     }
 
+    /* 现货gray*/
+    public static List<String> spotGRAYQuoteList(List<String> quoteList) {
+        List<String> quoteList2 = new ArrayList<>();
+        for (String mainQuote : quoteList) {
+            String[] split = mainQuote.split(",");
+            int length = split.length;
+            if (split[length - 4].equals(AppConfig.TYPE_CH) && split[length - 3].equals(AppConfig.ZONE_GRAY)) {
+                quoteList2.add(mainQuote);
+            }
+        }
+        return quoteList2;
+    }
+
     /* 自选*/
     public static List<String> optionalQuoteList(List<String> quoteList) {
         Set<String> optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));

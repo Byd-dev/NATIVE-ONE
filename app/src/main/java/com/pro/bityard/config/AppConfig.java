@@ -46,6 +46,7 @@ public class AppConfig {
     public static final String VIEW_FOREIGN_EXCHANGE = "VIEW_FOREIGN_EXCHANGE";//合约创新
     public static final String VIEW_SPOT_DEFI = "VIEW_SPOT_DEFI";//现货defi
     public static final String VIEW_SPOT_POS = "VIEW_SPOT_POS";//现货defi
+    public static final String VIEW_SPOT_GRAY = "VIEW_SPOT_GRAY";//现货defi
 
 
     //自选列表
@@ -156,6 +157,21 @@ public class AppConfig {
     public static final String SPOT_POS_NAME_A2Z = "SPOT_POS_NAME_A2Z";
     //现货 名称Z到A
     public static final String SPOT_POS_NAME_Z2A = "SPOT_POS_NAME_Z2A";
+
+    //现货gray列表
+    public static final String SPOT_GRAY_ALL = "SPOT_GRAY_ALL";
+    //现货 价格高2低
+    public static final String SPOT_GRAY_PRICE_HIGH2LOW = "SPOT_GRAY_PRICE_HIGH2LOW";
+    //现货 价格低2高
+    public static final String SPOT_GRAY_PRICE_LOW2HIGH = "SPOT_GRAY_PRICE_LOW2HIGH";
+    //现货 涨跌幅高2低
+    public static final String SPOT_GRAY_RATE_HIGH2LOW = "SPOT_GRAY_RATE_HIGH2LOW";
+    //现货 涨跌幅低2高
+    public static final String SPOT_GRAY_RATE_LOW2HIGH = "SPOT_GRAY_RATE_LOW2HIGH";
+    //现货 名称A到Z
+    public static final String SPOT_GRAY_NAME_A2Z = "SPOT_GRAY_NAME_A2Z";
+    //现货 名称Z到A
+    public static final String SPOT_GRAY_NAME_Z2A = "SPOT_GRAY_NAME_Z2A";
 
     //合约列表
     public static final String CONTRACT_ALL = "CONTRACT_ALL";

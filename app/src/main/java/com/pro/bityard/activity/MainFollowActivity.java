@@ -887,6 +887,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         spotTitleList.add(getString(R.string.text_all_country_code));
         spotTitleList.add("DeFi");
         spotTitleList.add("Pos");
+        spotTitleList.add("Gray");
 
         spotSelectAdapter.setDatas(spotTitleList);
         spotSelectAdapter.select(getString(R.string.text_all_country_code));
@@ -945,6 +946,23 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     break;
+                case 3:
+                    type = AppConfig.SPOT_GRAY_ALL;
+                    zone_type = AppConfig.VIEW_SPOT_GRAY;
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+
 
             }
         });
