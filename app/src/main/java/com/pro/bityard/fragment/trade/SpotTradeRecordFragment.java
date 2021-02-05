@@ -283,4 +283,9 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }
