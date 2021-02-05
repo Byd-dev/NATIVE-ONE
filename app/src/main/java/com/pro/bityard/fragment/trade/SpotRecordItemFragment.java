@@ -51,6 +51,8 @@ public class SpotRecordItemFragment extends BaseFragment implements View.OnClick
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
 
+
+
     private String buySell = null;
 
 
@@ -179,7 +181,7 @@ public class SpotRecordItemFragment extends BaseFragment implements View.OnClick
 
     }
 
-    //选择杠杆
+    //买卖切换列表
     private void showSelect() {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_spot_select_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT,

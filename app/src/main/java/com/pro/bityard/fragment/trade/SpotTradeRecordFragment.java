@@ -1,6 +1,9 @@
 package com.pro.bityard.fragment.trade;
 
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,20 +15,27 @@ import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.RadioDateAdapter;
+import com.pro.bityard.adapter.SpotSearchAdapter;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.manger.CommissionManger;
 import com.pro.bityard.manger.ControlManger;
+import com.pro.bityard.manger.SocketQuoteManger;
+import com.pro.bityard.utils.TradeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
-public class SpotTradeRecordFragment extends BaseFragment implements View.OnClickListener {
+public class SpotTradeRecordFragment extends BaseFragment implements View.OnClickListener, Observer {
 
     @BindView(R.id.text_title)
     TextView text_title;
@@ -63,6 +73,11 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
     private boolean isCommission = true;
 
+    private SpotSearchAdapter spotSearchAdapter;
+    @BindView(R.id.recyclerView_search)
+    RecyclerView recyclerView_search;
+    private String value_search;
+
 
     @Override
     protected void onLazyLoad() {
@@ -71,6 +86,9 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
     @Override
     protected void initView(View view) {
+
+        SocketQuoteManger.getInstance().addObserver(this);
+
         text_title.setText(getResources().getString(R.string.text_spot));
         view.findViewById(R.id.img_back).setOnClickListener(this);
         btn_return.setOnClickListener(this);
@@ -157,6 +175,17 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
             value_type = data;
         });
 
+        spotSearchAdapter = new SpotSearchAdapter(getActivity());
+        recyclerView_search.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView_search.setAdapter(spotSearchAdapter);
+
+
+        spotSearchAdapter.setOnItemClick(data -> {
+            String name = TradeUtil.name(data);
+            String currency = TradeUtil.currency(data);
+            value_search = name + currency;
+            edit_search.setText(value_search);
+        });
     }
 
     @Override
@@ -171,6 +200,33 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
     @Override
     protected void initData() {
+
+        edit_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    type = AppConfig.SPOT_ALL;
+                    List<String> strings = arrayMap.get(type);
+                    List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
+                    spotSearchAdapter.setDatas(searchQuoteList);
+                } else {
+                    type = AppConfig.SPOT_ALL;
+                    List<String> quoteList = arrayMap.get(type);
+                    spotSearchAdapter.setDatas(quoteList);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -196,7 +252,6 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
 
 
             case R.id.btn_sure:
-                String value_search = edit_search.getText().toString();
                 String value = value_date + "," + value_search + "," + value_type;
                 if (isCommission) {
                     CommissionManger.getInstance().postTag(value);
@@ -212,6 +267,20 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
                 value_date = getActivity().getString(R.string.text_near_one_day);
                 value_type = getActivity().getString(R.string.text_buy_and_sell);
                 break;
+        }
+    }
+
+    private ArrayMap<String, List<String>> arrayMap;
+    private String type = AppConfig.SPOT_ALL;
+    private String zone_type = AppConfig.VIEW_SPOT;
+    private List<String> quoteList;
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == SocketQuoteManger.getInstance()) {
+            arrayMap = (ArrayMap<String, List<String>>) arg;
+            quoteList = arrayMap.get(type);
+
         }
     }
 }
