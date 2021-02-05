@@ -267,7 +267,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
             text_trade_amount.setText(TradeUtil.justDisplay(dataBean.getAmount())+dataBean.getDesCurrency());
         }
 
-        
+
         text_status.setText(dataBean.getStatus().toString());
         text_volume.setText(TradeUtil.justDisplay(dataBean.getOpVolume()));
         text_average_price.setText(TradeUtil.justDisplay(dataBean.getOpPrice())+"/"+TradeUtil.justDisplay(dataBean.getOpPrice()));

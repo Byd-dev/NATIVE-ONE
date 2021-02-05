@@ -160,6 +160,12 @@ public class Util {
                             + "," + dataDetail.get(j).getCode().replaceAll("_CC", "").replaceAll(data.getBrand().getDefaultCurrency(), "")
                             + "," + data.getBrand().getDefaultCurrency()
                     );
+
+                   /* quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
+                            + "," + dataDetail.get(j).getZone()
+                            + "," + dataDetail.get(j).getName()
+                            + "," + data.getBrand().getDefaultCurrency()
+                    );*/
                 }
             }
         }
