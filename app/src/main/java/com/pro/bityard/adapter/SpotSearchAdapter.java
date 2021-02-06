@@ -132,11 +132,11 @@ public class SpotSearchAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             name = TradeUtil.name(datas.get(position));
             currency = TradeUtil.currency(datas.get(position));
 
-            if (currency == null) {
+         /*   if (currency == null) {
                 ((MyViewHolder) holder).text_name_usdt.setText("");
             } else {
                 ((MyViewHolder) holder).text_name_usdt.setText("/" + currency);
-            }
+            }*/
             ((MyViewHolder) holder).text_name.setText(name);
 
 

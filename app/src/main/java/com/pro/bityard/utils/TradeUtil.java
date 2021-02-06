@@ -1380,6 +1380,11 @@ public class TradeUtil {
         return split[split.length - 2];
     }
 
+    public static String code(String quote) {
+        String[] split = quote.split(",");
+        return split[split.length - 5];
+    }
+
     public static String nameWithoutUsd(String quote) {
         String[] split = quote.split(",");
         String name = split[split.length - 2];

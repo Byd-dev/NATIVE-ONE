@@ -157,15 +157,17 @@ public class Util {
                     //  Log.d("print", "quoteResultAdd:156: "+filter(split[0])+"--"+filter(dataDetail.get(j).getCode()));
 
                     if (dataDetail.get(j).getType().equals(AppConfig.TYPE_FT) && dataDetail.get(j).getName().contains(",")) {
-                        quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
+                        quoteList.add(itemQuote + "," + dataDetail.get(j).getCode()
+                                + "," + dataDetail.get(j).getType()
                                 + "," + dataDetail.get(j).getZone()
                                 + "," + dataDetail.get(j).getName().split(",")[1]
                                 + "," + data.getBrand().getDefaultCurrency());
                     } else {
-                        quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
-                                        + "," + dataDetail.get(j).getZone()
-                                        + "," + dataDetail.get(j).getName()
-                                        + "," + data.getBrand().getDefaultCurrency());
+                        quoteList.add(itemQuote + "," + dataDetail.get(j).getCode()
+                                + "," + dataDetail.get(j).getType()
+                                + "," + dataDetail.get(j).getZone()
+                                + "," + dataDetail.get(j).getName()
+                                + "," + data.getBrand().getDefaultCurrency());
 
 
                     }

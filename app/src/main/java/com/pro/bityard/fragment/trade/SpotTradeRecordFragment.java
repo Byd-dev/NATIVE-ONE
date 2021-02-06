@@ -183,8 +183,10 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
         spotSearchAdapter.setOnItemClick(data -> {
             String name = TradeUtil.name(data);
             String currency = TradeUtil.currency(data);
-            value_search = name + currency;
-            edit_search.setText(value_search);
+            //value_search = name + currency;
+            String code = TradeUtil.code(data);
+            value_search = code;
+            edit_search.setText(name);
         });
     }
 
