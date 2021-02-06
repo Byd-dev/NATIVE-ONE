@@ -152,20 +152,30 @@ public class Util {
             String itemQuote = dataList.get(i);
             String[] split = itemQuote.split(",");
             for (int j = dataDetail.size() - 1; j > 0; j--) {
-               // Log.d("print", "quoteResultAdd:155: "+split[0]+"--"+dataDetail.get(j).getCode());
+                // Log.d("print", "quoteResultAdd:155: "+split[0]+"--"+dataDetail.get(j).getCode());
                 if (filter(split[0]).equals(filter(dataDetail.get(j).getCode()))) {
-                  //  Log.d("print", "quoteResultAdd:156: "+filter(split[0])+"--"+filter(dataDetail.get(j).getCode()));
-                    quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
-                            + "," + dataDetail.get(j).getZone()
-                            + "," + dataDetail.get(j).getCode().replaceAll("_CC", "").replaceAll(data.getBrand().getDefaultCurrency(), "")
-                            + "," + data.getBrand().getDefaultCurrency()
-                    );
+                    //  Log.d("print", "quoteResultAdd:156: "+filter(split[0])+"--"+filter(dataDetail.get(j).getCode()));
+
+                    if (dataDetail.get(j).getType().equals(AppConfig.TYPE_FT) && dataDetail.get(j).getName().contains(",")) {
+                        quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
+                                + "," + dataDetail.get(j).getZone()
+                                + "," + dataDetail.get(j).getName().split(",")[1]
+                                + "," + data.getBrand().getDefaultCurrency());
+                    } else {
+                        quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
+                                        + "," + dataDetail.get(j).getZone()
+                                        + "," + dataDetail.get(j).getName()
+                                        + "," + data.getBrand().getDefaultCurrency());
+
+
+                    }
+
 
                     /*quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
-                            + "," + dataDetail.get(j).getZone()
-                            + "," + dataDetail.get(j).getName()
-                            + "," + data.getBrand().getDefaultCurrency()
-                    );*/
+                                + "," + dataDetail.get(j).getZone()
+                                + "," + dataDetail.get(j).getCode().replaceAll("_CC", "").replaceAll(data.getBrand().getDefaultCurrency(), "")
+                                + "," + data.getBrand().getDefaultCurrency());
+                  */
                 }
             }
         }
@@ -1605,7 +1615,7 @@ public class Util {
     public static String stampToTime(long stamp) {
         String time;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-        Date date = new Date(stamp*1000);
+        Date date = new Date(stamp * 1000);
         time = simpleDateFormat.format(date);
         return time;
     }

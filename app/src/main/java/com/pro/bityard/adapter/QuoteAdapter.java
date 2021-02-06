@@ -174,12 +174,12 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             String name, currency;
             name = TradeUtil.name(datas.get(position));
             currency = TradeUtil.currency(datas.get(position));
-
-            if (currency == null) {
+            //根据后台直接显示
+           /* if (currency == null) {
                 ((MyViewHolder) holder).text_name_usdt.setText("");
             } else {
                 ((MyViewHolder) holder).text_name_usdt.setText("/" + currency);
-            }
+            }*/
 
             if (isShow) {
                 ChartUtil.setIcon(name, ((MyViewHolder) holder).img_icon);
