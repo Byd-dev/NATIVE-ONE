@@ -81,7 +81,7 @@ public class QuoteHomeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         if (holder instanceof MyViewHolder) {
 
             String price = TradeUtil.listQuotePrice(datas.get(position));
-            ((MyViewHolder) holder).text_name.setText(TradeUtil.name(datas.get(position))+"/"+TradeUtil.currency(datas.get(position)));
+            ((MyViewHolder) holder).text_name.setText(TradeUtil.name(datas.get(position)));
             ((MyViewHolder) holder).text_price.setText(price);
 
 

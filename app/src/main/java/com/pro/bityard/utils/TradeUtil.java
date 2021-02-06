@@ -26,7 +26,6 @@ import org.json.JSONObject;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -104,7 +103,6 @@ public class TradeUtil {
         BigDecimal bg = new BigDecimal(value + "");
         return bg.toString();
     }
-
 
 
     /*long转时间*/
@@ -768,9 +766,9 @@ public class TradeUtil {
         for (String quote : quoteList) {
             String[] split = quote.split(",");
             int length = split.length;
-            if (split[length-2].toLowerCase().equals("eth")
-                    || split[length-2].toLowerCase().equals("bch")
-                    || split[length-2].toLowerCase().equals("btc")) {
+            if (split[length - 2].toLowerCase().equals("ethusdt")
+                    || split[length - 2].toLowerCase().equals("bchusdt")
+                    || split[length - 2].toLowerCase().equals("btcusdt")) {
                 quoteList2.add(quote);
             }
         }
@@ -785,9 +783,9 @@ public class TradeUtil {
             String[] split = quote.split(",");
             int length = split.length;
 
-            if (split[length-2].contains("DASH") || split[length-2].contains("XRP") || split[length-2].contains("ETC")
-                    || split[length-2].contains("TRX") || split[length-2].contains("LTC") || split[length-2].contains("EOS")
-                    || split[length-2].contains("LINK")) {
+            if (split[length - 2].contains("DASH") || split[length - 2].contains("XRP") || split[length - 2].contains("ETC")
+                    || split[length - 2].contains("TRX") || split[length - 2].contains("LTC") || split[length - 2].contains("EOS")
+                    || split[length - 2].contains("LINK")) {
                 quoteList2.add(quote);
             }
         }
@@ -840,7 +838,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
-            if (Objects.requireNonNull(split[split.length-2]).toLowerCase().contains(content.toLowerCase())) {
+            if (Objects.requireNonNull(split[split.length - 2]).toLowerCase().contains(content.toLowerCase())) {
                 quoteList2.add(mainQuote);
             }
            /* if (Objects.requireNonNull(TradeUtil.listQuoteName(split[0])).toLowerCase().contains(content.toLowerCase())) {
@@ -867,10 +865,10 @@ public class TradeUtil {
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
             int length = split.length;
-           // Log.d("print", "contractQuoteList:所有合约: "+split[length-2]+"-"+split[length-4]);
+            // Log.d("print", "contractQuoteList:所有合约: "+split[length-2]+"-"+split[length-4]);
             if ((split[length - 4].equals(AppConfig.TYPE_FT))) {
                 quoteList2.add(mainQuote);
-             //   Log.d("print", "contractQuoteList:过滤好的: "+split[length-2]+"-"+split[length-4]);
+                //   Log.d("print", "contractQuoteList:过滤好的: "+split[length-2]+"-"+split[length-4]);
             }
 
         }
@@ -1380,6 +1378,17 @@ public class TradeUtil {
     public static String name(String quote) {
         String[] split = quote.split(",");
         return split[split.length - 2];
+    }
+
+    public static String nameWithoutUsd(String quote) {
+        String[] split = quote.split(",");
+        String name = split[split.length - 2];
+        if (name.toLowerCase().contains("usdt")) {
+            String substring = name.substring(0, name.length() - 4);
+            return substring;
+        } else {
+            return name;
+        }
     }
 
     public static String currency(String quote) {

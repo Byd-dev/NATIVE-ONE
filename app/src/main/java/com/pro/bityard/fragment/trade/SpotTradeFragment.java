@@ -353,7 +353,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     private void setContent(String itemData) {
         Log.d("print", "setContent:313:  " + itemData);
-        tradeName = TradeUtil.name(itemData);
+        tradeName = TradeUtil.nameWithoutUsd(itemData);
         quote_code = itemQuoteContCode(itemData);
         srcCurrency = "USDT";
         desCurrency = tradeName;
@@ -675,6 +675,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
     private void getBalance() {
+
         BalanceManger.getInstance().getBalance(tradeName, response -> {
             balanceEntity = (BalanceEntity.DataBean) response;
             Log.d("print", "getBalance:余额: " + balanceEntity.getMoney());
@@ -717,7 +718,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         view_line_two.setVisibility(View.VISIBLE);
                     }
                 }
-
+                Log.d("print", "getPosition:721: "+spotPositionEntity.getData());
                 spotPositionAdapter.setDatas(spotPositionEntity.getData());
             } else if (state.equals(FAILURE)) {
                 swipeRefreshLayout.setRefreshing(false);
