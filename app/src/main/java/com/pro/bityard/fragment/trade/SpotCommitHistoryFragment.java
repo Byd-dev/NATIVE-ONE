@@ -208,7 +208,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == spotHistoryAdapter.getItemCount() - 1) {
                     spotHistoryAdapter.startLoad();
                     page = page + 1;
-                    getHistoryPosition(AppConfig.LOAD,null,null,null,null,page);
+                    getHistoryPosition(AppConfig.LOAD, edit_search, buy_sell, null, null, page);
 
                 }
             }
@@ -318,9 +318,13 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
         NetManger.getInstance().spotPositionHistory(commodity, buy, type, null, srcCurrency,
                 null, createTimeGe, createTimeLe, String.valueOf(page), "10", (state, response) -> {
                     if (state.equals(BUSY)) {
-                        swipeRefreshLayout.setRefreshing(true);
+                        if (isAdded()){
+                            swipeRefreshLayout.setRefreshing(true);
+                        }
                     } else if (state.equals(SUCCESS)) {
-                        swipeRefreshLayout.setRefreshing(false);
+                        if (isAdded()){
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
                         SpotHistoryEntity spotHistoryEntity= (SpotHistoryEntity) response;
                         List<SpotHistoryEntity.DataBean> data = spotHistoryEntity.getData();
 
@@ -344,7 +348,9 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
 
                     } else if (state.equals(FAILURE)) {
-                        swipeRefreshLayout.setRefreshing(false);
+                        if (isAdded()){
+                            swipeRefreshLayout.setRefreshing(false);
+                        }
 
                     }
                 });

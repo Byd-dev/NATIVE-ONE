@@ -1321,7 +1321,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         if (o == QuoteSpotManger.getInstance()) {
 
             quote = (String) arg;
-            Log.d("print", "update:现货activity买卖列表获取:  "+quote);
+            //Log.d("print", "update:现货activity买卖列表获取:  "+quote);
 
             runOnUiThread(() -> {
                 buyList = Util.getBuyList(quote);

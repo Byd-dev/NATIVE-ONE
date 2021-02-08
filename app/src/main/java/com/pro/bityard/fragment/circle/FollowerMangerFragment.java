@@ -2,6 +2,7 @@ package com.pro.bityard.fragment.circle;
 
 import android.annotation.SuppressLint;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.FollowerIncomeEntity;
 import com.pro.bityard.entity.FollowerIncomeListEntity;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -90,46 +92,60 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
         text_rate = headView.findViewById(R.id.text_rate);
 
         btn_switch = headView.findViewById(R.id.btn_switch);
-
+        UserDetailEntity userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
 
         btn_switch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (!btn_switch.isPressed()) {
-                return;
-            }
-            if (isChecked) {
-                Util.lightOff(getActivity());
-                PopUtil.getInstance().showTip(getActivity(), layout_view, true, getString(R.string.text_switch_tip),
-                        state2 -> {
-                            if (state2 == true) {
-                                btn_switch.setChecked(true);
-                                NetManger.getInstance().followerSwitch("true", (state, response) -> {
-                                    if (state.equals(BUSY)) {
-                                        showProgressDialog();
-                                    } else if (state.equals(SUCCESS)) {
-                                        dismissProgressDialog();
-                                        Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
-                                    } else if (state.equals(FAILURE)) {
-                                        dismissProgressDialog();
-                                    }
-                                });
-                            } else {
-                                btn_switch.setChecked(false);
-                            }
-
-
-                        });
-
-            } else {
-                NetManger.getInstance().followerSwitch("false", (state, response) -> {
-                    if (state.equals(BUSY)) {
-                        showProgressDialog();
-                    } else if (state.equals(SUCCESS)) {
-                        dismissProgressDialog();
-                        Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
-                    } else if (state.equals(FAILURE)) {
-                        dismissProgressDialog();
+            if (userDetailEntity != null) {
+                boolean identityNumberValid = userDetailEntity.getUser().isIdentityNumberValid();
+                boolean identityPhotoValid = userDetailEntity.getUser().isIdentityPhotoValid();
+                if (identityNumberValid && identityPhotoValid) {
+                    if (!btn_switch.isPressed()) {
+                        return;
                     }
-                });
+                    if (isChecked) {
+                        Util.lightOff(getActivity());
+                        PopUtil.getInstance().showTip(getActivity(), layout_view, true, getString(R.string.text_switch_tip),
+                                state2 -> {
+                                    if (state2 == true) {
+                                        btn_switch.setChecked(true);
+                                        NetManger.getInstance().followerSwitch("true", (state, response) -> {
+                                            if (state.equals(BUSY)) {
+                                                showProgressDialog();
+                                            } else if (state.equals(SUCCESS)) {
+                                                dismissProgressDialog();
+                                                Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+                                            } else if (state.equals(FAILURE)) {
+                                                dismissProgressDialog();
+                                            }
+                                        });
+                                    } else {
+                                        btn_switch.setChecked(false);
+                                    }
+
+
+                                });
+
+                    } else {
+                        NetManger.getInstance().followerSwitch("false", (state, response) -> {
+                            if (state.equals(BUSY)) {
+                                showProgressDialog();
+                            } else if (state.equals(SUCCESS)) {
+                                dismissProgressDialog();
+                                Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+                            } else if (state.equals(FAILURE)) {
+                                dismissProgressDialog();
+                            }
+                        });
+                    }
+                } else {
+                    Util.lightOff(getActivity());
+                    btn_switch.setChecked(false);
+                    PopUtil.getInstance().showTip(getActivity(), layout_view, false, getString(R.string.text_please_confirm), state -> {
+                        if (state) {
+
+                        }
+                    });
+                }
             }
 
 
@@ -212,12 +228,13 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
             }
         });
         LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-
         if (loginEntity != null) {
             NetManger.getInstance().followerDetail(loginEntity.getUser().getUserId(), "USDT", (state, response) -> {
                 if (state.equals(BUSY)) {
                 } else if (state.equals(SUCCESS)) {
                     FollowerDetailEntity followDetailEntity = (FollowerDetailEntity) response;
+                    Log.d("print", "getData:216:  " + followDetailEntity);
+
                     if (followDetailEntity.getData().getType() == 2) {
                         btn_switch.setChecked(true);
                     } else {

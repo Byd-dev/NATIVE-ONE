@@ -68,6 +68,7 @@ public class UserDetailEntity implements Serializable {
                     ", hello='" + hello + '\'' +
                     ", identityNumber='" + identityNumber + '\'' +
                     ", identityNumberValid=" + identityNumberValid +
+                    ", identityPhotoValid=" + identityPhotoValid +
                     ", level=" + level +
                     ", localCurrency='" + localCurrency + '\'' +
                     ", lucky=" + lucky +
@@ -139,6 +140,7 @@ public class UserDetailEntity implements Serializable {
         private String hello;
         private String identityNumber;
         private boolean identityNumberValid;
+        private boolean identityPhotoValid;
         private int level;
         private String localCurrency;
         private double lucky;
@@ -156,6 +158,14 @@ public class UserDetailEntity implements Serializable {
         private String userId;
         private String username;
         private int usernameNo;
+
+        public boolean isIdentityPhotoValid() {
+            return identityPhotoValid;
+        }
+
+        public void setIdentityPhotoValid(boolean identityPhotoValid) {
+            this.identityPhotoValid = identityPhotoValid;
+        }
 
         public String getAvatar() {
             return avatar;
