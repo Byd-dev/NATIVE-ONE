@@ -86,6 +86,8 @@ public class UserDetailEntity implements Serializable {
                     ", userId='" + userId + '\'' +
                     ", username='" + username + '\'' +
                     ", usernameNo=" + usernameNo +
+                    ", registerRegion='" + registerRegion + '\'' +
+                    ", sex=" + sex +
                     '}';
         }
 
@@ -125,6 +127,8 @@ public class UserDetailEntity implements Serializable {
 
 
 
+
+
         private String account;
         private String avatar;
         private int bankCardCount;
@@ -158,6 +162,24 @@ public class UserDetailEntity implements Serializable {
         private String userId;
         private String username;
         private int usernameNo;
+        private String registerRegion;
+        private int sex;
+
+        public String getRegisterRegion() {
+            return registerRegion;
+        }
+
+        public void setRegisterRegion(String registerRegion) {
+            this.registerRegion = registerRegion;
+        }
+
+        public int getSex() {
+            return sex;
+        }
+
+        public void setSex(int sex) {
+            this.sex = sex;
+        }
 
         public boolean isIdentityPhotoValid() {
             return identityPhotoValid;

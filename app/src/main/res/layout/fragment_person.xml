@@ -125,7 +125,7 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/text_mobile_tip"
+            android:id="@+id/text_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_unbond"
@@ -162,16 +162,15 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/text_email_tip"
+            android:id="@+id/text_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/text_change"
+            android:text="@string/text_unknown"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:textSize="14sp"
             android:layout_marginRight="@dimen/margin_15"
             android:drawablePadding="@dimen/margin_13"
-            android:drawableRight="@mipmap/icon_right_gray"
             android:textColor="@color/text_second_color"/>
 
 
@@ -199,6 +198,7 @@
             android:textSize="15sp" />
 
         <TextView
+            android:id="@+id/text_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_change"
@@ -207,7 +207,6 @@
             android:textSize="14sp"
             android:layout_marginRight="@dimen/margin_15"
             android:drawablePadding="@dimen/margin_13"
-            android:drawableRight="@mipmap/icon_right_gray"
             android:textColor="@color/text_second_color"/>
 
 

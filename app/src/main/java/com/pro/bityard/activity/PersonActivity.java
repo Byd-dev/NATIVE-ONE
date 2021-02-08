@@ -29,13 +29,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.pro.bityard.BuildConfig;
 import com.pro.bityard.R;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.utils.FileUtil;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.CircleImageView;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -73,6 +76,14 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     CircleImageView img_head;
     @BindView(R.id.text_uid)
     TextView text_uid;
+    @BindView(R.id.text_userName)
+    TextView text_userName;
+    @BindView(R.id.text_sex)
+    TextView text_sex;
+
+    @BindView(R.id.text_location)
+    TextView text_location;
+    private LoginEntity loginEntity;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,7 +95,14 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
+        loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+        text_uid.setText(loginEntity.getUser().getUserId());
+        Log.d("print", "initData:114:  " + loginEntity);
+        Glide.with(this).load(loginEntity.getUser().getAvatar())
+                .error(R.mipmap.icon_my_bityard)
+                .into(img_head);
 
+        text_userName.setText(loginEntity.getUser().getUserName());
 
     }
 
@@ -115,14 +133,25 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
 
     }
 
+
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
-        LoginEntity data = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-        text_uid.setText(data.getUser().getUserId());
-        Log.d("print", "initData:114:  " + data);
-        Glide.with(this).load(data.getUser().getAvatar())
-                .error(R.mipmap.icon_my_bityard)
-                .into(img_head);
+
+
+        UserDetailEntity userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
+        if (userDetailEntity != null) {
+            UserDetailEntity.UserBean user = userDetailEntity.getUser();
+            if (user.getSex() == 0) {
+                text_sex.setText(getResources().getString(R.string.text_unknown));
+            } else if (user.getSex() == 1) {
+                text_sex.setText(R.string.text_man);
+            } else if (user.getSex() == 2) {
+                text_sex.setText(R.string.text_woman);
+            }
+            text_location.setText(user.getRegisterRegion());
+        }
     }
 
     @Override
@@ -140,6 +169,18 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
             case R.id.layout_two:
                 Util.lightOff(this);
                 showImgSelectWindow(this, layout_view);
+
+
+                break;
+            case R.id.layout_three:
+                if (isLogin()) {
+                    Util.lightOff(this);
+                    PopUtil.getInstance().showEdit(this, layout_view, true, result -> {
+                        loginEntity.getUser().setUserName(result.toString());
+                        SPUtils.putData(AppConfig.LOGIN, loginEntity);
+                        onResume();
+                    });
+                }
                 break;
 
 
@@ -214,15 +255,15 @@ public class PersonActivity extends BaseActivity implements View.OnClickListener
     // 启动手机相机拍摄照片作为头像
     private void imageCapture() {
         Intent intent;
-        if(hasSdcard()){
+        if (hasSdcard()) {
             Uri pictureUri;
             File pictureFile = new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME);
             // 判断当前系统
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                pictureUri = FileProvider.getUriForFile(this,
-                        "com.pro.bityard.fileProvider", pictureFile);
+                pictureUri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".fileProvider", pictureFile);
+
             } else {
                 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 pictureUri = Uri.fromFile(pictureFile);

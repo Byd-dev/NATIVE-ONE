@@ -595,5 +595,8 @@
     <string name="text_amount_spot">数量</string>
     <string name="text_trade_volume">成交数量/数量</string>
     <string name="text_please_confirm">请先去网页版完成实名认证</string>
+    <string name="text_unknown">未知</string>
+    <string name="text_man">Man</string>
+    <string name="text_woman">Woman</string>
 
 </resources>
