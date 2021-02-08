@@ -663,6 +663,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                             dismissProgressDialog();
                             Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
                             getPosition();
+                            getBalance();
 
                         } else if (state.equals(FAILURE)) {
                             dismissProgressDialog();

@@ -29,6 +29,7 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowHistoryEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.FollowersListEntity;
+import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -36,6 +37,7 @@ import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.CircleImageView;
 import com.pro.bityard.view.RadarView;
 import com.pro.bityard.viewutil.StatusBarUtil;
+import com.pro.switchlibrary.SPUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -54,6 +56,7 @@ import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.FIRST;
+import static com.pro.bityard.config.AppConfig.FOLLOW;
 import static com.pro.bityard.config.AppConfig.LOAD;
 import static com.pro.bityard.config.AppConfig.TRADE;
 
@@ -105,8 +108,17 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
     @BindView(R.id.appBarLayout)
     AppBarLayout appBarLayout;
+    @BindView(R.id.text_location)
+    TextView text_location;
 
 
+    @BindView(R.id.layout_one)
+    LinearLayout layout_one;
+    @BindView(R.id.layout_two)
+    RelativeLayout layout_two;
+
+    @BindView(R.id.text_share_tip)
+    TextView text_share_tip;
     /*------------------------------------*/
 
 
@@ -157,8 +169,6 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(followHistoryAdapter);
-
-        findViewById(R.id.text_location).setOnClickListener(v -> UserActivity.enter(FollowDetailActivity.this, IntentConfig.Keys.KEY_FOLLOWER_MANGER));
 
 
         Util.colorSwipe(this, swipeRefreshLayout);
@@ -214,17 +224,11 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
         followerUser = (FollowerDetailEntity.DataBean) intent.getSerializableExtra(DATA_VALUE);
 
+
         type_self = intent.getStringExtra(TYPE);
 
         SocketQuoteManger.getInstance().addObserver(this);
 
-
-        if (type_self.equals(TRADE)) {
-            btn_submit.setText(R.string.text_go_trade);
-        } else {
-            btn_submit.setText(getString(R.string.text_copy));
-
-        }
 
         Log.d("print", "initData: " + followerUser);
 
@@ -247,6 +251,8 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         }
         text_userName.setText(followerUser.getUsername());
         text_registerTime.setText(TradeUtil.dateToStampWithout(followerUser.getRegisterTime()) + " " + getString(R.string.text_join));
+
+
 
         /*动态添加tag*/
         List<String> styleTags = followerUser.getStyleTags();
@@ -333,6 +339,39 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         page_follower = 1;
         getFollowerData(FIRST, page);
 
+
+        UserDetailEntity userDetailEntity = SPUtils.getData(AppConfig.LOGIN, UserDetailEntity.class);
+        Log.d("print ", "initData:352: " + userDetailEntity.getUser().getUserId() + "  " + followerUser.getUserId());
+        if (userDetailEntity != null) {
+            UserDetailEntity.UserBean user = userDetailEntity.getUser();
+            if (user.getUserId().equals(followerUser.getUserId())) {
+                if (followerUser.getType() != 2) {
+                    layout_one.setVisibility(View.GONE);
+                    layout_two.setVisibility(View.GONE);
+                    recyclerView.setVisibility(View.GONE);
+                    text_share_tip.setVisibility(View.VISIBLE);
+                    btn_submit.setText(R.string.text_open_copy_trade);
+                    type_self="OPEN";
+
+                } else {
+                    layout_one.setVisibility(View.VISIBLE);
+                    layout_two.setVisibility(View.VISIBLE);
+                    recyclerView.setVisibility(View.VISIBLE);
+                    text_share_tip.setVisibility(View.GONE);
+                    btn_submit.setText(R.string.text_go_trade);
+                    type_self=TRADE;
+
+                }
+            } else {
+                if (type_self.equals(TRADE)) {
+                    btn_submit.setText(R.string.text_go_trade);
+                } else {
+                    btn_submit.setText(getString(R.string.text_copy));
+                }
+            }
+        }
+
+
     }
 
     private void getHistoryData(String type, int page) {
@@ -379,9 +418,11 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.btn_submit:
                 if (type_self.equals(TRADE)) {
-                    QuoteDetailActivity.enter(this, "1", quoteList.get(0));
-                } else {
+                    TradeTabActivity.enter(this, "1", quoteList.get(0));
+                } else if (type_self.equals(FOLLOW)){
                     UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, followerUser);
+                }else {
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_FOLLOWER_MANGER);
                 }
 
                 break;

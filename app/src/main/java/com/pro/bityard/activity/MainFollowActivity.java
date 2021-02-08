@@ -1407,9 +1407,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         //个人详情
         if (isLogin()) {
             UserDetailManger.getInstance().detail();
+            //带单总收益
+            getFollowIncome();
+        }else {
+            text_all_profit.setText(getResources().getString(R.string.text_all_profit)
+                    + ": 0.0"  );
         }
-        //带单总收益
-        getFollowIncome();
+
 
         getFollowList();
     }
@@ -1418,10 +1422,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         NetManger.getInstance().followerIncome((state, response) -> {
             if (state.equals(SUCCESS)) {
                 FollowerIncomeEntity followerIncomeEntity = (FollowerIncomeEntity) response;
-
                 text_all_profit.setText(getResources().getString(R.string.text_all_profit)
                         + ": " + followerIncomeEntity.getIncomeAll());
-
 
             }
         });

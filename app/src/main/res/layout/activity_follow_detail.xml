@@ -52,9 +52,9 @@
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
 
-            android:layout_height="match_parent">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -160,7 +160,7 @@
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="@dimen/margin_10"
                                     android:layout_toRightOf="@+id/img_location"
-                                    android:text="未知"
+                                    android:text="@string/text_unknown"
                                     android:textColor="@color/text_main_color"
                                     android:textSize="@dimen/size_normal_two" />
 
@@ -208,82 +208,89 @@
 
                             </LinearLayout>
 
-
                             <LinearLayout
+                                android:id="@+id/layout_one"
                                 android:layout_width="match_parent"
-                                android:layout_height="300dp"
-                                android:background="@drawable/bg_shape_my_background"
+                                android:layout_height="wrap_content"
                                 android:orientation="vertical">
 
+
                                 <LinearLayout
-                                    android:id="@+id/layout_tags"
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/margin_25"
-                                    android:layout_marginLeft="@dimen/margin_15"
-                                    android:layout_marginTop="@dimen/margin_15"
-                                    android:layout_marginRight="@dimen/margin_15"
-                                    android:layout_marginBottom="@dimen/margin_10"
-                                    android:orientation="horizontal" />
+                                    android:layout_height="300dp"
+                                    android:background="@drawable/bg_shape_my_background"
+                                    android:orientation="vertical">
 
-                                <View
-                                    android:id="@+id/view_line"
+                                    <LinearLayout
+                                        android:id="@+id/layout_tags"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/margin_25"
+                                        android:layout_marginLeft="@dimen/margin_15"
+                                        android:layout_marginTop="@dimen/margin_15"
+                                        android:layout_marginRight="@dimen/margin_15"
+                                        android:layout_marginBottom="@dimen/margin_10"
+                                        android:orientation="horizontal" />
+
+                                    <View
+                                        android:id="@+id/view_line"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/size_line"
+                                        android:background="@color/home_line" />
+
+                                    <RelativeLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="1">
+
+
+                                        <com.pro.bityard.view.RadarView
+                                            android:id="@+id/radarView"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_centerInParent="true"
+                                            app:radarBgCol="@color/color_bg_left"
+                                            app:radarLineCol="#2F3C5A"
+                                            app:radarTextCol="@color/text_second_color"
+                                            app:radarTextValueTextSize="30"
+                                            app:radarValueTextSize="25"
+                                            app:shadowColOne="@color/color_f9a36d"
+                                            app:shadowColTwo="@color/color_tag_purple"
+                                            app:textValueCol="@color/text_main_color" />
+
+
+                                    </RelativeLayout>
+
+
+                                </LinearLayout>
+
+                                <include layout="@layout/layout_line_big" />
+
+
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="@dimen/size_line"
-                                    android:background="@color/home_line" />
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="1">
+                                    android:layout_height="45dp"
+                                    android:background="@color/background_main_color">
 
 
-                                    <com.pro.bityard.view.RadarView
-                                        android:id="@+id/radarView"
+                                    <TextView
+                                        android:id="@+id/text_profit_share_ratio"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_centerInParent="true"
-                                        app:radarBgCol="@color/color_bg_left"
-                                        app:radarLineCol="#2F3C5A"
-                                        app:radarTextCol="@color/text_second_color"
-                                        app:radarTextValueTextSize="30"
-                                        app:radarValueTextSize="25"
-                                        app:shadowColOne="@color/color_f9a36d"
-                                        app:shadowColTwo="@color/color_tag_purple"
-                                        app:textValueCol="@color/text_main_color" />
+                                        android:layout_gravity="center"
+                                        android:layout_marginLeft="@dimen/margin_15"
+                                        android:drawableRight="@mipmap/icon_warning_green"
+                                        android:drawablePadding="@dimen/margin_5"
+                                        android:text="@string/text_profit_share_ratio"
+                                        android:textColor="@color/text_second_color" />
 
 
-                                </RelativeLayout>
-
+                                </LinearLayout>
 
                             </LinearLayout>
-
-                            <include layout="@layout/layout_line_big" />
-
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="45dp"
-                                android:background="@color/background_main_color">
-
-
-                                <TextView
-                                    android:id="@+id/text_profit_share_ratio"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center"
-                                    android:layout_marginLeft="@dimen/margin_15"
-                                    android:drawableRight="@mipmap/icon_warning_green"
-                                    android:drawablePadding="@dimen/margin_5"
-                                    android:text="@string/text_profit_share_ratio"
-                                    android:textColor="@color/text_second_color" />
-
-
-                            </LinearLayout>
-
-
                         </LinearLayout>
 
                         <RelativeLayout
+                            android:id="@+id/layout_two"
                             android:layout_width="match_parent"
                             android:layout_height="63dp"
                             android:background="@color/background_main_color"
@@ -340,14 +347,31 @@
                     </com.google.android.material.appbar.AppBarLayout>
 
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/background_main_color"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-                        />
+                        >
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/background_main_color"
+
+                            />
+
+                        <TextView
+                            android:id="@+id/text_share_tip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_main_color"
+                            android:textSize="@dimen/size_normal_two"
+                            android:layout_centerInParent="true"
+                            android:text="@string/text_close_share_tip"/>
+
+                    </RelativeLayout>
 
 
                 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -50,47 +50,6 @@ public class UserDetailEntity implements Serializable {
 
     public static class UserBean implements Serializable{
 
-        @Override
-        public String toString() {
-            return "UserBean{" +
-                    "account='" + account + '\'' +
-                    ", avatar='" + avatar + '\'' +
-                    ", bankCardCount=" + bankCardCount +
-                    ", commRatio=" + commRatio +
-                    ", countryCode='" + countryCode + '\'' +
-                    ", currency='" + currency + '\'' +
-                    ", eagle=" + eagle +
-                    ", eagleRatio=" + eagleRatio +
-                    ", email='" + email + '\'' +
-                    ", game=" + game +
-                    ", googleEnable=" + googleEnable +
-                    ", googleValid=" + googleValid +
-                    ", hello='" + hello + '\'' +
-                    ", identityNumber='" + identityNumber + '\'' +
-                    ", identityNumberValid=" + identityNumberValid +
-                    ", identityPhotoValid=" + identityPhotoValid +
-                    ", level=" + level +
-                    ", localCurrency='" + localCurrency + '\'' +
-                    ", lucky=" + lucky +
-                    ", mobile='" + mobile + '\'' +
-                    ", money=" + money +
-                    ", name='" + name + '\'' +
-                    ", phone='" + phone + '\'' +
-                    ", prize=" + prize +
-                    ", pw_l=" + pw_l +
-                    ", pw_w=" + pw_w +
-                    ", refer='" + refer + '\'' +
-                    ", registerTime=" + registerTime +
-                    ", tradeQuick=" + tradeQuick +
-                    ", unread=" + unread +
-                    ", userId='" + userId + '\'' +
-                    ", username='" + username + '\'' +
-                    ", usernameNo=" + usernameNo +
-                    ", registerRegion='" + registerRegion + '\'' +
-                    ", sex=" + sex +
-                    '}';
-        }
-
         /**
          * account : ppmwok@gmail.com
          * bankCardCount : 0
@@ -164,6 +123,57 @@ public class UserDetailEntity implements Serializable {
         private int usernameNo;
         private String registerRegion;
         private int sex;
+        private int type;
+
+        @Override
+        public String toString() {
+            return "UserBean{" +
+                    "account='" + account + '\'' +
+                    ", avatar='" + avatar + '\'' +
+                    ", bankCardCount=" + bankCardCount +
+                    ", commRatio=" + commRatio +
+                    ", countryCode='" + countryCode + '\'' +
+                    ", currency='" + currency + '\'' +
+                    ", eagle=" + eagle +
+                    ", eagleRatio=" + eagleRatio +
+                    ", email='" + email + '\'' +
+                    ", game=" + game +
+                    ", googleEnable=" + googleEnable +
+                    ", googleValid=" + googleValid +
+                    ", hello='" + hello + '\'' +
+                    ", identityNumber='" + identityNumber + '\'' +
+                    ", identityNumberValid=" + identityNumberValid +
+                    ", identityPhotoValid=" + identityPhotoValid +
+                    ", level=" + level +
+                    ", localCurrency='" + localCurrency + '\'' +
+                    ", lucky=" + lucky +
+                    ", mobile='" + mobile + '\'' +
+                    ", money=" + money +
+                    ", name='" + name + '\'' +
+                    ", phone='" + phone + '\'' +
+                    ", prize=" + prize +
+                    ", pw_l=" + pw_l +
+                    ", pw_w=" + pw_w +
+                    ", refer='" + refer + '\'' +
+                    ", registerTime=" + registerTime +
+                    ", tradeQuick=" + tradeQuick +
+                    ", unread=" + unread +
+                    ", userId='" + userId + '\'' +
+                    ", username='" + username + '\'' +
+                    ", usernameNo=" + usernameNo +
+                    ", registerRegion='" + registerRegion + '\'' +
+                    ", sex=" + sex +
+                    ", type=" + type +
+                    '}';
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
 
         public String getRegisterRegion() {
             return registerRegion;
