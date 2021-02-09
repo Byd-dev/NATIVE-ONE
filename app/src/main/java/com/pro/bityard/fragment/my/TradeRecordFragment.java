@@ -47,8 +47,8 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
     private TradeSelectAdapter fundSelectAdapter;
 
-    @BindView(R.id.layout_view)
-    LinearLayout layout_view;
+    @BindView(R.id.drawerLayout)
+    LinearLayout drawerLayout;
 
     @BindView(R.id.layout_select)
     RelativeLayout layout_select;
@@ -79,6 +79,8 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
+    @BindView(R.id.img_spot_position_filter)
+    ImageView img_spot_position_filter;
 
     private String createTimeGe = null;
     private String createTimeLe = null;
@@ -95,7 +97,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_trade_record;
+        return R.layout.fragment_contract_follow_record;
     }
 
     @Override
@@ -109,6 +111,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         text_title.setText(R.string.text_orders);
+        img_spot_position_filter.setVisibility(View.VISIBLE);
 
         layout_select.setOnClickListener(this);
         fundSelectAdapter = new TradeSelectAdapter(getActivity());
@@ -205,7 +208,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setContentView(view);
-        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(drawerLayout, Gravity.CENTER, 0, 0);
     }
 
 
