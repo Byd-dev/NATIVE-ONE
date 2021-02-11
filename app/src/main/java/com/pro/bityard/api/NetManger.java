@@ -91,7 +91,7 @@ public class NetManger {
     public static String FAILURE = "failure";
 
 
-    public static String BASE_URL = "http://byd-test.ttms.io";   //测试
+    public static String BASE_URL = "https://byd-test.ttms.io";   //测试
 
     public static String H5_BASE_URL = "https://test7777.bityard.com";   //测试
 
@@ -2565,6 +2565,8 @@ public class NetManger {
                     onNetResult.onNetResult(FAILURE, loginEntity);
                 }
             } else if (state.equals(FAILURE)) {
+                Log.d("print", "login: 2568: " + state + response);
+
                 onNetResult.onNetResult(FAILURE, null);
 
             }
