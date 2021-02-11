@@ -332,8 +332,10 @@ public class NetManger {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        if (!TextUtils.isEmpty(response.body())) {
+                        if (!response.body().startsWith("<")) {
                             onNetResult.onNetResult(SUCCESS, response.body());
+                        }else {
+                            onNetResult.onNetResult(FAILURE, response.body());
                         }
                     }
 

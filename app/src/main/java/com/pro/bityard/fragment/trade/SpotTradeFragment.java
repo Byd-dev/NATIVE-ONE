@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
+import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.SpotTradeActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
@@ -640,35 +641,41 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         });
         /*买入*/
         layout_buy_what.setOnClickListener(v -> {
+            if (isLogin()){
 
+                if (limit_market_type.equals("0")) {
+                    value_price = edit_price_limit.getText().toString();
+                    value_volume = edit_amount_limit.getText().toString();
+                    if (value_price.equals("")) {
+                        return;
+                    }
 
-            if (limit_market_type.equals("0")) {
-                value_price = edit_price_limit.getText().toString();
-                value_volume = edit_amount_limit.getText().toString();
-                if (value_price.equals("")) {
-                    return;
+                } else {
+                    value_price = "0";
+                    value_volume = edit_trade_amount_market.getText().toString();
+
                 }
 
-            } else {
-                value_price = "0";
-                value_volume = edit_trade_amount_market.getText().toString();
+                NetManger.getInstance().spotOpen(Util.filterNumber(quote_code), isBuy, limit_market_type, srcCurrency, desCurrency, value_price,
+                        value_volume, "0", (state, response) -> {
+                            if (state.equals(BUSY)) {
+                                showProgressDialog();
+                            } else if (state.equals(SUCCESS)) {
+                                dismissProgressDialog();
+                                Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                                getPosition();
+                                getBalance();
+
+                            } else if (state.equals(FAILURE)) {
+                                dismissProgressDialog();
+                            }
+                        });
+            }else {
+                LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
 
             }
 
-            NetManger.getInstance().spotOpen(Util.filterNumber(quote_code), isBuy, limit_market_type, srcCurrency, desCurrency, value_price,
-                    value_volume, "0", (state, response) -> {
-                        if (state.equals(BUSY)) {
-                            showProgressDialog();
-                        } else if (state.equals(SUCCESS)) {
-                            dismissProgressDialog();
-                            Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-                            getPosition();
-                            getBalance();
 
-                        } else if (state.equals(FAILURE)) {
-                            dismissProgressDialog();
-                        }
-                    });
 
         });
 
@@ -676,21 +683,30 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
     private void getBalance() {
+        if (isLogin()){
+            BalanceManger.getInstance().getBalance(tradeName, response -> {
+                balanceEntity = (BalanceEntity.DataBean) response;
+                Log.d("print", "getBalance:余额: " + balanceEntity.getMoney());
+                TradeUtil.getScale(balanceEntity.getCurrency(), response2 -> {
+                    double money = balanceEntity.getMoney();
+                    int scale = (int) response2;
+                    if (isBuy.equals("true")) {
+                        text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+                    } else {
+                        text_balance.setText(TradeUtil.justDisplay(money) + " " + tradeName);
+                    }
+                });
 
-        BalanceManger.getInstance().getBalance(tradeName, response -> {
-            balanceEntity = (BalanceEntity.DataBean) response;
-            Log.d("print", "getBalance:余额: " + balanceEntity.getMoney());
-            TradeUtil.getScale(balanceEntity.getCurrency(), response2 -> {
-                double money = balanceEntity.getMoney();
-                int scale = (int) response2;
-                if (isBuy.equals("true")) {
-                    text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
-                } else {
-                    text_balance.setText(TradeUtil.justDisplay(money) + " " + tradeName);
-                }
             });
+        }else {
+            if (isBuy.equals("true")) {
+                text_balance.setText("0.0" + " " + getResources().getString(R.string.text_usdt));
+            } else {
+                text_balance.setText("0.0" + " " + tradeName);
+            }
+        }
 
-        });
+
 
     }
 
