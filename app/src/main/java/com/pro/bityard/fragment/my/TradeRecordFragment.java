@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,7 +49,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
     private TradeSelectAdapter fundSelectAdapter;
 
     @BindView(R.id.drawerLayout)
-    LinearLayout drawerLayout;
+    DrawerLayout drawerLayout;
 
     @BindView(R.id.layout_select)
     RelativeLayout layout_select;
