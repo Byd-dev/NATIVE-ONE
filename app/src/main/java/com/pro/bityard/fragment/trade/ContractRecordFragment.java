@@ -1,10 +1,14 @@
-package com.pro.bityard.fragment.my;
+package com.pro.bityard.fragment.trade;
 
 import android.annotation.SuppressLint;
-import android.util.ArrayMap;
+import android.app.Activity;
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -12,44 +16,54 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.MyPagerAdapter;
+import com.pro.bityard.adapter.RadioDateAdapter;
+import com.pro.bityard.adapter.SpotSearchAdapter;
 import com.pro.bityard.adapter.TradeRecordAdapter;
 import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TradeHistoryEntity;
+import com.pro.bityard.manger.CommissionManger;
+import com.pro.bityard.manger.ContractManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
+import com.pro.bityard.view.timepicker.TimePickerBuilder;
+import com.pro.bityard.view.timepicker.TimePickerView;
 import com.pro.switchlibrary.SPUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
+import androidx.annotation.Nullable;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
-public class TradeRecordFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class ContractRecordFragment extends BaseFragment implements View.OnClickListener, RadioGroup.OnCheckedChangeListener, Observer {
 
-    @BindView(R.id.text_title)
-    TextView text_title;
 
     private TradeSelectAdapter fundSelectAdapter;
 
-    @BindView(R.id.drawerLayout)
-    DrawerLayout drawerLayout;
+    @BindView(R.id.layout_view)
+    LinearLayout layout_view;
 
     @BindView(R.id.layout_select)
     RelativeLayout layout_select;
@@ -71,7 +85,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
     private int lastVisibleItem;
     private LinearLayoutManager linearLayoutManager;
 
-   // private FundItemEntity fundItemEntity;
+    // private FundItemEntity fundItemEntity;
 
     private TradeRecordAdapter tradeRecordAdapter;
 
@@ -80,8 +94,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
     @BindView(R.id.layout_null)
     LinearLayout layout_null;
-    @BindView(R.id.img_spot_position_filter)
-    ImageView img_spot_position_filter;
+
 
     private String createTimeGe = null;
     private String createTimeLe = null;
@@ -96,23 +109,109 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
     private String code;
 
 
+
+
+    private RadioDateAdapter radioDateAdapter, radioTypeAdapter;//杠杆适配器
+    private List<String> dataList, typeList;
+
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.fragment_contract_follow_record;
+        return R.layout.fragment_trade_record;
     }
 
     @Override
     protected void onLazyLoad() {
 
     }
+    private Activity activity;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity=getActivity();
+    }
 
     @Override
     protected void initView(View view) {
 
-        view.findViewById(R.id.img_back).setOnClickListener(this);
+        ContractManger.getInstance().addObserver(this);
+        TextView text_start = view.findViewById(R.id.text_start);
+        TextView text_end = view.findViewById(R.id.text_end);
 
-        text_title.setText(R.string.text_orders);
-        img_spot_position_filter.setVisibility(View.VISIBLE);
+
+        String nowTime = Util.getNowTime();
+
+        text_end.setText(nowTime);
+
+        text_start.setText(Util.getBeforeNow7days());
+        Calendar startDate = Calendar.getInstance();
+        startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
+        Calendar endDate = Calendar.getInstance();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String startTime = sdf.format(startDate.getTime());
+        String endTime = sdf.format(endDate.getTime());
+
+        createTimeGe = ChartUtil.getSelectZero(startTime);
+        createTimeLe = ChartUtil.getSelectLastTime(endTime);
+        page = 0;
+
+        view.findViewById(R.id.layout_start).setOnClickListener(v -> {
+            TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v1) -> {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String format = simpleDateFormat.format(date);
+                String selectStart = Util.startFormatDate(format, text_end.getText().toString());
+                text_start.setText(selectStart);
+                startDate.set(Util.str2Calendar(selectStart, "year"), Util.str2Calendar(selectStart, "month"),
+                        Util.str2Calendar(selectStart, "day"));
+
+                createTimeGe = ChartUtil.getSelectZero(selectStart);
+                createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
+                page = 0;
+                getTradeHistory(AppConfig.FIRST, null, null, createTimeGe, createTimeLe, null);
+
+
+            }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
+                    .setCancelColor(getResources().getColor(R.color.maincolor))
+                    .setTitleBgColor(getResources().getColor(R.color.background_main_color))//标题背景颜色 Night mode
+                    .setBgColor(getResources().getColor(R.color.background_main_color))
+                    .setTextColorCenter(getResources().getColor(R.color.text_main_color))
+                    .setTextColorOut(getResources().getColor(R.color.color_btn_bg))
+                    .setDate(startDate)
+                    .setSubCalSize(15)
+                    .build();//滚轮背景颜色 Night mode.build();//取消按钮文字颜色build();
+            timePickerView.show();
+
+        });
+
+        view.findViewById(R.id.layout_end).setOnClickListener(v -> {
+            TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v12) -> {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                String format = simpleDateFormat.format(date);
+                String selectEnd = Util.endFormatDate(format, text_start.getText().toString());
+                text_end.setText(selectEnd);
+                endDate.set(Util.str2Calendar(selectEnd, "year"), Util.str2Calendar(selectEnd, "month"),
+                        Util.str2Calendar(selectEnd, "day"));
+
+                createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
+                createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
+                page = 0;
+                getTradeHistory(AppConfig.FIRST, null, null, createTimeGe, createTimeLe, null);
+
+
+            }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
+                    .setCancelColor(getResources().getColor(R.color.maincolor))
+                    .setTitleBgColor(getResources().getColor(R.color.background_main_color))//标题背景颜色 Night mode
+                    .setBgColor(getResources().getColor(R.color.background_main_color))
+                    .setTextColorCenter(getResources().getColor(R.color.text_main_color))
+                    .setTextColorOut(getResources().getColor(R.color.color_btn_bg))
+                    .setDate(endDate)
+                    .setSubCalSize(15)
+                    .build();
+            timePickerView.show();
+
+        });
+
 
         layout_select.setOnClickListener(this);
         fundSelectAdapter = new TradeSelectAdapter(getActivity());
@@ -124,16 +223,23 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(tradeRecordAdapter);
-        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+        Util.colorSwipe(getActivity(), swipeRefreshLayout);
 
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
 
+
         //监听
         tradeRecordAdapter.setOnItemClick(this::showDetailPopWindow);
 
+
     }
+
+
+
+
+
 
     /*显示详情*/
     private void showDetailPopWindow(TradeHistoryEntity.DataBean dataBean) {
@@ -209,7 +315,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
         popupWindow.setFocusable(true);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setContentView(view);
-        popupWindow.showAtLocation(drawerLayout, Gravity.CENTER, 0, 0);
+        popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
     }
 
 
@@ -227,7 +333,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
 
             NetManger.getInstance().codeList((state, response) -> {
-                if (state.equals(SUCCESS)){
+                if (state.equals(SUCCESS)) {
                     String[] contract = response.toString().split(";");
                     contractList = new ArrayList<>();
                     contractList.addAll(Arrays.asList(contract));
@@ -267,15 +373,15 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
         }
         page = 0;
-        getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe);
+        getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe, null);
 
     }
 
 
     private void getTradeHistory(String loadType, String nowTime, String commodity, String createTimeGe,
-                                 String createTimeLe) {
+                                 String createTimeLe,String page) {
         NetManger.getInstance().tradeHistory("1", nowTime, "2", commodity, createTimeGe,
-                createTimeLe, (state, response) -> {
+                createTimeLe, page,(state, response) -> {
                     if (state.equals(BUSY)) {
 
                         if (swipeRefreshLayout != null) {
@@ -325,9 +431,7 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
             case R.id.layout_select:
                 showFundWindow(contractList);
                 break;
-            case R.id.img_back:
-                getActivity().finish();
-                break;
+
         }
     }
 
@@ -362,16 +466,16 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
                     text_select.setText("ALL");
                     ChartUtil.setIcon("", img_bg);
                 } else {
-                    if (data.length()>4){
+                    if (data.length() > 4) {
                         code = data.substring(0, data.length() - 4);
-                    }else {
-                        code=data;
+                    } else {
+                        code = data;
                     }
                     commodity = code + "USDT";
                     text_select.setText(code);
                     ChartUtil.setIcon(code, img_bg);
                 }
-                getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe);
+                getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe, null);
                 popupWindow.dismiss();
             });
         }
@@ -398,8 +502,51 @@ public class TradeRecordFragment extends BaseFragment implements View.OnClickLis
 
         }
 
-        getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe);
+        getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe, null);
 
 
+    }
+    private String edit_search;
+    private String buy_sell;
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == ContractManger.getInstance()) {
+            String value = (String) arg;
+            String[] split = value.split(",");
+            String value_date = split[0];
+            String value_search = split[1];
+            String value_type = split[2];
+            Log.d("print", "onClick:179:  " + value_search + "   " + value_date + "   " + value_type);
+            buy_sell = null;
+            if (value_search.equals("")) {
+                edit_search = null;
+            } else {
+                edit_search = value_search;
+            }
+            if (value_type.equals(activity.getResources().getString(R.string.text_buy_and_sell))) {
+                buy_sell = null;
+            } else if (value_type.equals(activity.getString(R.string.text_buy))) {
+                buy_sell = "true";
+            } else if (value_type.equals(activity.getString(R.string.text_sell))) {
+                buy_sell = "false";
+            }
+
+            if (value_date.equals(activity.getString(R.string.text_near_one_day))) {
+                createTimeGe = ChartUtil.getTodayZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+            } else if (value_date.equals(activity.getString(R.string.text_near_one_week))) {
+                createTimeGe = ChartUtil.getWeekZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+            } else if (value_date.equals(activity.getString(R.string.text_near_one_month))) {
+                createTimeGe = ChartUtil.getMonthZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+            } else if (value_date.equals(activity.getString(R.string.text_near_three_month))) {
+                createTimeGe = ChartUtil.getThreeMonthZero();
+                createTimeLe = ChartUtil.getTodayLastTime();
+            }
+
+            page = 0;
+            getTradeHistory(AppConfig.FIRST, edit_search, buy_sell, createTimeGe, createTimeLe, null);
+        }
     }
 }

@@ -95,7 +95,7 @@ public class NetManger {
 
     public static String H5_BASE_URL = "https://test7777.bityard.com";   //测试
 
-    public static String H5_HELP_CENTER="https://support.bityard.com";
+    public static String H5_HELP_CENTER = "https://support.bityard.com";
 
 
     public static String QUOTE_SOCKET = "wss://quote.76bao.hk/wsquote";
@@ -334,7 +334,7 @@ public class NetManger {
                     public void onSuccess(Response<String> response) {
                         if (!response.body().startsWith("<")) {
                             onNetResult.onNetResult(SUCCESS, response.body());
-                        }else {
+                        } else {
                             onNetResult.onNetResult(FAILURE, response.body());
                         }
                     }
@@ -1176,12 +1176,12 @@ public class NetManger {
     }
 
     /*支持提币币种*/
-    public void withdrawalCurrencyList( OnNetResult onNetResult) {
+    public void withdrawalCurrencyList(OnNetResult onNetResult) {
         getRequest("/api/setting/withdraw-currency", null, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                WithdrawCurrencyEntity withdrawCurrencyEntity=new Gson().fromJson(response.toString(),WithdrawCurrencyEntity.class);
+                WithdrawCurrencyEntity withdrawCurrencyEntity = new Gson().fromJson(response.toString(), WithdrawCurrencyEntity.class);
                 onNetResult.onNetResult(SUCCESS, withdrawCurrencyEntity);
 
             } else if (state.equals(FAILURE)) {
@@ -1199,8 +1199,8 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                CurrencyDetailEntity currencyDetailEntity=new Gson().fromJson(response.toString(),CurrencyDetailEntity.class);
-                Log.d("print", "currencyDetail: 1199:"+response.toString());
+                CurrencyDetailEntity currencyDetailEntity = new Gson().fromJson(response.toString(), CurrencyDetailEntity.class);
+                Log.d("print", "currencyDetail: 1199:" + response.toString());
 
                 onNetResult.onNetResult(SUCCESS, currencyDetailEntity);
 
@@ -2038,7 +2038,7 @@ public class NetManger {
 
     /*交易记录*/
     public void tradeHistory(String tradeType, String nowTime, String schemeSort, String commodity, String createTimeGe,
-                             String createTimeLe, OnNetResult onNetResult) {
+                             String createTimeLe, String page, OnNetResult onNetResult) {
 
 
         ArrayMap<String, String> map = new ArrayMap<>();
@@ -2060,6 +2060,10 @@ public class NetManger {
         }
         if (createTimeLe != null) {
             map.put("createTimeLe", createTimeLe);
+        }
+
+        if (page != null) {
+            map.put("page", page);
         }
 
 
@@ -2164,7 +2168,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "userDetail:2165:  "+response.toString());
+                Log.d("print", "userDetail:2165:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 200) {
                     UserDetailEntity userDetailEntity = new Gson().fromJson(response.toString(), UserDetailEntity.class);
@@ -3013,7 +3017,7 @@ public class NetManger {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
-                Log.d("print", "followerSwitch:带单开关:  "+response.toString());
+                Log.d("print", "followerSwitch:带单开关:  " + response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() != 200) {
                     onNetResult.onNetResult(FAILURE, tipEntity);
@@ -3095,7 +3099,7 @@ public class NetManger {
 
     /*现货当前委托*/
     public void userSpotPosition(String commodity, String buy, String type,
-                                String srcCurrency, String desCurrency,
+                                 String srcCurrency, String desCurrency,
                                  OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         if (commodity != null) {
@@ -3213,8 +3217,8 @@ public class NetManger {
 
     /*成交历史*/
     public void spotPositionTradeHistory(String commodity, String buy, String type, String status, String srcCurrency, String desCurrency,
-                                    String createTimeGe, String createTimeLe, String page, String rows,
-                                    OnNetResult onNetResult) {
+                                         String createTimeGe, String createTimeLe, String page, String rows,
+                                         OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         if (commodity != null) {
             map.put("commodity", commodity);
@@ -3284,7 +3288,7 @@ public class NetManger {
         if (price != null) {
             map.put("price", price);
         }
-        if (volume!=null){
+        if (volume != null) {
             map.put("volume", volume);
         }
         map.put("chargeEagle", chargeEagle);

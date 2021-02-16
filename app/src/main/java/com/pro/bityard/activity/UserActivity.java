@@ -8,8 +8,6 @@ import android.view.View;
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
-import com.pro.bityard.entity.CopyMangerEntity;
-import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.fragment.circle.FollowEditFragment;
 import com.pro.bityard.fragment.circle.FollowLogFragment;
@@ -22,6 +20,7 @@ import com.pro.bityard.fragment.hold.RuleFragment;
 import com.pro.bityard.fragment.my.AccountFragment;
 import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.AnnouncementFragment;
+import com.pro.bityard.fragment.trade.ContractFollowRecordFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;
 import com.pro.bityard.fragment.my.FundStatementFragment;
@@ -36,7 +35,6 @@ import com.pro.bityard.fragment.my.QuickFragment;
 import com.pro.bityard.fragment.my.SafeCenterFragment;
 import com.pro.bityard.fragment.my.SetUpFragment;
 import com.pro.bityard.fragment.my.ThemeFragment;
-import com.pro.bityard.fragment.my.TradeRecordFragment;
 import com.pro.bityard.fragment.my.TradeSettingsFragment;
 import com.pro.bityard.fragment.my.WithdrawalAddressFragment;
 import com.pro.bityard.fragment.my.WithdrawalFragment;
@@ -394,9 +392,9 @@ public class UserActivity extends BaseActivity {
     }
 
     private void addTradeHistoryFragment() {
-        String name = TradeRecordFragment.class.getSimpleName();
+        String name = ContractFollowRecordFragment.class.getSimpleName();
         //安全中心
-        TradeRecordFragment fragment = new TradeRecordFragment();
+        ContractFollowRecordFragment fragment = new ContractFollowRecordFragment();
         ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.layout_fragment_containter, fragment, name);
         ft.addToBackStack(name);

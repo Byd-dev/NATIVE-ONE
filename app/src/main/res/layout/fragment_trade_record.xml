@@ -6,12 +6,14 @@
     android:background="@color/background_main_color"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_bar" />
+    <include layout="@layout/head_spot_history_layout" />
+
     <LinearLayout
         android:id="@+id/layout_pop_title"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_42"
         android:layout_marginLeft="@dimen/margin_15"
+        android:visibility="gone"
         android:layout_marginRight="@dimen/margin_15"
         android:orientation="horizontal">
 
@@ -115,6 +117,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line"
+        android:visibility="gone"
         android:background="@color/home_line" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
