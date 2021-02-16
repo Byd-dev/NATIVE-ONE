@@ -51,7 +51,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="68dp"
             android:background="@mipmap/tab_bg"
             android:layout_alignParentBottom="true"
             >
@@ -59,7 +59,7 @@
             <LinearLayout
                 android:id="@+id/radioGroup"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_50"
+                android:layout_height="54dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/margin_8"
                 android:orientation="horizontal">
