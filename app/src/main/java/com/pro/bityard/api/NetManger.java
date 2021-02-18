@@ -2091,6 +2091,8 @@ public class NetManger {
 
     }
 
+
+
     /*邀请记录头部*/
     public void inviteTopHistory(String currency, OnNetResult onNetResult) {
 
@@ -3051,16 +3053,69 @@ public class NetManger {
         });
     }
 
-    /*历史记录*/
-    public void followHistory(String traderId, String page, String rows, OnNetResult onNetResult) {
+    /*跟单记录*/
+    public void followHistory(String traderId,  String commodity, String createTimeGe,
+                             String createTimeLe, String page,String rows, OnNetResult onNetResult) {
+
+
         ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("traderId", traderId);
-        map.put("page", page);
-        map.put("rows", rows);
+        if (traderId != null) {
+            map.put("traderId", traderId);
+        }
+
+        if (commodity != null) {
+            map.put("commodity", commodity);
+        }
+        if (createTimeGe != null) {
+            map.put("createTimeGe", createTimeGe);
+        }
+        if (createTimeLe != null) {
+            map.put("createTimeLe", createTimeLe);
+        }
+
+        if (page != null) {
+            map.put("page", page);
+        }
+
+        if (rows!=null){
+            map.put("size",rows);
+        }
+
+
         getRequest("/api/follow/trader/history", map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {
+                Log.d("print", "followHistory:3066: "+response.toString());
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() == 500) {
+                    onNetResult.onNetResult(FAILURE, tipEntity.getMessage());
+                } else {
+                    FollowHistoryEntity followHistoryEntity = new Gson().fromJson(response.toString(), FollowHistoryEntity.class);
+                    onNetResult.onNetResult(SUCCESS, followHistoryEntity);
+                }
+
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+
+
+    }
+
+    /*跟单记录*/
+    public void followHistory(String traderId, String page, String rows, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        map.put("traderId", traderId);
+        map.put("page", page);
+        map.put("size", rows);
+        getRequest("/api/follow/trader/history", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                Log.d("print", "followHistory:3066: "+response.toString());
                 TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                 if (tipEntity.getCode() == 500) {
                     onNetResult.onNetResult(FAILURE, tipEntity.getMessage());

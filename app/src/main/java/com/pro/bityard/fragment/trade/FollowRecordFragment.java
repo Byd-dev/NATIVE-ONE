@@ -15,14 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.FollowRecordAdapter;
 import com.pro.bityard.adapter.RadioDateAdapter;
-import com.pro.bityard.adapter.TradeRecordAdapter;
 import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.entity.TradeHistoryEntity;
-import com.pro.bityard.manger.ContractManger;
+import com.pro.bityard.entity.FollowHistoryEntity;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.manger.FollowManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -80,7 +80,7 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
     // private FundItemEntity fundItemEntity;
 
-    private TradeRecordAdapter tradeRecordAdapter;
+    private FollowRecordAdapter followRecordAdapter;
 
     @BindView(R.id.radioGroup)
     RadioGroup radioGroup;
@@ -102,8 +102,6 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
     private String code;
 
 
-
-
     private RadioDateAdapter radioDateAdapter, radioTypeAdapter;//杠杆适配器
     private List<String> dataList, typeList;
 
@@ -116,12 +114,13 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
     protected void onLazyLoad() {
 
     }
+
     private Activity activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity=getActivity();
+        activity = getActivity();
     }
 
     @Override
@@ -212,30 +211,25 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
         radioGroup.setOnCheckedChangeListener(this);
 
-        tradeRecordAdapter = new TradeRecordAdapter(getActivity());
+        followRecordAdapter = new FollowRecordAdapter(getActivity());
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(tradeRecordAdapter);
+        recyclerView.setAdapter(followRecordAdapter);
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
 
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
 
-
         //监听
-        tradeRecordAdapter.setOnItemClick(this::showDetailPopWindow);
+        followRecordAdapter.setOnItemClick(this::showDetailPopWindow);
 
 
     }
 
 
-
-
-
-
     /*显示详情*/
-    private void showDetailPopWindow(TradeHistoryEntity.DataBean dataBean) {
+    private void showDetailPopWindow(FollowHistoryEntity.DataBean dataBean) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_trade_detail_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
@@ -372,50 +366,52 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
 
     private void getTradeHistory(String loadType, String nowTime, String commodity, String createTimeGe,
-                                 String createTimeLe,String page) {
-        NetManger.getInstance().tradeHistory("1", nowTime, "2", commodity, createTimeGe,
-                createTimeLe, page,(state, response) -> {
-                    if (state.equals(BUSY)) {
-
-                        if (swipeRefreshLayout != null) {
-                            if (loadType.equals(LOAD)) {
-                                swipeRefreshLayout.setRefreshing(false);
-                            } else {
-                                swipeRefreshLayout.setRefreshing(true);
-                            }
-                        }
-                    } else if (state.equals(SUCCESS)) {
-                        if (swipeRefreshLayout != null) {
-                            swipeRefreshLayout.setRefreshing(false);
-                        }
-                        TradeHistoryEntity tradeHistoryEntity = (TradeHistoryEntity) response;
-                        if (tradeHistoryEntity == null) {
-                            return;
-                        }
-                        if (tradeHistoryEntity.getData() == null) {
-                            return;
-                        }
-                        if (isAdded()) {
-                            if (tradeHistoryEntity.getData().size() == 0) {
-                                layout_null.setVisibility(View.VISIBLE);
-                                recyclerView.setVisibility(View.GONE);
-                            } else {
-                                layout_null.setVisibility(View.GONE);
-                                recyclerView.setVisibility(View.VISIBLE);
-                            }
-                        }
-
+                                 String createTimeLe, String page) {
+        LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
+        if (loginEntity != null) {
+            NetManger.getInstance().followHistory("0", commodity, createTimeGe, createTimeLe, page, "10", (state, response) -> {
+                if (state.equals(BUSY)) {
+                    if (swipeRefreshLayout != null) {
                         if (loadType.equals(LOAD)) {
-                            tradeRecordAdapter.addDatas(tradeHistoryEntity.getData());
-                        } else {
-                            tradeRecordAdapter.setDatas(tradeHistoryEntity.getData());
-                        }
-                    } else if (state.equals(FAILURE)) {
-                        if (swipeRefreshLayout != null) {
                             swipeRefreshLayout.setRefreshing(false);
+                        } else {
+                            swipeRefreshLayout.setRefreshing(true);
                         }
                     }
-                });
+                } else if (state.equals(SUCCESS)) {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                    FollowHistoryEntity followHistoryEntity = (FollowHistoryEntity) response;
+                    if (followHistoryEntity == null) {
+                        return;
+                    }
+                    if (followHistoryEntity.getData() == null) {
+                        return;
+                    }
+                    if (isAdded()) {
+                        if (followHistoryEntity.getData().size() == 0) {
+                            layout_null.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        } else {
+                            layout_null.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    if (loadType.equals(LOAD)) {
+                        followRecordAdapter.addDatas(followHistoryEntity.getData());
+                    } else {
+                        followRecordAdapter.setDatas(followHistoryEntity.getData());
+                    }
+                } else if (state.equals(FAILURE)) {
+                    if (swipeRefreshLayout != null) {
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }
+            });
+        }
+
     }
 
     @Override
@@ -499,8 +495,10 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
 
     }
+
     private String edit_search;
     private String buy_sell;
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == FollowManger.getInstance()) {
