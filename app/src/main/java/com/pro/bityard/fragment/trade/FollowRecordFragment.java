@@ -96,7 +96,7 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
     private String REFRESH = "refresh";
     private String LOAD = "load";
 
-    private int page = 0;
+    private int page = 1;
     private String commodity = null;
     private List<String> contractList;
     private String code;
@@ -146,7 +146,7 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
         createTimeGe = ChartUtil.getSelectZero(startTime);
         createTimeLe = ChartUtil.getSelectLastTime(endTime);
-        page = 0;
+        page = 1;
 
         view.findViewById(R.id.layout_start).setOnClickListener(v -> {
             TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v1) -> {
@@ -159,8 +159,8 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
                 createTimeGe = ChartUtil.getSelectZero(selectStart);
                 createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
-                page = 0;
-                getTradeHistory(AppConfig.FIRST, null, null, createTimeGe, createTimeLe, null);
+                page = 1;
+                getTradeHistory(AppConfig.FIRST, null, createTimeGe, createTimeLe, String.valueOf(page));
 
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
@@ -187,8 +187,8 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
                 createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
                 createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
-                page = 0;
-                getTradeHistory(AppConfig.FIRST, null, null, createTimeGe, createTimeLe, null);
+                page = 1;
+                getTradeHistory(AppConfig.FIRST, null, createTimeGe, createTimeLe, String.valueOf(page));
 
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
@@ -359,13 +359,13 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
 
         }
-        page = 0;
-        getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe, null);
+        page = 1;
+        getTradeHistory(FIRST, commodity, createTimeGe, createTimeLe, String.valueOf(page));
 
     }
 
 
-    private void getTradeHistory(String loadType, String nowTime, String commodity, String createTimeGe,
+    private void getTradeHistory(String loadType, String commodity, String createTimeGe,
                                  String createTimeLe, String page) {
         LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity != null) {
@@ -464,7 +464,7 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
                     text_select.setText(code);
                     ChartUtil.setIcon(code, img_bg);
                 }
-                getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe, null);
+                getTradeHistory(FIRST,  commodity, createTimeGe, createTimeLe, String.valueOf(page));
                 popupWindow.dismiss();
             });
         }
@@ -491,13 +491,12 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
         }
 
-        getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe, null);
+        getTradeHistory(FIRST,commodity, createTimeGe, createTimeLe, String.valueOf(page));
 
 
     }
 
     private String edit_search;
-    private String buy_sell;
 
     @Override
     public void update(Observable o, Object arg) {
@@ -506,21 +505,13 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
             String[] split = value.split(",");
             String value_date = split[0];
             String value_search = split[1];
-            String value_type = split[2];
-            Log.d("print", "onClick:179:  " + value_search + "   " + value_date + "   " + value_type);
-            buy_sell = null;
+            Log.d("print", "onClick:179:  " + value_search + "   " + value_date + "   ");
             if (value_search.equals("")) {
                 edit_search = null;
             } else {
                 edit_search = value_search;
             }
-            if (value_type.equals(activity.getResources().getString(R.string.text_buy_and_sell))) {
-                buy_sell = null;
-            } else if (value_type.equals(activity.getString(R.string.text_buy))) {
-                buy_sell = "true";
-            } else if (value_type.equals(activity.getString(R.string.text_sell))) {
-                buy_sell = "false";
-            }
+
 
             if (value_date.equals(activity.getString(R.string.text_near_one_day))) {
                 createTimeGe = ChartUtil.getTodayZero();
@@ -536,8 +527,8 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
 
-            page = 0;
-            getTradeHistory(AppConfig.FIRST, edit_search, buy_sell, createTimeGe, createTimeLe, null);
+            page = 1;
+            getTradeHistory(AppConfig.FIRST, edit_search, createTimeGe, createTimeLe, String.valueOf(page));
         }
     }
 }

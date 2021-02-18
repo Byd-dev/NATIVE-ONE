@@ -24,9 +24,7 @@ import com.pro.bityard.adapter.TradeRecordAdapter;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.TradeHistoryEntity;
-import com.pro.bityard.manger.CommissionManger;
 import com.pro.bityard.manger.ContractManger;
-import com.pro.bityard.manger.ControlManger;
 import com.pro.bityard.manger.FollowManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -67,8 +65,6 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
     ImageView img_follow_record;
 
 
-
-
     @BindView(R.id.btn_sure)
     Button btn_sure;
     @BindView(R.id.btn_return)
@@ -79,6 +75,8 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
 
     @BindView(R.id.recyclerView_type)
     RecyclerView recyclerView_type;
+    @BindView(R.id.layout_type)
+    LinearLayout layout_type;
     private RadioDateAdapter radioDateAdapter, radioTypeAdapter;//杠杆适配器
     private List<String> dataList, typeList;
 
@@ -98,9 +96,6 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
         SocketQuoteManger.getInstance().addObserver(this);
 
 
-
-
-
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         img_contract_record.setVisibility(View.VISIBLE);
@@ -116,7 +111,6 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
 
         //监听
         tradeRecordAdapter.setOnItemClick(this::showDetailPopWindow);
-
 
 
     }
@@ -145,11 +139,13 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
                     img_contract_record.setVisibility(View.VISIBLE);
                     img_follow_record.setVisibility(View.GONE);
                     isContract = true;
+                    layout_type.setVisibility(View.VISIBLE);
 
                 } else if (tab.getPosition() == 1) {
                     img_contract_record.setVisibility(View.GONE);
                     img_follow_record.setVisibility(View.VISIBLE);
                     isContract = false;
+                    layout_type.setVisibility(View.GONE);
 
                 }
             }
@@ -354,10 +350,13 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
 
                 break;
             case R.id.btn_sure:
-                String value = value_date + "," + value_search + "," + value_type;
-                if (isContract){
+                if (isContract) {
+                    String value = value_date + "," + value_search + "," + value_type;
+
                     ContractManger.getInstance().postTag(value);
-                }else {
+                } else {
+                    String value = value_date + "," + value_search;
+
                     FollowManger.getInstance().postTag(value);
                 }
                 drawerLayout.closeDrawer(layout_right);
@@ -376,6 +375,7 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
     private ArrayMap<String, List<String>> arrayMap;
     private String type = AppConfig.CONTRACT_ALL;
     private String zone_type = AppConfig.VIEW_SPOT;
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == SocketQuoteManger.getInstance()) {
