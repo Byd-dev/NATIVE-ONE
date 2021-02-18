@@ -27,6 +27,7 @@ import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.manger.CommissionManger;
 import com.pro.bityard.manger.ContractManger;
 import com.pro.bityard.manger.ControlManger;
+import com.pro.bityard.manger.FollowManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -62,20 +63,17 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
 
     @BindView(R.id.img_contract_record)
     ImageView img_contract_record;
+    @BindView(R.id.img_follow_record)
+    ImageView img_follow_record;
 
 
-    private String createTimeGe = null;
-    private String createTimeLe = null;
 
-    private String FIRST = "first";
-    private String REFRESH = "refresh";
-    private String LOAD = "load";
 
     @BindView(R.id.btn_sure)
     Button btn_sure;
     @BindView(R.id.btn_return)
     Button btn_return;
-    private boolean isCommission = true;
+    private boolean isContract = true;
     @BindView(R.id.recyclerView_date)
     RecyclerView recyclerView_date;
 
@@ -137,6 +135,7 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
         tabLayout.setupWithViewPager(viewPager);
         initViewPager(viewPager);
         img_contract_record.setOnClickListener(this);
+        img_follow_record.setOnClickListener(this);
 
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -144,11 +143,13 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
                     img_contract_record.setVisibility(View.VISIBLE);
-                    isCommission = true;
+                    img_follow_record.setVisibility(View.GONE);
+                    isContract = true;
 
                 } else if (tab.getPosition() == 1) {
                     img_contract_record.setVisibility(View.GONE);
-                    isCommission = false;
+                    img_follow_record.setVisibility(View.VISIBLE);
+                    isContract = false;
 
                 }
             }
@@ -221,7 +222,7 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
     private void initViewPager(ViewPager viewPager) {
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         myPagerAdapter.addFragment(new ContractRecordFragment(), getString(R.string.text_orders));
-        myPagerAdapter.addFragment(new SpotCommitHistoryFragment(), getString(R.string.text_follow_record));
+        myPagerAdapter.addFragment(new FollowRecordFragment(), getString(R.string.text_follow_record));
 
         viewPager.setAdapter(myPagerAdapter);
     }
@@ -348,12 +349,17 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
                 getActivity().finish();
                 break;
             case R.id.img_contract_record:
+            case R.id.img_follow_record:
                 drawerLayout.openDrawer(layout_right);
 
                 break;
             case R.id.btn_sure:
                 String value = value_date + "," + value_search + "," + value_type;
-                ContractManger.getInstance().postTag(value);
+                if (isContract){
+                    ContractManger.getInstance().postTag(value);
+                }else {
+                    FollowManger.getInstance().postTag(value);
+                }
                 drawerLayout.closeDrawer(layout_right);
                 break;
             case R.id.btn_return:
