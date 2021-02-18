@@ -2,9 +2,13 @@ package com.pro.bityard.fragment.trade;
 
 import android.annotation.SuppressLint;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,15 +22,19 @@ import com.pro.bityard.adapter.RadioDateAdapter;
 import com.pro.bityard.adapter.SpotSearchAdapter;
 import com.pro.bityard.adapter.TradeRecordAdapter;
 import com.pro.bityard.base.BaseFragment;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.manger.CommissionManger;
 import com.pro.bityard.manger.ContractManger;
 import com.pro.bityard.manger.ControlManger;
+import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -35,7 +43,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
-public class ContractFollowRecordFragment extends BaseFragment implements View.OnClickListener {
+public class ContractFollowRecordFragment extends BaseFragment implements View.OnClickListener, Observer {
 
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
@@ -54,8 +62,7 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
 
     @BindView(R.id.img_contract_record)
     ImageView img_contract_record;
-    @BindView(R.id.img_spot_history_filter)
-    ImageView img_spot_history_filter;
+
 
     private String createTimeGe = null;
     private String createTimeLe = null;
@@ -64,7 +71,10 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
     private String REFRESH = "refresh";
     private String LOAD = "load";
 
-
+    @BindView(R.id.btn_sure)
+    Button btn_sure;
+    @BindView(R.id.btn_return)
+    Button btn_return;
     private boolean isCommission = true;
     @BindView(R.id.recyclerView_date)
     RecyclerView recyclerView_date;
@@ -87,6 +97,7 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
     @Override
     protected void initView(View view) {
 
+        SocketQuoteManger.getInstance().addObserver(this);
 
 
 
@@ -94,12 +105,12 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
 
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
-        img_spot_history_filter.setVisibility(View.VISIBLE);
-
+        img_contract_record.setVisibility(View.VISIBLE);
 
         tradeRecordAdapter = new TradeRecordAdapter(getActivity());
 
-
+        btn_return.setOnClickListener(this);
+        btn_sure.setOnClickListener(this);
         /*刷新监听*/
 
         Handler handler = new Handler();
@@ -125,7 +136,6 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
         viewPager.setOffscreenPageLimit(3);
         tabLayout.setupWithViewPager(viewPager);
         initViewPager(viewPager);
-        img_spot_history_filter.setOnClickListener(this);
         img_contract_record.setOnClickListener(this);
 
 
@@ -133,13 +143,11 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() == 0) {
-                    img_contract_record.setVisibility(View.GONE);
-                    img_spot_history_filter.setVisibility(View.VISIBLE);
+                    img_contract_record.setVisibility(View.VISIBLE);
                     isCommission = true;
 
                 } else if (tab.getPosition() == 1) {
-                    img_contract_record.setVisibility(View.VISIBLE);
-                    img_spot_history_filter.setVisibility(View.GONE);
+                    img_contract_record.setVisibility(View.GONE);
                     isCommission = false;
 
                 }
@@ -303,7 +311,32 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
 
     @Override
     protected void initData() {
+        edit_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    type = AppConfig.CONTRACT_ALL;
+                    List<String> strings = arrayMap.get(type);
+                    List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
+                    spotSearchAdapter.setDatas(searchQuoteList);
+                } else {
+                    type = AppConfig.CONTRACT_ALL;
+                    List<String> quoteList = arrayMap.get(type);
+                    spotSearchAdapter.setDatas(quoteList);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
     }
 
@@ -320,11 +353,7 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
                 break;
             case R.id.btn_sure:
                 String value = value_date + "," + value_search + "," + value_type;
-                if (isCommission) {
-                    ContractManger.getInstance().postTag(value);
-                } else {
-                    ControlManger.getInstance().postTag(value);
-                }
+                ContractManger.getInstance().postTag(value);
                 drawerLayout.closeDrawer(layout_right);
                 break;
             case R.id.btn_return:
@@ -338,6 +367,14 @@ public class ContractFollowRecordFragment extends BaseFragment implements View.O
     }
 
     private int oldSelect = 0;
+    private ArrayMap<String, List<String>> arrayMap;
+    private String type = AppConfig.CONTRACT_ALL;
+    private String zone_type = AppConfig.VIEW_SPOT;
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o == SocketQuoteManger.getInstance()) {
+            arrayMap = (ArrayMap<String, List<String>>) arg;
 
-
+        }
+    }
 }
