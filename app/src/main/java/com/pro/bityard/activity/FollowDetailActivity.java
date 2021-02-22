@@ -29,6 +29,7 @@ import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowHistoryEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.FollowersListEntity;
+import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.utils.PopUtil;
@@ -340,12 +341,12 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
         getFollowerData(FIRST, page);
 
 
-        UserDetailEntity userDetailEntity = SPUtils.getData(AppConfig.LOGIN, UserDetailEntity.class);
+        UserDetailEntity userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
         Log.d("print ", "initData:352: " + userDetailEntity.getUser().getUserId() + "  " + followerUser.getUserId());
         if (userDetailEntity != null) {
             UserDetailEntity.UserBean user = userDetailEntity.getUser();
             if (user.getUserId().equals(followerUser.getUserId())) {
-                if (followerUser.getType() != 2) {
+                if (user.getType() != 2) {
                     layout_one.setVisibility(View.GONE);
                     layout_two.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.GONE);

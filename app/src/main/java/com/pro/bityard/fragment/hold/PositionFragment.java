@@ -1273,9 +1273,12 @@ public class PositionFragment extends BaseFragment implements Observer {
                                 headerRecyclerView.addHeaderView(headView);
                             }*/
                         }
-                        layout_hold.setVisibility(View.VISIBLE);
+                        if (isAdded()){
+                            layout_hold.setVisibility(View.VISIBLE);
 
-                        layout_null.setVisibility(View.GONE);
+                            layout_null.setVisibility(View.GONE);
+                        }
+
 
                     }
 

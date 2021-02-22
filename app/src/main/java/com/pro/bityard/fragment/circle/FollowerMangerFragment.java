@@ -113,6 +113,8 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
                                                 showProgressDialog();
                                             } else if (state.equals(SUCCESS)) {
                                                 dismissProgressDialog();
+                                                userDetailEntity.getUser().setType(2);
+                                                SPUtils.putData(AppConfig.DETAIL, userDetailEntity);
                                                 Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
                                             } else if (state.equals(FAILURE)) {
                                                 dismissProgressDialog();
@@ -131,6 +133,8 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
                                 showProgressDialog();
                             } else if (state.equals(SUCCESS)) {
                                 dismissProgressDialog();
+                                userDetailEntity.getUser().setType(1);
+                                SPUtils.putData(AppConfig.DETAIL, userDetailEntity);
                                 Toast.makeText(AppContext.getAppContext(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
                             } else if (state.equals(FAILURE)) {
                                 dismissProgressDialog();
