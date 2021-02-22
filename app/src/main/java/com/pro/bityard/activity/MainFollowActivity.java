@@ -1423,7 +1423,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             if (state.equals(SUCCESS)) {
                 FollowerIncomeEntity followerIncomeEntity = (FollowerIncomeEntity) response;
                 text_all_profit.setText(getResources().getString(R.string.text_all_profit)
-                        + ": " + followerIncomeEntity.getIncomeAll());
+                        + ": " + TradeUtil.getNumberFormat(followerIncomeEntity.getIncomeAll(),2));
 
             }
         });

@@ -202,8 +202,8 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
                 FollowerIncomeEntity followerIncomeEntity = (FollowerIncomeEntity) response;
 
                 text_day_profit.setText(String.valueOf(followerIncomeEntity.getIncomeDay()));
-                text_week_profit.setText(String.valueOf(followerIncomeEntity.getIncomeWeek()));
-                text_all_profit.setText(String.valueOf(followerIncomeEntity.getIncomeAll()));
+                text_week_profit.setText(TradeUtil.getNumberFormat(followerIncomeEntity.getIncomeWeek(),2));
+                text_all_profit.setText(TradeUtil.getNumberFormat(followerIncomeEntity.getIncomeAll(),2));
 
                 String format1 = String.format(getResources().getString(R.string.text_follower_tip), followerIncomeEntity.getFollower(), followerIncomeEntity.getVolume());
                 text_content.setText(Html.fromHtml(format1));
