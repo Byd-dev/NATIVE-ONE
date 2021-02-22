@@ -221,7 +221,7 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
 
-        //监听
+        //暂时关闭
        // followRecordAdapter.setOnItemClick(this::showDetailPopWindow);
 
 
