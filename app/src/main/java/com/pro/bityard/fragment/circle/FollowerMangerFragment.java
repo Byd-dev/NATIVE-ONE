@@ -298,7 +298,7 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
                 getActivity().finish();
                 break;
             case R.id.img_copy_setting:
-                
+
                 AccountSettingsActivity.enter(getActivity());
                 break;
 
