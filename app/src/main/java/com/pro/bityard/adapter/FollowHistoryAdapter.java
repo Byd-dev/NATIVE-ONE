@@ -94,18 +94,14 @@ public class FollowHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
             ((MyViewHolder) holder).text_name.setText(datas.get(position).getCommodityCode());
-            ((MyViewHolder) holder).text_margin.setText("×" + datas.get(position).getMargin());
+            double margin = datas.get(position).getMargin();
+            ((MyViewHolder) holder).text_margin.setText("×" + margin);
 
             double opPrice = datas.get(position).getOpPrice();
 
             double cpPrice = datas.get(position).getCpPrice();
 
             boolean isBuy = datas.get(position).isIsBuy();
-
-
-
-
-
 
 
             if (isBuy) {
@@ -131,8 +127,11 @@ public class FollowHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((MyViewHolder) holder).text_order_type.setText(datas.get(position).getOpenSource());
 
             double income = datas.get(position).getIncome();
+            double div = TradeUtil.div(income, margin, 10);
 
-            ((MyViewHolder) holder).text_income_rate.setText(TradeUtil.getNumberFormat(income,2)+"%");
+            double mul = TradeUtil.mul(div, 100);
+
+            ((MyViewHolder) holder).text_income_rate.setText(TradeUtil.getNumberFormat(mul, 2) + "%");
             if (income > 0) {
                 ((MyViewHolder) holder).text_income_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
 
@@ -140,7 +139,6 @@ public class FollowHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
                 ((MyViewHolder) holder).text_income_rate.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
             }
-
 
 
         }
@@ -175,7 +173,7 @@ public class FollowHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_margin, text_open_price,
                 text_buy, text_close_price, text_income_rate,
-                text_open_time, text_close_time, text_order_id, text_order_type,text_rate_tip;
+                text_open_time, text_close_time, text_order_id, text_order_type, text_rate_tip;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -184,7 +182,7 @@ public class FollowHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
             text_open_price = itemView.findViewById(R.id.text_open_price);
             text_close_price = itemView.findViewById(R.id.text_close_price);
             text_buy = itemView.findViewById(R.id.text_buy);
-            text_rate_tip=itemView.findViewById(R.id.text_rate_tip);
+            text_rate_tip = itemView.findViewById(R.id.text_rate_tip);
 
 
             text_income_rate = itemView.findViewById(R.id.text_income_rate);
@@ -192,8 +190,6 @@ public class FollowHistoryAdapter extends RecyclerView.Adapter<RecyclerView.View
             text_close_time = itemView.findViewById(R.id.text_close_time);
             text_order_id = itemView.findViewById(R.id.text_order_id);
             text_order_type = itemView.findViewById(R.id.text_order_type);
-
-
 
 
         }

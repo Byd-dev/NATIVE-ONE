@@ -56,7 +56,7 @@
                     android:gravity="center"
                     android:hint="@string/hint_follow_amount"
                     android:inputType="numberDecimal"
-                    android:text="5"
+                    android:text="20"
                     android:textColor="@color/text_main_color"
                     android:textColorHint="@color/text_second_color"
                     android:textCursorDrawable="@null"
