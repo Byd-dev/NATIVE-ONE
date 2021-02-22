@@ -303,27 +303,27 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
 
         double trader30DaysCount = followerUser.getTrader30DaysCount();//30天交易笔数
-        double trader30DaysRate = followerUser.getTrader30DaysRate();//30天带单收益率
         double trader30DaysDefeat = followerUser.getTrader30DaysDefeat();//30天交易胜率
-        double traderTotalIncome = followerUser.getTraderIncome();//带单总收益
         String follower = followerUser.getFollower();//跟随者
+        double trader30DaysRate = followerUser.getTrader30DaysRate();//30天带单收益率
+        double traderTotalIncome = followerUser.getIncomeRate();//带单总收益
 
 
         Log.d("print", "initData:169:  " + trader30DaysCount + "   " + trader30DaysRate + "  " + trader30DaysDefeat + "  " + traderTotalIncome + "  " + follower);
         List<String> datas = new ArrayList<>();
         datas.add(String.valueOf(trader30DaysCount));//0~10000
-        datas.add(TradeUtil.getNumberFormat(trader30DaysRate, 2) + "%");//0~1
         datas.add(TradeUtil.getNumberFormat(trader30DaysDefeat, 2) + "%");//0~10
-        datas.add(TradeUtil.getNumberFormat(traderTotalIncome, 2));//0~5000
         datas.add(follower);//0~1000
+        datas.add(TradeUtil.getNumberFormat(trader30DaysRate, 2) + "%");//0~1
+        datas.add(TradeUtil.getNumberFormat(traderTotalIncome, 2)+"%");//0~5000
 
 
         List<Double> scaleData = new ArrayList<>();
         scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysCount, 1000, 10), 100));
-        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysRate, 1000, 10), 100));
         scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysDefeat, 100, 10), 100));
-        scaleData.add(TradeUtil.mul(TradeUtil.div(traderTotalIncome, 5000, 10), 100));
         scaleData.add(TradeUtil.mul(TradeUtil.div(Double.parseDouble(follower), 200, 10), 100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysRate, 1000, 10), 100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(traderTotalIncome, 5000, 10), 100));
 
 
        /* scaleData.add(20.0);

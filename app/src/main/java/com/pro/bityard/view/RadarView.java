@@ -137,16 +137,16 @@ public class RadarView extends View {
 
         titles = new ArrayList<>();
         titles.add(getContext().getString(R.string.text_trader_30_days_count));
-        titles.add(getResources().getString(R.string.text_trader_30_days_rate));
         titles.add(getResources().getString(R.string.text_trader_30_days_defeat));
-        titles.add(getResources().getString(R.string.text_trader_total_income));
         titles.add(getResources().getString(R.string.text_follower));
+        titles.add(getResources().getString(R.string.text_trader_30_days_rate));
+        titles.add(getResources().getString(R.string.text_trader_total_income));
 
         data = new ArrayList<>();
         data.add("10.0");
-        data.add("20.0");
         data.add("30.0");
         data.add("40.0");
+        data.add("20.0");
         data.add("50.0");
 
 
