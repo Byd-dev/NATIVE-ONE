@@ -319,11 +319,11 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
 
 
         List<Double> scaleData = new ArrayList<>();
-        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysCount, 1000, 10), 100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysCount, 500, 10), 100));
         scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysDefeat, 100, 10), 100));
         scaleData.add(TradeUtil.mul(TradeUtil.div(Double.parseDouble(follower), 200, 10), 100));
-        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysRate, 1000, 10), 100));
-        scaleData.add(TradeUtil.mul(TradeUtil.div(traderTotalIncome, 5000, 10), 100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(trader30DaysRate, 500, 10), 100));
+        scaleData.add(TradeUtil.mul(TradeUtil.div(traderTotalIncome, 500, 10), 100));
 
 
        /* scaleData.add(20.0);
