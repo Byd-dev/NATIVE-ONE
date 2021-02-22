@@ -369,7 +369,7 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
                                  String createTimeLe, String page) {
         LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity != null) {
-            NetManger.getInstance().followHistory("0", commodity, createTimeGe, createTimeLe, page, "10", (state, response) -> {
+            NetManger.getInstance().followHistory(loginEntity.getUser().getUserId(), commodity, createTimeGe, createTimeLe, page, "10", (state, response) -> {
                 if (state.equals(BUSY)) {
                     if (swipeRefreshLayout != null) {
                         if (loadType.equals(LOAD)) {
