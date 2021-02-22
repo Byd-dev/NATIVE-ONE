@@ -5,12 +5,14 @@ import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
+import com.pro.bityard.activity.AccountSettingsActivity;
 import com.pro.bityard.adapter.IncomeListAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
@@ -44,6 +46,9 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
 
     @BindView(R.id.text_title)
     TextView text_title;
+
+    @BindView(R.id.img_copy_setting)
+    ImageView img_copy_setting;
 
 
     @BindView(R.id.recyclerView_traders)
@@ -81,6 +86,9 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
     protected void initView(View view) {
         text_title.setText(R.string.text_being_copied);
         view.findViewById(R.id.img_back).setOnClickListener(this);
+
+        img_copy_setting.setVisibility(View.VISIBLE);
+        img_copy_setting.setOnClickListener(this);
 
         View headView = LayoutInflater.from(getActivity()).inflate(R.layout.layout_head_follower_manger, null);
 
@@ -288,6 +296,9 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
         switch (v.getId()) {
             case R.id.img_back:
                 getActivity().finish();
+                break;
+            case R.id.img_copy_setting:
+                AccountSettingsActivity.enter(getActivity());
                 break;
 
         }

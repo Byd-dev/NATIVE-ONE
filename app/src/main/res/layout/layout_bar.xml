@@ -149,6 +149,18 @@
             android:paddingLeft="@dimen/margin_15"
             android:visibility="gone"
             />
+
+        <ImageView
+            android:id="@+id/img_copy_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/icon_setting"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:paddingRight="@dimen/margin_15"
+            android:paddingLeft="@dimen/margin_15"
+            android:visibility="gone"
+            />
     </RelativeLayout>
 
    <include layout="@layout/layout_line_big"/>

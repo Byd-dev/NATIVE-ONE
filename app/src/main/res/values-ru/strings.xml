@@ -605,5 +605,6 @@
     <string name="text_investors">投资人</string>
     <string name="text_internal_account">内部账号</string>
     <string name="text_copy_account">带单账号</string>
+    <string name="text_account_setting">账户设置</string>
 
 </resources>
