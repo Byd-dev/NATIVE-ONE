@@ -222,7 +222,7 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
 
         //监听
-        followRecordAdapter.setOnItemClick(this::showDetailPopWindow);
+       // followRecordAdapter.setOnItemClick(this::showDetailPopWindow);
 
 
     }
