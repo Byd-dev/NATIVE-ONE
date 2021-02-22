@@ -125,7 +125,18 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 case 3:
                     value_type = context.getString(R.string.text_pro_trader);
                     ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_pro_trader), null, null, null);
-
+                    break;
+                case 4:
+                    value_type = context.getString(R.string.text_investors);
+                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_pro_trader), null, null, null);
+                    break;
+                case 5:
+                    value_type = context.getString(R.string.text_internal_account);
+                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_pro_trader), null, null, null);
+                    break;
+                case 6:
+                    value_type = context.getString(R.string.text_copy_account);
+                    ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_pro_trader), null, null, null);
                     break;
             }
 
