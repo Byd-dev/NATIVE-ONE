@@ -38,6 +38,7 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private boolean isHide = true;
     private boolean hideSmall=false;
     private int scale;
+    private  boolean isZero=false;
 
 
     public AccountAdapter(Context context) {
@@ -62,6 +63,11 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public void hideSmallCoin(boolean hideSmall){
         this.hideSmall=hideSmall;
+        this.notifyDataSetChanged();
+    }
+
+    public void setZero(boolean isZero){
+        this.isZero=isZero;
         this.notifyDataSetChanged();
     }
 
@@ -103,6 +109,8 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         if (holder instanceof MyViewHolder) {
 
 
+
+
             double money = datas.get(position).getMoney();
 
             String currency = datas.get(position).getCurrency();
@@ -127,26 +135,35 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
 
 
+            if (isZero){
 
-            if (isHide) {
-                if (currency.equals("USDT")) {
-                    ((MyViewHolder) holder).text_balance.setText(money+ currency);
-                    String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                    ((MyViewHolder) holder).text_balance_transfer.setText("≈" +TradeUtil.mul(money, Double.parseDouble(string)));
+                ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(0.0, scale)  );
+                ((MyViewHolder) holder).text_balance_transfer.setVisibility(View.GONE);
+            }else {
+                ((MyViewHolder) holder).text_balance_transfer.setVisibility(View.VISIBLE);
+                if (isHide) {
+                    if (currency.equals("USDT")) {
+                        ((MyViewHolder) holder).text_balance.setText(money+ currency);
+                        String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                        ((MyViewHolder) holder).text_balance_transfer.setText("≈" +TradeUtil.mul(money, Double.parseDouble(string)));
+
+                    } else {
+                        getRate(currency, money, response -> {
+                            ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, scale) + currency );
+                            String string = SPUtils.getString(AppConfig.USD_RATE, null);
+                            ((MyViewHolder) holder).text_balance_transfer.setText("≈" +TradeUtil.mul(Double.parseDouble(response.toString()), Double.parseDouble(string)));
+                            // ((MyViewHolder) holder).text_balance_transfer.setText("≈" + response.toString() + "USDT");
+                        });
+                    }
+
 
                 } else {
-                    getRate(currency, money, response -> {
-                        ((MyViewHolder) holder).text_balance.setText(TradeUtil.numberHalfUp(money, scale) + currency );
-                        String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                        ((MyViewHolder) holder).text_balance_transfer.setText("≈" +TradeUtil.mul(Double.parseDouble(response.toString()), Double.parseDouble(string)));
-                        // ((MyViewHolder) holder).text_balance_transfer.setText("≈" + response.toString() + "USDT");
-                    });
+                    ((MyViewHolder) holder).text_balance.setText("***≈***");
                 }
-
-
-            } else {
-                ((MyViewHolder) holder).text_balance.setText("***≈***");
             }
+
+
+
 
 
         }

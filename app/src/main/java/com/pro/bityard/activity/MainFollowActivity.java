@@ -593,6 +593,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head_circle);
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head);
             layout_commissionRate.setVisibility(View.VISIBLE);
+            getFollowIncome();
+            accountAdapter.setZero(false);
 
         } else {
 
@@ -608,6 +610,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head);
             layout_commissionRate.setVisibility(View.GONE);
 
+            text_all_profit.setText(getResources().getString(R.string.text_all_profit) + ": 0.0"  );
+            //资产
+            text_balance.setText(getResources().getString(R.string.text_default));
+            text_balance_currency.setText(getResources().getString(R.string.text_default));
+            text_bonus_balance.setText(getResources().getString(R.string.text_default));
+            text_gift_balance.setText(getResources().getString(R.string.text_default));
+            accountAdapter.setZero(true);
         }
 
 
@@ -1281,7 +1290,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         img_record.setOnClickListener(this);
 
         View headView = LayoutInflater.from(this).inflate(R.layout.layout_account_head, null);
-
         text_balance = headView.findViewById(R.id.text_balance);
         text_balance_currency = headView.findViewById(R.id.text_balance_currency);
         text_fiat = headView.findViewById(R.id.text_fiat);
@@ -1408,10 +1416,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         if (isLogin()) {
             UserDetailManger.getInstance().detail();
             //带单总收益
-            getFollowIncome();
-        }else {
-            text_all_profit.setText(getResources().getString(R.string.text_all_profit)
-                    + ": 0.0"  );
         }
 
 
