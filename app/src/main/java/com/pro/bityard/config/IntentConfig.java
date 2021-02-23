@@ -87,6 +87,8 @@ public class IntentConfig {
         public static final String KEY_FOLLOWER_MANGER = "KEY_FOLLOWER_MANGER";
         /*现货记录*/
         public static final String KEY_SPOT_RECORD = "KEY_SPOT_RECORD";
+        /*带单理念*/
+        public static final String KEY_SYS = "KEY_SYS";
         /*跟单错误列表*/
         public static final String KEY_FOLLOW_LOG = "KEY_FOLLOW_LOG";
         /*客服*/

@@ -94,7 +94,7 @@
     <include layout="@layout/layout_line" />
 
     <RelativeLayout
-        android:id="@+id/layout_think"
+        android:id="@+id/layout_sys"
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 

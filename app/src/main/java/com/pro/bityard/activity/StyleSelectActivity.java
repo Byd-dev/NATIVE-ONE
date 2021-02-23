@@ -36,8 +36,8 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class StyleSelectActivity extends BaseActivity implements View.OnClickListener {
-    @BindView(R.id.text_submit)
-    TextView text_submit;
+    @BindView(R.id.text_save)
+    TextView text_save;
     @BindView(R.id.text_title)
     TextView text_title;
     @BindView(R.id.recyclerView_select)
@@ -88,8 +88,8 @@ public class StyleSelectActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void initView(View view) {
         text_title.setText(R.string.text_account_setting);
-        text_submit.setOnClickListener(this);
-        text_submit.setVisibility(View.VISIBLE);
+        text_save.setOnClickListener(this);
+        text_save.setVisibility(View.VISIBLE);
         findViewById(R.id.img_back).setOnClickListener(this);
 
         recyclerView_style.setLayoutManager(new GridLayoutManager(this, 4));
@@ -236,7 +236,7 @@ public class StyleSelectActivity extends BaseActivity implements View.OnClickLis
             case R.id.img_back:
                 finish();
                 break;
-            case R.id.text_submit:
+            case R.id.text_save:
                 if (tag_select.size() > 4) {
                     Toast.makeText(this, getResources().getString(R.string.text_four_much), Toast.LENGTH_SHORT).show();
                     return;

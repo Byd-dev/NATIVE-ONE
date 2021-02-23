@@ -15,6 +15,7 @@ import com.pro.bityard.fragment.circle.FollowMangerFragment;
 import com.pro.bityard.fragment.circle.FollowSettingsFragment;
 import com.pro.bityard.fragment.circle.FollowerListFragment;
 import com.pro.bityard.fragment.circle.FollowerMangerFragment;
+import com.pro.bityard.fragment.circle.IdeaSelectFragment;
 import com.pro.bityard.fragment.circle.SearchNicknameFragment;
 import com.pro.bityard.fragment.hold.RuleFragment;
 import com.pro.bityard.fragment.my.AccountFragment;
@@ -191,9 +192,22 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_SPOT_RECORD:
                 addSpotTradeFragment();
                 break;
+            case IntentConfig.Keys.KEY_SYS:
+                addIdeaSelectFragment();
+                break;
         }
 
 
+    }
+
+    private void addIdeaSelectFragment() {
+        String name = IdeaSelectFragment.class.getSimpleName();
+        //带单理念
+        IdeaSelectFragment fragment = new IdeaSelectFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
 

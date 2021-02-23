@@ -141,7 +141,7 @@ public class InviteListEntity {
         private String registerRegion;
         private long registerTime;
         private Object source;
-        private int tradeAmount;
+        private double tradeAmount;
         private int tradeAmountDay;
         private double tradeCharge;
         private double tradeChargeDay;
@@ -210,11 +210,11 @@ public class InviteListEntity {
             this.source = source;
         }
 
-        public int getTradeAmount() {
+        public double getTradeAmount() {
             return tradeAmount;
         }
 
-        public void setTradeAmount(int tradeAmount) {
+        public void setTradeAmount(double tradeAmount) {
             this.tradeAmount = tradeAmount;
         }
 

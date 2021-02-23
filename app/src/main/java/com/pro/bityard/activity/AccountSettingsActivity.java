@@ -14,6 +14,7 @@ import com.pro.bityard.adapter.TagsAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TagEntity;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -83,7 +84,7 @@ public class AccountSettingsActivity extends BaseActivity implements View.OnClic
         findViewById(R.id.img_back).setOnClickListener(this);
 
         findViewById(R.id.layout_style).setOnClickListener(this);
-        findViewById(R.id.layout_think).setOnClickListener(this);
+        findViewById(R.id.layout_sys).setOnClickListener(this);
 
         recyclerView_style.setLayoutManager(new GridLayoutManager(this, 4));
 
@@ -168,7 +169,8 @@ public class AccountSettingsActivity extends BaseActivity implements View.OnClic
             case R.id.layout_style:
                 StyleSelectActivity.enter(this, allList);
                 break;
-            case R.id.layout_think:
+            case R.id.layout_sys:
+                UserActivity.enter(this, IntentConfig.Keys.KEY_SYS);
                 break;
 
         }
