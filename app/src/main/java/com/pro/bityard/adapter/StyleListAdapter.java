@@ -26,6 +26,7 @@ public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public boolean isLoadMore = false;
     private String chain;
     private boolean isEnable = true;
+    private boolean isStyleTag=false;
 
     public StyleListAdapter(Context context) {
         this.context = context;
@@ -58,6 +59,10 @@ public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         isLoadMore = true;
         this.notifyDataSetChanged();
     }
+    public void isStyleTag(boolean isStyleTag){
+        this.isStyleTag=isStyleTag;
+        this.notifyDataSetChanged();
+    }
 
     public void stopLoad() {
         isLoadMore = false;
@@ -88,22 +93,35 @@ public class StyleListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MyViewHolder) {
+            if (isStyleTag){
+                ((MyViewHolder) holder).checkBox_style.setChecked(true);
+            }else {
+                ((MyViewHolder) holder).checkBox_style.post(() -> {
+                        if (datas.get(position).isChecked) {
+                            ((MyViewHolder) holder).checkBox_style.setChecked(true);
+                        } else {
+                            ((MyViewHolder) holder).checkBox_style.setChecked(false);
+                        }
+
+
+                });
+            }
+
 
             ((MyViewHolder) holder).checkBox_style.setText(datas.get(position).getContent());
-            ((MyViewHolder) holder).checkBox_style.post(() -> {
-                if (datas.get(position).isChecked) {
-                    ((MyViewHolder) holder).checkBox_style.setChecked(true);
-                } else {
-                    ((MyViewHolder) holder).checkBox_style.setChecked(false);
-                }
-            });
 
-            ((MyViewHolder) holder).checkBox_style.setOnCheckedChangeListener((buttonView, isChecked) -> {
-                if (onItemChaneClick != null) {
-                    onItemChaneClick.onSuccessListener(isChecked, datas.get(position));
-                }
 
-            });
+            if (isEnable){
+                ((MyViewHolder) holder).checkBox_style.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                    if (onItemChaneClick != null) {
+                        onItemChaneClick.onSuccessListener(isChecked, datas.get(position));
+                    }
+                });
+            }else {
+                ((MyViewHolder) holder).checkBox_style.setEnabled(false);
+            }
+
+
 
         }
     }

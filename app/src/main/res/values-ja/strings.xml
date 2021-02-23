@@ -606,6 +606,12 @@
     <string name="text_internal_account">内部账号</string>
     <string name="text_copy_account">带单账号</string>
     <string name="text_account_setting">账户设置</string>
+    <string name="text_style_tags">风格标签</string>
+    <string name="text_follow_think">带单理念</string>
+    <string name="text_recommend_style">推荐</string>
+    <string name="text_style_tip_one">请设置您的带单风格，合适的标签将有更多被搜索的跟单机会，获得更多的带单收益。</string>
+    <string name="text_style_tip_two">标签最多可设置四个，可随意更改。</string>
+    <string name="text_four_much">标签最多可设置4个</string>
 
 
 </resources>

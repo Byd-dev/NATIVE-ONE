@@ -41,6 +41,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.TagEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.switchlibrary.SPUtils;
 
@@ -196,6 +197,19 @@ public class Util {
         } else {
             return stringBuilder.toString();
         }
+    }
+
+    public static String styleValue(Map<String, TagEntity> tag_select){
+        String selectValue=null;
+        Iterator<Map.Entry<String, TagEntity>> iterator = tag_select.entrySet().iterator();
+        StringBuilder stringBuilder = new StringBuilder();
+        while (iterator.hasNext()) {
+            Map.Entry<String, TagEntity> next = iterator.next();
+            String code = next.getValue().getCode();
+            StringBuilder append = stringBuilder.append(code).append(",");
+            selectValue = append.toString().substring(0, append.toString().length() - 1);
+        }
+        return selectValue;
     }
 
     public static String filterNumber(String content) {

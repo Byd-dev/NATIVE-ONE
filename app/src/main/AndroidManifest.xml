@@ -98,6 +98,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
         <activity android:name=".activity.SpotTradeActivity" />
         <activity android:name=".activity.AccountSettingsActivity" />
+        <activity android:name=".activity.StyleSelectActivity" />
 
         <!-- Optional facebook配置,authorities必须为com.facebook.app.FacebookContentProvider+APP_ID-->
 

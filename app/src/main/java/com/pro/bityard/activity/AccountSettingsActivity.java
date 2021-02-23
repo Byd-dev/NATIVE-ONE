@@ -38,24 +38,22 @@ public class AccountSettingsActivity extends BaseActivity implements View.OnClic
     TextView text_submit;
     @BindView(R.id.text_title)
     TextView text_title;
-    @BindView(R.id.recyclerView_select)
-    RecyclerView recyclerView_select;
     @BindView(R.id.recyclerView_style)
     RecyclerView recyclerView_style;
-    @BindView(R.id.recyclerView_days_rate)
-    RecyclerView recyclerView_days_rate;
-    @BindView(R.id.recyclerView_days_draw)
-    RecyclerView recyclerView_days_draw;
-    @BindView(R.id.recyclerView_bet_days)
-    RecyclerView recyclerView_bet_days;
-    private StyleListAdapter styleAdapter;
-    private TagsAdapter rateAdapter, drawAdapter, daysAdapter;
 
-    private SelectAdapter selectAdapter;
-    private List<TagEntity> styleList, daysRateList, daysDrawList, daysBetList;
+
+    private StyleListAdapter styleAdapter;
+
+
+
+    private List<TagEntity> styleList;
     private List<TagEntity> allList;
 
-    private Map<String, TagEntity> tag_select;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getStyleList();
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,7 +69,7 @@ public class AccountSettingsActivity extends BaseActivity implements View.OnClic
 
     @Override
     protected int setContentLayout() {
-        return R.layout.activity_settings_filter;
+        return R.layout.activity_account_setting;
     }
 
     @Override
@@ -84,200 +82,55 @@ public class AccountSettingsActivity extends BaseActivity implements View.OnClic
         text_title.setText(R.string.text_account_setting);
         findViewById(R.id.img_back).setOnClickListener(this);
 
+        findViewById(R.id.layout_style).setOnClickListener(this);
+        findViewById(R.id.layout_think).setOnClickListener(this);
+
         recyclerView_style.setLayoutManager(new GridLayoutManager(this, 4));
-        recyclerView_days_rate.setLayoutManager(new GridLayoutManager(this, 4));
-        recyclerView_days_draw.setLayoutManager(new GridLayoutManager(this, 4));
-        recyclerView_bet_days.setLayoutManager(new GridLayoutManager(this, 4));
-        recyclerView_select.setLayoutManager(new GridLayoutManager(this, 4));
 
         styleAdapter = new StyleListAdapter(this);
         recyclerView_style.setAdapter(styleAdapter);
-
-        rateAdapter = new TagsAdapter(this, 1);
-        recyclerView_days_rate.setAdapter(rateAdapter);
-
-
-        drawAdapter = new TagsAdapter(this, 2);
-        recyclerView_days_draw.setAdapter(drawAdapter);
-
-        daysAdapter = new TagsAdapter(this, 3);
-        recyclerView_bet_days.setAdapter(daysAdapter);
+        styleAdapter.isStyleTag(true);
+        styleAdapter.setEnable(false);
 
 
-        selectAdapter = new SelectAdapter(this);
-        recyclerView_select.setAdapter(selectAdapter);
 
 
-        tag_select = new HashMap<>();
-        styleAdapter.setOnItemChaneClick((isChecked, data) -> {
-            if (isChecked) {
-                tag_select.put(data.getContent() + data.getType(), data);
-                for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent())) {
-                        tagentity.setChecked(true);
-                    }
-                }
-            } else {
-                tag_select.remove(data.getContent() + data.getType());
-                for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent())) {
-                        tagentity.setChecked(false);
-                    }
-                }
-            }
-            setSelect(tag_select);
-        });
 
 
-        rateAdapter.setOnItemChaneClick((isChecked, data) -> {
-            if (isChecked) {
-                tag_select.put(data.getContent() + data.getType(), data);
-                for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
-                        tagentity.setChecked(true);
-                    }
-                }
-            } else {
-                tag_select.remove(data.getContent() + data.getType());
-                for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
-                        tagentity.setChecked(false);
-                    }
-                }
-            }
-            setSelect(tag_select);
-
-        });
-
-        drawAdapter.setOnItemChaneClick((isChecked, data) -> {
-
-            if (isChecked) {
-                tag_select.put(data.getContent() + data.getType(), data);
-                for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
-                        tagentity.setChecked(true);
-                    }
-                }
-            } else {
-                tag_select.remove(data.getContent() + data.getType());
-                for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
-                        tagentity.setChecked(false);
-                    }
-                }
-            }
-            setSelect(tag_select);
-
-        });
-        daysAdapter.setOnItemChaneClick((isChecked, data) -> {
-            if (isChecked) {
-                tag_select.put(data.getContent() + data.getType(), data);
-                for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
-                        tagentity.setChecked(true);
-                    }
-                }
-            } else {
-
-                tag_select.remove(data.getContent() + data.getType());
-                for (TagEntity tagentity : allList) {
-                    if (tagentity.getContent().equals(data.getContent()) && tagentity.getType().equals(data.getType())) {
-                        tagentity.setChecked(false);
-                    }
-                }
-            }
-            setSelect(tag_select);
-
-        });
-
-        selectAdapter.setOnItemDeleteClick((position, data) -> {
-            tag_select.remove(data.getContent() + data.getType());
-            selectList.remove(data);
-            selectAdapter.notifyDataSetChanged();
-
-            styleList = new ArrayList<>();
-            daysRateList = new ArrayList<>();
-            daysDrawList = new ArrayList<>();
-            daysBetList = new ArrayList<>();
-            for (TagEntity tagEntity : allList) {
-                if (tagEntity.getContent().equals(data.getContent()) && tagEntity.getType().equals(data.getType())) {
-                    tagEntity.setChecked(false);
-                }
-                if (tagEntity.getType().equals(AppConfig.type_style)) {
-                    styleList.add(tagEntity);
-                }
-                if (tagEntity.getType().equals(AppConfig.type_rate)) {
-                    daysRateList.add(tagEntity);
-                }
-                if (tagEntity.getType().equals(AppConfig.type_draw)) {
-                    daysDrawList.add(tagEntity);
-                }
-                if (tagEntity.getType().equals(AppConfig.type_day)) {
-                    daysBetList.add(tagEntity);
-                }
-            }
-            Log.d("print", "initView:165: " + allList);
-
-            Log.d("print", "initView:166: " + styleList);
-            styleAdapter.setDatas(styleList);
-            styleAdapter.notifyDataSetChanged();
-            rateAdapter.setDatas(daysRateList);
-            rateAdapter.notifyDataSetChanged();
-            drawAdapter.setDatas(daysDrawList);
-            drawAdapter.notifyDataSetChanged();
-            daysAdapter.setDatas(daysBetList);
-            daysAdapter.notifyDataSetChanged();
 
 
-        });
+
     }
 
-    private List<TagEntity> selectList;
 
-    private void setSelect(Map<String, TagEntity> tag_select) {
 
-        selectList = new ArrayList<>();
-        for (TagEntity value : tag_select.values()) {
-            selectList.add(value);
-        }
-        selectAdapter.setDatas(selectList);
-        selectAdapter.notifyDataSetChanged();
-    }
 
     @Override
     protected void initData() {
-        getStyleList();
+
 
     }
 
     private void getStyleList() {
 
         allList = new ArrayList<>();
-        NetManger.getInstance().styleList("2", (state, response) -> {
+        NetManger.getInstance().myStyleList("2", (state, response) -> {
             if (state.equals(BUSY)) {
             } else if (state.equals(SUCCESS)) {
                 StyleEntity styleEntity = (StyleEntity) response;
+                Log.d("print", "getStyleList:143:  "+styleEntity);
                 for (StyleEntity.DataBean content : styleEntity.getData()) {
                     //  styleList.add("0," + content.getContent() + type_style);
                     allList.add(new TagEntity(false, content.getContent(), content.getCode(), AppConfig.type_style));
                 }
 
-                allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "≤20%", "0,20", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "20%-60%", "20,60", AppConfig.type_rate));
-                allList.add(new TagEntity(false, "≥60%", "60,100", AppConfig.type_rate));
+                tagEntityList=new ArrayList<>();
+                tagEntityList.addAll(allList);
 
-                allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "≤10%", "0,10", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "10%-50%", "10,50", AppConfig.type_draw));
-                allList.add(new TagEntity(false, "≥50%", "50,100", AppConfig.type_draw));
+                styleAdapter.setDatas(allList);
 
-                allList.add(new TagEntity(false, getString(R.string.text_unlimited), "null", AppConfig.type_day));
-                allList.add(new TagEntity(false, "≤30", "0,30", AppConfig.type_day));
-                allList.add(new TagEntity(false, "30-60", "30,60", AppConfig.type_day));
-                allList.add(new TagEntity(false, "≥60", "60,180", AppConfig.type_day));
 
-                setData();
+               // setData();
 
             } else if (state.equals(FAILURE)) {
             }
@@ -295,31 +148,8 @@ public class AccountSettingsActivity extends BaseActivity implements View.OnClic
         }
         styleAdapter.setDatas(styleList);
 
-        daysRateList = new ArrayList<>();
-        for (TagEntity data : allList) {
-            if (data.getType().equals(AppConfig.type_rate)) {
-                daysRateList.add(data);
-            }
-        }
-        rateAdapter.setDatas(daysRateList);
 
 
-        daysDrawList = new ArrayList<>();
-        for (TagEntity data : allList) {
-            if (data.getType().equals(AppConfig.type_draw)) {
-                daysDrawList.add(data);
-            }
-        }
-        drawAdapter.setDatas(daysDrawList);
-
-
-        daysBetList = new ArrayList<>();
-        for (TagEntity data : allList) {
-            if (data.getType().equals(AppConfig.type_day)) {
-                daysBetList.add(data);
-            }
-        }
-        daysAdapter.setDatas(daysBetList);
     }
 
     @Override
@@ -334,6 +164,11 @@ public class AccountSettingsActivity extends BaseActivity implements View.OnClic
         switch (v.getId()) {
             case R.id.img_back:
                 finish();
+                break;
+            case R.id.layout_style:
+                StyleSelectActivity.enter(this, allList);
+                break;
+            case R.id.layout_think:
                 break;
 
         }

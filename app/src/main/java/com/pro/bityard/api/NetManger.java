@@ -2781,6 +2781,56 @@ public class NetManger {
         });
     }
 
+    /*我的风格理念*/
+    public void myStyleList(String type, OnNetResult onNetResult) {
+        String url = String.format("/api/follow/follower/myTags/%s", type);
+        getRequest(url, null, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    StyleEntity styleEntity = new Gson().fromJson(response.toString(), StyleEntity.class);
+                    onNetResult.onNetResult(SUCCESS, styleEntity);
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
+    /*我的风格理念*/
+    public void addTag(String type,String code, OnNetResult onNetResult) {
+        ArrayMap<String, String> map = new ArrayMap<>();
+        if (type != null) {
+            map.put("type", type);
+        }
+        if (code!=null){
+            map.put("code",code);
+        }
+        postRequest("/api/follow/follower/addTags", map, (state, response) -> {
+            if (state.equals(BUSY)) {
+                onNetResult.onNetResult(BUSY, null);
+            } else if (state.equals(SUCCESS)) {
+                TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
+                if (tipEntity.getCode() != 200) {
+                    onNetResult.onNetResult(FAILURE, null);
+                } else {
+                    StyleEntity styleEntity = new Gson().fromJson(response.toString(), StyleEntity.class);
+                    onNetResult.onNetResult(SUCCESS, styleEntity);
+                }
+
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+
+            }
+        });
+    }
+
     /*风格理念*/
     public void follow(String traderId, String currency, String followWay, String followVal, String followMax, String maxDay,
                        String maxHold, String slRatio, String active, OnNetResult onNetResult) {
