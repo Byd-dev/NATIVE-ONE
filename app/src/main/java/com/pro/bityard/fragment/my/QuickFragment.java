@@ -111,7 +111,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
 
         //recyclerView_quick.addHeaderView(headView);
         recyclerView_quick.setAdapter(quickAccountAdapter);
-        Util.colorSwipe(getActivity(),swipeRefreshLayout);
+        Util.colorSwipe(getActivity(), swipeRefreshLayout);
 
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
@@ -310,7 +310,7 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
-    List<BalanceEntity.DataBean> dataSelect;
+    List<BalanceEntity.DataBean> dataSelect, dataBalance;
 
     @Override
     public void update(Observable o, Object arg) {
@@ -318,10 +318,33 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
             balanceEntity = (BalanceEntity) arg;
             if (quickAccountAdapter != null && balanceEntity != null) {
                 List<BalanceEntity.DataBean> data = balanceEntity.getData();
-                quickAccountAdapter.setDatas(data);
-
+                Log.d("print", "update:321: " + data);
                 dataSelect = new ArrayList<>();
-                dataSelect.addAll(data);
+                dataBalance = new ArrayList<>();
+                for (BalanceEntity.DataBean item : data) {
+                    if (item.getCurrency().toLowerCase().equals("eth")
+                            || item.getCurrency().toLowerCase().equals("btc")
+                            || item.getCurrency().toLowerCase().equals("trx")
+                            || item.getCurrency().toLowerCase().equals("xrp")
+                            || item.getCurrency().toLowerCase().equals("eos")) {
+                        dataSelect.add(item);
+                    }
+                }
+
+
+                for (BalanceEntity.DataBean item : data) {
+                    if (item.getCurrency().toLowerCase().equals("usdt") ||
+                            item.getCurrency().toLowerCase().equals("eth")
+                            || item.getCurrency().toLowerCase().equals("btc")
+                            || item.getCurrency().toLowerCase().equals("trx")
+                            || item.getCurrency().toLowerCase().equals("xrp")
+                            || item.getCurrency().toLowerCase().equals("eos")) {
+                        dataBalance.add(item);
+                    }
+                }
+                quickAccountAdapter.setDatas(dataBalance);
+
+
                 Iterator<BalanceEntity.DataBean> iterator = dataSelect.iterator();
                 while (iterator.hasNext()) {
                     BalanceEntity.DataBean value = iterator.next();
