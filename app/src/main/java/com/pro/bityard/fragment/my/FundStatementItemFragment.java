@@ -78,9 +78,9 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
     private String FIRST = "first";
     private String LOAD = "load";
 
-    private int page = 0;
+    private int page = 1;
     private String currency = "";
-    private String transfer;
+    private String transfer="false";
 
 
     @Override
@@ -249,8 +249,8 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
         });
 
 
-        page = 0;
-        getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+        page = 1;
+        getWithdrawal(FIRST, null, transfer, "1", null, currency, createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
     }
@@ -340,9 +340,9 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
 
 
-                page = 0;
+                page = 1;
                 currency = data.getCode();
-                getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+                getWithdrawal(FIRST, null, transfer, "1", null, currency, createTimeGe,
                         createTimeLe, String.valueOf(page), "10");
                 popupWindow.dismiss();
 
@@ -375,7 +375,7 @@ public class FundStatementItemFragment extends BaseFragment implements View.OnCl
 
         }
 
-        getWithdrawal(FIRST, null, null, "1", null, currency, createTimeGe,
+        getWithdrawal(FIRST, null, transfer, "1", null, currency, createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
     }

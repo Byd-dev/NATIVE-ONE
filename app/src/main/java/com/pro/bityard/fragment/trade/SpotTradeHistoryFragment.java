@@ -120,7 +120,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
 
         createTimeGe = ChartUtil.getSelectZero(startTime);
         createTimeLe = ChartUtil.getSelectLastTime(endTime);
-        page = 0;
+        page = 1;
 
         view.findViewById(R.id.layout_start).setOnClickListener(v -> {
             TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v1) -> {
@@ -133,7 +133,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
 
                 createTimeGe = ChartUtil.getSelectZero(selectStart);
                 createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
-                page = 0;
+                page = 1;
                 getHistoryPosition(AppConfig.FIRST, null, null, null, null, page);
 
 
@@ -161,7 +161,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
 
                 createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
                 createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
-                page = 0;
+                page = 1;
                 getHistoryPosition(AppConfig.FIRST, null, null, null, null, page);
 
 
@@ -189,7 +189,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
 
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            page = 0;
+            page = 1;
             getHistoryPosition(AppConfig.FIRST, null, null, null, null, page);
 
         });
@@ -345,7 +345,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
 
-            page = 0;
+            page = 1;
             getHistoryPosition(AppConfig.FIRST, edit_search, buy_sell, null, null, page);
         }
     }

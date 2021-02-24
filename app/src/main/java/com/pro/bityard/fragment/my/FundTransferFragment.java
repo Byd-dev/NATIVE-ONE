@@ -77,7 +77,7 @@ public class FundTransferFragment extends BaseFragment implements View.OnClickLi
     private String REFRESH = "refresh";
     private String LOAD = "load";
 
-    private int page = 0;
+    private int page = 1;
     private String currency = "";
     private String transfer = "true";
 
@@ -252,7 +252,7 @@ public class FundTransferFragment extends BaseFragment implements View.OnClickLi
         });
 
 
-        page = 0;
+        page = 1;
         getWithdrawal(FIRST, null, transfer, "1", null, currency, createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
     }
@@ -341,7 +341,7 @@ public class FundTransferFragment extends BaseFragment implements View.OnClickLi
                 String code = data.getCode();
                 ChartUtil.setIcon(code, img_bg);
 
-                page = 0;
+                page = 1;
                 currency = data.getCode();
                 if (transfer.equals("true")) {
                     getWithdrawal(FIRST, null, transfer, "1", null, "null", createTimeGe,

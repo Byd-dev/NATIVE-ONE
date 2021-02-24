@@ -79,7 +79,8 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
 
     private int page = 1;
     private String currency = "USDT";
-    private String transfer = null;
+    private String transfer = "false";
+    private String type="100";
 
 
     @Override
@@ -121,7 +122,7 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && lastVisibleItem == fiatAdapter.getItemCount() - 1) {
                     fiatAdapter.startLoad();
                     page = page + 1;
-                    getWithdrawal(LOAD, null, transfer, "0", null, currency, createTimeGe,
+                    getWithdrawal(LOAD, type, transfer, "0", null, currency, createTimeGe,
                             createTimeLe, String.valueOf(page), "10");
 
                 }
@@ -240,7 +241,7 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
 
 
         page = 1;
-        getWithdrawal(FIRST, null, transfer, "0", null, currency, createTimeGe,
+        getWithdrawal(FIRST, type, transfer, "0", null, currency, createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
     }
 
@@ -325,7 +326,7 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
 
                 page = 1;
                 currency = data.getCode();
-                getWithdrawal(FIRST, null, transfer, "0", null, currency, createTimeGe,
+                getWithdrawal(FIRST, type, transfer, "0", null, currency, createTimeGe,
                         createTimeLe, String.valueOf(page), "10");
                 popupWindow.dismiss();
 
@@ -357,7 +358,7 @@ public class FundFiatItemFragment extends BaseFragment implements View.OnClickLi
                 break;
 
         }
-        getWithdrawal(FIRST, null, transfer, "0", null, currency, createTimeGe,
+        getWithdrawal(FIRST, type, transfer, "0", null, currency, createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
     }

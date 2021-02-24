@@ -135,7 +135,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
                 createTimeGe = ChartUtil.getSelectZero(selectStart);
                 createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
-                page = 0;
+                page = 1;
                 getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
@@ -162,7 +162,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
                 createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
                 createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
-                page=0;
+                page=1;
                 getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
 
 
@@ -196,7 +196,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
-            page=0;
+            page=1;
             getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
 
         });
@@ -412,7 +412,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
 
-            page = 0;
+            page = 1;
             getHistoryPosition(AppConfig.FIRST, edit_search, buy_sell, null, null, page);
         }
     }

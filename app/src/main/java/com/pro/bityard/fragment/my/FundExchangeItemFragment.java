@@ -77,7 +77,7 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
     private String REFRESH = "refresh";
     private String LOAD = "load";
 
-    private int page = 0;
+    private int page = 1;
     private String srcCurrency = "";
     private String transfer;
 
@@ -172,7 +172,7 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
         });
 
 
-        page = 0;
+        page = 1;
         getWithdrawal(FIRST, null, null, null, null, "USDT", createTimeGe,
                 createTimeLe, String.valueOf(page), "10");
 
@@ -275,7 +275,7 @@ public class FundExchangeItemFragment extends BaseFragment implements View.OnCli
             ChartUtil.setIcon(code, img_bg);
 
 
-            page = 0;
+            page = 1;
             srcCurrency = data.getCode();
             getWithdrawal(FIRST, null, null, null, null, "USDT", createTimeGe,
                     createTimeLe, String.valueOf(page), "10");
