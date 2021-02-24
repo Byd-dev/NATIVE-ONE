@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
@@ -37,7 +38,7 @@ import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 
-public class HoldFragment extends BaseFragment implements Observer {
+public class HoldFragment extends BaseFragment implements Observer, RadioGroup.OnCheckedChangeListener {
     /*持仓  ---------------------------------------------------*/
     @BindView(R.id.radioGroup_hold)
     RadioGroup radioGroup_hold;
@@ -63,6 +64,13 @@ public class HoldFragment extends BaseFragment implements Observer {
     TextView text_worth;
     private String tradeType = "1";
     private BalanceEntity balanceEntity;
+
+    @BindView(R.id.radioGroup)
+    RadioGroup radioGroup;
+    @BindView(R.id.radio_position)
+    RadioButton radio_position;
+    @BindView(R.id.radio_pend)
+    RadioButton radio_pend;
 
 
     /*持仓 模拟 ---------------------------------------------------*/
@@ -94,6 +102,8 @@ public class HoldFragment extends BaseFragment implements Observer {
         img_back.setOnClickListener(v -> getActivity().finish());
 
         TabCountManger.getInstance().addObserver(this);
+
+        radioGroup.setOnCheckedChangeListener(this);
 
     }
 
@@ -130,6 +140,9 @@ public class HoldFragment extends BaseFragment implements Observer {
         titles.add(getString(R.string.text_open));
         titles.add(getString(R.string.text_order));
         titles.add(getString(R.string.text_history));
+        mFragments.add(new PositionFragment().newInstance(tradeType));
+        mFragments.add(new PendingFragment().newInstance(tradeType));
+        mFragments.add(new HistoryFragment().newInstance(tradeType));
 
         radioGroup_hold.getChildAt(0).performClick();
         radioGroup_hold.setOnCheckedChangeListener((group, checkedId) -> {
@@ -148,10 +161,30 @@ public class HoldFragment extends BaseFragment implements Observer {
         });
 
         //持仓注册
+      /*
+        FragmentPagerAdapter adapter = new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return mFragments.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return mFragments.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return titles.get(position);
+            }
+        };
+        viewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(viewPager);*/
+
         PositionRealManger.getInstance().addObserver(this);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
-        initViewPager(viewPager, "1", holdSize, pendSize);
+        initViewPager(viewPager, "1");
 
         /*持仓 模拟 分割线-----------------------------------------------------------------------------*/
         PositionSimulationManger.getInstance().addObserver(this);
@@ -168,7 +201,7 @@ public class HoldFragment extends BaseFragment implements Observer {
     private String holdSize = "0";
     private String pendSize = "0";
 
-    private void initViewPager(ViewPager viewPager, String tradeType, String holdSize, String pendSize) {
+    private void initViewPager(ViewPager viewPager, String tradeType) {
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open) + "(" + holdSize + ")");
         myPagerAdapter.addFragment(new PendingFragment().newInstance(tradeType), getString(R.string.text_order) + "(" + pendSize + ")");
@@ -333,7 +366,7 @@ public class HoldFragment extends BaseFragment implements Observer {
             });
         } else if (o == TabCountManger.getInstance()) {
             holdSize = (String) arg;
-
+            radio_position.setText(getText(R.string.text_open)+"("+holdSize+")");
         }
     }
 
@@ -367,6 +400,21 @@ public class HoldFragment extends BaseFragment implements Observer {
         NetIncomeManger.getInstance().deleteObserver(this);
         //
         TabCountManger.getInstance().clear();
+
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        switch (checkedId) {
+            case R.id.radio_position:
+                break;
+            case R.id.radio_pend:
+
+                break;
+            case R.id.radio_history:
+
+                break;
+        }
 
     }
 }

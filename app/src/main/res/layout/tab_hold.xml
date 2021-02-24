@@ -178,6 +178,8 @@
 
         <include layout="@layout/layout_tab" />
 
+        <include layout="@layout/layout_my_tab"/>
+
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
