@@ -424,7 +424,7 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
             case R.id.layout_select:
                 showFundWindow(contractList);
                 break;
-
+                //
         }
     }
 
