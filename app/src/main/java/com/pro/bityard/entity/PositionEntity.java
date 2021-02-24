@@ -49,51 +49,6 @@ public class PositionEntity {
     }
 
     public static class DataBean {
-        @Override
-        public String toString() {
-            return "DataBean{" +
-                    "commodity='" + commodity + '\'' +
-                    ", commodityCode='" + commodityCode + '\'' +
-                    ", commodityType='" + commodityType + '\'' +
-                    ", contCode='" + contCode + '\'' +
-                    ", contract='" + contract + '\'' +
-                    ", contractCode='" + contractCode + '\'' +
-                    ", cpPrice=" + cpPrice +
-                    ", cpVolume=" + cpVolume +
-                    ", currency='" + currency + '\'' +
-                    ", deferDays=" + deferDays +
-                    ", deferFee=" + deferFee +
-                    ", eagleDeduction=" + eagleDeduction +
-                    ", followId='" + followId + '\'' +
-                    ", id='" + id + '\'' +
-                    ", income=" + income +
-                    ", investUserId='" + investUserId + '\'' +
-                    ", investUsername=" + investUsername +
-                    ", isBuy=" + isBuy +
-                    ", lever=" + lever +
-                    ", margin=" + margin +
-                    ", moneyType=" + moneyType +
-                    ", opPrice=" + opPrice +
-                    ", opVolume=" + opVolume +
-                    ", orVolume=" + orVolume +
-                    ", price=" + price +
-                    ", priceDigit=" + priceDigit +
-                    ", priceRate=" + priceRate +
-                    ", priceVolume=" + priceVolume +
-                    ", serviceCharge=" + serviceCharge +
-                    ", shared=" + shared +
-                    ", stopLoss=" + stopLoss +
-                    ", stopLossBegin=" + stopLossBegin +
-                    ", stopProfit=" + stopProfit +
-                    ", stopProfitBegin=" + stopProfitBegin +
-                    ", time=" + time +
-                    ", tradeMode='" + tradeMode + '\'' +
-                    ", tradeMsg='" + tradeMsg + '\'' +
-                    ", tradeStatus=" + tradeStatus +
-                    ", tradeTime=" + tradeTime +
-                    ", volume=" + volume +
-                    '}';
-        }
 
         /**
          * commodity : 比特币
@@ -156,6 +111,7 @@ public class PositionEntity {
         private double income;
         private String investUserId;
         private Object investUsername;
+        private String traderUsername;
         private boolean isBuy;
         private double lever;
         private double margin;
@@ -179,6 +135,70 @@ public class PositionEntity {
         private int tradeStatus;
         private long tradeTime;
         private double volume;
+
+
+        public String getTraderUsername() {
+            return traderUsername;
+        }
+
+        public void setTraderUsername(String traderUsername) {
+            this.traderUsername = traderUsername;
+        }
+
+        public boolean isBuy() {
+            return isBuy;
+        }
+
+        public void setBuy(boolean buy) {
+            isBuy = buy;
+        }
+
+        @Override
+        public String toString() {
+            return "DataBean{" +
+                    "commodity='" + commodity + '\'' +
+                    ", commodityCode='" + commodityCode + '\'' +
+                    ", commodityType='" + commodityType + '\'' +
+                    ", contCode='" + contCode + '\'' +
+                    ", contract='" + contract + '\'' +
+                    ", contractCode='" + contractCode + '\'' +
+                    ", cpPrice=" + cpPrice +
+                    ", cpVolume=" + cpVolume +
+                    ", currency='" + currency + '\'' +
+                    ", deferDays='" + deferDays + '\'' +
+                    ", deferFee='" + deferFee + '\'' +
+                    ", eagleDeduction=" + eagleDeduction +
+                    ", followId='" + followId + '\'' +
+                    ", id='" + id + '\'' +
+                    ", income=" + income +
+                    ", investUserId='" + investUserId + '\'' +
+                    ", investUsername=" + investUsername +
+                    ", traderUsername='" + traderUsername + '\'' +
+                    ", isBuy=" + isBuy +
+                    ", lever=" + lever +
+                    ", margin=" + margin +
+                    ", moneyType=" + moneyType +
+                    ", opPrice=" + opPrice +
+                    ", opVolume=" + opVolume +
+                    ", orVolume=" + orVolume +
+                    ", price=" + price +
+                    ", priceDigit=" + priceDigit +
+                    ", priceRate=" + priceRate +
+                    ", priceVolume=" + priceVolume +
+                    ", serviceCharge=" + serviceCharge +
+                    ", shared=" + shared +
+                    ", stopLoss=" + stopLoss +
+                    ", stopLossBegin=" + stopLossBegin +
+                    ", stopProfit=" + stopProfit +
+                    ", stopProfitBegin=" + stopProfitBegin +
+                    ", time=" + time +
+                    ", tradeMode='" + tradeMode + '\'' +
+                    ", tradeMsg='" + tradeMsg + '\'' +
+                    ", tradeStatus=" + tradeStatus +
+                    ", tradeTime=" + tradeTime +
+                    ", volume=" + volume +
+                    '}';
+        }
 
         public String getCommodity() {
             return commodity;

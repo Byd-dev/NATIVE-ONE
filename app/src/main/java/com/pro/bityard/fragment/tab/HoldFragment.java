@@ -23,12 +23,15 @@ import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.SocketQuoteManger;
+import com.pro.bityard.manger.TabCountManger;
 import com.pro.bityard.utils.TradeUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
@@ -90,6 +93,8 @@ public class HoldFragment extends BaseFragment implements Observer {
         img_back.setVisibility(View.VISIBLE);
         img_back.setOnClickListener(v -> getActivity().finish());
 
+        TabCountManger.getInstance().addObserver(this);
+
     }
 
     @Override
@@ -101,6 +106,9 @@ public class HoldFragment extends BaseFragment implements Observer {
     protected void intPresenter() {
 
     }
+
+    private List<String> titles = new ArrayList<>();
+    private List<Fragment> mFragments = new ArrayList<>();
 
     @Override
     public void onResume() {
@@ -115,8 +123,13 @@ public class HoldFragment extends BaseFragment implements Observer {
 
     }
 
+
     @Override
     protected void initData() {
+
+        titles.add(getString(R.string.text_open));
+        titles.add(getString(R.string.text_order));
+        titles.add(getString(R.string.text_history));
 
         radioGroup_hold.getChildAt(0).performClick();
         radioGroup_hold.setOnCheckedChangeListener((group, checkedId) -> {
@@ -134,32 +147,38 @@ public class HoldFragment extends BaseFragment implements Observer {
             }
         });
 
-        /*持仓 实盘 分割线-----------------------------------------------------------------------------*/
         //持仓注册
         PositionRealManger.getInstance().addObserver(this);
         viewPager.setOffscreenPageLimit(2);
         tabLayout.setupWithViewPager(viewPager);
-        initViewPager(viewPager, "1");
+        initViewPager(viewPager, "1", holdSize, pendSize);
 
         /*持仓 模拟 分割线-----------------------------------------------------------------------------*/
         PositionSimulationManger.getInstance().addObserver(this);
         viewPager_simulation.setOffscreenPageLimit(2);
         tabLayout_simulation.setupWithViewPager(viewPager_simulation);
         initSimulationViewPager(viewPager_simulation, "2");
+
+
+        /*持仓 实盘 分割线-----------------------------------------------------------------------------*/
+
+
     }
 
-    private void initViewPager(ViewPager viewPager, String tradeType) {
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
-        myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open));
-        myPagerAdapter.addFragment(new PendingFragment().newInstance(tradeType), getString(R.string.text_order));
-        myPagerAdapter.addFragment(new HistoryFragment().newInstance(tradeType), getString(R.string.text_history));
+    private String holdSize = "0";
+    private String pendSize = "0";
 
+    private void initViewPager(ViewPager viewPager, String tradeType, String holdSize, String pendSize) {
+        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
+        myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open) + "(" + holdSize + ")");
+        myPagerAdapter.addFragment(new PendingFragment().newInstance(tradeType), getString(R.string.text_order) + "(" + pendSize + ")");
+        myPagerAdapter.addFragment(new HistoryFragment().newInstance(tradeType), getString(R.string.text_history));
         viewPager.setAdapter(myPagerAdapter);
     }
 
     private void initSimulationViewPager(ViewPager viewPager, String tradeType) {
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
-        myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open));
+        myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open) + "(" + holdSize + ")");
         myPagerAdapter.addFragment(new HistoryFragment().newInstance(tradeType), getString(R.string.text_history));
         viewPager.setAdapter(myPagerAdapter);
     }
@@ -312,6 +331,9 @@ public class HoldFragment extends BaseFragment implements Observer {
 
                 }
             });
+        } else if (o == TabCountManger.getInstance()) {
+            holdSize = (String) arg;
+
         }
     }
 
@@ -343,6 +365,8 @@ public class HoldFragment extends BaseFragment implements Observer {
         BalanceManger.getInstance().deleteObserver(this);
         //净值注册
         NetIncomeManger.getInstance().deleteObserver(this);
+        //
+        TabCountManger.getInstance().clear();
 
     }
 }

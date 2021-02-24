@@ -1526,6 +1526,8 @@ public class TradeUtil {
             return false;
         } else {
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode, tradeListEntityList);
+            Log.d("print", "isAddMargin:1525:  "+tradeListEntity);
+
             if (tradeListEntity == null) {
                 return false;
             }

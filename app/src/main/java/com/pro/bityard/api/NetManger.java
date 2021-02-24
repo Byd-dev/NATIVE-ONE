@@ -1025,6 +1025,7 @@ public class NetManger {
                 if (tipEntity.getCode() == 401) {
                     onNetResult.setResult(FAILURE, null, null);
                 } else if (tipEntity.getCode() == 200) {
+                    Log.d("print", "getHold:1028: "+response.toString());
                     PositionEntity positionEntity = new Gson().fromJson(response.toString(), PositionEntity.class);
                     //  List<String> quoteList = QuoteManger.getInstance().getQuoteList();
                     onNetResult.setResult(SUCCESS, positionEntity, null);

@@ -580,10 +580,10 @@ public class InviteFragment extends BaseFragment implements View.OnClickListener
                 text_total_volume.setText(String.valueOf(inviteEntity.getData().getTradeAmount()));
                 text_salary_all.setText(String.valueOf(inviteEntity.getData().getSalaryAll()));
                 text_salary_day.setText(String.valueOf(inviteEntity.getData().getSalaryDay()));
-
+                Log.d("print", "initData:583:  "+inviteEntity);
                 double commission = inviteEntity.getData().getCommission();
                 if (inviteEntity.getData().getCurrency() == null) {
-                    text_commission.setText(TradeUtil.getNumberFormat(commission, 2) + " " + getResources().getString(R.string.text_default) + " ");
+                    text_commission.setText(TradeUtil.getNumberFormat(commission, 2) + " " + getResources().getString(R.string.text_usdt) + " ");
                 } else {
                     text_commission.setText(TradeUtil.getNumberFormat(commission, 2) + " " + inviteEntity.getData().getCurrency() + " ");
                 }

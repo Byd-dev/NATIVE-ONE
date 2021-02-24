@@ -29,6 +29,8 @@ import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
+import java.util.List;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -49,6 +51,8 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
 
     @BindView(R.id.img_copy_setting)
     ImageView img_copy_setting;
+    @BindView(R.id.layout_null)
+    LinearLayout layout_null;
 
 
     @BindView(R.id.recyclerView_traders)
@@ -277,11 +281,18 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
                     swipeRefreshLayout_traders.setRefreshing(false);
                 }
                 FollowerIncomeListEntity copyMangerEntity = (FollowerIncomeListEntity) response;
-                if (type.equals(LOAD)) {
-                    incomeListAdapter.addDatas(copyMangerEntity.getData());
-                } else {
-                    incomeListAdapter.setDatas(copyMangerEntity.getData());
+                List<FollowerIncomeListEntity.DataBean> data = copyMangerEntity.getData();
+                if (data.size()==0){
+                    layout_null.setVisibility(View.VISIBLE);
+                }else {
+                    if (type.equals(LOAD)) {
+                        incomeListAdapter.addDatas(data);
+                    } else {
+                        incomeListAdapter.setDatas(data);
+                    }
+                    layout_null.setVisibility(View.GONE);
                 }
+
             } else if (state.equals(FAILURE)) {
                 if (isAdded()) {
                     swipeRefreshLayout_traders.setRefreshing(false);

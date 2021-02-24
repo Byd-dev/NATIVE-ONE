@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
+import com.pro.bityard.activity.TradeTabActivity;
 import com.pro.bityard.adapter.PositionAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
@@ -35,6 +36,7 @@ import com.pro.bityard.manger.NetIncomeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.SocketQuoteManger;
+import com.pro.bityard.manger.TabCountManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -210,6 +212,18 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         headerRecyclerView.setAdapter(positionAdapter);
         swipeRefreshLayout.setOnRefreshListener(this::initData);
+        //跳到行情
+        positionAdapter.setOnJumpQuoteClick(data -> {
+            if (quoteList!=null){
+               for (String item:quoteList) {
+               if (item.split(",")[0].equals(data.getContractCode())){
+                   TradeTabActivity.enter(getActivity(), tradeType, item);
+               }
+            }
+            }
+
+        });
+
 
         //添加保证金
         positionAdapter.setAddMarginClick(data -> {
@@ -1257,7 +1271,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                     }
                     positionEntity = (PositionEntity) response1;
                     positionAdapter.setDatas(positionEntity.getData(), quoteList);
-
+                    TabCountManger.getInstance().post(String.valueOf(positionEntity.getData().size()));
 
                     //这里根据持仓来是否显示头部视图
                     if (positionEntity.getData().size() == 0) {
@@ -1273,7 +1287,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                                 headerRecyclerView.addHeaderView(headView);
                             }*/
                         }
-                        if (isAdded()){
+                        if (isAdded()) {
                             layout_hold.setVisibility(View.VISIBLE);
 
                             layout_null.setVisibility(View.GONE);
@@ -1326,6 +1340,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         if (o == SocketQuoteManger.getInstance()) {
             ArrayMap<String, List<String>> arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(AppConfig.CONTRACT_ALL);
+            Log.d("print", "update:1342:  "+quoteList.get(0));
             if (positionEntity != null && positionEntity.getData().size() > 0) {
                 runOnUiThread(() -> {
 

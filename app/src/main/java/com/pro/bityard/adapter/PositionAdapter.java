@@ -20,7 +20,6 @@ import com.pro.bityard.utils.Util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,7 +48,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     private List<Double> incomeList;
 
 
-    private ArrayMap<String,String> changeData;
+    private ArrayMap<String, String> changeData;
     private int changePosition;
 
     private static final String DATA_ONE = "dataOne";
@@ -70,7 +69,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
 
-    public void refreshPartItem(int position, ArrayMap<String,String> map) {
+    public void refreshPartItem(int position, ArrayMap<String, String> map) {
         // 局部刷新的主要api，参数一：更新的item位置，参数二：item中被标记的某个数据
         this.changeData = map;
         notifyItemChanged(position, map);  // changePos 为0：数据1   为1：数据2
@@ -133,7 +132,7 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 onBindViewHolder(holder, position);
 
             } else {
-                Log.d("print", "onBindViewHolder:146:  "+changeData);
+                Log.d("print", "onBindViewHolder:146:  " + changeData);
 
                 double opPrice = datas.get(position).getOpPrice();
                 double margin = datas.get(position).getMargin();
@@ -141,11 +140,11 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 double volume = datas.get(position).getVolume();
                 String contractCode = datas.get(position).getContractCode();
                 Iterator<String> iterator = changeData.keySet().iterator();
-                while (iterator.hasNext()){
+                while (iterator.hasNext()) {
                     String next = iterator.next();
-                    if (contractCode.equals(next)){
+                    if (contractCode.equals(next)) {
                         String price = changeData.get(next);
-                        Log.d("print", "onBindViewHolder:157:  "+ price);
+                        Log.d("print", "onBindViewHolder:157:  " + price);
                         ((MyViewHolder) holder).text_price.setText(price);
                         String income = income(isBuy, Double.parseDouble(price), opPrice, volume, 4);
                         ((MyViewHolder) holder).text_income.setText(getNumberFormat(Double.parseDouble(income), 2));
@@ -185,15 +184,26 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             int priceDigit = datas.get(position).getPriceDigit();
 
+            String traderUsername = datas.get(position).getTraderUsername();
+
+            if (traderUsername == null) {
+                ((MyViewHolder) holder).layout_traderUsername.setVisibility(View.GONE);
+            } else {
+                ((MyViewHolder) holder).layout_traderUsername.setVisibility(View.VISIBLE);
+            }
+
+
+            ((MyViewHolder) holder).text_traderUsername.setText(datas.get(position).getTraderUsername());
 
             boolean addMargin = TradeUtil.isAddMargin(datas.get(position).getContractCode(), lever, margin);
             if (addMargin) {
                 ((MyViewHolder) holder).img_add.setBackgroundResource(R.mipmap.icon_add);
                 ((MyViewHolder) holder).layout_add.setEnabled(true);
-
+                ((MyViewHolder) holder).text_add.setTextColor(context.getResources().getColor(R.color.maincolor));
             } else {
                 ((MyViewHolder) holder).img_add.setBackgroundResource(R.mipmap.icon_add_normal);
                 ((MyViewHolder) holder).layout_add.setEnabled(false);
+                ((MyViewHolder) holder).text_add.setTextColor(context.getResources().getColor(R.color.text_second_color));
 
             }
 
@@ -242,6 +252,12 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
 
 
+            ((MyViewHolder) holder).img_market.setOnClickListener(v -> {
+                if (onJumpQuoteClick != null) {
+                    onJumpQuoteClick.onClickListener(datas.get(position));
+                }
+            });
+
         }
     }
 
@@ -275,9 +291,9 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView text_name, text_currency, text_volume, text_buy_price,
                 text_loss_price, text_price, text_profit_price, text_rate,
                 text_income, text_worth, text_close_out,
-                text_profit_loss, text_add;
-        ImageView img_buy, img_add;
-        LinearLayout layout_add;
+                text_profit_loss, text_add, text_traderUsername;
+        ImageView img_buy, img_add, img_market;
+        LinearLayout layout_add, layout_traderUsername;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -297,6 +313,10 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             img_add = itemView.findViewById(R.id.img_add);
             layout_add = itemView.findViewById(R.id.layout_add);
             text_rate = itemView.findViewById(R.id.text_rate);
+            text_traderUsername = itemView.findViewById(R.id.text_traderUsername);
+            layout_traderUsername = itemView.findViewById(R.id.layout_traderUsername);
+            img_market = itemView.findViewById(R.id.img_market);
+
 
             itemView.findViewById(R.id.text_detail).setOnClickListener(v -> {
                 if (onDetailClick != null) {
@@ -326,6 +346,18 @@ public class PositionAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         }
     }
+    //跳到行情的监听
+
+    private OnJumpQuoteClick onJumpQuoteClick;
+
+    public void setOnJumpQuoteClick(OnJumpQuoteClick onJumpQuoteClick) {
+        this.onJumpQuoteClick = onJumpQuoteClick;
+    }
+
+    public interface OnJumpQuoteClick {
+        void onClickListener(PositionEntity.DataBean data);
+    }
+
 
     //查看详情的监听
     private OnDetailClick onDetailClick;

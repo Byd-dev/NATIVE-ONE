@@ -16,11 +16,20 @@
 
         >
 
-        <com.pro.bityard.view.HeaderRecyclerView
-            android:id="@+id/recyclerView_traders"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
+
+            <com.pro.bityard.view.HeaderRecyclerView
+                android:id="@+id/recyclerView_traders"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <include layout="@layout/layout_bottom_null" />
+
+
+        </RelativeLayout>
         `
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

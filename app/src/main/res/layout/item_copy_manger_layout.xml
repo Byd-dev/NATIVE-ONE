@@ -67,11 +67,11 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
-            android:background="@drawable/gradient_bg_blue"
+            android:background="@drawable/gradient_bg_copy_main"
             android:gravity="center"
             android:text="@string/text_edit"
             android:textStyle="bold"
-            android:textColor="@color/text_main_color"
+            android:textColor="@color/text_main_color_black"
             android:textSize="@dimen/size_big" />
 
 
