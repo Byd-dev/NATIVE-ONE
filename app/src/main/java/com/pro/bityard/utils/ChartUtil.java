@@ -740,6 +740,86 @@ public class ChartUtil {
                 img_bg.setVisibility(View.VISIBLE);
                 img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_nk));
                 break;
+            case "BTT":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btt));
+                break;
+            case "KAVA":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_kava));
+                break;
+            case "LUNA":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_luna));
+                break;
+            case "BAL":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bal));
+                break;
+            case "CKB":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ckb));
+                break;
+            case "EGLD":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_egld));
+                break;
+            case "FTM":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ftm));
+                break;
+            case "FTT":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ftt));
+                break;
+            case "KSM":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ksm));
+                break;
+            case "MATIC":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_matic));
+                break;
+            case "NEAR":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_near));
+                break;
+            case "OCEAN":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ocean));
+                break;
+            case "OGN":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ogn));
+                break;
+            case "SOL":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_sol));
+                break;
+            case "SUSHI":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_sushi));
+                break;
+            case "SXP":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_sxp));
+                break;
+            case "IRIS":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_iris));
+                break;
+            case "BNB":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bnb));
+                break;
+            case "XMR":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xmr));
+                break;
+            case "DOGE":
+                img_bg.setVisibility(View.VISIBLE);
+                img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_doge));
+                break;
             default:
                 img_bg.setImageDrawable(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt));
                 break;
@@ -815,6 +895,66 @@ public class ChartUtil {
                 break;
             case "NK":
                 img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_nk), null, null, null);
+                break;
+            case "BTT":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_btt), null, null, null);
+                break;
+            case "KAVA":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_kava), null, null, null);
+                break;
+            case "LUNA":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_luna), null, null, null);
+                break;
+            case "BAL":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bal), null, null, null);
+                break;
+            case "CKB":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ckb), null, null, null);
+                break;
+            case "EGLD":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_egld), null, null, null);
+                break;
+            case "FTM":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ftm), null, null, null);
+                break;
+            case "FTT":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ftt), null, null, null);
+                break;
+            case "KSM":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ksm), null, null, null);
+                break;
+            case "MATIC":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_matic), null, null, null);
+                break;
+            case "NEAR":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_near), null, null, null);
+                break;
+            case "OCEAN":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ocean), null, null, null);
+                break;
+            case "OGN":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_ogn), null, null, null);
+                break;
+            case "SOL":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_sol), null, null, null);
+                break;
+            case "SUSHI":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_sushi), null, null, null);
+                break;
+            case "SXP":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_sxp), null, null, null);
+                break;
+            case "IRIS":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_iris), null, null, null);
+                break;
+            case "BNB":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_bnb), null, null, null);
+                break;
+            case "XMR":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_xmr), null, null, null);
+                break;
+            case "DOGE":
+                img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_doge), null, null, null);
                 break;
             default:
                 img_bg.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_usdt), null, null, null);
