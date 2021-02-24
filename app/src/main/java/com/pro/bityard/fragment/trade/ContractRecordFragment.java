@@ -3,12 +3,10 @@ package com.pro.bityard.fragment.trade;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -16,18 +14,14 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.adapter.RadioDateAdapter;
-import com.pro.bityard.adapter.SpotSearchAdapter;
 import com.pro.bityard.adapter.TradeRecordAdapter;
 import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.TradeHistoryEntity;
-import com.pro.bityard.manger.CommissionManger;
 import com.pro.bityard.manger.ContractManger;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -45,12 +39,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import androidx.annotation.Nullable;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.BUSY;
@@ -103,16 +95,18 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
     private String REFRESH = "refresh";
     private String LOAD = "load";
 
-    private int page = 0;
+    private int page = 1;
     private String commodity = null;
     private List<String> contractList;
     private String code;
 
 
-
-
     private RadioDateAdapter radioDateAdapter, radioTypeAdapter;//杠杆适配器
     private List<String> dataList, typeList;
+    private Calendar startDate;
+    private Calendar endDate;
+    private TextView text_start;
+    private TextView text_end;
 
     @Override
     protected int setLayoutResourceID() {
@@ -123,20 +117,21 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
     protected void onLazyLoad() {
 
     }
+
     private Activity activity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity=getActivity();
+        activity = getActivity();
     }
 
     @Override
     protected void initView(View view) {
 
         ContractManger.getInstance().addObserver(this);
-        TextView text_start = view.findViewById(R.id.text_start);
-        TextView text_end = view.findViewById(R.id.text_end);
+        text_start = view.findViewById(R.id.text_start);
+        text_end = view.findViewById(R.id.text_end);
 
 
         String nowTime = Util.getNowTime();
@@ -144,9 +139,9 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
         text_end.setText(nowTime);
 
         text_start.setText(Util.getBeforeNow7days());
-        Calendar startDate = Calendar.getInstance();
+        startDate = Calendar.getInstance();
         startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
-        Calendar endDate = Calendar.getInstance();
+        endDate = Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String startTime = sdf.format(startDate.getTime());
@@ -154,7 +149,7 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
 
         createTimeGe = ChartUtil.getSelectZero(startTime);
         createTimeLe = ChartUtil.getSelectLastTime(endTime);
-        page = 0;
+        page = 1;
 
         view.findViewById(R.id.layout_start).setOnClickListener(v -> {
             TimePickerView timePickerView = new TimePickerBuilder(getActivity(), (date, v1) -> {
@@ -167,7 +162,7 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
 
                 createTimeGe = ChartUtil.getSelectZero(selectStart);
                 createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
-                page = 0;
+                page = 1;
                 getTradeHistory(AppConfig.FIRST, null, null, createTimeGe, createTimeLe, null);
 
 
@@ -195,7 +190,7 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
 
                 createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
                 createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
-                page = 0;
+                page = 1;
                 getTradeHistory(AppConfig.FIRST, null, null, createTimeGe, createTimeLe, null);
 
 
@@ -229,16 +224,11 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
 
-
         //监听
         tradeRecordAdapter.setOnItemClick(this::showDetailPopWindow);
 
 
     }
-
-
-
-
 
 
     /*显示详情*/
@@ -372,16 +362,16 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
 
 
         }
-        page = 0;
+        page = 1;
         getTradeHistory(FIRST, String.valueOf(ChartUtil.getTimeNow()), commodity, createTimeGe, createTimeLe, null);
 
     }
 
 
     private void getTradeHistory(String loadType, String nowTime, String commodity, String createTimeGe,
-                                 String createTimeLe,String page) {
+                                 String createTimeLe, String page) {
         NetManger.getInstance().tradeHistory("1", nowTime, "2", commodity, createTimeGe,
-                createTimeLe, page,(state, response) -> {
+                createTimeLe, page, (state, response) -> {
                     if (state.equals(BUSY)) {
 
                         if (swipeRefreshLayout != null) {
@@ -506,8 +496,10 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
 
 
     }
+
     private String edit_search;
     private String buy_sell;
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == ContractManger.getInstance()) {
@@ -544,8 +536,13 @@ public class ContractRecordFragment extends BaseFragment implements View.OnClick
                 createTimeGe = ChartUtil.getThreeMonthZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
-
-            page = 0;
+            startDate.set(Util.str2Calendar(Util.startDisplay(createTimeGe), "year"), Util.str2Calendar(Util.startDisplay(createTimeGe), "month"),
+                    Util.str2Calendar(Util.startDisplay(createTimeGe), "day"));
+            text_start.setText(Util.startDisplay(createTimeGe));
+            endDate.set(Util.str2Calendar(Util.startDisplay(createTimeLe), "year"), Util.str2Calendar(Util.startDisplay(createTimeLe), "month"),
+                    Util.str2Calendar(Util.startDisplay(createTimeLe), "day"));
+            text_end.setText(Util.startDisplay(createTimeLe));
+            page = 1;
             getTradeHistory(AppConfig.FIRST, edit_search, buy_sell, createTimeGe, createTimeLe, null);
         }
     }

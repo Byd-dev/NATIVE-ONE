@@ -104,6 +104,10 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
 
     private RadioDateAdapter radioDateAdapter, radioTypeAdapter;//杠杆适配器
     private List<String> dataList, typeList;
+    private Calendar startDate;
+    private Calendar endDate;
+    private TextView text_start;
+    private TextView text_end;
 
     @Override
     protected int setLayoutResourceID() {
@@ -127,8 +131,8 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
     protected void initView(View view) {
 
         FollowManger.getInstance().addObserver(this);
-        TextView text_start = view.findViewById(R.id.text_start);
-        TextView text_end = view.findViewById(R.id.text_end);
+        text_start = view.findViewById(R.id.text_start);
+        text_end = view.findViewById(R.id.text_end);
 
 
         String nowTime = Util.getNowTime();
@@ -136,9 +140,9 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
         text_end.setText(nowTime);
 
         text_start.setText(Util.getBeforeNow7days());
-        Calendar startDate = Calendar.getInstance();
+        startDate = Calendar.getInstance();
         startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
-        Calendar endDate = Calendar.getInstance();
+        endDate = Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String startTime = sdf.format(startDate.getTime());
@@ -526,7 +530,12 @@ public class FollowRecordFragment extends BaseFragment implements View.OnClickLi
                 createTimeGe = ChartUtil.getThreeMonthZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
-
+            startDate.set(Util.str2Calendar(Util.startDisplay(createTimeGe), "year"), Util.str2Calendar(Util.startDisplay(createTimeGe), "month"),
+                    Util.str2Calendar(Util.startDisplay(createTimeGe), "day"));
+            text_start.setText(Util.startDisplay(createTimeGe));
+            endDate.set(Util.str2Calendar(Util.startDisplay(createTimeLe), "year"), Util.str2Calendar(Util.startDisplay(createTimeLe), "month"),
+                    Util.str2Calendar(Util.startDisplay(createTimeLe), "day"));
+            text_end.setText(Util.startDisplay(createTimeLe));
             page = 1;
             getTradeHistory(AppConfig.FIRST, edit_search, createTimeGe, createTimeLe, String.valueOf(page));
         }

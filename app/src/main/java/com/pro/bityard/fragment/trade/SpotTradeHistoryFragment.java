@@ -63,6 +63,10 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
     private String edit_search;
     private String buy_sell;
     private Activity activity;
+    private TextView text_start;
+    private TextView text_end;
+    private Calendar startDate;
+    private Calendar endDate;
 
 
     @Override
@@ -82,7 +86,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity=getActivity();
+        activity = getActivity();
     }
 
     @Override
@@ -101,8 +105,8 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
 
         ControlManger.getInstance().addObserver(this);
 
-        TextView text_start = view.findViewById(R.id.text_start);
-        TextView text_end = view.findViewById(R.id.text_end);
+        text_start = view.findViewById(R.id.text_start);
+        text_end = view.findViewById(R.id.text_end);
 
 
         String nowTime = Util.getNowTime();
@@ -110,9 +114,9 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
         text_end.setText(nowTime);
 
         text_start.setText(Util.getBeforeNow7days());
-        Calendar startDate = Calendar.getInstance();
+        startDate = Calendar.getInstance();
         startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
-        Calendar endDate = Calendar.getInstance();
+        endDate = Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String startTime = sdf.format(startDate.getTime());
@@ -134,7 +138,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
                 createTimeGe = ChartUtil.getSelectZero(selectStart);
                 createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
                 page = 1;
-                getHistoryPosition(AppConfig.FIRST, null, null, null, null, page);
+                getHistoryPosition(AppConfig.FIRST, "null", null, null, null, page);
 
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
@@ -162,7 +166,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
                 createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
                 createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
                 page = 1;
-                getHistoryPosition(AppConfig.FIRST, null, null, null, null, page);
+                getHistoryPosition(AppConfig.FIRST, "null", null, null, null, page);
 
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
@@ -185,12 +189,10 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
         recyclerView_spot.setAdapter(spotTradeHistoryAdapter);
 
 
-
-
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             page = 1;
-            getHistoryPosition(AppConfig.FIRST, null, null, null, null, page);
+            getHistoryPosition(AppConfig.FIRST, "null", null, null, null, page);
 
         });
         recyclerView_spot.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -227,7 +229,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
     protected void initData() {
 
 
-        getHistoryPosition(AppConfig.FIRST, null, null, null, null, 1);
+        getHistoryPosition(AppConfig.FIRST, "null", null, null, null, 1);
 
 
     }
@@ -241,22 +243,22 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
         NetManger.getInstance().spotPositionTradeHistory(commodity, buy, null, type, srcCurrency,
                 null, createTimeGe, createTimeLe, String.valueOf(page), null, (state, response) -> {
                     if (state.equals(BUSY)) {
-                        if (isAdded()){
+                        if (isAdded()) {
                             swipeRefreshLayout.setRefreshing(true);
                         }
                     } else if (state.equals(SUCCESS)) {
-                        if (isAdded()){
+                        if (isAdded()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
-                        SpotTradeHistoryEntity spotTradeHistoryEntity= (SpotTradeHistoryEntity) response;
+                        SpotTradeHistoryEntity spotTradeHistoryEntity = (SpotTradeHistoryEntity) response;
                         List<SpotTradeHistoryEntity.DataBean> data = spotTradeHistoryEntity.getData();
 
 
-                        if (addType.equals(AppConfig.LOAD)){
+                        if (addType.equals(AppConfig.LOAD)) {
                             spotTradeHistoryAdapter.addDatas(data);
-                        }else {
+                        } else {
                             spotTradeHistoryAdapter.setDatas(data);
-                            if (isAdded()){
+                            if (isAdded()) {
                                 if (data.size() != 0) {
                                     layout_null.setVisibility(View.GONE);
                                     recyclerView_spot.setVisibility(View.VISIBLE);
@@ -282,7 +284,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
 
 
                     } else if (state.equals(FAILURE)) {
-                        if (isAdded()){
+                        if (isAdded()) {
                             swipeRefreshLayout.setRefreshing(false);
                         }
 
@@ -319,7 +321,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
             Log.d("print", "onClick:179:  " + value_search + "   " + value_date + "   " + value_type);
             buy_sell = null;
             if (value_search.equals("")) {
-                edit_search = null;
+                edit_search = "null";
             } else {
                 edit_search = value_search;
             }
@@ -344,7 +346,12 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
                 createTimeGe = ChartUtil.getThreeMonthZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
-
+            startDate.set(Util.str2Calendar(Util.startDisplay(createTimeGe), "year"), Util.str2Calendar(Util.startDisplay(createTimeGe), "month"),
+                    Util.str2Calendar(Util.startDisplay(createTimeGe), "day"));
+            text_start.setText(Util.startDisplay(createTimeGe));
+            endDate.set(Util.str2Calendar(Util.startDisplay(createTimeLe), "year"), Util.str2Calendar(Util.startDisplay(createTimeLe), "month"),
+                    Util.str2Calendar(Util.startDisplay(createTimeLe), "day"));
+            text_end.setText(Util.startDisplay(createTimeLe));
             page = 1;
             getHistoryPosition(AppConfig.FIRST, edit_search, buy_sell, null, null, page);
         }

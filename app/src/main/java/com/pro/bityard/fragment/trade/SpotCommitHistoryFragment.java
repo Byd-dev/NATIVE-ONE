@@ -29,8 +29,10 @@ import com.pro.bityard.view.timepicker.TimePickerBuilder;
 import com.pro.bityard.view.timepicker.TimePickerView;
 import com.pro.switchlibrary.SPUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -65,8 +67,13 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
     SwipeRefreshLayout swipeRefreshLayout;
     private String createTimeGe;
     private String createTimeLe;
-    private int page;
+    private int page=1;
     private Activity activity;
+    private TextView text_start;
+    private TextView text_end;
+    private Calendar startDate;
+    private Calendar endDate;
+
     @Override
     public void onCreate(@Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,8 +110,8 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
         CommissionManger.getInstance().addObserver(this);
 
-        TextView text_start = view.findViewById(R.id.text_start);
-        TextView text_end = view.findViewById(R.id.text_end);
+        text_start = view.findViewById(R.id.text_start);
+        text_end = view.findViewById(R.id.text_end);
 
 
         String nowTime = Util.getNowTime();
@@ -112,9 +119,9 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
         text_end.setText(nowTime);
 
         text_start.setText(Util.getBeforeNow7days());
-        Calendar startDate = Calendar.getInstance();
+        startDate = Calendar.getInstance();
         startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
-        Calendar endDate = Calendar.getInstance();
+        endDate = Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String startTime = sdf.format(startDate.getTime());
@@ -136,7 +143,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                 createTimeGe = ChartUtil.getSelectZero(selectStart);
                 createTimeLe = ChartUtil.getSelectLastTime(text_end.getText().toString());
                 page = 1;
-                getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
+                getHistoryPosition(AppConfig.FIRST,"null",null,null,null,page);
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
                     .setCancelColor(getResources().getColor(R.color.maincolor))
@@ -163,7 +170,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                 createTimeGe = ChartUtil.getSelectZero(text_start.getText().toString());
                 createTimeLe = ChartUtil.getSelectLastTime(selectEnd);
                 page=1;
-                getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
+                getHistoryPosition(AppConfig.FIRST,"null",null,null,null,page);
 
 
             }).setSubmitColor(getResources().getColor(R.color.maincolor))//确定按钮文字颜色
@@ -197,7 +204,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
         Util.colorSwipe(getActivity(), swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(() -> {
             page=1;
-            getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
+            getHistoryPosition(AppConfig.FIRST,"null",null,null,null,page);
 
         });
         recyclerView_spot.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -304,7 +311,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
     @Override
     protected void initData() {
 
-        getHistoryPosition(AppConfig.FIRST,null,null,null,null,page);
+        getHistoryPosition(AppConfig.FIRST,"null",null,null,null,page);
 
 
     }
@@ -386,7 +393,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
             Log.d("print", "onClick:179:  " + value_search + "   " + value_date + "   " + value_type);
             buy_sell = null;
             if (value_search.equals("")) {
-                edit_search = null;
+                edit_search = "null";
             } else {
                 edit_search = value_search;
             }
@@ -401,6 +408,8 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
             if (value_date.equals(activity.getString(R.string.text_near_one_day))) {
                 createTimeGe = ChartUtil.getTodayZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
+
+
             } else if (value_date.equals(activity.getString(R.string.text_near_one_week))) {
                 createTimeGe = ChartUtil.getWeekZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
@@ -411,6 +420,14 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
                 createTimeGe = ChartUtil.getThreeMonthZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
+
+            startDate.set(Util.str2Calendar(Util.startDisplay(createTimeGe), "year"), Util.str2Calendar(Util.startDisplay(createTimeGe), "month"),
+                    Util.str2Calendar(Util.startDisplay(createTimeGe), "day"));
+            text_start.setText(Util.startDisplay(createTimeGe));
+            endDate.set(Util.str2Calendar(Util.startDisplay(createTimeLe), "year"), Util.str2Calendar(Util.startDisplay(createTimeLe), "month"),
+                    Util.str2Calendar(Util.startDisplay(createTimeLe), "day"));
+            text_end.setText(Util.startDisplay(createTimeLe));
+
 
             page = 1;
             getHistoryPosition(AppConfig.FIRST, edit_search, buy_sell, null, null, page);

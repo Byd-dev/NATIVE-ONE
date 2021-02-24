@@ -199,8 +199,8 @@ public class Util {
         }
     }
 
-    public static String styleValue(Map<String, TagEntity> tag_select){
-        String selectValue=null;
+    public static String styleValue(Map<String, TagEntity> tag_select) {
+        String selectValue = null;
         Iterator<Map.Entry<String, TagEntity>> iterator = tag_select.entrySet().iterator();
         StringBuilder stringBuilder = new StringBuilder();
         while (iterator.hasNext()) {
@@ -473,6 +473,20 @@ public class Util {
             return null;
         }
     }
+
+    public static String startDisplay(String createTimeGe) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date now = df.parse(createTimeGe);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String format = simpleDateFormat.format(now);
+            return format;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return  null;
+        }
+    }
+
 
     public static String endFormatDate(String selectTime, String compareDate) {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");

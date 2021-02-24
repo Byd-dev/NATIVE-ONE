@@ -3297,7 +3297,7 @@ public class NetManger {
                                     String createTimeGe, String createTimeLe, String page, String rows,
                                     OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
-        if (commodity != null) {
+        if (!commodity.equals("null")) {
             map.put("commodity", commodity);
         }
         if (buy != null) {
@@ -3351,7 +3351,7 @@ public class NetManger {
                                          String createTimeGe, String createTimeLe, String page, String rows,
                                          OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
-        if (commodity != null) {
+        if (!commodity.equals("null")) {
             map.put("commodity", commodity);
         }
         if (srcCurrency != null) {
