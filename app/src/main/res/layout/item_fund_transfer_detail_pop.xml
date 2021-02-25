@@ -150,7 +150,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_15"
             android:text="@string/text_default"
-            android:textColor="@color/text_main_color"
+            android:textColor="@color/maincolor"
             android:textSize="@dimen/size_big" />
 
 

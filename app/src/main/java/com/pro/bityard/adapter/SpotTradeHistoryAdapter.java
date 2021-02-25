@@ -103,8 +103,8 @@ public class SpotTradeHistoryAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((MyViewHolder) holder).text_price.setText(TradeUtil.justDisplay(datas.get(position).getOpPrice()));
 
 
-            ((MyViewHolder) holder).text_amount.setText(TradeUtil.justDisplay(datas.get(position).getOpAmount()));
-            ((MyViewHolder) holder).text_amount_all.setText(TradeUtil.justDisplay(datas.get(position).getOpVolume()));
+            ((MyViewHolder) holder).text_amount.setText(TradeUtil.justDisplay(datas.get(position).getOpVolume()));
+            ((MyViewHolder) holder).text_amount_all.setText(TradeUtil.justDisplay(datas.get(position).getOpAmount()));
             Boolean buy = datas.get(position).getBuy();
             if (buy) {
                 ((MyViewHolder) holder).text_buy.setText(context.getApplicationContext().getText(R.string.text_buy_tip));

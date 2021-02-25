@@ -319,7 +319,7 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
             String value_date = split[0];
             String value_search = split[1];
             String value_type = split[2];
-            Log.d("print", "onClick:179:  " + value_search + "   " + value_date + "   " + value_type);
+            Log.d("print", "onClick:成交历史:  " + value_search + "   " + value_date + "   " + value_type);
             buy_sell = null;
             if (value_search.equals("")) {
                 edit_search = "null";

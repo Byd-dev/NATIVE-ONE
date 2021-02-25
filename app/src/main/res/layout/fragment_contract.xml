@@ -1279,7 +1279,6 @@
                 android:drawablePadding="@dimen/margin_5"
                 android:gravity="center"
                 android:text="@string/text_add_coin"
-
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal_two" />
 
