@@ -23,6 +23,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TipCloseEntity;
+import com.pro.bityard.manger.PendCountManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TagManger;
@@ -322,7 +323,9 @@ public class PendingFragment extends BaseFragment implements Observer {
                     swipeRefreshLayout.setRefreshing(false);
                     positionEntity = (PositionEntity) response1;
                     pendingAdapter.setDatas(positionEntity.getData(),quoteList);
-                    if (positionEntity.getData().size() == 0) {
+                    int size = positionEntity.getData().size();
+                    PendCountManger.getInstance().post(String.valueOf(size));
+                    if (size == 0) {
                         layout_null.setVisibility(View.VISIBLE);
                         headerRecyclerView.setVisibility(View.GONE);
 

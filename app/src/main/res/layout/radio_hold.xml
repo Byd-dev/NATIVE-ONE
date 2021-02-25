@@ -176,69 +176,17 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+
+        <include layout="@layout/layout_my_tab"/>
+
+
+        <FrameLayout
+            android:id="@+id/layout_fragment_real"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical" />
 
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/tab_height"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/radio_position"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_30"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/margin_15"
-                    android:text="(0)"
-                    android:textColor="@color/sel_switcher_txt_night"
-
-                    android:textSize="@dimen/size_normal" />
-
-                <RadioButton
-                    android:id="@+id/radio_pend"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_30"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/margin_15"
-                    android:paddingRight="@dimen/margin_15"
-                    android:text="(0)"
-                    android:textColor="@color/sel_switcher_txt_night"
-                    android:textSize="@dimen/size_normal" />
-
-                <RadioButton
-                    android:id="@+id/radio_history"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:paddingRight="@dimen/margin_15"
-                    android:textColor="@color/sel_switcher_txt_night"
-                    android:textSize="@dimen/size_normal" />
-            </RadioGroup>
-
-            <include layout="@layout/layout_tab" />
-
-
-        </RelativeLayout>
-
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            />
 
 
     </LinearLayout>
@@ -345,76 +293,57 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
-
-        <RelativeLayout
+        <!--持仓 挂单 历史-->
+        <RadioGroup
+            android:id="@+id/radioGroup_simulation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="@dimen/tab_height"
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/radio_position_simulation"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/text_open"
+                android:button="@null"
 
-            <RadioGroup
-                android:id="@+id/radioGroup_simulation"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/tab_height"
-                android:orientation="horizontal">
+                android:paddingLeft="@dimen/margin_15"
+                android:textColor="@color/sel_switcher_txt_night"
 
-                <RadioButton
-                    android:id="@+id/radio_position_simulation"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/margin_30"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:paddingLeft="@dimen/margin_15"
-                    android:text="(0)"
-                    android:textColor="@color/sel_switcher_txt_night"
+                android:textSize="@dimen/size_big"
+                />
 
-                    android:textSize="@dimen/size_normal" />
+            <RadioButton
+                android:id="@+id/radio_history_simulation"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:layout_alignParentRight="true"
+                android:text="@string/text_history"
+                android:button="@null"
 
+                android:paddingRight="@dimen/margin_15"
+                android:textColor="@color/sel_switcher_txt_night"
 
-                <RadioButton
-                    android:id="@+id/radio_history_simulation"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_centerVertical="true"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:paddingRight="@dimen/margin_15"
-                    android:textColor="@color/sel_switcher_txt_night"
+                android:textSize="@dimen/size_big"
+                />
+        </RadioGroup>
 
-                    android:textSize="@dimen/size_normal" />
-            </RadioGroup>
-
-            <!--持仓 挂单 历史-->
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout_simulation"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/tab_height"
-                app:tabIndicatorColor="@color/maincolor"
-                app:tabIndicatorFullWidth="false"
-                app:tabIndicatorHeight="2dp"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/maincolor"
-                app:tabTextAppearance="@style/MyTablayoutstyle"
-                app:tabTextColor="@color/text_second_color" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:background="@color/home_line" />
-
-
-        </RelativeLayout>
-
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager_simulation"
+        <View
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:background="@color/home_line" />
 
-            />
+        <FrameLayout
+            android:id="@+id/layout_fragment_simulation"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical" />
     </LinearLayout>
 
 </LinearLayout>

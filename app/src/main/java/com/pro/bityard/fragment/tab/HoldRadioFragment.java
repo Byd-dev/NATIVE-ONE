@@ -1,7 +1,5 @@
 package com.pro.bityard.fragment.tab;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
@@ -11,9 +9,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.MyPagerAdapter;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.BalanceEntity;
@@ -23,26 +19,24 @@ import com.pro.bityard.fragment.hold.PendingFragment;
 import com.pro.bityard.fragment.hold.PositionFragment;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.NetIncomeManger;
-import com.pro.bityard.manger.PendCountManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TabCountManger;
 import com.pro.bityard.utils.TradeUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
 import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 
-public class HoldFragment extends BaseFragment implements Observer {
+public class HoldRadioFragment extends BaseFragment implements Observer, RadioGroup.OnCheckedChangeListener {
     /*持仓  ---------------------------------------------------*/
     @BindView(R.id.radioGroup_hold)
     RadioGroup radioGroup_hold;
@@ -53,39 +47,36 @@ public class HoldFragment extends BaseFragment implements Observer {
 
     @BindView(R.id.img_back)
     ImageView img_back;
-    @BindView(R.id.radio_position)
-    RadioButton radio_position;
-    @BindView(R.id.radio_pend)
-    RadioButton radio_pend;
+
 
     /*持仓 实盘 ---------------------------------------------------*/
-    @BindView(R.id.tabLayout)
-    TabLayout tabLayout;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;
+
     @BindView(R.id.text_available)
     TextView text_available;
     @BindView(R.id.text_freeze)
     TextView text_freeze;
     @BindView(R.id.text_worth)
     TextView text_worth;
-    @BindView(R.id.radio_position_simulation)
-    RadioButton radio_position_simulation;
-
-
     private String tradeType = "1";
     private BalanceEntity balanceEntity;
 
+    @BindView(R.id.radioGroup)
+    RadioGroup radioGroup;
+    @BindView(R.id.radio_position)
+    RadioButton radio_position;
+    @BindView(R.id.radio_pend)
+    RadioButton radio_pend;
+
 
     /*持仓 模拟 ---------------------------------------------------*/
-    @BindView(R.id.tabLayout_simulation)
-    TabLayout tabLayout_simulation;
-    @BindView(R.id.viewPager_simulation)
-    ViewPager viewPager_simulation;
+    @BindView(R.id.radioGroup_simulation)
+    RadioGroup radioGroup_simulation;
     @BindView(R.id.text_available_simulation)
     TextView text_available_simulation;
     @BindView(R.id.text_freeze_simulation)
     TextView text_freeze_simulation;
+    @BindView(R.id.radio_position_simulation)
+    RadioButton radio_position_simulation;
     @BindView(R.id.text_worth_simulation)
     TextView text_worth_simulation;
 
@@ -93,18 +84,21 @@ public class HoldFragment extends BaseFragment implements Observer {
     private List<PositionEntity.DataBean> positionSimulationList;
     private String netIncomeResult;
 
-    private Activity activity;
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activity=getActivity();
-    }
-
     @Override
     protected void onLazyLoad() {
 
     }
+
+    private int index = 0;
+    private int currentTabIndex;
+    private Fragment[] fragments = new Fragment[]{new PositionFragment().newInstance(tradeType),
+            new PendingFragment().newInstance(tradeType),
+            new HistoryFragment().newInstance(tradeType)};
+
+    private int index_sim = 0;
+    private int currentTabIndex_sim;
+    private Fragment[] fragments_sim = new Fragment[]{new PositionFragment().newInstance(tradeType),
+            new HistoryFragment().newInstance(tradeType)};
 
     @Override
     protected void initView(View view) {
@@ -114,14 +108,20 @@ public class HoldFragment extends BaseFragment implements Observer {
         img_back.setOnClickListener(v -> getActivity().finish());
 
         TabCountManger.getInstance().addObserver(this);
-        PendCountManger.getInstance().addObserver(this);
 
+
+        radioGroup.setOnCheckedChangeListener(this);
+        radio_position.setChecked(true);
+
+
+        radioGroup_simulation.setOnCheckedChangeListener(this);
+        radio_position_simulation.setChecked(true);
 
     }
 
     @Override
     protected int setLayoutResourceID() {
-        return R.layout.tab_hold;
+        return R.layout.radio_hold;
     }
 
     @Override
@@ -129,8 +129,6 @@ public class HoldFragment extends BaseFragment implements Observer {
 
     }
 
-    private List<String> titles = new ArrayList<>();
-    private List<Fragment> mFragments = new ArrayList<>();
 
     @Override
     public void onResume() {
@@ -149,16 +147,8 @@ public class HoldFragment extends BaseFragment implements Observer {
     @Override
     protected void initData() {
 
-        titles.add(getString(R.string.text_open));
-        titles.add(getString(R.string.text_order));
-        titles.add(getString(R.string.text_history));
-        mFragments.add(new PositionFragment().newInstance(tradeType));
-        mFragments.add(new PendingFragment().newInstance(tradeType));
-        mFragments.add(new HistoryFragment().newInstance(tradeType));
 
         radioGroup_hold.getChildAt(0).performClick();
-        radio_position.setChecked(true);
-        radio_position_simulation.setChecked(true);
         radioGroup_hold.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.radio_hold_0:
@@ -174,67 +164,13 @@ public class HoldFragment extends BaseFragment implements Observer {
             }
         });
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                Log.d("print", "onTabSelected:169:  "+tab.getPosition());
-                if (tab.getPosition() == 0) {
-                    radio_position.setTextColor(activity.getResources().getColor(R.color.maincolor));
-                    radio_pend.setTextColor(activity.getResources().getColor(R.color.text_second_color_night));
-                } else if (tab.getPosition() == 1) {
-                    radio_position.setTextColor(activity.getResources().getColor(R.color.text_second_color_night));
-                    radio_pend.setTextColor(activity.getResources().getColor(R.color.maincolor));
-                } else if (tab.getPosition() == 2) {
-                    radio_position.setTextColor(activity.getResources().getColor(R.color.text_second_color_night));
-                    radio_pend.setTextColor(activity.getResources().getColor(R.color.text_second_color_night));
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        //持仓注册
-
 
         PositionRealManger.getInstance().addObserver(this);
-        viewPager.setOffscreenPageLimit(2);
-        tabLayout.setupWithViewPager(viewPager);
-        initViewPager(viewPager, "1");
+
 
         /*持仓 模拟 分割线-----------------------------------------------------------------------------*/
         PositionSimulationManger.getInstance().addObserver(this);
-        viewPager_simulation.setOffscreenPageLimit(2);
-        tabLayout_simulation.setupWithViewPager(viewPager_simulation);
-        initSimulationViewPager(viewPager_simulation, "2");
-        tabLayout_simulation.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) {
-                    radio_position_simulation.setTextColor(activity.getResources().getColor(R.color.maincolor));
-                } else if (tab.getPosition() == 1) {
-                    radio_position_simulation.setTextColor(activity.getResources().getColor(R.color.text_second_color_night));
 
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
 
         /*持仓 实盘 分割线-----------------------------------------------------------------------------*/
 
@@ -243,21 +179,6 @@ public class HoldFragment extends BaseFragment implements Observer {
 
     private String holdSize = "0";
     private String pendSize = "0";
-
-    private void initViewPager(ViewPager viewPager, String tradeType) {
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
-        myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open));
-        myPagerAdapter.addFragment(new PendingFragment().newInstance(tradeType), getString(R.string.text_order));
-        myPagerAdapter.addFragment(new HistoryFragment().newInstance(tradeType), getString(R.string.text_history));
-        viewPager.setAdapter(myPagerAdapter);
-    }
-
-    private void initSimulationViewPager(ViewPager viewPager, String tradeType) {
-        MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
-        myPagerAdapter.addFragment(new PositionFragment().newInstance(tradeType), getString(R.string.text_open));
-        myPagerAdapter.addFragment(new HistoryFragment().newInstance(tradeType), getString(R.string.text_history));
-        viewPager.setAdapter(myPagerAdapter);
-    }
 
 
     private String type = AppConfig.CONTRACT_ALL;
@@ -408,25 +329,8 @@ public class HoldFragment extends BaseFragment implements Observer {
                 }
             });
         } else if (o == TabCountManger.getInstance()) {
-            String holdSize = (String) arg;
-
-            runOnUiThread(() -> {
-                if (tradeType.equals("1")) {
-                    radio_position.setText("(" + holdSize + ")");
-                } else {
-                    radio_position_simulation.setText("(" + holdSize + ")");
-                }
-            });
-
-
-        } else if (o == PendCountManger.getInstance()) {
-            String pendSize = (String) arg;
-            runOnUiThread(() -> {
-                if (tradeType.equals("1")) {
-                    radio_pend.setText("(" + pendSize + ")");
-                }
-            });
-
+            holdSize = (String) arg;
+            radio_position.setText(getText(R.string.text_open) + "(" + holdSize + ")");
 
         }
     }
@@ -465,4 +369,81 @@ public class HoldFragment extends BaseFragment implements Observer {
     }
 
 
+    private Fragment showFragment;
+
+    @Override
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        FragmentManager manager = getChildFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Fragment fragment = null;
+
+        switch (checkedId) {
+            case R.id.radio_position:
+                fragment = manager.findFragmentByTag("first");
+                if (fragment == null) {
+                    fragment = new PositionFragment().newInstance(tradeType);
+                    transaction.add(R.id.layout_fragment_real, fragment, "first").commit();
+                } else if (fragment.isAdded()) {
+                    transaction.show(fragment).commit();
+                } else {
+                    transaction.add(R.id.layout_fragment_real, fragment, "first").commit();
+                }
+
+
+                // showFragment(R.id.layout_fragment_real, new PositionFragment().newInstance(tradeType), null, null);
+                break;
+            case R.id.radio_position_simulation:
+                // showFragment(R.id.layout_fragment_simulation, new PositionFragment().newInstance(tradeType), null, null);
+
+                fragment = manager.findFragmentByTag("second");
+                if (fragment == null) {
+                    fragment = new PositionFragment().newInstance(tradeType);
+                    transaction.add(R.id.layout_fragment_simulation, fragment, "second").commit();
+                } else if (fragment.isAdded()) {
+                    transaction.show(fragment).commit();
+                } else {
+                    transaction.add(R.id.layout_fragment_simulation, fragment, "second").commit();
+                }
+                break;
+            case R.id.radio_pend:
+                // showFragment(R.id.layout_fragment_real, new PendingFragment().newInstance(tradeType), null, null);
+                fragment = manager.findFragmentByTag("third");
+                if (fragment == null) {
+                    fragment = new PendingFragment().newInstance(tradeType);
+                    transaction.add(R.id.layout_fragment_real, fragment, "third").commit();
+                } else if (fragment.isAdded()) {
+                    transaction.show(fragment).commit();
+                } else {
+                    transaction.add(R.id.layout_fragment_real, fragment, "third").commit();
+                }
+                break;
+            case R.id.radio_history:
+                // showFragment(R.id.layout_fragment_real, new HistoryFragment().newInstance(tradeType), null, null);
+                fragment = manager.findFragmentByTag("fourth");
+                if (fragment == null) {
+                    fragment = new HistoryFragment().newInstance(tradeType);
+                    transaction.add(R.id.layout_fragment_real, fragment, "fourth").commit();
+                } else if (fragment.isAdded()) {
+                    transaction.show(fragment).commit();
+                } else {
+                    transaction.add(R.id.layout_fragment_real, fragment, "fourth").commit();
+                }
+                break;
+            case R.id.radio_history_simulation:
+                //showFragment(R.id.layout_fragment_simulation, new HistoryFragment().newInstance(tradeType), null, null);
+                fragment = manager.findFragmentByTag("fifth");
+                if (fragment == null) {
+                    fragment = new HistoryFragment().newInstance(tradeType);
+                    transaction.add(R.id.layout_fragment_simulation, fragment, "fifth").commit();
+                } else if (fragment.isAdded()) {
+                    transaction.show(fragment).commit();
+                } else {
+                    transaction.add(R.id.layout_fragment_simulation, fragment, "fifth").commit();
+                }
+                break;
+        }
+        if (showFragment != null)
+            transaction.hide(showFragment);
+        showFragment = fragment;
+    }
 }

@@ -21,6 +21,7 @@ import com.pro.bityard.fragment.hold.RuleFragment;
 import com.pro.bityard.fragment.my.AccountFragment;
 import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.AnnouncementFragment;
+import com.pro.bityard.fragment.tab.HoldRadioFragment;
 import com.pro.bityard.fragment.trade.ContractFollowRecordFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
 import com.pro.bityard.fragment.my.EmailBindChangeFragment;

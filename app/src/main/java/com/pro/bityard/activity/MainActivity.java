@@ -15,6 +15,7 @@ import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.fragment.tab.HoldFragment;
+import com.pro.bityard.fragment.tab.HoldRadioFragment;
 import com.pro.bityard.fragment.tab.HomeFragment;
 import com.pro.bityard.fragment.tab.MarketFragment;
 import com.pro.bityard.fragment.tab.MyFragment;
@@ -193,7 +194,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
 
             case R.id.radio_3:
-                showFragment(R.id.layout_fragment_containter, new HoldFragment(), null, null);
+                showFragment(R.id.layout_fragment_containter, new HoldRadioFragment(), null, null);
 
 
                 break;
