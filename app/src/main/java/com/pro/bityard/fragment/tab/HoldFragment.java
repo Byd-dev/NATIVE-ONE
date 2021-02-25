@@ -423,7 +423,9 @@ public class HoldFragment extends BaseFragment implements Observer {
             String pendSize = (String) arg;
             runOnUiThread(() -> {
                 if (tradeType.equals("1")) {
-                    radio_pend.setText("(" + pendSize + ")");
+                    if (radio_pend!=null){
+                        radio_pend.setText("(" + pendSize + ")");
+                    }
                 }
             });
 

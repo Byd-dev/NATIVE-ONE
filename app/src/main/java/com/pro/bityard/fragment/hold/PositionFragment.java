@@ -850,7 +850,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                                 text_profit_rate_price.setText(profitRate(profit_max_amount, margin));
 
 
-                            } else if (Double.parseDouble(s.toString()) < profit_min_amount) {
+                            } /*else if (Double.parseDouble(s.toString()) < profit_min_amount) {
 
                                 edit_profit_amount.postDelayed(new Runnable() {
                                     @Override
@@ -872,8 +872,8 @@ public class PositionFragment extends BaseFragment implements Observer {
 
                                         }
                                     }
-                                }, 1000);
-                            } else {
+                                }, 2000);
+                            } */else {
                                 //金额页面 止盈价
                                 text_stop_profit_amount.setText(TradeUtil.StopProfitPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
                                 //金额页面 盈利百分比
@@ -937,7 +937,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                                 text_loss_rate_price.setText(profitRate(loss_max_amount, margin));
                                 text_loss_amount_price.setText(String.valueOf(loss_max_amount));
 
-                            } else if (Double.parseDouble(s.toString()) < loss_min_amount) {
+                            } /*else if (Double.parseDouble(s.toString()) < loss_min_amount) {
 
                                 edit_loss_amount.postDelayed(new Runnable() {
                                     @Override
@@ -959,8 +959,8 @@ public class PositionFragment extends BaseFragment implements Observer {
 
                                         }
                                     }
-                                }, 1000);
-                            } else {
+                                }, 2000);
+                            }*/ else {
                                 //金额 止损价
                                 text_stop_loss_amount.setText(TradeUtil.StopLossPrice(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
                                 //金额 亏损百分比
@@ -1110,7 +1110,9 @@ public class PositionFragment extends BaseFragment implements Observer {
                                 text_loss_rate_amount.setText(lossRate(Double.parseDouble(lossAmount(isBuy, price, priceDigit, lever, margin, big(loss_min_price, loss_max_price))), margin));
 
 
-                            } else if (Double.parseDouble(s.toString()) < small(loss_min_price, loss_max_price)) {
+                            } /*else if (Double.parseDouble(s.toString()) < small(loss_min_price, loss_max_price)) {
+
+
 
                                 edit_loss_amount.postDelayed(() -> {
                                     if (s.length() != 0 && Double.parseDouble(s.toString()) < small(loss_min_price, loss_max_price)) {
@@ -1129,8 +1131,8 @@ public class PositionFragment extends BaseFragment implements Observer {
 
 
                                     }
-                                }, 1000);
-                            } else {
+                                }, 2000);
+                            }*/ else {
 
                                 //价格 亏损金额
                                 text_loss_amount_price.setText(lossAmount(isBuy, price, priceDigit, lever, margin, Double.parseDouble(s.toString())));
@@ -1192,6 +1194,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         popupWindow.showAtLocation(layout_view, Gravity.CENTER, 0, 0);
 
     }
+
 
 
     /*设置浮动盈亏*/
