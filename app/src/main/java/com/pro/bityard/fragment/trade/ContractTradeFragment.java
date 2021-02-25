@@ -1,10 +1,10 @@
 package com.pro.bityard.fragment.trade;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
@@ -45,6 +45,7 @@ import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.LoginEntity;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.TradeListEntity;
@@ -72,7 +73,6 @@ import com.pro.bityard.manger.QuoteWeekHistoryManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
-import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -80,7 +80,6 @@ import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
 import com.pro.switchlibrary.SPUtils;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -91,6 +90,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -101,8 +101,6 @@ import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
-import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
-import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
@@ -137,6 +135,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     }
 
 
+    @BindView(R.id.text_position_size)
+    TextView text_position_size;
+    @BindView(R.id.text_position)
+    TextView text_position;
     @BindView(R.id.layout_switch)
     LinearLayout layout_switch;
     @BindView(R.id.img_star_contract)
@@ -332,6 +334,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     private ArrayMap<String, List<String>> arrayMap;
 
     private QuoteAdapter quoteAdapter_market_pop;
+
+    private Activity activity;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = getActivity();
+    }
 
     /*显示行情选择的按钮*/
     private void showQuotePopWindow() {
@@ -659,7 +669,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             edit_limit_price.setText(listQuotePrice(data));
 
 
-
             Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
             Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
             Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
@@ -669,7 +678,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
             QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
 
-            recyclerView_market.postDelayed(() -> resetChart(),0);
+            recyclerView_market.postDelayed(() -> resetChart(), 0);
 
 
             //相应选择
@@ -751,6 +760,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         if (isLogin()) {
             layout_trade.setVisibility(View.VISIBLE);
             stay_view.setVisibility(View.VISIBLE);
+            //获取持仓数
+            getPositionSize();
 
         } else {
             layout_trade.setVisibility(View.GONE);
@@ -832,12 +843,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
 
 
-
             String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
             tradeListEntityList = Util.SPDealEntityResult(string);
 
             tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-            Log.d("ptrint", "initData:837: "+tradeListEntity);
+            Log.d("ptrint", "initData:837: " + tradeListEntity);
             setContent(tradeListEntity);
 
             //获取输入框的范围保证金
@@ -905,6 +915,27 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
             text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
         }
+
+
+    }
+
+
+    private void getPositionSize() {
+        NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
+            if (state.equals(SUCCESS)) {
+                PositionEntity positionEntity = (PositionEntity) response1;
+                int size = positionEntity.getData().size();
+                if (size == 0) {
+                    text_position_size.setVisibility(View.GONE);
+                    text_position.setTextColor(activity.getResources().getColor(R.color.text_second_color));
+                } else {
+                    text_position_size.setVisibility(View.VISIBLE);
+                    text_position_size.setText(size + "");
+                    text_position.setTextColor(activity.getResources().getColor(R.color.maincolor));
+
+                }
+            }
+        });
     }
 
     private void initTabView(View view) {
@@ -1184,7 +1215,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         //   Log.d("print", "setContent:659:  " + tradeListEntity);
         if (tradeListEntity != null) {
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
-            if (leverShowList.size()==0){
+            if (leverShowList.size() == 0) {
                 return;
             }
             lever = leverShowList.get(oldSelect);
@@ -1847,7 +1878,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         /*历史分割线-----------------------------------------------------------------------------------*/
         else if (o == Quote1MinHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
-            Log.d("print", "klineList:1846: "+data.getT().size()+" "+data.getO().size()+" "+data.getC().size()+" "+data.getH().size()+" "+data.getL().size()+" "+data.getV().size());
+            Log.d("print", "klineList:1846: " + data.getT().size() + " " + data.getO().size() + " " + data.getC().size() + " " + data.getH().size() + " " + data.getL().size() + " " + data.getV().size());
 
             if (!isAdded()) {
                 return;
@@ -1901,7 +1932,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
         } else if (o == Quote15MinHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
-            if (!isAdded()&&data==null) {
+            if (!isAdded() && data == null) {
                 return;
             }
             kData15MinHistory = ChartUtil.klineList(data);
@@ -1934,7 +1965,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         } else if (o == QuoteDayHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
-            if (!isAdded()&&data==null) {
+            if (!isAdded() && data == null) {
                 return;
             }
             kDataDayHistory = ChartUtil.klineList(data);
@@ -1987,7 +2018,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         }
     }
-
 
 
     @Override
@@ -2103,6 +2133,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
                     text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
                 }
+
+                getPositionSize();
                 break;
             //自选的监听
             case R.id.layout_optional:
@@ -2382,7 +2414,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     }
 
 
-    private void resetChart(){
+    private void resetChart() {
         kline_1min_time.resetView();
         myKLineView_1Min.resetView();
         myKLineView_3Min.resetView();
@@ -2392,7 +2424,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         myKLineView_1D.resetView();
         myKLineView_1_week.resetView();
         myKLineView_1_month.resetView();
-        Log.d("print", "resetChart:2384: "+kData3MinHistory);
+        Log.d("print", "resetChart:2384: " + kData3MinHistory);
         if (kData1MinHistory != null) {
             kline_1min_time.resetDataList(kData1MinHistory);
             myKLineView_1Min.resetDataList(kData1MinHistory);
