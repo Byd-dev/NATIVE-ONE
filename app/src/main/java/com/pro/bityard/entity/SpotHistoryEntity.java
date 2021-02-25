@@ -163,7 +163,7 @@ public class SpotHistoryEntity {
         private double amount;
         private Object brand;
         private Boolean buy;
-        private Double charge;
+        private double charge;
         private Double chargeEagle;
         private Double chargeLucky;
         private String commodity;
@@ -217,11 +217,11 @@ public class SpotHistoryEntity {
             this.buy = buy;
         }
 
-        public Double getCharge() {
+        public double getCharge() {
             return charge;
         }
 
-        public void setCharge(Double charge) {
+        public void setCharge(double charge) {
             this.charge = charge;
         }
 

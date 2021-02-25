@@ -51,7 +51,7 @@ public class CurrencyRateFragment extends BaseFragment {
 
         });
 
-        int anInt = SPUtils.getInt(AppConfig.CURRENCY_INDEX, 1);
+        int anInt = SPUtils.getInt(AppConfig.CURRENCY_INDEX, 0);
         currencyListAdapter.select(anInt);
 
         currencyListAdapter.setOnItemClick((data, position) -> {

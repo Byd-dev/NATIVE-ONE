@@ -237,7 +237,6 @@ public class SpotTradeRecordFragment extends BaseFragment implements View.OnClic
         myPagerAdapter.addFragment(new SpotRecordItemFragment(), getString(R.string.text_spot_position));
         myPagerAdapter.addFragment(new SpotCommitHistoryFragment(), getString(R.string.text_history_spot_position));
         myPagerAdapter.addFragment(new SpotTradeHistoryFragment(), getString(R.string.text_history_trade));
-
         viewPager.setAdapter(myPagerAdapter);
     }
 

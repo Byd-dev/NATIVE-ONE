@@ -48,7 +48,7 @@ public class ChartUtil {
 
             klineEntityList = new ArrayList<>();
             for (int i = 0; i < t.size(); i++) {
-                if (op.get(i)!=null&&c.get(i)!=null&&h.get(i)!=null&&l.get(i)!=null&&v.get(i)!=null){
+                if (op.get(i) != null && c.get(i) != null && h.get(i) != null && l.get(i) != null && v.get(i) != null) {
                     klineEntityList.add(new KlineEntity(t.get(i), op.get(i), c.get(i), h.get(i), l.get(i), v.get(i)));
                 }
             }
@@ -207,8 +207,19 @@ public class ChartUtil {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(zeroT);
         } catch (ParseException e) {
             e.printStackTrace();
-            return  null;
+            return null;
         }
+    }
+
+    /*当天0点时间*/
+    public static String getDaysBefore(int days) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        //过去七天
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -days);
+        Date d = c.getTime();
+        return  format.format(d);
     }
 
     /*当天最后一秒*/
@@ -223,7 +234,7 @@ public class ChartUtil {
             return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endT);
         } catch (ParseException e) {
             e.printStackTrace();
-            return  null;
+            return null;
         }
     }
 

@@ -113,9 +113,10 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
 
         text_end.setText(nowTime);
 
-        text_start.setText(Util.getBeforeNow7days());
+        //text_start.setText(Util.getBeforeNow7days());
+        text_start.setText(nowTime);
         startDate = Calendar.getInstance();
-        startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
+        //startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
         endDate = Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -336,14 +337,14 @@ public class SpotTradeHistoryFragment extends BaseFragment implements View.OnCli
             if (value_date.equals(activity.getResources().getString(R.string.text_near_one_day))) {
                 createTimeGe = ChartUtil.getTodayZero();
                 createTimeLe = ChartUtil.getTodayLastTime();
-            } else if (value_date.equals(activity.getResources().getString(R.string.text_near_one_week))) {
-                createTimeGe = ChartUtil.getWeekZero();
+            } else if (value_date.equals(activity.getString(R.string.text_near_one_week))) {
+                createTimeGe = ChartUtil.getDaysBefore(7);
                 createTimeLe = ChartUtil.getTodayLastTime();
-            } else if (value_date.equals(activity.getResources().getString(R.string.text_near_one_month))) {
-                createTimeGe = ChartUtil.getMonthZero();
+            } else if (value_date.equals(activity.getString(R.string.text_near_one_month))) {
+                createTimeGe = ChartUtil.getDaysBefore(30);
                 createTimeLe = ChartUtil.getTodayLastTime();
-            } else if (value_date.equals(activity.getResources().getString(R.string.text_near_three_month))) {
-                createTimeGe = ChartUtil.getThreeMonthZero();
+            } else if (value_date.equals(activity.getString(R.string.text_near_three_month))) {
+                createTimeGe = ChartUtil.getDaysBefore(90);
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
             startDate.set(Util.str2Calendar(Util.startDisplay(createTimeGe), "year"), Util.str2Calendar(Util.startDisplay(createTimeGe), "month"),

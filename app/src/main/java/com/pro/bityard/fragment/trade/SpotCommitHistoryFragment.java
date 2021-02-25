@@ -118,9 +118,10 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
         text_end.setText(nowTime);
 
-        text_start.setText(Util.getBeforeNow7days());
+        //text_start.setText(Util.getBeforeNow7days());
+        text_start.setText(nowTime);
         startDate = Calendar.getInstance();
-        startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
+        //startDate.set(Calendar.DAY_OF_YEAR, startDate.get(Calendar.DAY_OF_YEAR) - 7);
         endDate = Calendar.getInstance();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -261,7 +262,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
             text_type_name.setText(activity.getResources().getString(R.string.text_buy_tip));
             text_type_name.setTextColor(activity.getResources().getColor(R.color.text_quote_green));
             text_charge.setText(TradeUtil.justDisplay(dataBean.getCharge())+dataBean.getDesCurrency());
-            text_trade_amount.setText(TradeUtil.justDisplay(dataBean.getAmount())+dataBean.getSrcCurrency());
+            text_trade_amount.setText(TradeUtil.justDisplay(dataBean.getOpAmount())+dataBean.getSrcCurrency());
 
 
         }else {
@@ -271,18 +272,18 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
             text_type_name.setText(activity.getResources().getString(R.string.text_sell_tip));
             text_type_name.setTextColor(activity.getResources().getColor(R.color.text_quote_red));
             text_charge.setText(TradeUtil.justDisplay(dataBean.getCharge())+dataBean.getSrcCurrency());
-            text_trade_amount.setText(TradeUtil.justDisplay(dataBean.getAmount())+dataBean.getDesCurrency());
+            text_trade_amount.setText(TradeUtil.justDisplay(dataBean.getOpAmount())+dataBean.getDesCurrency());
         }
 
 
         text_status.setText(dataBean.getStatus().toString());
         text_volume.setText(TradeUtil.justDisplay(dataBean.getOpVolume()));
-        text_average_price.setText(TradeUtil.justDisplay(dataBean.getOpPrice())+"/"+TradeUtil.justDisplay(dataBean.getOpPrice()));
+        text_average_price.setText(TradeUtil.justDisplay(dataBean.getOpPrice())+"/"+TradeUtil.justDisplay(dataBean.getPrice()));
 
 
 
         text_price.setText(TradeUtil.justDisplay(dataBean.getPrice()));
-        text_amount_spot.setText(TradeUtil.justDisplay(dataBean.getOpAmount()));
+        text_amount_spot.setText(TradeUtil.justDisplay(dataBean.getOpVolume()));
         text_time.setText(ChartUtil.getDate(dataBean.getCreateTime()));
 
 
@@ -411,13 +412,13 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
 
             } else if (value_date.equals(activity.getString(R.string.text_near_one_week))) {
-                createTimeGe = ChartUtil.getWeekZero();
+                createTimeGe = ChartUtil.getDaysBefore(7);
                 createTimeLe = ChartUtil.getTodayLastTime();
             } else if (value_date.equals(activity.getString(R.string.text_near_one_month))) {
-                createTimeGe = ChartUtil.getMonthZero();
+                createTimeGe = ChartUtil.getDaysBefore(30);
                 createTimeLe = ChartUtil.getTodayLastTime();
             } else if (value_date.equals(activity.getString(R.string.text_near_three_month))) {
-                createTimeGe = ChartUtil.getThreeMonthZero();
+                createTimeGe = ChartUtil.getDaysBefore(90);
                 createTimeLe = ChartUtil.getTodayLastTime();
             }
 

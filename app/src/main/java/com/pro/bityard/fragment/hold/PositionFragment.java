@@ -1352,7 +1352,9 @@ public class PositionFragment extends BaseFragment implements Observer {
                         setIncome(quoteList, positionEntity); //整体盈亏
                         setNetIncome(tradeType, positionEntity.getData(), quoteList);  //整体净值
 
-                        map = new ArrayMap<>();
+                        positionAdapter.setDatas(positionEntity.getData(),quoteList);
+
+                      /*  map = new ArrayMap<>();
                         for (int i = 0; i < positionEntity.getData().size(); i++) {
                             for (int j = 0; j < quoteList.size(); j++) {
                                 String[] split1 = quoteList.get(j).split(",");
@@ -1369,7 +1371,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                                     continue;
                                 }
                             }
-                        }
+                        }*/
 
                     } else {
                         positionEntity.getData().clear();

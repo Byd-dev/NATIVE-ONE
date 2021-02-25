@@ -165,12 +165,15 @@ public class SpotHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
                 if (status == 6) {
                     ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.color_bg_green));
+                    ((MyViewHolder) holder).circleView.setTextColor(context.getResources().getColor(R.color.color_bg_green));
+
                 } else {
                     ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                    ((MyViewHolder) holder).circleView.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+
                 }
 
                 ((MyViewHolder) holder).circleView.setCricleProgressColor(context.getResources().getColor(R.color.text_quote_green));
-                ((MyViewHolder) holder).circleView.setTextColor(context.getResources().getColor(R.color.text_quote_green));
 
 
             } else {
@@ -188,12 +191,14 @@ public class SpotHistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 }
                 if (status == 6) {
                     ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.color_bg_red));
+                    ((MyViewHolder) holder).circleView.setTextColor(context.getResources().getColor(R.color.color_bg_red));
 
                 } else {
                     ((MyViewHolder) holder).text_buy.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                    ((MyViewHolder) holder).circleView.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+
                 }
                 ((MyViewHolder) holder).circleView.setCricleProgressColor(context.getResources().getColor(R.color.text_quote_red));
-                ((MyViewHolder) holder).circleView.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
             }
 
