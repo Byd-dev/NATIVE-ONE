@@ -1593,6 +1593,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                         PositionRealManger.getInstance().getHold();
                         PositionSimulationManger.getInstance().getHold();
                         BalanceManger.getInstance().getBalance("USDT");
+                        getPositionSize();
 
                     } else if (state.equals(FAILURE)) dismissProgressDialog();
                 }
