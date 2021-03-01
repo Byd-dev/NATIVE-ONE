@@ -266,13 +266,12 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             Log.d("print", "update:272: " + defaultContract);
             isContract = true;
             String isChOrFt = TradeUtil.type(defaultContract);
-            if (isChOrFt.equals(AppConfig.TYPE_FT)) {
-                tabLayout_title.getTabAt(0).select();
-
+            tabLayout_title.getTabAt(0).select();
+           /* if (isChOrFt.equals(AppConfig.TYPE_FT)) {
             } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
                 tabLayout_title.getTabAt(1).select();
 
-            }
+            }*/
 
         } else if (o == SpotCodeManger.getInstance()) {
             defaultSpot = (String) arg;
@@ -280,13 +279,13 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
             isContract = false;
             String isChOrFt = TradeUtil.type(defaultSpot);
-            if (isChOrFt.equals(AppConfig.TYPE_FT)) {
+            tabLayout_title.getTabAt(1).select();
+           /* if (isChOrFt.equals(AppConfig.TYPE_FT)) {
                 tabLayout_title.getTabAt(0).select();
 
             } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
-                tabLayout_title.getTabAt(1).select();
 
-            }
+            }*/
         }
 
     }

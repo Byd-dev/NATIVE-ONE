@@ -1347,31 +1347,35 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         });
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
-
-            Log.d("print", "showQuotePopWindow:1231:  " + data + "  " + old_code);
-            setContent(data);
-            quote_code = TradeUtil.itemQuoteContCode(data);
-            type = AppConfig.CONTRACT_IN_ALL;
-            WebSocketManager.getInstance().send("4002", old_code);
-            QuoteCodeManger.getInstance().postTag(data);
-            SpotCodeManger.getInstance().postTag(data);
-
-
-            //判断当前是否存在自选
-            Util.isOptional(quote_code, optionalList, response -> {
-                boolean isOptional = (boolean) response;
-                if (isOptional) {
-                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                } else {
-                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-
-                }
-            });
+            if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)){
+                QuoteCodeManger.getInstance().postTag(data);
+            }else if (TradeUtil.type(data).equals(AppConfig.TYPE_CH)){
+                SpotCodeManger.getInstance().postTag(data);
+                Log.d("print", "showQuotePopWindow:1231:  " + data + "  " + old_code);
+                setContent(data);
+                quote_code = TradeUtil.itemQuoteContCode(data);
+                type = AppConfig.CONTRACT_IN_ALL;
+                WebSocketManager.getInstance().send("4002", old_code);
 
 
-            text_name.setText(TradeUtil.name(data));
-            text_currency.setText(TradeUtil.currency(data));
 
+                //判断当前是否存在自选
+                Util.isOptional(quote_code, optionalList, response -> {
+                    boolean isOptional = (boolean) response;
+                    if (isOptional) {
+                        img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                    } else {
+                        img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+
+                    }
+                });
+
+
+                text_name.setText(TradeUtil.name(data));
+                text_currency.setText(TradeUtil.currency(data));
+
+
+            }
             //相应选择
             popupWindow.dismiss();
 

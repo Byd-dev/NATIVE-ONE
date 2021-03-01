@@ -71,6 +71,7 @@ import com.pro.bityard.manger.QuoteMonthHistoryManger;
 import com.pro.bityard.manger.QuoteWeekCurrentManger;
 import com.pro.bityard.manger.QuoteWeekHistoryManger;
 import com.pro.bityard.manger.SocketQuoteManger;
+import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.ChartUtil;
@@ -637,56 +638,65 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         });
 
         quoteAdapter_market_pop.setOnItemClick(data -> {
-            quote_code = TradeUtil.itemQuoteContCode(data);
-            type = AppConfig.CONTRACT_IN_ALL;
-            QuoteCodeManger.getInstance().postTag(data);
+            if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
+                QuoteCodeManger.getInstance().postTag(data);
+                quote_code = TradeUtil.itemQuoteContCode(data);
+                type = AppConfig.CONTRACT_IN_ALL;
 
 
-            TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
-            Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
-            //自选的图标
-            String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
 
-            //判断当前是否存在自选
-            Util.isOptional(quote_code, optionalList, response -> {
-                boolean isOptional = (boolean) response;
-                if (isOptional) {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                } else {
-                    img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+                TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
+                Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
+                //自选的图标
+                String optional = SPUtils.getString(AppConfig.KEY_OPTIONAL, null);
 
-                }
-            });
+                //判断当前是否存在自选
+                Util.isOptional(quote_code, optionalList, response -> {
+                    boolean isOptional = (boolean) response;
+                    if (isOptional) {
+                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                    } else {
+                        img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
 
-
-            text_market_currency.setText(TradeUtil.currency(data));
-            text_limit_currency.setText(TradeUtil.currency(data));
-
-            text_name.setText(TradeUtil.name(data));
-            text_currency.setText(TradeUtil.currency(data));
-
-            edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
-            edit_limit_price.setText(listQuotePrice(data));
+                    }
+                });
 
 
-            Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
-            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
-            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
+                text_market_currency.setText(TradeUtil.currency(data));
+                text_limit_currency.setText(TradeUtil.currency(data));
 
-            recyclerView_market.postDelayed(() -> resetChart(), 0);
+                text_name.setText(TradeUtil.name(data));
+                text_currency.setText(TradeUtil.currency(data));
+
+                edit_limit_price.setDecimalEndNumber(TradeUtil.decimalPoint(listQuotePrice(data)));//根据不同的小数位限制
+                edit_limit_price.setText(listQuotePrice(data));
 
 
-            //相应选择
+                Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
+                Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+                Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+                Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+                Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
+                QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
+                QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
+                QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
+
+                recyclerView_market.postDelayed(() -> resetChart(), 0);
+
+
+                //相应选择
+                tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
+
+
+                setContent(tradeListEntity);
+
+            } else if (TradeUtil.type(data).equals(AppConfig.TYPE_CH)) {
+                SpotCodeManger.getInstance().postTag(data);
+
+            }
+
+
             popupWindow.dismiss();
-            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
-
-
-            setContent(tradeListEntity);
 
         });
 
@@ -945,6 +955,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         titles.add("5min");
         titles.add("15min");
         titles.add(getResources().getString(R.string.text_more));
+
+        QuoteCodeManger.getInstance().addObserver(this);
 
 
         SocketQuoteManger.getInstance().addObserver(this);
@@ -1604,7 +1616,13 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == SocketQuoteManger.getInstance()) {
+        if (o == QuoteCodeManger.getInstance()) {
+            itemData = (String) arg;
+            text_name.setText(TradeUtil.name(itemData));
+            text_currency.setText(TradeUtil.currency(itemData));
+            text_market_currency.setText(TradeUtil.currency(itemData));
+            text_limit_currency.setText(TradeUtil.currency(itemData));
+        } else if (o == SocketQuoteManger.getInstance()) {
             if (!isAdded()) {
                 return;
             }
