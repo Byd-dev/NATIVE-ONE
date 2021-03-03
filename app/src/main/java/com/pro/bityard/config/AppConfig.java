@@ -20,7 +20,7 @@ public class AppConfig {
     public static final String TYPE_CH = "CH";//现货
     public static final String TYPE_FE = "FE";//现货
 
-    public static final String ZONE_MAIN = "main";//合约主区
+    public static final String ZONE_MAIN = "crypto";//合约主区
     public static final String ZONE_INNOVATION = "inno";//合约创新
     public static final String ZONE_DERIVATIVES = "deriv";//合约衍生
     public static final String ZONE_DEFI = "defi";//现货
