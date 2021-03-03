@@ -30,15 +30,7 @@ public class InitEntity implements Serializable{
     private List<String> names;
     private List<GroupBean> group;
     private List<DataBean> data;
-
-    public List<DataBean> getData() {
-        return data;
-    }
-
-    public void setData(List<DataBean> data) {
-        this.data = data;
-    }
-
+    private List<ZoneBean> zones;
 
     @Override
     public String toString() {
@@ -53,8 +45,26 @@ public class InitEntity implements Serializable{
                 ", names=" + names +
                 ", group=" + group +
                 ", data=" + data +
+                ", zones=" + zones +
                 '}';
     }
+
+    public List<ZoneBean> getZones() {
+        return zones;
+    }
+
+    public void setZones(List<ZoneBean> zones) {
+        this.zones = zones;
+    }
+
+    public List<DataBean> getData() {
+        return data;
+    }
+
+    public void setData(List<DataBean> data) {
+        this.data = data;
+    }
+
 
     public int getCode() {
         return code;
@@ -361,13 +371,6 @@ public class InitEntity implements Serializable{
     }
 
     public static class GroupBean implements Serializable{
-        @Override
-        public String toString() {
-            return "GroupBean{" +
-                    "name='" + name + '\'' +
-                    ", list='" + list + '\'' +
-                    '}';
-        }
 
         /**
          * name : 数字货币
@@ -375,9 +378,26 @@ public class InitEntity implements Serializable{
          */
 
 
-
+        private String code;
         private String name;
         private String list;
+
+        @Override
+        public String toString() {
+            return "GroupBean{" +
+                    "code='" + code + '\'' +
+                    ", name='" + name + '\'' +
+                    ", list='" + list + '\'' +
+                    '}';
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
 
         public String getName() {
             return name;
@@ -449,6 +469,53 @@ public class InitEntity implements Serializable{
 
         public void setType(String type) {
             this.type = type;
+        }
+    }
+
+
+    public static class ZoneBean implements Serializable{
+
+        /**
+         * name : 数字货币
+         * list : TRXUSDT;LTCUSDT;EOSUSDT;XRPUSDT;ETHUSDT;DASHUSDT;BTCUSDT;CL;LINKUSDT;BCHUSDT;ETCUSDT
+         */
+
+
+        private String code;
+        private String name;
+        private String list;
+
+        @Override
+        public String toString() {
+            return "GroupBean{" +
+                    "code='" + code + '\'' +
+                    ", name='" + name + '\'' +
+                    ", list='" + list + '\'' +
+                    '}';
+        }
+
+        public String getCode() {
+            return code;
+        }
+
+        public void setCode(String code) {
+            this.code = code;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getList() {
+            return list;
+        }
+
+        public void setList(String list) {
+            this.list = list;
         }
     }
 }
