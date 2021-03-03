@@ -1573,7 +1573,7 @@ public class TradeUtil {
             prizeDou = 0.00;
         }
         double lucky = BalanceManger.getInstance().getLucky();
-        Log.d("print", "deductionResult:红包:  " + lucky);
+       // Log.d("print", "deductionResult:红包:  " + lucky);
         if (Double.parseDouble(service) <= lucky) {
             luckyDou = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(service), 2));
         } else {

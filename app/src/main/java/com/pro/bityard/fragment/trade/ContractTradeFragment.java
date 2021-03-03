@@ -74,6 +74,7 @@ import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
+import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -1618,6 +1619,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     public void update(Observable o, Object arg) {
         if (o == QuoteCodeManger.getInstance()) {
             itemData = (String) arg;
+
             text_name.setText(TradeUtil.name(itemData));
             text_currency.setText(TradeUtil.currency(itemData));
             text_market_currency.setText(TradeUtil.currency(itemData));
@@ -1682,7 +1684,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             if (quoteMinEntity != null) {
                 Log.d("print", "onReceive:1549:合约fragment行情:  " + quoteMinEntity);
                 runOnUiThread(() -> {
-                    if (quoteMinEntity.getSymbol().equals(quote_code)) {
+
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
                         //仓位实时更新 服务费
                         if (edit_market_margin == null) {
@@ -1772,7 +1774,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                         } else {
                             Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
                         }
-                    }
+
 
 
                 });

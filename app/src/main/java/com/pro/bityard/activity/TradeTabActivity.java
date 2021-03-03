@@ -55,7 +55,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-    private String quote_code;
+    private String quote_code,quote_code_old;
 
     private boolean isContract = true;
 
@@ -109,9 +109,14 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             if (quote_code != null) {
                 if (isContract) {
                     quote_code = itemQuoteContCode(defaultContract);
+                    if (!quote_code.equals(quote_code_old)){
+                        WebSocketManager.getInstance().send("4002", quote_code_old);
 
+                    }else {
+                        WebSocketManager.getInstance().send("4001", quote_code);
+
+                    }
                     Log.d("print", "handleMessage:TradeTabd订阅合约: " + isContract + "  " + quote_code);
-                    WebSocketManager.getInstance().send("4001", quote_code);
                     String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
                     Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
                     Quote5MinCurrentManger.getInstance().quote(quote_host, quote_code);
@@ -124,8 +129,13 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     Log.d("print", "handleMessage:TradeTabd订阅现货: " + isContract + "  " + quote_code);
                     quote_code = itemQuoteContCode(defaultSpot);
+                    if (!quote_code.equals(quote_code_old)){
+                        WebSocketManager.getInstance().send("4002", quote_code_old);
 
-                    WebSocketManager.getInstance().send("4001", quote_code);
+                    }else {
+                        WebSocketManager.getInstance().send("4001", quote_code);
+
+                    }
                     WebSocketManager.getInstance().send("5001", quote_code);
                 }
 
@@ -263,6 +273,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     public void update(Observable o, Object arg) {
         if (o == QuoteCodeManger.getInstance()) {
             defaultContract = (String) arg;
+            quote_code_old=itemQuoteContCode(defaultContract);
             Log.d("print", "update:272: " + defaultContract);
             isContract = true;
             String isChOrFt = TradeUtil.type(defaultContract);
@@ -275,6 +286,8 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
         } else if (o == SpotCodeManger.getInstance()) {
             defaultSpot = (String) arg;
+            quote_code_old=itemQuoteContCode(defaultSpot);
+
             Log.d("print", "update:285: " + defaultSpot);
 
             isContract = false;
