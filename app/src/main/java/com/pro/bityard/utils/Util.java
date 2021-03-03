@@ -170,7 +170,6 @@ public class Util {
                                 + "," + dataDetail.get(j).getName()
                                 + "," + data.getBrand().getDefaultCurrency());
 
-
                     }
 
 
