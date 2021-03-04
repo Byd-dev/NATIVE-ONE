@@ -87,6 +87,8 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 List<String> strings = Util.quoteResultAdd(Util.quoteResult(data));
 
 
+
+
                 //现货
                 List<String> spotQuoteList = TradeUtil.spotQuoteList(strings);
                 //价格从高到低
@@ -151,6 +153,22 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 List<String> spotGRAYQuoteList_name_a2z = TradeUtil.nameLowToHigh(spotGRAYQuoteList);
                 //字母z-a
                 List<String> spotGRAYQuoteList_name_z2a = TradeUtil.nameHighToLow(spotGRAYQuoteList);
+
+
+                /*bsc*/
+                List<String> spotBSCQuoteList = TradeUtil.bscQuoteList(spotQuoteList);
+                //价格从高到低
+                List<String> spotBSCQuoteList_price_high2low = TradeUtil.priceHighToLow(spotBSCQuoteList);
+                //价格从低到高
+                List<String> spotBSCQuoteList_price_low2high = TradeUtil.priceLowToHigh(spotBSCQuoteList);
+                //涨跌幅从高到低
+                List<String> spotBSCQuoteList_rate_high2low = TradeUtil.rangeHighToLow(spotBSCQuoteList);
+                //涨跌幅从低到高
+                List<String> spotBSCQuoteList_rate_low2high = TradeUtil.rangeLowToHigh(spotBSCQuoteList);
+                //字母a-z
+                List<String> spotBSCQuoteList_name_a2z = TradeUtil.nameLowToHigh(spotBSCQuoteList);
+                //字母z-a
+                List<String> spotBSCQuoteList_name_z2a = TradeUtil.nameHighToLow(spotBSCQuoteList);
 
                 //所有合约 包括衍生品
                 List<String> contractQuoteList = TradeUtil.contractQuoteList(strings);
@@ -471,6 +489,15 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.SPOT_GRAY_RATE_LOW2HIGH, spotGRAYQuoteList_rate_low2high);
                 arrayMap.put(AppConfig.SPOT_GRAY_NAME_A2Z, spotGRAYQuoteList_name_a2z);
                 arrayMap.put(AppConfig.SPOT_GRAY_NAME_Z2A, spotGRAYQuoteList_name_z2a);
+
+                //现货BSC
+                arrayMap.put(AppConfig.SPOT_BSC_ALL, spotBSCQuoteList);
+                arrayMap.put(AppConfig.SPOT_BSC_PRICE_HIGH2LOW, spotBSCQuoteList_price_high2low);
+                arrayMap.put(AppConfig.SPOT_BSC_PRICE_LOW2HIGH, spotBSCQuoteList_price_low2high);
+                arrayMap.put(AppConfig.SPOT_BSC_RATE_HIGH2LOW, spotBSCQuoteList_rate_high2low);
+                arrayMap.put(AppConfig.SPOT_BSC_RATE_LOW2HIGH, spotBSCQuoteList_rate_low2high);
+                arrayMap.put(AppConfig.SPOT_BSC_NAME_A2Z, spotBSCQuoteList_name_a2z);
+                arrayMap.put(AppConfig.SPOT_BSC_NAME_Z2A, spotBSCQuoteList_name_z2a);
 
                 //合约包括衍生品
                 arrayMap.put(AppConfig.CONTRACT_ALL, contractQuoteList);

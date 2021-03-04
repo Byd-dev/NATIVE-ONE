@@ -620,5 +620,6 @@ diberikan kepada trader.</string>
     <string name="text_style_tip_two">标签最多可设置四个，可随意更改。</string>
     <string name="text_four_much">标签最多可设置4个</string>
     <string name="text_position_follow">跟随</string>
+    <string name="text_add_pass_coin">加密货币</string>
 
 </resources>

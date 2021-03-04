@@ -27,6 +27,22 @@ public class AppConfig {
     public static final String ZONE_POS = "pos";//现货
     public static final String ZONE_GRAY = "gray";//现货
 
+
+    public static final String SPOT = "Spot";//现货
+    public static final String DEFI = "Defi";//现货
+    public static final String POS = "POS";//现货
+    public static final String GRAY = "Gray";//现货
+    public static final String FOREX = "Forex";//现货
+
+    public static final String BSC = "BSC";//现货
+    public static final String DERIVATIVES = "Derivatives";//现货
+    public static final String CONTRACT = "Contract";//现货
+    public static final String BEST = "Best";//现货
+    public static  final  String RECOMMEND="Recommend";
+    public static final String MAIN = "Main";//现货
+    public static final String NEW = "New";//现货
+
+
     //默认选中那个位置
     public static final int selectPosition=1;
 
@@ -47,6 +63,7 @@ public class AppConfig {
     public static final String VIEW_SPOT_DEFI = "VIEW_SPOT_DEFI";//现货defi
     public static final String VIEW_SPOT_POS = "VIEW_SPOT_POS";//现货defi
     public static final String VIEW_SPOT_GRAY = "VIEW_SPOT_GRAY";//现货defi
+    public static final String VIEW_SPOT_BSC = "VIEW_SPOT_BSC";//现货BSC
 
 
     //自选列表
@@ -173,6 +190,22 @@ public class AppConfig {
     //现货 名称Z到A
     public static final String SPOT_GRAY_NAME_Z2A = "SPOT_GRAY_NAME_Z2A";
 
+    //现货BSC列表
+    public static final String SPOT_BSC_ALL = "SPOT_BSC_ALL";
+    //现货 价格高2低
+    public static final String SPOT_BSC_PRICE_HIGH2LOW = "SPOT_BSC_PRICE_HIGH2LOW";
+    //现货 价格低2高
+    public static final String SPOT_BSC_PRICE_LOW2HIGH = "SPOT_BSC_PRICE_LOW2HIGH";
+    //现货 涨跌幅高2低
+    public static final String SPOT_BSC_RATE_HIGH2LOW = "SPOT_BSC_RATE_HIGH2LOW";
+    //现货 涨跌幅低2高
+    public static final String SPOT_BSC_RATE_LOW2HIGH = "SPOT_BSC_RATE_LOW2HIGH";
+    //现货 名称A到Z
+    public static final String SPOT_BSC_NAME_A2Z = "SPOT_BSC_NAME_A2Z";
+    //现货 名称Z到A
+    public static final String SPOT_BSC_NAME_Z2A = "SPOT_BSC_NAME_Z2A";
+
+
     //合约列表
     public static final String CONTRACT_ALL = "CONTRACT_ALL";
     //合约 价格高2低
@@ -268,6 +301,9 @@ public class AppConfig {
     public static final String QUOTE_HOST = "QUOTE_HOST";
     /*行情合约号*/
     public static final String QUOTE_CODE = "QUOTE_CODE";
+    /*行情合约号json*/
+    public static final String QUOTE_CODE_JSON = "QUOTE_CODE_JSON";
+
     /*合约号详情*/
     public static final String QUOTE_DETAIL = "QUOTE_DETAIL";
     /*主题切换*/

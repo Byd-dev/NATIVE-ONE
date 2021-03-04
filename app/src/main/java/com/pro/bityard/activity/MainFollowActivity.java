@@ -822,12 +822,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_contract.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         recyclerView_contract.setAdapter(contractSelectAdapter);
         contractTitleList = new ArrayList<>();
-        contractTitleList.add(getString(R.string.text_contract));
+        contractTitleList.add(getString(R.string.text_add_pass_coin));
         contractTitleList.add(getString(R.string.text_derived));
         contractTitleList.add(getString(R.string.text_foreign_exchange));
 
         contractSelectAdapter.setDatas(contractTitleList);
-        contractSelectAdapter.select(getString(R.string.text_contract));
+        contractSelectAdapter.select(getString(R.string.text_add_pass_coin));
         contractSelectAdapter.setEnable(true);
         /*合约的监听*/
         contractSelectAdapter.setOnItemClick((position, data) -> {
@@ -897,6 +897,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         spotTitleList.add("DeFi");
         spotTitleList.add("Pos");
         spotTitleList.add("Gray");
+        spotTitleList.add("Bsc");
 
         spotSelectAdapter.setDatas(spotTitleList);
         spotSelectAdapter.select(getString(R.string.text_all_country_code));
@@ -971,7 +972,22 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     break;
-
+                case 4:
+                    type = AppConfig.SPOT_BSC_ALL;
+                    zone_type = AppConfig.VIEW_SPOT_BSC;
+                    quoteList = arrayMap.get(type);
+                    if (quoteList == null) {
+                        layout_null.setVisibility(View.VISIBLE);
+                        recyclerView_market.setVisibility(View.GONE);
+                    } else {
+                        layout_null.setVisibility(View.GONE);
+                        recyclerView_market.setVisibility(View.VISIBLE);
+                        quoteAdapter_market.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
 
             }
         });
@@ -1007,7 +1023,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
 
                 if (tab.getPosition() == 0) {
-                    optionalSelectAdapter.select(getString(R.string.text_contract));//按到自选自动跳到现货
+                    optionalSelectAdapter.select(getString(R.string.text_add_pass_coin));//按到自选自动跳到现货
                     layout_optional_select.setVisibility(View.VISIBLE);
                     layout_contract_select.setVisibility(View.GONE);
                     layout_spot_select.setVisibility(View.GONE);
@@ -1028,7 +1044,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 } else if (tab.getPosition() == 1) {
-                    contractSelectAdapter.select(getString(R.string.text_contract));//按到自选自动跳到现货
+                    contractSelectAdapter.select(getString(R.string.text_add_pass_coin));//按到自选自动跳到现货
                     layout_optional_select.setVisibility(View.GONE);
                     layout_contract_select.setVisibility(View.VISIBLE);
                     layout_spot_select.setVisibility(View.GONE);

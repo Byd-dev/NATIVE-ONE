@@ -10,6 +10,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -49,6 +50,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -169,7 +173,6 @@ public class Util {
                                 + "," + dataDetail.get(j).getZone()
                                 + "," + dataDetail.get(j).getName()
                                 + "," + data.getBrand().getDefaultCurrency());
-
                     }
 
 
@@ -1304,6 +1307,9 @@ public class Util {
             case AppConfig.VIEW_SPOT_GRAY:
                 type = AppConfig.SPOT_GRAY_PRICE_HIGH2LOW;
                 break;
+            case AppConfig.VIEW_SPOT_BSC:
+                type = AppConfig.SPOT_BSC_PRICE_HIGH2LOW;
+                break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_PRICE_HIGH2LOW;
                 break;
@@ -1347,6 +1353,9 @@ public class Util {
                 break;
             case AppConfig.VIEW_SPOT_GRAY:
                 type = AppConfig.SPOT_GRAY_PRICE_LOW2HIGH;
+                break;
+            case AppConfig.VIEW_SPOT_BSC:
+                type = AppConfig.SPOT_BSC_PRICE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_PRICE_LOW2HIGH;
@@ -1393,6 +1402,9 @@ public class Util {
             case AppConfig.VIEW_SPOT_GRAY:
                 type = AppConfig.SPOT_GRAY_RATE_HIGH2LOW;
                 break;
+            case AppConfig.VIEW_SPOT_BSC:
+                type = AppConfig.SPOT_BSC_RATE_HIGH2LOW;
+                break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_RATE_HIGH2LOW;
                 break;
@@ -1437,6 +1449,9 @@ public class Util {
             case AppConfig.VIEW_SPOT_GRAY:
                 type = AppConfig.SPOT_GRAY_RATE_LOW2HIGH;
                 break;
+            case AppConfig.VIEW_SPOT_BSC:
+                type = AppConfig.SPOT_BSC_RATE_LOW2HIGH;
+                break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_RATE_LOW2HIGH;
                 break;
@@ -1480,6 +1495,9 @@ public class Util {
                 break;
             case AppConfig.VIEW_SPOT_GRAY:
                 type = AppConfig.SPOT_GRAY_NAME_A2Z;
+                break;
+            case AppConfig.VIEW_SPOT_BSC:
+                type = AppConfig.SPOT_BSC_NAME_A2Z;
                 break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_NAME_A2Z;
@@ -1527,6 +1545,9 @@ public class Util {
                 break;
             case AppConfig.VIEW_SPOT_GRAY:
                 type = AppConfig.SPOT_GRAY_NAME_Z2A;
+                break;
+            case AppConfig.VIEW_SPOT_BSC:
+                type = AppConfig.SPOT_BSC_NAME_Z2A;
                 break;
             case AppConfig.VIEW_SPOT_POS:
                 type = AppConfig.SPOT_POS_NAME_Z2A;
@@ -1656,5 +1677,24 @@ public class Util {
         return format;
     }
 
+
+    public static String getJson(String fileName,Context context) {
+        //将json数据变成字符串
+        StringBuilder stringBuilder = new StringBuilder();
+        try {
+            //获取assets资源管理器
+            AssetManager assetManager = context.getAssets();
+            //通过管理器打开文件并读取
+            BufferedReader bf = new BufferedReader(new InputStreamReader(
+                    assetManager.open(fileName)));
+            String line;
+            while ((line = bf.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
+    }
 
 }

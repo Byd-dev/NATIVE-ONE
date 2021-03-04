@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.provider.Settings;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +16,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
 import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.QuoteCodeEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TradeListManger;
@@ -41,14 +41,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
-import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
@@ -118,12 +115,16 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
     }
 
 
-
-
     private void init() {
         //初始化webSocket 行情
         SocketQuoteManger.getInstance().initSocket();
         startScheduleJob(mHandler, 2000, 2000);
+
+        String json = Util.getJson("layout.json", this);
+        SPUtils.putString(AppConfig.QUOTE_CODE_JSON, json);
+
+
+
 
         NetManger.getInstance().getInit((state, response) -> {
             if (state.equals(BUSY)) {
@@ -134,11 +135,10 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     SPUtils.putString(AppConfig.PRIZE_TRADE, initEntity.getBrand().getPrizeTrade());//礼金抵扣比例
                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
                     SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
-                    SPUtils.putData(AppConfig.KEY_COMMODITY,initEntity);
+                    SPUtils.putData(AppConfig.KEY_COMMODITY, initEntity);
                     String allList2 = Util.initContractList(initEntity.getData());
 
                     SPUtils.putString(AppConfig.CONTRACT_ID, allList2);
-                   // Log.d("print", "init:137:  "+allList2);
                     TradeListManger.getInstance().getTradeList(allList2, (state1, response1) -> {
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
