@@ -927,7 +927,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
 
         for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
-            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.CONTRACT)) {
+            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.CONTRACT)||quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.DERIVATIVES)) {
                 for (int j = 0; j < quoteCodeEntity.getGroup().get(i).getList().size(); j++) {
                     for (String mainQuote : quoteList) {
                         String[] split = mainQuote.split(",");

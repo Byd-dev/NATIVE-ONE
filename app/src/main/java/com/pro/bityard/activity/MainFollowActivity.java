@@ -1023,7 +1023,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
 
                 if (tab.getPosition() == 0) {
-                    optionalSelectAdapter.select(getString(R.string.text_add_pass_coin));//按到自选自动跳到现货
+                    optionalSelectAdapter.select(getString(R.string.text_contract));//按到自选自动跳到现货
                     layout_optional_select.setVisibility(View.VISIBLE);
                     layout_contract_select.setVisibility(View.GONE);
                     layout_spot_select.setVisibility(View.GONE);
