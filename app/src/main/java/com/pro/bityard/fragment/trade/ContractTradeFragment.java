@@ -941,7 +941,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     text_position_size.setVisibility(View.VISIBLE);
                     text_position_size.setText(size + "");
                     text_position.setTextColor(activity.getResources().getColor(R.color.maincolor));
-
                 }
             }
         });
