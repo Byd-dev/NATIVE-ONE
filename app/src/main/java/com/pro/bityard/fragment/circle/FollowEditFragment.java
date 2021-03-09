@@ -27,6 +27,7 @@ import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.TipEntity;
+import com.pro.bityard.manger.NoticeManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.CircleImageView;
@@ -687,6 +688,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                         dismissProgressDialog();
                         Toast.makeText(getActivity(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
                         getActivity().finish();
+                        NoticeManger.getInstance().notice();
 
                     } else if (state.equals(FAILURE)) {
                         dismissProgressDialog();

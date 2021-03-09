@@ -18,12 +18,14 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
+import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.adapter.AmountListAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.TipEntity;
+import com.pro.bityard.manger.NoticeManger;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.CircleImageView;
 import com.pro.bityard.view.DecimalEditText;
@@ -536,6 +538,8 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
                                 TipEntity tipEntity = (TipEntity) response;
                                 if (tipEntity.getMessage().equals("")) {
                                     Toast.makeText(getActivity(), getResources().getString(R.string.text_tip_success), Toast.LENGTH_SHORT).show();
+                                    getActivity().finish();
+                                    NoticeManger.getInstance().notice();
                                 } else {
                                     Toast.makeText(getActivity(), tipEntity.getMessage(), Toast.LENGTH_SHORT).show();
                                 }

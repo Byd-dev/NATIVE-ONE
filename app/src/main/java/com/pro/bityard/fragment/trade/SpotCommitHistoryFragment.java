@@ -192,12 +192,9 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
         linearLayoutManager=new LinearLayoutManager(getActivity());
         recyclerView_spot.setLayoutManager(linearLayoutManager);
         recyclerView_spot.setAdapter(spotHistoryAdapter);
-        spotHistoryAdapter.setOnDetailClick(new SpotHistoryAdapter.OnDetailClick() {
-            @Override
-            public void onClickListener(SpotHistoryEntity.DataBean data) {
-                if (data.getStatus()!=6){
-                    showDetailPopWindow(data);
-                }
+        spotHistoryAdapter.setOnDetailClick(data -> {
+            if (data.getStatus()!=6){
+                showDetailPopWindow(data);
             }
         });
 
@@ -234,6 +231,7 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
 
 
     /*显示详情*/
+    @SuppressLint("SetTextI18n")
     private void showDetailPopWindow(SpotHistoryEntity.DataBean dataBean) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getContext()).inflate(R.layout.item_spot_detail_pop, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
@@ -276,7 +274,11 @@ public class SpotCommitHistoryFragment extends BaseFragment implements View.OnCl
         }
 
 
-        text_status.setText(dataBean.getStatus().toString());
+        Integer status = dataBean.getStatus();
+        if (status==8){
+            text_status.setText(R.string.text_all_trade);
+        }
+
         text_volume.setText(TradeUtil.justDisplay(dataBean.getOpVolume()));
         text_average_price.setText(TradeUtil.justDisplay(dataBean.getOpPrice())+"/"+TradeUtil.justDisplay(dataBean.getPrice()));
 

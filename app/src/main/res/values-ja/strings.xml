@@ -614,6 +614,8 @@
     <string name="text_four_much">标签最多可设置4个</string>
     <string name="text_position_follow">跟随</string>
     <string name="text_add_pass_coin">加密货币</string>
+    <string name="text_all_trade">全部成交(100%)</string>
+    <string name="text_quick">快捷</string>
 
 
 </resources>

@@ -55,6 +55,7 @@ import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.InitManger;
 import com.pro.bityard.manger.NetIncomeManger;
+import com.pro.bityard.manger.NoticeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.SocketQuoteManger;
@@ -473,6 +474,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     text_balance_currency.setText(getResources().getString(R.string.text_default));
                 }
             });
+        }else if (o== NoticeManger.getInstance()){
+            Log.d("print", "update:478:  "+"收到");
+            getFollowList();
         }
     }
 
@@ -581,7 +585,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         }
 
         //跟单列表
-        //  getFollowList();
+        //getFollowList();
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             text_userName.setText(loginEntity.getUser().getUserName());
@@ -697,6 +701,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         UserDetailManger.getInstance().addObserver(this);
         //初始化 交易设置
         radioButton_2.setOnClickListener(this);
+        //跟单的消息提醒
+        NoticeManger.getInstance().addObserver(this);
 
 
 
@@ -1449,7 +1455,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     }
 
 
-    private void getFollowList() {
+    public void getFollowList() {
         NetManger.getInstance().followList(null, null,
                 null, null, null, null, null, null,
                 null, null, null, "1", "20", (state, response) -> {
@@ -1560,6 +1566,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         //QuoteCustomizeListManger.getInstance().clear();
         SPUtils.remove(AppConfig.RATE_LIST);
         UserDetailManger.getInstance().clear();
+        NoticeManger.getInstance().clear();
         cancelTimer();
         //  UserDetailManger.getInstance().cancelTimer();
 

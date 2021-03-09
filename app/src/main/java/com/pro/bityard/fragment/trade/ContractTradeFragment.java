@@ -943,11 +943,15 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     if (text_position_size!=null){
                         text_position_size.setVisibility(View.GONE);
                         text_position.setTextColor(activity.getResources().getColor(R.color.text_second_color));
+                        text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position),null , null);
+
                     }
                 } else {
                     text_position_size.setVisibility(View.VISIBLE);
                     text_position_size.setText(size + "");
                     text_position.setTextColor(activity.getResources().getColor(R.color.maincolor));
+                    text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position_yellow),null , null);
+
                 }
             }
         });
