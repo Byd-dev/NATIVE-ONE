@@ -118,8 +118,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
     @BindView(R.id.text_lever)
     TextView text_lever;
-
-
+    
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
 
