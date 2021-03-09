@@ -953,7 +953,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         titles.add("5min");
         titles.add("15min");
         titles.add(getResources().getString(R.string.text_more));
-
         QuoteCodeManger.getInstance().addObserver(this);
 
 
