@@ -139,6 +139,7 @@ public class InitEntity implements Serializable{
     }
 
     public static class BrandBean {
+
         @Override
         public String toString() {
             return "BrandBean{" +
@@ -154,6 +155,8 @@ public class InitEntity implements Serializable{
                     ", iosUrl='" + iosUrl + '\'' +
                     ", logoUrl='" + logoUrl + '\'' +
                     ", nameAuth=" + nameAuth +
+                    ", prizeTrade='" + prizeTrade + '\'' +
+                    ", luckyTrade='" + luckyTrade + '\'' +
                     ", supportCurrency='" + supportCurrency + '\'' +
                     ", valid=" + valid +
                     ", withdrawHour1=" + withdrawHour1 +
@@ -188,6 +191,8 @@ public class InitEntity implements Serializable{
 
 
 
+
+
         private int activityDays;
         private String androidUrl;
         private String code;
@@ -201,6 +206,7 @@ public class InitEntity implements Serializable{
         private String logoUrl;
         private Object nameAuth;
         private String prizeTrade;
+        private String luckyTrade;
         private String supportCurrency;
         private boolean valid;
         private int withdrawHour1;
@@ -208,6 +214,14 @@ public class InitEntity implements Serializable{
         private int withdrawInterval;
         private int withdrawWeek1;
         private int withdrawWeek2;
+
+        public String getLuckyTrade() {
+            return luckyTrade;
+        }
+
+        public void setLuckyTrade(String luckyTrade) {
+            this.luckyTrade = luckyTrade;
+        }
 
         public int getActivityDays() {
             return activityDays;

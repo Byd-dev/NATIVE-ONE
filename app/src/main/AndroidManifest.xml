@@ -71,28 +71,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.DetailActivity" />
-        <activity android:name=".activity.MainActivity" />
         <activity android:name=".guide.SplashActivity" />
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.RegisterActivity" />
         <activity android:name=".activity.UserActivity" />
         <activity android:name=".activity.ForgetActivity" />
         <activity android:name=".activity.ResetPassActivity" />
-        <activity
-            android:name=".activity.QuoteDetailActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
-
-        </activity>
         <activity android:name=".activity.WebActivity" />
         <activity android:name=".activity.TestActivity" />
 
-        <activity android:name=".activity.MainOneActivity" />
         <activity android:name=".activity.MainFollowActivity" />
         <activity android:name=".activity.PersonActivity" />
         <activity android:name=".activity.FilterSettingsActivity" />
         <activity android:name=".activity.FilterResultActivity" />
         <activity android:name=".activity.FollowDetailActivity" />
-        <activity android:name=".activity.TradeActivity" />
         <activity
             android:name=".activity.TradeTabActivity"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />

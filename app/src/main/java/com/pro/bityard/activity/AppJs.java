@@ -87,10 +87,10 @@ public class AppJs {
     public void openPageParam(String pageName, String data) {
         switch (pageName) {
             case IntentConfig.Keys.KEY_TRADE_LIVE://实盘交易
-                QuoteDetailActivity.enter(activity, "1", data);
+                TradeTabActivity.enter(activity, "1", data);
                 break;
             case IntentConfig.Keys.KEY_TRADE_DEMO://模拟交易
-                QuoteDetailActivity.enter(activity, "2", data);
+                TradeTabActivity.enter(activity, "2", data);
                 break;
         }
     }
@@ -103,10 +103,10 @@ public class AppJs {
 
         switch (pageName) {
             case IntentConfig.Keys.KEY_TRADE_LIVE://实盘交易
-                QuoteDetailActivity.enter(activity, "1", "BTCUSDT1808,-1,11786.41,11803.59,11786.26,0.0678,11786.52,0.0678,11827.04,11658.68");
+                TradeTabActivity.enter(activity, "1", "BTCUSDT1808,-1,11786.41,11803.59,11786.26,0.0678,11786.52,0.0678,11827.04,11658.68");
                 break;
             case IntentConfig.Keys.KEY_TRADE_DEMO://模拟交易
-                QuoteDetailActivity.enter(activity, "2", "BTCUSDT1808,-1,11786.41,11803.59,11786.26,0.0678,11786.52,0.0678,11827.04,11658.68");
+                TradeTabActivity.enter(activity, "2", "BTCUSDT1808,-1,11786.41,11803.59,11786.26,0.0678,11786.52,0.0678,11827.04,11658.68");
                 break;
             case IntentConfig.Keys.KEY_LOGIN://登录
                 LoginActivity.enter(activity, IntentConfig.Keys.KEY_LOGIN);

@@ -328,8 +328,10 @@ public class AppConfig {
     public static final String USD_RATE = "USD_RATE";
     /*可支持的currency*/
     public static final String SUPPORT_CURRENCY = "SUPPORT_CURRENCY";
-    /*抵扣金额*/
+    /*礼金抵扣金额*/
     public static final String PRIZE_TRADE = "prizeTrade";
+    /*红包抵扣金额*/
+    public static final String LUCKY_TRADE = "luckyTrade";
     /*本地自选*/
     public static final String KEY_OPTIONAL = "KEY_OPTIONAL";
     /*本地历史*/

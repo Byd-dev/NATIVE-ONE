@@ -2,7 +2,6 @@ package com.pro.bityard.adapter;
 
 import android.content.Context;
 import android.util.ArrayMap;
-import android.util.ArraySet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +10,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.TradeActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;

@@ -307,7 +307,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     private TradeListEntity tradeListEntity;
     private TextView text_deduction_amount_pop;
-    private String prizeTrade = null;
+    private String prizeTrade = null,luckyTrade=null;
 
     @BindView(R.id.text_market_currency)
     TextView text_market_currency;
@@ -814,7 +814,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         //礼金抵扣比例
         prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
-
+        //红包抵扣比例
+        luckyTrade = SPUtils.getString(AppConfig.LUCKY_TRADE,null);
         if (itemData.equals("")) {
             return;
         }
@@ -1477,14 +1478,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         text_service.setText(TradeUtil.numberHalfUp(Double.parseDouble(service), 2) + " " + getString(R.string.text_usdt));
         TextView text_all = view.findViewById(R.id.text_all_pop);
         text_deduction_amount_pop = view.findViewById(R.id.text_deduction_amount_pop);
-        if (Double.parseDouble(TradeUtil.deductionResult(service, margin, prizeTrade)) == 0) {
+        if (Double.parseDouble(TradeUtil.deductionResult(service, margin, prizeTrade,luckyTrade)) == 0) {
             layout_deduction.setVisibility(View.GONE);
         }
 
 
-        text_deduction_amount_pop.setText(TradeUtil.deductionResult(service, margin, prizeTrade) + " " + getString(R.string.text_usdt));
+        text_deduction_amount_pop.setText(TradeUtil.deductionResult(service, margin, prizeTrade,luckyTrade) + " " + getString(R.string.text_usdt));
 
-        text_all.setText(TradeUtil.total(margin, service, TradeUtil.deductionResult(service, margin, prizeTrade)) + getString(R.string.text_usdt));
+        text_all.setText(TradeUtil.total(margin, service, TradeUtil.deductionResult(service, margin, prizeTrade,luckyTrade)) + getString(R.string.text_usdt));
 
         view.findViewById(R.id.text_sure).setOnClickListener(v -> {
             String priceMuch = text_buy_much.getText().toString();
@@ -1709,7 +1710,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                         if (prizeTrade != null && service != null) {
                             text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
                                     service,
-                                    TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
+                                    TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade,luckyTrade)) + " " + getResources().getString(R.string.text_usdt));
                         }
 
                     } else {
@@ -1723,7 +1724,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                         if (prizeTrade != null && service != null) {
                             text_limit_all.setText(TradeUtil.total(edit_limit_margin.getText().toString(),
                                     service,
-                                    TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade)) + " " + getResources().getString(R.string.text_usdt));
+                                    TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade,luckyTrade)) + " " + getResources().getString(R.string.text_usdt));
                         }
 
                     } else {
@@ -2255,7 +2256,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 Util.lightOff(getActivity());
                 if (prizeTrade != null) {
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, value_margin, lever);
-                    String prizeDub = TradeUtil.deductionResult(service, value_margin, prizeTrade);
+                    String prizeDub = TradeUtil.deductionResult(service, value_margin, prizeTrade,luckyTrade);
                     PopUtil.getInstance().showLongTip(getActivity(),
                             layout_view, false,
                             getString(R.string.text_service_tip),
@@ -2274,7 +2275,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 }
                 if (prizeTrade != null) {
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, value_margin_limit, lever);
-                    String prizeDub = TradeUtil.deductionResult(service, value_margin_limit, prizeTrade);
+                    String prizeDub = TradeUtil.deductionResult(service, value_margin_limit, prizeTrade,luckyTrade);
                     Util.lightOff(getActivity());
                     PopUtil.getInstance().showLongTip(getActivity(),
                             layout_view, false,

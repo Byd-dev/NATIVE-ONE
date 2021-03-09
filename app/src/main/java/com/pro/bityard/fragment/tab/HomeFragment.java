@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
-import com.pro.bityard.activity.QuoteDetailActivity;
+import com.pro.bityard.activity.TradeTabActivity;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
@@ -123,7 +123,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         recyclerView_hot.setAdapter(quoteHomeAdapter);
 
 
-        quoteHomeAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(getContext(), "1", data));
+        quoteHomeAdapter.setOnItemClick(data -> TradeTabActivity.enter(getContext(), "1", data));
 
 
         view.findViewById(R.id.img_icon1).setOnClickListener(this);
@@ -140,7 +140,7 @@ public class HomeFragment extends BaseFragment implements View.OnClickListener, 
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::getBanner);
 
-        quoteAdapter.setOnItemClick(data -> QuoteDetailActivity.enter(getContext(), "1", data));
+        quoteAdapter.setOnItemClick(data -> TradeTabActivity.enter(getContext(), "1", data));
 
 
     }

@@ -886,9 +886,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         }
                         text_scale.setText(TradeUtil.scaleString(TradeUtil.decimalPoint(String.valueOf(price))));
                         if (value_rate != null) {
-                            text_currency_price.setText("≈" + TradeUtil.numberHalfUp(TradeUtil.mul(price, Double.parseDouble(value_rate)), 2));
+                            text_currency_price.setText("$" + TradeUtil.numberHalfUp(TradeUtil.mul(price, Double.parseDouble(value_rate)), 2));
                         } else {
-                            text_currency_price.setText("≈" + price);
+                            text_currency_price.setText("$" + price);
                         }
                         switch (isUp) {
                             case -1:

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.pro.bityard.activity.MainOneActivity;
+import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.utils.ExampleUtil;
 import com.pro.bityard.utils.TagAliasOperatorHelper;
 
@@ -34,7 +34,7 @@ public class PushMessageReceiver extends JPushMessageReceiver {
         Log.e(TAG, "[onNotifyMessageOpened] " + message);
         try {
             //打开自定义的Activity
-            Intent i = new Intent(context, MainOneActivity.class);
+            Intent i = new Intent(context, MainFollowActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString(JPushInterface.EXTRA_NOTIFICATION_TITLE, message.notificationTitle);
             bundle.putString(JPushInterface.EXTRA_ALERT, message.notificationContent);
@@ -119,16 +119,16 @@ public class PushMessageReceiver extends JPushMessageReceiver {
 
     //send msg to MainActivity
     private void processCustomMessage(Context context, CustomMessage customMessage) {
-        if (MainOneActivity.isForeground) {
+        if (MainFollowActivity.isForeground) {
             String message = customMessage.message;
             String extras = customMessage.extra;
-            Intent msgIntent = new Intent(MainOneActivity.MESSAGE_RECEIVED_ACTION);
-            msgIntent.putExtra(MainOneActivity.KEY_MESSAGE, message);
+            Intent msgIntent = new Intent(MainFollowActivity.MESSAGE_RECEIVED_ACTION);
+            msgIntent.putExtra(MainFollowActivity.KEY_MESSAGE, message);
             if (!ExampleUtil.isEmpty(extras)) {
                 try {
                     JSONObject extraJson = new JSONObject(extras);
                     if (extraJson.length() > 0) {
-                        msgIntent.putExtra(MainOneActivity.KEY_EXTRAS, extras);
+                        msgIntent.putExtra(MainFollowActivity.KEY_EXTRAS, extras);
                     }
                 } catch (JSONException e) {
 

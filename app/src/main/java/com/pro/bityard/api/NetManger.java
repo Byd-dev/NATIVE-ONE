@@ -979,6 +979,8 @@ public class NetManger {
                 if (initEntity.getGroup() != null) {
                     SPUtils.putString(AppConfig.SUPPORT_CURRENCY, initEntity.getBrand().getSupportCurrency());//可支持的货币
                     SPUtils.putString(AppConfig.PRIZE_TRADE, initEntity.getBrand().getPrizeTrade());//礼金抵扣比例
+                    SPUtils.putString(AppConfig.LUCKY_TRADE, initEntity.getBrand().getLuckyTrade());//礼金抵扣比例
+
                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
                     SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
 

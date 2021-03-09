@@ -97,8 +97,10 @@ import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
 public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener {
-
     public static boolean isForeground = false;
+    public static final String MESSAGE_RECEIVED_ACTION = "${applicationId}.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
 
 
     @BindView(R.id.layout_view)

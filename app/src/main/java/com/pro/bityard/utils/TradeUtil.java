@@ -1906,29 +1906,43 @@ public class TradeUtil {
     }
 
     /*计算抵扣金额 抵扣金额是=礼金抵扣+红包抵扣 */
-    public static String deductionResult(String service, String margin, String prizeTrade) {
+    public static String deductionResult(String service, String margin, String prizeTrade,String luckyTrade) {
         if (service == null) {
             return null;
         }
-        double mul = TradeUtil.mul(parseDouble(margin), parseDouble(prizeTrade));
+
+
+
+        double prize_mul = TradeUtil.mul(parseDouble(margin), parseDouble(prizeTrade));
         double prize = BalanceManger.getInstance().getPrize();
-        double prizeDou, luckyDou;
+        double prizeDou;
         if (prizeTrade != null) {
-            if (mul <= prize) {
-                prizeDou = Double.parseDouble(TradeUtil.numberHalfUp(mul, 2));
+            if (prize_mul <= prize) {
+                prizeDou = Double.parseDouble(TradeUtil.numberHalfUp(prize_mul, 2));
             } else {
                 prizeDou = 0.00;
             }
         } else {
             prizeDou = 0.00;
         }
+        double lucky_mul = TradeUtil.mul(parseDouble(service), parseDouble(luckyTrade));
         double lucky = BalanceManger.getInstance().getLucky();
-        // Log.d("print", "deductionResult:红包:  " + lucky);
-        if (Double.parseDouble(service) <= lucky) {
-            luckyDou = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(service), 2));
+        double luckyDou;
+        if (luckyTrade != null) {
+            if (lucky_mul <= lucky) {
+                luckyDou = Double.parseDouble(TradeUtil.numberHalfUp(lucky_mul, 2));
+            } else {
+                luckyDou = 0.00;
+            }
         } else {
             luckyDou = 0.00;
         }
+        // Log.d("print", "deductionResult:红包:  " + lucky);
+      /*  if (Double.parseDouble(service) <= lucky) {
+            luckyDou = Double.parseDouble(TradeUtil.numberHalfUp(Double.parseDouble(service), 2));
+        } else {
+            luckyDou = 0.00;
+        }*/
         String deduction = TradeUtil.numberHalfUp(TradeUtil.add(prizeDou, luckyDou), 2);
         return deduction;
     }

@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.QuoteDetailActivity;
+import com.pro.bityard.activity.TradeTabActivity;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
@@ -87,7 +87,7 @@ public class MarketFragment extends BaseFragment implements View.OnClickListener
 
         quoteAdapter.setOnItemClick(data -> {
             Log.d("print", "onSuccessListener:92:  " + data);
-            QuoteDetailActivity.enter(getContext(), "1", data);
+            TradeTabActivity.enter(getContext(), "1", data);
 
 
         });
