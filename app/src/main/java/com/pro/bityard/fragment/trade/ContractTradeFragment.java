@@ -74,6 +74,7 @@ import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
+import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
@@ -315,7 +316,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     TextView text_limit_currency;
 
     //当前行情号
-    private String quote_code = null;
+    private String quote_code = null,quote_code_old=null;
 
     private QuoteMinEntity quoteMinEntity;
 
@@ -637,13 +638,17 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         });
 
+        quote_code_old=quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
+            quote_code = TradeUtil.itemQuoteContCode(data);
+            if (!quote_code_old.equals(quote_code)){
+                WebSocketManager.getInstance().send("4002", quote_code_old);
+            }
+            Log.d("print", "showQuotePopWindow:644:  "+quote_code_old+"   "+quote_code);
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 QuoteCodeManger.getInstance().postTag(data);
-                quote_code = TradeUtil.itemQuoteContCode(data);
+
                 type = AppConfig.CONTRACT_IN_ALL;
-
-
                 TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
                 Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
                 //自选的图标
@@ -935,8 +940,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 PositionEntity positionEntity = (PositionEntity) response1;
                 int size = positionEntity.getData().size();
                 if (size == 0) {
-                    text_position_size.setVisibility(View.GONE);
-                    text_position.setTextColor(activity.getResources().getColor(R.color.text_second_color));
+                    if (text_position_size!=null){
+                        text_position_size.setVisibility(View.GONE);
+                        text_position.setTextColor(activity.getResources().getColor(R.color.text_second_color));
+                    }
                 } else {
                     text_position_size.setVisibility(View.VISIBLE);
                     text_position_size.setText(size + "");
@@ -1615,11 +1622,13 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     public void update(Observable o, Object arg) {
         if (o == QuoteCodeManger.getInstance()) {
             itemData = (String) arg;
+            runOnUiThread(() -> {
+                text_name.setText(TradeUtil.name(itemData));
+                text_currency.setText(TradeUtil.currency(itemData));
+                text_market_currency.setText(TradeUtil.currency(itemData));
+                text_limit_currency.setText(TradeUtil.currency(itemData));
+            });
 
-            text_name.setText(TradeUtil.name(itemData));
-            text_currency.setText(TradeUtil.currency(itemData));
-            text_market_currency.setText(TradeUtil.currency(itemData));
-            text_limit_currency.setText(TradeUtil.currency(itemData));
         } else if (o == SocketQuoteManger.getInstance()) {
             if (!isAdded()) {
                 return;

@@ -102,7 +102,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     LinearLayout layout_null;
     private String tradeType = "1";//实盘=1 模拟=2
     private String itemData;
-    private String quote_code = null;
+    private String quote_code = null,quote_code_old=null;
 
     @BindView(R.id.img_star_spot)
     ImageView img_star_spot;
@@ -1346,14 +1346,18 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         });
 
+        quote_code_old=quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
+            quote_code = TradeUtil.itemQuoteContCode(data);
+            if (!quote_code_old.equals(quote_code)){
+                WebSocketManager.getInstance().send("4002", quote_code_old);
+            }
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)){
                 QuoteCodeManger.getInstance().postTag(data);
             }else if (TradeUtil.type(data).equals(AppConfig.TYPE_CH)){
                 SpotCodeManger.getInstance().postTag(data);
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "  " + old_code);
                 setContent(data);
-                quote_code = TradeUtil.itemQuoteContCode(data);
                 type = AppConfig.CONTRACT_IN_ALL;
                 WebSocketManager.getInstance().send("4002", old_code);
 
