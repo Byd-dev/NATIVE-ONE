@@ -618,6 +618,7 @@
     <string name="text_quick">快捷</string>
     <string name="text_volume_detail">交易量</string>
     <string name="text_add_optional">添加自选</string>
+    <string name="text_price_usdt">价格 USDT</string>
 
 
 </resources>

@@ -691,7 +691,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     double money = balanceEntity.getMoney();
                     int scale = (int) response2;
                     if (isBuy.equals("true")) {
-                        text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+                        text_balance.setText(BalanceManger.getInstance().getBalanceReal() + " " + getResources().getString(R.string.text_usdt));
                     } else {
                         text_balance.setText(TradeUtil.justDisplay(money) + " " + tradeName);
                     }
