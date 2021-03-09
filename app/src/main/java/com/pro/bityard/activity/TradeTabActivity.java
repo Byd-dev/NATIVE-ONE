@@ -109,13 +109,21 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             if (quote_code != null) {
                 if (isContract) {
                     quote_code = itemQuoteContCode(defaultContract);
-                    if (!quote_code.equals(quote_code_old)){
-                        WebSocketManager.getInstance().send("4002", quote_code_old);
 
-                    }else {
+                    Log.d("print", "handleMessage:113: "+quote_code+"   "+quote_code_old);
+                    if (quote_code_old==null){
                         WebSocketManager.getInstance().send("4001", quote_code);
 
+                    }else {
+                        if (!quote_code.equals(quote_code_old)){
+                            WebSocketManager.getInstance().send("4002", quote_code_old);
+
+                        }else {
+                            WebSocketManager.getInstance().send("4001", quote_code);
+
+                        }
                     }
+
                     Log.d("print", "handleMessage:TradeTabd订阅合约: " + isContract + "  " + quote_code);
                     String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
                     Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
@@ -129,12 +137,17 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     Log.d("print", "handleMessage:TradeTabd订阅现货: " + isContract + "  " + quote_code);
                     quote_code = itemQuoteContCode(defaultSpot);
-                    if (!quote_code.equals(quote_code_old)){
-                        WebSocketManager.getInstance().send("4002", quote_code_old);
-
-                    }else {
+                    if (quote_code_old==null){
                         WebSocketManager.getInstance().send("4001", quote_code);
 
+                    }else {
+                        if (!quote_code.equals(quote_code_old)){
+                            WebSocketManager.getInstance().send("4002", quote_code_old);
+
+                        }else {
+                            WebSocketManager.getInstance().send("4001", quote_code);
+
+                        }
                     }
                     WebSocketManager.getInstance().send("5001", quote_code);
                 }

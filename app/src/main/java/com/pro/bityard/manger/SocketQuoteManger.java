@@ -548,6 +548,7 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
                 break;
             case "4001":
+                Log.d("webSocket", "onMessage:4001:  "+quoteEntity.getData());
                 QuoteMinEntity quoteMinEntity = new Gson().fromJson(quoteEntity.getData(), QuoteMinEntity.class);
                 Log.d("webSocket", "onMessage:单个行情4001:  " + quoteMinEntity);
                 //QuoteCurrentManger.getInstance().postQuote(quoteMinEntity);

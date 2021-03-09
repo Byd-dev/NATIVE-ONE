@@ -209,7 +209,6 @@ public final class WebSocketManager {
             json.put("sign", value_sign);
             WebSocketManager.getInstance().sendMessage(json.toString());
 
-
         } catch (JSONException e) {
             e.printStackTrace();
         }

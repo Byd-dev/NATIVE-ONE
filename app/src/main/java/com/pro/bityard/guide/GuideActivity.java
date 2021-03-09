@@ -134,6 +134,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     SPUtils.putString(AppConfig.SUPPORT_CURRENCY, initEntity.getBrand().getSupportCurrency());//可支持的货币
                     SPUtils.putString(AppConfig.PRIZE_TRADE, initEntity.getBrand().getPrizeTrade());//礼金抵扣比例
                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
+                    Log.d("print", "init:137:  "+quoteDomain);
                     SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
                     SPUtils.putData(AppConfig.KEY_COMMODITY, initEntity);
                     String allList2 = Util.initContractList(initEntity.getData());

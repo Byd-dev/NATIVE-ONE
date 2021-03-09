@@ -457,7 +457,7 @@ public class NetManger {
 
                     @Override
                     public void onSuccess(Response<String> response) {
-                        if (!response.body().startsWith("err")) {
+                        if (!response.body().startsWith("<")) {
                             onNetResult.onNetResult(SUCCESS, response.body());
                         } else {
                             onNetResult.onNetResult(FAILURE, null);

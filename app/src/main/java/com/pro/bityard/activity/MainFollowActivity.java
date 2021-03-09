@@ -1260,7 +1260,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         findViewById(R.id.text_fiat).setOnClickListener(this);*/
         findViewById(R.id.img_edit).setOnClickListener(this);
         findViewById(R.id.text_mining).setOnClickListener(this);
-        
+
         myTitleList = new ArrayList<>();
         myTitleList.add(getString(R.string.text_assets));
         myTitleList.add(getString(R.string.text_account_my));
