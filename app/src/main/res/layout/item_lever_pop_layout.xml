@@ -41,7 +41,7 @@
                 android:visibility="visible">
 
                 <RadioButton
-                    android:id="@+id/radio_0"
+                    android:id="@+id/radio_quick"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -49,8 +49,8 @@
                     android:checked="true"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:paddingLeft="@dimen/margin_15"
-                    android:paddingRight="@dimen/margin_15"
+                    android:paddingLeft="@dimen/margin_30"
+                    android:paddingRight="@dimen/margin_30"
                     android:text="@string/text_quick"
                     android:textColor="@color/sel_switcher_txt"
                     android:textSize="14sp"
@@ -60,7 +60,7 @@
 
 
                 <RadioButton
-                    android:id="@+id/radio_1"
+                    android:id="@+id/radio_lever"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -68,9 +68,8 @@
                     android:checked="false"
                     android:gravity="center"
                     android:maxLines="1"
-                    android:paddingLeft="@dimen/margin_15"
-
-                    android:paddingRight="@dimen/margin_15"
+                    android:paddingLeft="@dimen/margin_30"
+                    android:paddingRight="@dimen/margin_30"
                     android:text="@string/text_lever"
                     android:textColor="@color/sel_switcher_txt"
                     android:textSize="@dimen/size_normal_two"

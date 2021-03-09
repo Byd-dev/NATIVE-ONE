@@ -171,18 +171,21 @@ public class HistoryFragment extends BaseFragment implements Observer {
         TextView text_bonus = view.findViewById(R.id.text_bonus);
         text_bonus.setText(TradeUtil.getNumberFormat(dataBean.getMarginPrize(),2));
 
+        TextView text_volume=view.findViewById(R.id.text_volume);
+        text_volume.setText(TradeUtil.justDisplay(dataBean.getVolume()));
+
 
         String[] split = Util.quoteList(dataBean.getContractCode()).split(",");
         text_name.setText(split[0]);
         TextView text_currency = view.findViewById(R.id.text_currency);
         text_currency.setText("/" + dataBean.getCurrency());
         boolean isBuy = dataBean.isIsBuy();
-        TextView text_side = view.findViewById(R.id.text_side);
+       /* TextView text_side = view.findViewById(R.id.text_side);
         if (isBuy) {
             text_side.setText(R.string.text_buy_much);
         } else {
             text_side.setText(R.string.text_buy_empty);
-        }
+        }*/
         //盈利
         TextView text_income = view.findViewById(R.id.text_income);
         //净收入
@@ -231,7 +234,7 @@ public class HistoryFragment extends BaseFragment implements Observer {
         text_orders.setText(String.valueOf(dataBean.getCpVolume()));
 
         TextView text_fee = view.findViewById(R.id.text_fee);
-        text_fee.setText(String.valueOf(serviceCharge));
+        text_fee.setText(TradeUtil.getNumberFormat(serviceCharge,2));
         /*TextView text_o_n = view.findViewById(R.id.text_o_n);
         text_o_n.setText(String.valueOf(dataBean.getDeferDays()));*/
         TextView text_o_n_fee = view.findViewById(R.id.text_o_n_fee);

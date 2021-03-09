@@ -14,7 +14,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/icon_null"
+            android:src="@mipmap/icon_optional_null"
             android:visibility="visible" />
 
         <TextView

@@ -1038,6 +1038,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         kline_1min_time.setShowInstant(true);
 
+        tabLayout.getTabAt(1).select();
+
         tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -1214,7 +1216,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 text_title_one.setText(titles.get(i));
                 ImageView img_subscript = view.findViewById(R.id.img_subscript);
 
-                if (i == 0) {
+                if (i == 1) {
                     text_title_one.setTextColor(getResources().getColor(R.color.maincolor));//设置一下文字颜色
                 } else {
                     text_title_one.setTextColor(getResources().getColor(R.color.text_second_color));//设置一下文字颜色
