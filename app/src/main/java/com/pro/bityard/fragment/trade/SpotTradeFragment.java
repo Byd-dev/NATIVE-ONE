@@ -696,7 +696,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                         text_balance.setText(TradeUtil.justDisplay(money) + " " + tradeName);
                     }
                 });
-
             });
         }else {
             if (isBuy.equals("true")) {
