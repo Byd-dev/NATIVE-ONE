@@ -100,7 +100,7 @@ import butterknife.BindView;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
-import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
+import static com.pro.bityard.utils.TradeUtil.contractCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
@@ -117,8 +117,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.img_star_spot)
     ImageView img_star_spot;
 
-    @BindView(R.id.text_lever)
-    TextView text_lever;
+
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
     @BindView(R.id.layout_bar)
@@ -213,6 +212,15 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     RecyclerView recyclerView_trade;
     @BindView(R.id.stay_view)
     View stay_view;
+
+
+    @BindView(R.id.text_trade_rule)
+    TextView text_trade_rule;
+    @BindView(R.id.text_lever)
+    TextView text_lever;
+    @BindView(R.id.layout_contract_rule)
+    LinearLayout layout_contract_rule;
+
     private List<String> titles = new ArrayList<>();
     private List<String> titleTrade;
     private List<KData> kData1MinHistory, kData5MinHistory, kData15MinHistory, kData3MinHistory, kData60MinHistory, kDataDayHistory, kDataWeekHistory, kDataMonthHistory;
@@ -367,6 +375,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         findViewById(R.id.layout_product).setOnClickListener(this);
         //加币 持仓
         findViewById(R.id.text_charge).setOnClickListener(this);
+
+        layout_contract_rule.setOnClickListener(this);
 
 
         findViewById(R.id.layout_buy).setOnClickListener(this);
@@ -617,7 +627,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         text_name.setText(TradeUtil.name(itemData));
         text_currency.setText(TradeUtil.currency(itemData));
-        startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
+        startScheduleJob(mHandler, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -651,8 +661,24 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             });*/
             String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
             tradeListEntityList = Util.SPDealEntityResult(string);
-            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-            Log.d("print", "initData:655: "+tradeListEntity);
+            //获取相应合约的详情
+            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode(itemData), tradeListEntityList);
+
+            Log.d("print", "initData:653: "+contractCode(itemData)+"   "+tradeListEntity);
+            if (tradeListEntity!=null){
+                List<Integer> leverList = tradeListEntity.getLeverList();
+                if (leverList.size()==0){
+                    layout_contract_rule.setVisibility(View.GONE);
+
+                }else {
+                    layout_contract_rule.setVisibility(View.VISIBLE);
+                    text_lever.setText(leverList.get(1)+"X");
+                }
+            }else {
+                layout_contract_rule.setVisibility(View.GONE);
+
+            }
+
             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     chargeUnitEntityJson = (JSONObject) response;
@@ -739,8 +765,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private boolean flag_new_price = false;
     private boolean flag_up_down = false;
     private boolean flag_name = false;
-    private String type = AppConfig.CONTRACT_IN_ALL;
-    private String zone_type = AppConfig.VIEW_CONTRACT_IN;//-1是自选 1是主区 0是创新区 2是衍生品
+    private String type = AppConfig.CONTRACT_ALL;
+    private String zone_type = AppConfig.VIEW_CONTRACT;//-1是自选 1是主区 0是创新区 2是衍生品
     private ArrayMap<String, List<String>> arrayMap;
 
     private QuoteAdapter quoteAdapter_market_pop;
@@ -756,7 +782,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         titleList = new ArrayList<>();
         titleList.add(getString(R.string.text_optional));
         titleList.add(getString(R.string.text_contract));
-        titleList.add(getString(R.string.text_derived));
+       // titleList.add(getString(R.string.text_derived));
         titleList.add(getString(R.string.text_spot));
         LinearLayout layout_optional_select_pop = view.findViewById(R.id.layout_optional_select_pop);
 
@@ -963,8 +989,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 else if (tab.getPosition() == 1) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
-                    type = AppConfig.CONTRACT_IN_ALL;
-                    zone_type = AppConfig.VIEW_CONTRACT_IN;
+                    type = AppConfig.CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_CONTRACT;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -979,7 +1005,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 }//衍生品
-                else if (tab.getPosition() == 2) {
+                /*else if (tab.getPosition() == 2) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
                     type = AppConfig.DERIVATIVES_ALL;
@@ -997,8 +1023,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                }//现货
-                else if (tab.getPosition() == 3) {
+                }*///现货
+                else if (tab.getPosition() == 2) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
                     type = AppConfig.SPOT_ALL;
@@ -1047,7 +1073,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 QuoteCodeManger.getInstance().postTag(data);
 
-            }else {
+            } else {
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
                 setContent(data);
                 itemData = data;
@@ -1064,10 +1090,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
                     }
                 });
-                text_name.setText(TradeUtil.name(data));
-                text_currency.setText(TradeUtil.currency(data));
-            }
 
+            }
 
 
             //相应选择
@@ -1198,8 +1222,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             case R.id.layout_buy:
             case R.id.layout_sell:
                 if (isLogin()) {
-                    finish();
-                    SpotCodeManger.getInstance().postTag(itemData);
+                    TradeTabActivity.enter(this, "1", itemData);
+                   // SpotCodeManger.getInstance().postTag(itemData);
                 } else {
                     LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
@@ -1302,6 +1326,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 } else {
                     LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
+                break;
+
+            case R.id.layout_contract_rule:
+                Log.d("print", "onClick:1323 "+itemData);
+               // TradeTabActivity.enter(this,"1",);
                 break;
 
         }
@@ -1709,9 +1738,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         myKLineView_1_month.cancelQuotaThread();
 
 
-        WebSocketManager.getInstance().send("4002",quote_code);
+        WebSocketManager.getInstance().send("4002", quote_code);
         quote_code = null;
-
 
 
     }

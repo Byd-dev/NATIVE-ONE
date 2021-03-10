@@ -1519,6 +1519,17 @@ public class TradeUtil {
 
     }
 
+    public static String contractCode(String quote) {
+        if (quote == null) {
+            return null;
+        } else {
+            String[] split = quote.split(",");
+            return split[0].replaceAll(" ", "").replaceAll("_CC","");
+        }
+
+    }
+
+
     /*获取当前行情的Code*/
     public static String itemQuoteCode(String quote) {
         if (quote == null) {

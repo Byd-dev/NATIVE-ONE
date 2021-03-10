@@ -331,8 +331,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     private boolean flag_new_price = false;
     private boolean flag_up_down = false;
     private boolean flag_name = false;
-    private String type = AppConfig.CONTRACT_IN_ALL;
-    private String zone_type = AppConfig.VIEW_CONTRACT_IN;//-1是自选 1是主区 0是创新区 2是衍生品
+    private String type = AppConfig.CONTRACT_ALL;
+    private String zone_type = AppConfig.VIEW_CONTRACT;//-1是自选 1是主区 0是创新区 2是衍生品
     private ArrayMap<String, List<String>> arrayMap;
 
     private QuoteAdapter quoteAdapter_market_pop;
@@ -355,7 +355,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         titleList = new ArrayList<>();
         titleList.add(getString(R.string.text_optional));
         titleList.add(getString(R.string.text_contract));
-        titleList.add(getString(R.string.text_derived));
+       // titleList.add(getString(R.string.text_derived));
         titleList.add(getString(R.string.text_spot));
         LinearLayout layout_optional_select_pop = view.findViewById(R.id.layout_optional_select_pop);
 
@@ -562,8 +562,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 else if (tab.getPosition() == 1) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
-                    type = AppConfig.CONTRACT_IN_ALL;
-                    zone_type = AppConfig.VIEW_CONTRACT_IN;
+                    type = AppConfig.CONTRACT_ALL;
+                    zone_type = AppConfig.VIEW_CONTRACT;
 
                     quoteList = arrayMap.get(type);
                     if (quoteList == null) {
@@ -578,7 +578,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                 }//衍生品
-                else if (tab.getPosition() == 2) {
+                /*else if (tab.getPosition() == 2) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
                     type = AppConfig.DERIVATIVES_ALL;
@@ -596,8 +596,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-                }//现货
-                else if (tab.getPosition() == 3) {
+                }*///现货
+                else if (tab.getPosition() == 2) {
                     layout_optional_select_pop.setVisibility(View.GONE);
 
                     type = AppConfig.SPOT_ALL;
@@ -648,7 +648,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 QuoteCodeManger.getInstance().postTag(data);
 
-                type = AppConfig.CONTRACT_IN_ALL;
+                type = AppConfig.CONTRACT_ALL;
                 TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
                 Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
                 //自选的图标
@@ -690,7 +690,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
                 //相应选择
                 tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(data), tradeListEntityList);
-
 
                 setContent(tradeListEntity);
 
@@ -862,7 +861,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             tradeListEntityList = Util.SPDealEntityResult(string);
 
             tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-            Log.d("ptrint", "initData:837: " + tradeListEntity);
+            Log.d("print", "initData:864:  "+tradeListEntity);
+
             setContent(tradeListEntity);
 
             //获取输入框的范围保证金

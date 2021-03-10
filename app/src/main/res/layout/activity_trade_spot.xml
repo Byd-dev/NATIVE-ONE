@@ -200,45 +200,54 @@
                 app:tabTextAppearance="@style/TradeTablayoutstyle"
                 app:tabTextColor="@color/text_second_color" />
 
-            <TextView
-                android:id="@+id/img_setting"
+            <LinearLayout
+                android:id="@+id/layout_contract_rule"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/text_lever"
-                android:drawablePadding="@dimen/margin_5"
-                android:gravity="center"
-                android:paddingLeft="@dimen/margin_10"
-                android:paddingRight="@dimen/margin_5"
-                android:text="@string/text_trade_rule"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal"
-                android:visibility="visible" />
-
-            <TextView
-                android:id="@+id/text_lever"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_5"
-                android:layout_toLeftOf="@+id/stay_img_right"
-                android:background="@drawable/gradient_bg_main"
-                android:paddingLeft="@dimen/margin_10"
-                android:paddingRight="@dimen/margin_10"
-                android:text="100×"
-                android:textColor="@color/text_main_color_black"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/stay_img_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/margin_10"
-                android:src="@mipmap/icon_market_right"
+                android:orientation="horizontal">
 
-                />
+                <TextView
+                    android:id="@+id/text_trade_rule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:paddingLeft="@dimen/margin_10"
+                    android:paddingRight="@dimen/margin_5"
+                    android:text="@string/text_trade_rule"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/text_lever"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+
+                    android:layout_marginRight="@dimen/margin_5"
+                    android:background="@drawable/gradient_bg_main"
+                    android:paddingLeft="@dimen/margin_10"
+                    android:paddingRight="@dimen/margin_10"
+                    android:text="100X"
+                    android:textColor="@color/text_main_color_black"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/stay_img_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_10"
+                    android:src="@mipmap/icon_market_right"
+                    android:layout_gravity="center"
+                    />
+
+
+            </LinearLayout>
+
+
 
 
         </RelativeLayout>
