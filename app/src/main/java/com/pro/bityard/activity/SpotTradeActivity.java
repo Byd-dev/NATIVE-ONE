@@ -502,7 +502,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                         myKLineView_1D.setVisibility(View.GONE);
                         myKLineView_1_week.setVisibility(View.GONE);
                         myKLineView_1_month.setVisibility(View.GONE);
-
                         break;
 
                     case 5:
