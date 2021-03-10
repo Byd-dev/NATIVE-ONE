@@ -78,7 +78,7 @@ public class QuoteDayHistoryManger extends Observable {
     int getCount=0;
     public void quote(String quote_code, int count) {
 
-        NetManger.getInstance().getQuoteHistory("http://app.bityard.com", count, "/api/tv/tradingView/history", quote_code, "D", (state, response) -> {
+        NetManger.getInstance().getQuoteHistory( count, "/api/tv/tradingView/history", quote_code, "D", (state, response) -> {
             if (state.equals(BUSY)) {
 
             } else if (state.equals(SUCCESS)) {

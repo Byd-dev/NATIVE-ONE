@@ -661,22 +661,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
             tradeListEntityList = Util.SPDealEntityResult(string);
             //获取相应合约的详情
-            tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode(itemData), tradeListEntityList);
-
-            Log.d("print", "initData:653: "+contractCode(itemData)+"   "+tradeListEntity);
-            if (tradeListEntity!=null){
-                List<Integer> leverList = tradeListEntity.getLeverList();
-                if (leverList.size()==0){
-                    layout_contract_rule.setVisibility(View.GONE);
-
-                }else {
-                    layout_contract_rule.setVisibility(View.VISIBLE);
-                    text_lever.setText(leverList.get(1)+"X");
-                }
-            }else {
-                layout_contract_rule.setVisibility(View.GONE);
-
-            }
+            setLever(itemData);
 
             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
                 if (state.equals(SUCCESS)) {
@@ -723,6 +708,25 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private void setLever(String itemData) {
+        tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode(itemData), tradeListEntityList);
+
+        Log.d("print", "initData:653: " + contractCode(itemData) + "   " + tradeListEntity);
+        if (tradeListEntity != null) {
+            List<Integer> leverList = tradeListEntity.getLeverList();
+            if (leverList.size() == 0) {
+                layout_contract_rule.setVisibility(View.GONE);
+
+            } else {
+                layout_contract_rule.setVisibility(View.VISIBLE);
+                text_lever.setText(leverList.get(1) + "X");
+            }
+        } else {
+            layout_contract_rule.setVisibility(View.GONE);
+
+        }
+    }
+
 
     private String old_code = null;
     @SuppressLint("HandlerLeak")
@@ -755,6 +759,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         text_name.setText(TradeUtil.name(itemData));
         text_currency.setText(TradeUtil.currency(itemData));
+        setLever(itemData);
+
 
     }
 
@@ -781,7 +787,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         titleList = new ArrayList<>();
         titleList.add(getString(R.string.text_optional));
         titleList.add(getString(R.string.text_contract));
-       // titleList.add(getString(R.string.text_derived));
+        // titleList.add(getString(R.string.text_derived));
         titleList.add(getString(R.string.text_spot));
         LinearLayout layout_optional_select_pop = view.findViewById(R.id.layout_optional_select_pop);
 
@@ -1064,9 +1070,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
+            quote_code = TradeUtil.itemQuoteContCode(data);
             if (!quote_code_old.equals(quote_code)) {
                 WebSocketManager.getInstance().send("4002", quote_code_old);
             }
+            Log.d("print", "showQuotePopWindow:1067:  " + quote_code_old + "   " + quote_code);
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 QuoteCodeManger.getInstance().postTag(data);
 
@@ -1074,9 +1082,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
                 setContent(data);
                 itemData = data;
-                quote_code = TradeUtil.itemQuoteContCode(data);
                 SpotCodeManger.getInstance().postTag(data);
-                type = AppConfig.CONTRACT_IN_ALL;
+                type = AppConfig.CONTRACT_ALL;
                 //判断当前是否存在自选
                 Util.isOptional(quote_code, optionalList, response -> {
                     boolean isOptional = (boolean) response;
@@ -1220,7 +1227,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             case R.id.layout_sell:
                 if (isLogin()) {
                     TradeTabActivity.enter(this, "1", itemData);
-                   // SpotCodeManger.getInstance().postTag(itemData);
+                    // SpotCodeManger.getInstance().postTag(itemData);
                 } else {
                     LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
@@ -1326,8 +1333,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.layout_contract_rule:
-                Log.d("print", "onClick:1323 "+itemData);
-               // TradeTabActivity.enter(this,"1",);
+                Log.d("print", "onClick:1323 " + itemData);
+                // TradeTabActivity.enter(this,"1",);
                 break;
 
         }

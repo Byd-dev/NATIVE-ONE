@@ -98,7 +98,7 @@ public class NetManger {
     public static String H5_HELP_CENTER = "https://support.bityard.com";
 
 
-    public static String QUOTE_SOCKET = "wss://quote.76bao.hk/wsquote";
+    public static String QUOTE_SOCKET = "wss://bi-quote.ttms.io/wsquote";
 
     public static String QUOTE_HISTORY = "https://app.bityard.com";
 
@@ -745,88 +745,9 @@ public class NetManger {
 
     int count = 0;
 
-    /*获取行情*/
-    public void getQuote(String quoteDomain, String url, String codeList, OnNetResult onNetResult) {
-        ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("callback", "?");
-        map.put("code", codeList);
-        map.put("_", String.valueOf(new Date().getTime()));
-        map.put("simple", "true");
-
-        try {
-            String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
-
-            String[] split = urlList.split(";");
-            int length = split.length;
-            Log.d("NetManger", "getQuote:324: 请求次数: " + count + "请求地址长度: " + length + "  --   " + urlList);
-            if (count < length) {
-                getHostRequest(split[count], url, map, (state, response) -> {
-                    if (state.equals(BUSY)) {
-
-                    } else if (state.equals(SUCCESS)) {
-                        onNetResult.onNetResult(SUCCESS, response.toString());
-                    } else if (state.equals(FAILURE)) {
-                        if (length == 0) {
-
-                        } else {
-                            count++;
-                        }
-                    }
-                });
-            } else {
-                count = 0;//这里是重置
-            }
 
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-
-    }
-
-
-    /*获取行情*/
-    public void getCustomizeQuote(String quoteDomain, String url, String codeList, OnNetResult onNetResult) {
-        ArrayMap<String, String> map = new ArrayMap<>();
-        map.put("callback", "?");
-        map.put("code", codeList);
-        map.put("customize", "code,isUp,price,prev,buyPrice,sellPrice");
-
-        try {
-            String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
-
-            String[] split = urlList.split(";");
-            int length = split.length;
-            Log.d("NetManger", "getQuote:324: 请求次数: " + count + "请求地址长度: " + length + "  --   " + urlList);
-            if (count < length) {
-                getHostRequest(split[count], url, map, new OnNetResult() {
-                    @Override
-                    public void onNetResult(String state, Object response) {
-                        if (state.equals(BUSY)) {
-
-                        } else if (state.equals(SUCCESS)) {
-                            onNetResult.onNetResult(SUCCESS, response.toString());
-                        } else if (state.equals(FAILURE)) {
-                            if (length == 0) {
-
-                            } else {
-                                count++;
-                            }
-                        }
-                    }
-                });
-            } else {
-                count = 0;//这里是重置
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     /*获取单个行情*/
     public void getItemQuote(String quoteDomain, String url, String code, OnNetResult onNetResult) {
@@ -835,35 +756,17 @@ public class NetManger {
         map.put("code", code);
         map.put("_", String.valueOf(new Date().getTime()));
 
-        try {
-            String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
-            Log.d("quoteItem", "getItemQuote:390:  " + urlList);
-            String[] split = urlList.split(";");
-            int length = split.length;
-            Log.d("quoteItem", "getItemQuote:393:  " + count + "  --   " + split[count]);
-            if (count < length) {
-                getHostRequest(split[count], url, map, (state, response) -> {
-                    if (state.equals(BUSY)) {
+        getHostRequest(quoteDomain, url, map, (state, response) -> {
+            if (state.equals(BUSY)) {
 
-                    } else if (state.equals(SUCCESS)) {
-                        onNetResult.onNetResult(SUCCESS, response.toString());
-                    } else if (state.equals(FAILURE)) {
-                        if (length == 0) {
-                        } else {
-                            count++;
-                        }
-                        onNetResult.onNetResult(FAILURE, null);
+            } else if (state.equals(SUCCESS)) {
+                onNetResult.onNetResult(SUCCESS, response.toString());
+            } else if (state.equals(FAILURE)) {
 
-                    }
-                });
-            } else {
-                count = 0;//这里是重置
+                onNetResult.onNetResult(FAILURE, null);
+
             }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        });
 
 
     }
@@ -880,34 +783,59 @@ public class NetManger {
         map.put("from", Util.dateToStamp(sdf.format(nowBefore.getTimeInMillis())));
         map.put("to", Util.dateToStamp(sdf.format(System.currentTimeMillis())));
         map.put("_", Util.dateToStamp(sdf.format(System.currentTimeMillis())));
-        try {
+
+        getHostRequest(quoteDomain, url, map, (state, response) -> {
+            if (state.equals(BUSY)) {
+
+            } else if (state.equals(SUCCESS)) {
+                onNetResult.onNetResult(SUCCESS, response.toString());
+            } else if (state.equals(FAILURE)) {
+                onNetResult.onNetResult(FAILURE, null);
+            }
+        });
+
+
+       /* try {
             String urlList = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
             Log.d("quoteItem", "getItemQuote:390:  " + urlList);
-            String[] split = urlList.split(";");
-            int length = split.length;
-            Log.d("quoteItem", "getItemQuote:393:  " + count + "  --   " + split[count]);
-            if (count < length) {
-                getHostRequest(split[count], url, map, (state, response) -> {
+            if (urlList.contains(";")){
+                String[] split = urlList.split(";");
+                int length = split.length;
+                Log.d("quoteItem", "getItemQuote:393:  " + count + "  --   " + split[count]);
+                if (count < length) {
+                    getHostRequest(split[count], url, map, (state, response) -> {
+                        if (state.equals(BUSY)) {
+
+                        } else if (state.equals(SUCCESS)) {
+                            onNetResult.onNetResult(SUCCESS, response.toString());
+                        } else if (state.equals(FAILURE)) {
+                            if (length == 0) {
+                            } else {
+                                count++;
+                            }
+                            onNetResult.onNetResult(FAILURE, null);
+                        }
+                    });
+                } else {
+                    count = 0;//这里是重置
+                }
+            }else {
+                getHostRequest(urlList, url, map, (state, response) -> {
                     if (state.equals(BUSY)) {
 
                     } else if (state.equals(SUCCESS)) {
                         onNetResult.onNetResult(SUCCESS, response.toString());
                     } else if (state.equals(FAILURE)) {
-                        if (length == 0) {
-                        } else {
-                            count++;
-                        }
                         onNetResult.onNetResult(FAILURE, null);
                     }
                 });
-            } else {
-                count = 0;//这里是重置
             }
+
 
 
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
 
     }
@@ -915,7 +843,7 @@ public class NetManger {
     int countHistory = 0;
 
     /*获取单个历史行情图*/
-    public void getQuoteHistory(String quoteDomain, int times, String url, String contactCode, String resolution, OnNetResult onNetResult) {
+    public void getQuoteHistory(int times, String url, String contactCode, String resolution, OnNetResult onNetResult) {
         Calendar nowBefore2 = Calendar.getInstance();
 
         Calendar nowBefore = Calendar.getInstance();
@@ -954,7 +882,7 @@ public class NetManger {
         map.put("to", Util.dateToStamp(sdf.format(nowBefore2.getTimeInMillis())));
 
 
-        getHostRequest(quoteDomain, url, map, (state, response) -> {
+        getHostRequest(BASE_URL, url, map, (state, response) -> {
             if (state.equals(BUSY)) {
                 onNetResult.onNetResult(BUSY, null);
             } else if (state.equals(SUCCESS)) {

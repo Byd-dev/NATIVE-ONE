@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.api.NetManger;
@@ -24,7 +23,6 @@ import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
 import com.pro.bityard.entity.InitEntity;
-import com.pro.bityard.entity.QuoteCodeEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TradeListManger;
@@ -33,6 +31,7 @@ import com.pro.bityard.utils.NetworkUtils;
 import com.pro.bityard.utils.PermissionUtil;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.Util;
+import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
 
@@ -71,6 +70,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
     private List<GuideEntity> data;
     private List<TradeListEntity> tradeListEntityList;
+    private String domain;
 
     @Override
     protected int setContentLayout() {
@@ -117,13 +117,11 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
     private void init() {
         //初始化webSocket 行情
-        SocketQuoteManger.getInstance().initSocket();
+        // SocketQuoteManger.getInstance().initSocket(NetManger.QUOTE_SOCKET);
         startScheduleJob(mHandler, 2000, 2000);
 
         String json = Util.getJson("layout.json", this);
         SPUtils.putString(AppConfig.QUOTE_CODE_JSON, json);
-
-
 
 
         NetManger.getInstance().getInit((state, response) -> {
@@ -137,8 +135,24 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
 
                     String quoteDomain = initEntity.getQuoteDomain();//获取域名
-                    Log.d("print", "init:137:  "+quoteDomain);
-                    SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomain);
+                    Log.d("print", "init:137:  " + quoteDomain);
+                    try {
+                        String quoteDomainUrl = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
+                        Log.d("print", "init:141:  " + quoteDomainUrl );
+
+                        SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomainUrl);
+                        if (quoteDomainUrl.startsWith("http")) {
+                             domain = quoteDomainUrl.replaceAll("http", "ws");
+                        } else if (quoteDomainUrl.startsWith("https")) {
+                             domain = quoteDomainUrl.replaceAll("https", "wss");
+                        }
+                        String url = domain + "/wsquote";
+                        Log.d("print", "init:150:  " + quoteDomainUrl + "    " + url);
+                        SocketQuoteManger.getInstance().initSocket(url);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
                     SPUtils.putData(AppConfig.KEY_COMMODITY, initEntity);
                     String allList2 = Util.initContractList(initEntity.getData());
 

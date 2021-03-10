@@ -37,8 +37,8 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
     private Timer mTimer;
 
 
-    public void initSocket() {
-        WebSocketManager.getInstance().init(NetManger.QUOTE_SOCKET, this);
+    public void initSocket(String url) {
+        WebSocketManager.getInstance().init(url, this);
     }
 
 

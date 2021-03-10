@@ -80,7 +80,7 @@ public class Quote60MinHistoryManger extends Observable {
 
 
 
-        NetManger.getInstance().getQuoteHistory(NetManger.QUOTE_HISTORY, count, "/api/tv/tradingView/history", quote_code, "60", (state, response) -> {
+        NetManger.getInstance().getQuoteHistory(count, "/api/tv/tradingView/history", quote_code, "60", (state, response) -> {
             if (state.equals(BUSY)) {
 
             } else if (state.equals(SUCCESS)) {
