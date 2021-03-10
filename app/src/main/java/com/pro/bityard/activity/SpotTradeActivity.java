@@ -895,13 +895,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
 
             } else {
-
                 img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_new_price = true;
                 Util.priceTypeLow2High(zone_type, response -> type = (String) response);
                 List<String> quoteList = arrayMap.get(type);
                 quoteAdapter_market_pop.setDatas(quoteList);
-
             }
             img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
             img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
