@@ -485,7 +485,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     }
 
     private void onSuccessListener(String data) {
-        TradeTabActivity.enter(this, "1", data);
+        if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)){
+            TradeTabActivity.enter(this, "1", data);
+        }else {
+            SpotTradeActivity.enter(this, tradeType, data);
+        }
+
+
     }
 
 

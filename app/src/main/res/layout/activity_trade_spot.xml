@@ -205,7 +205,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/text_contract"
+                android:layout_toLeftOf="@+id/text_lever"
                 android:drawablePadding="@dimen/margin_5"
                 android:gravity="center"
                 android:paddingLeft="@dimen/margin_10"
@@ -278,6 +278,10 @@
                     />
             </LinearLayout>
 
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -297,7 +301,7 @@
 
 
             </LinearLayout>
-
+            </androidx.core.widget.NestedScrollView>
         </LinearLayout>
 
 
@@ -351,7 +355,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@mipmap/icon_market_much"
@@ -383,7 +387,7 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@mipmap/icon_much_empty"

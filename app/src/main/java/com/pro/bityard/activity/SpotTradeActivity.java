@@ -59,7 +59,7 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
-import com.pro.bityard.manger.SpotCodeManger;
+import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
@@ -69,6 +69,7 @@ import com.pro.bityard.manger.QuoteSpotManger;
 import com.pro.bityard.manger.QuoteWeekCurrentManger;
 import com.pro.bityard.manger.QuoteWeekHistoryManger;
 import com.pro.bityard.manger.SocketQuoteManger;
+import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.TradeSpotManger;
@@ -224,7 +225,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
     private boolean flag_optional = false;
     //当前行情号
-    private String quote_code = null;
+    private String quote_code = null, quote_code_old = null;
     private QuoteMinEntity quoteMinEntity;
 
 
@@ -283,7 +284,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 text_title_one.setText(titles.get(i));
                 ImageView img_subscript = view.findViewById(R.id.img_subscript);
 
-                if (i == 0) {
+                if (i == 1) {
                     text_title_one.setTextColor(getResources().getColor(R.color.maincolor));//设置一下文字颜色
                 } else {
                     text_title_one.setTextColor(getResources().getColor(R.color.text_second_color));//设置一下文字颜色
@@ -398,6 +399,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         kline_1min_time.setShowInstant(true);
 
+        tabLayout.getTabAt(1).select();
         tabLayout.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -650,7 +652,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
             tradeListEntityList = Util.SPDealEntityResult(string);
             tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-
+            Log.d("print", "initData:655: "+tradeListEntity);
             ChargeUnitManger.getInstance().chargeUnit((state, response) -> {
                 if (state.equals(SUCCESS)) {
                     chargeUnitEntityJson = (JSONObject) response;
@@ -706,9 +708,9 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             //发送行情包
             if (quote_code != null) {
                 Log.d("print", "handleMessage:activity订阅:  " + quote_code);
-                old_code = quote_code;
                 WebSocketManager.getInstance().send("6001", quote_code);
-
+                WebSocketManager.getInstance().send("4001", quote_code);
+                WebSocketManager.getInstance().send("5001", quote_code);
 
             }
 
@@ -1037,32 +1039,36 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         });
 
+        quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
+            if (!quote_code_old.equals(quote_code)) {
+                WebSocketManager.getInstance().send("4002", quote_code_old);
+            }
+            if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
+                QuoteCodeManger.getInstance().postTag(data);
 
-            Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
-            setContent(data);
-            itemData = data;
-            quote_code = TradeUtil.itemQuoteContCode(data);
-            WebSocketManager.getInstance().send("4002", old_code);
-            SpotCodeManger.getInstance().postTag(data);
+            }else {
+                Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
+                setContent(data);
+                itemData = data;
+                quote_code = TradeUtil.itemQuoteContCode(data);
+                SpotCodeManger.getInstance().postTag(data);
+                type = AppConfig.CONTRACT_IN_ALL;
+                //判断当前是否存在自选
+                Util.isOptional(quote_code, optionalList, response -> {
+                    boolean isOptional = (boolean) response;
+                    if (isOptional) {
+                        img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                    } else {
+                        img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
 
-            type = AppConfig.CONTRACT_IN_ALL;
+                    }
+                });
+                text_name.setText(TradeUtil.name(data));
+                text_currency.setText(TradeUtil.currency(data));
+            }
 
 
-            //判断当前是否存在自选
-            Util.isOptional(quote_code, optionalList, response -> {
-                boolean isOptional = (boolean) response;
-                if (isOptional) {
-                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
-                } else {
-                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-
-                }
-            });
-
-
-            text_name.setText(TradeUtil.name(data));
-            text_currency.setText(TradeUtil.currency(data));
 
             //相应选择
             popupWindow.dismiss();
@@ -1354,8 +1360,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 list.addFirst(trade);
                 tradeNewAdapter.setDatas(list);
             });
-
-
 
 
         } else if (o == SocketQuoteManger.getInstance()) {
@@ -1674,7 +1678,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         Toast.makeText(SpotTradeActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
         //要取消计时 防止内存溢出
         cancelTimer();
-      //  QuoteCurrentManger.getInstance().clear();
+        //  QuoteCurrentManger.getInstance().clear();
         SocketQuoteManger.getInstance().deleteObserver(this);
         TradeSpotManger.getInstance().clear();
         TradeSpotManger.getInstance().deleteObserver(this);
@@ -1705,7 +1709,9 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         myKLineView_1_month.cancelQuotaThread();
 
 
+        WebSocketManager.getInstance().send("4002",quote_code);
         quote_code = null;
+
 
 
     }
