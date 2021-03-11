@@ -244,6 +244,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private TranslateAnimation animation;
     private EditText edit_search;
     private JSONObject chargeUnitEntityJson;
+    private String quote_host;
 
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, SpotTradeActivity.class);
@@ -428,7 +429,13 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     case 0:
 
                         Quote1MinHistoryManger.getInstance().quote(quote_code, -1);
-
+                        if (kData1MinHistory != null) {
+                            kline_1min_time.initKDataList(kData1MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+                                Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
                         kline_1min_time.setVisibility(View.VISIBLE);
                         myKLineView_1Min.setVisibility(View.GONE);
                         myKLineView_3Min.setVisibility(View.GONE);
@@ -443,9 +450,15 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
                         break;
                     case 1:
-                        Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-                        Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+                        Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
 
+                        if (kData1MinHistory != null) {
+                            myKLineView_1Min.initKDataList(kData1MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+                                Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.VISIBLE);
                         myKLineView_3Min.setVisibility(View.GONE);
@@ -458,8 +471,16 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                         myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 2:
-                        Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-                        Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+                        Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+
+                        if (kData3MinHistory != null) {
+                            myKLineView_3Min.initKDataList(kData3MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+
+                                Quote3MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
 
 
                         kline_1min_time.setVisibility(View.GONE);
@@ -474,9 +495,16 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                         myKLineView_1_month.setVisibility(View.GONE);
                         break;
                     case 3:
-                        Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+                        Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
 
-                        Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+                        if (kData5MinHistory != null) {
+                            myKLineView_5Min.initKDataList(kData5MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+
+                                Quote5MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
 
                         layout_more.setVisibility(View.GONE);
                         kline_1min_time.setVisibility(View.GONE);
@@ -491,7 +519,16 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                         break;
                     //更多监听
                     case 4:
+                        Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
 
+                        if (kData15MinHistory != null) {
+                            myKLineView_15Min.initKDataList(kData15MinHistory);
+                        } else {
+                            if (quoteMinEntity != null) {
+
+                                Quote15MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                            }
+                        }
                         layout_more.setVisibility(View.GONE);
                         kline_1min_time.setVisibility(View.GONE);
                         myKLineView_1Min.setVisibility(View.GONE);
@@ -590,6 +627,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
         Log.d("print", "initData:590:  " + itemData);
+        quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
 
 
         //礼金抵扣比例
@@ -737,10 +775,16 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             //发送行情包
             if (quote_code != null) {
                 Log.d("print", "handleMessage:activity订阅:  " + quote_code);
-                WebSocketManager.getInstance().send("6001", quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
                 WebSocketManager.getInstance().send("5001", quote_code);
-
+                WebSocketManager.getInstance().send("6001", quote_code);
+                Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
+                Quote5MinCurrentManger.getInstance().quote(quote_host, quote_code);
+                Quote15MinCurrentManger.getInstance().quote(quote_host, quote_code);
+                Quote60MinCurrentManger.getInstance().quote(quote_host, quote_code);
+                QuoteDayCurrentManger.getInstance().quote(quote_host, quote_code);
+                QuoteWeekCurrentManger.getInstance().quote(quote_host, quote_code);
+                QuoteMonthCurrentManger.getInstance().quote(quote_host, quote_code);
             }
 
         }
@@ -1243,7 +1287,19 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             case R.id.text_one_hour:
 
                 Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
-                Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+              //  Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+
+
+
+                if (kData60MinHistory != null) {
+
+                    myKLineView_1H.initKDataList(kData60MinHistory);
+                } else {
+                    if (quoteMinEntity != null) {
+
+                        Quote60MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                    }
+                }
 
 
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_hour.getText().toString());//设置一下文字颜色
@@ -1263,8 +1319,15 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.text_one_day:
                 QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
-                QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+                if (kDataDayHistory != null) {
+                    myKLineView_1D.initKDataList(kDataDayHistory);
 
+                } else {
+                    if (quoteMinEntity != null) {
+
+                        QuoteDayHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                    }
+                }
 
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_day.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
@@ -1282,7 +1345,15 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.text_one_week:
                 QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
-                QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
+                if (kDataWeekHistory != null) {
+                    List<KData> weekList = ChartUtil.KlineWeekData(ChartUtil.getWeekKDataList(kDataWeekHistory));
+                    myKLineView_1_week.initKDataList(weekList);
+                } else {
+                    if (quoteMinEntity != null) {
+                        QuoteWeekHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                    }
+                }
+
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_week.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
                 layout_more.setVisibility(View.GONE);
@@ -1299,7 +1370,15 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.text_one_month:
                 QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(quote_code), -2);
-                QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(quote_code));
+                if (kDataMonthHistory != null) {
+                    List<KData> monthList = ChartUtil.KlineMonthData(ChartUtil.getMonthKDataList(kDataMonthHistory));
+                    myKLineView_1_month.initKDataList(monthList);
+                } else {
+                    if (quoteMinEntity != null) {
+                        QuoteMonthHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+                    }
+                }
+
 
                 ((TextView) view.findViewById(R.id.text_title)).setText(text_one_month.getText().toString());//设置一下文字颜色
                 tabAt.setCustomView(view);
@@ -1503,7 +1582,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == Quote3MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData3MinHistory != null && quoteMinEntity != null) {
+            if (kData3MinHistory != null && quoteMinEntity != null && myKLineView_3Min != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_3Min.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1516,7 +1595,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
 
-            if (kData5MinHistory != null && quoteMinEntity != null) {
+            if (kData5MinHistory != null && quoteMinEntity != null && myKLineView_5Min != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_5Min.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1529,7 +1608,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == Quote15MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData15MinHistory != null && quoteMinEntity != null) {
+            if (kData15MinHistory != null && quoteMinEntity != null && myKLineView_15Min != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_15Min.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1542,7 +1621,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == Quote60MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kData60MinHistory != null && quoteMinEntity != null) {
+            if (kData60MinHistory != null && quoteMinEntity != null && myKLineView_1H != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1H.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1554,7 +1633,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == QuoteDayCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataDayHistory != null && quoteMinEntity != null) {
+            if (kDataDayHistory != null && quoteMinEntity != null && myKLineView_1D != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1D.addSingleData(kData.get(kData.size() - 1));
             } else {
@@ -1566,7 +1645,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == QuoteWeekCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataWeekHistory != null && quoteMinEntity != null) {
+            if (kDataWeekHistory != null && quoteMinEntity != null && myKLineView_1_week != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1_week.addSingleData(kData.get(kData.size() - 1));
 
@@ -1580,7 +1659,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == QuoteMonthCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            if (kDataMonthHistory != null && quoteMinEntity != null) {
+            if (kDataMonthHistory != null && quoteMinEntity != null && myKLineView_1_month != null) {
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_1_month.addSingleData(kData.get(kData.size() - 1));
 

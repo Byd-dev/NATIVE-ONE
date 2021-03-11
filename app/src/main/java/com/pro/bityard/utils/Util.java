@@ -1311,12 +1311,15 @@ public class Util {
                 type = AppConfig.SPOT_BSC_PRICE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_SPOT_POS:
+
                 type = AppConfig.SPOT_POS_PRICE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_CONTRACT_IN:
                 type = AppConfig.CONTRACT_IN_PRICE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_POP_CONTRACT:
+            case AppConfig.VIEW_CONTRACT:
+
                 type = AppConfig.CONTRACT_PRICE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
@@ -1361,6 +1364,7 @@ public class Util {
                 type = AppConfig.SPOT_POS_PRICE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_POP_CONTRACT:
+            case AppConfig.VIEW_CONTRACT:
                 type = AppConfig.CONTRACT_PRICE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_CONTRACT_IN:
@@ -1412,6 +1416,8 @@ public class Util {
                 type = AppConfig.CONTRACT_IN_RATE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_POP_CONTRACT:
+            case AppConfig.VIEW_CONTRACT:
+
                 type = AppConfig.CONTRACT_RATE_HIGH2LOW;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
@@ -1459,6 +1465,8 @@ public class Util {
                 type = AppConfig.CONTRACT_IN_RATE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_POP_CONTRACT:
+            case AppConfig.VIEW_CONTRACT:
+
                 type = AppConfig.CONTRACT_RATE_LOW2HIGH;
                 break;
             case AppConfig.VIEW_DERIVATIVES:
@@ -1507,6 +1515,7 @@ public class Util {
 
                 break;
             case AppConfig.VIEW_POP_CONTRACT:
+            case AppConfig.VIEW_CONTRACT:
 
                 type = AppConfig.CONTRACT_NAME_A2Z;
                 break;
@@ -1557,6 +1566,7 @@ public class Util {
 
                 break;
             case AppConfig.VIEW_POP_CONTRACT:
+            case AppConfig.VIEW_CONTRACT:
 
                 type = AppConfig.CONTRACT_NAME_Z2A;
                 break;

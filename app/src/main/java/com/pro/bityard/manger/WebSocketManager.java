@@ -208,7 +208,7 @@ public final class WebSocketManager {
             json.put("symbols", symbols);
             json.put("sign", value_sign);
             WebSocketManager.getInstance().sendMessage(json.toString());
-           // Log.d("websocket", "send:发送了什么: "+json.toString());
+            Log.d("websocket", "send:发送了什么: "+json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }

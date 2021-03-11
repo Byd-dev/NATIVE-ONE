@@ -110,7 +110,7 @@ public class PositionEntity {
         private String id;
         private double income;
         private String investUserId;
-        private Object investUsername;
+        private String investUsername;
         private String traderUsername;
         private boolean isBuy;
         private double lever;
@@ -334,11 +334,11 @@ public class PositionEntity {
             this.investUserId = investUserId;
         }
 
-        public Object getInvestUsername() {
+        public String getInvestUsername() {
             return investUsername;
         }
 
-        public void setInvestUsername(Object investUsername) {
+        public void setInvestUsername(String investUsername) {
             this.investUsername = investUsername;
         }
 

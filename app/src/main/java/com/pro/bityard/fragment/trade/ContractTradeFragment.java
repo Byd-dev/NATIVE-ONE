@@ -37,6 +37,7 @@ import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.chart.NoVolumeView;
@@ -67,12 +68,12 @@ import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteContractCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
+import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteMonthCurrentManger;
 import com.pro.bityard.manger.QuoteMonthHistoryManger;
 import com.pro.bityard.manger.QuoteWeekCurrentManger;
 import com.pro.bityard.manger.QuoteWeekHistoryManger;
 import com.pro.bityard.manger.SocketQuoteManger;
-import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.TagManger;
 import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.WebSocketManager;
@@ -308,7 +309,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     private TradeListEntity tradeListEntity;
     private TextView text_deduction_amount_pop;
-    private String prizeTrade = null,luckyTrade=null;
+    private String prizeTrade = null, luckyTrade = null;
 
     @BindView(R.id.text_market_currency)
     TextView text_market_currency;
@@ -317,7 +318,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     TextView text_limit_currency;
 
     //当前行情号
-    private String quote_code = null,quote_code_old=null;
+    private String quote_code = null, quote_code_old = null;
 
     private QuoteMinEntity quoteMinEntity;
 
@@ -356,7 +357,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         titleList = new ArrayList<>();
         titleList.add(getString(R.string.text_optional));
         titleList.add(getString(R.string.text_contract));
-       // titleList.add(getString(R.string.text_derived));
+        // titleList.add(getString(R.string.text_derived));
         titleList.add(getString(R.string.text_spot));
         LinearLayout layout_optional_select_pop = view.findViewById(R.id.layout_optional_select_pop);
 
@@ -370,7 +371,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         optionalTitleList = new ArrayList<>();
         optionalTitleList.add(getString(R.string.text_contract));
         optionalTitleList.add(getString(R.string.text_spot));
-        //optionalTitleList.add(getString(R.string.text_derived));
+        //optionalTitleList.add(getString(R.string.text_derived));3
         optionalSelectAdapter.setDatas(optionalTitleList);
         optionalSelectAdapter.select(getString(R.string.text_contract));
         optionalSelectAdapter.setEnable(true);
@@ -639,14 +640,27 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         });
 
-        quote_code_old=quote_code;
+
+        quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
-            if (!quote_code_old.equals(quote_code)){
-                WebSocketManager.getInstance().send("4002", quote_code_old);
-            }
-            Log.d("print", "showQuotePopWindow:644:  "+quote_code_old+"   "+quote_code);
+            Log.d("print", "showQuotePopWindow:644:  " + quote_code_old + "   " + quote_code);
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
+                if (!quote_code_old.equals(quote_code)) {
+                    WebSocketManager.getInstance().send("4002", quote_code_old);
+                }
+
+                QuoteItemManger.getInstance().quote(quote_code, new OnResult() {
+                    @Override
+                    public void setResult(Object response) {
+                        String quote = (String) response;
+                        Log.d("print", "setResult:661:  " + quote);
+                        String price = listQuotePrice(quote);
+                        text_lastPrice.setText(price);
+                        text_change.setText(TradeUtil.quoteRange(price, listQuoteTodayPrice(quote)));
+
+                    }
+                });
                 QuoteCodeManger.getInstance().postTag(data);
 
                 type = AppConfig.CONTRACT_ALL;
@@ -662,7 +676,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                         img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
                     } else {
                         img_star_contract.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
-
                     }
                 });
 
@@ -696,11 +709,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
             } else if (TradeUtil.type(data).equals(AppConfig.TYPE_CH)) {
                 //SpotCodeManger.getInstance().postTag(data);
+                WebSocketManager.getInstance().send("4002", quote_code_old);
+                SpotTradeActivity.enter(getActivity(), "1", data);
                 getActivity().finish();
-                SpotTradeActivity.enter(getActivity(),"1",data);
 
             }
-            
+
             popupWindow.dismiss();
 
         });
@@ -813,7 +827,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         //礼金抵扣比例
         prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
         //红包抵扣比例
-        luckyTrade = SPUtils.getString(AppConfig.LUCKY_TRADE,null);
+        luckyTrade = SPUtils.getString(AppConfig.LUCKY_TRADE, null);
         if (itemData.equals("")) {
             return;
         }
@@ -860,7 +874,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             tradeListEntityList = Util.SPDealEntityResult(string);
 
             tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-            Log.d("print", "initData:864:  "+tradeListEntity);
+            Log.d("print", "initData:864:  " + tradeListEntity);
 
             setContent(tradeListEntity);
 
@@ -940,17 +954,17 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 PositionEntity positionEntity = (PositionEntity) response1;
                 int size = positionEntity.getData().size();
                 if (size == 0) {
-                    if (text_position_size!=null){
+                    if (text_position_size != null) {
                         text_position_size.setVisibility(View.GONE);
                         text_position.setTextColor(activity.getResources().getColor(R.color.text_second_color));
-                        text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position),null , null);
+                        text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position), null, null);
 
                     }
                 } else {
                     text_position_size.setVisibility(View.VISIBLE);
                     text_position_size.setText(size + "");
                     text_position.setTextColor(activity.getResources().getColor(R.color.maincolor));
-                    text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position_yellow),null , null);
+                    text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position_yellow), null, null);
 
                 }
             }
@@ -1477,14 +1491,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         text_service.setText(TradeUtil.numberHalfUp(Double.parseDouble(service), 2) + " " + getString(R.string.text_usdt));
         TextView text_all = view.findViewById(R.id.text_all_pop);
         text_deduction_amount_pop = view.findViewById(R.id.text_deduction_amount_pop);
-        if (Double.parseDouble(TradeUtil.deductionResult(service, margin, prizeTrade,luckyTrade)) == 0) {
+        if (Double.parseDouble(TradeUtil.deductionResult(service, margin, prizeTrade, luckyTrade)) == 0) {
             layout_deduction.setVisibility(View.GONE);
         }
 
 
-        text_deduction_amount_pop.setText(TradeUtil.deductionResult(service, margin, prizeTrade,luckyTrade) + " " + getString(R.string.text_usdt));
+        text_deduction_amount_pop.setText(TradeUtil.deductionResult(service, margin, prizeTrade, luckyTrade) + " " + getString(R.string.text_usdt));
 
-        text_all.setText(TradeUtil.total(margin, service, TradeUtil.deductionResult(service, margin, prizeTrade,luckyTrade)) + getString(R.string.text_usdt));
+        text_all.setText(TradeUtil.total(margin, service, TradeUtil.deductionResult(service, margin, prizeTrade, luckyTrade)) + getString(R.string.text_usdt));
 
         view.findViewById(R.id.text_sure).setOnClickListener(v -> {
             String priceMuch = text_buy_much.getText().toString();
@@ -1624,10 +1638,106 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     }
 
 
+    private void setItemQuote(QuoteMinEntity quoteMinEntity) {
+        //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
+        //仓位实时更新 服务费
+        if (edit_market_margin == null) {
+            return;
+        }
+        if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
+            text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), quoteMinEntity.getPrice()));
+            String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
+            // Log.d("print", "update:服务费:  " +chargeUnitEntity +"            "+service);
+
+            if (prizeTrade != null && service != null) {
+                text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
+                        service,
+                        TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade, luckyTrade)) + " " + getResources().getString(R.string.text_usdt));
+            }
+
+        } else {
+            text_market_volume.setText(getResources().getText(R.string.text_default));
+            text_market_all.setText(getResources().getText(R.string.text_default));
+
+        }
+        if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
+            text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), quoteMinEntity.getPrice()));
+            String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever);
+            if (prizeTrade != null && service != null) {
+                text_limit_all.setText(TradeUtil.total(edit_limit_margin.getText().toString(),
+                        service,
+                        TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade, luckyTrade)) + " " + getResources().getString(R.string.text_usdt));
+            }
+
+        } else {
+            text_limit_volume.setText(getResources().getText(R.string.text_default));
+            text_limit_all.setText(getResources().getText(R.string.text_default));
+
+        }
+
+
+        if (quotePopAdapter != null) {
+            quotePopAdapter.select(quoteMinEntity.getSymbol());
+        }
+
+
+        text_lastPrice.setText(String.valueOf(quoteMinEntity.getPrice()));
+        text_change.setText(TradeUtil.quoteChange(String.valueOf(quoteMinEntity.getPrice()), String.valueOf(quoteMinEntity.getOpen())));
+        text_range.setText(TradeUtil.quoteRange(String.valueOf(quoteMinEntity.getPrice()), String.valueOf(quoteMinEntity.getOpen())));
+
+        if (quoteMinEntity.getIsUp() == -1) {
+            text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
+            text_change.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
+            text_range.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
+
+            img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_down));
+
+        } else if (quoteMinEntity.getIsUp() == 1) {
+            text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
+            text_change.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
+            text_range.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
+            img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_up));
+
+        } else if (quoteMinEntity.getIsUp() == 0) {
+
+            text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_main_color));
+            text_change.setTextColor(getActivity().getResources().getColor(R.color.text_main_color));
+            text_range.setTextColor(getActivity().getResources().getColor(R.color.text_main_color));
+
+        }
+        text_max.setText(String.valueOf(quoteMinEntity.getMax()));
+        text_min.setText(String.valueOf(quoteMinEntity.getMin()));
+        text_volume.setText(TradeUtil.justDisplay(quoteMinEntity.getVolume()));
+
+
+        String spread = TradeUtil.spread(quoteMinEntity.getSymbol(), tradeListEntityList);
+
+        if (spread != null) {
+            text_buy_much.setText(String.valueOf(quoteMinEntity.getBuyPrice()));
+            text_buy_empty.setText(String.valueOf(quoteMinEntity.getSellPrice()));
+        }
+
+        // List<KData> kData = ChartUtil.klineList(data);
+        if (kData1MinHistory != null) {
+            KData kData = new KData(quoteMinEntity.getT() * 1000, quoteMinEntity.getO(), quoteMinEntity.getPrice(), quoteMinEntity.getH(), quoteMinEntity.getL(), quoteMinEntity.getV());
+            // Log.d("print", "update:1453: " + kData.get(kData.size() - 2).getTime());
+            myKLineView_1Min.addSingleData(kData);
+            //kline_1min_time.addSingleData(kData.get(kData.size() - 1));
+            kline_1min_time.addSingleData(kData);
+
+        } else {
+            Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
+        }
+
+
+    }
+
+
     @Override
     public void update(Observable o, Object arg) {
         if (o == QuoteCodeManger.getInstance()) {
             itemData = (String) arg;
+            Log.d("print", "update:1631: " + itemData);
             runOnUiThread(() -> {
                 text_name.setText(TradeUtil.name(itemData));
                 text_currency.setText(TradeUtil.currency(itemData));
@@ -1695,97 +1805,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             if (quoteMinEntity != null) {
                 Log.d("print", "onReceive:1549:合约fragment行情:  " + quoteMinEntity);
                 runOnUiThread(() -> {
-
-                    //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
-                    //仓位实时更新 服务费
-                    if (edit_market_margin == null) {
-                        return;
-                    }
-                    if (Objects.requireNonNull(edit_market_margin.getText()).length() != 0) {
-                        text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), quoteMinEntity.getPrice()));
-                        String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
-                        // Log.d("print", "update:服务费:  " +chargeUnitEntity +"            "+service);
-
-                        if (prizeTrade != null && service != null) {
-                            text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
-                                    service,
-                                    TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade,luckyTrade)) + " " + getResources().getString(R.string.text_usdt));
-                        }
-
-                    } else {
-                        text_market_volume.setText(getResources().getText(R.string.text_default));
-                        text_market_all.setText(getResources().getText(R.string.text_default));
-
-                    }
-                    if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
-                        text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), quoteMinEntity.getPrice()));
-                        String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_limit_margin.getText().toString(), lever);
-                        if (prizeTrade != null && service != null) {
-                            text_limit_all.setText(TradeUtil.total(edit_limit_margin.getText().toString(),
-                                    service,
-                                    TradeUtil.deductionResult(service, edit_limit_margin.getText().toString(), prizeTrade,luckyTrade)) + " " + getResources().getString(R.string.text_usdt));
-                        }
-
-                    } else {
-                        text_limit_volume.setText(getResources().getText(R.string.text_default));
-                        text_limit_all.setText(getResources().getText(R.string.text_default));
-
-                    }
-
-
-                    if (quotePopAdapter != null) {
-                        quotePopAdapter.select(quoteMinEntity.getSymbol());
-                    }
-
-
-                    text_lastPrice.setText(String.valueOf(quoteMinEntity.getPrice()));
-                    text_change.setText(TradeUtil.quoteChange(String.valueOf(quoteMinEntity.getPrice()), String.valueOf(quoteMinEntity.getOpen())));
-                    text_range.setText(TradeUtil.quoteRange(String.valueOf(quoteMinEntity.getPrice()), String.valueOf(quoteMinEntity.getOpen())));
-
-                    if (quoteMinEntity.getIsUp() == -1) {
-                        text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
-                        text_change.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
-                        text_range.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
-
-                        img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_down));
-
-                    } else if (quoteMinEntity.getIsUp() == 1) {
-                        text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
-                        text_change.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
-                        text_range.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
-                        img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_up));
-
-                    } else if (quoteMinEntity.getIsUp() == 0) {
-
-                        text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_main_color));
-                        text_change.setTextColor(getActivity().getResources().getColor(R.color.text_main_color));
-                        text_range.setTextColor(getActivity().getResources().getColor(R.color.text_main_color));
-
-                    }
-                    text_max.setText(String.valueOf(quoteMinEntity.getMax()));
-                    text_min.setText(String.valueOf(quoteMinEntity.getMin()));
-                    text_volume.setText(TradeUtil.justDisplay(quoteMinEntity.getVolume()));
-
-
-                    String spread = TradeUtil.spread(quoteMinEntity.getSymbol(), tradeListEntityList);
-
-                    if (spread != null) {
-                        text_buy_much.setText(String.valueOf(quoteMinEntity.getBuyPrice()));
-                        text_buy_empty.setText(String.valueOf(quoteMinEntity.getSellPrice()));
-                    }
-
-                    // List<KData> kData = ChartUtil.klineList(data);
-                    if (kData1MinHistory != null) {
-                        KData kData = new KData(quoteMinEntity.getT() * 1000, quoteMinEntity.getO(), quoteMinEntity.getPrice(), quoteMinEntity.getH(), quoteMinEntity.getL(), quoteMinEntity.getV());
-                        // Log.d("print", "update:1453: " + kData.get(kData.size() - 2).getTime());
-                        myKLineView_1Min.addSingleData(kData);
-                        //kline_1min_time.addSingleData(kData.get(kData.size() - 1));
-                        kline_1min_time.addSingleData(kData);
-
-                    } else {
-                        Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
-                    }
-
+                    setItemQuote(quoteMinEntity);
 
                 });
 
@@ -1807,7 +1827,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 if (quoteMinEntity != null) {
                     Quote3MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
                 }
-
             }
         } else if (o == Quote5MinCurrentManger.getInstance()) {
             if (!isAdded()) {
@@ -2255,7 +2274,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 Util.lightOff(getActivity());
                 if (prizeTrade != null) {
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, value_margin, lever);
-                    String prizeDub = TradeUtil.deductionResult(service, value_margin, prizeTrade,luckyTrade);
+                    String prizeDub = TradeUtil.deductionResult(service, value_margin, prizeTrade, luckyTrade);
                     PopUtil.getInstance().showLongTip(getActivity(),
                             layout_view, false,
                             getString(R.string.text_service_tip),
@@ -2274,7 +2293,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 }
                 if (prizeTrade != null) {
                     String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, value_margin_limit, lever);
-                    String prizeDub = TradeUtil.deductionResult(service, value_margin_limit, prizeTrade,luckyTrade);
+                    String prizeDub = TradeUtil.deductionResult(service, value_margin_limit, prizeTrade, luckyTrade);
                     Util.lightOff(getActivity());
                     PopUtil.getInstance().showLongTip(getActivity(),
                             layout_view, false,
@@ -2455,7 +2474,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         myKLineView_1D.resetView();
         myKLineView_1_week.resetView();
         myKLineView_1_month.resetView();
-        Log.d("print", "resetChart:2384: " + kData3MinHistory);
         if (kData1MinHistory != null) {
             kline_1min_time.resetDataList(kData1MinHistory);
             myKLineView_1Min.resetDataList(kData1MinHistory);

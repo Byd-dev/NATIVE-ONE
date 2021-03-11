@@ -323,6 +323,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_paid"
+                        android:visibility="gone"
                         android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal"
 

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -133,6 +134,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((MyViewHolder) holder).img_buy.setBackgroundResource(R.mipmap.icon_down);
 
             }
+            String traderUsername = datas.get(position).getTraderUsername();
+
+            if (traderUsername == null) {
+                ((MyViewHolder) holder).layout_traderUsername.setVisibility(View.GONE);
+            } else {
+                ((MyViewHolder) holder).layout_traderUsername.setVisibility(View.VISIBLE);
+            }
+
+            ((MyViewHolder) holder).text_traderUsername.setText(datas.get(position).getTraderUsername());
 
             //开仓价
             ((MyViewHolder) holder).text_open_price.setText(String.valueOf(opPrice));
@@ -144,7 +154,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             ((MyViewHolder) holder).text_profit_price.setText(StopProfitPrice(isBuy, opPrice, priceDigit, lever, margin, stopProfit));
 
             String income = income(isBuy, cpPrice, opPrice, datas.get(position).getVolume(),4);
-            ((MyViewHolder) holder).text_income.setText(getNumberFormat(Double.parseDouble(income),2));
             double incomeDouble = Double.parseDouble(income);
             //盈亏比
             ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(incomeDouble, margin));
@@ -156,10 +165,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             if (incomeDouble > 0) {
                 ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
                 ((MyViewHolder) holder).text_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
+                ((MyViewHolder) holder).text_income.setText("+"+getNumberFormat(Double.parseDouble(income),2));
 
             } else {
                 ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
                 ((MyViewHolder) holder).text_rate.setTextColor(context.getResources().getColor(R.color.text_quote_red));
+                ((MyViewHolder) holder).text_income.setText(getNumberFormat(Double.parseDouble(income),2));
 
             }
 
@@ -201,8 +212,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView text_name, text_volume, text_open_price,
                 text_loss_price, text_close_price, text_profit_price,
-                text_income, text_worth, text_time, text_tag, text_rate;
+                text_income, text_worth, text_time, text_tag, text_rate,text_traderUsername;
         ImageView img_buy;
+        LinearLayout layout_add, layout_traderUsername;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -218,9 +230,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             text_time = itemView.findViewById(R.id.text_time);
             text_tag = itemView.findViewById(R.id.text_tag);
             text_rate = itemView.findViewById(R.id.text_rate);
+            text_traderUsername = itemView.findViewById(R.id.text_traderUsername);
+            layout_traderUsername = itemView.findViewById(R.id.layout_traderUsername);
 
-
-            itemView.findViewById(R.id.text_detail).setOnClickListener(view -> {
+            itemView.findViewById(R.id.layout_traderUsername).setOnClickListener(view -> {
                 if (onDetailClick != null) {
                     onDetailClick.onClickListener(datas.get(getPosition()));
                 }

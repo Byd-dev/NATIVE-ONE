@@ -559,7 +559,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     layout_buy_what.setBackground(getActivity().getResources().getDrawable(R.drawable.bg_shape_green));
                     text_buy_what.setText(getResources().getText(R.string.text_buy) + tradeName);
                     isBuy = "true";
-                    text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+                    text_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceReal()) + " " + getResources().getString(R.string.text_usdt));
                     srcCurrency = "USDT";
                     desCurrency = tradeName;
                     break;
@@ -915,7 +915,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
 
-            text_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+            text_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceReal()) + " " + getResources().getString(R.string.text_usdt));
 
         }
 

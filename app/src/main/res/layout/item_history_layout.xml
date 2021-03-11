@@ -94,10 +94,39 @@
                     android:paddingRight="@dimen/margin_15"
                     android:text="@string/text_detail"
                     android:textColor="@color/text_second_color"
-
+                    android:visibility="gone"
                     android:textSize="@dimen/size_normal"
                     android:typeface="monospace" />
+                <LinearLayout
+                    android:id="@+id/layout_traderUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/margin_15"
+                        android:text="@string/text_position_follow"
+                        android:textColor="@color/text_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
 
+                    <TextView
+                        android:id="@+id/text_traderUsername"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="@dimen/margin_5"
+                        android:paddingRight="@dimen/margin_15"
+                        android:text="@string/text_position_follow"
+                        android:textColor="@color/text_quote_green"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
+
+                </LinearLayout>
             </RelativeLayout>
 
         </LinearLayout>

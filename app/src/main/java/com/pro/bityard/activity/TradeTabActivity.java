@@ -107,11 +107,12 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         @Override
         public void handleMessage(Message msg) {
             if (quote_code != null) {
+                String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
+
                 if (isContract) {
                     quote_code = itemQuoteContCode(defaultContract);
 
                     WebSocketManager.getInstance().send("4001", quote_code);
-                    String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
                     Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
                     Quote5MinCurrentManger.getInstance().quote(quote_host, quote_code);
                     Quote15MinCurrentManger.getInstance().quote(quote_host, quote_code);
@@ -125,6 +126,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
                     quote_code = itemQuoteContCode(defaultSpot);
                     WebSocketManager.getInstance().send("4001", quote_code);
                     WebSocketManager.getInstance().send("5001", quote_code);
+
                 }
 
 

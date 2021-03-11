@@ -102,7 +102,8 @@ public class HistoryEntity {
         private String id;
         private double income;
         private String investUserId;
-        private Object investUsername;
+        private String investUsername;
+        private String traderUsername;
         private boolean isBuy;
         private double lever;
         private double margin;
@@ -129,7 +130,6 @@ public class HistoryEntity {
         private long tradeTime;
         private double volume;
 
-
         @Override
         public String toString() {
             return "DataBean{" +
@@ -149,7 +149,8 @@ public class HistoryEntity {
                     ", id='" + id + '\'' +
                     ", income=" + income +
                     ", investUserId='" + investUserId + '\'' +
-                    ", investUsername=" + investUsername +
+                    ", investUsername='" + investUsername + '\'' +
+                    ", traderUsername='" + traderUsername + '\'' +
                     ", isBuy=" + isBuy +
                     ", lever=" + lever +
                     ", margin=" + margin +
@@ -176,6 +177,14 @@ public class HistoryEntity {
                     ", tradeTime=" + tradeTime +
                     ", volume=" + volume +
                     '}';
+        }
+
+        public String getTraderUsername() {
+            return traderUsername;
+        }
+
+        public void setTraderUsername(String traderUsername) {
+            this.traderUsername = traderUsername;
         }
 
         public boolean isBuy() {
@@ -340,11 +349,11 @@ public class HistoryEntity {
             this.investUserId = investUserId;
         }
 
-        public Object getInvestUsername() {
+        public String getInvestUsername() {
             return investUsername;
         }
 
-        public void setInvestUsername(Object investUsername) {
+        public void setInvestUsername(String investUsername) {
             this.investUsername = investUsername;
         }
 

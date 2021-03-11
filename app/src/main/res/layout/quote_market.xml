@@ -102,7 +102,6 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/margin_5"
                 android:layout_marginRight="@dimen/margin_5"
-
                 />
 
 

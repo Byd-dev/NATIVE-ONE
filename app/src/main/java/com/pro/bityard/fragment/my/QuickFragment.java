@@ -343,8 +343,6 @@ public class QuickFragment extends BaseFragment implements View.OnClickListener,
                     }
                 }
                 quickAccountAdapter.setDatas(dataBalance);
-
-
                 Iterator<BalanceEntity.DataBean> iterator = dataSelect.iterator();
                 while (iterator.hasNext()) {
                     BalanceEntity.DataBean value = iterator.next();
