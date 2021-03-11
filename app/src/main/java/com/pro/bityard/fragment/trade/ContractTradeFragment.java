@@ -700,8 +700,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 SpotTradeActivity.enter(getActivity(),"1",data);
 
             }
-
-
+            
             popupWindow.dismiss();
 
         });
