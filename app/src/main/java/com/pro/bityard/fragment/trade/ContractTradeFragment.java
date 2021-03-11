@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
+import com.pro.bityard.activity.SpotTradeActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.activity.WebActivity;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
@@ -694,7 +695,9 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 setContent(tradeListEntity);
 
             } else if (TradeUtil.type(data).equals(AppConfig.TYPE_CH)) {
-                SpotCodeManger.getInstance().postTag(data);
+                //SpotCodeManger.getInstance().postTag(data);
+                getActivity().finish();
+                SpotTradeActivity.enter(getActivity(),"1",data);
 
             }
 

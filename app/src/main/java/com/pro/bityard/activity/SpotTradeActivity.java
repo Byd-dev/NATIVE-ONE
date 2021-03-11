@@ -1076,7 +1076,10 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             }
             Log.d("print", "showQuotePopWindow:1067:  " + quote_code_old + "   " + quote_code);
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
-                QuoteCodeManger.getInstance().postTag(data);
+                //QuoteCodeManger.getInstance().postTag(data);
+                finish();
+                TradeTabActivity.enter(this,"1",data);
+
 
             } else {
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
