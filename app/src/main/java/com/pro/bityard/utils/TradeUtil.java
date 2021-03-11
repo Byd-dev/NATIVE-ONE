@@ -627,7 +627,7 @@ public class TradeUtil {
         }
         double div = div(chargeUnitEntity.getChargeCoinList().get(1), 1000, 10);
         if (coinFormula == 3) {
-            charge = numberHalfUp(mul(mul(Double.parseDouble(margin), lever), div), 2);
+            charge = getNumberFormat(mul(mul(Double.parseDouble(margin), lever), div), 2);
         }
         return charge;
     }
@@ -1929,7 +1929,7 @@ public class TradeUtil {
         double prizeDou;
         if (prizeTrade != null) {
             if (prize_mul <= prize) {
-                prizeDou = Double.parseDouble(TradeUtil.numberHalfUp(prize_mul, 2));
+                prizeDou = Double.parseDouble(TradeUtil.getNumberFormat(prize_mul, 2));
             } else {
                 prizeDou = 0.00;
             }
@@ -1941,7 +1941,7 @@ public class TradeUtil {
         double luckyDou;
         if (luckyTrade != null) {
             if (lucky_mul <= lucky) {
-                luckyDou = Double.parseDouble(TradeUtil.numberHalfUp(lucky_mul, 2));
+                luckyDou = Double.parseDouble(TradeUtil.getNumberFormat(lucky_mul, 2));
             } else {
                 luckyDou = 0.00;
             }
@@ -1954,7 +1954,7 @@ public class TradeUtil {
         } else {
             luckyDou = 0.00;
         }*/
-        String deduction = TradeUtil.numberHalfUp(TradeUtil.add(prizeDou, luckyDou), 2);
+        String deduction = TradeUtil.getNumberFormat(TradeUtil.add(prizeDou, luckyDou), 2);
         return deduction;
     }
 
