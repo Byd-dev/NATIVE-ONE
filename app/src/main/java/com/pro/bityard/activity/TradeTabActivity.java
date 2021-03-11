@@ -125,7 +125,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
                     Log.d("print", "handleMessage:TradeTabd订阅现货: " + isContract + "  " + quote_code);
                     quote_code = itemQuoteContCode(defaultSpot);
                     WebSocketManager.getInstance().send("4001", quote_code);
-                    WebSocketManager.getInstance().send("5001", quote_code);
 
                 }
 

@@ -776,8 +776,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             if (quote_code != null) {
                 Log.d("print", "handleMessage:activity订阅:  " + quote_code);
                 WebSocketManager.getInstance().send("4001", quote_code);
-                WebSocketManager.getInstance().send("5001", quote_code);
-                WebSocketManager.getInstance().send("6001", quote_code);
+
                 Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
                 Quote5MinCurrentManger.getInstance().quote(quote_host, quote_code);
                 Quote15MinCurrentManger.getInstance().quote(quote_host, quote_code);

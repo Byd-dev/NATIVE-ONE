@@ -196,21 +196,29 @@ public final class WebSocketManager {
 
     //行情的发送心跳包
     public void send(String cmidId, String symbols) {
-        String time = String.valueOf(System.currentTimeMillis());
-        String key = "hello socket quote!";
-        String sign = "cmid=" + cmidId + "&symbols=" + symbols + "&t=" + time + "&key=" + key;
-        String value_sign = MD5Util.md5Encrypt32Lower(sign);
 
-        JSONObject json = new JSONObject();
-        try {
-            json.put("cmid", cmidId);
-            json.put("t", time);
-            json.put("symbols", symbols);
-            json.put("sign", value_sign);
-            WebSocketManager.getInstance().sendMessage(json.toString());
-            Log.d("websocket", "send:发送了什么: "+json.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (symbols==null){
+            WebSocketManager.getInstance().sendMessage("3000");
+            Log.d("webSocket", "send:发送了什么: "+"3000");
+
+        }else {
+            String time = String.valueOf(System.currentTimeMillis());
+            String key = "hello socket quote!";
+            String sign = "cmid=" + cmidId + "&symbols=" + symbols + "&t=" + time + "&key=" + key;
+            String value_sign = MD5Util.md5Encrypt32Lower(sign);
+
+            JSONObject json = new JSONObject();
+            try {
+                json.put("cmid", cmidId);
+                json.put("t", time);
+                json.put("symbols", symbols);
+                json.put("sign", value_sign);
+                WebSocketManager.getInstance().sendMessage(json.toString());
+                Log.d("webSocket", "send:发送了什么: "+json.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
     }
 }
