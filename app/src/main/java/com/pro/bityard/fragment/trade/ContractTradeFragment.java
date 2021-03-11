@@ -706,7 +706,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         });
 
-
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
             type = AppConfig.SPOT_ALL;
             tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
