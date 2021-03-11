@@ -712,7 +712,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
             popupWindow.dismiss();
         });
-
         RelativeLayout layout_bar = view.findViewById(R.id.layout_bar);
 
         edit_search = view.findViewById(R.id.edit_search);
