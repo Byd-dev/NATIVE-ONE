@@ -794,11 +794,9 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     protected void initEvent() {
 
     }
-
     private void setContent(String itemData) {
         Log.d("print", "setContent:313:  " + itemData);
         quote_code = itemQuoteContCode(itemData);
-
 
         text_name.setText(TradeUtil.name(itemData));
         text_currency.setText(TradeUtil.currency(itemData));
