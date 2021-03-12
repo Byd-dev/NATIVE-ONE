@@ -507,19 +507,18 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             TradeUtil.setTradeAmount(edit_price_limit, edit_amount_limit, edit_trade_amount_limit, priceDigit);
         });
 
-        String minVolume = volumeMin;
-        //限价加号
+        //限价数量加号
         text_add_amount_limit.setOnClickListener(v ->
         {
-            TradeUtil.addMyself(edit_amount_limit, Double.parseDouble(minVolume));
+            TradeUtil.addMyself(edit_amount_limit, Double.parseDouble(volumeMin));
             TradeUtil.setTradeAmount(edit_amount_limit, edit_price_limit, edit_trade_amount_limit, priceDigit);
 
         });
-        //限价减号
+        //限价数量减号
         text_sub_amount_limit.setOnClickListener(v ->
 
         {
-            TradeUtil.subMyself(edit_amount_limit, Double.parseDouble(minVolume));
+            TradeUtil.subMyself(edit_amount_limit, Double.parseDouble(volumeMin));
             TradeUtil.setTradeAmount(edit_amount_limit, edit_price_limit, edit_trade_amount_limit, priceDigit);
         });
 
@@ -605,11 +604,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         /*市价*/
 
         //市价的成交金额加
-        text_add_amount_market.setOnClickListener(v -> {
-            TradeUtil.addMyself(edit_trade_amount_market, TradeUtil.scale(priceDigit));
-        });
+        text_add_amount_market.setOnClickListener(v -> TradeUtil.addMyself(edit_trade_amount_market,tradeDetail.getPriceChange()));
         //市价的成交金额减
-        text_sub_amount_market.setOnClickListener(v -> TradeUtil.subMyself(edit_trade_amount_market, TradeUtil.scale(priceDigit)));
+        text_sub_amount_market.setOnClickListener(v -> TradeUtil.subMyself(edit_trade_amount_market,tradeDetail.getPriceChange()));
 
         proportionMarketAdapter.setDatas(proportionList);
         proportionMarketAdapter.select(5);

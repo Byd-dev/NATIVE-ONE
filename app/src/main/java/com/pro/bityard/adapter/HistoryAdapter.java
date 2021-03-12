@@ -156,7 +156,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             String income = income(isBuy, cpPrice, opPrice, datas.get(position).getVolume(),4);
             double incomeDouble = Double.parseDouble(income);
             //盈亏比
-            ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(incomeDouble, margin));
 
             String netIncome = netIncome(incomeDouble, datas.get(position).getServiceCharge());
             double netIncomeDouble = Double.parseDouble(netIncome);
@@ -166,11 +165,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_green));
                 ((MyViewHolder) holder).text_rate.setTextColor(context.getResources().getColor(R.color.text_quote_green));
                 ((MyViewHolder) holder).text_income.setText("+"+getNumberFormat(Double.parseDouble(income),2));
+                ((MyViewHolder) holder).text_rate.setText("+"+TradeUtil.ratio(incomeDouble, margin));
 
             } else {
                 ((MyViewHolder) holder).text_income.setTextColor(context.getResources().getColor(R.color.text_quote_red));
                 ((MyViewHolder) holder).text_rate.setTextColor(context.getResources().getColor(R.color.text_quote_red));
                 ((MyViewHolder) holder).text_income.setText(getNumberFormat(Double.parseDouble(income),2));
+                ((MyViewHolder) holder).text_rate.setText(TradeUtil.ratio(incomeDouble, margin));
 
             }
 
