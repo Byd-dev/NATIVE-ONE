@@ -157,7 +157,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     private String orderType = "0"; //市价=0 限价=1
     private boolean isDefer; //是否递延
-
     private String tradeType = "1";//实盘=1 模拟=2
     private String itemData;
 
