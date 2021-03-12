@@ -2583,13 +2583,17 @@ public class NetManger {
                     @Override
                     public void onSuccess(Response<String> response) {
                         Log.d("print", "onSuccess:更新内容:  " + response.body());
-                        UpdateEntity updateEntity = new Gson().fromJson(response.body(), UpdateEntity.class);
-                        String versionCode = updateEntity.getUpdate().getVersionCode();
-                        String versionMessage = updateEntity.getUpdate().getVersionMessage();
-                        String versionUrl = updateEntity.getUpdate().getVersionUrl();
-                        if (Util.updateJudge(activity, Integer.parseInt(versionCode))) {
-                            PopUtil.getInstance().dialogUp(activity, layout_view, versionMessage, versionUrl);
+
+                        if (!response.body().startsWith("<")){
+                            UpdateEntity updateEntity = new Gson().fromJson(response.body(), UpdateEntity.class);
+                            String versionCode = updateEntity.getUpdate().getVersionCode();
+                            String versionMessage = updateEntity.getUpdate().getVersionMessage();
+                            String versionUrl = updateEntity.getUpdate().getVersionUrl();
+                            if (Util.updateJudge(activity, Integer.parseInt(versionCode))) {
+                                PopUtil.getInstance().dialogUp(activity, layout_view, versionMessage, versionUrl);
+                            }
                         }
+
                     }
                 });
 

@@ -63,7 +63,7 @@ public class TradeUtil {
             return 0.000001;
         } else if (priceDigit == 7) {
             return 0.0000001;
-        } else if (priceDigit == 9) {
+        } else if (priceDigit == 8) {
             return 0.00000001;
         } else {
             return 0;
@@ -2061,6 +2061,7 @@ public class TradeUtil {
         if (amount_limit.length() != 0) {
             String amount_trade_limit = TradeUtil.mulBig(Double.parseDouble(price_limit), Double.parseDouble(amount_limit));
             String numberFormat = TradeUtil.numberHalfUp(Double.parseDouble(amount_trade_limit), priceDigit);
+
             edit_trade_amount_limit.setText(numberFormat);
         }
     }

@@ -4,8 +4,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
@@ -61,7 +59,6 @@ import com.pro.bityard.view.DecimalEditText;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.switchlibrary.SPUtils;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -71,8 +68,6 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -84,8 +79,6 @@ import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
-import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
-import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
 public class SpotTradeFragment extends BaseFragment implements View.OnClickListener, Observer {
@@ -102,7 +95,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     LinearLayout layout_null;
     private String tradeType = "1";//实盘=1 模拟=2
     private String itemData;
-    private String quote_code = null,quote_code_old=null;
+    private String quote_code = null, quote_code_old = null;
 
     @BindView(R.id.img_star_spot)
     ImageView img_star_spot;
@@ -245,7 +238,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         RecyclerView recyclerView_proportion_limit = headView.findViewById(R.id.recyclerView_proportion_limit);
 
         proportionList = new ArrayList<>();
-        proportionList.add(20);
+        proportionList.add(25);
         proportionList.add(50);
         proportionList.add(75);
         proportionList.add(100);
@@ -370,7 +363,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         text_currency_head.setText("(" + tradeName + ")");
         edit_amount_limit.setHint(getResources().getString(R.string.text_amount_withdrawal) + " (" + tradeName + ")");
         //根据当前价格的小数位确定输入框的小数位
-        priceDigit = tradeDetail.getPriceDigit();
+        //priceDigit = tradeDetail.getPriceDigit();
+
         if (isBuy.equals("true")) {
             text_buy_what.setText(getResources().getText(R.string.text_buy) + tradeName);
         } else {
@@ -406,8 +400,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         };*/
 
 
-
-       // timer.schedule(task, QUOTE_SECOND, QUOTE_SECOND);
+        // timer.schedule(task, QUOTE_SECOND, QUOTE_SECOND);
         //startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
 
@@ -600,8 +593,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 if (balanceEntity != null) {
                     double money = balanceEntity.getMoney();
                     String s = TradeUtil.mulBig(money, Double.parseDouble(TradeUtil.divBig(data, 100, 2)));
-                    String numberFormat = TradeUtil.getNumberFormat(Double.parseDouble(s), priceDigit);
-                    edit_trade_amount_limit.setText(numberFormat);
+                    String numberFormat = TradeUtil.numberHalfUp(Double.parseDouble(s), TradeUtil.decimalPoint(String.valueOf(money)));
+                    edit_amount_limit.setText(numberFormat);
                 } else {
                     getBalance();
                 }
@@ -613,10 +606,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         //市价的成交金额加
         text_add_amount_market.setOnClickListener(v -> {
-            TradeUtil.addMyself(edit_trade_amount_market, tradeDetail.getPriceChange());
+            TradeUtil.addMyself(edit_trade_amount_market, TradeUtil.scale(priceDigit));
         });
         //市价的成交金额减
-        text_sub_amount_market.setOnClickListener(v -> TradeUtil.subMyself(edit_trade_amount_market, tradeDetail.getPriceChange()));
+        text_sub_amount_market.setOnClickListener(v -> TradeUtil.subMyself(edit_trade_amount_market, TradeUtil.scale(priceDigit)));
 
         proportionMarketAdapter.setDatas(proportionList);
         proportionMarketAdapter.select(5);
@@ -641,7 +634,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         });
         /*买入*/
         layout_buy_what.setOnClickListener(v -> {
-            if (isLogin()){
+            if (isLogin()) {
 
                 if (limit_market_type.equals("0")) {
                     value_price = edit_price_limit.getText().toString();
@@ -670,11 +663,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                                 dismissProgressDialog();
                             }
                         });
-            }else {
+            } else {
                 LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
 
             }
-
 
 
         });
@@ -683,28 +675,31 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
     private void getBalance() {
-        if (isLogin()){
+        if (isLogin()) {
             BalanceManger.getInstance().getBalance(tradeName, response -> {
                 balanceEntity = (BalanceEntity.DataBean) response;
                 Log.d("print", "getBalance:余额: " + balanceEntity.getMoney());
                 TradeUtil.getScale(balanceEntity.getCurrency(), response2 -> {
                     double money = balanceEntity.getMoney();
                     int scale = (int) response2;
+                    priceDigit = TradeUtil.decimalPoint(String.valueOf(BalanceManger.getInstance().getBalanceReal()));
+                    Log.d("print", "getBalance:694:  " + priceDigit);
+
                     if (isBuy.equals("true")) {
                         text_balance.setText(BalanceManger.getInstance().getBalanceReal() + " " + getResources().getString(R.string.text_usdt));
+
                     } else {
                         text_balance.setText(TradeUtil.justDisplay(money) + " " + tradeName);
                     }
                 });
             });
-        }else {
+        } else {
             if (isBuy.equals("true")) {
                 text_balance.setText("0.0" + " " + getResources().getString(R.string.text_usdt));
             } else {
                 text_balance.setText("0.0" + " " + tradeName);
             }
         }
-
 
 
     }
@@ -722,19 +717,16 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 SpotPositionEntity spotPositionEntity = (SpotPositionEntity) response;
-                if (isAdded()) {
-                    if (spotPositionEntity.getData().size() == 0) {
-
-                        layout_null.setVisibility(View.VISIBLE);
-                        layout_cancel.setVisibility(View.GONE);
-                        view_line_two.setVisibility(View.GONE);
-                    } else {
-                        layout_null.setVisibility(View.GONE);
-                        layout_cancel.setVisibility(View.VISIBLE);
-                        view_line_two.setVisibility(View.VISIBLE);
-                    }
+                if (spotPositionEntity.getData().size() == 0) {
+                    layout_null.setVisibility(View.VISIBLE);
+                    layout_cancel.setVisibility(View.GONE);
+                    view_line_two.setVisibility(View.GONE);
+                } else {
+                    layout_null.setVisibility(View.GONE);
+                    layout_cancel.setVisibility(View.VISIBLE);
+                    view_line_two.setVisibility(View.VISIBLE);
                 }
-                Log.d("print", "getPosition:721: "+spotPositionEntity.getData());
+                Log.d("print", "getPosition:721: " + spotPositionEntity.getData());
                 spotPositionAdapter.setDatas(spotPositionEntity.getData());
             } else if (state.equals(FAILURE)) {
                 swipeRefreshLayout.setRefreshing(false);
@@ -1345,21 +1337,20 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         });
 
-        quote_code_old=quote_code;
+        quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
-            if (!quote_code_old.equals(quote_code)){
+            if (!quote_code_old.equals(quote_code)) {
                 WebSocketManager.getInstance().send("4002", quote_code_old);
             }
-            if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)){
+            if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 QuoteCodeManger.getInstance().postTag(data);
-            }else if (TradeUtil.type(data).equals(AppConfig.TYPE_CH)){
+            } else if (TradeUtil.type(data).equals(AppConfig.TYPE_CH)) {
                 SpotCodeManger.getInstance().postTag(data);
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "  " + old_code);
                 setContent(data);
                 type = AppConfig.CONTRACT_IN_ALL;
                 WebSocketManager.getInstance().send("4002", old_code);
-
 
 
                 //判断当前是否存在自选

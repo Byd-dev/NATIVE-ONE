@@ -1703,7 +1703,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 myKLineView_5Min.initKDataList(kData5MinHistory);
             } else {
                 if (quoteMinEntity != null) {
-
                     Quote5MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
                 }
             }
