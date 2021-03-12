@@ -2122,4 +2122,28 @@ public class TradeUtil {
             }
         }
     }
+
+
+    public static void addLeverMyself(DecimalEditText editText, double priceChange) {
+        if (editText.getText().toString().length() == 0) {
+            String s = TradeUtil.addBig(0, priceChange);
+            BigDecimal bigDecimal = new BigDecimal(s);
+            editText.setText(bigDecimal.stripTrailingZeros().toPlainString());
+        } else {
+            String a = TradeUtil.addBig(Double.parseDouble(editText.getText().toString()), priceChange);
+            BigDecimal bigDecimal = new BigDecimal(a);
+            editText.setText(bigDecimal.stripTrailingZeros().toPlainString());
+
+        }
+    }
+
+    public static void subLeverMyself(DecimalEditText editText, double priceChange) {
+        if (editText.getText().toString().length() == 0 || Double.parseDouble(editText.getText().toString()) <= 0) {
+            editText.setText(String.valueOf(0));
+        } else {
+            String a = TradeUtil.subBig(Double.parseDouble(editText.getText().toString()), priceChange);
+            BigDecimal bigDecimal = new BigDecimal(a);
+            editText.setText(bigDecimal.stripTrailingZeros().toPlainString());
+        }
+    }
 }

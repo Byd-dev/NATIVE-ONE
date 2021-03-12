@@ -27,6 +27,7 @@ public class RadioGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public boolean isLoadMore = false;
     private Integer index = 0;
+    private Integer lever=0;
 
     public RadioGroupAdapter(Context context) {
         this.context = context;
@@ -42,6 +43,11 @@ public class RadioGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         this.index = index;
         this.notifyDataSetChanged();
 
+    }
+
+    public void selectLever(Integer lever){
+        this.lever=lever;
+        this.notifyDataSetChanged();
     }
 
     public void addDatas(List<Integer> datas) {
@@ -89,6 +95,11 @@ public class RadioGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             if (index == position) {
                 ((MyViewHolder) holder).radioButton.setChecked(true);
             } else {
+                ((MyViewHolder) holder).radioButton.setChecked(false);
+            }
+            if (lever==datas.get(position)){
+                ((MyViewHolder) holder).radioButton.setChecked(true);
+            }else {
                 ((MyViewHolder) holder).radioButton.setChecked(false);
             }
 

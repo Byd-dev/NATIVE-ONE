@@ -2,7 +2,10 @@ package com.pro.bityard.fragment.trade;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -22,6 +25,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,6 +99,7 @@ import java.util.Observer;
 import java.util.Set;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -120,6 +125,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     private static final String VALUE = "value";
     private static final String quoteType = "all";
     private int lever;
+    private DecimalEditText edit_lever;
+    private SeekBar seekBar_lever;
 
 
     @Override
@@ -937,11 +944,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         }
         //可用余额
         if (tradeType.equals("1")) {
-            text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
-            text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+            text_market_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceReal()) + " " + getResources().getString(R.string.text_usdt));
+            text_limit_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceReal()) + " " + getResources().getString(R.string.text_usdt));
         } else {
-            text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
-            text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
+            text_market_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()) + " " + getResources().getString(R.string.text_usdt));
+            text_limit_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()) + " " + getResources().getString(R.string.text_usdt));
         }
 
 
@@ -1255,8 +1262,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 return;
             }
             lever = leverShowList.get(oldSelect);
-            text_lever_market.setText(lever + "X");
-            text_lever_limit.setText(lever + "X");
+            text_lever_market.setText(lever + "");
+            text_lever_limit.setText(lever + "");
+
+
             double maxHoldOne = tradeListEntity.getMaxHoldOne();
             if (maxHoldOne > 0) {
                 String min_margin = TradeUtil.depositMin(tradeListEntity.getDepositList());
@@ -1406,6 +1415,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     private int oldSelect = 0;
 
     //选择杠杆
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void showLeverWindow(TradeListEntity tradeListEntity) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(getActivity()).inflate(R.layout.item_lever_pop_layout, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
@@ -1415,12 +1425,98 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView_market);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         recyclerView.setAdapter(radioGroupAdapter);
+        LinearLayout layout_lever_slide = view.findViewById(R.id.layout_lever_slide);
+        edit_lever = view.findViewById(R.id.edit_lever);
+        seekBar_lever = view.findViewById(R.id.bar_lever);
+
+        TextView text_lever_min = view.findViewById(R.id.text_lever_min);
+        TextView text_lever_max = view.findViewById(R.id.text_lever_max);
+
+        TextView text_sub_lever = view.findViewById(R.id.text_sub_lever);
+
+        TextView text_add_lever = view.findViewById(R.id.text_add_lever);
+
+
+        lever = Integer.parseInt(text_lever_limit.getText().toString());
+
+        seekBar_lever.post(() -> {
+            seekBar_lever.setProgress(lever);
+        });
+
+        edit_lever.setText(String.valueOf(lever));
+
+
+        RadioGroup radioGroup_lever = view.findViewById(R.id.radioGroup_lever);
+        radioGroup_lever.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId) {
+                case R.id.radio_quick:
+                    recyclerView.setVisibility(View.VISIBLE);
+                    layout_lever_slide.setVisibility(View.GONE);
+                    break;
+                case R.id.radio_slide:
+                    recyclerView.setVisibility(View.GONE);
+                    layout_lever_slide.setVisibility(View.VISIBLE);
+                    break;
+            }
+        });
+
+
         if (tradeListEntity != null) {
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
-            radioGroupAdapter.setDatas(leverShowList);
+            List<Integer> leverList = tradeListEntity.getLeverList();
+            seekBar_lever.getThumb().setColorFilter(Color.parseColor("#FFB628"), PorterDuff.Mode.SRC_ATOP);
 
-            radioGroupAdapter.select(oldSelect);
-            lever = leverShowList.get(oldSelect);
+            seekBar_lever.setMin(leverList.get(0));
+            seekBar_lever.setMax(leverList.get(1));
+            text_lever_min.setText(String.valueOf(leverList.get(0)));
+            text_lever_max.setText(String.valueOf(leverList.get(1)));
+
+            text_sub_lever.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TradeUtil.subLeverMyself(edit_lever, 1);
+                    lever = Integer.parseInt(edit_lever.getText().toString());
+                    setSlide(false,lever);
+
+                }
+            });
+
+            text_add_lever.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    TradeUtil.addLeverMyself(edit_lever, 1);
+                    lever = Integer.parseInt(edit_lever.getText().toString());
+                    setSlide(false,lever);
+                }
+            });
+            seekBar_lever.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    if (fromUser) {
+                        edit_lever.setText(progress + "");
+                        setSlide(true,progress);
+
+
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+
+
+            radioGroupAdapter.setDatas(leverShowList);
+            //自动选择相应的
+            radioGroupAdapter.selectLever(lever);
+
 
             radioGroupAdapter.setOnItemClick((position, data) -> {
                 lever = data;
@@ -1428,10 +1524,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 radioGroupAdapter.select(position);
                 recyclerView.setAdapter(radioGroupAdapter);
                 radioGroupAdapter.notifyDataSetChanged();
-                text_lever_market.setText(lever + "X");
-                text_lever_limit.setText(lever + "X");
                 popupWindow.dismiss();
-
                 setLeverContent(tradeListEntity);
 
 
@@ -1444,20 +1537,48 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         popupWindow.showAsDropDown(layout_pop_market, Gravity.CENTER, 0, 0);
     }
 
+
+    public void setSlide(boolean isSeekBar,int progress) {
+        text_lever_limit.setText(String.valueOf(progress));
+        text_lever_market.setText(String.valueOf(progress));
+        lever = progress;
+        double maxHoldOne = tradeListEntity.getMaxHoldOne();
+        if (maxHoldOne > 0) {
+            String min_margin = TradeUtil.depositMin(tradeListEntity.getDepositList());
+            double max_margin = TradeUtil.div(maxHoldOne, lever, 0);
+            edit_market_margin.setHint(min_margin +
+                    "~" + max_margin);
+            edit_limit_margin.setHint(min_margin +
+                    "~" + max_margin);
+
+        } else {
+            edit_market_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+            edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
+
+        }
+        if (!isSeekBar){
+           seekBar_lever.post(() -> {
+            seekBar_lever.setProgress(lever);
+        });
+        }
+
+        radioGroupAdapter.selectLever(lever);
+    }
+
     /*设置 保证金和杠杆*/
     public void setLeverContent(TradeListEntity tradeListEntity) {
         if (tradeListEntity != null) {
             List<Integer> leverShowList = tradeListEntity.getLeverShowList();
             lever = leverShowList.get(oldSelect);
-            text_lever_market.setText(lever + "X");
-            text_lever_limit.setText(lever + "X");
-            double maxHoldOne = tradeListEntity.getMaxHoldOne();
+            text_lever_market.setText(lever + "");
+            text_lever_limit.setText(lever + "");
             edit_limit_margin.setText("");
             edit_market_margin.setText("");
             text_market_volume.setText(getString(R.string.text_default));
             text_limit_volume.setText(getString(R.string.text_default));
             text_market_all.setText(getString(R.string.text_default));
             text_limit_all.setText(getString(R.string.text_default));
+            double maxHoldOne = tradeListEntity.getMaxHoldOne();
             if (maxHoldOne > 0) {
                 String min_margin = TradeUtil.depositMin(tradeListEntity.getDepositList());
                 double max_margin = TradeUtil.div(maxHoldOne, lever, 0);
@@ -1648,17 +1769,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             text_market_volume.setText(TradeUtil.volume(lever, edit_market_margin.getText().toString(), quoteMinEntity.getPrice()));
             String service = TradeUtil.serviceCharge(chargeUnitEntity, 3, edit_market_margin.getText().toString(), lever);
             // Log.d("print", "update:服务费:  " +chargeUnitEntity +"            "+service);
-
             if (prizeTrade != null && service != null) {
                 text_market_all.setText(TradeUtil.total(edit_market_margin.getText().toString(),
                         service,
                         TradeUtil.deductionResult(service, edit_market_margin.getText().toString(), prizeTrade, luckyTrade)) + " " + getResources().getString(R.string.text_usdt));
             }
-
         } else {
             text_market_volume.setText(getResources().getText(R.string.text_default));
             text_market_all.setText(getResources().getText(R.string.text_default));
-
         }
         if (Objects.requireNonNull(edit_limit_margin.getText()).length() != 0) {
             text_limit_volume.setText(TradeUtil.volume(lever, edit_limit_margin.getText().toString(), quoteMinEntity.getPrice()));
@@ -1783,11 +1901,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
             //可用余额
             if (tradeType.equals("1")) {
-                text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
-                text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2) + " " + getResources().getString(R.string.text_usdt));
+                text_market_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceReal()) + " " + getResources().getString(R.string.text_usdt));
+                text_limit_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceReal()) + " " + getResources().getString(R.string.text_usdt));
             } else {
-                text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
-                text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2) + " " + getResources().getString(R.string.text_usdt));
+                text_market_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()) + " " + getResources().getString(R.string.text_usdt));
+                text_limit_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()) + " " + getResources().getString(R.string.text_usdt));
             }
 
         } /*else if (o == TradeListManger.getInstance()) {
@@ -2138,6 +2256,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View v) {
         TabLayout.Tab tabAt = tabLayout.getTabAt(5);
@@ -2177,11 +2296,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 }
                 //可用余额
                 if (tradeType.equals("1")) {
-                    text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
-                    text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceReal(), 2));
+                    text_market_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceReal()));
+                    text_limit_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceReal()));
                 } else {
-                    text_market_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
-                    text_limit_balance.setText(TradeUtil.getNumberFormat(BalanceManger.getInstance().getBalanceSim(), 2));
+                    text_market_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()));
+                    text_limit_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()));
                 }
 
                 getPositionSize();
@@ -2429,10 +2548,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             case R.id.layout_limit_lever_select:
                 Util.lightOff(getActivity());
                 showLeverWindow(tradeListEntity);
-
-
                 break;
-
             case R.id.text_charge:
                 if (isLogin()) {
                     if (tradeType.equals("1")) {
@@ -2445,7 +2561,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                             }
                         });
                     }
-
                 } else {
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);
                 }
