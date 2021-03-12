@@ -128,12 +128,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     private DecimalEditText edit_lever;
     private SeekBar seekBar_lever;
 
-
     @Override
     protected int setLayoutResourceID() {
         return R.layout.fragment_contract;
     }
-
 
     public ContractTradeFragment newInstance(String type, String value) {
         ContractTradeFragment fragment = new ContractTradeFragment();
