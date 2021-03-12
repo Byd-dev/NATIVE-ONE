@@ -138,7 +138,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         Bundle args = new Bundle();
         args.putString(TYPE, type);
         args.putString(VALUE, value);
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -152,7 +151,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     LinearLayout layout_switch;
     @BindView(R.id.img_star_contract)
     ImageView img_star_contract;
-
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
 
