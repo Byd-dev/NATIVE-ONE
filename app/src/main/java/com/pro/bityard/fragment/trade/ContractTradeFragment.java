@@ -164,7 +164,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     @BindView(R.id.text_name)
     TextView text_name;
 
-
     @BindView(R.id.text_currency)
     TextView text_currency;
 
