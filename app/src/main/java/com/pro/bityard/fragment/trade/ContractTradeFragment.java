@@ -2268,7 +2268,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         switch (v.getId()) {
             case R.id.layout_product:
                 Util.lightOff(getActivity());
-
                 showQuotePopWindow();
                 //showProductWindow(quoteList);
                 break;
