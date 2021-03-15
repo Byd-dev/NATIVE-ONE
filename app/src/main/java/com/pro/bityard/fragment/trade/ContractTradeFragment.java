@@ -2272,14 +2272,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 //showProductWindow(quoteList);
                 break;
             case R.id.layout_switch:
-
                 if (tradeType.equals("1")) {
-
                     tradeType = "2";
                     text_switch.setText(getResources().getText(R.string.text_simulation_trade));
                     radio_btn1.setVisibility(View.GONE);
-
-
                 } else if (tradeType.equals("2")) {
 
                     tradeType = "1";
