@@ -1126,7 +1126,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
                 setContent(data);
                 itemData = data;
-                SpotCodeManger.getInstance().postTag(data);
+                //SpotCodeManger.getInstance().postTag(data);
                 type = AppConfig.CONTRACT_ALL;
                 //判断当前是否存在自选
                 Util.isOptional(quote_code, optionalList, response -> {
@@ -1787,6 +1787,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         Toast.makeText(SpotTradeActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
+        WebSocketManager.getInstance().send("4002", quote_code_old);
+
         //要取消计时 防止内存溢出
         cancelTimer();
         //  QuoteCurrentManger.getInstance().clear();
