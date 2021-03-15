@@ -1139,6 +1139,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     }
                 });
 
+
+
             }
 
 
@@ -1788,6 +1790,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         super.onDestroy();
         Toast.makeText(SpotTradeActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
         WebSocketManager.getInstance().send("4002", quote_code_old);
+
 
         //要取消计时 防止内存溢出
         cancelTimer();

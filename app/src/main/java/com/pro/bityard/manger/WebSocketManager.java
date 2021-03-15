@@ -209,7 +209,7 @@ public final class WebSocketManager {
                 json.put("t", time);
                 json.put("sign", value_sign);
                 WebSocketManager.getInstance().sendMessage(json.toString());
-                Log.d("webSocket", "send:发送了什么1: "+json.toString());
+                Log.d("send", "send:发送了什么1: "+json.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -227,7 +227,7 @@ public final class WebSocketManager {
                 json.put("symbols", symbols);
                 json.put("sign", value_sign);
                 WebSocketManager.getInstance().sendMessage(json.toString());
-                Log.d("webSocket", "send:发送了什么2: "+json.toString());
+                Log.d("send", "send:发送了什么2: "+json.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
