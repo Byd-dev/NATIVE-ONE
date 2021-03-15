@@ -198,8 +198,21 @@ public final class WebSocketManager {
     public void send(String cmidId, String symbols) {
 
         if (symbols==null){
-            WebSocketManager.getInstance().sendMessage("3000");
-            Log.d("webSocket", "send:发送了什么: "+"3000");
+            String time = String.valueOf(System.currentTimeMillis());
+            String key = "hello socket quote!";
+            String sign = "cmid=" + cmidId +  "&t=" + time + "&key=" + key;
+            String value_sign = MD5Util.md5Encrypt32Lower(sign);
+
+            JSONObject json = new JSONObject();
+            try {
+                json.put("cmid", cmidId);
+                json.put("t", time);
+                json.put("sign", value_sign);
+                WebSocketManager.getInstance().sendMessage(json.toString());
+                Log.d("webSocket", "send:发送了什么1: "+json.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
         }else {
             String time = String.valueOf(System.currentTimeMillis());
@@ -214,7 +227,7 @@ public final class WebSocketManager {
                 json.put("symbols", symbols);
                 json.put("sign", value_sign);
                 WebSocketManager.getInstance().sendMessage(json.toString());
-                Log.d("webSocket", "send:发送了什么: "+json.toString());
+                Log.d("webSocket", "send:发送了什么2: "+json.toString());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
