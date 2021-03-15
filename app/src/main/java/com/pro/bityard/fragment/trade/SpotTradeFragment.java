@@ -775,6 +775,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.img_market:
                 SpotTradeActivity.enter(getActivity(), tradeType, itemData);
+                WebSocketManager.getInstance().send("4002", quote_code);
+                WebSocketManager.getInstance().send("4001", itemQuoteContCode(itemData));
                 break;
 
         }
@@ -917,6 +919,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         QuoteSpotCurrentManger.getInstance().clear();
         SocketQuoteManger.getInstance().deleteObserver(this);
         //timer.cancel();
+        if (quote_code_old != null) {
+            WebSocketManager.getInstance().send("4002", quote_code_old);
+        }
+        WebSocketManager.getInstance().send("4002", quote_code);
 
 
     }
@@ -1336,9 +1342,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
-            if (!quote_code_old.equals(quote_code)) {
-                WebSocketManager.getInstance().send("4002", quote_code_old);
-            }
+            WebSocketManager.getInstance().send("4002", quote_code_old);
+
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 QuoteCodeManger.getInstance().postTag(data);
             } else if (TradeUtil.type(data).equals(AppConfig.TYPE_CH)) {
@@ -1346,7 +1351,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "  " + old_code);
                 setContent(data);
                 type = AppConfig.CONTRACT_IN_ALL;
-                WebSocketManager.getInstance().send("4002", old_code);
+                WebSocketManager.getInstance().send("4001", quote_code);
 
 
                 //判断当前是否存在自选

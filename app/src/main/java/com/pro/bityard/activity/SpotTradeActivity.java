@@ -1280,7 +1280,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             case R.id.layout_sell:
                 if (isLogin()) {
                     TradeTabActivity.enter(this, "1", itemData);
-                    // SpotCodeManger.getInstance().postTag(itemData);
+                    WebSocketManager.getInstance().send("4002", quote_code);
+                    WebSocketManager.getInstance().send("4001", itemQuoteContCode(itemData));
+                    finish();
+                    Log.d("print", "onClick:1285:  "+quote_code+"  "+itemQuoteContCode(itemData));
+
                 } else {
                     LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
@@ -1829,12 +1833,10 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         myKLineView_1_month.cancelQuotaThread();
         Log.d("print", "onDestroy: 1824: " + quote_code + "  " + quote_code_old);
 
-        if (quote_code_old == null) {
-            WebSocketManager.getInstance().send("4002", quote_code);
-        } else {
+        if (quote_code_old != null) {
             WebSocketManager.getInstance().send("4002", quote_code_old);
-            WebSocketManager.getInstance().send("4002", quote_code);
         }
+        WebSocketManager.getInstance().send("4002", quote_code);
 
 
         quote_code = null;
