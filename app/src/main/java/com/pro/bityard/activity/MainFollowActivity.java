@@ -308,7 +308,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
             if (quoteList != null) {
                 runOnUiThread(() -> {
-                   // layout_null.setVisibility(View.GONE);
+                    // layout_null.setVisibility(View.GONE);
                     recyclerView_market.setVisibility(View.VISIBLE);
                     quoteHomeAdapter.setDatas(arrayMap.get(AppConfig.HOME_HOT));
                     quoteAdapter.setDatas(arrayMap.get(AppConfig.HOME_LIST));
@@ -478,16 +478,18 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     text_balance_currency.setText(getResources().getString(R.string.text_default));
                 }
             });
-        }else if (o== NoticeManger.getInstance()){
-            Log.d("print", "update:478:  "+"收到");
+        } else if (o == NoticeManger.getInstance()) {
+            Log.d("print", "update:478:  " + "收到");
             getFollowList();
         }
     }
 
     private void onSuccessListener(String data) {
-        if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)){
+        WebSocketManager.getInstance().send("4001", itemQuoteContCode(data));
+        if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
             TradeTabActivity.enter(this, "1", data);
-        }else {
+        } else {
+
             SpotTradeActivity.enter(this, tradeType, data);
         }
 
@@ -586,8 +588,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         super.onResume();
 
 
-
-
         //跟单列表
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
@@ -617,7 +617,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head);
             layout_commissionRate.setVisibility(View.GONE);
 
-            text_all_profit.setText(getResources().getString(R.string.text_all_profit) + ": 0.0"  );
+            text_all_profit.setText(getResources().getString(R.string.text_all_profit) + ": 0.0");
             //资产
             text_balance.setText(getResources().getString(R.string.text_default));
             text_balance_currency.setText(getResources().getString(R.string.text_default));
@@ -777,18 +777,18 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
 
                     quoteList = arrayMap.get(type);
-                    Log.d("print", "initView:779:  "+quoteList);
+                    Log.d("print", "initView:779:  " + quoteList);
 
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -805,17 +805,17 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
 
                     quoteList = arrayMap.get(type);
-                    Log.d("print", "initView:798:  "+quoteList);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    Log.d("print", "initView:798:  " + quoteList);
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -868,16 +868,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_CONTRACT_IN;
 
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -891,16 +891,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_DERIVATIVES;
 
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -913,16 +913,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     type = AppConfig.FOREIGN_EXCHANGE_ALL;
                     zone_type = AppConfig.VIEW_FOREIGN_EXCHANGE;
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -959,16 +959,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_SPOT;
 
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -982,16 +982,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_SPOT_DEFI;
 
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -1004,16 +1004,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     type = AppConfig.SPOT_POS_ALL;
                     zone_type = AppConfig.VIEW_SPOT_POS;
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -1026,16 +1026,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     type = AppConfig.SPOT_GRAY_ALL;
                     zone_type = AppConfig.VIEW_SPOT_GRAY;
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -1048,16 +1048,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     type = AppConfig.SPOT_BSC_ALL;
                     zone_type = AppConfig.VIEW_SPOT_BSC;
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -1071,9 +1071,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         });
 
         text_add.setOnClickListener(v -> {
-            if (zone_type==AppConfig.VIEW_OPTIONAL_CONTRACT){
+            if (zone_type == AppConfig.VIEW_OPTIONAL_CONTRACT) {
                 tabLayout_market.getTabAt(1).select();
-            }else if (zone_type==AppConfig.VIEW_OPTIONAL_SPOT){
+            } else if (zone_type == AppConfig.VIEW_OPTIONAL_SPOT) {
                 tabLayout_market.getTabAt(2).select();
 
             }
@@ -1121,16 +1121,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
 
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -1138,7 +1138,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
                     img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
-
 
 
                 } else if (tab.getPosition() == 1) {
@@ -1153,16 +1152,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_CONTRACT_IN;
 
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -1184,16 +1183,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_SPOT;
 
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -1212,16 +1211,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     zone_type = AppConfig.VIEW_DERIVATIVES;
 
                     quoteList = arrayMap.get(type);
-                    if (quoteList!=null){
-                        if (quoteList.size()==0){
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
-                        }else {
+                        } else {
                             layout_null.setVisibility(View.GONE);
                             recyclerView_market.setVisibility(View.VISIBLE);
                             quoteAdapter_market.setDatas(quoteList);
                         }
-                    }else {
+                    } else {
 
                         layout_null.setVisibility(View.VISIBLE);
                         recyclerView_market.setVisibility(View.GONE);
@@ -1545,7 +1544,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
-
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+        WebSocketManager.getInstance().send("3001", quote_code);
         //首页 -------------------------------------------------------------------------------------
         getBanner();
 
@@ -1565,7 +1565,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             if (state.equals(SUCCESS)) {
                 FollowerIncomeEntity followerIncomeEntity = (FollowerIncomeEntity) response;
                 text_all_profit.setText(getResources().getString(R.string.text_all_profit)
-                        + ": " + TradeUtil.getNumberFormat(followerIncomeEntity.getIncomeAll(),2));
+                        + ": " + TradeUtil.getNumberFormat(followerIncomeEntity.getIncomeAll(), 2));
 
             }
         });
@@ -1893,16 +1893,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         type = AppConfig.CONTRACT_ALL;
                         quoteList = arrayMap.get(type);
                         Log.d("print", "onTabSelected:684:  " + quoteList + "  " + type);
-                        if (quoteList!=null){
-                            if (quoteList.size()==0){
+                        if (quoteList != null) {
+                            if (quoteList.size() == 0) {
                                 layout_null.setVisibility(View.VISIBLE);
                                 recyclerView_market.setVisibility(View.GONE);
-                            }else {
+                            } else {
                                 layout_null.setVisibility(View.GONE);
                                 recyclerView_market.setVisibility(View.VISIBLE);
                                 quoteAdapter_market.setDatas(quoteList);
                             }
-                        }else {
+                        } else {
 
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
@@ -1930,16 +1930,16 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         type = AppConfig.SPOT_ALL;
 
                         quoteList = arrayMap.get(type);
-                        if (quoteList!=null){
-                            if (quoteList.size()==0){
+                        if (quoteList != null) {
+                            if (quoteList.size() == 0) {
                                 layout_null.setVisibility(View.VISIBLE);
                                 recyclerView_market.setVisibility(View.GONE);
-                            }else {
+                            } else {
                                 layout_null.setVisibility(View.GONE);
                                 recyclerView_market.setVisibility(View.VISIBLE);
                                 quoteAdapter_market.setDatas(quoteList);
                             }
-                        }else {
+                        } else {
 
                             layout_null.setVisibility(View.VISIBLE);
                             recyclerView_market.setVisibility(View.GONE);
@@ -1954,7 +1954,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                             type = AppConfig.SPOT_ALL;
                         }
                         List<String> strings = arrayMap.get(type);
-                        Log.d("search", "onTabSelected:1781:  "+strings);
+                        Log.d("search", "onTabSelected:1781:  " + strings);
                         List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
                         quoteAdapter_market_pop.setDatas(searchQuoteList);
                     }
@@ -2268,7 +2268,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 img_rate_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up_down));
 
                 break;
-                //
+            //
             case R.id.img_log:
                 if (isLogin()) {
                     UserActivity.enter(this, IntentConfig.Keys.KEY_FOLLOW_LOG);

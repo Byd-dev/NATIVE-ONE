@@ -650,18 +650,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 if (!quote_code_old.equals(quote_code)) {
                     WebSocketManager.getInstance().send("4002", quote_code_old);
                 }
+                WebSocketManager.getInstance().send("4001", quote_code);
 
-                QuoteItemManger.getInstance().quote(quote_code, new OnResult() {
-                    @Override
-                    public void setResult(Object response) {
-                        String quote = (String) response;
-                        Log.d("print", "setResult:661:  " + quote);
-                        String price = listQuotePrice(quote);
-                        text_lastPrice.setText(price);
-                        text_change.setText(TradeUtil.quoteRange(price, listQuoteTodayPrice(quote)));
-
-                    }
-                });
                 QuoteCodeManger.getInstance().postTag(data);
 
                 type = AppConfig.CONTRACT_ALL;
@@ -839,6 +829,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         quote_code = itemQuoteContCode(itemData);
         Log.d("print", "initData:合约进来的值:  " + itemQuoteContCode(itemData));
+
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
         Util.setOptional(getActivity(), optionalList, quote_code, img_star_contract, response -> {
@@ -1392,7 +1383,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             //发送行情包
             if (quote_code != null) {
                 Log.d("print", "handleMessage:合约fragment订阅: "+quote_code);
-                WebSocketManager.getInstance().send("4001", quote_code);
+
                 String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
                 Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
                 Quote5MinCurrentManger.getInstance().quote(quote_host, quote_code);

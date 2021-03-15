@@ -242,7 +242,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 return;
             } else {
                 WebSocketManager.getInstance().send("3000", null);
-                WebSocketManager.getInstance().send("3001", quote_code);
+                //WebSocketManager.getInstance().send("3001", quote_code);
 
             }
 
@@ -259,6 +259,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             SPUtils.putString(AppConfig.KEY_LANGUAGE, language_local);
         }
 
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+        WebSocketManager.getInstance().send("3001", quote_code);
 
     }
 

@@ -112,7 +112,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
                 if (isContract) {
                     quote_code = itemQuoteContCode(defaultContract);
 
-                    WebSocketManager.getInstance().send("4001", quote_code);
                     Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
                     Quote5MinCurrentManger.getInstance().quote(quote_host, quote_code);
                     Quote15MinCurrentManger.getInstance().quote(quote_host, quote_code);
@@ -124,7 +123,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     Log.d("print", "handleMessage:TradeTabd订阅现货: " + isContract + "  " + quote_code);
                     quote_code = itemQuoteContCode(defaultSpot);
-                    WebSocketManager.getInstance().send("4001", quote_code);
 
                 }
 

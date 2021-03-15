@@ -59,11 +59,11 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
-import com.pro.bityard.manger.QuoteSpotCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
 import com.pro.bityard.manger.QuoteMonthCurrentManger;
 import com.pro.bityard.manger.QuoteMonthHistoryManger;
+import com.pro.bityard.manger.QuoteSpotCurrentManger;
 import com.pro.bityard.manger.QuoteSpotManger;
 import com.pro.bityard.manger.QuoteWeekCurrentManger;
 import com.pro.bityard.manger.QuoteWeekHistoryManger;
@@ -641,6 +641,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
 
         quote_code = itemQuoteContCode(itemData);
+
         Log.d("print", "initData:进来的值:  " + itemQuoteContCode(itemData));
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
@@ -774,7 +775,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             //发送行情包
             if (quote_code != null) {
                 Log.d("print", "handleMessage:activity订阅:  " + quote_code);
-                WebSocketManager.getInstance().send("4001", quote_code);
 
                 Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
                 Quote5MinCurrentManger.getInstance().quote(quote_host, quote_code);
@@ -1112,9 +1112,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
-            if (!quote_code_old.equals(quote_code)) {
-                WebSocketManager.getInstance().send("4002", quote_code_old);
-            }
+            WebSocketManager.getInstance().send("4002", quote_code_old);
             Log.d("print", "showQuotePopWindow:1067:  " + quote_code_old + "   " + quote_code);
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 //QuoteCodeManger.getInstance().postTag(data);
@@ -1123,6 +1121,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
 
             } else {
+
+                WebSocketManager.getInstance().send("4001", quote_code);
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
                 setContent(data);
                 itemData = data;
@@ -1139,6 +1139,14 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     }
                 });
 
+                Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
+                Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+                Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+                Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+                Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
+                QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
+                QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
+                QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
 
             }
 
