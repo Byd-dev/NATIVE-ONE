@@ -2285,8 +2285,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 if (radio_btn0.isChecked()) {
                     layout_market_price.setVisibility(View.VISIBLE);
                     layout_limit_price.setVisibility(View.GONE);
-
-
                 }
                 //可用余额
                 if (tradeType.equals("1")) {
