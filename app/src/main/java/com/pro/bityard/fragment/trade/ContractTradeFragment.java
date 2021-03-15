@@ -2294,7 +2294,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     text_market_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()));
                     text_limit_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()));
                 }
-
                 getPositionSize();
                 break;
             //自选的监听
