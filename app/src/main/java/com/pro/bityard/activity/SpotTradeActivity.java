@@ -59,7 +59,7 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
-import com.pro.bityard.manger.QuoteCurrentManger;
+import com.pro.bityard.manger.QuoteSpotCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
 import com.pro.bityard.manger.QuoteMonthCurrentManger;
@@ -342,7 +342,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         SpotCodeManger.getInstance().addObserver(this);
 
 
-        QuoteCurrentManger.getInstance().addObserver(this);//1min 实时
+        QuoteSpotCurrentManger.getInstance().addObserver(this);//1min 实时
         Quote5MinCurrentManger.getInstance().addObserver(this);//5min 实时
         Quote15MinCurrentManger.getInstance().addObserver(this);//15min 实时
         Quote3MinCurrentManger.getInstance().addObserver(this);//30min 实时
@@ -1509,10 +1509,10 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == TradeListManger.getInstance()) {
             tradeListEntityList = (List<TradeListEntity>) arg;
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-        } else if (o == QuoteCurrentManger.getInstance()) {
+        } else if (o == QuoteSpotCurrentManger.getInstance()) {
             quoteMinEntity = (QuoteMinEntity) arg;
             if (quoteMinEntity != null) {
-                Log.d("print", "update:1549:现货activity行情:" + quoteMinEntity);
+                Log.d("print", "update:1549:QuoteSpotCurrentManger 现货:" + quoteMinEntity);
                 runOnUiThread(() -> {
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();

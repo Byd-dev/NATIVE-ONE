@@ -5,17 +5,17 @@ import com.pro.bityard.entity.QuoteMinEntity;
 import java.util.Observable;
 import java.util.Timer;
 
-public class QuoteCurrentManger extends Observable {
+public class QuoteSpotCurrentManger extends Observable {
 
 
-    private static QuoteCurrentManger quoteCurrentManger;
+    private static QuoteSpotCurrentManger quoteCurrentManger;
 
 
-    public static QuoteCurrentManger getInstance() {
+    public static QuoteSpotCurrentManger getInstance() {
         if (quoteCurrentManger == null) {
-            synchronized (QuoteCurrentManger.class) {
+            synchronized (QuoteSpotCurrentManger.class) {
                 if (quoteCurrentManger == null) {
-                    quoteCurrentManger = new QuoteCurrentManger();
+                    quoteCurrentManger = new QuoteSpotCurrentManger();
                 }
             }
 

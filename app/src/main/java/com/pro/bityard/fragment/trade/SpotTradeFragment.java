@@ -48,7 +48,7 @@ import com.pro.bityard.entity.TipEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.QuoteCodeManger;
-import com.pro.bityard.manger.QuoteCurrentManger;
+import com.pro.bityard.manger.QuoteSpotCurrentManger;
 import com.pro.bityard.manger.QuoteSpotManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.SpotCodeManger;
@@ -265,7 +265,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         view.findViewById(R.id.layout_optional).setOnClickListener(this);
         BalanceManger.getInstance().addObserver(this);
         QuoteSpotManger.getInstance().addObserver(this);
-        QuoteCurrentManger.getInstance().addObserver(this);//1min 实时
+        QuoteSpotCurrentManger.getInstance().addObserver(this);//1min 实时
 
 
         spotPositionAdapter = new SpotPositionAdapter(getActivity());
@@ -854,7 +854,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             });
 
 
-        } else if (o == QuoteCurrentManger.getInstance()) {
+        } else if (o == QuoteSpotCurrentManger.getInstance()) {
             if (!isAdded()) {
                 return;
             }
@@ -915,7 +915,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     public void onDestroy() {
         super.onDestroy();
         cancelTimer();
-        QuoteCurrentManger.getInstance().clear();
+        QuoteSpotCurrentManger.getInstance().clear();
         SocketQuoteManger.getInstance().deleteObserver(this);
         //timer.cancel();
 

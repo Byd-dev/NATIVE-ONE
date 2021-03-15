@@ -1915,7 +1915,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
             quoteMinEntity = (QuoteMinEntity) arg;
             if (quoteMinEntity != null) {
-                Log.d("print", "onReceive:1549:合约fragment行情:  " + quoteMinEntity);
+                Log.d("print", "onReceive:1549:QuoteContractCurrentManger 合约:  " + quoteMinEntity);
                 runOnUiThread(() -> {
                     setItemQuote(quoteMinEntity);
 

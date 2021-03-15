@@ -85,7 +85,7 @@ public class QuoteDayHistoryManger extends Observable {
 
                 QuoteChartEntity quoteChartEntity = new Gson().fromJson(response.toString(), QuoteChartEntity.class);
                 if (quoteChartEntity.getS().equals("ok")) {
-                    Log.d("print", "quote:88 "+"60Min:"+getCount++);
+                    Log.d("print", "quote:88 "+"QuoteHistory day:"+getCount++);
 
                     postQuote(quoteChartEntity);
                     cancelTimer();

@@ -84,7 +84,7 @@ public class Quote15MinHistoryManger extends Observable {
             } else if (state.equals(SUCCESS)) {
                 QuoteChartEntity quoteChartEntity = new Gson().fromJson(response.toString(), QuoteChartEntity.class);
                 if (quoteChartEntity.getS().equals("ok")) {
-                    Log.d("print", "quote:88 "+"15Min:"+getCount++);
+                    Log.d("print", "quote:88 "+"QuoteHistory 15Min:"+getCount++);
 
                     postQuote(quoteChartEntity);
                     cancelTimer();

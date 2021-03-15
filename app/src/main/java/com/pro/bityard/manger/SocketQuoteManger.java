@@ -4,7 +4,6 @@ import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.pro.bityard.api.NetManger;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.QuoteEntity;
 import com.pro.bityard.entity.QuoteMinEntity;
@@ -554,8 +553,7 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 //QuoteCurrentManger.getInstance().postQuote(quoteMinEntity);
 
                 if (quoteMinEntity.getSymbol().contains("CC")){
-                    QuoteCurrentManger.getInstance().postQuote(quoteMinEntity);
-
+                    QuoteSpotCurrentManger.getInstance().postQuote(quoteMinEntity);
                 }else {
                     QuoteContractCurrentManger.getInstance().postQuote(quoteMinEntity);
                 }

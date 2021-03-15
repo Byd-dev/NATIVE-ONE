@@ -57,4 +57,5 @@
     <dimen name="pickerview_textsize">20sp</dimen>
     <dimen name="size_balance">24sp</dimen>
     <dimen name="size_bg">280dp</dimen>
+    <dimen name="margin_top_market">75dp</dimen>
 </resources>

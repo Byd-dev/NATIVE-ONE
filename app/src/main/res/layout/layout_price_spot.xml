@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="@dimen/margin_top_market"
         android:orientation="horizontal">
 
 
@@ -119,6 +119,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_5"
+                android:layout_marginBottom="@dimen/margin_5"
                 android:layout_centerInParent="true"
                 android:orientation="horizontal">
 
