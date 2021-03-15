@@ -242,7 +242,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 return;
             } else {
                 WebSocketManager.getInstance().send("3000", null);
-
                 WebSocketManager.getInstance().send("3001", quote_code);
 
             }
