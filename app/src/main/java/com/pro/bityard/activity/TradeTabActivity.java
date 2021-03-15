@@ -255,6 +255,8 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         timer.cancel();
 
 
+
+
     }
 
 

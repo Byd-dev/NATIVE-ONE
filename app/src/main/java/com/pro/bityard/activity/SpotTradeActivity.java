@@ -59,7 +59,6 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
-import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
@@ -794,6 +793,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     protected void initEvent() {
 
     }
+
     private void setContent(String itemData) {
         Log.d("print", "setContent:313:  " + itemData);
         quote_code = itemQuoteContCode(itemData);
@@ -1119,7 +1119,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 //QuoteCodeManger.getInstance().postTag(data);
                 finish();
-                TradeTabActivity.enter(this,"1",data);
+                TradeTabActivity.enter(this, "1", data);
 
 
             } else {
@@ -1138,7 +1138,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
                     }
                 });
-
 
 
             }
@@ -1286,8 +1285,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             case R.id.text_one_hour:
 
                 Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
-              //  Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
-
+                //  Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, quote_code);
 
 
                 if (kData60MinHistory != null) {
@@ -1524,7 +1522,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                         if (quotePopAdapter != null) {
                             quotePopAdapter.select(quoteMinEntity.getSymbol());
                         }
-
 
                         text_lastPrice.setText(String.valueOf(quoteMinEntity.getPrice()));
                         text_change.setText(TradeUtil.quoteChange(String.valueOf(quoteMinEntity.getPrice()), String.valueOf(quoteMinEntity.getOpen())));
@@ -1789,7 +1786,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         Toast.makeText(SpotTradeActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
-        WebSocketManager.getInstance().send("4002", quote_code_old);
 
 
         //要取消计时 防止内存溢出
@@ -1823,9 +1819,16 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         myKLineView_1D.cancelQuotaThread();
         myKLineView_1_week.cancelQuotaThread();
         myKLineView_1_month.cancelQuotaThread();
+        Log.d("print", "onDestroy: 1824: " + quote_code + "  " + quote_code_old);
+
+        if (quote_code_old == null) {
+            WebSocketManager.getInstance().send("4002", quote_code);
+        } else {
+            WebSocketManager.getInstance().send("4002", quote_code_old);
+            WebSocketManager.getInstance().send("4002", quote_code);
+        }
 
 
-        WebSocketManager.getInstance().send("4002", quote_code);
         quote_code = null;
 
 

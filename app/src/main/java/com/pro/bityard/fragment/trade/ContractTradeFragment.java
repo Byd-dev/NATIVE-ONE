@@ -2245,7 +2245,15 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             myKLineView_1_week.cancelQuotaThread();
             myKLineView_1_month.cancelQuotaThread();
         }
+        Log.d("print", "onDestroy: 2248: " + quote_code + "  " + quote_code_old);
 
+
+        if (quote_code_old == null) {
+            WebSocketManager.getInstance().send("4002", quote_code);
+        } else {
+            WebSocketManager.getInstance().send("4002", quote_code_old);
+            WebSocketManager.getInstance().send("4002", quote_code);
+        }
         quote_code = null;
 
     }
