@@ -316,16 +316,12 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         handler.postDelayed(() -> initTabView(), 100);*/
 
 
-        initTabViewTitle();
+        showProgressDialog();
 
 
     }
 
-    /*头部*/
-    private void initTabViewTitle() {
 
-
-    }
 
     private void initTabView() {
         titles.add("Line");
@@ -1111,6 +1107,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
+            showProgressDialog();
             quote_code = TradeUtil.itemQuoteContCode(data);
             WebSocketManager.getInstance().send("4002", quote_code_old);
             Log.d("print", "showQuotePopWindow:1067:  " + quote_code_old + "   " + quote_code);
@@ -1118,7 +1115,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 //QuoteCodeManger.getInstance().postTag(data);
                 finish();
                 TradeTabActivity.enter(this, "1", data);
-
 
             } else {
 
@@ -1528,6 +1524,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
                         //仓位实时更新 服务费
+                        dismissProgressDialog();
 
 
                         if (quotePopAdapter != null) {

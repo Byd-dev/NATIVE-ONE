@@ -107,6 +107,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
+
+
     /*头部视图id*/
     RelativeLayout layout_cancel;
     View view_line_two;
