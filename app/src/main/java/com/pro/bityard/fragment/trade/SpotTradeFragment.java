@@ -181,6 +181,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
         BalanceManger.getInstance().getBalance("USDT");
+        WebSocketManager.getInstance().send("4001", quote_code);
 
     }
 

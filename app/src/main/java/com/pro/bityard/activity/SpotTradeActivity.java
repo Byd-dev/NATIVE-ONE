@@ -1283,7 +1283,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                     WebSocketManager.getInstance().send("4002", quote_code);
                     WebSocketManager.getInstance().send("4001", itemQuoteContCode(itemData));
                     finish();
-                    Log.d("print", "onClick:1285:  "+quote_code+"  "+itemQuoteContCode(itemData));
+                    Log.d("print", "onClick:1285:  " + quote_code + "  " + itemQuoteContCode(itemData));
 
                 } else {
                     LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
