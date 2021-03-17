@@ -95,7 +95,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private String tradeType = "1";//实盘=1 模拟=2
     private String itemData;
     private String quote_code = null, quote_code_old = null;
-
     @BindView(R.id.img_star_spot)
     ImageView img_star_spot;
     private Set<String> optionalList;//自选列表
