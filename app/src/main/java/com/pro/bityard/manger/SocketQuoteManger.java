@@ -540,7 +540,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
                 //历史记录
                 arrayMap.put(AppConfig.HISTORY_ALL, historyQuoteList);
-
                 Log.d("webSocket", "onMessage:3001:  " + quoteEntity.getData().length());
                 postListQuote(arrayMap);
 
