@@ -159,9 +159,16 @@ public class Util {
             for (int j = dataDetail.size() - 1; j > 0; j--) {
                 // Log.d("print", "quoteResultAdd:155: "+split[0]+"--"+dataDetail.get(j).getCode());
                 if (filter(split[0]).equals(filter(dataDetail.get(j).getCode()))) {
+
+                    quoteList.add(itemQuote + "," + dataDetail.get(j).getCode()
+                            + "," + dataDetail.get(j).getType()
+                            + "," + dataDetail.get(j).getZone()
+                            + "," + dataDetail.get(j).getName()
+                            + "," + data.getBrand().getDefaultCurrency());
+
                     //  Log.d("print", "quoteResultAdd:156: "+filter(split[0])+"--"+filter(dataDetail.get(j).getCode()));
 
-                    if (dataDetail.get(j).getType().equals(AppConfig.TYPE_FT) && dataDetail.get(j).getName().contains(",")) {
+                  /*  if (dataDetail.get(j).getType().equals(AppConfig.TYPE_FT) && dataDetail.get(j).getName().contains(",")) {
                         quoteList.add(itemQuote + "," + dataDetail.get(j).getCode()
                                 + "," + dataDetail.get(j).getType()
                                 + "," + dataDetail.get(j).getZone()
@@ -173,7 +180,7 @@ public class Util {
                                 + "," + dataDetail.get(j).getZone()
                                 + "," + dataDetail.get(j).getName()
                                 + "," + data.getBrand().getDefaultCurrency());
-                    }
+                    }*/
 
 
                     /*quoteList.add(itemQuote + "," + dataDetail.get(j).getType()

@@ -265,6 +265,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
         BalanceManger.getInstance().getBalance("USDT");
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+        WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
 
 
     }
@@ -320,7 +322,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
 
     }
-
 
 
     private void initTabView() {
@@ -1109,7 +1110,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         quoteAdapter_market_pop.setOnItemClick(data -> {
             showProgressDialog();
             quote_code = TradeUtil.itemQuoteContCode(data);
-            WebSocketManager.getInstance().send("4002", quote_code_old);
+            WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
             Log.d("print", "showQuotePopWindow:1067:  " + quote_code_old + "   " + quote_code);
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 //QuoteCodeManger.getInstance().postTag(data);
@@ -1118,7 +1119,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
             } else {
 
-                WebSocketManager.getInstance().send("4001", quote_code);
+                WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(data), "1");
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
                 setContent(data);
                 itemData = data;
@@ -1274,17 +1275,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.layout_buy:
             case R.id.layout_sell:
-                if (isLogin()) {
-                    TradeTabActivity.enter(this, "1", itemData);
-                    WebSocketManager.getInstance().send("4002", quote_code);
-                    WebSocketManager.getInstance().send("4001", itemQuoteContCode(itemData));
-                    finish();
-                    Log.d("print", "onClick:1285:  " + quote_code + "  " + itemQuoteContCode(itemData));
 
-                } else {
-                    LoginActivity.enter(SpotTradeActivity.this, IntentConfig.Keys.KEY_LOGIN);
-
-                }
+                TradeTabActivity.enter(this, "1", itemData);
+                WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
+                WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
+                finish();
 
                 break;
 
@@ -1796,6 +1791,17 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         Toast.makeText(SpotTradeActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
 
 
+        Log.d("print", "onDestroy: 1824: " + quote_code + "  " + quote_code_old);
+
+        quote_code = null;
+
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(SpotTradeActivity.this, "onPause", Toast.LENGTH_LONG).show();
         //要取消计时 防止内存溢出
         cancelTimer();
         //  QuoteCurrentManger.getInstance().clear();
@@ -1827,18 +1833,12 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         myKLineView_1D.cancelQuotaThread();
         myKLineView_1_week.cancelQuotaThread();
         myKLineView_1_month.cancelQuotaThread();
-        Log.d("print", "onDestroy: 1824: " + quote_code + "  " + quote_code_old);
-
         if (quote_code_old != null) {
-            WebSocketManager.getInstance().send("4002", quote_code_old);
+            WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
         }
-        WebSocketManager.getInstance().send("4002", quote_code);
+        WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
 
-
-        quote_code = null;
-
-
+        String quote_code_list = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+        WebSocketManager.getInstance().cancelQuotes("3002", quote_code_list);
     }
-
-
 }

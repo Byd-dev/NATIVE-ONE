@@ -1,6 +1,5 @@
 package com.pro.bityard.manger;
 
-import android.os.Looper;
 import android.util.Log;
 
 import com.pro.bityard.utils.MD5Util;
@@ -195,43 +194,58 @@ public final class WebSocketManager {
 
 
     //行情的发送心跳包
-    public void send(String cmidId, String symbols) {
+    public void send(String cmidId) {
+       /* String time = String.valueOf(System.currentTimeMillis());
+        String key = "hello socket quote!";
+        String sign = "cmid=" + cmidId + "&t=" + time + "&key=" + key;
+        String value_sign = MD5Util.md5Encrypt32Lower(sign);
 
-        if (symbols==null){
-            String time = String.valueOf(System.currentTimeMillis());
-            String key = "hello socket quote!";
-            String sign = "cmid=" + cmidId +  "&t=" + time + "&key=" + key;
-            String value_sign = MD5Util.md5Encrypt32Lower(sign);
+        JSONObject json = new JSONObject();
+        try {
+            json.put("cmid", cmidId);
+            json.put("t", time);
+            json.put("sign", value_sign);
+            WebSocketManager.getInstance().sendMessage(json.toString());
+            Log.d("send", "send: " + json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }*/
 
-            JSONObject json = new JSONObject();
-            try {
-                json.put("cmid", cmidId);
-                json.put("t", time);
-                json.put("sign", value_sign);
-                WebSocketManager.getInstance().sendMessage(json.toString());
-                Log.d("send", "send:发送了什么1: "+json.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-        }else {
-            String time = String.valueOf(System.currentTimeMillis());
-            String key = "hello socket quote!";
-            String sign = "cmid=" + cmidId + "&symbols=" + symbols + "&t=" + time + "&key=" + key;
-            String value_sign = MD5Util.md5Encrypt32Lower(sign);
-
-            JSONObject json = new JSONObject();
-            try {
-                json.put("cmid", cmidId);
-                json.put("t", time);
-                json.put("symbols", symbols);
-                json.put("sign", value_sign);
-                WebSocketManager.getInstance().sendMessage(json.toString());
-                Log.d("send", "send:发送了什么2: "+json.toString());
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        JSONObject json = new JSONObject();
+        try {
+            json.put("cmid", cmidId);
+            WebSocketManager.getInstance().sendMessage(json.toString());
+            Log.d("send", "send: " + json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+    }
 
+    public void sendQuotes(String cmidId, String symbols, String r) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("cmid", cmidId);
+            json.put("symbols", symbols);
+            if (r != null) {
+                json.put("r", r);
+            }
+            WebSocketManager.getInstance().sendMessage(json.toString());
+            Log.d("send", "sendQuotes: " + json.toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void cancelQuotes(String cmidId, String symbols) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("cmid", cmidId);
+            json.put("symbols", symbols);
+            WebSocketManager.getInstance().sendMessage(json.toString());
+            Log.d("send", "cancelQuote: " + json.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

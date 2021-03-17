@@ -8,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.ArrayMap;
@@ -41,7 +42,6 @@ import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.api.NetManger;
-import com.pro.bityard.api.OnResult;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.chart.NoVolumeView;
@@ -72,7 +72,6 @@ import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteContractCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
-import com.pro.bityard.manger.QuoteItemManger;
 import com.pro.bityard.manger.QuoteMonthCurrentManger;
 import com.pro.bityard.manger.QuoteMonthHistoryManger;
 import com.pro.bityard.manger.QuoteWeekCurrentManger;
@@ -88,6 +87,7 @@ import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
 import com.pro.switchlibrary.SPUtils;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -110,6 +110,7 @@ import static com.lzy.okgo.utils.HttpUtils.runOnUiThread;
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static com.pro.bityard.config.AppConfig.QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteCode;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 import static com.pro.bityard.utils.TradeUtil.listQuoteIsRange;
@@ -644,15 +645,16 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
+            showProgressDialog();
             quote_code = TradeUtil.itemQuoteContCode(data);
             Log.d("print", "showQuotePopWindow:644:  " + quote_code_old + "   " + quote_code);
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 if (!quote_code_old.equals(quote_code)) {
-                    WebSocketManager.getInstance().send("4002", quote_code_old);
+                    WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
                 }
-                WebSocketManager.getInstance().send("4001", quote_code);
+                WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
 
-                QuoteCodeManger.getInstance().postTag(data);
+              //  QuoteCodeManger.getInstance().postTag(data);
 
                 type = AppConfig.CONTRACT_ALL;
                 TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
@@ -700,7 +702,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
             } else if (TradeUtil.type(data).equals(AppConfig.TYPE_CH)) {
                 //SpotCodeManger.getInstance().postTag(data);
-                WebSocketManager.getInstance().send("4002", quote_code_old);
+                WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
                 SpotTradeActivity.enter(getActivity(), "1", data);
                 getActivity().finish();
 
@@ -794,6 +796,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     @Override
     protected void initView(View view) {
+        showProgressDialog();
         initTabView(view);
     }
 
@@ -828,7 +831,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         quote_code = itemQuoteContCode(itemData);
-        Log.d("print", "initData:合约进来的值:  " + itemQuoteContCode(itemData));
 
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
@@ -838,7 +840,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
         });
 
-
+        Log.d("print", "initData:合约进来的值:  " + itemQuoteContCode(itemData) + "  " + itemData + "  " + TradeUtil.name(itemData));
         text_name.setText(TradeUtil.name(itemData));
         text_currency.setText(TradeUtil.currency(itemData));
 
@@ -846,7 +848,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         text_market_currency.setText(TradeUtil.currency(itemData));
         text_limit_currency.setText(TradeUtil.currency(itemData));
 
-        //startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
+        startScheduleJob(mHandler, QUOTE_SECOND, QUOTE_SECOND);
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
@@ -970,7 +972,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         titles.add("5min");
         titles.add("15min");
         titles.add(getResources().getString(R.string.text_more));
-        QuoteCodeManger.getInstance().addObserver(this);
+        //QuoteCodeManger.getInstance().addObserver(this);
 
 
         SocketQuoteManger.getInstance().addObserver(this);
@@ -1375,14 +1377,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         }
     }
 
-   /* @SuppressLint("HandlerLeak")
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
             //发送行情包
             if (quote_code != null) {
-                Log.d("print", "handleMessage:合约fragment订阅: "+quote_code);
+                Log.d("print", "handleMessage:合约fragment订阅: " + quote_code);
 
                 String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
                 Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
@@ -1395,7 +1397,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             }
 
         }
-    };*/
+    };
 
     private int oldSelect = 0;
 
@@ -1461,7 +1463,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 public void onClick(View v) {
                     TradeUtil.subLeverMyself(edit_lever, 1);
                     lever = Integer.parseInt(edit_lever.getText().toString());
-                    setSlide(false,lever);
+                    setSlide(false, lever);
 
                 }
             });
@@ -1471,7 +1473,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 public void onClick(View v) {
                     TradeUtil.addLeverMyself(edit_lever, 1);
                     lever = Integer.parseInt(edit_lever.getText().toString());
-                    setSlide(false,lever);
+                    setSlide(false, lever);
                 }
             });
             seekBar_lever.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -1480,7 +1482,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                     if (fromUser) {
                         edit_lever.setText(progress + "");
-                        setSlide(true,progress);
+                        setSlide(true, progress);
 
 
                     }
@@ -1523,7 +1525,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     }
 
 
-    public void setSlide(boolean isSeekBar,int progress) {
+    public void setSlide(boolean isSeekBar, int progress) {
         text_lever_limit.setText(String.valueOf(progress));
         text_lever_market.setText(String.valueOf(progress));
         lever = progress;
@@ -1541,10 +1543,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             edit_limit_margin.setHint(TradeUtil.deposit(tradeListEntity.getDepositList()));
 
         }
-        if (!isSeekBar){
-           seekBar_lever.post(() -> {
-            seekBar_lever.setProgress(lever);
-        });
+        if (!isSeekBar) {
+            seekBar_lever.post(() -> {
+                seekBar_lever.setProgress(lever);
+            });
         }
 
         radioGroupAdapter.selectLever(lever);
@@ -1838,7 +1840,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     @Override
     public void update(Observable o, Object arg) {
-        if (o == QuoteCodeManger.getInstance()) {
+       /* if (o == QuoteCodeManger.getInstance()) {
             itemData = (String) arg;
             Log.d("print", "update:1631: " + itemData);
             runOnUiThread(() -> {
@@ -1848,7 +1850,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 text_limit_currency.setText(TradeUtil.currency(itemData));
             });
 
-        } else if (o == SocketQuoteManger.getInstance()) {
+        } else*/ if (o == SocketQuoteManger.getInstance()) {
             if (!isAdded()) {
                 return;
             }
@@ -1908,8 +1910,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             if (quoteMinEntity != null) {
                 Log.d("print", "onReceive:1549:QuoteContractCurrentManger 合约:  " + quoteMinEntity);
                 runOnUiThread(() -> {
-                    setItemQuote(quoteMinEntity);
-
+                    if (quoteMinEntity.getSymbol().equals(quote_code)) {
+                        dismissProgressDialog();
+                        setItemQuote(quoteMinEntity);
+                    }
                 });
 
 
@@ -2240,10 +2244,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         if (quote_code_old == null) {
-            WebSocketManager.getInstance().send("4002", quote_code);
+            WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
         } else {
-            WebSocketManager.getInstance().send("4002", quote_code_old);
-            WebSocketManager.getInstance().send("4002", quote_code);
+            WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
+            WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
         }
         quote_code = null;
 

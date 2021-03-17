@@ -77,7 +77,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
         ArrayMap<String, List<String>> arrayMap = new ArrayMap<>();
         QuoteEntity quoteEntity = new Gson().fromJson(text, QuoteEntity.class);
-
         switch (quoteEntity.getCmid()) {
             //行情列表
             case "3001":
@@ -547,25 +546,21 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
                 break;
             case "4001":
-                Log.d("webSocket", "onMessage:4001:  "+quoteEntity.getData());
                 QuoteMinEntity quoteMinEntity = new Gson().fromJson(quoteEntity.getData(), QuoteMinEntity.class);
-                Log.d("webSocket", "onMessage:单个行情4001:  " + quoteMinEntity);
-                //QuoteCurrentManger.getInstance().postQuote(quoteMinEntity);
-
+                Log.d("send", "getQuote 行情4001: " + quoteMinEntity);
                 if (quoteMinEntity.getSymbol().contains("CC")){
                     QuoteSpotCurrentManger.getInstance().postQuote(quoteMinEntity);
                 }else {
                     QuoteContractCurrentManger.getInstance().postQuote(quoteMinEntity);
                 }
 
-
                 break;
            case "5001":
-                Log.d("webSocket", "onMessage:现货买卖5001:  " + quoteEntity.getData().length());
+                //Log.d("send", "getQuote 现货买卖5001:  " + quoteEntity.getData().length());
                 QuoteSpotManger.getInstance().postQuote(quoteEntity.getData());
                 break;
              case "6001":
-                Log.d("webSocket", "onMessage:最新成交6001:  " + quoteEntity.getData());
+                //Log.d("send", "getQuote 最新成交6001:  " + quoteEntity.getData());
                 TradeSpotManger.getInstance().postQuote(quoteEntity.getData());
                 break;
 

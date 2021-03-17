@@ -485,11 +485,14 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     }
 
     private void onSuccessListener(String data) {
-        WebSocketManager.getInstance().send("4001", itemQuoteContCode(data));
+        Toast.makeText(this, itemQuoteContCode(data), Toast.LENGTH_LONG).show();
+        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(data), "1");
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+        WebSocketManager.getInstance().cancelQuotes("3002", quote_code);
+
         if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
             TradeTabActivity.enter(this, "1", data);
         } else {
-
             SpotTradeActivity.enter(this, tradeType, data);
         }
 
@@ -586,7 +589,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     protected void onResume() {
         isForeground = true;
         super.onResume();
-
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+        WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
 
         //跟单列表
         if (isLogin()) {
@@ -729,7 +733,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         quoteHomeAdapter = new QuoteHomeAdapter(this);
         recyclerView_hot.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView_hot.setAdapter(quoteHomeAdapter);
-        quoteHomeAdapter.setOnItemClick(data -> TradeTabActivity.enter(this, "1", data));
+        quoteHomeAdapter.setOnItemClick(this::onSuccessListener);
         img_head.setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
@@ -748,7 +752,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
 
-        quoteAdapter.setOnItemClick(data -> TradeTabActivity.enter(this, "1", data));
+        quoteAdapter.setOnItemClick(this::onSuccessListener);
         findViewById(R.id.layout_simulation_home).setOnClickListener(this);
         findViewById(R.id.layout_activity).setOnClickListener(this);
 
@@ -1264,7 +1268,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 WebSocketManager.getInstance().reconnect();
             } else {
                 assert quote_host != null;
-                // SocketQuoteManger.getInstance().quote(quote_host, quote_code);
+                WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
+
             }
         });
 
@@ -1544,8 +1549,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        WebSocketManager.getInstance().send("3001", quote_code);
+
         //首页 -------------------------------------------------------------------------------------
         getBanner();
 
@@ -1555,7 +1559,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             UserDetailManger.getInstance().detail();
             //带单总收益
         }
-
 
         getFollowList();
     }

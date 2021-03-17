@@ -138,13 +138,13 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     Log.d("print", "init:137:  " + quoteDomain);
                     try {
                         String quoteDomainUrl = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
-                        Log.d("print", "init:141:  " + quoteDomainUrl );
+                        Log.d("print", "init:141:  " + quoteDomainUrl);
 
                         SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomainUrl);
                         if (quoteDomainUrl.startsWith("http")) {
-                             domain = quoteDomainUrl.replaceAll("http", "ws");
+                            domain = quoteDomainUrl.replaceAll("http", "ws");
                         } else if (quoteDomainUrl.startsWith("https")) {
-                             domain = quoteDomainUrl.replaceAll("https", "wss");
+                            domain = quoteDomainUrl.replaceAll("https", "wss");
                         }
                         String url = domain + "/wsquote";
                         Log.d("print", "init:150:  " + quoteDomainUrl + "    " + url);
@@ -241,8 +241,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 NetManger.getInstance().initQuote();
                 return;
             } else {
-                WebSocketManager.getInstance().send("3000", null);
-                //WebSocketManager.getInstance().send("3001", quote_code);
+                WebSocketManager.getInstance().send("3000");
 
             }
 
@@ -260,7 +259,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         }
 
         String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        WebSocketManager.getInstance().send("3001", quote_code);
+        WebSocketManager.getInstance().sendQuotes("3001", quote_code, null);
+
 
     }
 

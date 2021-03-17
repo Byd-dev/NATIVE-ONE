@@ -183,7 +183,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     public void onResume() {
         super.onResume();
         BalanceManger.getInstance().getBalance("USDT");
-        WebSocketManager.getInstance().send("4001", quote_code);
 
     }
 
@@ -778,8 +777,8 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.img_market:
                 SpotTradeActivity.enter(getActivity(), tradeType, itemData);
-                WebSocketManager.getInstance().send("4002", quote_code);
-                WebSocketManager.getInstance().send("4001", itemQuoteContCode(itemData));
+                WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
+                WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData),"1");
                 break;
 
         }
@@ -923,9 +922,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         SocketQuoteManger.getInstance().deleteObserver(this);
         //timer.cancel();
         if (quote_code_old != null) {
-            WebSocketManager.getInstance().send("4002", quote_code_old);
+            WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
         }
-        WebSocketManager.getInstance().send("4002", quote_code);
+        WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
 
 
     }
@@ -1345,7 +1344,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
             quote_code = TradeUtil.itemQuoteContCode(data);
-            WebSocketManager.getInstance().send("4002", quote_code_old);
+            WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
 
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 QuoteCodeManger.getInstance().postTag(data);
@@ -1354,7 +1353,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "  " + old_code);
                 setContent(data);
                 type = AppConfig.CONTRACT_IN_ALL;
-                WebSocketManager.getInstance().send("4001", quote_code);
+                WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
 
 
                 //判断当前是否存在自选

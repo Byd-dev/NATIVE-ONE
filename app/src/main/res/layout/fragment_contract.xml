@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:gravity="center"
-                android:text="BTC"
+                android:text="--"
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/title_size" />
 

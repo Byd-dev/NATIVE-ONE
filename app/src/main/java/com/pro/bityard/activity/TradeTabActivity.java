@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -17,14 +16,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.fragment.trade.ContractTradeFragment;
 import com.pro.bityard.fragment.trade.SpotTradeFragment;
 import com.pro.bityard.manger.BalanceManger;
-import com.pro.bityard.manger.Quote15MinCurrentManger;
-import com.pro.bityard.manger.Quote3MinCurrentManger;
-import com.pro.bityard.manger.Quote5MinCurrentManger;
-import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.QuoteCodeManger;
-import com.pro.bityard.manger.QuoteDayCurrentManger;
-import com.pro.bityard.manger.QuoteMonthCurrentManger;
-import com.pro.bityard.manger.QuoteWeekCurrentManger;
 import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.TradeUtil;
@@ -33,14 +25,11 @@ import com.pro.switchlibrary.SPUtils;
 
 import java.util.Observable;
 import java.util.Observer;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
-import static com.pro.bityard.config.AppConfig.ITEM_QUOTE_SECOND;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
 public class TradeTabActivity extends BaseActivity implements View.OnClickListener, Observer {
@@ -96,14 +85,13 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    private String defaultContract = "BTCUSDT1808,-1,31603.68,34457.51,31601.71,0.5521,31604.92,0.5521,34616.86,31312.54,48911.0,FT,main,BTC,USDT";
-    private String defaultSpot = "BTCUSDT_CC1808,-1,31619.20,33528.86,31619.2,0.0025,31619.2,0.0025,34875.0,31311.93,88386.8095,CH,defi,BTC,USDT";
+    private String defaultContract = "BTCUSDT1808,-1,31603.68,34457.51,31601.71,0.5521,31604.92,0.5521,34616.86,31312.54,48911.0,FT,main,BTCUSDT,USDT";
+    private String defaultSpot = "BTCUSDT_CC1808,-1,31619.20,33528.86,31619.2,0.0025,31619.2,0.0025,34875.0,31311.93,88386.8095,CH,defi,BTCUSDT,USDT";
 
+  /*  private final Timer timer = new Timer();
+    private TimerTask task;*/
 
-    private final Timer timer = new Timer();
-    private TimerTask task;
-
-    Handler handler = new Handler() {
+    /*Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             if (quote_code != null) {
@@ -112,13 +100,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
                 if (isContract) {
                     quote_code = itemQuoteContCode(defaultContract);
 
-                    Quote3MinCurrentManger.getInstance().quote(quote_host, quote_code);
-                    Quote5MinCurrentManger.getInstance().quote(quote_host, quote_code);
-                    Quote15MinCurrentManger.getInstance().quote(quote_host, quote_code);
-                    Quote60MinCurrentManger.getInstance().quote(quote_host, quote_code);
-                    QuoteDayCurrentManger.getInstance().quote(quote_host, quote_code);
-                    QuoteWeekCurrentManger.getInstance().quote(quote_host, quote_code);
-                    QuoteMonthCurrentManger.getInstance().quote(quote_host, quote_code);
 
                 } else {
                     Log.d("print", "handleMessage:TradeTabd订阅现货: " + isContract + "  " + quote_code);
@@ -131,7 +112,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             super.handleMessage(msg);
         }
 
-    };
+    };*/
 
 
     @Override
@@ -158,6 +139,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
                 } else if (position == 1) {
                     isContract = false;
+
                 }
             }
 
@@ -201,6 +183,8 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
         Log.d("print", "initData:590:  " + itemData);
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+        WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
 
         String isChOrFt = TradeUtil.type(itemData);
         if (isChOrFt.equals(AppConfig.TYPE_FT)) {
@@ -212,7 +196,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
         }
 
-        task = new TimerTask() {
+      /*  task = new TimerTask() {
             @Override
             public void run() {
                 Message message = new Message();
@@ -221,7 +205,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             }
         };
 
-        timer.schedule(task, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);
+        timer.schedule(task, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);*/
         //根据合约还是现货跳转相应的页面
 //BTCUSDT1808,-1,31603.68,34457.51,31601.71,0.5521,31604.92,0.5521,34616.86,31312.54,48911.0,FT,main,BTC,USDT
 //BTCUSDT_CC1808,-1,31619.20,33528.86,31619.2,0.0025,31619.2,0.0025,34875.0,31311.93,88386.8095,CH,defi,BTC,USDT
@@ -246,13 +230,20 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(TradeTabActivity.this, "onPause", Toast.LENGTH_LONG).show();
+
+        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
+        WebSocketManager.getInstance().cancelQuotes("3002", quote_code);
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         Toast.makeText(TradeTabActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
         //要取消计时 防止内存溢出
-        timer.cancel();
-
-
+        //timer.cancel();
 
 
     }
@@ -266,10 +257,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             isContract = true;
             String isChOrFt = TradeUtil.type(defaultContract);
             tabLayout_title.getTabAt(0).select();
-           /* if (isChOrFt.equals(AppConfig.TYPE_FT)) {
-            } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
-                tabLayout_title.getTabAt(1).select();
-            }*/
+
 
         } else if (o == SpotCodeManger.getInstance()) {
             defaultSpot = (String) arg;
@@ -277,10 +265,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             isContract = false;
             String isChOrFt = TradeUtil.type(defaultSpot);
             tabLayout_title.getTabAt(1).select();
-           /* if (isChOrFt.equals(AppConfig.TYPE_FT)) {
-                tabLayout_title.getTabAt(0).select();
-            } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
-            }*/
+
         }
 
     }
