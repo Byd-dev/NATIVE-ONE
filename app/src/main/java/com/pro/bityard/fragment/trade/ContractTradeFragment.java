@@ -656,7 +656,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 type = AppConfig.CONTRACT_ALL;
                 TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
                 Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
-
                 //判断当前是否存在自选
                 Util.isOptional(quote_code, optionalList, response -> {
                     boolean isOptional = (boolean) response;
