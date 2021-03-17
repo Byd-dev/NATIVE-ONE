@@ -137,7 +137,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     XBanner xBanner;
     @BindView(R.id.img_ad)
     ImageView img_ad;
-
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     private QuoteHomeAdapter quoteHomeAdapter;
