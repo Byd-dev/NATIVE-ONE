@@ -124,7 +124,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.img_back).setOnClickListener(v -> finish());
         QuoteCodeManger.getInstance().addObserver(this);
         SpotCodeManger.getInstance().addObserver(this);
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
