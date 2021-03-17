@@ -210,7 +210,6 @@ public final class WebSocketManager {
         } catch (JSONException e) {
             e.printStackTrace();
         }*/
-
         JSONObject json = new JSONObject();
         try {
             json.put("cmid", cmidId);
