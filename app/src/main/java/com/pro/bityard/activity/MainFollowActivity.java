@@ -149,7 +149,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @BindView(R.id.recyclerView_hot)
     RecyclerView recyclerView_hot;
 
-
     /*market---------------------------------------------------*/
 
 
