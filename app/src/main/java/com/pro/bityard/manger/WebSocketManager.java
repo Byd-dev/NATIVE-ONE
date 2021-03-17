@@ -82,7 +82,6 @@ public final class WebSocketManager {
             Log.d(TAG, "reconnect over " + MAX_NUM + ",please check url or network");
         }
     }
-
     /**
      * 是否连接
      */
