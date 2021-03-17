@@ -305,8 +305,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
-
-
             if (quoteList != null) {
                 runOnUiThread(() -> {
                     // layout_null.setVisibility(View.GONE);
@@ -1483,6 +1481,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         public void handleMessage(@NotNull Message msg) {
             super.handleMessage(msg);
             updateNews();
+            if (quoteList==null){
+                SocketUtil.switchQuotesList("3001");
+            }
 
         }
     };
@@ -1549,6 +1550,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
+
+
 
         //首页 -------------------------------------------------------------------------------------
         getBanner();
