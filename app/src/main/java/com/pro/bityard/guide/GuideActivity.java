@@ -30,6 +30,7 @@ import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.NetworkUtils;
 import com.pro.bityard.utils.PermissionUtil;
 import com.pro.bityard.utils.PopUtil;
+import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
@@ -258,8 +259,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             SPUtils.putString(AppConfig.KEY_LANGUAGE, language_local);
         }
 
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        WebSocketManager.getInstance().sendQuotes("3001", quote_code, null);
+        SocketUtil.switchQuotesList("3001");
+
 
 
     }

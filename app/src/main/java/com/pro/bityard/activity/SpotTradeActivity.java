@@ -74,6 +74,7 @@ import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.TradeSpotManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
@@ -266,7 +267,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         super.onResume();
         BalanceManger.getInstance().getBalance("USDT");
         String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
+        //WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
 
 
     }
@@ -625,6 +626,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         Log.d("print", "initData:590:  " + itemData);
         quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
 
+        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
 
         //礼金抵扣比例
         prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
@@ -1108,6 +1110,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
+            SocketUtil.switchQuotesList("3002");
             showProgressDialog();
             quote_code = TradeUtil.itemQuoteContCode(data);
             WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
@@ -1123,7 +1126,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "   " + old_code);
                 setContent(data);
                 itemData = data;
-                //SpotCodeManger.getInstance().postTag(data);
+                SpotCodeManger.getInstance().postTag(data);
                 type = AppConfig.CONTRACT_ALL;
                 //判断当前是否存在自选
                 Util.isOptional(quote_code, optionalList, response -> {
@@ -1229,7 +1232,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.layout_product:
                 Util.lightOff(this);
-
+                SocketUtil.switchQuotesList("3001");
                 showQuotePopWindow();
                 //showProductWindow(quoteList);
                 break;
@@ -1276,9 +1279,10 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             case R.id.layout_buy:
             case R.id.layout_sell:
 
-                TradeTabActivity.enter(this, "1", itemData);
                 WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
-                WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
+                TradeTabActivity.enter(this, "1", itemData);
+
+
                 finish();
 
                 break;
@@ -1838,7 +1842,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         }
         WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
 
-        String quote_code_list = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        WebSocketManager.getInstance().cancelQuotes("3002", quote_code_list);
+        SocketUtil.switchQuotesList("3002");
+
     }
 }

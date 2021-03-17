@@ -83,9 +83,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
 
                 List<String> strings = Util.quoteResultAdd(Util.quoteResult(data));
 
-
-
-
                 //现货
                 List<String> spotQuoteList = TradeUtil.spotQuoteList(strings);
                 //价格从高到低
@@ -536,7 +533,8 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.FOREIGN_EXCHANGE_NAME_Z2A, feQuoteList_name_z2a);
                 //历史记录
                 arrayMap.put(AppConfig.HISTORY_ALL, historyQuoteList);
-                Log.d("webSocket", "onMessage:3001:  " + quoteEntity.getData().length());
+                Log.d("send", "getQuote 行情3001: " + arrayMap.size());
+
                 postListQuote(arrayMap);
                 break;
             case "4001":

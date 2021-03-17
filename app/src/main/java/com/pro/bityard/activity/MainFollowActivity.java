@@ -64,6 +64,7 @@ import com.pro.bityard.manger.UserDetailManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ListUtil;
 import com.pro.bityard.utils.PopUtil;
+import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.CircleImageView;
@@ -486,9 +487,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     private void onSuccessListener(String data) {
         Toast.makeText(this, itemQuoteContCode(data), Toast.LENGTH_LONG).show();
-        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(data), "1");
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        WebSocketManager.getInstance().cancelQuotes("3002", quote_code);
+        WebSocketManager.getInstance().cancelQuotes("4002", "");
+        SocketUtil.switchQuotesList("3002");
 
         if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
             TradeTabActivity.enter(this, "1", data);
@@ -589,8 +589,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     protected void onResume() {
         isForeground = true;
         super.onResume();
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
+        SocketUtil.switchQuotesList("3001");
+
 
         //跟单列表
         if (isLogin()) {
@@ -1268,7 +1268,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 WebSocketManager.getInstance().reconnect();
             } else {
                 assert quote_host != null;
-                WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
+                WebSocketManager.getInstance().sendQuotes("3001", quote_code, null);
 
             }
         });

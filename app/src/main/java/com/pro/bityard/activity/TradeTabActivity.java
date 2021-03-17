@@ -19,6 +19,7 @@ import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.WebSocketManager;
+import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
@@ -153,20 +154,22 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initViewPager(ViewPager viewPager) {
+
         Log.d("print", "initViewPager:HoldRealFragment:实盘模拟: " + tradeType);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         myPagerAdapter.addFragment(new ContractTradeFragment().newInstance(tradeType, defaultContract), getString(R.string.text_contract));
         myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, defaultSpot), getString(R.string.text_spot));
         viewPager.setAdapter(myPagerAdapter);
-
         String isChOrFt = TradeUtil.type(itemData);
         if (isChOrFt.equals(AppConfig.TYPE_FT)) {
             tabLayout_title.getTabAt(0).select();
+
 
         } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
             tabLayout_title.getTabAt(1).select();
 
         }
+
     }
 
 
@@ -177,8 +180,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
         Log.d("print", "initData:590:  " + itemData);
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
+
 
         String isChOrFt = TradeUtil.type(itemData);
         if (isChOrFt.equals(AppConfig.TYPE_FT)) {
@@ -228,8 +230,8 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         super.onPause();
         Toast.makeText(TradeTabActivity.this, "onPause", Toast.LENGTH_LONG).show();
 
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        WebSocketManager.getInstance().cancelQuotes("3002", quote_code);
+        SocketUtil.switchQuotesList("3002");
+
     }
 
     @Override

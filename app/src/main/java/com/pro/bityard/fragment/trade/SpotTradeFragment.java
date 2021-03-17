@@ -409,6 +409,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         tradeType = getArguments().getString(TYPE);
         itemData = getArguments().getString(VALUE);
         Log.d("print", "initData:现货进来的值:  " + itemQuoteContCode(itemData));
+        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
 
         setContent(itemData);
         edit_price_limit.setDecimalEndNumber(priceDigit);
@@ -776,9 +777,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 showLimitPriceWindow();
                 break;
             case R.id.img_market:
-                SpotTradeActivity.enter(getActivity(), tradeType, itemData);
+                getActivity().finish();
                 WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
-                WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData),"1");
+                SpotTradeActivity.enter(getActivity(), tradeType, itemData);
                 break;
 
         }
@@ -834,6 +835,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             runOnUiThread(() -> {
                 setContent(itemData);
                 quote_code = itemQuoteContCode(itemData);
+
             });
 
 
@@ -921,9 +923,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         QuoteSpotCurrentManger.getInstance().clear();
         SocketQuoteManger.getInstance().deleteObserver(this);
         //timer.cancel();
-        if (quote_code_old != null) {
+       /* if (quote_code_old != null) {
             WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
-        }
+        }*/
         WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
 
 

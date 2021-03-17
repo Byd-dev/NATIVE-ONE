@@ -1738,7 +1738,11 @@ public class TradeUtil {
 
     public static String name(String quote) {
         String[] split = quote.split(",");
-        return split[split.length - 2];
+        if (split[split.length - 2].equals("")){
+            return "null";
+        }else {
+            return split[split.length - 2];
+        }
     }
 
     public static String code(String quote) {

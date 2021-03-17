@@ -68,7 +68,6 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
-import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteContractCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
@@ -82,6 +81,7 @@ import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.PopUtil;
+import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
@@ -646,13 +646,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
             showProgressDialog();
+            SocketUtil.switchQuotesList("3002");
             quote_code = TradeUtil.itemQuoteContCode(data);
             Log.d("print", "showQuotePopWindow:644:  " + quote_code_old + "   " + quote_code);
             if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
                 if (!quote_code_old.equals(quote_code)) {
                     WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
                 }
-                WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
+                WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
                 type = AppConfig.CONTRACT_ALL;
                 TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
                 Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
@@ -825,6 +826,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         quote_code = itemQuoteContCode(itemData);
+        WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
 
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
@@ -1844,7 +1846,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 text_limit_currency.setText(TradeUtil.currency(itemData));
             });
 
-        } else*/ if (o == SocketQuoteManger.getInstance()) {
+        } else*/
+        if (o == SocketQuoteManger.getInstance()) {
             if (!isAdded()) {
                 return;
             }
@@ -2237,12 +2240,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         Log.d("print", "onDestroy: 2248: " + quote_code + "  " + quote_code_old);
 
 
-        if (quote_code_old == null) {
-            WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
-        } else {
+       /* if (quote_code_old != null) {
             WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
-            WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
-        }
+        }*/
+        WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
         quote_code = null;
 
     }
@@ -2257,8 +2258,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         switch (v.getId()) {
             case R.id.layout_product:
                 Util.lightOff(getActivity());
+                SocketUtil.switchQuotesList("3001");
                 showQuotePopWindow();
-                //showProductWindow(quoteList);
                 break;
             case R.id.layout_switch:
                 if (tradeType.equals("1")) {
