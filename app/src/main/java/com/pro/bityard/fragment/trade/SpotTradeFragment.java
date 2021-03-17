@@ -86,7 +86,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private static final String VALUE = "value";
     @BindView(R.id.layout_spot)
     LinearLayout layout_view;
-
     @BindView(R.id.text_name)
     TextView text_name;
     @BindView(R.id.text_currency)
