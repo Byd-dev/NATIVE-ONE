@@ -783,7 +783,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         }
     }
-
     private String old_code = null;
 
    /* private Handler mHandler = new Handler() {
