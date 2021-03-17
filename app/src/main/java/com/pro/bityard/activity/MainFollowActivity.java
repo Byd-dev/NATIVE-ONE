@@ -172,7 +172,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     @BindView(R.id.swipeRefreshLayout_market)
     SwipeRefreshLayout swipeRefreshLayout_market;
-
     @BindView(R.id.tabLayout_market)
     TabLayout tabLayout_market;
 
