@@ -796,7 +796,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
         }
     };*/
-    
     private int length = 5;
     private int count = 0;//控制限价价格显示 手动切换才变数据
     @SuppressLint("SetTextI18n")
