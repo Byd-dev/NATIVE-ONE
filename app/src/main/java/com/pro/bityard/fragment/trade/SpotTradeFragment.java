@@ -771,7 +771,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     Util.lightOff(getActivity());
                     showBuySellSwitch(getActivity(), layout_view);
                 }
-
                 break;
             case R.id.layout_switch_limit_price:
                 showLimitPriceWindow();
