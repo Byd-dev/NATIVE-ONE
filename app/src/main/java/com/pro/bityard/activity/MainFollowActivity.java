@@ -148,7 +148,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     /*market---------------------------------------------------*/
 
-
     private List<String> titleList, titlePopList, optionalTitleList, contractTitleList, spotTitleList;
     @BindView(R.id.layout_optional_select)
     LinearLayout layout_optional_select;
