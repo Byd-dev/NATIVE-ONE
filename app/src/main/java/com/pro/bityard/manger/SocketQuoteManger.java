@@ -553,7 +553,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 }else {
                     QuoteContractCurrentManger.getInstance().postQuote(quoteMinEntity);
                 }
-
                 break;
            case "5001":
                 //Log.d("send", "getQuote 现货买卖5001:  " + quoteEntity.getData().length());
