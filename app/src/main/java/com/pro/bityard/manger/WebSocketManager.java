@@ -191,7 +191,7 @@ public final class WebSocketManager {
             }
         };
     }
-    
+
     //行情的发送心跳包
     public void send(String cmidId) {
        /* String time = String.valueOf(System.currentTimeMillis());
