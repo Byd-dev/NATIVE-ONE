@@ -541,7 +541,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.HISTORY_ALL, historyQuoteList);
                 Log.d("webSocket", "onMessage:3001:  " + quoteEntity.getData().length());
                 postListQuote(arrayMap);
-
                 break;
             case "4001":
                 QuoteMinEntity quoteMinEntity = new Gson().fromJson(quoteEntity.getData(), QuoteMinEntity.class);
