@@ -259,7 +259,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
             SPUtils.putString(AppConfig.KEY_LANGUAGE, language_local);
         }
 
-        SocketUtil.switchQuotesList("3001");
 
 
 
