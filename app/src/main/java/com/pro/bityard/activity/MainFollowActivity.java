@@ -145,7 +145,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private int mNewsIndex;
     @BindView(R.id.recyclerView_hot)
     RecyclerView recyclerView_hot;
-
     /*market---------------------------------------------------*/
 
     private List<String> titleList, titlePopList, optionalTitleList, contractTitleList, spotTitleList;
