@@ -528,7 +528,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.DERIVATIVES_RATE_LOW2HIGH, derivedQuoteList_rate_low2high);
                 arrayMap.put(AppConfig.DERIVATIVES_NAME_A2Z, derivedQuoteList_name_a2z);
                 arrayMap.put(AppConfig.DERIVATIVES_NAME_Z2A, derivedQuoteList_name_z2a);
-
                 //外汇
                 arrayMap.put(AppConfig.FOREIGN_EXCHANGE_ALL, feQuoteList);
                 arrayMap.put(AppConfig.FOREIGN_EXCHANGE_PRICE_HIGH2LOW, feQuoteList_price_high2low);
