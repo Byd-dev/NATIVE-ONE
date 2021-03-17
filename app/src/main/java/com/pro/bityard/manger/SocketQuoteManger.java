@@ -518,7 +518,7 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 //首页热门和列表
                 arrayMap.put(AppConfig.HOME_HOT, hotQuoteList);
                 arrayMap.put(AppConfig.HOME_LIST, homeList);
-                
+
                 //衍生品
                 arrayMap.put(AppConfig.DERIVATIVES_ALL, derivedQuoteList);
                 arrayMap.put(AppConfig.DERIVATIVES_PRICE_HIGH2LOW, derivedQuoteList_price_high2low);
