@@ -99,7 +99,6 @@ public final class WebSocketManager {
         if (!isConnect()) return false;
         return mWebSocket.send(text);
     }
-
     /**
      * 发送消息
      *
