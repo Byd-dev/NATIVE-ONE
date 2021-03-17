@@ -62,7 +62,6 @@ public class InitManger extends Observable {
             }
         });
 
-
         /*获取币种*/
         NetManger.getInstance().currencyList("1", (state, response) -> {
             if (state.equals(BUSY)) {
