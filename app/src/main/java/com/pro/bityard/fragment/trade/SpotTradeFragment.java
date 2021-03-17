@@ -780,7 +780,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
                 SpotTradeActivity.enter(getActivity(), tradeType, itemData);
                 break;
-
         }
     }
     private String old_code = null;
