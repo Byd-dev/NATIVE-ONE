@@ -139,7 +139,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
                 } else if (position == 1) {
                     isContract = false;
-
                 }
             }
 

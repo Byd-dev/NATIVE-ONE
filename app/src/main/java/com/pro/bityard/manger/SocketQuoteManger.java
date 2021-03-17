@@ -15,7 +15,7 @@ import java.util.Observable;
 import java.util.Timer;
 
 public class SocketQuoteManger extends Observable implements IReceiveMessage {
-    
+
     private static SocketQuoteManger socketQuoteManger;
 
 
