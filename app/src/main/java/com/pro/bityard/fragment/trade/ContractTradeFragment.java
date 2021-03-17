@@ -654,8 +654,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 }
                 WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
 
-              //  QuoteCodeManger.getInstance().postTag(data);
-
                 type = AppConfig.CONTRACT_ALL;
                 TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
                 Log.d("print", "showQuotePopWindow:1201:  " + itemQuoteCode(quote_code) + "                 " + chargeUnitEntity);
