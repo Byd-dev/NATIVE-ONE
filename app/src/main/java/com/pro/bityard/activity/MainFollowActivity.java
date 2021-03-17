@@ -130,7 +130,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     RadioButton radioButton_3;
     @BindView(R.id.radio_4)
     RadioButton radioButton_4;
-    
     /*首页-------------------------------------------------------------*/
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
