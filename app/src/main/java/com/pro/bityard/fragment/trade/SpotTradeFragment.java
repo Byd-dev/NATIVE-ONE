@@ -793,7 +793,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             if (quote_code != null) {
                 old_code = quote_code;
                 Log.d("print", "handleMessage:现货fragment订阅: " + quote_code);
-
             }
 
         }
