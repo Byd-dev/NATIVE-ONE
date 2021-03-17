@@ -118,7 +118,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initView(View view) {
 
-
         Handler handler = new Handler();
         handler.postDelayed(() -> initContent(), 50);
         findViewById(R.id.img_back).setOnClickListener(v -> finish());
