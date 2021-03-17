@@ -802,7 +802,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void update(Observable o, Object arg) {
 
-
         if (o == QuoteSpotManger.getInstance()) {
             if (!isAdded()) {
                 return;
