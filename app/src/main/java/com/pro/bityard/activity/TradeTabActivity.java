@@ -122,7 +122,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         Handler handler = new Handler();
         handler.postDelayed(() -> initContent(), 50);
         findViewById(R.id.img_back).setOnClickListener(v -> finish());
-
         QuoteCodeManger.getInstance().addObserver(this);
         SpotCodeManger.getInstance().addObserver(this);
 
