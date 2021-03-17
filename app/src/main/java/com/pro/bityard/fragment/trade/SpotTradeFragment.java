@@ -101,7 +101,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     ImageView img_star_spot;
     private Set<String> optionalList;//自选列表
 
-
     @BindView(R.id.recyclerView_spot)
     HeaderRecyclerView recyclerView_spot;
 
