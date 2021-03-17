@@ -1486,7 +1486,7 @@ public class NetManger {
             if (state.equals(SUCCESS)) {
                 Log.d("print", "isLogin:是否登录: " + response.toString());
                 IsLoginEntity isLoginEntity = new Gson().fromJson(response.toString(), IsLoginEntity.class);
-                onResult.setResult(isLoginEntity.getContent().isIsLogin());
+                onResult.setResult(isLoginEntity.isIsLogin());
 
             }
         });
