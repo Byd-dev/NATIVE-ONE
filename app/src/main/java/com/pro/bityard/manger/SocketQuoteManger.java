@@ -537,7 +537,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 arrayMap.put(AppConfig.FOREIGN_EXCHANGE_RATE_LOW2HIGH, feQuoteList_rate_low2high);
                 arrayMap.put(AppConfig.FOREIGN_EXCHANGE_NAME_A2Z, feQuoteList_name_a2z);
                 arrayMap.put(AppConfig.FOREIGN_EXCHANGE_NAME_Z2A, feQuoteList_name_z2a);
-
                 //历史记录
                 arrayMap.put(AppConfig.HISTORY_ALL, historyQuoteList);
                 Log.d("webSocket", "onMessage:3001:  " + quoteEntity.getData().length());
