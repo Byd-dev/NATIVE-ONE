@@ -103,7 +103,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     public static final String KEY_MESSAGE = "message";
     public static final String KEY_EXTRAS = "extras";
 
-
     @BindView(R.id.layout_view)
     RelativeLayout layout_view;
     @BindView(R.id.layout_home)
