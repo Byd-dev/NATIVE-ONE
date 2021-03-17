@@ -118,7 +118,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     RelativeLayout layout_login_register;
     @BindView(R.id.radioGroup)
     LinearLayout radioGroup;
-
     @BindView(R.id.radio_0)
     RadioButton radioButton_0;
     @BindView(R.id.radio_1)
