@@ -231,7 +231,6 @@ public final class WebSocketManager {
             }
             WebSocketManager.getInstance().sendMessage(json.toString());
             Log.d("send", "sendQuotes: " + json.toString());
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
