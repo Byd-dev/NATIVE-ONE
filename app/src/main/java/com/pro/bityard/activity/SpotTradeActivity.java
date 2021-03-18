@@ -152,8 +152,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     TextView text_min;
     @BindView(R.id.text_volume)
     TextView text_volume;
-
-
+    
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.kline_1min_time)
