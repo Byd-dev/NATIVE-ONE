@@ -115,7 +115,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private static final String quoteType = "all";
     private int lever;
 
-
     @BindView(R.id.img_star_spot)
     ImageView img_star_spot;
 
