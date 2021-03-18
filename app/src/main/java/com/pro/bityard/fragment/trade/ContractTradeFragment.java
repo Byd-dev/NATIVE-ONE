@@ -826,7 +826,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         quote_code = itemQuoteContCode(itemData);
-        WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
+        //WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
 
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));

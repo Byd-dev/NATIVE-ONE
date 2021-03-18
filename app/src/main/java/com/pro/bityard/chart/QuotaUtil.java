@@ -64,11 +64,18 @@ public class QuotaUtil {
             return -1;
         }
         double sum = 0;
-        for (KData data : dataList) {
+        Iterator<KData> iterator = dataList.iterator();
+        while (iterator.hasNext()){
+            KData next = iterator.next();
+            if (next.getVolume()!=0){
+                sum += next.getVolume();
+            }
+        }
+       /* for (KData data : dataList) {
             if (data.getVolume()!=0){
                 sum += data.getVolume();
             }
-        }
+        }*/
         return sum / dataList.size();
     }
 
@@ -77,9 +84,14 @@ public class QuotaUtil {
             return -1;
         }
         double sum = 0;
-        for (KData data : dataList) {
-            sum += data.getClosePrice();
+        Iterator<KData> iterator = dataList.iterator();
+        while (iterator.hasNext()){
+            KData next = iterator.next();
+            sum += next.getClosePrice();
         }
+        /*for (KData data : dataList) {
+            sum += data.getClosePrice();
+        }*/
         return sum / dataList.size();
     }
 

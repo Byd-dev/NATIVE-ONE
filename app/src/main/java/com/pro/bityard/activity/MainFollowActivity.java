@@ -474,9 +474,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     private void onSuccessListener(String data) {
         Toast.makeText(this, itemQuoteContCode(data), Toast.LENGTH_LONG).show();
-        WebSocketManager.getInstance().cancelQuotes("4002", "");
         SocketUtil.switchQuotesList("3002");
-
+        WebSocketManager.getInstance().cancelQuotes("4002", "");
         if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
             TradeTabActivity.enter(this, "1", data);
         } else {

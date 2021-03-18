@@ -34,6 +34,7 @@ import com.pro.bityard.adapter.RadioRateAdapter;
 import com.pro.bityard.adapter.SellBuyListAdapter;
 import com.pro.bityard.adapter.TradeNewAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.PopQuotesResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.chart.KData;
 import com.pro.bityard.chart.NoVolumeView;
@@ -74,6 +75,7 @@ import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.manger.TradeSpotManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
@@ -1222,6 +1224,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     @SuppressLint("NewApi")
     @Override
     public void onClick(View v) {
+
         TabLayout.Tab tabAt = tabLayout.getTabAt(5);
         View view = tabAt.getCustomView();
         LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
@@ -1233,8 +1236,120 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             case R.id.layout_product:
                 Util.lightOff(this);
                 SocketUtil.switchQuotesList("3001");
+                quote_code_old=quote_code;
+                PopUtil.showQuotePopWindow(this, layout_view, arrayMap, AppConfig.SPOT_ALL, new PopQuotesResult() {
+                    @Override
+                    public void setOptionalResult(Integer optionalPosition) {
+                        switch (optionalPosition) {
+                            case 0:
+                                type = AppConfig.OPTIONAL_CONTRACT_ALL;
+                                zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
+
+
+                                break;
+                            case 1:
+                                type = AppConfig.OPTIONAL_SPOT_ALL;
+                                zone_type = AppConfig.VIEW_OPTIONAL_SPOT;
+
+
+                                break;
+                            case 2:
+                                type = AppConfig.OPTIONAL_DERIVATIVES_ALL;
+                                zone_type = AppConfig.VIEW_OPTIONAL_DERIVATIVES;
+
+
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void setClickListenerResult(String clickListener) {
+                        if (clickListener==null){
+                            flag_new_price = false;
+                            flag_up_down = false;
+                            flag_name = false;
+                        }else {
+                            switch (clickListener){
+                                case "price":
+                                    break;
+                                case "range":
+
+                                    break;
+                                case "name":
+                                    break;
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void setTabSelectResult(Integer tabSelect) {
+                        switch (tabSelect){
+                            case 0:
+                                type = AppConfig.OPTIONAL_CONTRACT_ALL;
+                                zone_type = AppConfig.VIEW_OPTIONAL_CONTRACT;
+                                quoteList = arrayMap.get(type);
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void setRefreshResult() {
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+
+                    @Override
+                    public void setCancelResult(String type2) {
+                        type = type2;
+                    }
+
+
+                    @Override
+                    public void setPopClickResult(String data) {
+                        SocketUtil.switchQuotesList("3002");
+                        showProgressDialog();
+                        quote_code = TradeUtil.itemQuoteContCode(data);
+                        WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
+                        Log.d("print", "showQuotePopWindow:1067:  " + quote_code_old + "   " + quote_code);
+                        if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
+                            //QuoteCodeManger.getInstance().postTag(data);
+                            finish();
+                            TradeTabActivity.enter(SpotTradeActivity.this, "1", data);
+
+                        } else {
+
+                            WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(data), "1");
+                            setContent(data);
+                            itemData = data;
+                            SpotCodeManger.getInstance().postTag(data);
+                            type = AppConfig.CONTRACT_ALL;
+                            //判断当前是否存在自选
+                            Util.isOptional(quote_code, optionalList, response -> {
+                                boolean isOptional = (boolean) response;
+                                if (isOptional) {
+                                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star));
+                                } else {
+                                    img_star_spot.setImageDrawable(getResources().getDrawable(R.mipmap.icon_star_normal));
+
+                                }
+                            });
+
+                            Quote1MinHistoryManger.getInstance().quote(quote_code, -2);
+                            Quote3MinHistoryManger.getInstance().quote(quote_code, -2);
+                            Quote5MinHistoryManger.getInstance().quote(quote_code, -2);
+                            Quote15MinHistoryManger.getInstance().quote(quote_code, -2);
+                            Quote60MinHistoryManger.getInstance().quote(quote_code, -2);
+                            QuoteDayHistoryManger.getInstance().quote(quote_code, -2);
+                            QuoteWeekHistoryManger.getInstance().quote(quote_code, -2);
+                            QuoteMonthHistoryManger.getInstance().quote(quote_code, -2);
+
+                        }
+
+
+                    }
+                });
+
                 showQuotePopWindow();
-                //showProductWindow(quoteList);
                 break;
 
             //自选的监听
@@ -1482,6 +1597,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         } else if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
+            Log.d("print", "update:1486:  " + arrayMap);
             quoteList = arrayMap.get(type);
             if (quoteList != null && quoteAdapter_market_pop != null) {
                 runOnUiThread(() -> {

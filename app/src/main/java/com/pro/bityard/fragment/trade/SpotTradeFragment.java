@@ -53,6 +53,7 @@ import com.pro.bityard.manger.QuoteSpotManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.WebSocketManager;
+import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.DecimalEditText;
@@ -345,7 +346,11 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
     private void setContent(String itemData) {
-        Log.d("print", "setContent:313:  " + itemData);
+        if (itemData==null){
+            return;
+        }
+
+            Log.d("print", "setContent:313:  " + itemData);
         tradeName = TradeUtil.nameWithoutUsd(itemData);
         quote_code = itemQuoteContCode(itemData);
         srcCurrency = "USDT";
@@ -355,8 +360,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
         List<TradeListEntity> tradeListEntityList = Util.SPDealEntityResult(string);
         tradeDetail = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-
-
+        if (text_name==null){
+            return;
+        }
         text_name.setText(TradeUtil.name(itemData));
         text_currency.setText(TradeUtil.currency(itemData));
         text_currency_head.setText("(" + tradeName + ")");
@@ -406,7 +412,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         tradeType = getArguments().getString(TYPE);
         itemData = getArguments().getString(VALUE);
         Log.d("print", "initData:现货进来的值:  " + itemQuoteContCode(itemData));
-        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
+        //WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
+        //为了防止出现空指针
+        //SocketUtil.switchQuotesList("3001");
 
         setContent(itemData);
         edit_price_limit.setDecimalEndNumber(priceDigit);
@@ -704,6 +712,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private void getPosition() {
         LoginEntity loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
         if (loginEntity == null) {
+            swipeRefreshLayout.setRefreshing(false);
             return;
         }
         NetManger.getInstance().userSpotPosition(loginEntity.getUser().getUserId(), (state, response) -> {
@@ -737,6 +746,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         switch (v.getId()) {
             case R.id.layout_product:
                 Util.lightOff(getActivity());
+                SocketUtil.switchQuotesList("3001");
                 showQuotePopWindow();
                 break;
 
@@ -831,6 +841,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
+            Log.d("print", "update:843 "+quoteList);
             runOnUiThread(() -> {
                 if (quoteList != null && quoteAdapter_market_pop != null) {
                     //搜索框
@@ -850,7 +861,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
             QuoteMinEntity quoteMinEntity = (QuoteMinEntity) arg;
-            Log.d("print", "onReceive:1549:现货fragment行情:  " + quoteMinEntity);
+           // Log.d("print", "onReceive:1549:现货fragment行情:  " + quoteMinEntity);
 
             if (quoteMinEntity != null) {
                 runOnUiThread(() -> {
@@ -1331,6 +1342,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
+            SocketUtil.switchQuotesList("3002");
             quote_code = TradeUtil.itemQuoteContCode(data);
             WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
 
@@ -1429,4 +1441,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        SocketUtil.switchQuotesList("3002");
+
+    }
 }

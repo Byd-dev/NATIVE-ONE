@@ -135,6 +135,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
                 } else if (position == 1) {
                     isContract = false;
+
                 }
             }
 
@@ -186,9 +187,14 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         if (isChOrFt.equals(AppConfig.TYPE_FT)) {
             defaultContract = itemData;
             quote_code = itemQuoteContCode(defaultContract);
+            Log.d("print", "initData:190: "+quote_code);
+            WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
+
         } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
             defaultSpot = itemData;
             quote_code = itemQuoteContCode(defaultSpot);
+            Log.d("print", "initData:196: "+quote_code);
+            WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
 
         }
 

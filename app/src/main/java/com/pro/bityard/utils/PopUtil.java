@@ -11,6 +11,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.ArrayMap;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,10 +25,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.tabs.TabLayout;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.FileCallback;
 import com.lzy.okgo.model.Progress;
@@ -34,9 +38,12 @@ import com.lzy.okgo.model.Response;
 import com.lzy.okgo.request.base.Request;
 import com.pro.bityard.BuildConfig;
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.OptionalSelectAdapter;
+import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.api.OnResult;
+import com.pro.bityard.api.PopQuotesResult;
 import com.pro.bityard.api.PopResult;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.HistoryEntity;
@@ -52,6 +59,9 @@ import java.util.Random;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
@@ -238,7 +248,8 @@ public class PopUtil {
     }
 
 
-    private String hash=null;
+    private String hash = null;
+
     /*图片验证码*/
     public void showVerification(Activity activity, View layout_view, OnResult onResult) {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.item_verification_layout, null);
@@ -252,7 +263,7 @@ public class PopUtil {
 
 
         getCode(activity, img_code, response -> {
-            hash=response.toString();
+            hash = response.toString();
         });
 
         view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
@@ -268,7 +279,7 @@ public class PopUtil {
             if (s.equals("")) {
                 Toast.makeText(activity, "请输入图形验证码", Toast.LENGTH_SHORT).show();
             } else {
-                onResult.setResult(hash+","+s);
+                onResult.setResult(hash + "," + s);
                 popupWindow.dismiss();
             }
         });
@@ -283,11 +294,11 @@ public class PopUtil {
 
     }
 
-    public void getCode(Context context, ImageView img_code,OnResult onResult) {
+    public void getCode(Context context, ImageView img_code, OnResult onResult) {
         String hash = Util.Random32();
         ArrayMap<String, String> map = new ArrayMap<>();
         map.put("vHash", hash);
-        Log.d("print", "getCode:290:  "+hash);
+        Log.d("print", "getCode:290:  " + hash);
         NetManger.getInstance().getBitmapRequest("/api/code/image.jpg", map, (state, response) -> {
             if (state.equals(SUCCESS)) {
                 Bitmap bitmap = (Bitmap) response;
@@ -341,10 +352,10 @@ public class PopUtil {
 
         TextView text_save = view.findViewById(R.id.text_save);
 
-        TextView text_recommend_code=view.findViewById(R.id.text_recommend_code);
+        TextView text_recommend_code = view.findViewById(R.id.text_recommend_code);
 
         UserDetailEntity userDetailEntity = SPUtils.getData(AppConfig.DETAIL, UserDetailEntity.class);
-        if (userDetailEntity!=null){
+        if (userDetailEntity != null) {
             text_recommend_code.setText(userDetailEntity.getUser().getRefer());
         }
 
@@ -654,6 +665,263 @@ public class PopUtil {
         }
     }
 
+
+    public static void showQuotePopWindow(Activity activity, View layout_view, ArrayMap<String, List<String>> arrayMap, String type,
+                                          PopQuotesResult popQuotesResult) {
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.quote_market, null);
+        PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT);
+
+
+        List<String> titleList = new ArrayList<>();
+        titleList.add(activity.getString(R.string.text_optional));
+        titleList.add(activity.getString(R.string.text_contract));
+        titleList.add(activity.getString(R.string.text_spot));
+
+
+        LinearLayout layout_optional_select_pop = view.findViewById(R.id.layout_optional_select_pop);
+
+        RecyclerView recyclerView_optional_select_pop = view.findViewById(R.id.recyclerView_optional_pop);
+
+        LinearLayout layout_null_pop = view.findViewById(R.id.layout_null);
+
+        OptionalSelectAdapter optionalSelectAdapter = new OptionalSelectAdapter(activity);
+        recyclerView_optional_select_pop.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.HORIZONTAL, false));
+        recyclerView_optional_select_pop.setAdapter(optionalSelectAdapter);
+        List<String> optionalTitleList = new ArrayList<>();
+        optionalTitleList.add(activity.getString(R.string.text_contract));
+        optionalTitleList.add(activity.getString(R.string.text_spot));
+        optionalSelectAdapter.setDatas(optionalTitleList);
+        optionalSelectAdapter.select(activity.getString(R.string.text_contract));
+        optionalSelectAdapter.setEnable(true);
+
+
+        TabLayout tabLayout_market_search = view.findViewById(R.id.tabLayout_market_search);
+
+        LinearLayout layout_null = view.findViewById(R.id.layout_null);
+
+        RecyclerView recyclerView_market = view.findViewById(R.id.recyclerView_market);
+
+        QuoteAdapter quoteAdapter_market_pop = new QuoteAdapter(activity);
+        recyclerView_market.setLayoutManager(new LinearLayoutManager(activity));
+        recyclerView_market.setAdapter(quoteAdapter_market_pop);
+        List<String> quoteList = arrayMap.get(type);
+        quoteAdapter_market_pop.setDatas(quoteList);
+        quoteAdapter_market_pop.isShowIcon(false);
+        ImageView img_price_triangle = view.findViewById(R.id.img_price_triangle);
+
+        ImageView img_rate_triangle = view.findViewById(R.id.img_rate_triangle);
+
+        ImageView img_name_triangle = view.findViewById(R.id.img_name_triangle);
+
+        /*自选的监听*/
+        optionalSelectAdapter.setOnItemClick((position, data) -> {
+            optionalSelectAdapter.select(data);
+            switch (position) {
+                case 0:
+
+                    popQuotesResult.setOptionalResult(0);
+                    List<String> quoteList1 = arrayMap.get(type);
+                    if (quoteList1 == null) {
+                        layout_null_pop.setVisibility(View.VISIBLE);
+                        recyclerView_optional_select_pop.setVisibility(View.GONE);
+                    } else {
+                        layout_null_pop.setVisibility(View.GONE);
+                        recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+                case 1:
+                    popQuotesResult.setOptionalResult(1);
+                    List<String> quoteList2 = arrayMap.get(type);
+                    if (quoteList2 == null) {
+                        layout_null_pop.setVisibility(View.VISIBLE);
+                        recyclerView_optional_select_pop.setVisibility(View.GONE);
+                    } else {
+                        layout_null_pop.setVisibility(View.GONE);
+                        recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+                    img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+                case 2:
+                    popQuotesResult.setOptionalResult(2);
+
+                   List<String> quoteList3 = arrayMap.get(type);
+                    if (quoteList3 == null) {
+                        layout_null_pop.setVisibility(View.VISIBLE);
+                        recyclerView_optional_select_pop.setVisibility(View.GONE);
+                    } else {
+                        layout_null_pop.setVisibility(View.GONE);
+                        recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
+                        quoteAdapter_market_pop.setDatas(quoteList);
+                    }
+
+                    img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    break;
+            }
+        });
+
+
+        for (String market_name : titleList) {
+            tabLayout_market_search.addTab(tabLayout_market_search.newTab().setText(market_name));
+        }
+        tabLayout_market_search.getTabAt(1).select();
+        view.findViewById(R.id.layout_new_price).setOnClickListener(v -> {
+            if (arrayMap == null) {
+                return;
+            }
+            popQuotesResult.setClickListenerResult("price");
+            img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+            img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+        });
+        view.findViewById(R.id.layout_up_down).setOnClickListener(v -> {
+            if (arrayMap == null) {
+                return;
+            }
+            popQuotesResult.setClickListenerResult("range");
+            img_price_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+            img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+        });
+        view.findViewById(R.id.layout_name).setOnClickListener(v -> {
+            if (arrayMap == null) {
+                return;
+            }
+            popQuotesResult.setClickListenerResult("name");
+            img_price_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+            img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+        });
+
+        tabLayout_market_search.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                //切换都重置为默认
+                popQuotesResult.setClickListenerResult(null);
+                if (arrayMap == null) {
+                    return;
+                }
+                //自选
+                if (tab.getPosition() == 0) {
+                    popQuotesResult.setTabSelectResult(0);
+
+                    layout_optional_select_pop.setVisibility(View.VISIBLE);
+                    img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                }//合约
+                else if (tab.getPosition() == 1) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+                    popQuotesResult.setTabSelectResult(1);
+
+                    img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                } else if (tab.getPosition() == 2) {
+                    layout_optional_select_pop.setVisibility(View.GONE);
+                    popQuotesResult.setTabSelectResult(2);
+
+
+                    img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                    img_price_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+        SwipeRefreshLayout swipeRefreshLayout_market = view.findViewById(R.id.swipeRefreshLayout_market);
+        swipeRefreshLayout_market.setColorSchemeColors(activity.getResources().getColor(R.color.maincolor));
+        /*刷新监听*/
+        swipeRefreshLayout_market.setOnRefreshListener(() -> {
+            popQuotesResult.setRefreshResult();
+            swipeRefreshLayout_market.setRefreshing(false);
+
+        });
+
+        quoteAdapter_market_pop.setOnItemClick(data -> {
+            popQuotesResult.setPopClickResult(data);
+
+            //相应选择
+            popupWindow.dismiss();
+
+
+        });
+
+
+        view.findViewById(R.id.text_cancel).setOnClickListener(v -> {
+            popQuotesResult.setCancelResult(type);
+            tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
+            popupWindow.dismiss();
+        });
+
+        RelativeLayout layout_bar = view.findViewById(R.id.layout_bar);
+
+        EditText edit_search = view.findViewById(R.id.edit_search);
+
+        edit_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() != 0) {
+                    layout_bar.setVisibility(View.GONE);
+                    tabLayout_market_search.setVisibility(View.GONE);
+                    tabLayout_market_search.getTabAt(AppConfig.selectPosition).select();
+                    List<String> strings = arrayMap.get(type);
+                    List<String> searchQuoteList = TradeUtil.searchQuoteList(edit_search.getText().toString(), strings);
+                    quoteAdapter_market_pop.setDatas(searchQuoteList);
+                } else {
+                    layout_bar.setVisibility(View.VISIBLE);
+                    tabLayout_market_search.setVisibility(View.VISIBLE);
+                    List<String> quoteList = arrayMap.get(type);
+                    quoteAdapter_market_pop.setDatas(quoteList);
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        Util.dismiss(activity, popupWindow);
+        Util.isShowing(activity, popupWindow);
+
+
+        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT, 0, Animation.RELATIVE_TO_PARENT, 0,
+                Animation.RELATIVE_TO_PARENT, 1, Animation.RELATIVE_TO_PARENT, 0);
+        animation.setInterpolator(new AccelerateInterpolator());
+        animation.setDuration(300);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        popupWindow.setFocusable(true);
+        popupWindow.setContentView(view);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.showAsDropDown(layout_view);
+        //   popupWindow.showAtLocation(layout_view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+        view.startAnimation(animation);
+
+    }
 
 
 }
