@@ -118,7 +118,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.img_star_spot)
     ImageView img_star_spot;
 
-
     @BindView(R.id.layout_view)
     LinearLayout layout_view;
     @BindView(R.id.layout_bar)
