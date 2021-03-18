@@ -156,7 +156,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
     private void initViewPager(ViewPager viewPager) {
 
-        Log.d("print", "initViewPager:HoldRealFragment:实盘模拟: " + tradeType);
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         myPagerAdapter.addFragment(new ContractTradeFragment().newInstance(tradeType, defaultContract), getString(R.string.text_contract));
         myPagerAdapter.addFragment(new SpotTradeFragment().newInstance(tradeType, defaultSpot), getString(R.string.text_spot));

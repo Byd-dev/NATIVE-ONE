@@ -724,10 +724,10 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 SpotPositionEntity spotPositionEntity = (SpotPositionEntity) response;
+                if (spotPositionEntity.getData()==null){
+                    return;
+                }
                 if (spotPositionEntity.getData().size() == 0) {
-                    if (layout_null==null){
-                        return;
-                    }
                     layout_null.setVisibility(View.VISIBLE);
                     layout_cancel.setVisibility(View.GONE);
                     view_line_two.setVisibility(View.GONE);

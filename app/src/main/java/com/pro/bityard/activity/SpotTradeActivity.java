@@ -1687,6 +1687,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
             } else {
                 if (quoteMinEntity != null) {
+                    Log.d("print", "update:1690: "+quoteMinEntity.getSymbol());
                     Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
                 }
             }
