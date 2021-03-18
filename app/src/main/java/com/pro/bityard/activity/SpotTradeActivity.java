@@ -134,7 +134,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.text_currency)
     TextView text_currency;
 
-
     @BindView(R.id.text_lastPrice)
     TextView text_lastPrice;
 
