@@ -191,6 +191,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     protected void initView(View view) {
+       // showProgressDialog();
         BalanceManger.getInstance().addObserver(this);
         SocketQuoteManger.getInstance().addObserver(this);
         SpotCodeManger.getInstance().addObserver(this);
@@ -724,6 +725,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 }
                 SpotPositionEntity spotPositionEntity = (SpotPositionEntity) response;
                 if (spotPositionEntity.getData().size() == 0) {
+                    if (layout_null==null){
+                        return;
+                    }
                     layout_null.setVisibility(View.VISIBLE);
                     layout_cancel.setVisibility(View.GONE);
                     view_line_two.setVisibility(View.GONE);
@@ -865,34 +869,35 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
             if (quoteMinEntity != null) {
                 runOnUiThread(() -> {
-                    if (text_price != null) {
-                        int isUp = quoteMinEntity.getIsUp();
-                        price = quoteMinEntity.getPrice();
-                        text_price.setText(String.valueOf(price));
+                    if (quoteMinEntity.getSymbol().equals(quote_code)){
+                        if (text_price != null) {
+                            int isUp = quoteMinEntity.getIsUp();
+                            price = quoteMinEntity.getPrice();
+                            text_price.setText(String.valueOf(price));
 
-                        if (count == 0) {
-                            edit_price_limit.setText(String.valueOf(price));
-                            count++;
-                        }
-                        text_scale.setText(TradeUtil.scaleString(TradeUtil.decimalPoint(String.valueOf(price))));
-                        if (value_rate != null) {
-                            text_currency_price.setText("$" + TradeUtil.numberHalfUp(TradeUtil.mul(price, Double.parseDouble(value_rate)), 2));
-                        } else {
-                            text_currency_price.setText("$" + price);
-                        }
-                        switch (isUp) {
-                            case -1:
-                                text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
-                                break;
-                            case 1:
-                                text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_green));
-                                break;
-                            case 0:
-                                text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_main_color));
-                                break;
-                        }
+                            if (count == 0) {
+                                edit_price_limit.setText(String.valueOf(price));
+                                count++;
+                            }
+                            text_scale.setText(TradeUtil.scaleString(TradeUtil.decimalPoint(String.valueOf(price))));
+                            if (value_rate != null) {
+                                text_currency_price.setText("$" + TradeUtil.numberHalfUp(TradeUtil.mul(price, Double.parseDouble(value_rate)), 2));
+                            } else {
+                                text_currency_price.setText("$" + price);
+                            }
+                            switch (isUp) {
+                                case -1:
+                                    text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_red));
+                                    break;
+                                case 1:
+                                    text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_quote_green));
+                                    break;
+                                case 0:
+                                    text_price.setTextColor(AppContext.getAppContext().getResources().getColor(R.color.text_main_color));
+                                    break;
+                            }
 
-
+                        }
                     }
                 });
             }

@@ -10,5 +10,6 @@ public interface PopQuotesResult {
     void  setRefreshResult();
     void  setCancelResult(String type);
     void  setPopClickResult(String data);
+    void   setPopView(View popView);
 
 }

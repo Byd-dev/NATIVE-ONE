@@ -791,7 +791,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     @Override
     protected void initView(View view) {
-        showProgressDialog();
+        //showProgressDialog();
         initTabView(view);
     }
 

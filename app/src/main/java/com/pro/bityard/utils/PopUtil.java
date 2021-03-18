@@ -671,7 +671,7 @@ public class PopUtil {
         @SuppressLint("InflateParams") View view = LayoutInflater.from(activity).inflate(R.layout.quote_market, null);
         PopupWindow popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-
+        popQuotesResult.setPopView(view);
 
         List<String> titleList = new ArrayList<>();
         titleList.add(activity.getString(R.string.text_optional));
@@ -728,7 +728,7 @@ public class PopUtil {
                     } else {
                         layout_null_pop.setVisibility(View.GONE);
                         recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
-                        quoteAdapter_market_pop.setDatas(quoteList);
+                        quoteAdapter_market_pop.setDatas(quoteList1);
                     }
                     img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
@@ -743,7 +743,7 @@ public class PopUtil {
                     } else {
                         layout_null_pop.setVisibility(View.GONE);
                         recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
-                        quoteAdapter_market_pop.setDatas(quoteList);
+                        quoteAdapter_market_pop.setDatas(quoteList2);
                     }
                     img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
                     img_name_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
@@ -759,7 +759,7 @@ public class PopUtil {
                     } else {
                         layout_null_pop.setVisibility(View.GONE);
                         recyclerView_optional_select_pop.setVisibility(View.VISIBLE);
-                        quoteAdapter_market_pop.setDatas(quoteList);
+                        quoteAdapter_market_pop.setDatas(quoteList3);
                     }
 
                     img_rate_triangle.setImageDrawable(activity.getResources().getDrawable(R.mipmap.market_up_down));
