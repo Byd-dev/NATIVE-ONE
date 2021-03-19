@@ -234,7 +234,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private String quote_code = null, quote_code_old = null;
     private QuoteMinEntity quoteMinEntity;
 
-
     private SellBuyListAdapter sellAdapter, buyAdapter;
 
 
@@ -267,7 +266,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
         //WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
         WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
-        
+
 
     }
 
