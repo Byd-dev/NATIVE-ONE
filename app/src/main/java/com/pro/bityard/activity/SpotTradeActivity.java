@@ -309,7 +309,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-
     @Override
     protected void initView(View view) {
         initTabView();
