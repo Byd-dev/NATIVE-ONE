@@ -351,7 +351,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         QuoteWeekHistoryManger.getInstance().addObserver(this);
         QuoteMonthHistoryManger.getInstance().addObserver(this);
 
-
         TradeListManger.getInstance().addObserver(this);
         QuoteSpotManger.getInstance().addObserver(this);
         TradeSpotManger.getInstance().addObserver(this);
