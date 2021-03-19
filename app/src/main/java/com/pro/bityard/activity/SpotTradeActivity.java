@@ -329,12 +329,10 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         titles.add("15min");
         titles.add(getResources().getString(R.string.text_more));
 
-
         SocketQuoteManger.getInstance().addObserver(this);
         BalanceManger.getInstance().addObserver(this);
         //QuoteItemManger.getInstance().addObserver(this);
         SpotCodeManger.getInstance().addObserver(this);
-
 
         QuoteSpotCurrentManger.getInstance().addObserver(this);//1min 实时
         Quote5MinCurrentManger.getInstance().addObserver(this);//5min 实时
