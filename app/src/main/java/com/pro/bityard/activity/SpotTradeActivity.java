@@ -333,7 +333,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         BalanceManger.getInstance().addObserver(this);
         //QuoteItemManger.getInstance().addObserver(this);
         SpotCodeManger.getInstance().addObserver(this);
-
         QuoteSpotCurrentManger.getInstance().addObserver(this);//1min 实时
         Quote5MinCurrentManger.getInstance().addObserver(this);//5min 实时
         Quote15MinCurrentManger.getInstance().addObserver(this);//15min 实时
