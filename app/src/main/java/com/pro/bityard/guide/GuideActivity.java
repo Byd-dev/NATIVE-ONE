@@ -30,7 +30,6 @@ import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.NetworkUtils;
 import com.pro.bityard.utils.PermissionUtil;
 import com.pro.bityard.utils.PopUtil;
-import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.Util;
 import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
@@ -243,7 +242,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                 return;
             } else {
                 WebSocketManager.getInstance().send("3000");
-
             }
 
         }
@@ -258,8 +256,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         if (language.equals(AppConfig.KEY_LANGUAGE)) {
             SPUtils.putString(AppConfig.KEY_LANGUAGE, language_local);
         }
-
-
 
 
     }

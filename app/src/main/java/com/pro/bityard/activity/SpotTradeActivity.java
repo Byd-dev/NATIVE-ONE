@@ -152,7 +152,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     TextView text_min;
     @BindView(R.id.text_volume)
     TextView text_volume;
-    
+
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.kline_1min_time)
@@ -266,6 +266,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         BalanceManger.getInstance().getBalance("USDT");
         String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
         //WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
+        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
+
 
 
     }
@@ -1798,15 +1800,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         Log.d("print", "onDestroy: 1824: " + quote_code + "  " + quote_code_old);
 
         quote_code = null;
-
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(SpotTradeActivity.this, "onPause", Toast.LENGTH_LONG).show();
-        //要取消计时 防止内存溢出
         cancelTimer();
         //  QuoteCurrentManger.getInstance().clear();
         SocketQuoteManger.getInstance().deleteObserver(this);
@@ -1837,6 +1830,15 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         myKLineView_1D.cancelQuotaThread();
         myKLineView_1_week.cancelQuotaThread();
         myKLineView_1_month.cancelQuotaThread();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Toast.makeText(SpotTradeActivity.this, "onPause", Toast.LENGTH_LONG).show();
+        //要取消计时 防止内存溢出
+
         if (quote_code_old != null) {
             WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
         }

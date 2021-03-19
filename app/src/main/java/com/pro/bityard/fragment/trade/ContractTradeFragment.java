@@ -782,6 +782,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             stay_view.setVisibility(View.GONE);
 
         }
+
+
     }
 
     @Override
@@ -2245,6 +2247,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         }*/
         WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
         quote_code = null;
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
 
     }
 
