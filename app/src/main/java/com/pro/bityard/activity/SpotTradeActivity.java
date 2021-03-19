@@ -318,7 +318,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         showProgressDialog();
 
-
     }
 
 
