@@ -475,10 +475,10 @@
     <string name="text_shortcut_amount">Por favor, defina um atalho</string>
     <string name="text_amount_tip">Por exemplo, se o valor da transação de cópia for USDT 100, quando este negociante abrir uma ordem, sua seguinte ordem será aberta com 100 USDT. 【Mínimo: 5 USDT / pedido. Máximo: 500 USDT / pedido】</string>
     <string name="text_copy_trade_position"><![CDATA[posição de comércio de cópia de hoje<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
-    <string name="text_trade_position_tip">Quando o valor total da troca de cópias por dia atingir 10000 USDT, você não poderá fazer a troca de cópias.</string>
+    <string name="text_trade_position_tip">Quando o valor total da troca de cópias por dia atingir 12000 USDT, você não poderá fazer a troca de cópias.</string>
     <string name="text_advanced_settings">configurações avançadas</string>
     <string name="text_maximum_position_amount"><![CDATA[Quantidade máxima de posição<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
-    <string name="text_max_amount_tip">Ao seguir este trader, se a posição atingiu 10000 USDT, você não poderá copiar a negociação.</string>
+    <string name="text_max_amount_tip">Ao seguir este trader, se a posição atingiu 12000 USDT, você não poderá copiar a negociação.</string>
     <string name="text_stop_loss_ratio"><![CDATA[Stop Loss Ratio<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
     <string name="text_stop_loss_tip">Se você definir 90%, o sistema definirá automaticamente o preço de stop loss de comércio de cópias em 90%</string>
     <string name="text_copy">comece a copiar agora</string>

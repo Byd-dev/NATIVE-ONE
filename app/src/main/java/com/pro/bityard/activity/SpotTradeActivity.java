@@ -607,6 +607,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
     private Set<String> optionalList;
 
+
+
     @Override
     protected void initData() {
         Bundle bundle = getIntent().getBundleExtra("bundle");
@@ -846,8 +848,13 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         quoteAdapter_market_pop = new QuoteAdapter(this);
         recyclerView_market.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_market.setAdapter(quoteAdapter_market_pop);
-
-        quoteAdapter_market_pop.setDatas(quoteList);
+        String quoteJson = SPUtils.getString(AppConfig.QUOTE_LIST, null);
+        List<String> quote_list = Util.SPDealStringResult(quoteJson);
+        if (quoteList == null) {
+            quoteAdapter_market_pop.setDatas(quote_list);
+        } else {
+            quoteAdapter_market_pop.setDatas(quoteList);
+        }
         quoteAdapter_market_pop.isShowIcon(false);
         ImageView img_price_triangle = view.findViewById(R.id.img_price_triangle);
 
@@ -1823,12 +1830,20 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Toast.makeText(SpotTradeActivity.this, "onStop", Toast.LENGTH_LONG).show();
+
+
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
         Toast.makeText(SpotTradeActivity.this, "onPause", Toast.LENGTH_LONG).show();
         //要取消计时 防止内存溢出
-
         if (quote_code_old != null) {
             WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
         }

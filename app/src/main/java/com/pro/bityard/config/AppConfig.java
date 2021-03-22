@@ -301,6 +301,8 @@ public class AppConfig {
     public static final String QUOTE_HOST = "QUOTE_HOST";
     /*行情合约号*/
     public static final String QUOTE_CODE = "QUOTE_CODE";
+    /*行情列表*/
+    public static final String QUOTE_LIST = "QUOTE_LIST";
     /*行情合约号json*/
     public static final String QUOTE_CODE_JSON = "QUOTE_CODE_JSON";
 

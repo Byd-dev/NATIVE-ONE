@@ -388,8 +388,13 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         quoteAdapter_market_pop = new QuoteAdapter(getActivity());
         recyclerView_market.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_market.setAdapter(quoteAdapter_market_pop);
-
-        quoteAdapter_market_pop.setDatas(quoteList);
+        String quoteJson = SPUtils.getString(AppConfig.QUOTE_LIST, null);
+        List<String> quote_list = Util.SPDealStringResult(quoteJson);
+        if (quoteList == null) {
+            quoteAdapter_market_pop.setDatas(quote_list);
+        } else {
+            quoteAdapter_market_pop.setDatas(quoteList);
+        }
         quoteAdapter_market_pop.isShowIcon(false);
         ImageView img_price_triangle = view.findViewById(R.id.img_price_triangle);
 

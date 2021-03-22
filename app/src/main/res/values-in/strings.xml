@@ -477,10 +477,10 @@
     <string name="text_shortcut_amount">Pilih jumlah yang cepat</string>
     <string name="text_amount_tip">Misalnya, Anda telah menetapkan jumlah Copy Trading Anda menjadi 100 USDT. Ketika seorang trader melakukan pemesanan, jumlah pokok Anda yang akan disalin adalah 100 USDT. 【Jumlah salinan minimum adalah 5USDT, Jumlah salinan maksimum adalah 500 USDT】</string>
     <string name="text_copy_trade_position"><![CDATA[Jumlah copy trading per hari<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
-    <string name="text_trade_position_tip">Setelah dalam satu hari jumlah tindak lanjut kumulatif mencapai nilai, pengikut tidak lagi mengikuti pesanan, maksimumnya adalah 10.000 USDT</string>
+    <string name="text_trade_position_tip">Setelah dalam satu hari jumlah tindak lanjut kumulatif mencapai nilai, pengikut tidak lagi mengikuti pesanan, maksimumnya adalah 12000 USDT</string>
     <string name="text_advanced_settings">Pengaturan lanjutan</string>
     <string name="text_maximum_position_amount"><![CDATA[Jumlah posisi maksimum<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
-    <string name="text_max_amount_tip">Setelah dalam satu hari jumlah tindak lanjut kumulatif mencapai nilai, pengikut tidak lagi mengikuti pesanan, maksimumnya adalah 10.000 USDT</string>
+    <string name="text_max_amount_tip">Setelah dalam satu hari jumlah tindak lanjut kumulatif mencapai nilai, pengikut tidak lagi mengikuti pesanan, maksimumnya adalah 12000 USDT</string>
     <string name="text_stop_loss_ratio"><![CDATA[ratio stop loss order<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
     <string name="text_stop_loss_tip">Misalnya, jika Anda menetapkan 90%, Ikuti pesanan dengan penyetelan tetap harga stop loss 90%.</string>
     <string name="text_copy">Ikuti segera</string>

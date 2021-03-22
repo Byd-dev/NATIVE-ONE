@@ -420,6 +420,7 @@ public class FollowDetailActivity extends BaseActivity implements View.OnClickLi
             case R.id.btn_submit:
                 if (type_self.equals(TRADE)) {
                     TradeTabActivity.enter(this, "1", quoteList.get(0));
+
                 } else if (type_self.equals(FOLLOW)){
                     UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, followerUser);
                 }else {

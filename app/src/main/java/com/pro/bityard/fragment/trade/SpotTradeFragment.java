@@ -191,7 +191,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     protected void initView(View view) {
-       // showProgressDialog();
+        // showProgressDialog();
         BalanceManger.getInstance().addObserver(this);
         SocketQuoteManger.getInstance().addObserver(this);
         SpotCodeManger.getInstance().addObserver(this);
@@ -347,11 +347,11 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
 
     private void setContent(String itemData) {
-        if (itemData==null){
+        if (itemData == null) {
             return;
         }
 
-            Log.d("print", "setContent:313:  " + itemData);
+        Log.d("print", "setContent:313:  " + itemData);
         tradeName = TradeUtil.nameWithoutUsd(itemData);
         quote_code = itemQuoteContCode(itemData);
         srcCurrency = "USDT";
@@ -361,7 +361,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
         List<TradeListEntity> tradeListEntityList = Util.SPDealEntityResult(string);
         tradeDetail = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-        if (text_name==null){
+        if (text_name == null) {
             return;
         }
         text_name.setText(TradeUtil.name(itemData));
@@ -613,9 +613,9 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         /*市价*/
 
         //市价的成交金额加
-        text_add_amount_market.setOnClickListener(v -> TradeUtil.addMyself(edit_trade_amount_market,tradeDetail.getPriceChange()));
+        text_add_amount_market.setOnClickListener(v -> TradeUtil.addMyself(edit_trade_amount_market, tradeDetail.getPriceChange()));
         //市价的成交金额减
-        text_sub_amount_market.setOnClickListener(v -> TradeUtil.subMyself(edit_trade_amount_market,tradeDetail.getPriceChange()));
+        text_sub_amount_market.setOnClickListener(v -> TradeUtil.subMyself(edit_trade_amount_market, tradeDetail.getPriceChange()));
 
         proportionMarketAdapter.setDatas(proportionList);
         proportionMarketAdapter.select(5);
@@ -724,7 +724,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     swipeRefreshLayout.setRefreshing(false);
                 }
                 SpotPositionEntity spotPositionEntity = (SpotPositionEntity) response;
-                if (spotPositionEntity.getData()==null){
+                if (spotPositionEntity.getData() == null) {
                     return;
                 }
                 if (spotPositionEntity.getData().size() == 0) {
@@ -787,28 +787,33 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 showLimitPriceWindow();
                 break;
             case R.id.img_market:
-                getActivity().finish();
+                if (quote_code_old!=null){
+                    WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
+                }
                 WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
                 SpotTradeActivity.enter(getActivity(), tradeType, itemData);
+                getActivity().finish();
                 break;
         }
     }
+
     private String old_code = null;
 
-   /* private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(@NotNull Message msg) {
-            super.handleMessage(msg);
-            //发送行情包
-            // Log.d("print", "handleMessage:发送:  "+quote_code);
-            if (quote_code != null) {
-                old_code = quote_code;
-                Log.d("print", "handleMessage:现货fragment订阅: " + quote_code);
-            }
-        }
-    };*/
+    /* private Handler mHandler = new Handler() {
+         @Override
+         public void handleMessage(@NotNull Message msg) {
+             super.handleMessage(msg);
+             //发送行情包
+             // Log.d("print", "handleMessage:发送:  "+quote_code);
+             if (quote_code != null) {
+                 old_code = quote_code;
+                 Log.d("print", "handleMessage:现货fragment订阅: " + quote_code);
+             }
+         }
+     };*/
     private int length = 5;
     private int count = 0;//控制限价价格显示 手动切换才变数据
+
     @SuppressLint("SetTextI18n")
     @Override
     public void update(Observable o, Object arg) {
@@ -845,7 +850,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             }
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
-            Log.d("print", "update:843 "+quoteList);
+            Log.d("print", "update:843 " + quoteList);
             runOnUiThread(() -> {
                 if (quoteList != null && quoteAdapter_market_pop != null) {
                     //搜索框
@@ -865,11 +870,12 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 return;
             }
             QuoteMinEntity quoteMinEntity = (QuoteMinEntity) arg;
-           // Log.d("print", "onReceive:1549:现货fragment行情:  " + quoteMinEntity);
+            // Log.d("print", "onReceive:1549:现货fragment行情:  " + quoteMinEntity);
 
             if (quoteMinEntity != null) {
                 runOnUiThread(() -> {
-                    if (quoteMinEntity.getSymbol().equals(quote_code)){
+                    if (quoteMinEntity.getSymbol().equals(quote_code)) {
+                        dismissProgressDialog();
                         if (text_price != null) {
                             int isUp = quoteMinEntity.getIsUp();
                             price = quoteMinEntity.getPrice();
@@ -1091,8 +1097,13 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         quoteAdapter_market_pop = new QuoteAdapter(getActivity());
         recyclerView_market.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_market.setAdapter(quoteAdapter_market_pop);
-
-        quoteAdapter_market_pop.setDatas(quoteList);
+        String quoteJson = SPUtils.getString(AppConfig.QUOTE_LIST, null);
+        List<String> quote_list = Util.SPDealStringResult(quoteJson);
+        if (quoteList == null) {
+            quoteAdapter_market_pop.setDatas(quote_list);
+        } else {
+            quoteAdapter_market_pop.setDatas(quoteList);
+        }
         quoteAdapter_market_pop.isShowIcon(false);
         ImageView img_price_triangle = view.findViewById(R.id.img_price_triangle);
 
@@ -1347,6 +1358,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
         quote_code_old = quote_code;
         quoteAdapter_market_pop.setOnItemClick(data -> {
+            showProgressDialog();
             SocketUtil.switchQuotesList("3002");
             quote_code = TradeUtil.itemQuoteContCode(data);
             WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
@@ -1358,7 +1370,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                 Log.d("print", "showQuotePopWindow:1231:  " + data + "  " + old_code);
                 setContent(data);
                 type = AppConfig.CONTRACT_IN_ALL;
-                WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
+                WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
 
 
                 //判断当前是否存在自选

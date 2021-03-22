@@ -1209,7 +1209,11 @@ public class Util {
         String s = gson.toJson(tradeListEntities);
         return s;
     }
-
+    public static String SPDealString(List<String> quote_list) {
+        Gson gson = new Gson();
+        String s = gson.toJson(quote_list);
+        return s;
+    }
     /*解析*/
     public static List<TradeListEntity> SPDealEntityResult(String data) {
         if (data == null) {
@@ -1222,7 +1226,18 @@ public class Util {
             return list;
         }
     }
-
+    /*解析*/
+    public static List<String> SPDealStringResult(String data) {
+        if (data == null) {
+            return null;
+        } else {
+            Gson gson = new Gson();
+            Type listType = new TypeToken<List<String>>() {
+            }.getType();
+            List<String> list = gson.fromJson(data, listType);
+            return list;
+        }
+    }
 
     /*设置自选图标*/
     public static void setOptional(Context context, Set<String> optionalList, String quote_code, ImageView img_star, OnResult onResult) {

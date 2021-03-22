@@ -476,10 +476,10 @@
     <string name="text_shortcut_amount">请选择快捷金额</string>
     <string name="text_amount_tip">例如您设置跟单金额为 100 USDT，此交易员下单时，您跟随的每笔订单将以100 USDT开仓。【最低：5 USDT / 笔、最高 500 USDT/笔 】</string>
     <string name="text_copy_trade_position">单日跟随本金</string>
-    <string name="text_trade_position_tip">单日累计跟随金额达到数值之后，将不再跟随下单，最大10000USDT</string>
+    <string name="text_trade_position_tip">单日累计跟随金额达到数值之后，将不再跟随下单，最大12000USDT</string>
     <string name="text_advanced_settings">高级设置</string>
     <string name="text_maximum_position_amount">最大持仓金额</string>
-    <string name="text_max_amount_tip">跟随此交易员的持仓本金到达此数据后，将不再跟随下单。最大为：10000 USDT</string>
+    <string name="text_max_amount_tip">跟随此交易员的持仓本金到达此数据后，将不再跟随下单。最大为：12000 USDT</string>
     <string name="text_stop_loss_ratio"><![CDATA[订单止损比例<font color=\"#7F8AA1\"><small>(USDT)</small></font>]]></string>
     <string name="text_stop_loss_tip">例如您设置90%，跟随订单默认90%的止损价。</string>
     <string name="text_copy">立即跟随</string>

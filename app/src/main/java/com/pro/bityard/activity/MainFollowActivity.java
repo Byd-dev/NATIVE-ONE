@@ -473,14 +473,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     }
 
     private void onSuccessListener(String data) {
-        Toast.makeText(this, itemQuoteContCode(data), Toast.LENGTH_LONG).show();
-        SocketUtil.switchQuotesList("3002");
-        WebSocketManager.getInstance().cancelQuotes("4002", "");
-        if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
-            TradeTabActivity.enter(this, "1", data);
-        } else {
-            SpotTradeActivity.enter(this, tradeType, data);
-        }
+        goToTrade(tradeType,data);
+
+
+
 
 
     }
@@ -856,7 +852,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 case 0:
                     type = AppConfig.CONTRACT_IN_ALL;
                     zone_type = AppConfig.VIEW_CONTRACT_IN;
-
+                    if (arrayMap==null){
+                        return;
+                    }
                     quoteList = arrayMap.get(type);
                     if (quoteList != null) {
                         if (quoteList.size() == 0) {
@@ -879,6 +877,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 case 1:
                     type = AppConfig.DERIVATIVES_ALL;
                     zone_type = AppConfig.VIEW_DERIVATIVES;
+                    if (arrayMap==null){
+                        return;
+                    }
 
                     quoteList = arrayMap.get(type);
                     if (quoteList != null) {
@@ -902,6 +903,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 case 2:
                     type = AppConfig.FOREIGN_EXCHANGE_ALL;
                     zone_type = AppConfig.VIEW_FOREIGN_EXCHANGE;
+                    if (arrayMap==null){
+                        return;
+                    }
                     quoteList = arrayMap.get(type);
                     if (quoteList != null) {
                         if (quoteList.size() == 0) {
@@ -1513,7 +1517,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     case IntentConfig.Keys.KEY_KOL:
                         break;
                     case IntentConfig.Keys.KEY_TRADE_LIVE:
-                        TradeTabActivity.enter(this, "1", quoteList.get(0));
+                        goToTrade("1",quoteList.get(0));
                         break;
                     case IntentConfig.Keys.KEY_MINING:
                         if (isLogin()) {
@@ -1725,7 +1729,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             for (int i = 0; i < list.size(); i++) {
                 String[] split = list.get(i).split(",");
                 if (split[0].equals(split1[1])) {
-                    TradeTabActivity.enter(MainFollowActivity.this, "1", list.get(i));
+                    goToTrade("1",list.get(i));
                 }
             }
             historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
@@ -1780,7 +1784,14 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         }
 
 
-        quoteAdapter_history.setOnItemClick(data -> TradeTabActivity.enter(MainFollowActivity.this, "1", data));
+        quoteAdapter_history.setOnItemClick(data -> {
+            goToTrade("1",data);
+
+
+        });
+
+
+
 
 
         view.findViewById(R.id.img_clear_history).setOnClickListener(v -> {
@@ -1987,7 +1998,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             // popupWindow.dismiss();
             type = AppConfig.CONTRACT_IN_ALL;
             zone_type = AppConfig.VIEW_CONTRACT_IN;
-            TradeTabActivity.enter(this, "1", data);
+            goToTrade("1",data);
 
             historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
 
@@ -2080,6 +2091,17 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     }
 
+
+    private void goToTrade(String tradeType,String data){
+        SPUtils.putString(AppConfig.QUOTE_LIST, Util.SPDealString(quoteList));
+        SocketUtil.switchQuotesList("3002");
+        WebSocketManager.getInstance().cancelQuotes("4002", "");
+        if (TradeUtil.type(data).equals(AppConfig.TYPE_FT)) {
+            TradeTabActivity.enter(this, tradeType, data);
+        } else {
+            SpotTradeActivity.enter(this, tradeType, data);
+        }
+    }
     @Override
     public void onClick(View v) {
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, AppConfig.ZH_SIMPLE);
@@ -2116,8 +2138,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (quoteList == null) {
                     return;
                 }
-                TradeTabActivity.enter(MainFollowActivity.this, "1", quoteList.get(0));
-
+                goToTrade("1",quoteList.get(0));
                 break;
 
             case R.id.radio_3:
@@ -2176,7 +2197,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (quoteList == null) {
                     return;
                 }
-                TradeTabActivity.enter(MainFollowActivity.this, "2", quoteList.get(0));
+                goToTrade("2",quoteList.get(0));
                 break;
 
             /*行情 -----------------------------------------------------------------------------------*/

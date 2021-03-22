@@ -1,5 +1,6 @@
 package com.pro.bityard.fragment.user;
 
+import android.app.Activity;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.ArrayMap;
@@ -73,12 +74,15 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
 
     }
 
+    private Activity activity;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //初始化G3util
         Gt3Util.getInstance().init(getContext());
+        activity=getActivity();
     }
 
     public EmailLoginFragment(ViewPager viewPager) {
@@ -122,7 +126,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         Util.isEmailEffective(edit_account, response -> {
             if (response.toString().equals("1")) {
                 text_err_email.setVisibility(View.GONE);
-                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                layout_account.setBackground(activity.getResources().getDrawable(R.drawable.bg_shape_edit));
                 if (Util.isPass(edit_password.getText().toString()) && edit_password.getText().toString().length() > 5) {
                     btn_submit.setEnabled(true);
                 } else {
@@ -130,11 +134,11 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 }
             } else if (response.toString().equals("0")) {
                 text_err_email.setVisibility(View.VISIBLE);
-                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                layout_account.setBackground(activity.getResources().getDrawable(R.drawable.bg_shape_edit_err));
                 btn_submit.setEnabled(false);
             } else if (response.toString().equals("-1")) {
                 text_err_email.setVisibility(View.GONE);
-                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                layout_account.setBackground(activity.getResources().getDrawable(R.drawable.bg_shape_edit));
                 btn_submit.setEnabled(false);
             }
         });
@@ -144,7 +148,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         Util.isPassEffective(edit_password, response -> {
             if (response.toString().equals("1")) {
                 text_err_pass.setVisibility(View.GONE);
-                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                layout_pass.setBackground(activity.getResources().getDrawable(R.drawable.bg_shape_edit));
                 if (Util.isEmail(edit_account.getText().toString())) {
                     btn_submit.setEnabled(true);
                 } else {
@@ -152,11 +156,11 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 }
             } else if (response.toString().equals("0")) {
                 text_err_pass.setVisibility(View.VISIBLE);
-                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                layout_pass.setBackground(activity.getResources().getDrawable(R.drawable.bg_shape_edit_err));
                 btn_submit.setEnabled(false);
             } else if (response.toString().equals("-1")) {
                 text_err_pass.setVisibility(View.GONE);
-                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                layout_pass.setBackground(activity.getResources().getDrawable(R.drawable.bg_shape_edit));
                 btn_submit.setEnabled(false);
             }
 
@@ -241,10 +245,10 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 String pass_value = edit_password.getText().toString();
 
                 if (account_value.equals("")) {
-                    Toast.makeText(getContext(), getResources().getString(R.string.text_email_input), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), activity.getResources().getString(R.string.text_email_input), Toast.LENGTH_SHORT).show();
                     return;
                 } else if (pass_value.equals("")) {
-                    Toast.makeText(getContext(), getResources().getString(R.string.text_input_pass), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), activity.getResources().getString(R.string.text_input_pass), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -298,7 +302,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                     LoginEntity loginEntity = (LoginEntity) response;
                                     Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), activity.getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -352,9 +356,9 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                                 dismissProgressDialog();
                                 if (response != null) {
                                     LoginEntity loginEntity = (LoginEntity) response;
-                                    Toast.makeText(getContext(), loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, loginEntity.getMessage(), Toast.LENGTH_SHORT).show();
                                 } else {
-                                    Toast.makeText(getContext(), getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.text_err_tip), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
@@ -365,7 +369,7 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
                 break;
 
             case R.id.text_forget_pass:
-                ForgetActivity.enter(getContext(), IntentConfig.Keys.KEY_FORGET, 0);
+                ForgetActivity.enter(activity, IntentConfig.Keys.KEY_FORGET, 0);
                 break;
 
         }

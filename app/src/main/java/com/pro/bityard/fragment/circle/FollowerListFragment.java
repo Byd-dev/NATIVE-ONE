@@ -162,9 +162,14 @@ public class FollowerListFragment extends BaseFragment implements View.OnClickLi
 
 
                     } else if (state.equals(FAILURE)) {
-                        swipeRefreshLayout_circle.setRefreshing(false);
-                        layout_circle_null.setVisibility(View.VISIBLE);
-                        recyclerView_circle.setVisibility(View.GONE);
+                            if (isAdded()){
+                                swipeRefreshLayout_circle.setRefreshing(false);
+                                layout_circle_null.setVisibility(View.VISIBLE);
+                                recyclerView_circle.setVisibility(View.GONE);
+                            }
+
+
+
                     }
                 });
     }
