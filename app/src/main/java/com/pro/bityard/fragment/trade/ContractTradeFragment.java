@@ -68,6 +68,7 @@ import com.pro.bityard.manger.Quote5MinCurrentManger;
 import com.pro.bityard.manger.Quote5MinHistoryManger;
 import com.pro.bityard.manger.Quote60MinCurrentManger;
 import com.pro.bityard.manger.Quote60MinHistoryManger;
+import com.pro.bityard.manger.QuoteCodeManger;
 import com.pro.bityard.manger.QuoteContractCurrentManger;
 import com.pro.bityard.manger.QuoteDayCurrentManger;
 import com.pro.bityard.manger.QuoteDayHistoryManger;
@@ -658,6 +659,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 if (!quote_code_old.equals(quote_code)) {
                     WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
                 }
+                QuoteCodeManger.getInstance().postTag(data);
                 WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
                 type = AppConfig.CONTRACT_ALL;
                 TradeUtil.chargeDetail(itemQuoteCode(quote_code), chargeUnitEntityJson, response1 -> chargeUnitEntity = (ChargeUnitEntity) response1);
@@ -775,6 +777,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     public void onResume() {
         super.onResume();
         BalanceManger.getInstance().getBalance("USDT");
+        WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
 
         if (isLogin()) {
             layout_trade.setVisibility(View.VISIBLE);
@@ -2258,7 +2261,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     @Override
     public void onPause() {
         super.onPause();
-
+        SocketUtil.switchQuotesList("3002");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -2420,7 +2423,9 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 }
                 break;
             case R.id.text_position:
+
                 if (isLogin()) {
+                    WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
                     UserActivity.enter(getActivity(), IntentConfig.Keys.KEY_HOLD);
                 } else {
                     LoginActivity.enter(getActivity(), IntentConfig.Keys.KEY_LOGIN);

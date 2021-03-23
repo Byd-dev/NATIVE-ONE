@@ -28,6 +28,7 @@ import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TabCountManger;
+import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.TradeUtil;
 
 import java.util.ArrayList;
@@ -142,9 +143,16 @@ public class HoldFragment extends BaseFragment implements Observer {
         BalanceManger.getInstance().addObserver(this);
         //净值注册
         NetIncomeManger.getInstance().addObserver(this);
+        SocketUtil.switchQuotesList("3001");
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        SocketUtil.switchQuotesList("3002");
+
+    }
 
     @Override
     protected void initData() {

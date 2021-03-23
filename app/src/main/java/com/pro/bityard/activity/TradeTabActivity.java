@@ -45,9 +45,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.viewPager)
     ViewPager viewPager;
 
-    private String quote_code;
 
-    private boolean isContract = true;
 
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, TradeTabActivity.class);
@@ -89,31 +87,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     private String defaultContract = "BTCUSDT1808,-1,31603.68,34457.51,31601.71,0.5521,31604.92,0.5521,34616.86,31312.54,48911.0,FT,main,BTCUSDT,USDT";
     private String defaultSpot = "BTCUSDT_CC1808,-1,31619.20,33528.86,31619.2,0.0025,31619.2,0.0025,34875.0,31311.93,88386.8095,CH,defi,BTCUSDT,USDT";
 
-  /*  private final Timer timer = new Timer();
-    private TimerTask task;*/
-
-    /*Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (quote_code != null) {
-                String quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
-
-                if (isContract) {
-                    quote_code = itemQuoteContCode(defaultContract);
-
-
-                } else {
-                    Log.d("print", "handleMessage:TradeTabd订阅现货: " + isContract + "  " + quote_code);
-                    quote_code = itemQuoteContCode(defaultSpot);
-
-                }
-
-
-            }
-            super.handleMessage(msg);
-        }
-
-    };*/
 
 
     @Override
@@ -131,11 +104,13 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
-                    isContract = true;
 
+                    WebSocketManager.getInstance().cancelQuotes("4002", itemQuoteContCode(defaultSpot));
+                    WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(defaultContract), "1");
                 } else if (position == 1) {
-                    isContract = false;
 
+                    WebSocketManager.getInstance().cancelQuotes("4002", itemQuoteContCode(defaultContract));
+                    WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(defaultSpot), "1");
                 }
             }
 
@@ -168,6 +143,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
             tabLayout_title.getTabAt(1).select();
 
+
         }
 
     }
@@ -185,31 +161,12 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         String isChOrFt = TradeUtil.type(itemData);
         if (isChOrFt.equals(AppConfig.TYPE_FT)) {
             defaultContract = itemData;
-            quote_code = itemQuoteContCode(defaultContract);
-            Log.d("print", "initData:190: "+quote_code);
-            WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
 
         } else if (isChOrFt.equals(AppConfig.TYPE_CH)) {
             defaultSpot = itemData;
-            quote_code = itemQuoteContCode(defaultSpot);
-            Log.d("print", "initData:196: "+quote_code);
-            WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
 
         }
 
-      /*  task = new TimerTask() {
-            @Override
-            public void run() {
-                Message message = new Message();
-                message.what = 1;
-                handler.sendMessage(message);
-            }
-        };
-
-        timer.schedule(task, ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND);*/
-        //根据合约还是现货跳转相应的页面
-//BTCUSDT1808,-1,31603.68,34457.51,31601.71,0.5521,31604.92,0.5521,34616.86,31312.54,48911.0,FT,main,BTC,USDT
-//BTCUSDT_CC1808,-1,31619.20,33528.86,31619.2,0.0025,31619.2,0.0025,34875.0,31311.93,88386.8095,CH,defi,BTC,USDT
     }
 
 
@@ -235,7 +192,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         super.onPause();
         Toast.makeText(TradeTabActivity.this, "onPause", Toast.LENGTH_LONG).show();
 
-        SocketUtil.switchQuotesList("3002");
+       // SocketUtil.switchQuotesList("3002");
 
     }
 
@@ -255,16 +212,14 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         if (o == QuoteCodeManger.getInstance()) {
             defaultContract = (String) arg;
             Log.d("print", "update:272: " + defaultContract);
-            isContract = true;
-            String isChOrFt = TradeUtil.type(defaultContract);
+
             tabLayout_title.getTabAt(0).select();
 
 
         } else if (o == SpotCodeManger.getInstance()) {
             defaultSpot = (String) arg;
             Log.d("print", "update:285: " + defaultSpot);
-            isContract = false;
-            String isChOrFt = TradeUtil.type(defaultSpot);
+
             tabLayout_title.getTabAt(1).select();
 
         }
