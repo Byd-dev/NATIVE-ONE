@@ -773,9 +773,13 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
     }
 
+
+
     @Override
     public void onResume() {
         super.onResume();
+        Log.d("progress", "onResume: "+"Contract onResume");
+
         BalanceManger.getInstance().getBalance("USDT");
         WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
 
@@ -2210,12 +2214,33 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         }
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("progress", "onStart: "+"Contract onStart");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("progress", "onStop: "+"Contract onStop");
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("progress", "onPause: "+"Contract onPause");
+
+        SocketUtil.switchQuotesList("3002");
+        WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
+
+    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d("progress", "onDestroy: "+"Contract onDestroy");
 
-        Toast.makeText(getActivity(), "onDestroy", Toast.LENGTH_LONG).show();
 
 
         cancelTimer();
@@ -2247,22 +2272,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             myKLineView_1_week.cancelQuotaThread();
             myKLineView_1_month.cancelQuotaThread();
         }
-        Log.d("print", "onDestroy: 2248: " + quote_code + "  " + quote_code_old);
 
 
-       /* if (quote_code_old != null) {
-            WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
-        }*/
-        WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
+       // WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
         quote_code = null;
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        SocketUtil.switchQuotesList("3002");
-    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override

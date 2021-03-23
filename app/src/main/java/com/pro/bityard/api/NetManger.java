@@ -91,8 +91,8 @@ public class NetManger {
     public static String FAILURE = "failure";
 
 
-    public static String BASE_URL = "http://app-ymx.ttms.io";   //测试
-    //public static String BASE_URL = "https://byd-test.ttms.io";   //测试
+    //public static String BASE_URL = "http://app-ymx.ttms.io";   //测试
+    public static String BASE_URL = "https://app-ymx.ttms.io";   //测试
 
     public static String H5_BASE_URL = "https://test7777.bityard.com";   //测试
 
@@ -669,9 +669,7 @@ public class NetManger {
                 String s = response.toString().replaceAll(" ", "");
 
 
-                if (s.startsWith("error")) {
-                    onNetResult.onNetResult(FAILURE, response);
-                } else {
+                if (s.startsWith("{")) {
                     TipEntity tipEntity = new Gson().fromJson(response.toString(), TipEntity.class);
                     if (tipEntity.getCode() == 200) {
                         InitEntity initEntity = new Gson().fromJson(response.toString(), InitEntity.class);
@@ -684,6 +682,9 @@ public class NetManger {
                         onNetResult.onNetResult(FAILURE, null);
 
                     }
+                } else {
+                    onNetResult.onNetResult(FAILURE, response);
+
                 }
 
             } else if (state.equals(FAILURE)) {

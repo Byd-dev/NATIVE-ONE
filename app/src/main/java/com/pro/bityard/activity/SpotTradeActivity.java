@@ -259,16 +259,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BalanceManger.getInstance().getBalance("USDT");
-        String quote_code = SPUtils.getString(AppConfig.QUOTE_CODE, null);
-        //WebSocketManager.getInstance().sendQuotes("3001", quote_code,null);
-        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
 
-
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -311,11 +302,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView(View view) {
+        Log.d("print", "initView:305:  "+view);
         initTabView();
-        /*Handler handler = new Handler();
-        handler.postDelayed(() -> initTabView(), 100);*/
-
-
         showProgressDialog();
 
     }
@@ -615,10 +603,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         assert bundle != null;
         tradeType = bundle.getString(TYPE);
         itemData = bundle.getString(VALUE);
-        Log.d("print", "initData:590:  " + itemData);
         quote_host = SPUtils.getString(AppConfig.QUOTE_HOST, null);
 
-        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
 
         //礼金抵扣比例
         prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
@@ -636,7 +622,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         Log.d("print", "initData:进来的值:  " + itemQuoteContCode(itemData));
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
-        Log.d("print", "initData:707:  " + optionalList);
         if (optionalList.size() != 0) {
             //判断当前是否存在自选
             Util.isOptional(itemQuoteContCode(itemData), optionalList, response -> {
@@ -659,34 +644,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            // Quote1MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -1);
-            /*Quote3MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-            Quote5MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-            Quote15MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-            Quote60MinHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-            QuoteDayHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-            QuoteWeekHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);
-            QuoteMonthHistoryManger.getInstance().quote(TradeUtil.itemQuoteContCode(itemData), -2);*/
-            //开启单个刷新
-            //  QuoteItemManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            //开启单个行情图
-            // Quote1MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-           /* Quote3MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            Quote5MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            Quote15MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            Quote60MinCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            QuoteDayCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            QuoteWeekCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));
-            QuoteMonthCurrentManger.getInstance().startScheduleJob(ITEM_QUOTE_SECOND, ITEM_QUOTE_SECOND, TradeUtil.itemQuoteContCode(itemData));*/
-
-            //获取输入框的范围保证金
-          /*  TradeListManger.getInstance().tradeList((state, response) -> {
-                if (state.equals(SUCCESS)) {
-                    tradeListEntityList = (List<TradeListEntity>) response;
-                    tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
-                    setContent(tradeListEntity);
-                }
-            });*/
             String string = SPUtils.getString(AppConfig.QUOTE_DETAIL, null);
             tradeListEntityList = Util.SPDealEntityResult(string);
             //获取相应合约的详情
@@ -1587,6 +1544,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_3Min.addSingleData(kData.get(kData.size() - 1));
             } else {
+
                 if (quoteMinEntity != null) {
                     Quote3MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
                 }
@@ -1595,13 +1553,16 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == Quote5MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
+            Log.d("print", "update:1587:  "+kData5MinHistory);
 
             if (kData5MinHistory != null && quoteMinEntity != null && myKLineView_5Min != null) {
+                Log.d("print", "update:1590:  "+myKLineView_5Min);
+
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_5Min.addSingleData(kData.get(kData.size() - 1));
             } else {
-                if (quoteMinEntity != null) {
 
+                if (quoteMinEntity != null) {
                     Quote5MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
                 }
 
@@ -1704,6 +1665,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == Quote5MinHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kData5MinHistory = ChartUtil.klineList(data);
+            Log.d("print", "update:1699:  "+kData5MinHistory);
             if (kData5MinHistory != null) {
                 myKLineView_5Min.initKDataList(kData5MinHistory);
             } else {
@@ -1788,20 +1750,31 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     }
 
 
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("progress", "onResume: "+"SpotActivity onResume");
+
+        BalanceManger.getInstance().getBalance("USDT");
+        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
+
+
+
+
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Toast.makeText(SpotTradeActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
-
-
-        Log.d("print", "onDestroy: 1824: " + quote_code + "  " + quote_code_old);
+        Log.d("progress", "onDestroy: "+"SpotActivity onDestroy");
 
         quote_code = null;
         cancelTimer();
-        //  QuoteCurrentManger.getInstance().clear();
-        SocketQuoteManger.getInstance().deleteObserver(this);
+       /* SocketQuoteManger.getInstance().deleteObserver(this);
         TradeSpotManger.getInstance().clear();
-        TradeSpotManger.getInstance().deleteObserver(this);
+        TradeSpotManger.getInstance().deleteObserver(this);*/
         Quote1MinHistoryManger.getInstance().clear();
         Quote1MinHistoryManger.getInstance().cancelTimer();
         Quote5MinHistoryManger.getInstance().clear();
@@ -1819,14 +1792,14 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         QuoteMonthHistoryManger.getInstance().clear();
         QuoteMonthHistoryManger.getInstance().cancelTimer();
 
-        myKLineView_1Min.cancelQuotaThread();
+       /* myKLineView_1Min.cancelQuotaThread();
         myKLineView_5Min.cancelQuotaThread();
         myKLineView_15Min.cancelQuotaThread();
         myKLineView_3Min.cancelQuotaThread();
         myKLineView_1H.cancelQuotaThread();
         myKLineView_1D.cancelQuotaThread();
         myKLineView_1_week.cancelQuotaThread();
-        myKLineView_1_month.cancelQuotaThread();
+        myKLineView_1_month.cancelQuotaThread();*/
 
     }
 
@@ -1834,22 +1807,30 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        Toast.makeText(SpotTradeActivity.this, "onStop", Toast.LENGTH_LONG).show();
+        Log.d("progress", "onStop: "+"SpotActivity onStop");
+        //要取消计时 防止内存溢出
 
+
+
+
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("progress", "onStart: "+"SpotActivity onStart");
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Toast.makeText(SpotTradeActivity.this, "onPause", Toast.LENGTH_LONG).show();
-        //要取消计时 防止内存溢出
+        Log.d("progress", "onPause: "+"SpotActivity onPause");
         if (quote_code_old != null) {
             WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
         }
         WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
-
         SocketUtil.switchQuotesList("3002");
+
 
     }
 }

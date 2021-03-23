@@ -16,7 +16,15 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.fragment.trade.ContractTradeFragment;
 import com.pro.bityard.fragment.trade.SpotTradeFragment;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.Quote15MinHistoryManger;
+import com.pro.bityard.manger.Quote1MinHistoryManger;
+import com.pro.bityard.manger.Quote3MinHistoryManger;
+import com.pro.bityard.manger.Quote5MinHistoryManger;
+import com.pro.bityard.manger.Quote60MinHistoryManger;
 import com.pro.bityard.manger.QuoteCodeManger;
+import com.pro.bityard.manger.QuoteDayHistoryManger;
+import com.pro.bityard.manger.QuoteMonthHistoryManger;
+import com.pro.bityard.manger.QuoteWeekHistoryManger;
 import com.pro.bityard.manger.SpotCodeManger;
 import com.pro.bityard.manger.WebSocketManager;
 import com.pro.bityard.utils.SocketUtil;
@@ -64,19 +72,51 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("progress", "onStart: "+"TabActivity onStart");
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("progress", "onStop: "+"TabActivity onStop");
+
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
+        Log.d("progress", "onResume: "+"TabActivity onResume");
+
         BalanceManger.getInstance().getBalance("USDT");
 
 
     }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("progress", "onPause: "+"TabActivity onPause");
 
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("progress", "onDestroy: "+"TabActivity onDestroy");
+
+
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StatusBarUtil.setStatusBarDarkTheme(this, false);
 
     }
+
+
 
 
     @Override
@@ -91,6 +131,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initView(View view) {
+        Log.d("progress", "initView: "+"TabActivity initView");
 
         Handler handler = new Handler();
         handler.postDelayed(() -> initContent(), 50);
@@ -107,6 +148,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
                     WebSocketManager.getInstance().cancelQuotes("4002", itemQuoteContCode(defaultSpot));
                     WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(defaultContract), "1");
+
                 } else if (position == 1) {
 
                     WebSocketManager.getInstance().cancelQuotes("4002", itemQuoteContCode(defaultContract));
@@ -187,24 +229,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Toast.makeText(TradeTabActivity.this, "onPause", Toast.LENGTH_LONG).show();
 
-       // SocketUtil.switchQuotesList("3002");
-
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Toast.makeText(TradeTabActivity.this, "onDestroy", Toast.LENGTH_LONG).show();
-        //要取消计时 防止内存溢出
-        //timer.cancel();
-
-
-    }
 
 
     @Override

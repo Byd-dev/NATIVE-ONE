@@ -178,13 +178,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        BalanceManger.getInstance().getBalance("USDT");
-
-    }
-
-    @Override
     protected void onLazyLoad() {
 
     }
@@ -413,10 +406,6 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         tradeType = getArguments().getString(TYPE);
         itemData = getArguments().getString(VALUE);
         Log.d("print", "initData:现货进来的值:  " + itemQuoteContCode(itemData));
-        //WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
-        //为了防止出现空指针
-        //SocketUtil.switchQuotesList("3001");
-
         setContent(itemData);
         edit_price_limit.setDecimalEndNumber(priceDigit);
         String volumeMin = tradeDetail.getVolumeMin();
@@ -923,18 +912,42 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d("progress", "onStart: "+"Spot onStart");
+    }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d("progress", "onStop: "+"Spot onStop");
+
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("progress", "onResume: "+"Spot onResume");
+
+        BalanceManger.getInstance().getBalance("USDT");
+
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("progress", "onPause: "+"Spot onPause");
+
+        SocketUtil.switchQuotesList("3002");
+        WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
+
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d("progress", "onDestroy: "+"Spot onDestroy");
+
         cancelTimer();
-        QuoteSpotCurrentManger.getInstance().clear();
-        SocketQuoteManger.getInstance().deleteObserver(this);
-        //timer.cancel();
-       /* if (quote_code_old != null) {
-            WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
-        }*/
-        WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
+
 
 
     }
@@ -1458,10 +1471,5 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        SocketUtil.switchQuotesList("3002");
 
-    }
 }
