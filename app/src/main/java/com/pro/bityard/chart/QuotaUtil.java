@@ -2,9 +2,6 @@ package com.pro.bityard.chart;
 
 import android.graphics.Path;
 
-import com.pro.bityard.utils.TradeUtil;
-
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -65,9 +62,9 @@ public class QuotaUtil {
         }
         double sum = 0;
         Iterator<KData> iterator = dataList.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             KData next = iterator.next();
-            if (next.getVolume()!=0){
+            if (next.getVolume() != 0) {
                 sum += next.getVolume();
             }
         }
@@ -85,14 +82,21 @@ public class QuotaUtil {
         }
         double sum = 0;
         Iterator<KData> iterator = dataList.iterator();
-        while (iterator.hasNext()){
-            KData next = iterator.next();
-            sum += next.getClosePrice();
-        }
+        try {
+            while (iterator.hasNext()) {
+                KData next = iterator.next();
+                sum += next.getClosePrice();
+            }
+
+
         /*for (KData data : dataList) {
             sum += data.getClosePrice();
         }*/
-        return sum / dataList.size();
+            return sum / dataList.size();
+        } catch (Exception e) {
+            return 0.0;
+
+        }
     }
 
     /**
@@ -443,7 +447,7 @@ public class QuotaUtil {
      * @param path
      */
     public static void setBezierPath(List<Pointer> pointList, Path path) {
-        if (path == null){
+        if (path == null) {
             return;
         }
         path.reset();
@@ -496,7 +500,7 @@ public class QuotaUtil {
     }
 
     public static void setLinePath(List<Pointer> pointerList, Path path) {
-        if (path == null){
+        if (path == null) {
             return;
         }
         if (pointerList == null || pointerList.size() <= 1) {

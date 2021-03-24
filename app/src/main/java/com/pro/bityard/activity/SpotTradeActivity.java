@@ -1237,7 +1237,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 TradeTabActivity.enter(this, "1", itemData);
 
 
-                finish();
+                //finish();
 
                 break;
 
@@ -1372,8 +1372,15 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.layout_contract_rule:
-                Log.d("print", "onClick:1323 " + itemData);
-                // TradeTabActivity.enter(this,"1",);
+               // finish();
+                String[] split = itemData.split(",");
+                int length=split.length;
+                StringBuilder quoteData=new StringBuilder();
+                quoteData.append(contractCode(itemData)).append(",1,55291.04,53717.68,55291.04,0.0586,55291.04,0.0586,55830.9,53511.39,56454.6958,").append(contractCode(itemData)).append(",").append(AppConfig.TYPE_FT).append(",")
+                        .append(AppConfig.DEFI).append(",").append(split[length-2]).append(",").append(split[length-1]);
+                Log.d("print", "onClick:1384: "+quoteData);
+                WebSocketManager.getInstance().cancelQuotes("4002", contractCode(itemData));
+                TradeTabActivity.enter(this, "1", quoteData.toString());
                 break;
 
         }
