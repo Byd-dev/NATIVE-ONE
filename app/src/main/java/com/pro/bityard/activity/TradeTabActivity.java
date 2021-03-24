@@ -91,6 +91,7 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
         Log.d("progress", "onResume: "+"TabActivity onResume");
 
         BalanceManger.getInstance().getBalance("USDT");
+        WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
 
 
     }

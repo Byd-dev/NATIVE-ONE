@@ -1479,8 +1479,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
                         //仓位实时更新 服务费
                         dismissProgressDialog();
-
-
                         if (quotePopAdapter != null) {
                             quotePopAdapter.select(quoteMinEntity.getSymbol());
                         }

@@ -930,6 +930,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         Log.d("progress", "onResume: "+"Spot onResume");
 
         BalanceManger.getInstance().getBalance("USDT");
+        //WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
 
     }
     @Override

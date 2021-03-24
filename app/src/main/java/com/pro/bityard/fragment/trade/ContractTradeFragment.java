@@ -781,7 +781,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         Log.d("progress", "onResume: "+"Contract onResume");
 
         BalanceManger.getInstance().getBalance("USDT");
-        WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
+        //WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
 
         if (isLogin()) {
             layout_trade.setVisibility(View.VISIBLE);
@@ -840,7 +840,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         quote_code = itemQuoteContCode(itemData);
-        //WebSocketManager.getInstance().sendQuotes("4001", quote_code, "1");
 
         //自选的图标
         optionalList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_OPTIONAL, null));
@@ -2244,8 +2243,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         cancelTimer();
-        QuoteContractCurrentManger.getInstance().clear();
-        SocketQuoteManger.getInstance().deleteObserver(this);
+       /* QuoteContractCurrentManger.getInstance().clear();
+        SocketQuoteManger.getInstance().deleteObserver(this);*/
         Quote1MinHistoryManger.getInstance().clear();
         Quote1MinHistoryManger.getInstance().cancelTimer();
         Quote5MinHistoryManger.getInstance().clear();

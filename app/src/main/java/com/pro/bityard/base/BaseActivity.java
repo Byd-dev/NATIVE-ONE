@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -48,7 +47,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
 
-    private EditText editText=null;
+    private EditText editText = null;
 
    /* @Override
     public Resources getResources() {
@@ -76,11 +75,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         return super.dispatchTouchEvent(ev);
 
     }
+
     //判断是否要收起键盘
     private boolean isShouldHideKeyboard(View v, MotionEvent event) {
         //如果目前得到焦点的这个view是editText的话进行判断点击的位置
-        if (v!=null&&(v instanceof EditText)) {
-            editText= (EditText) v;
+        if (v != null && (v instanceof EditText)) {
+            editText = (EditText) v;
             int[] l = {0, 0};
             v.getLocationInWindow(l);
             int left = l[0],
@@ -97,7 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     //隐藏软键盘并让editText失去焦点
     private void hideKeyboard(IBinder token) {
-        if (editText!=null){
+        if (editText != null) {
             editText.clearFocus();
         }
         if (token != null) {
@@ -109,11 +109,6 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
     }
-
-
-
-
-
 
 
     /*多语言的设置*/
@@ -237,13 +232,23 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void showProgressDialog() {
-        if (mProgressDialog != null)
-            mProgressDialog.show();
+        try {
+            if (mProgressDialog != null)
+                mProgressDialog.show();
+        }catch (Exception e){
+
+        }
+
     }
 
     protected void dismissProgressDialog() {
-        if (mProgressDialog != null)
-            mProgressDialog.dismiss();
+        try {
+            if (mProgressDialog != null)
+                mProgressDialog.dismiss();
+        } catch (Exception e) {
+
+        }
+
     }
 
    /* protected void showToast(String msg) {
@@ -332,11 +337,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         fragment.setArguments(bundle);
         fragmentTransaction.commit();
     }
-
-
-
-
-
 
 
     /**
