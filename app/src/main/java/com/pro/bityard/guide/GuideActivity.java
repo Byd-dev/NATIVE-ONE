@@ -148,6 +148,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                         }
                         String url = domain + "/wsquote";
                         Log.d("print", "init:150:  " + quoteDomainUrl + "    " + url);
+                        SPUtils.putString(AppConfig.QUOTE_SOCKET,url);
                         SocketQuoteManger.getInstance().initSocket(url);
                     } catch (Exception e) {
                         e.printStackTrace();

@@ -1760,7 +1760,11 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
             }
 
         } else {
-            lastKData = viewDataList.get(viewDataList.size() - 1);
+            try {
+                lastKData = viewDataList.get(viewDataList.size() - 1);
+            }catch (Exception e){
+
+            }
         }
     }
 

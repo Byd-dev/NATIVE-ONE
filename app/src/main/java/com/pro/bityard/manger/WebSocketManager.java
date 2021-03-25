@@ -192,21 +192,6 @@ public final class WebSocketManager {
 
     //行情的发送心跳包
     public void send(String cmidId) {
-       /* String time = String.valueOf(System.currentTimeMillis());
-        String key = "hello socket quote!";
-        String sign = "cmid=" + cmidId + "&t=" + time + "&key=" + key;
-        String value_sign = MD5Util.md5Encrypt32Lower(sign);
-
-        JSONObject json = new JSONObject();
-        try {
-            json.put("cmid", cmidId);
-            json.put("t", time);
-            json.put("sign", value_sign);
-            WebSocketManager.getInstance().sendMessage(json.toString());
-            Log.d("send", "send: " + json.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
         JSONObject json = new JSONObject();
         try {
             json.put("cmid", cmidId);

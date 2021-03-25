@@ -1443,8 +1443,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         } else if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
-            Log.d("print", "update:1486:  " + arrayMap);
             quoteList = arrayMap.get(type);
+            Log.d("print", "update:1486:  " + quoteList);
             if (quoteList != null && quoteAdapter_market_pop != null) {
                 runOnUiThread(() -> {
                     //搜索框
@@ -1479,8 +1479,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(itemQuoteContCode(itemData), tradeListEntityList);
         } else if (o == QuoteSpotCurrentManger.getInstance()) {
             quoteMinEntity = (QuoteMinEntity) arg;
+            Log.d("print", "update:1549:QuoteSpotCurrentManger 现货:" + quoteMinEntity);
             if (quoteMinEntity != null) {
-                Log.d("print", "update:1549:QuoteSpotCurrentManger 现货:" + quoteMinEntity);
                 runOnUiThread(() -> {
                     if (quoteMinEntity.getSymbol().equals(quote_code)) {
                         //    Toast.makeText(QuoteDetailActivity.this, quoteMinEntity.getSymbol() + "    " + quote_code, Toast.LENGTH_SHORT).show();
@@ -1558,10 +1558,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == Quote5MinCurrentManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             List<KData> kData = ChartUtil.klineList(data);
-            Log.d("print", "update:1587:  "+kData5MinHistory);
 
             if (kData5MinHistory != null && quoteMinEntity != null && myKLineView_5Min != null) {
-                Log.d("print", "update:1590:  "+myKLineView_5Min);
 
                 kData.get(kData.size() - 1).setClosePrice(quoteMinEntity.getPrice());
                 myKLineView_5Min.addSingleData(kData.get(kData.size() - 1));

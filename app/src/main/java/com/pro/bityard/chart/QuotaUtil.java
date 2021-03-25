@@ -31,29 +31,34 @@ public class QuotaUtil {
         cacheList.clear();
         cacheList.addAll(dataList);
         int size = dataList.size();
-        for (int i = 0; i < size; i++) {
-            if (i + QUOTA_DAY5 <= size) {
-                //priceMa5
-                dataList.get(i + QUOTA_DAY5 - 1).setPriceMa5(getPriceMa(cacheList.subList(i, i + QUOTA_DAY5)));
-                //volumeMa5
-                dataList.get(i + QUOTA_DAY5 - 1).setVolumeMa5(getVolumeMa(cacheList.subList(i, i + QUOTA_DAY5)));
-            }
-            if (i + QUOTA_DAY10 <= size) {
-                //priceMa10
-                dataList.get(i + QUOTA_DAY10 - 1).setPriceMa10(getPriceMa(cacheList.subList(i, i + QUOTA_DAY10)));
-                //volumeMa10
-                dataList.get(i + QUOTA_DAY10 - 1).setVolumeMa10(getVolumeMa(cacheList.subList(i, i + QUOTA_DAY10)));
-            }
-            if (i + QUOTA_DAY30 <= size) {
-                //priceMa30
-                if (dataList.get(i + QUOTA_DAY30 - 1).getPriceMa30() != 0 && !isEndData) {
-                    break;
-                } else {
-                    dataList.get(i + QUOTA_DAY30 - 1).setPriceMa30(getPriceMa(cacheList.subList(i, i + QUOTA_DAY30)));
+        try {
+            for (int i = 0; i < size; i++) {
+                if (i + QUOTA_DAY5 <= size) {
+                    //priceMa5
+                    dataList.get(i + QUOTA_DAY5 - 1).setPriceMa5(getPriceMa(cacheList.subList(i, i + QUOTA_DAY5)));
+                    //volumeMa5
+                    dataList.get(i + QUOTA_DAY5 - 1).setVolumeMa5(getVolumeMa(cacheList.subList(i, i + QUOTA_DAY5)));
                 }
+                if (i + QUOTA_DAY10 <= size) {
+                    //priceMa10
+                    dataList.get(i + QUOTA_DAY10 - 1).setPriceMa10(getPriceMa(cacheList.subList(i, i + QUOTA_DAY10)));
+                    //volumeMa10
+                    dataList.get(i + QUOTA_DAY10 - 1).setVolumeMa10(getVolumeMa(cacheList.subList(i, i + QUOTA_DAY10)));
+                }
+                if (i + QUOTA_DAY30 <= size) {
+                    //priceMa30
+                    if (dataList.get(i + QUOTA_DAY30 - 1).getPriceMa30() != 0 && !isEndData) {
+                        break;
+                    } else {
+                        dataList.get(i + QUOTA_DAY30 - 1).setPriceMa30(getPriceMa(cacheList.subList(i, i + QUOTA_DAY30)));
+                    }
+                }
+                dataList.get(i).setInitFinish(true);
             }
-            dataList.get(i).setInitFinish(true);
+        }catch (Exception e){
+
         }
+
     }
 
     private static double getVolumeMa(List<KData> dataList) {

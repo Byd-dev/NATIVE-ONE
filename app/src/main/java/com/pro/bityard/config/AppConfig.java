@@ -299,6 +299,8 @@ public class AppConfig {
     public static final String USER_EMAIL = "user_email";
     /*行情地址*/
     public static final String QUOTE_HOST = "QUOTE_HOST";
+    /*socket地址*/
+    public static final String QUOTE_SOCKET = "QUOTE_SOCKET";
     /*行情合约号*/
     public static final String QUOTE_CODE = "QUOTE_CODE";
     /*行情列表*/

@@ -347,6 +347,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             } else {
                 //layout_null.setVisibility(View.VISIBLE);
                 //recyclerView_market.setVisibility(View.GONE);
+
             }
         } else if (o == BalanceManger.getInstance()) {
 
