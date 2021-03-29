@@ -2488,7 +2488,6 @@ public class NetManger {
         } else {
             map.put("vCode", geetestToken);
         }
-
        /* if (verification) {
             map.put("geetestToken", geetestToken);
         }*/
