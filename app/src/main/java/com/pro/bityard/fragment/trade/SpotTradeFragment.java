@@ -70,6 +70,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Set;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -161,7 +162,13 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private TextView text_add_amount_market;
     private TextView text_sub_amount_market;
     private int priceDigit;
+    private Activity activity;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity=getActivity();
+    }
 
     @Override
     protected int setLayoutResourceID() {
@@ -681,7 +688,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
                     Log.d("print", "getBalance:694:  " + priceDigit);
 
                     if (isBuy.equals("true")) {
-                        text_balance.setText(BalanceManger.getInstance().getBalanceReal() + " " + getResources().getString(R.string.text_usdt));
+                        text_balance.setText(BalanceManger.getInstance().getBalanceReal() + " " + activity.getResources().getString(R.string.text_usdt));
 
                     } else {
                         text_balance.setText(TradeUtil.justDisplay(money) + " " + tradeName);
@@ -690,7 +697,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
             });
         } else {
             if (isBuy.equals("true")) {
-                text_balance.setText("0.0" + " " + getResources().getString(R.string.text_usdt));
+                text_balance.setText("0.0" + " " + activity.getResources().getString(R.string.text_usdt));
             } else {
                 text_balance.setText("0.0" + " " + tradeName);
             }

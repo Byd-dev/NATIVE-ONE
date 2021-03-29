@@ -275,6 +275,17 @@ public class PositionFragment extends BaseFragment implements Observer {
 
         TextView text_title = view.findViewById(R.id.text_title);
         text_title.setText(R.string.text_positions);
+        TextView text_share=view.findViewById(R.id.text_share);
+        text_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Util.lightOff(getActivity());
+                PopUtil.getInstance().showPositionShare(getActivity(), layout_view, dataBean, (response1, reponse2) -> {
+
+                });
+            }
+        });
+        text_share.setVisibility(View.VISIBLE);
 
         TextView text_name = view.findViewById(R.id.text_name);
 

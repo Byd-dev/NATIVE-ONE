@@ -99,7 +99,6 @@ public class NetManger {
     public static String H5_HELP_CENTER = "https://support.bityard.com";
 
 
-    public static String QUOTE_SOCKET = "wss://bi-quote.ttms.io/wsquote";
 
     public static String QUOTE_HISTORY = "https://app.bityard.com";
 
@@ -2484,11 +2483,14 @@ public class NetManger {
         map.put("vHash", vHash);
         map.put("username", account);
         map.put("password", URLEncoder.encode(pass));
-        if (verification) {
+       /* if (verification) {
             map.put("geetestToken", geetestToken);
         } else {
             map.put("vCode", geetestToken);
+        }*/
 
+        if (verification) {
+            map.put("geetestToken", geetestToken);
         }
         map.put("terminal", "Android");
 
