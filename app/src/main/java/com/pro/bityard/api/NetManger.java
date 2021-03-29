@@ -2491,7 +2491,6 @@ public class NetManger {
             map.put("geetestToken", geetestToken);
         }*/
         map.put("terminal", "Android");
-
         NetManger.getInstance().postRequest("/api/sso/user_login_check", map, (state, response) -> {
             Log.d("print", "login: 2325: " + state + response);
             if (state.equals(BUSY)) {
