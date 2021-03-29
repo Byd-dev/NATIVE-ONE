@@ -2479,7 +2479,6 @@ public class NetManger {
     public void login(String account, String pass, boolean verification, String vHash, String geetestToken, OnNetResult onNetResult) {
 
         ArrayMap<String, String> map = new ArrayMap<>();
-
         map.put("vHash", vHash);
         map.put("username", account);
         map.put("password", URLEncoder.encode(pass));
