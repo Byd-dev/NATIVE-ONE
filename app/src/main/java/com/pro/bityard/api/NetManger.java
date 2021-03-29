@@ -2483,15 +2483,15 @@ public class NetManger {
         map.put("vHash", vHash);
         map.put("username", account);
         map.put("password", URLEncoder.encode(pass));
-       /* if (verification) {
+        if (verification) {
             map.put("geetestToken", geetestToken);
         } else {
             map.put("vCode", geetestToken);
-        }*/
-
-        if (verification) {
-            map.put("geetestToken", geetestToken);
         }
+
+       /* if (verification) {
+            map.put("geetestToken", geetestToken);
+        }*/
         map.put("terminal", "Android");
 
         NetManger.getInstance().postRequest("/api/sso/user_login_check", map, (state, response) -> {
