@@ -1,6 +1,7 @@
 package com.pro.bityard.circleAdapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,7 +111,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((MyViewHolder) holder).layout_tags.setVisibility(View.GONE);
             }
             String value_type = null;
-            int type = datas.get(position).getType();
+            /*int type = datas.get(position).getType();
             switch (type) {
                 case 1:
                     value_type = context.getString(R.string.text_normal_user);
@@ -137,9 +138,12 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     value_type = context.getString(R.string.text_copy_account);
                     ((MyViewHolder) holder).text_type.setCompoundDrawablesWithIntrinsicBounds(AppContext.getAppContext().getResources().getDrawable(R.mipmap.icon_pro_trader), null, null, null);
                     break;
-            }
+            }*/
 
-            ((MyViewHolder) holder).text_type.setText(value_type);
+            String followMax = datas.get(position).getFollowMax();
+            String follower = datas.get(position).getFollower();
+
+            ((MyViewHolder) holder).text_type.setText(follower +"/"+ followMax);
 
 
             double mul = TradeUtil.mul(datas.get(position).getIncomeRate(),1);
@@ -161,7 +165,7 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
             ((MyViewHolder) holder).text_trader_30_days_count.setText(String.valueOf(datas.get(position).getTrader30DaysCount()));
 
-            ((MyViewHolder) holder).text_follower.setText(datas.get(position).getFollower());
+            ((MyViewHolder) holder).text_follower.setText(follower);
 
             ((MyViewHolder) holder).text_follow.setOnClickListener(v -> {
                 if (onFollowClick != null) {
@@ -182,23 +186,35 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             });
 
-            if (datas.get(position).isFollow()){
-                ((MyViewHolder) holder).text_follow.setText(context.getResources().getString(R.string.text_edit));
-                ((MyViewHolder) holder).text_follow.setBackground(context.getDrawable(R.drawable.gradient_bg_copy_main));
-                ((MyViewHolder) holder).text_follow.setTextColor(context.getResources().getColor(R.color.text_main_color_black));
-
-            }else {
-                ((MyViewHolder) holder).text_follow.setText(context.getResources().getString(R.string.text_copy_trade));
-                ((MyViewHolder) holder).text_follow.setBackground(context.getDrawable(R.drawable.gradient_bg_blue));
+            if (Integer.valueOf(follower)>Integer.valueOf(followMax)){
+                ((MyViewHolder) holder).text_follow.setText(context.getResources().getString(R.string.text_full));
+                ((MyViewHolder) holder).text_follow.setBackground(context.getDrawable(R.mipmap.icon_circle_full));
                 ((MyViewHolder) holder).text_follow.setTextColor(context.getResources().getColor(R.color.text_main_color));
+                ((MyViewHolder) holder).text_type.setTextColor(context.getResources().getColor(R.color.maincolor));
+            }else {
+                ((MyViewHolder) holder).text_type.setTextColor(context.getResources().getColor(R.color.text_second_color));
 
+                if (datas.get(position).isFollow()){
+                    ((MyViewHolder) holder).text_follow.setText(context.getResources().getString(R.string.text_edit));
+                    ((MyViewHolder) holder).text_follow.setBackground(context.getDrawable(R.drawable.gradient_bg_copy_main));
+                    ((MyViewHolder) holder).text_follow.setTextColor(context.getResources().getColor(R.color.text_main_color_black));
+
+                }else {
+                    ((MyViewHolder) holder).text_follow.setText(context.getResources().getString(R.string.text_copy_trade));
+                    ((MyViewHolder) holder).text_follow.setBackground(context.getDrawable(R.drawable.gradient_bg_blue));
+                    ((MyViewHolder) holder).text_follow.setTextColor(context.getResources().getColor(R.color.text_main_color));
+
+                }
             }
-            if (position>=3){
+
+
+            //屏蔽火图标
+           /* if (position>=3){
                 ((MyViewHolder) holder).img_fire.setVisibility(View.GONE);
             }else {
                 ((MyViewHolder) holder).img_fire.setVisibility(View.VISIBLE);
 
-            }
+            }*/
 
         }
     }

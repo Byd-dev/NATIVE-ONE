@@ -560,7 +560,7 @@ public class FollowEditFragment extends BaseFragment implements View.OnClickList
                     bar_proportion_rate.setProgress(Integer.parseInt(numberFormat));
                 });
 
-                edit_warning_proportion.setText(TradeUtil.getNumberFormat(followerUser.getFollowMax(), 0));
+                edit_warning_proportion.setText(followerUser.getFollowMax());
                 break;
 
         }

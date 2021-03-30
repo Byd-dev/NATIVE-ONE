@@ -49,6 +49,7 @@
 
         </RelativeLayout>
 
+
         <LinearLayout
             android:id="@+id/layout_filter"
             android:layout_width="0dp"
@@ -143,7 +144,76 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_tag"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="wrap_content"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroup_tag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/margin_15"
+        >
+        <RadioButton
+            android:id="@+id/tag_income"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingTop="@dimen/margin_5"
+            android:paddingLeft="@dimen/margin_10"
+            android:checked="true"
+            android:gravity="center"
+            android:background="@drawable/sel_switcher_tags_bg"
+            android:maxLines="1"
+            android:text="@string/text_trader_total_income"
+            android:textColor="@color/sel_switcher_hold"
+            android:textSize="@dimen/size_normal_two"
+
+            />
+
+        <RadioButton
+            android:id="@+id/tag_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingTop="@dimen/margin_5"
+            android:button="@null"
+            android:checked="false"
+            android:gravity="center"
+            android:background="@drawable/sel_switcher_tags_bg"
+            android:maxLines="1"
+            android:text="@string/text_trader_30_days_defeat"
+            android:textColor="@color/sel_switcher_hold"
+            android:textSize="@dimen/size_normal_two"
+            android:layout_marginLeft="@dimen/margin_15"
+            />
+
+        <RadioButton
+            android:id="@+id/tag_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/margin_10"
+            android:paddingLeft="@dimen/margin_10"
+            android:paddingBottom="@dimen/margin_5"
+            android:paddingTop="@dimen/margin_5"
+            android:button="@null"
+            android:checked="false"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:gravity="center"
+            android:background="@drawable/sel_switcher_tags_bg"
+            android:maxLines="1"
+            android:text="@string/text_trader_total_income"
+            android:textColor="@color/sel_switcher_hold"
+            android:textSize="@dimen/size_normal_two"
+
+            />
+
+
+    </RadioGroup>
 
 
 </LinearLayout>

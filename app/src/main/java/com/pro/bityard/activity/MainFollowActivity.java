@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextSwitcher;
@@ -1300,24 +1301,24 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         findViewById(R.id.img_log).setOnClickListener(this);
 
         head_circle.findViewById(R.id.text_follow_settings).setOnClickListener(this);
-        img_head_circle.setOnClickListener(this);
-        circleTagsList = new ArrayList<>();
-        circleTagsList.add(new TagEntity(true, getResources().getString(R.string.text_trader_total_income), "1", null));
-        circleTagsList.add(new TagEntity(false, getResources().getString(R.string.text_trader_30_days_defeat), "2", null));
-        circleTagsList.add(new TagEntity(false, getString(R.string.text_follow_count), "3", null));
-
-        circleTagSelectAdapter = new CircleTagSelectAdapter(this);
-        RecyclerView recyclerView_tag = head_circle.findViewById(R.id.recyclerView_tag);
-        recyclerView_tag.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
-        circleTagSelectAdapter.setDatas(circleTagsList);
-        recyclerView_tag.setAdapter(circleTagSelectAdapter);
-        circleTagSelectAdapter.setOnItemChaneClick(new CircleTagSelectAdapter.OnItemChaneClick() {
-            @Override
-            public void onSuccessListener(boolean isChecked, TagEntity data) {
-                orderBy=data.getCode();
-                getFollowList(orderBy);
+        RadioGroup radioGroup=head_circle.findViewById(R.id.radioGroup_tag);
+        radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            switch (checkedId){
+                case R.id.tag_income:
+                    orderBy="1";
+                    break;
+                case R.id.tag_days:
+                    orderBy="2";
+                    break;
+                case R.id.tag_count:
+                    orderBy="3";
+                    break;
             }
+            getFollowList(orderBy);
+
         });
+        img_head_circle.setOnClickListener(this);
+
 
 
         TextView text_update = head_circle.findViewById(R.id.text_update_two);
@@ -1349,10 +1350,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         followAdapter.setOnFollowClick(dataBean -> {
             if (isLogin()) {
-                if (dataBean.isFollow()) {
-                    UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_EDIT_FOLLOW, dataBean);
-                } else {
-                    UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, dataBean);
+                if (Integer.parseInt(dataBean.getFollower())<Integer.parseInt(dataBean.getFollowMax())){
+                    if (dataBean.isFollow()) {
+                        UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_EDIT_FOLLOW, dataBean);
+                    } else {
+                        UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_SETTINGS_FOLLOW, dataBean);
+                    }
                 }
             } else {
                 LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);

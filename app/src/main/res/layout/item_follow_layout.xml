@@ -37,26 +37,29 @@
                 android:text="巴菲特"
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_bigger"
+                android:layout_marginBottom="@dimen/margin_2"
                 android:typeface="monospace" />
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_2"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/text_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_5"
-                    android:background="@drawable/gradient_bg_circle_main"
-                    android:drawableLeft="@mipmap/icon_star_normal"
+                    android:background="@drawable/bg_circle_main"
+                    android:drawableLeft="@mipmap/icon_yellow_people"
                     android:gravity="left|center"
                     android:paddingLeft="@dimen/margin_10"
+                    android:paddingTop="@dimen/margin_2"
+                    android:paddingBottom="@dimen/margin_2"
                     android:drawablePadding="@dimen/margin_5"
                     android:paddingRight="@dimen/margin_10"
-                    android:text="明星10%"
-                    android:textColor="@color/maincolor"
+                    android:text="0/100"
+                    android:textColor="@color/text_second_color"
                     android:textSize="@dimen/size_normal" />
 
                 <ImageView

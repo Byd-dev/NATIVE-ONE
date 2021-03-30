@@ -110,7 +110,7 @@ public class FollowerDetailEntity implements Serializable{
         private boolean active;
         private long createTime;
         private double followVal;
-        private double followMax;
+        private String followMax;
         private int followWay;
         private String id;
         private Object lastCode;
@@ -282,11 +282,11 @@ public class FollowerDetailEntity implements Serializable{
             this.followVal = followVal;
         }
 
-        public double getFollowMax() {
+        public String getFollowMax() {
             return followMax;
         }
 
-        public void setFollowMax(double followMax) {
+        public void setFollowMax(String followMax) {
             this.followMax = followMax;
         }
 
