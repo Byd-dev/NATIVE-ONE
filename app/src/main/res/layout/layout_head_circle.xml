@@ -39,10 +39,10 @@
                 android:id="@+id/edit_search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_40"
                 android:layout_centerVertical="true"
-                android:text="@string/text_search_all_traders"
+                android:layout_marginLeft="@dimen/margin_40"
                 android:maxLines="1"
+                android:text="@string/text_search_all_traders"
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/hint_size" />
 
@@ -106,12 +106,12 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="@string/text_monitor_copy_trading"
-                android:paddingRight="@dimen/margin_15"
+                android:drawableRight="@mipmap/icon_right_green"
+                android:drawablePadding="@dimen/margin_5"
                 android:gravity="center"
                 android:paddingLeft="@dimen/margin_15"
-                android:drawablePadding="@dimen/margin_5"
-                android:drawableRight="@mipmap/icon_right_green"
+                android:paddingRight="@dimen/margin_15"
+                android:text="@string/text_monitor_copy_trading"
                 android:textColor="@color/text_quote_green"
                 android:textSize="@dimen/size_normal_two" />
 
@@ -122,8 +122,8 @@
             android:layout_height="0dp"
             android:layout_marginLeft="@dimen/margin_15"
             android:layout_marginRight="@dimen/margin_15"
-            android:layout_weight="2"
             android:layout_marginBottom="@dimen/margin_10"
+            android:layout_weight="2"
             android:gravity="center|left"
             android:orientation="horizontal">
 
@@ -144,76 +144,80 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView_tag"
         android:layout_width="match_parent"
-        android:visibility="gone"
-        android:layout_height="wrap_content"/>
-
-    <RadioGroup
-        android:id="@+id/radioGroup_tag"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_margin="@dimen/margin_15"
-        >
-        <RadioButton
-            android:id="@+id/tag_income"
-            android:layout_width="wrap_content"
+        android:visibility="gone" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:id="@+id/radioGroup_tag"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:button="@null"
-            android:paddingRight="@dimen/margin_10"
-            android:paddingBottom="@dimen/margin_5"
-            android:paddingTop="@dimen/margin_5"
-            android:paddingLeft="@dimen/margin_10"
-            android:checked="true"
-            android:gravity="center"
-            android:background="@drawable/sel_switcher_tags_bg"
-            android:maxLines="1"
-            android:text="@string/text_trader_total_income"
-            android:textColor="@color/sel_switcher_hold"
-            android:textSize="@dimen/size_normal_two"
+            android:layout_margin="@dimen/margin_15"
+            android:orientation="horizontal">
 
-            />
+            <RadioButton
+                android:id="@+id/tag_income"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sel_switcher_tags_bg"
+                android:button="@null"
+                android:checked="true"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_5"
+                android:text="@string/text_trader_total_income"
+                android:textColor="@color/sel_switcher_hold"
+                android:textSize="@dimen/size_normal_two"
 
-        <RadioButton
-            android:id="@+id/tag_days"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="@dimen/margin_10"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingBottom="@dimen/margin_5"
-            android:paddingTop="@dimen/margin_5"
-            android:button="@null"
-            android:checked="false"
-            android:gravity="center"
-            android:background="@drawable/sel_switcher_tags_bg"
-            android:maxLines="1"
-            android:text="@string/text_trader_30_days_defeat"
-            android:textColor="@color/sel_switcher_hold"
-            android:textSize="@dimen/size_normal_two"
-            android:layout_marginLeft="@dimen/margin_15"
-            />
+                />
 
-        <RadioButton
-            android:id="@+id/tag_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingRight="@dimen/margin_10"
-            android:paddingLeft="@dimen/margin_10"
-            android:paddingBottom="@dimen/margin_5"
-            android:paddingTop="@dimen/margin_5"
-            android:button="@null"
-            android:checked="false"
-            android:layout_marginLeft="@dimen/margin_15"
-            android:gravity="center"
-            android:background="@drawable/sel_switcher_tags_bg"
-            android:maxLines="1"
-            android:text="@string/text_trader_total_income"
-            android:textColor="@color/sel_switcher_hold"
-            android:textSize="@dimen/size_normal_two"
+            <RadioButton
+                android:id="@+id/tag_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:background="@drawable/sel_switcher_tags_bg"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_5"
+                android:text="@string/text_trader_30_days_defeat"
+                android:textColor="@color/sel_switcher_hold"
+                android:textSize="@dimen/size_normal_two" />
 
-            />
+            <RadioButton
+                android:id="@+id/tag_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:background="@drawable/sel_switcher_tags_bg"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/margin_10"
+                android:paddingTop="@dimen/margin_5"
+                android:paddingRight="@dimen/margin_10"
+                android:paddingBottom="@dimen/margin_5"
+                android:text="@string/text_trader_total_income"
+                android:textColor="@color/sel_switcher_hold"
+                android:textSize="@dimen/size_normal_two"
+
+                />
 
 
-    </RadioGroup>
+        </RadioGroup>
+    </HorizontalScrollView>
 
 
 </LinearLayout>
