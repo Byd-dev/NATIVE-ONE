@@ -29,7 +29,7 @@
             <!--行情-->
             <include layout="@layout/tab_market_optional" />
 
-            <!--持仓-->
+            <!--跟单-->
             <include layout="@layout/tab_circle" />
 
 

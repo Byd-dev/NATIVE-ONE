@@ -35,13 +35,14 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.AccountAdapter;
-import com.pro.bityard.adapter.FollowAdapter;
 import com.pro.bityard.adapter.MarketSearchHotAdapter;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
+import com.pro.bityard.circleAdapter.CircleTagSelectAdapter;
+import com.pro.bityard.circleAdapter.FollowAdapter;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.BalanceEntity;
@@ -51,6 +52,7 @@ import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.entity.FollowerIncomeEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
+import com.pro.bityard.entity.TagEntity;
 import com.pro.bityard.entity.UserDetailEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.InitManger;
@@ -206,6 +208,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     HeaderRecyclerView recyclerView_circle;
 
     private FollowAdapter followAdapter;
+    private String orderBy;
+
+    private CircleTagSelectAdapter circleTagSelectAdapter;
+    private List<TagEntity> circleTagsList;
 
     @BindView(R.id.layout_circle_null)
     LinearLayout layout_circle_null;
@@ -286,7 +292,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     private List<String> quoteList;
 
-    ArrayMap<String, String> map;
 
     @Override
     public void update(Observable o, Object arg) {
@@ -469,15 +474,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             });
         } else if (o == NoticeManger.getInstance()) {
             Log.d("print", "update:478:  " + "收到");
-            getFollowList();
+            getFollowList(orderBy);
         }
     }
 
     private void onSuccessListener(String data) {
-        goToTrade(tradeType,data);
-
-
-
+        goToTrade(tradeType, data);
 
 
     }
@@ -853,7 +855,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 case 0:
                     type = AppConfig.CONTRACT_IN_ALL;
                     zone_type = AppConfig.VIEW_CONTRACT_IN;
-                    if (arrayMap==null){
+                    if (arrayMap == null) {
                         return;
                     }
                     quoteList = arrayMap.get(type);
@@ -878,7 +880,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 case 1:
                     type = AppConfig.DERIVATIVES_ALL;
                     zone_type = AppConfig.VIEW_DERIVATIVES;
-                    if (arrayMap==null){
+                    if (arrayMap == null) {
                         return;
                     }
 
@@ -904,7 +906,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 case 2:
                     type = AppConfig.FOREIGN_EXCHANGE_ALL;
                     zone_type = AppConfig.VIEW_FOREIGN_EXCHANGE;
-                    if (arrayMap==null){
+                    if (arrayMap == null) {
                         return;
                     }
                     quoteList = arrayMap.get(type);
@@ -1285,7 +1287,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         PositionSimulationManger.getInstance().addObserver(this);
         /*社区  分割线-----------------------------------------------------------------------------*/
 
-        swipeRefreshLayout_circle.setOnRefreshListener(this::getFollowList);
+        swipeRefreshLayout_circle.setOnRefreshListener(() -> getFollowList(orderBy));
         Util.colorSwipe(this, swipeRefreshLayout_circle);
 
         @SuppressLint("InflateParams") View head_circle = LayoutInflater.from(this).inflate(R.layout.layout_head_circle, null, false);
@@ -1299,6 +1301,24 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         head_circle.findViewById(R.id.text_follow_settings).setOnClickListener(this);
         img_head_circle.setOnClickListener(this);
+        circleTagsList = new ArrayList<>();
+        circleTagsList.add(new TagEntity(true, getResources().getString(R.string.text_trader_total_income), "1", null));
+        circleTagsList.add(new TagEntity(false, getResources().getString(R.string.text_trader_30_days_defeat), "2", null));
+        circleTagsList.add(new TagEntity(false, getString(R.string.text_follow_count), "3", null));
+
+        circleTagSelectAdapter = new CircleTagSelectAdapter(this);
+        RecyclerView recyclerView_tag = head_circle.findViewById(R.id.recyclerView_tag);
+        recyclerView_tag.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        circleTagSelectAdapter.setDatas(circleTagsList);
+        recyclerView_tag.setAdapter(circleTagSelectAdapter);
+        circleTagSelectAdapter.setOnItemChaneClick(new CircleTagSelectAdapter.OnItemChaneClick() {
+            @Override
+            public void onSuccessListener(boolean isChecked, TagEntity data) {
+                orderBy=data.getCode();
+                getFollowList(orderBy);
+            }
+        });
+
 
         TextView text_update = head_circle.findViewById(R.id.text_update_two);
         String strMsg = getString(R.string.text_two_update);
@@ -1518,7 +1538,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     case IntentConfig.Keys.KEY_KOL:
                         break;
                     case IntentConfig.Keys.KEY_TRADE_LIVE:
-                        goToTrade("1",quoteList.get(0));
+                        goToTrade("1", quoteList.get(0));
                         break;
                     case IntentConfig.Keys.KEY_MINING:
                         if (isLogin()) {
@@ -1554,8 +1574,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             UserDetailManger.getInstance().detail();
             //带单总收益
         }
-
-        getFollowList();
+        orderBy = "1";
+        getFollowList(orderBy);
     }
 
     private void getFollowIncome() {
@@ -1570,10 +1590,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     }
 
 
-    public void getFollowList() {
+    public void getFollowList(String orderBy) {
         NetManger.getInstance().followList(null, null,
                 null, null, null, null, null, null,
-                null, null, null, "1", "20", (state, response) -> {
+                null, null, null, "1", "20", orderBy, (state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {
@@ -1625,15 +1645,21 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                     swipeRefreshLayout.setRefreshing(false);
                 }
+                Log.d("print", "getBanner:1629: " + response.toString());
                 String s = response.toString().replaceAll(" ", "");
                 if (s.startsWith("error")) {
                     return;
                 }
 
                 BannerEntity bannerEntity = new Gson().fromJson(response.toString(), BannerEntity.class);
+                Log.d("print", "getBanner:1634:  " + bannerEntity);
                 if (bannerEntity == null) {
                     return;
                 }
+                notices = bannerEntity.getNotices();
+                Log.d("print", "getBanner:1638:  " + notices);
+                upBanner(bannerEntity.getCarousels());
+
                 if (bannerEntity.getCarousels() == null) {
                     return;
                 }
@@ -1650,9 +1676,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         }
                     }
                 }
-                upBanner(bannerEntity.getCarousels());
-
-                notices = bannerEntity.getNotices();
 
 
             } else if (state.equals(FAILURE)) {
@@ -1730,7 +1753,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             for (int i = 0; i < list.size(); i++) {
                 String[] split = list.get(i).split(",");
                 if (split[0].equals(split1[1])) {
-                    goToTrade("1",list.get(i));
+                    goToTrade("1", list.get(i));
                 }
             }
             historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
@@ -1786,13 +1809,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         quoteAdapter_history.setOnItemClick(data -> {
-            goToTrade("1",data);
+            goToTrade("1", data);
 
 
         });
-
-
-
 
 
         view.findViewById(R.id.img_clear_history).setOnClickListener(v -> {
@@ -1999,7 +2019,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             // popupWindow.dismiss();
             type = AppConfig.CONTRACT_IN_ALL;
             zone_type = AppConfig.VIEW_CONTRACT_IN;
-            goToTrade("1",data);
+            goToTrade("1", data);
 
             historyList = Util.SPDealResult(SPUtils.getString(AppConfig.KEY_HISTORY, null));
 
@@ -2093,7 +2113,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     }
 
 
-    private void goToTrade(String tradeType,String data){
+    private void goToTrade(String tradeType, String data) {
         SPUtils.putString(AppConfig.QUOTE_LIST, Util.SPDealString(quoteList));
         SocketUtil.switchQuotesList("3002");
         WebSocketManager.getInstance().cancelQuotes("4002", "");
@@ -2103,6 +2123,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             SpotTradeActivity.enter(this, tradeType, data);
         }
     }
+
     @Override
     public void onClick(View v) {
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, AppConfig.ZH_SIMPLE);
@@ -2139,7 +2160,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (quoteList == null) {
                     return;
                 }
-                goToTrade("1",quoteList.get(0));
+                goToTrade("1", quoteList.get(0));
                 break;
 
             case R.id.radio_3:
@@ -2198,7 +2219,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (quoteList == null) {
                     return;
                 }
-                goToTrade("2",quoteList.get(0));
+                goToTrade("2", quoteList.get(0));
                 break;
 
             /*行情 -----------------------------------------------------------------------------------*/

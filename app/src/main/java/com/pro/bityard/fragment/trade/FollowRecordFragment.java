@@ -15,7 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.FollowRecordAdapter;
+import com.pro.bityard.circleAdapter.FollowRecordAdapter;
 import com.pro.bityard.adapter.RadioDateAdapter;
 import com.pro.bityard.adapter.TradeSelectAdapter;
 import com.pro.bityard.api.NetManger;

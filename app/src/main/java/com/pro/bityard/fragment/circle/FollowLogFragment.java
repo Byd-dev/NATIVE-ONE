@@ -1,23 +1,14 @@
 package com.pro.bityard.fragment.circle;
 
-import android.annotation.SuppressLint;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
-import android.webkit.WebView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.AnnouncementAdapter;
-import com.pro.bityard.adapter.FollowLogAdapter;
+import com.pro.bityard.circleAdapter.FollowLogAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
-import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.entity.FollowLogEntity;
-import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
 
 import androidx.recyclerview.widget.LinearLayoutManager;

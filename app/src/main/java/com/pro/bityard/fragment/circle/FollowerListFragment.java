@@ -1,25 +1,18 @@
 package com.pro.bityard.fragment.circle;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.FollowDetailActivity;
-import com.pro.bityard.activity.UserActivity;
-import com.pro.bityard.adapter.FollowAdapter;
-import com.pro.bityard.adapter.StyleAdapter;
+import com.pro.bityard.circleAdapter.FollowAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowEntity;
-import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.Util;
-import com.pro.bityard.view.HeaderRecyclerView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -140,7 +133,7 @@ public class FollowerListFragment extends BaseFragment implements View.OnClickLi
     private void getFollowList(String type,int page) {
         NetManger.getInstance().followList(null, null,
                 null, null, null, null, null, null,
-                null, null, null,String.valueOf(page),"10", (state, response) -> {
+                null, null, null,String.valueOf(page),"10", null,(state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {

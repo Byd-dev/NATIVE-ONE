@@ -9,12 +9,10 @@ import android.widget.Toast;
 
 import com.pro.bityard.R;
 import com.pro.bityard.activity.FollowDetailActivity;
-import com.pro.bityard.activity.UserActivity;
-import com.pro.bityard.adapter.FollowAdapter;
+import com.pro.bityard.circleAdapter.FollowAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.SoftKeyboardUtils;
@@ -152,7 +150,7 @@ public class SearchNicknameFragment extends BaseFragment implements View.OnClick
     private void getFollowList(String loadType,String content,int page) {
         NetManger.getInstance().followList(null, null,
                 content, "usdt", null, null, null, null,
-                null, null, null, String.valueOf(page),"10",(state, response) -> {
+                null, null, null, String.valueOf(page),"10",null,(state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {

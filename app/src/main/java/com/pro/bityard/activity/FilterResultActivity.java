@@ -13,14 +13,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
-import com.pro.bityard.adapter.FollowAdapter;
+import com.pro.bityard.circleAdapter.FollowAdapter;
 import com.pro.bityard.adapter.SelectResultAdapter;
 import com.pro.bityard.adapter.StyleListAdapter;
 import com.pro.bityard.adapter.TagsAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
-import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TagEntity;
@@ -301,7 +300,7 @@ public class FilterResultActivity extends BaseActivity implements View.OnClickLi
     private void getFollowList(String loadType,String tags, String rateGe, String rateLe, String drawGe, String drawLe, String daysGe, String daysLe,int page) {
         NetManger.getInstance().followList(null, null,
                 null, null, tags, rateGe, rateLe, drawGe,
-                drawLe, daysGe, daysLe,String.valueOf(page),"10", (state, response) -> {
+                drawLe, daysGe, daysLe,String.valueOf(page),"10", null,(state, response) -> {
                     if (state.equals(BUSY)) {
                         swipeRefreshLayout_circle.setRefreshing(true);
                     } else if (state.equals(SUCCESS)) {

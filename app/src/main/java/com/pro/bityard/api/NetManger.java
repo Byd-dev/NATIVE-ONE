@@ -2630,7 +2630,7 @@ public class NetManger {
     /*社区 列表*/
     /*持仓列表*/
     public void followList(String traderId, String type, String username, String currency, String tags, String rateGe,
-                           String rateLe, String drawGe, String drawLe, String daysGe, String daysLe, String page, String rows, OnNetResult onNetResult) {
+                           String rateLe, String drawGe, String drawLe, String daysGe, String daysLe, String page, String rows,String orderBy, OnNetResult onNetResult) {
         ArrayMap<String, String> map = new ArrayMap<>();
         if (traderId != null) {
             map.put("traderId", traderId);
@@ -2670,6 +2670,9 @@ public class NetManger {
         }
         if (rows != null) {
             map.put("rows", rows);
+        }
+        if (orderBy!=null){
+            map.put("orderBy",orderBy);
         }
         if (map.values().size() == 0) {
             map = null;

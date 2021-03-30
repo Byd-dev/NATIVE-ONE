@@ -1,4 +1,4 @@
-package com.pro.bityard.adapter;
+package com.pro.bityard.circleAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

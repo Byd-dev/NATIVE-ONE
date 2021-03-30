@@ -1,4 +1,4 @@
-package com.pro.bityard.adapter;
+package com.pro.bityard.circleAdapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.FollowHistoryEntity;
-import com.pro.bityard.entity.TradeHistoryEntity;
 import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.TradeUtil;
 

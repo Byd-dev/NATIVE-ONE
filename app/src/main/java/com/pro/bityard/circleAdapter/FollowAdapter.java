@@ -1,4 +1,4 @@
-package com.pro.bityard.adapter;
+package com.pro.bityard.circleAdapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.pro.bityard.R;
 import com.pro.bityard.base.AppContext;
-import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.view.CircleImageView;
