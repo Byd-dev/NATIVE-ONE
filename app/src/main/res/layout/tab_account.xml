@@ -420,7 +420,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
-                    android:drawableLeft="@mipmap/icon_my_record"
+                    android:drawableLeft="@mipmap/icon_my_spot_record"
                     android:drawablePadding="@dimen/margin_16"
                     android:gravity="center"
                     android:text="@string/text_spot_record"
