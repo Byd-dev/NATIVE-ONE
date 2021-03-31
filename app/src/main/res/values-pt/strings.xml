@@ -620,5 +620,6 @@
     <string name="text_price_usdt">价格 USDT</string>
     <string name="text_follow_count">Followers</string>
     <string name="text_full">满员</string>
+    <string name="text_nickname">昵称</string>
 
 </resources>

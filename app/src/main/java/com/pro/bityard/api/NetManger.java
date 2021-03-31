@@ -151,6 +151,8 @@ public class NetManger {
             case AppConfig.PT_PT:
                 language = "pt-PT";
                 break;
+            default:
+                language = "zh-CN";
         }
         ArrayMap<String, String> map = new ArrayMap<>();
         if (token != null) {
@@ -197,6 +199,9 @@ public class NetManger {
             case AppConfig.PT_PT:
                 language = "pt-PT";
                 break;
+            default:
+                language = "zh-CN";
+
         }
 
 
@@ -257,6 +262,8 @@ public class NetManger {
             case AppConfig.PT_PT:
                 language = "pt-PT";
                 break;
+            default:
+                language = "zh-CN";
         }
 
         OkGo.<Bitmap>get(getURL(url, map))
@@ -317,7 +324,8 @@ public class NetManger {
             case AppConfig.PT_PT:
                 language = "pt-PT";
                 break;
-
+            default:
+                language = "zh-CN";
         }
 
         OkGo.<String>post(getURL(url, map))
@@ -381,7 +389,8 @@ public class NetManger {
             case AppConfig.PT_PT:
                 language = "pt-PT";
                 break;
-
+            default:
+                language = "zh-CN";
         }
 
         OkGo.<String>post(getURL(url, null))
@@ -444,6 +453,8 @@ public class NetManger {
             case AppConfig.PT_PT:
                 language = "pt-PT";
                 break;
+            default:
+                language = "zh-CN";
         }
         OkGo.<String>get(getHostURL(host, url, map))
                 .headers("Accept-Language", language)
@@ -2399,7 +2410,8 @@ public class NetManger {
             case AppConfig.PT_PT:
                 language = "pt-PT";
                 break;
-
+            default:
+                language = "zh-CN";
         }
         OkGo.<String>get(url)
                 .headers("Accept-Language", language)
@@ -2458,6 +2470,8 @@ public class NetManger {
             case AppConfig.PT_PT:
                 language = "pt-PT";
                 break;
+            default:
+                language = "zh-CN";
         }
         OkGo.<String>post(url)
                 .headers("Accept-Language", language)
@@ -2577,6 +2591,8 @@ public class NetManger {
             case AppConfig.PT_PT:
                 language = "pt-PT";
                 break;
+            default:
+                language = "zh-CN";
         }
         OkGo.<String>get(UPDATE_URL)
                 .headers("Accept-Language", language)

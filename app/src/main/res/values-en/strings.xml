@@ -432,16 +432,16 @@
     <string name="text_optional">Optional</string>
     <string name="text_main_zone">Main</string>
     <string name="text_innovate">Innovate</string>
-    <string name="text_img_code_input">请输入图形验证码</string>
+    <string name="text_img_code_input">Verification Code</string>
     <string name="text_derived">Derivatives</string>
     <string name="text_pt">Português</string>
     <string name="text_tab_follow">Copy Trade</string>
-    <string name="text_person_information">个人资料</string>
-    <string name="text_head">头像</string>
-    <string name="text_sex">性别</string>
-    <string name="text_address_my">所在地</string>
-    <string name="text_photo">拍照</string>
-    <string name="text_album">相册</string>
+    <string name="text_person_information">Personal Information</string>
+    <string name="text_head">Profile Photo</string>
+    <string name="text_sex">Gender</string>
+    <string name="text_address_my">Location</string>
+    <string name="text_photo">Photograph</string>
+    <string name="text_album">Album</string>
     <string name="text_withdrawal_tip_three">The daily limit withdrawal amount is：%s</string>
     <string name="text_trader_30_days_rate">Copy trade profit in 30 days</string>
     <string name="text_trader_30_days_defeat">win rate in 30 days</string>
@@ -452,7 +452,7 @@
     <string name="text_normal_user">普通用户</string>
     <string name="text_normal_trader">普通交易员</string>
     <string name="text_pro_trader">专业交易员</string>
-    <string name="text_watch_more"><![CDATA[查看平台优质投资者>]]></string>
+    <string name="text_watch_more"><![CDATA[View all Traders>]]></string>
     <string name="text_circle_warning">最大回撤率是指在特定周期内遭遇过最大资产亏损,壳作为衡量交易员的风险评估值,回撤率越大风险越高.</string>
     <string name="text_copy_trade">copy trade</string>
     <string name="text_filter">filter</string>
@@ -493,13 +493,13 @@
     <string name="text_max_position_amount">Maximum Position Amount</string>
     <string name="text_edit">Edit</string>
     <string name="text_following">following</string>
-    <string name="text_edit_follow">编辑跟单</string>
-    <string name="text_follow_cancel">取消跟随</string>
-    <string name="text_save_copy">保存</string>
-    <string name="text_copy_switch">跟单开关</string>
+    <string name="text_edit_follow">Edit</string>
+    <string name="text_follow_cancel">Unfollow</string>
+    <string name="text_save_copy">Save</string>
+    <string name="text_copy_switch">Switch</string>
     <string name="text_copy_switch_tip">在您手动关闭后，不再跟交易员下单，已跟随开仓的订单，保持同步平仓，不受影响</string>
     <string name="text_last_time">最后关闭时间</string>
-    <string name="text_close_reason">关闭原因</string>
+    <string name="text_close_reason">Close Reason</string>
     <string name="text_follow_log">copy trade fail record</string>
     <string name="text_trader">trader</string>
     <string name="text_search_all_traders">search for all traders</string>
@@ -508,14 +508,14 @@
     <string name="text_join">join</string>
     <string name="text_trade_history">Trade history</string>
     <string name="text_follower_detail">follower</string>
-    <string name="text_trader_30_days_income">30天带单收益</string>
+    <string name="text_trader_30_days_income">P/L Ratio 30D</string>
     <string name="text_profit_share_ratio">Profit Share Ratio ：%s</string>
     <string name="text_trader_total_income">Total profit from copy trading</string>
     <string name="text_ratio_tip">After following, the system will calculate the profit based on each followed trade. %s of the profit made by each trade will be awarded to the trader.</string>
     <string name="text_income_rate">profit margin</string>
     <string name="text_order_type">order type</string>
     <string name="text_copy_trade_amount_item">copy trade amount</string>
-    <string name="text_go_trade">去交易</string>
+    <string name="text_go_trade">Start trading</string>
     <string name="text_being_copied">Being copied trading settings</string>
     <string name="text_all_profit">total profit</string>
     <string name="text_week_profit">profit this week</string>
@@ -620,5 +620,6 @@
     <string name="text_price_usdt">Price USDT</string>
     <string name="text_follow_count">Followers</string>
     <string name="text_full">Full</string>
+    <string name="text_nickname">Username</string>
 
 </resources>
