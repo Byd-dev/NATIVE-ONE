@@ -221,7 +221,7 @@ public class FollowerMangerFragment extends BaseFragment implements View.OnClick
                 text_week_profit.setText(TradeUtil.getNumberFormat(followerIncomeEntity.getIncomeWeek(),2));
                 text_all_profit.setText(TradeUtil.getNumberFormat(followerIncomeEntity.getIncomeAll(),2));
 
-                String format1 = String.format(getResources().getString(R.string.text_follower_tip), followerIncomeEntity.getFollower(), followerIncomeEntity.getVolume());
+                @SuppressLint({"StringFormatInvalid", "LocalSuppress"}) String format1 = String.format(getResources().getString(R.string.text_follower_tip), followerIncomeEntity.getFollower(), followerIncomeEntity.getVolume());
                 text_content.setText(Html.fromHtml(format1));
 
 

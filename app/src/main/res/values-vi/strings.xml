@@ -445,7 +445,7 @@
     <string name="text_album">album ảnh</string>
     <string name="text_withdrawal_tip_three">Hạn mức rút trong ngày：%s</string>
     <string name="text_trader_30_days_rate">Tỷ lệ lợi nhuận 30 ngày gần đây</string>
-    <string name="text_trader_30_days_defeat">Tỷ lệ thắng 30 ngày gần đây</string>
+    <string name="text_trader_30_days_defeat">Tỷ suất lời 30D</string>
     <string name="text_trader_30_days_draw">Lỗ tối đa 30 ngày gần đây</string>
     <string name="text_bet_days">Ngày giao dịch</string>
     <string name="text_trader_30_days_count">Ngày giao dịch 30 ngày gần đây</string>
@@ -511,7 +511,7 @@
     <string name="text_follower_detail">Người sao chép</string>
     <string name="text_trader_30_days_income">Tỷ lệ P/L</string>
     <string name="text_profit_share_ratio">Tỷ lệ lợi nhuận chia sẻ：%s</string>
-    <string name="text_trader_total_income">Tổng lợi nhuận sao chép</string>
+    <string name="text_trader_total_income">Tỷ lệ thu nhập</string>
     <string name="text_ratio_tip">Sau khi sao chép，%s lợi nhuận mỗi lệnh sẽ chia sẻ cho giao dịch viên.</string>
     <string name="text_income_rate">Tỷ suất lợi nhuận</string>
     <string name="text_order_type">Loại lệnh</string>
