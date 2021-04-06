@@ -296,7 +296,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     @Override
     public void update(Observable o, Object arg) {
-
         if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
