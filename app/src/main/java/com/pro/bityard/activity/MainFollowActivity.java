@@ -307,7 +307,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     quoteAdapter.setDatas(arrayMap.get(AppConfig.HOME_LIST));
                     quoteAdapter_market.setDatas(quoteList);
 
-
                    /* map = new ArrayMap<>();
                     for (int i = 0; i < quoteList.size(); i++) {
                         String[] split1 = quoteList.get(i).split(",");
