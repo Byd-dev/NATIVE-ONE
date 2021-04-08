@@ -20,8 +20,8 @@
     <color name="color_country_code">#1D2A34</color>
     <color name="color_code">#333333</color>
     <color name="text_quote_color">#C2C2C2</color>
-    <color name="text_quote_red">#D33B4F</color>
-    <color name="text_quote_green">#1DAF9A</color>
+    <color name="text_quote_red">#fd4d50</color>
+    <color name="text_quote_green">#2bb560</color>
     <color name="text_report_color">#ACB9BC</color>
     <color name="text_mainclor_black">#1D2A34</color>
     <color name="text_second_color">#717B8F</color>
