@@ -155,7 +155,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
                     }
                     String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                    ((MyViewHolder) holder).text_price_currency.setText(TradeUtil.numberHalfUp(TradeUtil.mul(Double.parseDouble(price), Double.parseDouble(string)), 2));
+                    ((MyViewHolder) holder).text_price_currency.setText("¥ "+TradeUtil.numberHalfUp(TradeUtil.mul(Double.parseDouble(price), Double.parseDouble(string)), 2));
                 }
             }
         }
@@ -246,7 +246,7 @@ public class QuoteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             String string = SPUtils.getString(AppConfig.USD_RATE, null);
             if (string != null) {
-                ((MyViewHolder) holder).text_price_currency.setText(TradeUtil.numberHalfUp(TradeUtil.mul(Double.parseDouble(price), Double.parseDouble(string)), 2));
+                ((MyViewHolder) holder).text_price_currency.setText("¥ "+TradeUtil.numberHalfUp(TradeUtil.mul(Double.parseDouble(price), Double.parseDouble(string)), 2));
             }
 
 
