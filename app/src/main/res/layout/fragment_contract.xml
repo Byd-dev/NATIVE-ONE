@@ -128,7 +128,7 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/layout_line_big"/>
+
 
 
     <!--头部-->
@@ -301,6 +301,7 @@
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
+    <include layout="@layout/layout_line_big"/>
     <!--中间-->
     <LinearLayout
         android:layout_width="match_parent"
@@ -349,7 +350,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:background="@color/home_line"
             >
 
 

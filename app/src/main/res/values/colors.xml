@@ -6,9 +6,9 @@
 
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
-    <color name="background_main_color">#0E1A35</color>
-    <color name="home_line">#1B243A</color>
-    <color name="maincolor">#FFB628</color>
+    <color name="background_main_color">#1A202E</color>
+    <color name="home_line">#121622</color>
+    <color name="maincolor">#F6AE36</color>
     <color name="tab_color_normal">#848E9C</color>
     <color name="text_main_color">#ffffff</color>
     <color name="text_secondcolor">#637996</color>
@@ -20,18 +20,18 @@
     <color name="color_country_code">#1D2A34</color>
     <color name="color_code">#333333</color>
     <color name="text_quote_color">#C2C2C2</color>
-    <color name="text_quote_red">#fd4d50</color>
-    <color name="text_quote_green">#2bb560</color>
+    <color name="text_quote_red">#FD374B</color>
+    <color name="text_quote_green">#00C76F</color>
     <color name="text_report_color">#ACB9BC</color>
     <color name="text_mainclor_black">#1D2A34</color>
-    <color name="text_second_color">#717B8F</color>
+    <color name="text_second_color">#798296</color>
     <color name="text_main_color_black">#333333</color>
     <color name="text_red_position">#D55F58</color>
     <color name="text_edit_pop">#21304F</color>
     <color name="color_bg_green">#332EBD85</color>
     <color name="color_bg_normal">#535352</color>
     <color name="color_bg_red">#33DF415E</color>
-    <color name="color_bg_left">#182647</color>
+    <color name="color_bg_left">#1A202E</color>
     <color name="text_second_color_black">#222222</color>
     <color name="color_minute">#2296D7</color>
     <color name="color_shadow_above">#244968</color>

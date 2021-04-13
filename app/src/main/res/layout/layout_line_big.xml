@@ -7,5 +7,5 @@
         android:id="@+id/view_line"
         android:layout_width="match_parent"
         android:layout_height="@dimen/size_line_big"
-        android:background="@color/color_bg_left" />
+        android:background="@color/home_line" />
 </LinearLayout>
