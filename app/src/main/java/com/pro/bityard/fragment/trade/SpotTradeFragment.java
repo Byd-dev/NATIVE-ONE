@@ -163,6 +163,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private TextView text_sub_amount_market;
     private int priceDigit;
     private Activity activity;
+    private String volumeMin;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -415,14 +416,21 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         Log.d("print", "initData:现货进来的值:  " + itemQuoteContCode(itemData));
         setContent(itemData);
         edit_price_limit.setDecimalEndNumber(priceDigit);
-        String volumeMin = tradeDetail.getVolumeMin();
-        if (volumeMin == null) {
+        if (tradeDetail==null){
             volumeDigit = 0;
-        } else {
-            volumeDigit = TradeUtil.decimalPoint(volumeMin);
+        }else {
+            volumeMin = tradeDetail.getVolumeMin();
+            if (volumeMin == null) {
+                volumeDigit = 0;
+            } else {
+                volumeDigit = TradeUtil.decimalPoint(volumeMin);
+            }
         }
+
         edit_amount_limit.setDecimalEndNumber(volumeDigit);
         edit_trade_amount_limit.setDecimalEndNumber(priceDigit);
+
+
 
 
         watcher_price = new TextWatcher() {
