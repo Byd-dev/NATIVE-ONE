@@ -170,6 +170,7 @@
                         android:layout_height="@dimen/margin_50"
                         android:layout_marginTop="@dimen/margin_10"
                         android:layout_marginBottom="@dimen/margin_10"
+                        android:visibility="gone"
                         android:background="@color/color_bg_left">
 
                         <ImageView
@@ -186,6 +187,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:layout_marginBottom="@dimen/margin_10"
+                        android:layout_marginTop="@dimen/margin_10"
                         android:background="@color/color_bg_left"
                         android:orientation="horizontal">
 
