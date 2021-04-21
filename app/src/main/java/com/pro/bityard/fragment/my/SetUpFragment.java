@@ -92,7 +92,6 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
         view.findViewById(R.id.img_back).setOnClickListener(this);
 
         view.findViewById(R.id.btn_logout).setOnClickListener(this);
-
         view.findViewById(R.id.layout_one).setOnClickListener(this);
         view.findViewById(R.id.layout_two).setOnClickListener(this);
         view.findViewById(R.id.layout_three).setOnClickListener(this);
