@@ -6,8 +6,8 @@
 
     <color name="transparent_night">#00000000</color>
     <color name="white_night">#ffffff</color>
-    <color name="background_main_color_night">#ffffff</color>
-    <color name="home_line_night">#F3F2F2</color>
+    <color name="background_main_color_night">#F7F8FB</color>
+    <color name="home_line_night">#121622</color>
     <color name="maincolor_night">#FFB628</color>
     <color name="tab_color_normal_night">#848E9C</color>
     <color name="text_maincolor_night">#222222</color>
