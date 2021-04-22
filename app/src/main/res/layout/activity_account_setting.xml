@@ -16,7 +16,7 @@
         android:layout_height="@dimen/margin_setup">
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_withdraw_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -31,7 +31,7 @@
                     android:orientation="horizontal">
 
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:id="@+id/text_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
                         android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_big" />
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:id="@+id/text_currency"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -82,7 +82,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_pending_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -102,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -114,7 +114,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -149,7 +149,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_loss_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -181,7 +181,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_profit_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -201,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -213,7 +213,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_lever"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -233,7 +233,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -246,7 +246,7 @@
                     tools:ignore="HardcodedText" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_order"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -273,7 +273,7 @@
                     android:gravity="left|center"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_frozen"
@@ -282,7 +282,7 @@
 
                         />
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_5"
@@ -292,7 +292,7 @@
                 </LinearLayout>
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_margin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -319,7 +319,7 @@
                     android:gravity="left|center"
                     android:orientation="vertical">
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_paid"
@@ -329,7 +329,7 @@
 
                         />
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_5"
@@ -340,7 +340,7 @@
 
                 </LinearLayout>
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -361,7 +361,7 @@
                 android:layout_height="@dimen/margin_setup"
                 android:visibility="gone">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -373,7 +373,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_o_n_fee"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -396,7 +396,7 @@
                 android:layout_height="@dimen/margin_setup"
                 android:visibility="gone">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -408,7 +408,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_o_n"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -429,7 +429,7 @@
                 android:layout_height="@dimen/margin_setup"
                 android:visibility="visible">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -441,7 +441,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_is_o_n"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -463,7 +463,7 @@
                 android:layout_height="@dimen/margin_setup"
                 android:visibility="gone">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -475,7 +475,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_currency_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -495,7 +495,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/stay_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -508,7 +508,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_open_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -528,7 +528,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/margin_setup">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/stay_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -541,7 +541,7 @@
                     android:textSize="@dimen/size_normal_two" />
 
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_order_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -566,7 +566,7 @@
         android:layout_height="@dimen/margin_setup">
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_close_out"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

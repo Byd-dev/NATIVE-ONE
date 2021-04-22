@@ -95,7 +95,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_available"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -104,7 +104,7 @@
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_3"
@@ -123,7 +123,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_freeze"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -133,7 +133,7 @@
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_3"
@@ -153,7 +153,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_worth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -162,7 +162,7 @@
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_3"
@@ -265,7 +265,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_available_simulation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -274,7 +274,7 @@
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_3"
@@ -293,7 +293,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_freeze_simulation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -303,7 +303,7 @@
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_3"
@@ -323,7 +323,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_worth_simulation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -332,7 +332,7 @@
                     android:textColor="@color/text_main_color_black"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_3"
