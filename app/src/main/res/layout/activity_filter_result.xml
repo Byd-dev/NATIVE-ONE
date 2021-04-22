@@ -16,7 +16,7 @@
         android:layout_height="@dimen/bar_height"
         android:orientation="horizontal">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_style"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -30,7 +30,7 @@
             android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_days_rate"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -45,7 +45,7 @@
             android:textColor="@color/text_main_color"
             android:textSize="@dimen/size_normal" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_bet_days"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -116,7 +116,7 @@
                     android:src="@mipmap/icon_optional_null"
                     android:visibility="visible" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_10"

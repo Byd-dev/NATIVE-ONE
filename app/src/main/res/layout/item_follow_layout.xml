@@ -138,7 +138,7 @@
                 android:gravity="center|left"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_trader_total_rate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
@@ -163,7 +163,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_trader_30_days_defeat"
 
                     android:layout_width="wrap_content"
@@ -172,7 +172,7 @@
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
@@ -191,7 +191,7 @@
                 android:gravity="center|right"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_trader_30_days_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -205,7 +205,7 @@
                     android:layout_marginTop="@dimen/margin_5"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text_trader_30_days_income"
@@ -233,7 +233,7 @@
                 android:gravity="center|left"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_bet_days"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -241,7 +241,7 @@
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
@@ -258,7 +258,7 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_trader_30_days_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -266,7 +266,7 @@
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"
@@ -285,7 +285,7 @@
                 android:gravity="center|right"
                 android:orientation="vertical">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_follower"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -293,7 +293,7 @@
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_bigger" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_5"

@@ -9,7 +9,7 @@
         android:layout_height="70dp"
         android:gravity="center">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_centerInParent="true"

@@ -28,7 +28,7 @@
     <!--密码-->
     <include layout="@layout/layout_pass" />
 
-    <TextView
+    <com.pro.bityard.view.textview.ManropeTextView
         android:id="@+id/text_forget_pass"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
 
         />
 
-    <TextView
+    <com.pro.bityard.view.textview.ManropeTextView
         android:id="@+id/text_email_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

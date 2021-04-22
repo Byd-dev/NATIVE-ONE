@@ -34,7 +34,7 @@
                 android:layout_marginRight="@dimen/margin_5"
                 >
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                     android:textSize="@dimen/size_normal_two"
                     android:typeface="monospace" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_name_usdt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
 
             </RelativeLayout>
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_lastPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

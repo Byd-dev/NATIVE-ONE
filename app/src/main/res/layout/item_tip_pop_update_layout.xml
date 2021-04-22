@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -31,7 +31,7 @@
         </RelativeLayout>
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_content"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
@@ -44,7 +44,7 @@
             android:textSize="@dimen/size_normal_two" />
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_sure"
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_40"
@@ -56,7 +56,7 @@
             android:textColor="@color/text_main_color_black"
             android:textSize="@dimen/size_bigger" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_cancel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

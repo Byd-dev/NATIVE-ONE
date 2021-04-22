@@ -164,6 +164,7 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
             avgPriceRectWidth, avgHeightPerVolume, avgHeightMacd, avgHeightDea, avgHeightDif,
             avgHeightK, avgHeightD, avgHeightJ, mMaxPriceY, avgHeightRSI,
             mMinPriceY, mMaxMacd, mMinMacd, mMaxK;
+    private Typeface typeface;
 
 
     public NoVolumeView(Context context) {
@@ -176,13 +177,19 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
 
     public NoVolumeView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        typeface = Typeface.createFromAsset(getContext().getAssets(), "Manrope_medium.otf");
         initAttrs(context, attrs);
         initData();
+
     }
+
+
 
     public interface OnRequestDataListListener {
         void requestData();
     }
+
+
 
     public void setOnRequestDataListListener(OnRequestDataListListener requestListener) {
         this.requestListener = requestListener;
@@ -810,6 +817,7 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
         fillPaint.setAntiAlias(true);
         fillPaint.setTextSize(sp2px(abscissaTextSize));
         fillPaint.setStyle(Paint.Style.FILL);
+        fillPaint.setTypeface(typeface);
 
         strokePaint = new Paint();
         strokePaint.setAntiAlias(true);

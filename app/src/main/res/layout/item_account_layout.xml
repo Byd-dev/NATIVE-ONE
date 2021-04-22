@@ -26,7 +26,7 @@
                 android:layout_marginStart="@dimen/margin_15"
                 android:src="@mipmap/icon_usdt" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_currency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:gravity="center|right"
             android:orientation="vertical"
             >
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_balance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                 android:textColor="@color/text_main_color"
 
                 />
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_balance_transfer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
