@@ -107,7 +107,6 @@
             android:layout_marginRight="@dimen/margin_20"
             android:layout_marginBottom="@dimen/margin_10"
             android:orientation="horizontal">
-
             <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
