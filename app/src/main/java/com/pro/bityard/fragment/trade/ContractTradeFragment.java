@@ -479,7 +479,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
             } else {
-
                 img_price_triangle.setImageDrawable(getResources().getDrawable(R.mipmap.market_up));
                 flag_new_price = true;
                 Util.priceTypeLow2High(zone_type, response -> type = (String) response);
