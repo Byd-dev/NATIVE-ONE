@@ -216,7 +216,7 @@ public class PositionFragment extends BaseFragment implements Observer {
                 }
             });
         });
-        
+
         headerRecyclerView.setAdapter(positionAdapter);
         swipeRefreshLayout.setOnRefreshListener(this::initData);
         //跳到行情
@@ -230,7 +230,6 @@ public class PositionFragment extends BaseFragment implements Observer {
             }
 
         });
-
 
         //添加保证金
         positionAdapter.setAddMarginClick(data -> {
