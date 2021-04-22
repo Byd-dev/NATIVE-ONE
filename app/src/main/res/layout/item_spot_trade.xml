@@ -52,7 +52,7 @@
         android:layout_marginRight="@dimen/margin_10"
         android:background="@drawable/bg_color_left">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_limit_market"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -93,7 +93,7 @@
             android:textSize="@dimen/size_normal" />
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
         android:orientation="horizontal">
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_buy_what"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

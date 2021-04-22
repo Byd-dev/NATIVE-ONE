@@ -2,6 +2,7 @@ package com.pro.bityard.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.AttributeSet;
@@ -9,6 +10,7 @@ import android.util.Log;
 
 import com.pro.bityard.R;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 
 public class DecimalEditText extends AppCompatEditText {
@@ -62,6 +64,13 @@ public class DecimalEditText extends AppCompatEditText {
         min=typedArray.getFloat(R.styleable.DecimalEditText_min,0);
         typedArray.recycle();
         init();
+    }
+
+    @Override
+    public void setTypeface(@Nullable Typeface tf) {
+        tf = Typeface.createFromAsset(getContext().getAssets(), "Manrope_medium.otf");
+        super.setTypeface(tf);
+
     }
 
     /**
