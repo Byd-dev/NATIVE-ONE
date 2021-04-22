@@ -415,7 +415,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
 
                 }*/
             }
-
         }
 
 
