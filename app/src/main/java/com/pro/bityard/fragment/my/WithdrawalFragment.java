@@ -376,7 +376,6 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
     protected void intPresenter() {
 
     }
-
     @SuppressLint("SetTextI18n")
     @Override
     protected void initData() {
