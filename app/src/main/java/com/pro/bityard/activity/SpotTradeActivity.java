@@ -257,7 +257,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     protected int setContentLayout() {
         return R.layout.activity_trade_spot;
     }
-    
+
 
 
     @Override
