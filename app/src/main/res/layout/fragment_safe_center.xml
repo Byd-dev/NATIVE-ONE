@@ -19,7 +19,7 @@
             android:padding="@dimen/margin_15"
             android:src="@mipmap/img_back" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -35,7 +35,7 @@
         android:background="@color/color_bg_left"
         android:layout_height="45dp">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_lever_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
 
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_lever"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_change"
@@ -116,7 +116,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -128,7 +128,7 @@
             android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_pin_tip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

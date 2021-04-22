@@ -27,7 +27,7 @@
                 android:layout_marginLeft="@dimen/margin_15"
                 android:src="@mipmap/icon_usdt"/>
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_withdraw_currency_transfer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
                 android:textSize="@dimen/size_normal_two" />
 
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_commission_transfer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,7 +95,7 @@
                 android:layout_marginRight="@dimen/margin_15"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -103,7 +103,7 @@
                     android:textColor="@color/text_second_color"
                     android:textSize="@dimen/size_big" />
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_balance_transfer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -181,7 +181,7 @@
                 android:textCursorDrawable="@null"
                 android:textSize="@dimen/hint_size" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_getCode_transfer"
                 android:layout_width="89dp"
                 android:layout_height="@dimen/margin_30"
@@ -201,7 +201,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_setup">
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -213,7 +213,7 @@
                 android:textSize="@dimen/size_normal_two" />
 
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_today_fee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -233,7 +233,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_setup">
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -245,7 +245,7 @@
                 android:textSize="@dimen/size_normal_two" />
 
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_total_volume"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -287,14 +287,14 @@
             android:layout_marginRight="@dimen/margin_15"
             android:orientation="horizontal">
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_important"
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_5"

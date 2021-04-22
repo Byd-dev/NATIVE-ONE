@@ -32,7 +32,7 @@
             android:layout_height="@dimen/margin_setup"
             android:orientation="horizontal">
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_address"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -47,7 +47,7 @@
                 android:textSize="@dimen/hint_size" />
 
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_address_manage"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -78,7 +78,7 @@
 
             >
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -88,7 +88,7 @@
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal_two" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_range"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
 
             >
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -120,7 +120,7 @@
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal_two" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_fee"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,7 +154,7 @@
             />
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_record"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -180,14 +180,14 @@
             android:layout_marginBottom="@dimen/margin_30"
             android:orientation="vertical">
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/text_important"
                 android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_big" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_withdrawal_tip_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -196,7 +196,7 @@
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_withdrawal_tip_three"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -204,7 +204,7 @@
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_withdrawal_tip_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -212,7 +212,7 @@
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_withdrawal_tip_four"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -220,7 +220,7 @@
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_withdrawal_tip_five"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -228,7 +228,7 @@
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_withdrawal_tip_six"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -236,7 +236,7 @@
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_withdrawal_tip_seven"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -244,7 +244,7 @@
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_withdrawal_tip_eight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

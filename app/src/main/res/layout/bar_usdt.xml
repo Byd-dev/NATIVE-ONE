@@ -29,7 +29,7 @@
             android:textSize="@dimen/size_normal_two" />
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_commission"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

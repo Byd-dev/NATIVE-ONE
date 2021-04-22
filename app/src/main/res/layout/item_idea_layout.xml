@@ -16,7 +16,7 @@
         >
 
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_title"
             android:layout_height="wrap_content"
             android:gravity="left|center"

@@ -12,7 +12,7 @@
         android:layout_marginRight="@dimen/margin_25"
         android:orientation="vertical">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_number"
@@ -52,7 +52,7 @@
 
             >
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_err_mobile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

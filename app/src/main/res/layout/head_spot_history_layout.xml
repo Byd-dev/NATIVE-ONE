@@ -16,7 +16,7 @@
             android:layout_weight="1">
 
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/stay_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_date_select"/>
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             android:layout_weight="1">
 
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/stay_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_date_select"/>
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_end"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

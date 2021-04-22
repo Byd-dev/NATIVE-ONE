@@ -17,7 +17,7 @@
         android:background="@drawable/bg_color_left"
         android:orientation="horizontal">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_sub_price_limit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

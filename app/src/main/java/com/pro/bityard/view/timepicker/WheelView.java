@@ -63,7 +63,7 @@ public class WheelView extends View {
     private float itemHeight;//每行高度
 
 
-    private Typeface typeface = Typeface.MONOSPACE;//字体样式，默认是等宽字体
+    private Typeface typeface;//字体样式，默认是等宽字体
     private int textColorOut;
     private int textColorCenter;
     private int dividerColor;
@@ -166,6 +166,7 @@ public class WheelView extends View {
 
     private void initLoopView(Context context) {
         this.context = context;
+        typeface = Typeface.createFromAsset(getContext().getAssets(), "Manrope_medium.otf");
         handler = new MessageHandler(this);
         gestureDetector = new GestureDetector(context, new LoopViewGestureListener(this));
         gestureDetector.setIsLongpressEnabled(false);
@@ -175,6 +176,8 @@ public class WheelView extends View {
         initPosition = -1;
         initPaints();
     }
+
+
 
     private void initPaints() {
         paintOuterText = new Paint();

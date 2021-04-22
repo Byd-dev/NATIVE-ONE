@@ -22,7 +22,7 @@
 
 
             >
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_income"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"

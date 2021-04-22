@@ -18,7 +18,7 @@
 
             >
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_userName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:id="@+id/text_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                         android:textColor="@color/text_main_color"
                         android:textSize="@dimen/size_normal_two" />
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:id="@+id/text_chain"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.pro.bityard.view.textview.ManropeTextView
                         android:id="@+id/text_address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

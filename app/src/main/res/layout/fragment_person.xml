@@ -20,7 +20,7 @@
             android:padding="@dimen/margin_15"
             android:src="@mipmap/img_back" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -40,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_select"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
             android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_uid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -113,7 +113,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -124,7 +124,7 @@
             android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -161,7 +161,7 @@
             android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_sex"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -186,7 +186,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_setup">
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -197,7 +197,7 @@
             android:textColor="@color/text_main_color"
             android:textSize="15sp" />
 
-        <TextView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

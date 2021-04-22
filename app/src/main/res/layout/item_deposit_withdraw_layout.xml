@@ -18,7 +18,7 @@
             android:gravity="left|center_vertical"
             android:layout_marginLeft="@dimen/margin_15"
             >
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_explain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
                 android:textSize="@dimen/size_normal_two"
                 android:textColor="@color/text_main_color"/>
 
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
             android:gravity="center"
             android:layout_marginLeft="@dimen/margin_15"
             >
-            <TextView
+            <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -61,14 +61,14 @@
                 android:layout_marginTop="@dimen/margin_5"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_money"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="50"
                     android:textSize="@dimen/size_normal"
                     android:textColor="@color/text_main_color"/>
-                <TextView
+                <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_currency"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
