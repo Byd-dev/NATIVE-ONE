@@ -36,7 +36,6 @@ import androidx.fragment.app.FragmentTransaction;
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends AppCompatActivity {
-    
     public View mView;
     private FragmentManager fragmentManager;
     //当前正在展示的Fragment
