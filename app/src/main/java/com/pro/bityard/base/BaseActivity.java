@@ -43,7 +43,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     //当前正在展示的Fragment
     private BaseFragment showFragment;
     private LazyLoadBaseFragment showFragment2;
-
     private ProgressDialog mProgressDialog;
 
     private EditText editText = null;
@@ -234,7 +233,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         try {
             if (mProgressDialog != null)
                 mProgressDialog.show();
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
