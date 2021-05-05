@@ -2135,7 +2135,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 layout_circle.setVisibility(View.GONE);
                 layout_my.setVisibility(View.GONE);
                 layout_status.setVisibility(View.VISIBLE);
-
                 radioButton_0.setChecked(true);
                 radioButton_1.setChecked(false);
                 radioButton_2.setChecked(false);
