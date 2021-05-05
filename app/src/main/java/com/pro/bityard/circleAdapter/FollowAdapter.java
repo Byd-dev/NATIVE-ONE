@@ -154,16 +154,16 @@ public class FollowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ((MyViewHolder) holder).text_trader_total_rate.setTextColor(context.getResources().getColor(R.color.text_quote_red));
 
             }
-            ((MyViewHolder) holder).text_trader_30_days_income.setText(datas.get(position).getTrader30DaysRate() + "%");
+            ((MyViewHolder) holder).text_trader_30_days_income.setText(datas.get(position).getmIncome() + "%");
 
             double mul1 = TradeUtil.mul(datas.get(position).getTraderIncome(), 1);
-            ((MyViewHolder) holder).text_trader_30_days_defeat.setText(datas.get(position).getTrader30DaysDefeat() + "%");
+            ((MyViewHolder) holder).text_trader_30_days_defeat.setText(datas.get(position).getmDefeat() + "%");
 
             ((MyViewHolder) holder).text_trader_total_rate.setText(TradeUtil.getNumberFormat(datas.get(position).getIncomeRate(),2)+"%");
 
-            ((MyViewHolder) holder).text_bet_days.setText(datas.get(position).getBetDays());
+            ((MyViewHolder) holder).text_bet_days.setText(datas.get(position).getDays());
 
-            ((MyViewHolder) holder).text_trader_30_days_count.setText(String.valueOf(datas.get(position).getTrader30DaysCount()));
+            ((MyViewHolder) holder).text_trader_30_days_count.setText(String.valueOf(datas.get(position).getmCount()));
 
             ((MyViewHolder) holder).text_follower.setText(follower);
 

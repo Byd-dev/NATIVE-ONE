@@ -126,6 +126,10 @@ public class FollowerDetailEntity implements Serializable{
         private String traderName;
         private String traderType;
         private long updateTime;
+        private String days;
+        private String mDefeat;
+        private String mIncome;
+        private String mCount;
 
         @Override
         public String toString() {
@@ -159,7 +163,7 @@ public class FollowerDetailEntity implements Serializable{
                     ", active=" + active +
                     ", createTime=" + createTime +
                     ", followVal=" + followVal +
-                    ", followMax=" + followMax +
+                    ", followMax='" + followMax + '\'' +
                     ", followWay=" + followWay +
                     ", id='" + id + '\'' +
                     ", lastCode=" + lastCode +
@@ -175,7 +179,44 @@ public class FollowerDetailEntity implements Serializable{
                     ", traderName='" + traderName + '\'' +
                     ", traderType='" + traderType + '\'' +
                     ", updateTime=" + updateTime +
+                    ", days='" + days + '\'' +
+                    ", mDefeat='" + mDefeat + '\'' +
+                    ", mIncome='" + mIncome + '\'' +
+                    ", mCount='" + mCount + '\'' +
                     '}';
+        }
+
+
+        public String getDays() {
+            return days;
+        }
+
+        public void setDays(String days) {
+            this.days = days;
+        }
+
+        public String getmDefeat() {
+            return mDefeat;
+        }
+
+        public void setmDefeat(String mDefeat) {
+            this.mDefeat = mDefeat;
+        }
+
+        public String getmIncome() {
+            return mIncome;
+        }
+
+        public void setmIncome(String mIncome) {
+            this.mIncome = mIncome;
+        }
+
+        public String getmCount() {
+            return mCount;
+        }
+
+        public void setmCount(String mCount) {
+            this.mCount = mCount;
         }
 
         public long getCreateTime() {
