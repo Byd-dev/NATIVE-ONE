@@ -36,6 +36,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.AccountAdapter;
+import com.pro.bityard.adapter.HomeSelectAdapter;
 import com.pro.bityard.adapter.MarketSearchHotAdapter;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
@@ -162,6 +163,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     TextView text_main_four;
     @BindView(R.id.text_main_five)
     TextView text_main_five;
+
+    @BindView(R.id.recyclerView_home_title)
+    RecyclerView recyclerView_home_title;
+    private HomeSelectAdapter homeSelectAdapter;
     /*首页-------------------------------------------------------------*/
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
@@ -169,6 +174,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     XBanner xBanner;
     @BindView(R.id.img_ad)
     ImageView img_ad;
+    @BindView(R.id.img_home_head)
+    CircleImageView img_home_head;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     private QuoteHomeAdapter quoteHomeAdapter;
@@ -335,7 +342,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     // layout_null.setVisibility(View.GONE);
                     recyclerView_market.setVisibility(View.VISIBLE);
                     quoteHomeAdapter.setDatas(arrayMap.get(AppConfig.HOME_HOT));
-                    quoteAdapter.setDatas(arrayMap.get(AppConfig.HOME_LIST));
+                    quoteAdapter.setDatas(quoteList);
                     quoteAdapter_market.setDatas(quoteList);
                    /* map = new ArrayMap<>();
                     for (int i = 0; i < quoteList.size(); i++) {
@@ -617,6 +624,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             layout_login_register.setVisibility(View.GONE);
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head_circle);
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head);
+            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_bityard_home).into(img_home_head);
+
             layout_commissionRate.setVisibility(View.VISIBLE);
             getFollowIncome();
             accountAdapter.setZero(false);
@@ -633,6 +642,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             text_commissionRate.setText(getResources().getString(R.string.text_default));
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head_circle);
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head);
+            Glide.with(this).load(R.mipmap.icon_bityard_home).into(img_home_head);
+
             layout_commissionRate.setVisibility(View.GONE);
 
             text_all_profit.setText(getResources().getString(R.string.text_all_profit) + ": 0.0");
@@ -712,6 +723,17 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         layout_main_three.setOnClickListener(this);
         layout_main_four.setOnClickListener(this);
         layout_main_five.setOnClickListener(this);
+        contractTitleList = new ArrayList<>();
+        contractTitleList.add(getString(R.string.text_add_pass_coin));
+        contractTitleList.add(getString(R.string.text_derived));
+        contractTitleList.add(getString(R.string.text_foreign_exchange));
+
+        homeSelectAdapter=new HomeSelectAdapter(this);
+        recyclerView_home_title.setLayoutManager(new GridLayoutManager(this,3));
+        recyclerView_home_title.setAdapter(homeSelectAdapter);
+        homeSelectAdapter.setDatas(contractTitleList);
+        homeSelectAdapter.select(getString(R.string.text_add_pass_coin));
+        homeSelectAdapter.setEnable(true);
 
 
         //主题是深色的标题
@@ -755,6 +777,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_hot.setAdapter(quoteHomeAdapter);
         quoteHomeAdapter.setOnItemClick(this::onSuccessListener);
         img_head.setOnClickListener(this);
+        img_home_head.setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
         findViewById(R.id.text_login_register).setOnClickListener(this);
@@ -767,13 +790,92 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         quoteAdapter.isShowVolume(true);
 
 
+        homeSelectAdapter.setOnItemClick(new HomeSelectAdapter.OnItemClick() {
+            @Override
+            public void onSuccessListener(Integer position, String data) {
+                homeSelectAdapter.select(data);
+                switch (position) {
+                    case 0:
+                        type = AppConfig.CONTRACT_IN_ALL;
+                        zone_type = AppConfig.VIEW_CONTRACT_IN;
+                        if (arrayMap == null) {
+                            return;
+                        }
+                        quoteList = arrayMap.get(type);
+                        if (quoteList != null) {
+                            if (quoteList.size() == 0) {
+                                layout_null.setVisibility(View.VISIBLE);
+                                recyclerView_market.setVisibility(View.GONE);
+                            } else {
+                                layout_null.setVisibility(View.GONE);
+                                recyclerView_market.setVisibility(View.VISIBLE);
+                                quoteAdapter.setDatas(quoteList);
+                            }
+                        } else {
+
+                            layout_null.setVisibility(View.VISIBLE);
+                            recyclerView_market.setVisibility(View.GONE);
+                        }
+
+                        break;
+                    case 1:
+                        type = AppConfig.DERIVATIVES_ALL;
+                        zone_type = AppConfig.VIEW_DERIVATIVES;
+                        if (arrayMap == null) {
+                            return;
+                        }
+
+                        quoteList = arrayMap.get(type);
+                        if (quoteList != null) {
+                            if (quoteList.size() == 0) {
+                                layout_null.setVisibility(View.VISIBLE);
+                                recyclerView_market.setVisibility(View.GONE);
+                            } else {
+                                layout_null.setVisibility(View.GONE);
+                                recyclerView_market.setVisibility(View.VISIBLE);
+                                quoteAdapter.setDatas(quoteList);
+                            }
+                        } else {
+
+                            layout_null.setVisibility(View.VISIBLE);
+                            recyclerView_market.setVisibility(View.GONE);
+                        }
+
+                        break;
+                    case 2:
+                        type = AppConfig.FOREIGN_EXCHANGE_ALL;
+                        zone_type = AppConfig.VIEW_FOREIGN_EXCHANGE;
+                        if (arrayMap == null) {
+                            return;
+                        }
+                        quoteList = arrayMap.get(type);
+                        if (quoteList != null) {
+                            if (quoteList.size() == 0) {
+                                layout_null.setVisibility(View.VISIBLE);
+                                recyclerView_market.setVisibility(View.GONE);
+                            } else {
+                                layout_null.setVisibility(View.GONE);
+                                recyclerView_market.setVisibility(View.VISIBLE);
+                                quoteAdapter.setDatas(quoteList);
+                            }
+                        } else {
+
+                            layout_null.setVisibility(View.VISIBLE);
+                            recyclerView_market.setVisibility(View.GONE);
+                        }
+
+                        break;
+
+                }
+            }
+        });
+
         Util.colorSwipe(this, swipeRefreshLayout);
         /*刷新监听*/
         swipeRefreshLayout.setOnRefreshListener(this::initData);
 
 
         quoteAdapter.setOnItemClick(this::onSuccessListener);
-        findViewById(R.id.layout_simulation_home).setOnClickListener(this);
         findViewById(R.id.layout_activity).setOnClickListener(this);
 
 
@@ -875,10 +977,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         contractSelectAdapter = new OptionalSelectAdapter(this);
         recyclerView_contract.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         recyclerView_contract.setAdapter(contractSelectAdapter);
-        contractTitleList = new ArrayList<>();
-        contractTitleList.add(getString(R.string.text_add_pass_coin));
-        contractTitleList.add(getString(R.string.text_derived));
-        contractTitleList.add(getString(R.string.text_foreign_exchange));
+
 
         contractSelectAdapter.setDatas(contractTitleList);
         contractSelectAdapter.select(getString(R.string.text_add_pass_coin));
@@ -2243,7 +2342,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 img_main_two.setImageResource(R.mipmap.tab_two_normal);
                 img_main_four.setImageResource(R.mipmap.tab_four_normal);
                 img_main_five.setImageResource(R.mipmap.tab_five_normal);
-                
+
                 break;
             case R.id.layout_main_two:
                 layout_home.setVisibility(View.GONE);
@@ -2319,12 +2418,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 }
                 break;
 
-            case R.id.layout_simulation_home:
-                if (quoteList == null) {
-                    return;
-                }
-                goToTrade("2", quoteList.get(0));
-                break;
+
 
             /*行情 -----------------------------------------------------------------------------------*/
             case R.id.img_search:
@@ -2447,6 +2541,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             /*我的 -----------------------------------------------------------------------------------*/
             case R.id.img_head:
             case R.id.layout_login:
+            case R.id.img_home_head:
+
                 if (isLogin()) {
                     PersonActivity.enter(MainFollowActivity.this);
                 } else {

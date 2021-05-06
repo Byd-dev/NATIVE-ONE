@@ -6,8 +6,8 @@
 
     <color name="transparent_night">#00000000</color>
     <color name="white_night">#ffffff</color>
-    <color name="background_main_color_night">#F7F8FB</color>
-    <color name="home_line_night">#121622</color>
+    <color name="background_main_color_night">#F7F8FA</color>
+    <color name="home_line_night">#F3F3F4</color>
     <color name="maincolor_night">#FFB628</color>
     <color name="tab_color_normal_night">#848E9C</color>
     <color name="text_maincolor_night">#222222</color>
@@ -31,11 +31,13 @@
     <color name="color_bg_green_night">#338AB152</color>
     <color name="color_bg_normal_night">#E8EAE6</color>
     <color name="color_bg_red_night">#338B2A2F</color>
-    <color name="color_bg_left_night">#F4F4F4</color>
+    <color name="color_bg_left_night">#FFFFFF</color>
     <color name="text_second_color_black_night">#EAE4E4</color>
 
 
     <color name="color_bar_night">#FFFFFF</color>
     <color name="color_tab_normal_night">#798296</color>
+    <color name="color_title_bar_night">#EDF2F3</color>
+    <color name="text_main_color_night">#232427</color>
 
 </resources>

@@ -24,7 +24,7 @@
     <color name="text_quote_green">#00C76F</color>
     <color name="text_report_color">#ACB9BC</color>
     <color name="text_mainclor_black">#1D2A34</color>
-    <color name="text_second_color">#798296</color>
+    <color name="text_second_color">#8F96A6</color>
     <color name="text_main_color_black">#333333</color>
     <color name="text_red_position">#D55F58</color>
     <color name="text_edit_pop">#1A202E</color>
@@ -61,4 +61,5 @@
     <color name="pickerview_bgColor_default">#FFFFFFFF</color>
     <color name="color_bar">#2C3144</color>
     <color name="color_tab_normal">#798296</color>
+    <color name="color_title_bar">#232939</color>
 </resources>
