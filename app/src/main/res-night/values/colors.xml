@@ -34,4 +34,8 @@
     <color name="color_bg_left_night">#F4F4F4</color>
     <color name="text_second_color_black_night">#EAE4E4</color>
 
+
+    <color name="color_bar_night">#FFFFFF</color>
+    <color name="color_tab_normal_night">#798296</color>
+
 </resources>

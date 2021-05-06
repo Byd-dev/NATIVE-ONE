@@ -131,6 +131,37 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     RadioButton radioButton_3;
     @BindView(R.id.radio_4)
     RadioButton radioButton_4;
+
+    @BindView(R.id.layout_main_one)
+    LinearLayout layout_main_one;
+    @BindView(R.id.layout_main_two)
+    LinearLayout layout_main_two;
+    @BindView(R.id.layout_main_three)
+    LinearLayout layout_main_three;
+    @BindView(R.id.layout_main_four)
+    LinearLayout layout_main_four;
+    @BindView(R.id.layout_main_five)
+    LinearLayout layout_main_five;
+    @BindView(R.id.img_main_one)
+    ImageView img_main_one;
+    @BindView(R.id.img_main_two)
+    ImageView img_main_two;
+    @BindView(R.id.img_main_three)
+    ImageView img_main_three;
+    @BindView(R.id.img_main_four)
+    ImageView img_main_four;
+    @BindView(R.id.img_main_five)
+    ImageView img_main_five;
+    @BindView(R.id.text_main_one)
+    TextView text_main_one;
+    @BindView(R.id.text_main_two)
+    TextView text_main_two;
+    @BindView(R.id.text_main_three)
+    TextView text_main_three;
+    @BindView(R.id.text_main_four)
+    TextView text_main_four;
+    @BindView(R.id.text_main_five)
+    TextView text_main_five;
     /*首页-------------------------------------------------------------*/
     @BindView(R.id.recyclerView_list)
     RecyclerView recyclerView_list;
@@ -675,6 +706,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         radioButton_2.setOnClickListener(this);
         radioButton_3.setOnClickListener(this);
         radioButton_4.setOnClickListener(this);
+
+        layout_main_one.setOnClickListener(this);
+        layout_main_two.setOnClickListener(this);
+        layout_main_three.setOnClickListener(this);
+        layout_main_four.setOnClickListener(this);
+        layout_main_five.setOnClickListener(this);
 
 
         //主题是深色的标题
@@ -2155,6 +2192,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 radioButton_4.setChecked(false);
                 break;
             case R.id.radio_2:
+            case R.id.layout_main_three:
+
                 if (quoteList == null) {
                     return;
                 }
@@ -2190,6 +2229,75 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 radioButton_4.setChecked(true);
 
                 break;
+            case R.id.layout_main_one:
+                layout_home.setVisibility(View.VISIBLE);
+                layout_market.setVisibility(View.GONE);
+                layout_circle.setVisibility(View.GONE);
+                layout_my.setVisibility(View.GONE);
+                layout_status.setVisibility(View.VISIBLE);
+                text_main_one.setTextColor(getResources().getColor(R.color.maincolor));
+                text_main_two.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                text_main_four.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                text_main_five.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                img_main_one.setImageResource(R.mipmap.tab_one);
+                img_main_two.setImageResource(R.mipmap.tab_two_normal);
+                img_main_four.setImageResource(R.mipmap.tab_four_normal);
+                img_main_five.setImageResource(R.mipmap.tab_five_normal);
+
+
+
+                break;
+            case R.id.layout_main_two:
+                layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.VISIBLE);
+                layout_circle.setVisibility(View.GONE);
+                layout_my.setVisibility(View.GONE);
+                layout_status.setVisibility(View.VISIBLE);
+                text_main_one.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                text_main_two.setTextColor(getResources().getColor(R.color.maincolor));
+                text_main_four.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                text_main_five.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                img_main_one.setImageResource(R.mipmap.tab_one_normal);
+                img_main_two.setImageResource(R.mipmap.tab_two);
+                img_main_four.setImageResource(R.mipmap.tab_four_normal);
+                img_main_five.setImageResource(R.mipmap.tab_five_normal);
+                break;
+
+
+            case R.id.layout_main_four:
+                layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.GONE);
+                layout_circle.setVisibility(View.VISIBLE);
+                layout_my.setVisibility(View.GONE);
+                layout_status.setVisibility(View.VISIBLE);
+                text_main_one.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                text_main_two.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                text_main_four.setTextColor(getResources().getColor(R.color.maincolor));
+                text_main_five.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                img_main_one.setImageResource(R.mipmap.tab_one_normal);
+                img_main_two.setImageResource(R.mipmap.tab_two_normal);
+                img_main_four.setImageResource(R.mipmap.tab_four);
+                img_main_five.setImageResource(R.mipmap.tab_five_normal);
+
+                break;
+            case R.id.layout_main_five:
+                layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.GONE);
+                layout_circle.setVisibility(View.GONE);
+                layout_my.setVisibility(View.VISIBLE);
+                layout_status.setVisibility(View.GONE);
+                text_main_one.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                text_main_two.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                text_main_four.setTextColor(getResources().getColor(R.color.color_tab_normal));
+                text_main_five.setTextColor(getResources().getColor(R.color.maincolor));
+                img_main_one.setImageResource(R.mipmap.tab_one_normal);
+                img_main_two.setImageResource(R.mipmap.tab_two_normal);
+                img_main_four.setImageResource(R.mipmap.tab_four_normal);
+                img_main_five.setImageResource(R.mipmap.tab_five);
+
+
+                break;
+
 
             case R.id.text_login_register:
                 LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
