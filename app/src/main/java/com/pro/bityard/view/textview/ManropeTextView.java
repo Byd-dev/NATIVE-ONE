@@ -7,8 +7,9 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import skin.support.widget.SkinCompatTextView;
 
-public class ManropeTextView extends androidx.appcompat.widget.AppCompatTextView {
+public class ManropeTextView extends SkinCompatTextView {
 
 
     public ManropeTextView(@NonNull Context context) {

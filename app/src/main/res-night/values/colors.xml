@@ -39,5 +39,6 @@
     <color name="color_tab_normal_night">#798296</color>
     <color name="color_title_bar_night">#EDF2F3</color>
     <color name="text_main_color_night">#232427</color>
+    <color name="color_kline_line_night">#F3F3F4</color>
 
 </resources>

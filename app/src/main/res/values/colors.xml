@@ -62,4 +62,5 @@
     <color name="color_bar">#2C3144</color>
     <color name="color_tab_normal">#798296</color>
     <color name="color_title_bar">#232939</color>
+    <color name="color_kline_line">#232939</color>
 </resources>

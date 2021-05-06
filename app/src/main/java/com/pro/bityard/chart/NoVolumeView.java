@@ -33,9 +33,10 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import skin.support.widget.SkinCompatSupportable;
 
 
-public class NoVolumeView extends View implements View.OnTouchListener, Handler.Callback {
+public class NoVolumeView extends View implements View.OnTouchListener, Handler.Callback , SkinCompatSupportable {
 
     //view显示的第一条数据在总数据list中的position
     private int startDataNum = 0;
@@ -183,6 +184,10 @@ public class NoVolumeView extends View implements View.OnTouchListener, Handler.
 
     }
 
+    @Override
+    public void applySkin() {
+
+    }
 
 
     public interface OnRequestDataListListener {

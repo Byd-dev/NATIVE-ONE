@@ -100,7 +100,7 @@
                 android:id="@+id/img_main_four"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/tab_two_normal" />
+                android:src="@mipmap/tab_four_normal" />
 
             <TextView
                 android:id="@+id/text_main_four"
@@ -125,7 +125,7 @@
                 android:id="@+id/img_main_five"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/tab_two_normal" />
+                android:src="@mipmap/tab_five_normal" />
 
             <TextView
                 android:id="@+id/text_main_five"
