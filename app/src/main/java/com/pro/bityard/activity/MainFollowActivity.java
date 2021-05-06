@@ -2244,7 +2244,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 img_main_four.setImageResource(R.mipmap.tab_four_normal);
                 img_main_five.setImageResource(R.mipmap.tab_five_normal);
                 
-
                 break;
             case R.id.layout_main_two:
                 layout_home.setVisibility(View.GONE);
