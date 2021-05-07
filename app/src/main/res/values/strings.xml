@@ -532,7 +532,7 @@
     <string name="text_contract">合约</string>
     <string name="hint_follow_amount">5~400</string>
     <string name="text_foreign_exchange">外汇</string>
-    <string name="text_hot_search">热门搜素</string>
+    <string name="text_hot_search">热门搜索</string>
     <string name="text_history_search">历史搜索</string>
     <string name="text_spot_position">当前委托</string>
     <string name="text_cancel_all">撤销全部</string>

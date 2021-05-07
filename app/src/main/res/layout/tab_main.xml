@@ -107,7 +107,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/text_padding"
-                android:text="@string/tab_four"
+                android:text="@string/text_tab_follow"
                 android:textColor="@color/color_tab_normal"
                 android:textSize="10sp" />
 

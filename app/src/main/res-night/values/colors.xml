@@ -40,5 +40,6 @@
     <color name="color_title_bar_night">#EDF2F3</color>
     <color name="text_main_color_night">#232427</color>
     <color name="color_kline_line_night">#F3F3F4</color>
+    <color name="color_market_search_night">#EAECF0</color>
 
 </resources>

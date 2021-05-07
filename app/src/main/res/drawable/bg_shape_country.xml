@@ -3,6 +3,6 @@
     <corners android:radius="@dimen/margin_20" />
     <stroke
         android:width="@dimen/size_frame"
-        android:color="@color/text_edit_pop" />
-    <solid android:color="@color/color_bg_left" />
+        android:color="@color/color_market_search" />
+    <solid android:color="@color/color_market_search" />
 </shape>

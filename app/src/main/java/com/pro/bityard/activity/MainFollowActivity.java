@@ -95,6 +95,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import butterknife.BindView;
+import skin.support.SkinCompatManager;
 
 import static com.pro.bityard.api.NetManger.BUSY;
 import static com.pro.bityard.api.NetManger.FAILURE;
@@ -186,6 +187,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     private int mNewsIndex;
     @BindView(R.id.recyclerView_hot)
     RecyclerView recyclerView_hot;
+    private boolean isNight = false;
+
     /*market---------------------------------------------------*/
 
     private List<String> titleList, titlePopList, optionalTitleList, contractTitleList, spotTitleList;
@@ -541,6 +544,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         NetManger.getInstance().updateCheck(this, layout_view);
         //初始化
         InitManger.getInstance().init();
+        Util.setTheme(this);
+
+
+
     }
 
     private void setBonus(BalanceEntity balanceEntity) {
@@ -624,7 +631,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             layout_login_register.setVisibility(View.GONE);
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head_circle);
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head);
-            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_bityard_home).into(img_home_head);
+            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_home_head);
 
             layout_commissionRate.setVisibility(View.VISIBLE);
             getFollowIncome();
@@ -642,7 +649,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             text_commissionRate.setText(getResources().getString(R.string.text_default));
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head_circle);
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head);
-            Glide.with(this).load(R.mipmap.icon_bityard_home).into(img_home_head);
+            Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_home_head);
 
             layout_commissionRate.setVisibility(View.GONE);
 
@@ -728,16 +735,14 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         contractTitleList.add(getString(R.string.text_derived));
         contractTitleList.add(getString(R.string.text_foreign_exchange));
 
-        homeSelectAdapter=new HomeSelectAdapter(this);
-        recyclerView_home_title.setLayoutManager(new GridLayoutManager(this,3));
+        homeSelectAdapter = new HomeSelectAdapter(this);
+        recyclerView_home_title.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView_home_title.setAdapter(homeSelectAdapter);
         homeSelectAdapter.setDatas(contractTitleList);
         homeSelectAdapter.select(getString(R.string.text_add_pass_coin));
         homeSelectAdapter.setEnable(true);
 
 
-        //主题是深色的标题
-        StatusBarUtil.setStatusBarDarkTheme(this, false);
         //打开沉浸式状态栏
         StatusBarUtil.setRootViewFitsSystemWindows(this, false);
         //行情初始化
@@ -782,6 +787,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         findViewById(R.id.layout_announcement).setOnClickListener(this);
         findViewById(R.id.text_login_register).setOnClickListener(this);
         findViewById(R.id.layout_mining).setOnClickListener(this);
+        findViewById(R.id.img_progress).setOnClickListener(this);
 
         quoteAdapter = new QuoteAdapter(this);
         recyclerView_list.setLayoutManager(new LinearLayoutManager(this));
@@ -790,83 +796,70 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         quoteAdapter.isShowVolume(true);
 
 
-        homeSelectAdapter.setOnItemClick(new HomeSelectAdapter.OnItemClick() {
-            @Override
-            public void onSuccessListener(Integer position, String data) {
-                homeSelectAdapter.select(data);
-                switch (position) {
-                    case 0:
-                        type = AppConfig.CONTRACT_IN_ALL;
-                        zone_type = AppConfig.VIEW_CONTRACT_IN;
-                        if (arrayMap == null) {
-                            return;
-                        }
-                        quoteList = arrayMap.get(type);
-                        if (quoteList != null) {
-                            if (quoteList.size() == 0) {
-                                layout_null.setVisibility(View.VISIBLE);
-                                recyclerView_market.setVisibility(View.GONE);
-                            } else {
-                                layout_null.setVisibility(View.GONE);
-                                recyclerView_market.setVisibility(View.VISIBLE);
-                                quoteAdapter.setDatas(quoteList);
-                            }
+        homeSelectAdapter.setOnItemClick((position, data) -> {
+            homeSelectAdapter.select(data);
+            switch (position) {
+                case 0:
+                    type = AppConfig.CONTRACT_IN_ALL;
+                    zone_type = AppConfig.VIEW_CONTRACT_IN;
+                    if (arrayMap == null) {
+                        return;
+                    }
+                    quoteList = arrayMap.get(type);
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
+                            recyclerView_list.setVisibility(View.GONE);
                         } else {
-
-                            layout_null.setVisibility(View.VISIBLE);
-                            recyclerView_market.setVisibility(View.GONE);
+                            recyclerView_list.setVisibility(View.VISIBLE);
+                            quoteAdapter.setDatas(quoteList);
                         }
+                    } else {
 
-                        break;
-                    case 1:
-                        type = AppConfig.DERIVATIVES_ALL;
-                        zone_type = AppConfig.VIEW_DERIVATIVES;
-                        if (arrayMap == null) {
-                            return;
-                        }
+                        recyclerView_list.setVisibility(View.GONE);
+                    }
 
-                        quoteList = arrayMap.get(type);
-                        if (quoteList != null) {
-                            if (quoteList.size() == 0) {
-                                layout_null.setVisibility(View.VISIBLE);
-                                recyclerView_market.setVisibility(View.GONE);
-                            } else {
-                                layout_null.setVisibility(View.GONE);
-                                recyclerView_market.setVisibility(View.VISIBLE);
-                                quoteAdapter.setDatas(quoteList);
-                            }
+                    break;
+                case 1:
+                    type = AppConfig.DERIVATIVES_ALL;
+                    zone_type = AppConfig.VIEW_DERIVATIVES;
+                    if (arrayMap == null) {
+                        return;
+                    }
+
+                    quoteList = arrayMap.get(type);
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
+                            recyclerView_list.setVisibility(View.GONE);
                         } else {
-
-                            layout_null.setVisibility(View.VISIBLE);
-                            recyclerView_market.setVisibility(View.GONE);
+                            recyclerView_list.setVisibility(View.VISIBLE);
+                            quoteAdapter.setDatas(quoteList);
                         }
+                    } else {
 
-                        break;
-                    case 2:
-                        type = AppConfig.FOREIGN_EXCHANGE_ALL;
-                        zone_type = AppConfig.VIEW_FOREIGN_EXCHANGE;
-                        if (arrayMap == null) {
-                            return;
-                        }
-                        quoteList = arrayMap.get(type);
-                        if (quoteList != null) {
-                            if (quoteList.size() == 0) {
-                                layout_null.setVisibility(View.VISIBLE);
-                                recyclerView_market.setVisibility(View.GONE);
-                            } else {
-                                layout_null.setVisibility(View.GONE);
-                                recyclerView_market.setVisibility(View.VISIBLE);
-                                quoteAdapter.setDatas(quoteList);
-                            }
+                        recyclerView_list.setVisibility(View.GONE);
+                    }
+
+                    break;
+                case 2:
+                    type = AppConfig.FOREIGN_EXCHANGE_ALL;
+                    zone_type = AppConfig.VIEW_FOREIGN_EXCHANGE;
+                    if (arrayMap == null) {
+                        return;
+                    }
+                    quoteList = arrayMap.get(type);
+                    if (quoteList != null) {
+                        if (quoteList.size() == 0) {
+                            recyclerView_list.setVisibility(View.GONE);
                         } else {
-
-                            layout_null.setVisibility(View.VISIBLE);
-                            recyclerView_market.setVisibility(View.GONE);
+                            recyclerView_list.setVisibility(View.VISIBLE);
+                            quoteAdapter.setDatas(quoteList);
                         }
+                    } else {
+                        recyclerView_list.setVisibility(View.GONE);
+                    }
 
-                        break;
+                    break;
 
-                }
             }
         });
 
@@ -1209,7 +1202,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
             }
         });
-        findViewById(R.id.img_search).setOnClickListener(this);
+        findViewById(R.id.layout_market_search).setOnClickListener(this);
 
         layout_null.setVisibility(View.GONE);
 
@@ -1434,24 +1427,23 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         findViewById(R.id.img_log).setOnClickListener(this);
 
         head_circle.findViewById(R.id.text_follow_settings).setOnClickListener(this);
-        RadioGroup radioGroup=head_circle.findViewById(R.id.radioGroup_tag);
+        RadioGroup radioGroup = head_circle.findViewById(R.id.radioGroup_tag);
         radioGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            switch (checkedId){
+            switch (checkedId) {
                 case R.id.tag_income:
-                    orderBy="1";
+                    orderBy = "1";
                     break;
                 case R.id.tag_days:
-                    orderBy="2";
+                    orderBy = "2";
                     break;
                 case R.id.tag_count:
-                    orderBy="3";
+                    orderBy = "3";
                     break;
             }
             getFollowList(orderBy);
 
         });
         img_head_circle.setOnClickListener(this);
-
 
 
         TextView text_update = head_circle.findViewById(R.id.text_update_two);
@@ -1483,7 +1475,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         followAdapter.setOnFollowClick(dataBean -> {
             if (isLogin()) {
-                if (Integer.parseInt(dataBean.getFollower())<Integer.parseInt(dataBean.getFollowMax())){
+                if (Integer.parseInt(dataBean.getFollower()) < Integer.parseInt(dataBean.getFollowMax())) {
                     if (dataBean.isFollow()) {
                         UserActivity.enter(this, IntentConfig.Keys.KEY_CIRCLE_EDIT_FOLLOW, dataBean);
                     } else {
@@ -2421,7 +2413,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
             /*行情 -----------------------------------------------------------------------------------*/
-            case R.id.img_search:
+            case R.id.layout_market_search:
                 Util.lightOff(this);
                 type = AppConfig.CONTRACT_ALL;
                 zone_type = AppConfig.VIEW_POP_CONTRACT;
@@ -2740,6 +2732,22 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
+            /*日历 */
+            case R.id.img_progress:
+                boolean theme = SPUtils.getBoolean(AppConfig.KEY_THEME, false);
+                if (theme) {
+                    SkinCompatManager.getInstance().loadSkin("night", SkinCompatManager.SKIN_LOADER_STRATEGY_BUILD_IN);
+                    StatusBarUtil.setStatusBarDarkTheme(this, true);
+                    SPUtils.putBoolean(AppConfig.KEY_THEME, false);
+
+                } else {
+                    SkinCompatManager.getInstance().restoreDefaultTheme();
+                    StatusBarUtil.setStatusBarDarkTheme(this, false);
+                    SPUtils.putBoolean(AppConfig.KEY_THEME, true);
+                }
+
+                break;
+
             /*资金账户*/
            /* case R.id.text_account:
                 if (isLogin()) {

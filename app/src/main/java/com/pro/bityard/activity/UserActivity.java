@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.FollowerDetailEntity;
 import com.pro.bityard.fragment.circle.FollowEditFragment;
@@ -42,7 +43,9 @@ import com.pro.bityard.fragment.my.WithdrawalAddressFragment;
 import com.pro.bityard.fragment.my.WithdrawalFragment;
 import com.pro.bityard.fragment.tab.HoldFragment;
 import com.pro.bityard.fragment.trade.SpotTradeRecordFragment;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
+import com.pro.switchlibrary.SPUtils;
 
 import java.io.Serializable;
 
@@ -86,7 +89,8 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        Util.setTheme(this);
+
         Intent intent = getIntent();
         String type = intent.getStringExtra(TYPE);
 

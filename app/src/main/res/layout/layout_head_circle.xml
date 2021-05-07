@@ -106,13 +106,13 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:drawableRight="@mipmap/icon_right_green"
+                android:drawableRight="@mipmap/icon_right_gray"
                 android:drawablePadding="@dimen/margin_5"
                 android:gravity="center"
                 android:paddingLeft="@dimen/margin_15"
                 android:paddingRight="@dimen/margin_15"
                 android:text="@string/text_monitor_copy_trading"
-                android:textColor="@color/text_quote_green"
+                android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal_two" />
 
         </RelativeLayout>
@@ -172,8 +172,8 @@
                 android:paddingRight="@dimen/margin_10"
                 android:paddingBottom="@dimen/margin_5"
                 android:text="@string/text_trader_total_income"
-                android:textColor="@color/sel_switcher_hold"
-                android:textSize="@dimen/size_normal_two"
+                android:textColor="@color/sel_switcher_follow"
+                android:textSize="@dimen/size_normal"
 
                 />
 
@@ -192,8 +192,8 @@
                 android:paddingRight="@dimen/margin_10"
                 android:paddingBottom="@dimen/margin_5"
                 android:text="@string/text_trader_30_days_defeat"
-                android:textColor="@color/sel_switcher_hold"
-                android:textSize="@dimen/size_normal_two" />
+                android:textColor="@color/sel_switcher_follow"
+                android:textSize="@dimen/size_normal" />
 
             <RadioButton
                 android:id="@+id/tag_count"
@@ -211,8 +211,8 @@
                 android:paddingRight="@dimen/margin_10"
                 android:paddingBottom="@dimen/margin_5"
                 android:text="@string/text_follow_count"
-                android:textColor="@color/sel_switcher_hold"
-                android:textSize="@dimen/size_normal_two"
+                android:textColor="@color/sel_switcher_follow"
+                android:textSize="@dimen/size_normal"
 
                 />
 

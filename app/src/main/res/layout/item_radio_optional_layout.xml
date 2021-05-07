@@ -8,17 +8,17 @@
 
     <RadioButton
         android:id="@+id/radio_lever"
-        android:layout_width="60dp"
+        android:layout_width="68dp"
         android:layout_height="@dimen/margin_30"
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_weight="1"
-        android:background="@drawable/bg_search_quote"
+        android:background="@drawable/sel_switcher_market_title_bg"
         android:button="@null"
         android:gravity="center"
         android:maxLines="1"
         android:text=""
-        android:textColor="@color/sel_switcher_optional"
-        android:textSize="@dimen/size_normal_two"
+        android:textColor="@color/sel_switcher_market_optional"
+        android:textSize="@dimen/size_normal"
         android:typeface="monospace" />
 
 

@@ -44,6 +44,7 @@ import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.InitEntity;
 import com.pro.bityard.entity.TagEntity;
 import com.pro.bityard.entity.TradeListEntity;
+import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONArray;
@@ -1728,5 +1729,15 @@ public class Util {
         }
         return stringBuilder.toString();
     }
+
+    public static void setTheme(Activity activity){
+        boolean theme = SPUtils.getBoolean(AppConfig.KEY_THEME, true);
+        if (theme) {
+            StatusBarUtil.setStatusBarDarkTheme(activity, false);
+        } else {
+            StatusBarUtil.setStatusBarDarkTheme(activity, true);
+        }
+    }
+
 
 }

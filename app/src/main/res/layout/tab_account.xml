@@ -262,7 +262,6 @@
                     android:typeface="monospace" />
             </LinearLayout>-->
 
-            <include layout="@layout/layout_line_big" />
             <RelativeLayout
                 android:id="@+id/layout_hold"
                 android:layout_width="match_parent"
@@ -296,6 +295,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_line"
                 android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
                 android:background="@color/home_line" />
 
             <RelativeLayout
@@ -328,12 +328,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:visibility="gone"
-                android:background="@color/home_line" />
+
 
             <RelativeLayout
                 android:id="@+id/layout_two"
@@ -366,12 +361,7 @@
             </RelativeLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
 
-                android:background="@color/home_line" />
 
             <RelativeLayout
                 android:id="@+id/layout_three"
@@ -403,12 +393,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
 
-                android:background="@color/home_line" />
 
             <RelativeLayout
                 android:id="@+id/layout_spot_record"
@@ -440,12 +425,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
 
-                android:background="@color/home_line" />
 
             <RelativeLayout
                 android:id="@+id/layout_four"
@@ -477,7 +457,12 @@
 
             </RelativeLayout>
 
-            <include layout="@layout/layout_line_big" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@color/home_line" />
 
 
             <RelativeLayout
@@ -511,12 +496,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:visibility="gone"
-                android:background="@color/home_line" />
+
 
             <RelativeLayout
                 android:id="@+id/layout_six"
@@ -549,12 +529,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:visibility="gone"
-                android:background="@color/home_line" />
+
 
             <RelativeLayout
                 android:id="@+id/layout_seven"
@@ -587,12 +562,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
-                android:visibility="gone"
-                android:background="@color/home_line" />
+
             <RelativeLayout
                 android:id="@+id/layout_copied_manger"
                 android:layout_width="match_parent"
@@ -635,12 +605,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
 
-                android:background="@color/home_line" />
             <RelativeLayout
                 android:id="@+id/layout_copy_manger"
                 android:layout_width="match_parent"
@@ -671,12 +636,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
 
-                android:background="@color/home_line" />
 
 
             <RelativeLayout
@@ -709,12 +669,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
 
-                android:background="@color/home_line" />
 
             <RelativeLayout
                 android:id="@+id/layout_eight"
@@ -746,12 +701,7 @@
 
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:layout_marginLeft="@dimen/margin_15"
 
-                android:background="@color/home_line" />
 
             <RelativeLayout
                 android:id="@+id/layout_nine"
@@ -788,7 +738,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_line"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:visibility="gone"
+                android:layout_marginRight="@dimen/margin_15"
                 android:background="@color/home_line" />
 
             <LinearLayout

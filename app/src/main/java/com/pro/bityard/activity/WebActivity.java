@@ -30,10 +30,13 @@ import android.widget.TextView;
 
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.utils.DeviceUtil;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.utils.WebFileUploader;
 import com.pro.bityard.viewutil.StatusBarUtil;
+import com.pro.switchlibrary.SPUtils;
 
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -162,7 +165,8 @@ public class WebActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //主题是深色的标题
-        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        Util.setTheme(this);
+
         //打开沉浸式状态栏
         StatusBarUtil.setRootViewFitsSystemWindows(this, true);
 
