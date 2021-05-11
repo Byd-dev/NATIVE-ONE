@@ -1896,7 +1896,7 @@ public class TradeUtil {
             if (tradeListEntity == null) {
                 return false;
             }
-            Integer integer = tradeListEntity.getLeverList().get(0);
+            Integer integer = Integer.valueOf(tradeListEntity.getLeverList().get(0));
             Integer integer1 = Integer.valueOf(tradeListEntity.getDepositList().get(1));
             if (lever <= integer || margin == integer1) {
                 return false;

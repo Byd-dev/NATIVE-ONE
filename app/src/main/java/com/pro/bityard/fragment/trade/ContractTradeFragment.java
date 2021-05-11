@@ -1250,11 +1250,11 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     public void setContent(TradeListEntity tradeListEntity) {
         //   Log.d("print", "setContent:659:  " + tradeListEntity);
         if (tradeListEntity != null) {
-            List<Integer> leverShowList = tradeListEntity.getLeverShowList();
+            List<String> leverShowList = tradeListEntity.getLeverShowList();
             if (leverShowList.size() == 0) {
                 return;
             }
-            lever = leverShowList.get(oldSelect);
+            lever = Integer.parseInt(leverShowList.get(oldSelect));
             text_lever_market.setText(lever + "");
             text_lever_limit.setText(lever + "");
 
@@ -1455,12 +1455,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
 
         if (tradeListEntity != null) {
-            List<Integer> leverShowList = tradeListEntity.getLeverShowList();
-            List<Integer> leverList = tradeListEntity.getLeverList();
+            List<String> leverShowList = tradeListEntity.getLeverShowList();
+            List<String> leverList = tradeListEntity.getLeverList();
             seekBar_lever.getThumb().setColorFilter(Color.parseColor("#FFB628"), PorterDuff.Mode.SRC_ATOP);
 
-            seekBar_lever.setMin(leverList.get(0));
-            seekBar_lever.setMax(leverList.get(1));
+            seekBar_lever.setMin(Integer.parseInt(leverList.get(0)));
+            seekBar_lever.setMax(Integer.parseInt(leverList.get(1)));
             text_lever_min.setText(String.valueOf(leverList.get(0)));
             text_lever_max.setText(String.valueOf(leverList.get(1)));
 
@@ -1508,7 +1508,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
             radioGroupAdapter.setDatas(leverShowList);
             //自动选择相应的
-            radioGroupAdapter.selectLever(lever);
+            radioGroupAdapter.selectLever(String.valueOf(lever));
 
 
             radioGroupAdapter.setOnItemClick((position, data) -> {
@@ -1555,14 +1555,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
             });
         }
 
-        radioGroupAdapter.selectLever(lever);
+        radioGroupAdapter.selectLever(String.valueOf(lever));
     }
 
     /*设置 保证金和杠杆*/
     public void setLeverContent(TradeListEntity tradeListEntity) {
         if (tradeListEntity != null) {
-            List<Integer> leverShowList = tradeListEntity.getLeverShowList();
-            lever = leverShowList.get(oldSelect);
+            List<String> leverShowList = tradeListEntity.getLeverShowList();
+            lever = Integer.parseInt(leverShowList.get(oldSelect));
             text_lever_market.setText(lever + "");
             text_lever_limit.setText(lever + "");
             edit_limit_margin.setText("");

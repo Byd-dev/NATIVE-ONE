@@ -696,7 +696,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
         Log.d("print", "initData:653: " + contractCode(itemData) + "   " + tradeListEntity);
         if (tradeListEntity != null) {
-            List<Integer> leverList = tradeListEntity.getLeverList();
+            List<String> leverList = tradeListEntity.getLeverList();
             if (leverList.size() == 0) {
                 layout_contract_rule.setVisibility(View.GONE);
 

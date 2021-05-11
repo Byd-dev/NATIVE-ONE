@@ -20,21 +20,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class RadioGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
-    private List<Integer> datas;
+    private List<String> datas;
 
     private static final int TYPE_ITEM = 0;
     private static final int TYPE_FOOTER = 1;
 
     public boolean isLoadMore = false;
     private Integer index = 0;
-    private Integer lever=0;
+    private String lever="0";
 
     public RadioGroupAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
     }
 
-    public void setDatas(List<Integer> datas) {
+    public void setDatas(List<String> datas) {
         this.datas = datas;
         this.notifyDataSetChanged();
     }
@@ -45,12 +45,12 @@ public class RadioGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     }
 
-    public void selectLever(Integer lever){
+    public void selectLever(String lever){
         this.lever=lever;
         this.notifyDataSetChanged();
     }
 
-    public void addDatas(List<Integer> datas) {
+    public void addDatas(List<String> datas) {
         this.datas.addAll(datas);
         isLoadMore = false;
         this.notifyDataSetChanged();
@@ -143,7 +143,7 @@ public class RadioGroupAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             radioButton.setOnClickListener(view -> {
                 if (onItemClick != null) {
-                    onItemClick.onSuccessListener(getAdapterPosition(), datas.get(getPosition()));
+                    onItemClick.onSuccessListener(getAdapterPosition(), Integer.valueOf(datas.get(getPosition())));
 
                 }
             });
