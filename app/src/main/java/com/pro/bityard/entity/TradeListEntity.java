@@ -46,7 +46,6 @@ public class TradeListEntity {
     private double maxHoldOne;
     private double maxHoldWay;
     private BigDecimal volumeMin;
-    
 
     private List<Long> closeTime;
     private List<String> depositList;
