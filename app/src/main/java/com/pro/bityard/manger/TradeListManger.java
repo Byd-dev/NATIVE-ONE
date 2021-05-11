@@ -4,6 +4,7 @@ import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnNetResult;
 import com.pro.bityard.entity.TradeListEntity;
@@ -87,12 +88,14 @@ public class TradeListManger extends Observable {
                 try {
                     jsonObject = new JSONObject(response.toString());
                     JSONObject jsonObject1 = (JSONObject) jsonObject.get("data");
+
                     tradeListEntityList = new ArrayList<>();
                     Iterator<String> keys = jsonObject1.keys();
-                    while (keys.hasNext()){
+
+                    while (keys.hasNext()) {
                         String s = keys.next();
                         for (int i = 0; i < codeSplitList.length; i++) {
-                            if (codeSplitList[i].equals(s)){
+                            if (codeSplitList[i].equals(s)) {
                                 JSONObject trxusdt = (JSONObject) jsonObject1.get(codeSplitList[i]);  //trxusdt.length() =46
                                 TradeListEntity tradeListEntity = new Gson().fromJson(trxusdt.toString(), TradeListEntity.class);
                                 tradeListEntityList.add(tradeListEntity);
@@ -100,6 +103,7 @@ public class TradeListManger extends Observable {
                         }
                     }
                     setTradeListEntityList(tradeListEntityList);
+
                     onNetResult.onNetResult(SUCCESS, tradeListEntityList);
                     postTradeList(tradeListEntityList);
 

@@ -35,7 +35,7 @@ public class AppConfig {
     public static final String FOREX = "Forex";//现货
 
     public static final String BSC = "BSC";//现货
-    public static final String DERIVATIVES = "Derivatives";//现货
+    public static final String DERIVATIVES = "Derivatives";//衍生品
     public static final String CONTRACT = "Contract";//现货
     public static final String BEST = "Best";//现货
     public static  final  String RECOMMEND="Recommend";

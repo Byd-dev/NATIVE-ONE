@@ -17,7 +17,7 @@ public class TradeListEntity {
     private double deferFee;
     private int deferType;
     private String exchange;
-    private double exgRate;
+    private String exgRate;
     private boolean foreign;
     private String holiday;
     private String name;
@@ -26,7 +26,7 @@ public class TradeListEntity {
     private String niteOpenTime;
     private String niteTradeTime;
     private String niteWarningTime;
-    private Object offset;
+    private String offset;
     private String pmClearingTime;
     private String pmCloseTime;
     private String pmOpenTime;
@@ -50,7 +50,7 @@ public class TradeListEntity {
 
 
     private List<Long> closeTime;
-    private List<Integer> depositList;
+    private List<String> depositList;
     private List<Integer> leverList;
     private List<Integer> leverShowList;
     private List<Integer> moneyTypeList;
@@ -58,6 +58,8 @@ public class TradeListEntity {
     private List<Double> stopLossList;
     private List<Double> stopProfitList;
     private List<Double> volumeList;
+
+
 
     @Override
     public String toString() {
@@ -256,11 +258,11 @@ public class TradeListEntity {
         this.exchange = exchange;
     }
 
-    public double getExgRate() {
+    public String getExgRate() {
         return exgRate;
     }
 
-    public void setExgRate(double exgRate) {
+    public void setExgRate(String exgRate) {
         this.exgRate = exgRate;
     }
 
@@ -328,11 +330,11 @@ public class TradeListEntity {
         this.niteWarningTime = niteWarningTime;
     }
 
-    public Object getOffset() {
+    public String getOffset() {
         return offset;
     }
 
-    public void setOffset(Object offset) {
+    public void setOffset(String offset) {
         this.offset = offset;
     }
 
@@ -456,11 +458,11 @@ public class TradeListEntity {
         this.closeTime = closeTime;
     }
 
-    public List<Integer> getDepositList() {
+    public List<String> getDepositList() {
         return depositList;
     }
 
-    public void setDepositList(List<Integer> depositList) {
+    public void setDepositList(List<String> depositList) {
         this.depositList = depositList;
     }
 

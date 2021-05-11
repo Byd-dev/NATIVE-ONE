@@ -646,7 +646,7 @@ public class PositionFragment extends BaseFragment implements Observer {
         List<TradeListEntity> tradeListEntityList = TradeListManger.getInstance().getTradeListEntityList();
         if (tradeListEntityList != null) {
             TradeListEntity tradeListEntity = (TradeListEntity) TradeUtil.tradeDetail(contractCode, tradeListEntityList);
-            edit_margin.setHint(minMargin(margin, data.getOpPrice(), data.getVolume()) + "~" + TradeUtil.maxMargin(tradeListEntity.getLeverList().get(0), margin, data.getOpPrice(), data.getVolume(), tradeListEntity.getDepositList().get(1)));
+            edit_margin.setHint(minMargin(margin, data.getOpPrice(), data.getVolume()) + "~" + TradeUtil.maxMargin(tradeListEntity.getLeverList().get(0), margin, data.getOpPrice(), data.getVolume(), Double.parseDouble(tradeListEntity.getDepositList().get(1))));
         }
         edit_margin.setSelection(0, Objects.requireNonNull(edit_margin.getText()).toString().length());
 

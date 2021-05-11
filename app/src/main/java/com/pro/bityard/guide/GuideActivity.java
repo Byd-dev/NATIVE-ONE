@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.MainFollowActivity;
 import com.pro.bityard.api.NetManger;
@@ -23,6 +24,7 @@ import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.GuideEntity;
 import com.pro.bityard.entity.InitEntity;
+import com.pro.bityard.entity.QuoteCodeEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.SocketQuoteManger;
 import com.pro.bityard.manger.TradeListManger;
@@ -156,8 +158,9 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
 
                     SPUtils.putData(AppConfig.KEY_COMMODITY, initEntity);
                     String allList2 = Util.initContractList(initEntity.getData());
-
+                    Log.d("print", "init:159: "+allList2);
                     SPUtils.putString(AppConfig.CONTRACT_ID, allList2);
+
                     TradeListManger.getInstance().getTradeList(allList2, (state1, response1) -> {
                         if (state1.equals(BUSY)) {
                         } else if (state1.equals(SUCCESS)) {
@@ -172,6 +175,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                                 for (int i = 0; i < tradeListEntityList.size(); i++) {
                                     stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
                                 }
+
                                 SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
                                 SPUtils.putString(AppConfig.QUOTE_DETAIL, Util.SPDealContract(tradeListEntityList));
                                 run();

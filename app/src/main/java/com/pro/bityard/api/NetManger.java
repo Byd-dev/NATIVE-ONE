@@ -21,7 +21,6 @@ import com.pro.bityard.entity.AddAddressItemEntity;
 import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.AnnouncementEntity;
 import com.pro.bityard.entity.BalanceEntity;
-import com.pro.bityard.entity.CopyMangerEntity;
 import com.pro.bityard.entity.CountryCodeEntity;
 import com.pro.bityard.entity.CurrencyDetailEntity;
 import com.pro.bityard.entity.DepositWithdrawEntity;
@@ -65,7 +64,6 @@ import com.pro.bityard.manger.TradeListManger;
 import com.pro.bityard.utils.PopUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
-import com.pro.switchlibrary.AES;
 import com.pro.switchlibrary.SPUtils;
 
 import org.json.JSONObject;

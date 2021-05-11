@@ -14,13 +14,23 @@ public class QuoteCodeEntity {
 
     private String version;
     private String app;
+    private String all;
     private List<GroupBean> group;
+
+    public String getAll() {
+        return all;
+    }
+
+    public void setAll(String all) {
+        this.all = all;
+    }
 
     @Override
     public String toString() {
         return "QuoteCodeEntity{" +
                 "version='" + version + '\'' +
                 ", app='" + app + '\'' +
+                ", all='" + all + '\'' +
                 ", group=" + group +
                 '}';
     }

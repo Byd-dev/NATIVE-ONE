@@ -1603,7 +1603,7 @@ public class TradeUtil {
     }
 
     /*获取保证金范围*/
-    public static String deposit(List<Integer> depositList) {
+    public static String deposit(List<String> depositList) {
         String deposit = null;
         if (depositList.size() == 0) {
             deposit = null;
@@ -1615,7 +1615,7 @@ public class TradeUtil {
         return deposit;
     }
 
-    public static String depositMin(List<Integer> depositList) {
+    public static String depositMin(List<String> depositList) {
         String deposit = null;
         if (depositList.size() == 0) {
             deposit = null;
@@ -1627,7 +1627,7 @@ public class TradeUtil {
         return deposit;
     }
 
-    public static String marginMin(List<Integer> depositList) {
+    public static String marginMin(List<String> depositList) {
         String deposit = null;
         if (depositList.size() == 0) {
         } else {
@@ -1636,7 +1636,7 @@ public class TradeUtil {
         return deposit;
     }
 
-    public static String marginMax(List<Integer> depositList) {
+    public static String marginMax(List<String> depositList) {
         String deposit = null;
         if (depositList.size() == 0) {
         } else {
@@ -1897,7 +1897,7 @@ public class TradeUtil {
                 return false;
             }
             Integer integer = tradeListEntity.getLeverList().get(0);
-            Integer integer1 = tradeListEntity.getDepositList().get(1);
+            Integer integer1 = Integer.valueOf(tradeListEntity.getDepositList().get(1));
             if (lever <= integer || margin == integer1) {
                 return false;
             } else {
