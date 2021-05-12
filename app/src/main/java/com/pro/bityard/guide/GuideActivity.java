@@ -184,8 +184,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                         } else if (state1.equals(FAILURE)) {
                         }
                     });//获取合约号
-
-
+                    
                 }
             } else if (state.equals(FAILURE)) {
                 text_jump.setVisibility(View.GONE);
