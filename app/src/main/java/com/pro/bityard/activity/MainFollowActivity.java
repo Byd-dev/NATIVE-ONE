@@ -233,6 +233,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @BindView(R.id.img_name_triangle)
     ImageView img_name_triangle;
     private String type = AppConfig.CONTRACT_IN_ALL;
+    private String type_home = AppConfig.CONTRACT_IN_ALL;
+
     private String zone_type = AppConfig.VIEW_CONTRACT_IN;
 
 
@@ -332,7 +334,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     }
 
-    private List<String> quoteList;
+    private List<String> quoteList,quoteListHome;
 
 
     @Override
@@ -340,12 +342,13 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         if (o == SocketQuoteManger.getInstance()) {
             arrayMap = (ArrayMap<String, List<String>>) arg;
             quoteList = arrayMap.get(type);
+            quoteListHome=arrayMap.get(type_home);
             if (quoteList != null) {
                 runOnUiThread(() -> {
                     // layout_null.setVisibility(View.GONE);
                     recyclerView_market.setVisibility(View.VISIBLE);
                     quoteHomeAdapter.setDatas(arrayMap.get(AppConfig.HOME_HOT));
-                    quoteAdapter.setDatas(quoteList);
+                    quoteAdapter.setDatas(quoteListHome);
                     quoteAdapter_market.setDatas(quoteList);
                    /* map = new ArrayMap<>();
                     for (int i = 0; i < quoteList.size(); i++) {
@@ -800,18 +803,18 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             homeSelectAdapter.select(data);
             switch (position) {
                 case 0:
-                    type = AppConfig.CONTRACT_IN_ALL;
+                    type_home = AppConfig.CONTRACT_IN_ALL;
                     zone_type = AppConfig.VIEW_CONTRACT_IN;
                     if (arrayMap == null) {
                         return;
                     }
-                    quoteList = arrayMap.get(type);
-                    if (quoteList != null) {
-                        if (quoteList.size() == 0) {
+                    quoteListHome = arrayMap.get(type_home);
+                    if (quoteListHome != null) {
+                        if (quoteListHome.size() == 0) {
                             recyclerView_list.setVisibility(View.GONE);
                         } else {
                             recyclerView_list.setVisibility(View.VISIBLE);
-                            quoteAdapter.setDatas(quoteList);
+                            quoteAdapter.setDatas(quoteListHome);
                         }
                     } else {
 
@@ -820,19 +823,19 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                     break;
                 case 1:
-                    type = AppConfig.DERIVATIVES_ALL;
+                    type_home = AppConfig.DERIVATIVES_ALL;
                     zone_type = AppConfig.VIEW_DERIVATIVES;
                     if (arrayMap == null) {
                         return;
                     }
 
-                    quoteList = arrayMap.get(type);
-                    if (quoteList != null) {
-                        if (quoteList.size() == 0) {
+                    quoteListHome = arrayMap.get(type_home);
+                    if (quoteListHome != null) {
+                        if (quoteListHome.size() == 0) {
                             recyclerView_list.setVisibility(View.GONE);
                         } else {
                             recyclerView_list.setVisibility(View.VISIBLE);
-                            quoteAdapter.setDatas(quoteList);
+                            quoteAdapter.setDatas(quoteListHome);
                         }
                     } else {
 
@@ -841,18 +844,18 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                     break;
                 case 2:
-                    type = AppConfig.FOREIGN_EXCHANGE_ALL;
+                    type_home = AppConfig.FOREIGN_EXCHANGE_ALL;
                     zone_type = AppConfig.VIEW_FOREIGN_EXCHANGE;
                     if (arrayMap == null) {
                         return;
                     }
-                    quoteList = arrayMap.get(type);
-                    if (quoteList != null) {
-                        if (quoteList.size() == 0) {
+                    quoteListHome = arrayMap.get(type_home);
+                    if (quoteListHome != null) {
+                        if (quoteListHome.size() == 0) {
                             recyclerView_list.setVisibility(View.GONE);
                         } else {
                             recyclerView_list.setVisibility(View.VISIBLE);
-                            quoteAdapter.setDatas(quoteList);
+                            quoteAdapter.setDatas(quoteListHome);
                         }
                     } else {
                         recyclerView_list.setVisibility(View.GONE);

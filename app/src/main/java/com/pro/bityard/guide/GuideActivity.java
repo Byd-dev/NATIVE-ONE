@@ -175,7 +175,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                                     stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
                                 }
                                 Log.d("print", "init:177: "+stringBuilder.toString());
-                                SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString().replaceAll("null,",""));
+                                //SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString().replaceAll("null,",""));
+                                SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
                                 SPUtils.putString(AppConfig.QUOTE_DETAIL, Util.SPDealContract(tradeListEntityList));
                                 run();
                             }

@@ -81,12 +81,12 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
             case "3001":
                 String data = quoteEntity.getData();
                 // Log.d("print", "onMessage:83: "+data);
-                List<String> strings = Util.quoteResultAdd(Util.quoteResult(data));
-//衍生区
+                //List<String> strings = Util.quoteResultAdd(Util.quoteResult(data));
+                //衍生区
                 List<String> derivedQuoteList = TradeUtil.derivedQuoteList(Util.quoteResult(data));
 
                 //现货
-                List<String> spotQuoteList = TradeUtil.spotQuoteList(strings);
+                List<String> spotQuoteList = TradeUtil.spotQuoteList(Util.quoteResult(data));
                 //价格从高到低
                 List<String> spotQuoteList_price_high2low = TradeUtil.priceHighToLow(spotQuoteList);
                 //价格从低到高
@@ -168,7 +168,7 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 List<String> spotBSCQuoteList_name_z2a = TradeUtil.nameHighToLow(spotBSCQuoteList);
 
                 //所有合约 包括衍生品
-                List<String> contractQuoteList = TradeUtil.contractQuoteList(strings);
+                List<String> contractQuoteList = TradeUtil.contractQuoteList(Util.quoteResult(data));
                 //BTC BCH ETH
                 List<String> hotQuoteList = TradeUtil.homeHot(contractQuoteList);
 
@@ -216,7 +216,7 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 List<String> derivedQuoteList_name_z2a = TradeUtil.nameHighToLow(derivedQuoteList);
 
                 //外汇
-                List<String> feQuoteList = TradeUtil.foreignExchangeQuoteList(strings);
+                List<String> feQuoteList = TradeUtil.foreignExchangeQuoteList(Util.quoteResult(data));
                 //价格从高到低
                 List<String> feQuoteList_price_high2low = TradeUtil.priceHighToLow(feQuoteList);
                 //价格从低到高
@@ -231,14 +231,14 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 List<String> feQuoteList_name_z2a = TradeUtil.nameHighToLow(feQuoteList);
                 /*-------------------------------------------------------------------------*/
                 //主区
-                List<String> mainQuoteList = TradeUtil.mainQuoteList(strings);
+                List<String> mainQuoteList = TradeUtil.mainQuoteList(Util.quoteResult(data));
                 //创新区
-                List<String> innovationQuoteList = TradeUtil.innovationQuoteList(strings);
+                List<String> innovationQuoteList = TradeUtil.innovationQuoteList(Util.quoteResult(data));
                 //自选
-                List<String> optionalQuoteList = TradeUtil.optionalQuoteList(strings);
+                List<String> optionalQuoteList = TradeUtil.optionalQuoteList(Util.quoteResult(data));
 
                 //历史记录
-                List<String> historyQuoteList = TradeUtil.historyQuoteList(strings);
+                List<String> historyQuoteList = TradeUtil.historyQuoteList(Util.quoteResult(data));
 
                 List<String> optionalSpotQuoteList = TradeUtil.optionalQuoteList(spotQuoteList);
                 List<String> optionalContractQuoteList = TradeUtil.optionalQuoteList(contractQuoteList);
@@ -422,7 +422,7 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 List<String> stringList25 = TradeUtil.nameHighToLow(derivedQuoteList);
 
 
-                arrayMap.put("all", strings);
+                arrayMap.put("all", Util.quoteResult(data));
 
                 arrayMap.put("0", mainQuoteList);
                 arrayMap.put("1", stringList);

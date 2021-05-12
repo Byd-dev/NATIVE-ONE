@@ -922,7 +922,26 @@ public class TradeUtil {
 
     /* 合约*/
     public static List<String> contractQuoteList(List<String> quoteList) {
-        String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
+        List<String> strings = TradeUtil.resultGroup(AppConfig.CONTRACT);
+        List<String> quoteList2 = new ArrayList<>();
+        for (int i = 0; i < strings.size(); i++) {
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                int length = split.length;
+                if (filter2(split[0]).equals(strings.get(i))) {
+                    quoteList2.add(mainQuote + "," + filter2(split[0])
+                            + "," + AppConfig.TYPE_FT
+                            + "," + 0
+                            + "," + filter(split[0].replaceAll("CC", ""))
+                            + "," + "USDT");
+                }
+            }
+        }
+        Log.d("print", "derivedQuoteList:1073:  "+quoteList2);
+        return quoteList2;
+
+
+        /*String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
 
         QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
         List<String> quoteList2 = new ArrayList<>();
@@ -939,7 +958,7 @@ public class TradeUtil {
                     }
                 }
             }
-        }
+        }*/
        /* List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
@@ -948,7 +967,7 @@ public class TradeUtil {
                 quoteList2.add(mainQuote);
             }
         }*/
-        return quoteList2;
+       // return quoteList2;
     }
 
    /* public static List<String> contractQuoteList(List<String> quoteList) {
@@ -968,7 +987,25 @@ public class TradeUtil {
 
     /* 加密货币*/
     public static List<String> contractMainQuoteList(List<String> quoteList) {
-        String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
+        List<String> strings = TradeUtil.resultGroup(AppConfig.MAIN);
+        List<String> quoteList2 = new ArrayList<>();
+        for (int i = 0; i < strings.size(); i++) {
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                int length = split.length;
+                if (filter2(split[0]).equals(strings.get(i))) {
+                    quoteList2.add(mainQuote + "," + filter2(split[0])
+                            + "," + AppConfig.TYPE_FT
+                            + "," + 0
+                            + "," + filter(split[0].replaceAll("CC", ""))
+                            + "," + "USDT");
+                }
+            }
+        }
+        Log.d("print", "derivedQuoteList:1073:  "+quoteList2);
+        return quoteList2;
+
+       /* String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
 
         QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
         List<String> quoteList2 = new ArrayList<>();
@@ -985,7 +1022,7 @@ public class TradeUtil {
                     }
                 }
             }
-        }
+        }*/
        /* List<String> quoteList2 = new ArrayList<>();
         for (String mainQuote : quoteList) {
             String[] split = mainQuote.split(",");
@@ -994,7 +1031,7 @@ public class TradeUtil {
                 quoteList2.add(mainQuote);
             }
         }*/
-        return quoteList2;
+       // return quoteList2;
     }
 
   /*  public static List<String> contractMainQuoteList(List<String> quoteList) {
@@ -1054,7 +1091,6 @@ public class TradeUtil {
 
     /* 衍生区*/
     public static List<String> derivedQuoteList(List<String> quoteList) {
-        //  Log.d("print", "derivedQuoteList:1056: "+quoteList.size());
         List<String> strings = TradeUtil.resultGroup(AppConfig.DERIVATIVES);
         List<String> quoteList2 = new ArrayList<>();
         for (int i = 0; i < strings.size(); i++) {
@@ -1070,52 +1106,28 @@ public class TradeUtil {
                 }
             }
         }
-        Log.d("print", "derivedQuoteList:1073:  "+quoteList2);
         return quoteList2;
     }
 
     /* 衍生区*/
     public static List<String> bscQuoteList(List<String> quoteList) {
-        String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
-
-        QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
+        List<String> strings = TradeUtil.resultGroup(AppConfig.BSC);
         List<String> quoteList2 = new ArrayList<>();
-
-        for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
-            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.BSC)) {
-                for (int j = 0; j < quoteCodeEntity.getGroup().get(i).getList().size(); j++) {
-                    for (String mainQuote : quoteList) {
-                        String[] split = mainQuote.split(",");
-                        int length = split.length;
-                        if (split[length - 5].equals(quoteCodeEntity.getGroup().get(i).getList().get(j))) {
-                            quoteList2.add(mainQuote);
-                        }
-                    }
+        for (int i = 0; i < strings.size(); i++) {
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                if (filter2(split[0]).equals(strings.get(i))) {
+                    quoteList2.add(mainQuote + "," + filter2(split[0])
+                            + "," + AppConfig.TYPE_CH
+                            + "," + 0
+                            + "," + filter(split[0].replaceAll("CC", ""))
+                            + "," + "USDT");
                 }
             }
         }
-       /* List<String> quoteList2 = new ArrayList<>();
-        for (String mainQuote : quoteList) {
-            String[] split = mainQuote.split(",");
-            int length = split.length;
-            if (split[length - 4].equals(AppConfig.TYPE_CH)) {
-                quoteList2.add(mainQuote);
-            }
-        }*/
         return quoteList2;
     }
 
-    /*public static List<String> derivedQuoteList(List<String> quoteList) {
-        List<String> quoteList2 = new ArrayList<>();
-        for (String mainQuote : quoteList) {
-            String[] split = mainQuote.split(",");
-            int length = split.length;
-            if (split[length - 4].equals(AppConfig.TYPE_FT) && split[length - 3].equals(AppConfig.ZONE_DERIVATIVES)) {
-                quoteList2.add(mainQuote);
-            }
-        }
-        return quoteList2;
-    }*/
 
     public static List<String> spiltQuoteList(List<String> quoteList, String type) {
         String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
@@ -1149,66 +1161,45 @@ public class TradeUtil {
 
     /* 现货*/
     public static List<String> spotQuoteList(List<String> quoteList) {
-        String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
-
-        QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
+        //  Log.d("print", "derivedQuoteList:1056: "+quoteList.size());
+        List<String> strings = TradeUtil.resultGroup(AppConfig.SPOT);
         List<String> quoteList2 = new ArrayList<>();
-
-        for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
-            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.SPOT)) {
-                for (int j = 0; j < quoteCodeEntity.getGroup().get(i).getList().size(); j++) {
-                    for (String mainQuote : quoteList) {
-                        String[] split = mainQuote.split(",");
-                        int length = split.length;
-                        if (split[length - 5].equals(quoteCodeEntity.getGroup().get(i).getList().get(j))) {
-                            quoteList2.add(mainQuote);
-                        }
-                    }
+        for (int i = 0; i < strings.size(); i++) {
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                int length = split.length;
+                if (filter2(split[0]).equals(strings.get(i))) {
+                    quoteList2.add(mainQuote + "," + filter2(split[0])
+                            + "," + AppConfig.TYPE_CH
+                            + "," + 0
+                            + "," + filter(split[0].replaceAll("CC", ""))
+                            + "," + "USDT");
                 }
             }
         }
-       /* List<String> quoteList2 = new ArrayList<>();
-        for (String mainQuote : quoteList) {
-            String[] split = mainQuote.split(",");
-            int length = split.length;
-            if (split[length - 4].equals(AppConfig.TYPE_CH)) {
-                quoteList2.add(mainQuote);
-            }
-        }*/
-        Log.d("print", "derivedQuoteList:现货:1175: " + quoteList2.size());
-
+        Log.d("print", "derivedQuoteList:1073:  "+quoteList2);
         return quoteList2;
+
     }
 
     /* 外汇*/
 
     public static List<String> foreignExchangeQuoteList(List<String> quoteList) {
-        String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
-
-        QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
+        List<String> strings = TradeUtil.resultGroup(AppConfig.FOREX);
         List<String> quoteList2 = new ArrayList<>();
-
-        for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
-            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.FOREX)) {
-                for (int j = 0; j < quoteCodeEntity.getGroup().get(i).getList().size(); j++) {
-                    for (String mainQuote : quoteList) {
-                        String[] split = mainQuote.split(",");
-                        int length = split.length;
-                        if (split[length - 5].equals(quoteCodeEntity.getGroup().get(i).getList().get(j))) {
-                            quoteList2.add(mainQuote);
-                        }
-                    }
+        for (int i = 0; i < strings.size(); i++) {
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                int length = split.length;
+                if (filter2(split[0]).equals(strings.get(i))) {
+                    quoteList2.add(mainQuote + "," + filter2(split[0])
+                            + "," + AppConfig.TYPE_FT
+                            + "," + 0
+                            + "," + filter(split[0].replaceAll("CC", ""))
+                            + "," + "USDT");
                 }
             }
         }
-       /* List<String> quoteList2 = new ArrayList<>();
-        for (String mainQuote : quoteList) {
-            String[] split = mainQuote.split(",");
-            int length = split.length;
-            if (split[length - 4].equals(AppConfig.TYPE_CH)) {
-                quoteList2.add(mainQuote);
-            }
-        }*/
         return quoteList2;
     }
     /*public static List<String> foreignExchangeQuoteList(List<String> quoteList) {
@@ -1225,32 +1216,20 @@ public class TradeUtil {
 
     /* 现货DEFI*/
     public static List<String> spotDEFIQuoteList(List<String> quoteList) {
-        String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
-
-        QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
+        List<String> strings = TradeUtil.resultGroup(AppConfig.DEFI);
         List<String> quoteList2 = new ArrayList<>();
-
-        for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
-            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.DEFI)) {
-                for (int j = 0; j < quoteCodeEntity.getGroup().get(i).getList().size(); j++) {
-                    for (String mainQuote : quoteList) {
-                        String[] split = mainQuote.split(",");
-                        int length = split.length;
-                        if (split[length - 5].equals(quoteCodeEntity.getGroup().get(i).getList().get(j))) {
-                            quoteList2.add(mainQuote);
-                        }
-                    }
+        for (int i = 0; i < strings.size(); i++) {
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                if (filter2(split[0]).equals(strings.get(i))) {
+                    quoteList2.add(mainQuote + "," + filter2(split[0])
+                            + "," + AppConfig.TYPE_CH
+                            + "," + 0
+                            + "," + filter(split[0].replaceAll("CC", ""))
+                            + "," + "USDT");
                 }
             }
         }
-       /* List<String> quoteList2 = new ArrayList<>();
-        for (String mainQuote : quoteList) {
-            String[] split = mainQuote.split(",");
-            int length = split.length;
-            if (split[length - 4].equals(AppConfig.TYPE_CH)) {
-                quoteList2.add(mainQuote);
-            }
-        }*/
         return quoteList2;
     }
 
@@ -1269,32 +1248,20 @@ public class TradeUtil {
     }*/
     /* 现货pos*/
     public static List<String> spotPOSQuoteList(List<String> quoteList) {
-        String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
-
-        QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
+        List<String> strings = TradeUtil.resultGroup(AppConfig.POS);
         List<String> quoteList2 = new ArrayList<>();
-
-        for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
-            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.POS)) {
-                for (int j = 0; j < quoteCodeEntity.getGroup().get(i).getList().size(); j++) {
-                    for (String mainQuote : quoteList) {
-                        String[] split = mainQuote.split(",");
-                        int length = split.length;
-                        if (split[length - 5].equals(quoteCodeEntity.getGroup().get(i).getList().get(j))) {
-                            quoteList2.add(mainQuote);
-                        }
-                    }
+        for (int i = 0; i < strings.size(); i++) {
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                if (filter2(split[0]).equals(strings.get(i))) {
+                    quoteList2.add(mainQuote + "," + filter2(split[0])
+                            + "," + AppConfig.TYPE_CH
+                            + "," + 0
+                            + "," + filter(split[0].replaceAll("CC", ""))
+                            + "," + "USDT");
                 }
             }
         }
-       /* List<String> quoteList2 = new ArrayList<>();
-        for (String mainQuote : quoteList) {
-            String[] split = mainQuote.split(",");
-            int length = split.length;
-            if (split[length - 4].equals(AppConfig.TYPE_CH)) {
-                quoteList2.add(mainQuote);
-            }
-        }*/
         return quoteList2;
     }
 
@@ -1313,32 +1280,20 @@ public class TradeUtil {
 */
     /* 现货gray*/
     public static List<String> spotGRAYQuoteList(List<String> quoteList) {
-        String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
-
-        QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
+        List<String> strings = TradeUtil.resultGroup(AppConfig.GRAY);
         List<String> quoteList2 = new ArrayList<>();
-
-        for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
-            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.GRAY)) {
-                for (int j = 0; j < quoteCodeEntity.getGroup().get(i).getList().size(); j++) {
-                    for (String mainQuote : quoteList) {
-                        String[] split = mainQuote.split(",");
-                        int length = split.length;
-                        if (split[length - 5].equals(quoteCodeEntity.getGroup().get(i).getList().get(j))) {
-                            quoteList2.add(mainQuote);
-                        }
-                    }
+        for (int i = 0; i < strings.size(); i++) {
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                if (filter2(split[0]).equals(strings.get(i))) {
+                    quoteList2.add(mainQuote + "," + filter2(split[0])
+                            + "," + AppConfig.TYPE_CH
+                            + "," + 0
+                            + "," + filter(split[0].replaceAll("CC", ""))
+                            + "," + "USDT");
                 }
             }
         }
-       /* List<String> quoteList2 = new ArrayList<>();
-        for (String mainQuote : quoteList) {
-            String[] split = mainQuote.split(",");
-            int length = split.length;
-            if (split[length - 4].equals(AppConfig.TYPE_CH)) {
-                quoteList2.add(mainQuote);
-            }
-        }*/
         return quoteList2;
     }
 
