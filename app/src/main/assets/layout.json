@@ -34,7 +34,7 @@
 		"list": ["BTCUSDT_CC", "ETHUSDT_CC", "LTCUSDT_CC", "BCHUSDT_CC", "ETCUSDT_CC", "ZECUSDT_CC", "ZENUSDT_CC", "XLMUSDT_CC"]
 	}, {
 		"name": "BSC",
-		"list": ["BNBUSDT_CC", "SFPUSDT_CC", "SXPUSDT_CC", "CAKUSDT_CC", "XVSUSDT_CC"]
+		"list": ["SFPUSDT_CC", "SXPUSDT_CC", "CAKUSDT_CC", "XVSUSDT_CC","BNBUSDT_CC"]
 	}],
 	"version": "bityard",
 	"app": "h5",

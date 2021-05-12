@@ -937,7 +937,7 @@ public class TradeUtil {
                 }
             }
         }
-        Log.d("print", "derivedQuoteList:1073:  "+quoteList2);
+        Log.d("print", "derivedQuoteList:1073:  " + quoteList2);
         return quoteList2;
 
 
@@ -967,7 +967,7 @@ public class TradeUtil {
                 quoteList2.add(mainQuote);
             }
         }*/
-       // return quoteList2;
+        // return quoteList2;
     }
 
    /* public static List<String> contractQuoteList(List<String> quoteList) {
@@ -1002,7 +1002,7 @@ public class TradeUtil {
                 }
             }
         }
-        Log.d("print", "derivedQuoteList:1073:  "+quoteList2);
+        Log.d("print", "derivedQuoteList:1073:  " + quoteList2);
         return quoteList2;
 
        /* String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
@@ -1031,7 +1031,7 @@ public class TradeUtil {
                 quoteList2.add(mainQuote);
             }
         }*/
-       // return quoteList2;
+        // return quoteList2;
     }
 
   /*  public static List<String> contractMainQuoteList(List<String> quoteList) {
@@ -1079,9 +1079,9 @@ public class TradeUtil {
         String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
         QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
         List<String> groupList = new ArrayList<>();
-        for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
+        for (int i = 0; i <quoteCodeEntity.getGroup().size(); i++) {
             if (quoteCodeEntity.getGroup().get(i).getName().equals(type)) {
-                for (int j = quoteCodeEntity.getGroup().get(i).getList().size() - 1; j > 0; j--) {
+                for (int j = quoteCodeEntity.getGroup().get(i).getList().size() - 1; j >= 0; j--) {
                     groupList.add(quoteCodeEntity.getGroup().get(i).getList().get(j));
                 }
             }
@@ -1112,6 +1112,7 @@ public class TradeUtil {
     /* 衍生区*/
     public static List<String> bscQuoteList(List<String> quoteList) {
         List<String> strings = TradeUtil.resultGroup(AppConfig.BSC);
+        Log.d("print", "bscQuoteList:bsc1115: "+strings);
         List<String> quoteList2 = new ArrayList<>();
         for (int i = 0; i < strings.size(); i++) {
             for (String mainQuote : quoteList) {
@@ -1177,7 +1178,7 @@ public class TradeUtil {
                 }
             }
         }
-        Log.d("print", "derivedQuoteList:1073:  "+quoteList2);
+        Log.d("print", "derivedQuoteList:1073:  " + quoteList2);
         return quoteList2;
 
     }

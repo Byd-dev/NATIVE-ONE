@@ -1631,7 +1631,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
         }
     };
-    
+
     private void updateNews() {
         if (notices != null) {
             mNewsIndex++;
