@@ -90,7 +90,7 @@ public class NetManger {
 
 
     //public static String BASE_URL = "https://test-app.ttms.io";   //测试
-    public static String BASE_URL = "https://app-ymx.ttms.io";   //测试
+    public static String BASE_URL = "https://byd-ymx.ttms.io";   //测试
 
     public static String H5_BASE_URL = "https://test7777.bityard.com";   //测试
 

@@ -39,6 +39,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.pro.bityard.api.NetManger.SUCCESS;
+import static com.pro.bityard.utils.Util.filter2;
 import static com.pro.bityard.utils.Util.getAllSatisfyStr;
 import static java.lang.Double.parseDouble;
 
@@ -927,7 +928,7 @@ public class TradeUtil {
         List<String> quoteList2 = new ArrayList<>();
 
         for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
-            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.CONTRACT)||quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.DERIVATIVES)) {
+            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.CONTRACT) || quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.DERIVATIVES)) {
                 for (int j = 0; j < quoteCodeEntity.getGroup().get(i).getList().size(); j++) {
                     for (String mainQuote : quoteList) {
                         String[] split = mainQuote.split(",");
@@ -1037,36 +1038,42 @@ public class TradeUtil {
         return quoteList2;
     }
 
-    /* 衍生区*/
-    public static List<String> derivedQuoteList(List<String> quoteList) {
+    public static List<String> resultGroup(String type) {
         String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
-
         QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
-        List<String> quoteList2 = new ArrayList<>();
-
+        List<String> groupList = new ArrayList<>();
         for (int i = 0; i < quoteCodeEntity.getGroup().size(); i++) {
-            if (quoteCodeEntity.getGroup().get(i).getName().equals(AppConfig.DERIVATIVES)) {
-                for (int j = 0; j < quoteCodeEntity.getGroup().get(i).getList().size(); j++) {
-                    for (String mainQuote : quoteList) {
-                        String[] split = mainQuote.split(",");
-                        int length = split.length;
-                        if (split[length - 5].equals(quoteCodeEntity.getGroup().get(i).getList().get(j))) {
-                            quoteList2.add(mainQuote);
-                        }
-                    }
+            if (quoteCodeEntity.getGroup().get(i).getName().equals(type)) {
+                for (int j = quoteCodeEntity.getGroup().get(i).getList().size() - 1; j > 0; j--) {
+                    groupList.add(quoteCodeEntity.getGroup().get(i).getList().get(j));
                 }
             }
         }
-       /* List<String> quoteList2 = new ArrayList<>();
-        for (String mainQuote : quoteList) {
-            String[] split = mainQuote.split(",");
-            int length = split.length;
-            if (split[length - 4].equals(AppConfig.TYPE_CH)) {
-                quoteList2.add(mainQuote);
+        return groupList;
+    }
+
+    /* 衍生区*/
+    public static List<String> derivedQuoteList(List<String> quoteList) {
+        //  Log.d("print", "derivedQuoteList:1056: "+quoteList.size());
+        List<String> strings = TradeUtil.resultGroup(AppConfig.DERIVATIVES);
+        List<String> quoteList2 = new ArrayList<>();
+        for (int i = 0; i < strings.size(); i++) {
+            for (String mainQuote : quoteList) {
+                String[] split = mainQuote.split(",");
+                int length = split.length;
+                if (filter2(split[0]).equals(strings.get(i))) {
+                    quoteList2.add(mainQuote + "," + filter2(split[0])
+                            + "," + AppConfig.TYPE_FT
+                            + "," + 0
+                            + "," + filter(split[0].replaceAll("CC", ""))
+                            + "," + "USDT");
+                }
             }
-        }*/
+        }
+        Log.d("print", "derivedQuoteList:1073:  "+quoteList2);
         return quoteList2;
     }
+
     /* 衍生区*/
     public static List<String> bscQuoteList(List<String> quoteList) {
         String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
@@ -1110,7 +1117,7 @@ public class TradeUtil {
         return quoteList2;
     }*/
 
-    public static List<String> spiltQuoteList(List<String> quoteList,String type) {
+    public static List<String> spiltQuoteList(List<String> quoteList, String type) {
         String json = SPUtils.getString(AppConfig.QUOTE_CODE_JSON, null);
 
         QuoteCodeEntity quoteCodeEntity = new Gson().fromJson(json, QuoteCodeEntity.class);
@@ -1168,6 +1175,8 @@ public class TradeUtil {
                 quoteList2.add(mainQuote);
             }
         }*/
+        Log.d("print", "derivedQuoteList:现货:1175: " + quoteList2.size());
+
         return quoteList2;
     }
 
@@ -1524,7 +1533,7 @@ public class TradeUtil {
             return null;
         } else {
             String[] split = quote.split(",");
-            return split[0].replaceAll(" ", "").replaceAll("_CC","");
+            return split[0].replaceAll(" ", "").replaceAll("_CC", "");
         }
 
     }
@@ -1738,9 +1747,9 @@ public class TradeUtil {
 
     public static String name(String quote) {
         String[] split = quote.split(",");
-        if (split[split.length - 2].equals("")){
+        if (split[split.length - 2].equals("")) {
             return "null";
-        }else {
+        } else {
             return split[split.length - 2];
         }
     }
@@ -1921,11 +1930,10 @@ public class TradeUtil {
     }
 
     /*计算抵扣金额 抵扣金额是=礼金抵扣+红包抵扣 */
-    public static String deductionResult(String service, String margin, String prizeTrade,String luckyTrade) {
+    public static String deductionResult(String service, String margin, String prizeTrade, String luckyTrade) {
         if (service == null) {
             return null;
         }
-
 
 
         double prize_mul = TradeUtil.mul(parseDouble(margin), parseDouble(prizeTrade));

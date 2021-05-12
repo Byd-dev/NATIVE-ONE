@@ -80,8 +80,10 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
             //行情列表
             case "3001":
                 String data = quoteEntity.getData();
-
+                // Log.d("print", "onMessage:83: "+data);
                 List<String> strings = Util.quoteResultAdd(Util.quoteResult(data));
+//衍生区
+                List<String> derivedQuoteList = TradeUtil.derivedQuoteList(Util.quoteResult(data));
 
                 //现货
                 List<String> spotQuoteList = TradeUtil.spotQuoteList(strings);
@@ -97,6 +99,7 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 List<String> spotQuoteList_name_a2z = TradeUtil.nameLowToHigh(spotQuoteList);
                 //字母z-a
                 List<String> spotQuoteList_name_z2a = TradeUtil.nameHighToLow(spotQuoteList);
+
 
 
 
@@ -198,9 +201,6 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
                 //字母z-a
                 List<String> contractMainQuoteList_name_z2a = TradeUtil.nameHighToLow(contractMainQuoteList);
 
-
-                //衍生区
-                List<String> derivedQuoteList = TradeUtil.derivedQuoteList(strings);
 
                 //价格从高到低
                 List<String> derivedQuoteList_price_high2low = TradeUtil.priceHighToLow(derivedQuoteList);
@@ -540,17 +540,17 @@ public class SocketQuoteManger extends Observable implements IReceiveMessage {
             case "4001":
                 QuoteMinEntity quoteMinEntity = new Gson().fromJson(quoteEntity.getData(), QuoteMinEntity.class);
                 Log.d("send", "getQuote 行情4001: " + quoteMinEntity);
-                if (quoteMinEntity.getSymbol().contains("CC")){
+                if (quoteMinEntity.getSymbol().contains("CC")) {
                     QuoteSpotCurrentManger.getInstance().postQuote(quoteMinEntity);
-                }else {
+                } else {
                     QuoteContractCurrentManger.getInstance().postQuote(quoteMinEntity);
                 }
                 break;
-           case "5001":
+            case "5001":
                 //Log.d("send", "getQuote 现货买卖5001:  " + quoteEntity.getData().length());
                 QuoteSpotManger.getInstance().postQuote(quoteEntity.getData());
                 break;
-             case "6001":
+            case "6001":
                 //Log.d("send", "getQuote 最新成交6001:  " + quoteEntity.getData());
                 TradeSpotManger.getInstance().postQuote(quoteEntity.getData());
                 break;

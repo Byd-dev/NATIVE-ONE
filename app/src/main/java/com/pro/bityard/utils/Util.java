@@ -157,40 +157,25 @@ public class Util {
         for (int i = 0; i < dataList.size(); i++) {
             String itemQuote = dataList.get(i);
             String[] split = itemQuote.split(",");
-            for (int j = dataDetail.size() - 1; j > 0; j--) {
-                // Log.d("print", "quoteResultAdd:155: "+split[0]+"--"+dataDetail.get(j).getCode());
-                if (filter(split[0]).equals(filter(dataDetail.get(j).getCode()))) {
+            Log.d("print", "quoteResultAdd:163:  "+itemQuote+"   "+filter2(split[0]));
+            quoteList.add(itemQuote + "," +filter2(split[0])
+                    + "," + 0
+                    + "," + 0
+                    + "," + filter(split[0].replaceAll("CC",""))
+                    + "," + data.getBrand().getDefaultCurrency());
+            //问题出在这里
 
+           /* for (int j = 0; j < dataDetail.size(); j++) {
+
+                if (filter(split[0]).equals(filter(dataDetail.get(j).getCode()))) {
                     quoteList.add(itemQuote + "," + dataDetail.get(j).getCode()
                             + "," + dataDetail.get(j).getType()
                             + "," + dataDetail.get(j).getZone()
                             + "," + dataDetail.get(j).getName()
                             + "," + data.getBrand().getDefaultCurrency());
-
-                    //  Log.d("print", "quoteResultAdd:156: "+filter(split[0])+"--"+filter(dataDetail.get(j).getCode()));
-
-                  /*  if (dataDetail.get(j).getType().equals(AppConfig.TYPE_FT) && dataDetail.get(j).getName().contains(",")) {
-                        quoteList.add(itemQuote + "," + dataDetail.get(j).getCode()
-                                + "," + dataDetail.get(j).getType()
-                                + "," + dataDetail.get(j).getZone()
-                                + "," + dataDetail.get(j).getName().split(",")[1]
-                                + "," + data.getBrand().getDefaultCurrency());
-                    } else {
-                        quoteList.add(itemQuote + "," + dataDetail.get(j).getCode()
-                                + "," + dataDetail.get(j).getType()
-                                + "," + dataDetail.get(j).getZone()
-                                + "," + dataDetail.get(j).getName()
-                                + "," + data.getBrand().getDefaultCurrency());
-                    }*/
-
-
-                    /*quoteList.add(itemQuote + "," + dataDetail.get(j).getType()
-                                + "," + dataDetail.get(j).getZone()
-                                + "," + dataDetail.get(j).getCode().replaceAll("_CC", "").replaceAll(data.getBrand().getDefaultCurrency(), "")
-                                + "," + data.getBrand().getDefaultCurrency());
-                  */
+                  //  Log.d("print", "quoteResultAdd:162:  "+filter(split[0])+"    "+filter(dataDetail.get(j).getCode())+"   "+itemQuote);
                 }
-            }
+            }*/
         }
         return quoteList;
     }
@@ -207,6 +192,11 @@ public class Util {
         } else {
             return stringBuilder.toString();
         }
+    }
+
+    public static String filter2(String content) {
+
+        return content.substring(0,content.length()-4);
     }
 
     public static String styleValue(Map<String, TagEntity> tag_select) {
@@ -493,7 +483,7 @@ public class Util {
             return format;
         } catch (ParseException e) {
             e.printStackTrace();
-            return  null;
+            return null;
         }
     }
 
@@ -1210,11 +1200,13 @@ public class Util {
         String s = gson.toJson(tradeListEntities);
         return s;
     }
+
     public static String SPDealString(List<String> quote_list) {
         Gson gson = new Gson();
         String s = gson.toJson(quote_list);
         return s;
     }
+
     /*解析*/
     public static List<TradeListEntity> SPDealEntityResult(String data) {
         if (data == null) {
@@ -1227,6 +1219,7 @@ public class Util {
             return list;
         }
     }
+
     /*解析*/
     public static List<String> SPDealStringResult(String data) {
         if (data == null) {
@@ -1711,7 +1704,7 @@ public class Util {
     }
 
 
-    public static String getJson(String fileName,Context context) {
+    public static String getJson(String fileName, Context context) {
         //将json数据变成字符串
         StringBuilder stringBuilder = new StringBuilder();
         try {
@@ -1730,7 +1723,7 @@ public class Util {
         return stringBuilder.toString();
     }
 
-    public static void setTheme(Activity activity){
+    public static void setTheme(Activity activity) {
         boolean theme = SPUtils.getBoolean(AppConfig.KEY_THEME, true);
         if (theme) {
             StatusBarUtil.setStatusBarDarkTheme(activity, false);

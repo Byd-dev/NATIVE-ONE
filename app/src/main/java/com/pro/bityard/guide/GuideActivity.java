@@ -140,7 +140,6 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                     Log.d("print", "init:137:  " + quoteDomain);
                     try {
                         String quoteDomainUrl = AES.HexDecrypt(quoteDomain.getBytes(), AppConfig.S_KEY);
-                        Log.d("print", "init:141:  " + quoteDomainUrl);
 
                         SPUtils.putString(AppConfig.QUOTE_HOST, quoteDomainUrl);
                         if (quoteDomainUrl.startsWith("http")) {
@@ -175,8 +174,8 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
                                 for (int i = 0; i < tradeListEntityList.size(); i++) {
                                     stringBuilder.append(tradeListEntityList.get(i).getContractCode() + ",");
                                 }
-
-                                SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString());
+                                Log.d("print", "init:177: "+stringBuilder.toString());
+                                SPUtils.putString(AppConfig.QUOTE_CODE, stringBuilder.toString().replaceAll("null,",""));
                                 SPUtils.putString(AppConfig.QUOTE_DETAIL, Util.SPDealContract(tradeListEntityList));
                                 run();
                             }
