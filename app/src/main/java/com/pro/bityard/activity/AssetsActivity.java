@@ -57,7 +57,6 @@ public class AssetsActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         Util.setTheme(this);
 
-
     }
 
     @Override
