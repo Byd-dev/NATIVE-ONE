@@ -1546,8 +1546,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         tabLayout_my.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
-
+                
                 if (tab.getPosition() == 0) {
                     layout_assets_my.setVisibility(View.VISIBLE);
                     layout_account_my.setVisibility(View.GONE);
