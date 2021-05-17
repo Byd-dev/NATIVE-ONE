@@ -272,6 +272,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     TabLayout tabLayout_my;
     @BindView(R.id.img_record)
     ImageView img_record;
+    @BindView(R.id.img_my_service)
+    ImageView img_my_service;
+    @BindView(R.id.img_my_setting)
+    ImageView img_my_setting;
     @BindView(R.id.layout_assets_my)
     LinearLayout layout_assets_my;
     @BindView(R.id.layout_account_my)
@@ -1548,12 +1552,15 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     layout_assets_my.setVisibility(View.VISIBLE);
                     layout_account_my.setVisibility(View.GONE);
                     img_record.setVisibility(View.VISIBLE);
+                    img_my_service.setVisibility(View.GONE);
+                    img_my_setting.setVisibility(View.GONE);
 
                 } else if (tab.getPosition() == 1) {
                     layout_assets_my.setVisibility(View.GONE);
                     layout_account_my.setVisibility(View.VISIBLE);
                     img_record.setVisibility(View.GONE);
-
+                    img_my_service.setVisibility(View.VISIBLE);
+                    img_my_setting.setVisibility(View.VISIBLE);
                 }
             }
 
