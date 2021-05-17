@@ -56,7 +56,6 @@ public class AssetsActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Util.setTheme(this);
-
     }
 
     @Override
