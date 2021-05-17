@@ -41,5 +41,6 @@
     <color name="text_main_color_night">#232427</color>
     <color name="color_kline_line_night">#F3F3F4</color>
     <color name="color_market_search_night">#EAECF0</color>
+    <color name="color_assets_bg_night">#ffffff</color>
 
 </resources>

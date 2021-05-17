@@ -91,6 +91,7 @@
         <activity android:name=".activity.SpotTradeActivity" />
         <activity android:name=".activity.AccountSettingsActivity" />
         <activity android:name=".activity.StyleSelectActivity" />
+        <activity android:name=".activity.AssetsActivity" />
 
         <!-- Optional facebook配置,authorities必须为com.facebook.app.FacebookContentProvider+APP_ID-->
 

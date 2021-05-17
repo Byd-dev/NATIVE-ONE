@@ -64,4 +64,5 @@
     <color name="color_title_bar">#232939</color>
     <color name="color_kline_line">#232939</color>
     <color name="color_market_search">#1B202E</color>
+    <color name="color_assets_bg">#1A202E</color>
 </resources>

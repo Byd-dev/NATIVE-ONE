@@ -1546,7 +1546,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         tabLayout_my.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                
+
                 if (tab.getPosition() == 0) {
                     layout_assets_my.setVisibility(View.VISIBLE);
                     layout_account_my.setVisibility(View.GONE);
@@ -2378,7 +2378,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                 break;
             case R.id.layout_main_five:
-                layout_home.setVisibility(View.GONE);
+
+                AssetsActivity.enter(this);
+
+
+
+                /*layout_home.setVisibility(View.GONE);
                 layout_market.setVisibility(View.GONE);
                 layout_circle.setVisibility(View.GONE);
                 layout_my.setVisibility(View.VISIBLE);
@@ -2390,7 +2395,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 img_main_one.setImageResource(R.mipmap.tab_one_normal);
                 img_main_two.setImageResource(R.mipmap.tab_two_normal);
                 img_main_four.setImageResource(R.mipmap.tab_four_normal);
-                img_main_five.setImageResource(R.mipmap.tab_five);
+                img_main_five.setImageResource(R.mipmap.tab_five);*/
 
 
                 break;

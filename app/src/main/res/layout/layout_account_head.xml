@@ -21,7 +21,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
-
                 android:background="@mipmap/bg_assets_wallet"
                 android:orientation="vertical">
 
