@@ -40,7 +40,6 @@
             android:paddingLeft="@dimen/margin_10"
             android:paddingRight="@dimen/margin_15"
             android:src="@mipmap/icon_my_service" />
-
     </RelativeLayout>
 
     <include layout="@layout/tab_account" />
