@@ -121,8 +121,7 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
     StatusBarHeightView layout_status;
     @BindView(R.id.layout_login_register)
     RelativeLayout layout_login_register;
-
-
+    
     @BindView(R.id.layout_main_one)
     LinearLayout layout_main_one;
     @BindView(R.id.layout_main_two)
