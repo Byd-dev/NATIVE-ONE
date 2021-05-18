@@ -17,6 +17,7 @@ import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TagEntity;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class AccountSettingsActivity extends BaseActivity implements View.OnClic
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        Util.setTheme(this);
 
     }
 

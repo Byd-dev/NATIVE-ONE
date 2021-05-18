@@ -261,7 +261,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        Util.setTheme(this);
 
     }
 

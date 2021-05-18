@@ -58,7 +58,7 @@ public class StyleSelectActivity extends BaseActivity implements View.OnClickLis
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        Util.setTheme(this);
 
     }
 

@@ -16,6 +16,7 @@ import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.StyleEntity;
 import com.pro.bityard.entity.TagEntity;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class FilterSettingsActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        Util.setTheme(this);
 
     }
 

@@ -70,7 +70,7 @@ public class ResetPassActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void initView(View view) {
 
-        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        Util.setTheme(this);
 
         edit_pass_sure.setHint(getResources().getString(R.string.text_edit_pass_new_sure));
         btn_submit.setOnClickListener(this);

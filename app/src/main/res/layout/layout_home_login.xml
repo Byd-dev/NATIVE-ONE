@@ -9,7 +9,7 @@
         android:id="@+id/layout_login_register"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:background="#273552">
+        android:background="@color/color_tab_normal">
 
         <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"

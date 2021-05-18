@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:id="@+id/layout_assets_my"
     android:orientation="vertical"
-    android:background="@color/background_main_color"
     >
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

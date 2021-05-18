@@ -1089,7 +1089,7 @@ public class TradeUtil {
         return groupList;
     }
 
-    /* 衍生区*/
+    /* DEFI*/
     public static List<String> derivedQuoteList(List<String> quoteList) {
         List<String> strings = TradeUtil.resultGroup(AppConfig.DERIVATIVES);
         List<String> quoteList2 = new ArrayList<>();
@@ -1109,7 +1109,7 @@ public class TradeUtil {
         return quoteList2;
     }
 
-    /* 衍生区*/
+    /* BSC*/
     public static List<String> bscQuoteList(List<String> quoteList) {
         List<String> strings = TradeUtil.resultGroup(AppConfig.BSC);
         Log.d("print", "bscQuoteList:bsc1115: "+strings);

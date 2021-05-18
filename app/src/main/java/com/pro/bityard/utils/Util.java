@@ -1732,5 +1732,14 @@ public class Util {
         }
     }
 
+    public static void setTheme(OnResult onResult){
+        boolean theme = SPUtils.getBoolean(AppConfig.KEY_THEME, true);
+        if (theme){
+            onResult.setResult(true);
+        }else {
+            onResult.setResult(false);
+        }
+    }
+
 
 }

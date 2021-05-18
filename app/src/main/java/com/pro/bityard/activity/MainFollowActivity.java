@@ -42,6 +42,7 @@ import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuoteHomeAdapter;
 import com.pro.bityard.api.NetManger;
+import com.pro.bityard.api.OnResult;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.circleAdapter.CircleTagSelectAdapter;
 import com.pro.bityard.circleAdapter.FollowAdapter;
@@ -74,6 +75,7 @@ import com.pro.bityard.utils.Util;
 import com.pro.bityard.view.CircleImageView;
 import com.pro.bityard.view.HeaderRecyclerView;
 import com.pro.bityard.view.StatusBarHeightView;
+import com.pro.bityard.view.textview.ManropeTextView;
 import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 import com.stx.xhb.xbanner.XBanner;
@@ -551,7 +553,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         NetManger.getInstance().updateCheck(this, layout_view);
         //初始化
         InitManger.getInstance().init();
-        Util.setTheme(this);
 
 
 
@@ -624,6 +625,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     protected void onResume() {
         isForeground = true;
         super.onResume();
+        Util.setTheme(this);
+
         SocketUtil.switchQuotesList("3001");
 
 
@@ -773,11 +776,18 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
         textSwitcher.setFactory(() -> {
-            TextView textView = new TextView(this);
+            ManropeTextView textView = new ManropeTextView(this);
             textView.setMaxLines(1);
             textView.setEllipsize(TextUtils.TruncateAt.END);
             textView.setLineSpacing(1.1f, 1.1f);
-            textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(this), R.color.text_main_color));
+            textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(MainFollowActivity.this), R.color.text_second_color));
+         /*   Util.setTheme(response -> {
+                boolean theme= (boolean) response;
+                if (theme){
+                }else {
+                    textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(MainFollowActivity.this), R.color.text_main_color_night));
+                }
+            });*/
             textView.setTextSize(13);
             textView.setSingleLine();
             return textView;
@@ -1525,7 +1535,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         findViewById(R.id.layout_eight).setOnClickListener(this);//系统设置
         findViewById(R.id.layout_nine).setOnClickListener(this);
         findViewById(R.id.layout_login).setOnClickListener(this);
-        text_register.findViewById(R.id.text_register).setOnClickListener(this);
+        findViewById(R.id.text_register).setOnClickListener(this);
        /* findViewById(R.id.text_account).setOnClickListener(this);
         findViewById(R.id.text_deposit).setOnClickListener(this);
         findViewById(R.id.text_withdrawal).setOnClickListener(this);

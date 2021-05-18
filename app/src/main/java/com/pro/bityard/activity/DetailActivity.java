@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
+import com.pro.bityard.utils.Util;
 
 public class DetailActivity extends BaseActivity {
     private static final String TYPE = "DETAIL_TYPE";
@@ -35,7 +36,7 @@ public class DetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        Util.setTheme(this);
 
 
         String type = getIntent().getStringExtra("TYPE");

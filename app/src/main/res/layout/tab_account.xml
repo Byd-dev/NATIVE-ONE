@@ -597,6 +597,7 @@
             <RelativeLayout
                 android:id="@+id/layout_eight"
                 android:layout_width="match_parent"
+                android:visibility="gone"
                 android:layout_height="55dp">
 
                 <com.pro.bityard.view.textview.ManropeTextView

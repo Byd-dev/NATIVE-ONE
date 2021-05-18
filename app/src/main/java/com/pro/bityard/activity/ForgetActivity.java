@@ -9,6 +9,7 @@ import com.pro.bityard.R;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.IntentConfig;
 import com.pro.bityard.fragment.user.ForgetFragment;
+import com.pro.bityard.utils.Util;
 import com.pro.bityard.viewutil.StatusBarUtil;
 
 import androidx.annotation.Nullable;
@@ -41,7 +42,7 @@ public class ForgetActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setStatusBarDarkTheme(this, false);
+        Util.setTheme(this);
         Intent intent = getIntent();
         type = intent.getStringExtra(TYPE);
         pageIndex = intent.getIntExtra("pageIndex",0);
