@@ -195,7 +195,6 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
     LinearLayout layout_null;
     @BindView(R.id.text_add)
     TextView text_add;
-
     @BindView(R.id.swipeRefreshLayout_market)
     SwipeRefreshLayout swipeRefreshLayout_market;
     @BindView(R.id.tabLayout_market)
