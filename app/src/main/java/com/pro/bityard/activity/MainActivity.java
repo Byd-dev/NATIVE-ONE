@@ -121,7 +121,7 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
     StatusBarHeightView layout_status;
     @BindView(R.id.layout_login_register)
     RelativeLayout layout_login_register;
-    
+
     @BindView(R.id.layout_main_one)
     LinearLayout layout_main_one;
     @BindView(R.id.layout_main_two)
@@ -152,7 +152,6 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
     TextView text_main_four;
     @BindView(R.id.text_main_five)
     TextView text_main_five;
-
     @BindView(R.id.recyclerView_home_title)
     RecyclerView recyclerView_home_title;
     private HomeSelectAdapter homeSelectAdapter;
