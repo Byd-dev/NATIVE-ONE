@@ -18,7 +18,8 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pro.bityard.R;
-import com.pro.bityard.activity.MainFollowActivity;
+import com.pro.bityard.activity.MainActivity;
+import com.pro.bityard.activity.MainActivity;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
@@ -268,7 +269,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         text_err.setVisibility(View.GONE);
         String string = SPUtils.getString(AppConfig.FIRST_OPEN, null);
         if (string != null) {
-            MainFollowActivity.enter(GuideActivity.this, MainFollowActivity.TAB_TYPE.TAB_HOME);
+            MainActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_HOME);
             GuideActivity.this.finish();
         } else {
             layout_view.setBackgroundColor(getResources().getColor(R.color.background_main_color));
@@ -333,7 +334,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.text_jump:
             case R.id.btn_sure:
-                MainFollowActivity.enter(GuideActivity.this, MainFollowActivity.TAB_TYPE.TAB_HOME);
+                MainActivity.enter(GuideActivity.this, MainActivity.TAB_TYPE.TAB_HOME);
                 GuideActivity.this.finish();
                 break;
         }

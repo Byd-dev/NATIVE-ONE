@@ -102,7 +102,7 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
-public class MainFollowActivity extends BaseActivity implements Observer, View.OnClickListener {
+public class MainActivity extends BaseActivity implements Observer, View.OnClickListener {
     public static boolean isForeground = false;
     public static final String MESSAGE_RECEIVED_ACTION = "${applicationId}.MESSAGE_RECEIVED_ACTION";
     public static final String KEY_MESSAGE = "message";
@@ -121,18 +121,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     StatusBarHeightView layout_status;
     @BindView(R.id.layout_login_register)
     RelativeLayout layout_login_register;
-    @BindView(R.id.radioGroup)
-    LinearLayout radioGroup;
-    @BindView(R.id.radio_0)
-    RadioButton radioButton_0;
-    @BindView(R.id.radio_1)
-    RadioButton radioButton_1;
-    @BindView(R.id.radio_2)
-    RadioButton radioButton_2;
-    @BindView(R.id.radio_3)
-    RadioButton radioButton_3;
-    @BindView(R.id.radio_4)
-    RadioButton radioButton_4;
+
 
     @BindView(R.id.layout_main_one)
     LinearLayout layout_main_one;
@@ -268,33 +257,20 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
     /*我的  ---------------------------------------------------*/
-    @BindView(R.id.tabLayout_my)
-    TabLayout tabLayout_my;
-    @BindView(R.id.img_record)
-    ImageView img_record;
-    @BindView(R.id.img_my_service)
-    ImageView img_my_service;
-    @BindView(R.id.img_my_setting)
-    ImageView img_my_setting;
-    @BindView(R.id.layout_assets_my)
-    LinearLayout layout_assets_my;
-    @BindView(R.id.layout_account_my)
-    ScrollView layout_account_my;
-    @BindView(R.id.text_all_profit)
-    TextView text_all_profit;
 
-    @BindView(R.id.layout_commissionRate)
-    LinearLayout layout_commissionRate;
+
+
+
+
+
+
 
     private List<String> myTitleList;
 
-    @BindView(R.id.text_userName)
-    TextView text_userName;
 
-    @BindView(R.id.img_head)
-    CircleImageView img_head;
-    @BindView(R.id.text_uid)
-    TextView text_uid;
+
+
+
 
     /*@BindView(R.id.text_currency)
     TextView text_currency;*/
@@ -310,16 +286,12 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
     @BindView(R.id.swipeRefreshLayout_assets)
     SwipeRefreshLayout swipeRefreshLayout_assets;
     ImageView img_eye_switch;
-    @BindView(R.id.text_commissionRate)
-    TextView text_commissionRate;
 
 
-    @BindView(R.id.text_register)
-    TextView text_register;
-    @BindView(R.id.img_edit)
-    ImageView img_edit;
-    @BindView(R.id.text_byd_balance)
-    TextView text_byd_balance;
+
+
+
+
     TextView text_fiat;
 
     private boolean isEyeOpen = true;
@@ -334,7 +306,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     @Override
     protected int setContentLayout() {
-        return R.layout.activity_main_follow;
+        return R.layout.activity_main;
 
     }
 
@@ -484,36 +456,19 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 layout_my.setVisibility(View.GONE);
                 layout_status.setVisibility(View.VISIBLE);
 
-                runOnUiThread(() -> {
-                    // Log.d("print", "update:337:  " + a + "  --   " + radioButton_2);
-                    radioButton_2.setChecked(true);
-                });
+
             }
         } else if (o == UserDetailManger.getInstance()) {
             userDetailEntity = (UserDetailEntity) arg;
             Log.d("print", "update:437:  " + userDetailEntity);
             runOnUiThread(() -> {
                 if (userDetailEntity.getUser() != null) {
-                    text_userName.setText(userDetailEntity.getUser().getUsername());
-                    text_uid.setVisibility(View.VISIBLE);
-                    if (loginEntity != null) {
-                        text_uid.setText("UID:" + loginEntity.getUser().getUserId());
-                    }
-                    text_register.setVisibility(View.GONE);
-                    img_edit.setVisibility(View.VISIBLE);
                     if (isEyeOpen) {
-                        text_byd_balance.setText(String.valueOf(userDetailEntity.getUser().getEagle()));
-                        text_commissionRate.setText(TradeUtil.mul(userDetailEntity.getUser().getCommRatio(), 100) + "%");
                     }
 
                 } else {
 
-                    text_userName.setText(getResources().getText(R.string.text_unlogin));
-                    text_uid.setVisibility(View.GONE);
-                    text_register.setVisibility(View.VISIBLE);
-                    img_edit.setVisibility(View.GONE);
-                    text_byd_balance.setText(getResources().getString(R.string.text_default));
-                    text_commissionRate.setText(getResources().getString(R.string.text_default));
+
                     text_balance.setText(getResources().getString(R.string.text_default));
                     text_balance_currency.setText(getResources().getString(R.string.text_default));
                 }
@@ -606,7 +561,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
     public static void enter(Context context, int tabIndex) {
 
-        Intent intent = new Intent(context, MainFollowActivity.class);
+        Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(IntentConfig.Keys.POSITION, tabIndex);
         context.startActivity(intent);
     }
@@ -630,37 +585,22 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         //跟单列表
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
-            text_userName.setText(loginEntity.getUser().getUserName());
-            text_uid.setVisibility(View.VISIBLE);
-            text_uid.setText("UID:" + loginEntity.getUser().getUserId());
-            text_register.setVisibility(View.GONE);
-            img_edit.setVisibility(View.VISIBLE);
+
             layout_login_register.setVisibility(View.GONE);
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head_circle);
-            Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_head);
             Glide.with(this).load(loginEntity.getUser().getAvatar()).error(R.mipmap.icon_my_bityard).into(img_home_head);
 
-            layout_commissionRate.setVisibility(View.VISIBLE);
-            getFollowIncome();
             accountAdapter.setZero(false);
 
         } else {
 
 
-            text_userName.setText(getResources().getText(R.string.text_unlogin));
-            text_uid.setVisibility(View.GONE);
-            text_register.setVisibility(View.VISIBLE);
-            img_edit.setVisibility(View.GONE);
+
             layout_login_register.setVisibility(View.VISIBLE);
-            text_byd_balance.setText(getResources().getString(R.string.text_default));
-            text_commissionRate.setText(getResources().getString(R.string.text_default));
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head_circle);
-            Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_head);
             Glide.with(this).load(R.mipmap.icon_my_bityard).into(img_home_head);
 
-            layout_commissionRate.setVisibility(View.GONE);
 
-            text_all_profit.setText(getResources().getString(R.string.text_all_profit) + ": 0.0");
             //资产
             text_balance.setText(getResources().getString(R.string.text_default));
             text_balance_currency.setText(getResources().getString(R.string.text_default));
@@ -682,8 +622,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             SPUtils.remove(AppConfig.POP_LOGIN);
             Handler handler = new Handler();
             handler.postDelayed(() -> {
-                Util.lightOff(MainFollowActivity.this);
-                PopUtil.getInstance().showSuccessTip(MainFollowActivity.this, layout_view, state -> {
+                Util.lightOff(MainActivity.this);
+                PopUtil.getInstance().showSuccessTip(MainActivity.this, layout_view, state -> {
                     if (state) {
                         if (isLogin()) {
                             WebActivity.getInstance().openUrl(this,
@@ -725,12 +665,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         map.put("symbols", "BYDUSDT_CC");*/
 
 
-        //首页监听
-        radioButton_0.setOnClickListener(this);
-        radioButton_1.setOnClickListener(this);
-        radioButton_2.setOnClickListener(this);
-        radioButton_3.setOnClickListener(this);
-        radioButton_4.setOnClickListener(this);
 
         layout_main_one.setOnClickListener(this);
         layout_main_two.setOnClickListener(this);
@@ -761,7 +695,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         //个人信息初始化
         UserDetailManger.getInstance().addObserver(this);
         //初始化 交易设置
-        radioButton_2.setOnClickListener(this);
         //跟单的消息提醒
         NoticeManger.getInstance().addObserver(this);
 
@@ -777,7 +710,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             textView.setMaxLines(1);
             textView.setEllipsize(TextUtils.TruncateAt.END);
             textView.setLineSpacing(1.1f, 1.1f);
-            textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(MainFollowActivity.this), R.color.text_second_color));
+            textView.setTextColor(ContextCompat.getColor(Objects.requireNonNull(MainActivity.this), R.color.text_second_color));
          /*   Util.setTheme(response -> {
                 boolean theme= (boolean) response;
                 if (theme){
@@ -795,7 +728,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         recyclerView_hot.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView_hot.setAdapter(quoteHomeAdapter);
         quoteHomeAdapter.setOnItemClick(this::onSuccessListener);
-        img_head.setOnClickListener(this);
         img_home_head.setOnClickListener(this);
         findViewById(R.id.img_service).setOnClickListener(this);
         findViewById(R.id.layout_announcement).setOnClickListener(this);
@@ -1497,94 +1429,34 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     }
                 }
             } else {
-                LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
             }
         });
 
 
         followAdapter.setOnDetailClick(dataBean -> {
             if (isLogin()) {
-                FollowDetailActivity.enter(MainFollowActivity.this, AppConfig.FOLLOW, dataBean);
+                FollowDetailActivity.enter(MainActivity.this, AppConfig.FOLLOW, dataBean);
             } else {
-                LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
             }
         });
 
 
 
         /*我的 分割线-----------------------------------------------------------------------------*/
-        findViewById(R.id.layout_hold).setOnClickListener(this);//我的持仓
-        findViewById(R.id.layout_one).setOnClickListener(this);//安全中心监听
-        findViewById(R.id.layout_two).setOnClickListener(this);
-        findViewById(R.id.layout_three).setOnClickListener(this);
-        findViewById(R.id.layout_four).setOnClickListener(this);
-        findViewById(R.id.layout_spot_record).setOnClickListener(this);
-        //带单管理
-        findViewById(R.id.layout_copied_manger).setOnClickListener(this);
-        findViewById(R.id.layout_copy_manger).setOnClickListener(this);
-
-
-        findViewById(R.id.layout_five).setOnClickListener(this);
-        findViewById(R.id.layout_six).setOnClickListener(this);
-        findViewById(R.id.layout_seven).setOnClickListener(this);
-        findViewById(R.id.layout_help).setOnClickListener(this);//系统设置
-
-        findViewById(R.id.layout_eight).setOnClickListener(this);//系统设置
-        findViewById(R.id.layout_nine).setOnClickListener(this);
-        findViewById(R.id.layout_login).setOnClickListener(this);
-        findViewById(R.id.text_register).setOnClickListener(this);
-       /* findViewById(R.id.text_account).setOnClickListener(this);
-        findViewById(R.id.text_deposit).setOnClickListener(this);
-        findViewById(R.id.text_withdrawal).setOnClickListener(this);
-        findViewById(R.id.text_quick_exchange).setOnClickListener(this);
-        findViewById(R.id.text_fiat).setOnClickListener(this);*/
-        findViewById(R.id.img_edit).setOnClickListener(this);
-        findViewById(R.id.text_mining).setOnClickListener(this);
 
         myTitleList = new ArrayList<>();
         myTitleList.add(getString(R.string.text_assets));
         myTitleList.add(getString(R.string.text_account_my));
-        for (String market_name : myTitleList) {
-            tabLayout_my.addTab(tabLayout_my.newTab().setText(market_name));
-        }
-        tabLayout_my.getTabAt(1).select();
 
 
-        tabLayout_my.addOnTabSelectedListener(new TabLayout.BaseOnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
 
-                if (tab.getPosition() == 0) {
-                    layout_assets_my.setVisibility(View.VISIBLE);
-                    layout_account_my.setVisibility(View.GONE);
-                    img_record.setVisibility(View.VISIBLE);
-                    img_my_service.setVisibility(View.GONE);
-                    img_my_setting.setVisibility(View.GONE);
 
-                } else if (tab.getPosition() == 1) {
-                    layout_assets_my.setVisibility(View.GONE);
-                    layout_account_my.setVisibility(View.VISIBLE);
-                    img_record.setVisibility(View.GONE);
-                    img_my_service.setVisibility(View.VISIBLE);
-                    img_my_setting.setVisibility(View.VISIBLE);
-                }
-            }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
 
 
         //我的 资产页面
-        img_record.setVisibility(View.GONE);
-        img_record.setOnClickListener(this);
 
         View headView = LayoutInflater.from(this).inflate(R.layout.layout_account_head, null);
         text_balance = headView.findViewById(R.id.text_balance);
@@ -1721,16 +1593,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         getFollowList(orderBy);
     }
 
-    private void getFollowIncome() {
-        NetManger.getInstance().followerIncome((state, response) -> {
-            if (state.equals(SUCCESS)) {
-                FollowerIncomeEntity followerIncomeEntity = (FollowerIncomeEntity) response;
-                text_all_profit.setText(getResources().getString(R.string.text_all_profit)
-                        + ": " + TradeUtil.getNumberFormat(followerIncomeEntity.getIncomeAll(), 2));
 
-            }
-        });
-    }
 
 
     public void getFollowList(String orderBy) {
@@ -2272,32 +2135,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, AppConfig.ZH_SIMPLE);
 
         switch (v.getId()) {
-            case R.id.radio_0:
-                layout_home.setVisibility(View.VISIBLE);
-                layout_market.setVisibility(View.GONE);
-                layout_circle.setVisibility(View.GONE);
-                layout_my.setVisibility(View.GONE);
-                layout_status.setVisibility(View.VISIBLE);
-                radioButton_0.setChecked(true);
-                radioButton_1.setChecked(false);
-                radioButton_2.setChecked(false);
-                radioButton_3.setChecked(false);
-                radioButton_4.setChecked(false);
 
-                break;
-            case R.id.radio_1:
-                layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.VISIBLE);
-                layout_circle.setVisibility(View.GONE);
-                layout_my.setVisibility(View.GONE);
-                layout_status.setVisibility(View.VISIBLE);
-                radioButton_0.setChecked(false);
-                radioButton_1.setChecked(true);
-                radioButton_2.setChecked(false);
-                radioButton_3.setChecked(false);
-                radioButton_4.setChecked(false);
-                break;
-            case R.id.radio_2:
             case R.id.layout_main_three:
 
                 if (quoteList == null) {
@@ -2306,35 +2144,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 goToTrade("1", quoteList.get(0));
                 break;
 
-            case R.id.radio_3:
-                radioButton_3.setChecked(false);
-                radioButton_0.setChecked(false);
-                radioButton_1.setChecked(false);
-                radioButton_2.setChecked(false);
-                radioButton_3.setChecked(true);
-                radioButton_4.setChecked(false);
-                layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.GONE);
-                layout_circle.setVisibility(View.VISIBLE);
-                layout_my.setVisibility(View.GONE);
-                layout_status.setVisibility(View.VISIBLE);
-                //getFollowList();
 
-                break;
-            case R.id.radio_4:
-                layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.GONE);
-                layout_circle.setVisibility(View.GONE);
-                layout_my.setVisibility(View.VISIBLE);
-                layout_status.setVisibility(View.GONE);
-
-                radioButton_0.setChecked(false);
-                radioButton_1.setChecked(false);
-                radioButton_2.setChecked(false);
-                radioButton_3.setChecked(false);
-                radioButton_4.setChecked(true);
-
-                break;
             case R.id.layout_main_one:
                 layout_home.setVisibility(View.VISIBLE);
                 layout_market.setVisibility(View.GONE);
@@ -2409,7 +2219,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
 
             case R.id.text_login_register:
-                LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
 
                 break;
 
@@ -2422,11 +2232,11 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 break;
             case R.id.layout_activity:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(MainFollowActivity.this,
+                    WebActivity.getInstance().openUrl(MainActivity.this,
                             NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/activity"),
                             getResources().getString(R.string.text_trade_bonus));
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
 
@@ -2520,7 +2330,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     UserActivity.enter(this, IntentConfig.Keys.KEY_FOLLOW_LOG);
 
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             //跟单管理
@@ -2529,7 +2339,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 if (isLogin()) {
                     UserActivity.enter(this, IntentConfig.Keys.KEY_FOLLOW_SETTINGS);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             case R.id.img_head_circle:
@@ -2546,7 +2356,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         FollowDetailActivity.enter(this, AppConfig.TRADE, followDetailEntity.getData());
                     }
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
 
                 break;
@@ -2556,9 +2366,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.img_home_head:
 
                 if (isLogin()) {
-                    PersonActivity.enter(MainFollowActivity.this);
+                    PersonActivity.enter(MainActivity.this);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             case R.id.stay_bonus:
@@ -2585,7 +2395,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 break;
 
             case R.id.text_register:
-                RegisterActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_REGISTER);
+                RegisterActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_REGISTER);
                 break;
 
             //帮助中心
@@ -2605,8 +2415,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                     img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
                     text_balance.setText("***");
                     text_balance_currency.setText("***");
-                    text_commissionRate.setText("***");
-                    text_byd_balance.setText("***");
 
                     isEyeOpen = false;
                 } else {
@@ -2620,8 +2428,6 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         if (userDetailEntity.getUser() == null) {
                             return;
                         }
-                        text_commissionRate.setText(TradeUtil.mul(userDetailEntity.getUser().getCommRatio(), 100) + "%");
-                        text_byd_balance.setText(String.valueOf(userDetailEntity.getUser().getEagle()));
 
                         if (netIncomeResult != null) {
                             String[] NetIncome = netIncomeResult.split(",");
@@ -2635,14 +2441,10 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                         } else {
                             text_balance.setText(getResources().getString(R.string.text_default));
                             text_balance_currency.setText(getResources().getString(R.string.text_default));
-                            text_commissionRate.setText(getResources().getString(R.string.text_default));
-                            text_byd_balance.setText(getResources().getString(R.string.text_default));
                         }
                     } else {
                         text_balance.setText(getResources().getString(R.string.text_default));
                         text_balance_currency.setText(getResources().getString(R.string.text_default));
-                        text_commissionRate.setText(getResources().getString(R.string.text_default));
-                        text_byd_balance.setText(getResources().getString(R.string.text_default));
                     }
 
 
@@ -2651,51 +2453,50 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 break;
             case R.id.layout_hold:
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_HOLD);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_HOLD);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             //安全中心
             case R.id.layout_one:
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_SAFE_CENTER);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_SAFE_CENTER);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             //资金记录
-            case R.id.img_record:
             case R.id.layout_two:
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_FUND_STATEMENT);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_FUND_STATEMENT);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             case R.id.layout_spot_record:
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_SPOT_RECORD);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_SPOT_RECORD);
 
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*交易记录*/
             case R.id.layout_three:
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_TRADE_HISTORY);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_TRADE_HISTORY);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*邀请记录*/
             case R.id.layout_four:
 
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_INVITE_HISTORY);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_INVITE_HISTORY);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
 
@@ -2704,9 +2505,9 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             case R.id.layout_copied_manger:
 
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_FOLLOWER_MANGER);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_FOLLOWER_MANGER);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*跟单管理*/
@@ -2714,18 +2515,18 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             /*交易设置*/
             case R.id.layout_five:
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_TRADE_SETTINGS);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*提币地址管理*/
             case R.id.layout_six:
 
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL_ADDRESS);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*客服系统*/
@@ -2739,7 +2540,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
                 } else {
                     url = String.format(NetManger.SERVICE_URL, language, "", "游客");
                 }
-                WebActivity.getInstance().openUrl(MainFollowActivity.this, url, getResources().getString(R.string.text_my_service));
+                WebActivity.getInstance().openUrl(MainActivity.this, url, getResources().getString(R.string.text_my_service));
 
                 break;
             /*前往挖矿*/
@@ -2794,25 +2595,25 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             /*充币*/
             case R.id.text_deposit:
                 if (isLogin()) {
-                    WebActivity.getInstance().openUrl(MainFollowActivity.this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/deposit"), getResources().getString(R.string.text_recharge));
+                    WebActivity.getInstance().openUrl(MainActivity.this, NetManger.getInstance().h5Url(loginEntity.getAccess_token(), null, "/deposit"), getResources().getString(R.string.text_recharge));
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*提币*/
             case R.id.text_withdrawal:
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_WITHDRAWAL);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*币币闪兑*/
             case R.id.text_quick_exchange:
                 if (isLogin()) {
-                    UserActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_QUICK_EXCHANGE);
+                    UserActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_QUICK_EXCHANGE);
                 } else {
-                    LoginActivity.enter(MainFollowActivity.this, IntentConfig.Keys.KEY_LOGIN);
+                    LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
             /*法币充值*/
@@ -2838,8 +2639,8 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
             /*修改昵称*/
             case R.id.img_edit:
                 if (isLogin()) {
-                    Util.lightOff(MainFollowActivity.this);
-                    PopUtil.getInstance().showEdit(MainFollowActivity.this, layout_view, true, result -> {
+                    Util.lightOff(MainActivity.this);
+                    PopUtil.getInstance().showEdit(MainActivity.this, layout_view, true, result -> {
                         loginEntity.getUser().setUserName(result.toString());
                         SPUtils.putData(AppConfig.LOGIN, loginEntity);
                         onResume();
