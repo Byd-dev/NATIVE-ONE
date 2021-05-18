@@ -175,7 +175,6 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
     @BindView(R.id.recyclerView_hot)
     RecyclerView recyclerView_hot;
     private boolean isNight = false;
-
     /*market---------------------------------------------------*/
 
     private List<String> titleList, titlePopList, optionalTitleList, contractTitleList, spotTitleList;
