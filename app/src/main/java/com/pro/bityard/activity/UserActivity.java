@@ -98,8 +98,7 @@ public class UserActivity extends BaseActivity {
         String type = intent.getStringExtra(TYPE);
 
         String value = intent.getStringExtra(VALUE);
-
-
+        
         assert type != null;
         switch (type) {
             case IntentConfig.Keys.KEY_SET_UP:
