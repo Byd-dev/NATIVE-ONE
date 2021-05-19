@@ -76,7 +76,6 @@ public class UserActivity extends BaseActivity {
         intent.putExtra(TYPE, type);
         context.startActivity(intent);
     }
-
     public static void enter(Context context, String type, String value) {
         Intent intent = new Intent(context, UserActivity.class);
         intent.putExtra(TYPE, type);
