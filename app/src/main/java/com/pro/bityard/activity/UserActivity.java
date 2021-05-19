@@ -60,6 +60,12 @@ public class UserActivity extends BaseActivity {
 
     private FragmentTransaction ft;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Util.setTheme(this);
+
+    }
 
     @Override
     protected int setContentLayout() {
@@ -89,7 +95,6 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Util.setTheme(this);
 
         Intent intent = getIntent();
         String type = intent.getStringExtra(TYPE);

@@ -62,12 +62,13 @@ public class AssetsActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Util.setTheme(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        Util.setTheme(this);
+
         if (isLogin()) {
             loginEntity = SPUtils.getData(AppConfig.LOGIN, LoginEntity.class);
             text_userName.setText(loginEntity.getUser().getUserName());

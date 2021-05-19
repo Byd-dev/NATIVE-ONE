@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pro.bityard.R;
-import com.pro.bityard.activity.MainFollowActivity;
+import com.pro.bityard.activity.MainActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseFragment;
@@ -367,7 +367,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                         //登录成功 初始化
                         TagManger.getInstance().tag();
                         getActivity().finish();
-                        MainFollowActivity.enter(getActivity(), MainFollowActivity.TAB_TYPE.TAB_HOME);
+                        MainActivity.enter(getActivity(), MainActivity.TAB_TYPE.TAB_HOME);
                         SPUtils.putString(AppConfig.POP_LOGIN,"pop_login");
                     } else if (state2.equals(FAILURE)) {
                         dismissProgressDialog();
