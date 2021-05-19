@@ -34,7 +34,6 @@ public class SetUpFragment extends BaseFragment implements View.OnClickListener 
 
     @BindView(R.id.text_select)
     TextView text_select;
-
     @BindView(R.id.text_rate)
     TextView text_rate;
 
