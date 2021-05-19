@@ -64,7 +64,6 @@ public class UserActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         Util.setTheme(this);
-
     }
 
     @Override
