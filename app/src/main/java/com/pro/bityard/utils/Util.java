@@ -685,7 +685,7 @@ public class Util {
     public static void setEye(Context context, EditText edit_password, ImageView img_eye) {
         if (eye) {
             edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            img_eye.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_eye_open));
+            img_eye.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_eye_open_black));
             eye = false;
         } else {
             edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());

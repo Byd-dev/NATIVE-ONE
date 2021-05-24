@@ -191,5 +191,5 @@
             android:textSize="@dimen/size_normal" />
     </RelativeLayout>
 
-   <include layout="@layout/layout_line_big"/>
+   <include layout="@layout/layout_line"/>
 </LinearLayout>

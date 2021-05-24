@@ -211,7 +211,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
             case R.id.img_eye:
                 if (eye) {
                     edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     eye = false;
                 } else {
                     edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());

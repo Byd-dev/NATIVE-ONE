@@ -342,7 +342,7 @@ public class FundsPassFrogetFragment extends BaseFragment implements View.OnClic
             case R.id.img_eye_new:
                 if (eyeNew) {
                     edit_pass_new.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     eyeNew = false;
                 } else {
                     edit_pass_new.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -353,7 +353,7 @@ public class FundsPassFrogetFragment extends BaseFragment implements View.OnClic
             case R.id.img_eye_sure:
                 if (eyeSure) {
                     edit_pass_sure.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    img_eye_sure.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     eyeSure = false;
                 } else {
                     edit_pass_sure.setTransformationMethod(PasswordTransformationMethod.getInstance());

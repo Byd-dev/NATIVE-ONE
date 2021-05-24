@@ -22,6 +22,7 @@ import com.pro.bityard.fragment.hold.RuleFragment;
 import com.pro.bityard.fragment.my.AccountFragment;
 import com.pro.bityard.fragment.my.AddAddressFragment;
 import com.pro.bityard.fragment.my.AnnouncementFragment;
+import com.pro.bityard.fragment.my.CouponsFragment;
 import com.pro.bityard.fragment.tab.HoldRadioFragment;
 import com.pro.bityard.fragment.trade.ContractFollowRecordFragment;
 import com.pro.bityard.fragment.my.CurrencyRateFragment;
@@ -202,9 +203,21 @@ public class UserActivity extends BaseActivity {
             case IntentConfig.Keys.KEY_SYS:
                 addIdeaSelectFragment();
                 break;
+            case IntentConfig.Keys.KEY_COUPONS:
+                addCouponsFragment();
+                break;
         }
 
 
+    }
+    private void addCouponsFragment() {
+        String name = CouponsFragment.class.getSimpleName();
+        //带单理念
+        CouponsFragment fragment = new CouponsFragment();
+        ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.layout_fragment_containter, fragment, name);
+        ft.addToBackStack(name);
+        ft.commitAllowingStateLoss();
     }
 
     private void addIdeaSelectFragment() {

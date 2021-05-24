@@ -195,7 +195,41 @@
 
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/layout_coupons"
+                android:layout_width="match_parent"
+                android:layout_height="55dp">
 
+                <com.pro.bityard.view.textview.ManropeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:drawableLeft="@mipmap/icon_my_coupons"
+                    android:drawablePadding="@dimen/margin_16"
+                    android:gravity="center"
+                    android:text="@string/text_coupons"
+                    android:textColor="@color/text_main_color"
+                    android:textSize="@dimen/size_normal_two"
+                    android:typeface="monospace" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:src="@mipmap/icon_right_gray" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_line"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:background="@color/home_line" />
             <RelativeLayout
                 android:id="@+id/layout_hold"
                 android:layout_width="match_parent"

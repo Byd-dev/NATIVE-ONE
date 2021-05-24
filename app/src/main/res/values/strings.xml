@@ -621,5 +621,6 @@
     <string name="text_follow_count">跟随人数</string>
     <string name="text_full">满员</string>
     <string name="text_nickname">昵称</string>
+    <string name="text_coupons">卡券中心</string>
 
 </resources>

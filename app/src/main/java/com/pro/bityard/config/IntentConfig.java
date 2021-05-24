@@ -89,6 +89,8 @@ public class IntentConfig {
         public static final String KEY_SPOT_RECORD = "KEY_SPOT_RECORD";
         /*带单理念*/
         public static final String KEY_SYS = "KEY_SYS";
+        /*卡券列表*/
+        public static final String KEY_COUPONS = "KEY_COUPONS";
         /*跟单错误列表*/
         public static final String KEY_FOLLOW_LOG = "KEY_FOLLOW_LOG";
         /*客服*/

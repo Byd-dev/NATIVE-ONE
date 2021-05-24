@@ -1592,7 +1592,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
         text_fiat = headView.findViewById(R.id.text_fiat);
         img_eye_switch = headView.findViewById(R.id.img_eye_switch);
         text_currency = headView.findViewById(R.id.text_currency);
-        img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+        img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
 
 
         text_bonus_balance = headView.findViewById(R.id.text_bonus_balance);
@@ -2610,7 +2610,7 @@ public class MainFollowActivity extends BaseActivity implements Observer, View.O
 
                     isEyeOpen = false;
                 } else {
-                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     isEyeOpen = true;
                     if (isLogin()) {
 

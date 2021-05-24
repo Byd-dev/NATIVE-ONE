@@ -112,7 +112,7 @@ public class ResetPassFragment extends BaseFragment implements View.OnClickListe
             case R.id.img_eye:
                 if (eye) {
                     edit_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    img_eye.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     eye = false;
                 } else  {
                     edit_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -123,7 +123,7 @@ public class ResetPassFragment extends BaseFragment implements View.OnClickListe
             case R.id.img_eye_new:
                 if (eyeNew) {
                     edit_password_new.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    img_eye_new.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     eyeNew = false;
                 } else  {
                     edit_password_new.setTransformationMethod(PasswordTransformationMethod.getInstance());

@@ -167,7 +167,7 @@
                                 android:layout_centerVertical="true"
                                 android:layout_gravity="center"
                                 android:paddingRight="@dimen/margin_20"
-                                android:src="@mipmap/icon_eye_open" />
+                                android:src="@mipmap/icon_eye_open_black" />
                         </RelativeLayout>
                         <!--余额-->
                         <LinearLayout

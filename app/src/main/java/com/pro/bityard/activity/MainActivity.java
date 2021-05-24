@@ -23,10 +23,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +49,6 @@ import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.BannerEntity;
 import com.pro.bityard.entity.FollowEntity;
 import com.pro.bityard.entity.FollowerDetailEntity;
-import com.pro.bityard.entity.FollowerIncomeEntity;
 import com.pro.bityard.entity.LoginEntity;
 import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.TagEntity;
@@ -273,9 +270,9 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
     private String prizeTradeValue;
 
     //礼金余额
-    private TextView text_balance, text_currency, text_bonus_balance, text_bonus_balance_currency, text_bonus_currency;
+    private TextView text_balance, text_currency;
     //红包余额
-    private TextView text_balance_currency, text_gift_balance, text_gift_balance_currency, text_gift_currency;
+    private TextView text_balance_currency;
     private AccountAdapter accountAdapter;
     @BindView(R.id.recyclerView_assets)
     HeaderRecyclerView recyclerView_assets;
@@ -375,8 +372,6 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
                 accountAdapter.setDatas(balanceEntity.getData());
             }
 
-            setBonus(balanceEntity);
-            setGift(balanceEntity);
         } else if (o == PositionRealManger.getInstance()) {
             positionRealList = (List<PositionEntity.DataBean>) arg;
 
@@ -506,54 +501,8 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
 
     }
 
-    private void setBonus(BalanceEntity balanceEntity) {
-        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-            if (data.getCurrency().equals("USDT")) {
-                text_bonus_balance.setText(TradeUtil.getNumberFormat(data.getPrize(), 2));
-                String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                text_bonus_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data.getPrize(), Double.parseDouble(string)), 2));
 
 
-                //汇率是实时的
-              /*  TradeUtil.getRateList(balanceEntity, "2", response -> {
-                    double money = Double.parseDouble(response.toString());//所有钱包的和
-
-                    if (isEyeOpen) {
-                        if (isAdded()) {
-                            text_bonus_balance.setText(TradeUtil.getNumberFormat(money, 2));
-                            String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                            text_bonus_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(money, Double.parseDouble(string)), 2));
-                        }
-                    }
-                });*/
-
-            }
-        }
-    }
-
-    private void setGift(BalanceEntity balanceEntity) {
-        for (BalanceEntity.DataBean data : balanceEntity.getData()) {
-            if (data.getCurrency().equals("USDT")) {
-                text_gift_balance.setText(TradeUtil.getNumberFormat(data.getLucky(), 2));
-                String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                text_gift_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(data.getLucky(), Double.parseDouble(string)), 2));
-
-              /*  //汇率是实时的
-                TradeUtil.getRateList(balanceEntity, "3", response -> {
-                    double money = Double.parseDouble(response.toString());//所有钱包的和
-
-                    if (isEyeOpen) {
-                        if (isAdded()) {
-                            text_gift_balance.setText(TradeUtil.getNumberFormat(money, 2));
-                            String string = SPUtils.getString(AppConfig.USD_RATE, null);
-                            text_gift_balance_currency.setText(TradeUtil.getNumberFormat(TradeUtil.mul(money, Double.parseDouble(string)), 2));
-                        }
-                    }
-                });*/
-
-            }
-        }
-    }
 
     public static void enter(Context context, int tabIndex) {
 
@@ -600,8 +549,6 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
             //资产
             text_balance.setText(getResources().getString(R.string.text_default));
             text_balance_currency.setText(getResources().getString(R.string.text_default));
-            text_bonus_balance.setText(getResources().getString(R.string.text_default));
-            text_gift_balance.setText(getResources().getString(R.string.text_default));
             accountAdapter.setZero(true);
         }
 
@@ -609,8 +556,6 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
         //我的页面 火币结算单位
         String cny = SPUtils.getString(AppConfig.CURRENCY, "CNY");
         text_currency.setText("(" + cny + ")");
-        text_bonus_currency.setText("(" + cny + ")");
-        text_gift_currency.setText("(" + cny + ")");
 
 
         String register_success = SPUtils.getString(AppConfig.POP_LOGIN, null);
@@ -1460,16 +1405,10 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
         text_fiat = headView.findViewById(R.id.text_fiat);
         img_eye_switch = headView.findViewById(R.id.img_eye_switch);
         text_currency = headView.findViewById(R.id.text_currency);
-        img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+        img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
 
 
-        text_bonus_balance = headView.findViewById(R.id.text_bonus_balance);
-        text_bonus_balance_currency = headView.findViewById(R.id.text_bonus_balance_currency);
-        text_bonus_currency = headView.findViewById(R.id.text_bonus_currency);
 
-        text_gift_balance = headView.findViewById(R.id.text_gift_balance);
-        text_gift_balance_currency = headView.findViewById(R.id.text_gift_balance_currency);
-        text_gift_currency = headView.findViewById(R.id.text_gift_currency);
 
         img_eye_switch.setOnClickListener(this);
         headView.findViewById(R.id.text_deposit).setOnClickListener(this);
@@ -1496,8 +1435,7 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
             swipeRefreshLayout_assets.setRefreshing(false);
         });
 
-     /*   headView.findViewById(R.id.stay_bonus).setOnClickListener(this);
-        headView.findViewById(R.id.stay_gift).setOnClickListener(this);*/
+
     }
 
     @SuppressLint("HandlerLeak")
@@ -2372,28 +2310,7 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
                     LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
-            case R.id.stay_bonus:
-                String prizeTrade = SPUtils.getString(AppConfig.PRIZE_TRADE, null);
-                if (prizeTrade != null) {
-                    prizeTradeValue = TradeUtil.mul(Double.parseDouble(prizeTrade), 100) + "%";
-                } else {
-                    prizeTradeValue = null;
-                }
-                String format = String.format(getString(R.string.text_used_to_deduct), prizeTradeValue);
 
-                Util.lightOff(this);
-                PopUtil.getInstance().showTip(this, layout_view, false, format,
-                        state -> {
-
-                        });
-                break;
-            case R.id.stay_gift:
-                Util.lightOff(this);
-                PopUtil.getInstance().showTip(this, layout_view, false, getString(R.string.text_trading_fees),
-                        state -> {
-
-                        });
-                break;
 
             case R.id.text_register:
                 RegisterActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_REGISTER);
@@ -2413,13 +2330,13 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
             case R.id.img_eye_switch:
 
                 if (isEyeOpen) {
-                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_close));
+                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     text_balance.setText("***");
                     text_balance_currency.setText("***");
 
                     isEyeOpen = false;
                 } else {
-                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open));
+                    img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
                     isEyeOpen = true;
                     if (isLogin()) {
 

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -52,13 +51,13 @@ public class AssetsActivity extends BaseActivity implements View.OnClickListener
     TextView text_all_profit;
     @BindView(R.id.text_commissionRate)
     TextView text_commissionRate;
-    
-    
-    
+
+
     @Override
     protected int setContentLayout() {
         return R.layout.activity_assets;
     }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +102,6 @@ public class AssetsActivity extends BaseActivity implements View.OnClickListener
     }
 
 
-
     @Override
     protected void initPresenter() {
 
@@ -122,6 +120,7 @@ public class AssetsActivity extends BaseActivity implements View.OnClickListener
         findViewById(R.id.layout_three).setOnClickListener(this);
         findViewById(R.id.layout_four).setOnClickListener(this);
         findViewById(R.id.layout_spot_record).setOnClickListener(this);
+        findViewById(R.id.layout_coupons).setOnClickListener(this);
         //带单管理
         findViewById(R.id.layout_copied_manger).setOnClickListener(this);
         findViewById(R.id.layout_copy_manger).setOnClickListener(this);
@@ -165,8 +164,17 @@ public class AssetsActivity extends BaseActivity implements View.OnClickListener
         String language = SPUtils.getString(AppConfig.KEY_LANGUAGE, AppConfig.ZH_SIMPLE);
 
         switch (v.getId()) {
+
             case R.id.img_back:
                 finish();
+                break;
+            case R.id.layout_coupons:
+                if (isLogin()) {
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_COUPONS);
+
+                } else {
+                    LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                }
                 break;
             case R.id.layout_help:
                 WebActivity.getInstance().openUrl(this, NetManger.H5_HELP_CENTER, getString(R.string.text_help_center));
