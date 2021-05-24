@@ -4,18 +4,22 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="205dp"
+        android:layout_marginTop="@dimen/margin_15"
+        android:paddingBottom="@dimen/margin_15"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
             <!--总净资产-->
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_15"
-                android:layout_marginRight="@dimen/margin_15"
                 android:orientation="vertical">
 
                 <!--余额名称-->
@@ -26,6 +30,7 @@
                     android:layout_marginStart="@dimen/margin_15"
                     android:layout_weight="1"
                     android:orientation="horizontal"
+
                     >
 
                     <com.pro.bityard.view.textview.ManropeTextView
@@ -36,7 +41,7 @@
                         android:layout_marginBottom="@dimen/margin_10"
                         android:text="@string/text_all_balance"
                         android:textColor="@color/text_second_color"
-                        android:textSize="@dimen/size_normal"
+                        android:textSize="@dimen/size_big"
                         android:textStyle="bold"
                         android:typeface="monospace" />
 
@@ -58,7 +63,7 @@
                     android:layout_height="0dp"
                     android:layout_marginStart="@dimen/margin_15"
                     android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
                     <com.pro.bityard.view.textview.ManropeTextView
@@ -97,7 +102,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0.0"
-                            android:textColor="#838C9A"
+                            android:textColor="@color/text_second_color"
                             android:textSize="@dimen/size_normal"
                             android:typeface="monospace" />
                         <com.pro.bityard.view.textview.ManropeTextView
@@ -116,7 +121,7 @@
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="80dp"
                     android:paddingRight="@dimen/margin_10"
                     android:orientation="horizontal">
 
@@ -148,6 +153,19 @@
                         android:textSize="@dimen/size_normal"
                         android:typeface="monospace" />
 
+                    <com.pro.bityard.view.textview.ManropeTextView
+                        android:id="@+id/text_quick_exchange"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/margin_30"
+                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="@string/text_coin_turn"
+                        android:textColor="@color/maincolor"
+                        android:background="@drawable/bg_kuang_main_color"
+                        android:textSize="@dimen/size_normal"
+                        android:typeface="monospace" />
                     <com.pro.bityard.view.textview.ManropeTextView
                         android:id="@+id/text_fiat"
                         android:layout_width="0dp"
@@ -517,11 +535,12 @@
         </LinearLayout>
 
 
+    </HorizontalScrollView>
 
 
 
 
-    <include layout="@layout/layout_line" />
+    <include layout="@layout/layout_line_big" />
 
 
     <!--列表-->
@@ -597,5 +616,7 @@
 
     </LinearLayout>
 
-
+    <include
+        layout="@layout/layout_line"
+        android:visibility="gone" />
 </LinearLayout>

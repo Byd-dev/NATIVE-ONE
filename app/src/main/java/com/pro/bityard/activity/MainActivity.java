@@ -1474,7 +1474,7 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
         img_eye_switch.setOnClickListener(this);
         headView.findViewById(R.id.text_deposit).setOnClickListener(this);
         headView.findViewById(R.id.text_withdrawal).setOnClickListener(this);
-        headView.findViewById(R.id.text_quick_exchange).setOnClickListener(this);
+        findViewById(R.id.text_quick_exchange).setOnClickListener(this);
         headView.findViewById(R.id.text_fiat).setOnClickListener(this);
         accountAdapter = new AccountAdapter(this);
         recyclerView_assets.setLayoutManager(new LinearLayoutManager(this));
@@ -1496,8 +1496,8 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
             swipeRefreshLayout_assets.setRefreshing(false);
         });
 
-        headView.findViewById(R.id.stay_bonus).setOnClickListener(this);
-        headView.findViewById(R.id.stay_gift).setOnClickListener(this);
+     /*   headView.findViewById(R.id.stay_bonus).setOnClickListener(this);
+        headView.findViewById(R.id.stay_gift).setOnClickListener(this);*/
     }
 
     @SuppressLint("HandlerLeak")
@@ -2192,7 +2192,12 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
                 break;
             case R.id.layout_main_five:
 
-                AssetsActivity.enter(this);
+                layout_home.setVisibility(View.GONE);
+                layout_market.setVisibility(View.GONE);
+                layout_circle.setVisibility(View.GONE);
+                layout_my.setVisibility(View.VISIBLE);
+                layout_status.setVisibility(View.GONE);
+
 
 
 
@@ -2551,11 +2556,10 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
                 break;
             /*日历 */
             case R.id.img_progress:
-                layout_home.setVisibility(View.GONE);
-                layout_market.setVisibility(View.GONE);
-                layout_circle.setVisibility(View.GONE);
-                layout_my.setVisibility(View.VISIBLE);
-                layout_status.setVisibility(View.GONE);
+                AssetsActivity.enter(this);
+
+
+
                 /*text_main_one.setTextColor(getResources().getColor(R.color.maincolor));
                 text_main_two.setTextColor(getResources().getColor(R.color.color_tab_normal));
                 text_main_four.setTextColor(getResources().getColor(R.color.color_tab_normal));
