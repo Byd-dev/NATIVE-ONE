@@ -1411,7 +1411,6 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
         headView.findViewById(R.id.img_assets_record).setOnClickListener(this);
 
         
-
         img_eye_switch.setOnClickListener(this);
         headView.findViewById(R.id.text_deposit).setOnClickListener(this);
         headView.findViewById(R.id.text_withdrawal).setOnClickListener(this);
