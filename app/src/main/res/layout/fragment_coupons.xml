@@ -14,7 +14,7 @@
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_15"
         android:layout_marginRight="@dimen/margin_15"
-        android:background="@mipmap/bg_assets_gift"
+        android:background="@drawable/bg_coin"
         android:orientation="vertical">
 
         <!--余额名称-->
@@ -126,7 +126,7 @@
         android:layout_marginLeft="@dimen/margin_15"
         android:layout_marginTop="@dimen/margin_15"
         android:layout_marginRight="@dimen/margin_15"
-        android:background="@mipmap/bg_assets_red"
+        android:background="@drawable/bg_coin"
         android:orientation="vertical">
 
         <!--余额名称-->

@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main_color"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -29,10 +28,8 @@
 
 
     </RelativeLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line"
-        android:background="@color/home_line"/>
+
+    <include layout="@layout/layout_line" />
 
     <RelativeLayout
         android:id="@+id/layout_one"
@@ -56,25 +53,25 @@
             android:id="@+id/text_language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="简体中文"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textSize="14sp"
             android:layout_marginRight="@dimen/margin_15"
-            android:drawablePadding="@dimen/margin_13"
             android:drawableRight="@mipmap/icon_right_gray"
-            android:textColor="@color/text_second_color"/>
+            android:drawablePadding="@dimen/margin_13"
+            android:text="简体中文"
+            android:textColor="@color/text_second_color"
+            android:textSize="14sp" />
 
 
     </RelativeLayout>
 
-  <include layout="@layout/layout_line"/>
+    <include layout="@layout/layout_line" />
 
     <RelativeLayout
         android:id="@+id/layout_two"
         android:layout_width="match_parent"
-        android:visibility="visible"
-        android:layout_height="@dimen/margin_setup">
+        android:layout_height="@dimen/margin_setup"
+        android:visibility="visible">
 
         <TextView
             android:layout_width="wrap_content"
@@ -92,23 +89,19 @@
             android:id="@+id/text_theme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="夜间模式"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textSize="14sp"
             android:layout_marginRight="@dimen/margin_15"
-            android:drawablePadding="@dimen/margin_13"
             android:drawableRight="@mipmap/icon_right_gray"
-            android:textColor="@color/text_second_color"/>
-
-
+            android:drawablePadding="@dimen/margin_13"
+            android:text="夜间模式"
+            android:textColor="@color/text_second_color"
+            android:textSize="14sp" />
 
 
     </RelativeLayout>
 
-    <include layout="@layout/layout_line"
-        android:visibility="gone"/>
-
+    <include layout="@layout/layout_line" />
 
     <RelativeLayout
         android:id="@+id/layout_three"
@@ -131,22 +124,20 @@
             android:id="@+id/text_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CNY"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textSize="14sp"
             android:layout_marginRight="@dimen/margin_15"
-            android:drawablePadding="@dimen/margin_13"
             android:drawableRight="@mipmap/icon_right_gray"
-            android:textColor="@color/text_second_color"/>
+            android:drawablePadding="@dimen/margin_13"
+            android:text="CNY"
+            android:textColor="@color/text_second_color"
+            android:textSize="14sp" />
 
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line"
-        android:background="@color/home_line" />
+    <include layout="@layout/layout_line" />
+
     <RelativeLayout
         android:id="@+id/layout_help_center"
         android:layout_width="match_parent"
@@ -176,35 +167,28 @@
 
     </RelativeLayout>
 
-    <View
+    <include layout="@layout/layout_line" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:background="@color/home_line" />
+        android:layout_height="match_parent">
 
+        <!--退出登录button-->
+        <Button
+            android:id="@+id/btn_logout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen_btn"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/margin_15"
+            android:layout_marginRight="@dimen/margin_15"
+            android:background="@drawable/bg_shape_main_color"
+            android:padding="10dp"
+            android:text="@string/text_logout"
+            android:textColor="@color/color_btn_text"
+            android:textSize="16sp"
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+            />
 
-    <!--退出登录button-->
-    <Button
-        android:id="@+id/btn_logout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dimen_btn"
-        android:layout_marginLeft="@dimen/margin_15"
-        android:layout_marginRight="@dimen/margin_15"
-        android:background="@drawable/bg_shape_main_color"
-        android:padding="10dp"
-        android:layout_gravity="center"
-        android:text="@string/text_logout"
-        android:textColor="@color/color_btn_text"
-        android:textSize="16sp"
-
-        />
-
-</LinearLayout>
-
+    </LinearLayout>
 
 </LinearLayout>

@@ -27,7 +27,8 @@
             android:layout_height="@dimen/height_edit"
             android:layout_marginTop="@dimen/margin_10"
             android:orientation="horizontal"
-            android:background="@drawable/bg_shape_edit">
+
+            >
 
             <EditText
                 android:id="@+id/edit_code"
@@ -62,7 +63,18 @@
 
 
         </LinearLayout>
+        <View
+            android:id="@+id/line_code"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:background="@color/home_line" />
 
+        <View
+            android:id="@+id/line_code_err"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:background="@color/color_err"
+            android:visibility="gone" />
         <!--错误提示 -->
         <RelativeLayout
             android:layout_width="match_parent"

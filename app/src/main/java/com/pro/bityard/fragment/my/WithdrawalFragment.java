@@ -916,14 +916,14 @@ public class WithdrawalFragment extends BaseFragment implements View.OnClickList
                 layout_withdrawal.setVisibility(View.VISIBLE);
                 layout_transfer.setVisibility(View.GONE);
                 text_title.setTextColor(getResources().getColor(R.color.maincolor));
-                text_transfer_title.setTextColor(getResources().getColor(R.color.text_main_color));
+                text_transfer_title.setTextColor(getResources().getColor(R.color.text_second_color));
 
 
                 break;
             case R.id.text_transfer_title:
                 layout_withdrawal.setVisibility(View.GONE);
                 layout_transfer.setVisibility(View.VISIBLE);
-                text_title.setTextColor(getResources().getColor(R.color.text_main_color));
+                text_title.setTextColor(getResources().getColor(R.color.text_second_color));
                 text_transfer_title.setTextColor(getResources().getColor(R.color.maincolor));
                 break;
             case R.id.layout_withdrawal_pop:

@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/text_pass"
-            android:textColor="@color/text_main_color"
+            android:textColor="@color/text_second_color"
             android:textSize="@dimen/size_normal"
 
             />
@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/height_edit"
             android:layout_marginTop="@dimen/margin_10"
-            android:background="@drawable/bg_shape_edit"
             android:orientation="horizontal">
 
             <EditText
@@ -57,6 +56,18 @@
 
 
         </LinearLayout>
+        <View
+            android:id="@+id/line_pass"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:background="@color/home_line" />
+
+        <View
+            android:id="@+id/line_pass_err"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_line"
+            android:background="@color/color_err"
+            android:visibility="gone" />
 
         <!--错误提示 忘记密码-->
         <RelativeLayout

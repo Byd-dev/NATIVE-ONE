@@ -111,6 +111,17 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     TextView text_getCode;
     private String countryID;
 
+    @BindView(R.id.line_mobile)
+    View line_mobile;
+    @BindView(R.id.line_mobile_err)
+    View line_mobile_err;
+
+
+    @BindView(R.id.line_pass)
+    View line_pass;
+    @BindView(R.id.line_pass_err)
+    View line_pass_err;
+
     public MobileRegisterFragment() {
 
     }
@@ -150,7 +161,8 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         Util.isPhoneEffective(edit_account, response -> {
             if (response.toString().equals("1")) {
                 text_err_mobile.setVisibility(View.GONE);
-                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                line_mobile.setVisibility(View.VISIBLE);
+                line_mobile_err.setVisibility(View.GONE);
                 text_getCode.setEnabled(true);
                 if (Util.isCode(edit_code.getText().toString()) && Util.isPass(edit_password.getText().toString())) {
                     btn_submit.setEnabled(true);
@@ -159,13 +171,15 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 }
             } else if (response.toString().equals("0")) {
                 text_err_mobile.setVisibility(View.VISIBLE);
-                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                line_mobile.setVisibility(View.GONE);
+                line_mobile_err.setVisibility(View.VISIBLE);
                 text_getCode.setEnabled(false);
                 btn_submit.setEnabled(false);
 
             } else if (response.toString().equals("-1")) {
                 text_err_mobile.setVisibility(View.GONE);
-                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                line_mobile.setVisibility(View.VISIBLE);
+                line_mobile_err.setVisibility(View.GONE);
                 text_getCode.setEnabled(false);
                 btn_submit.setEnabled(false);
 
@@ -198,7 +212,8 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         Util.isPassEffective(edit_password, response -> {
             if (response.toString().equals("1")) {
                 text_err_pass.setVisibility(View.GONE);
-                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                line_pass.setVisibility(View.VISIBLE);
+                line_pass_err.setVisibility(View.GONE);
                 if (Util.isPhone(edit_account.getText().toString()) && Util.isCode(edit_code.getText().toString())) {
                     btn_submit.setEnabled(true);
                 } else {
@@ -206,11 +221,13 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
                 }
             } else if (response.toString().equals("0")) {
                 text_err_pass.setVisibility(View.VISIBLE);
-                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                line_pass.setVisibility(View.GONE);
+                line_pass_err.setVisibility(View.VISIBLE);
                 btn_submit.setEnabled(false);
             } else if (response.toString().equals("-1")) {
                 text_err_pass.setVisibility(View.GONE);
-                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                line_pass.setVisibility(View.VISIBLE);
+                line_pass_err.setVisibility(View.GONE);
                 btn_submit.setEnabled(false);
             }
 

@@ -26,8 +26,8 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
     View view_line;
 
 
-    public ForgetFragment newInstance(int pageIndex){
-        ForgetFragment forgetFragment =new ForgetFragment();
+    public ForgetFragment newInstance(int pageIndex) {
+        ForgetFragment forgetFragment = new ForgetFragment();
         Bundle args = new Bundle();
         args.putInt("page", pageIndex);
         forgetFragment.setArguments(args);
@@ -74,7 +74,7 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
         MyPagerAdapter myPagerAdapter = new MyPagerAdapter(getChildFragmentManager());
         myPagerAdapter.addFragment(new EmailForgetFragment(viewPager));
         myPagerAdapter.addFragment(new MobileForgetFragment(viewPager));
-       // myPagerAdapter.addFragment(new ResetPassFragment(viewPager));
+        // myPagerAdapter.addFragment(new ResetPassFragment(viewPager));
         viewPager.setAdapter(myPagerAdapter);
     }
 
@@ -99,7 +99,6 @@ public class ForgetFragment extends BaseFragment implements View.OnClickListener
                 break;
         }
     }
-
 
 
 }

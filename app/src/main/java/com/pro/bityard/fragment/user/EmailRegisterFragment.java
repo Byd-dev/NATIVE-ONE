@@ -79,6 +79,21 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     Button btn_submit;
     @BindView(R.id.edit_kode)
     EditText edit_kode;
+
+    @BindView(R.id.line_code)
+    View line_code;
+    @BindView(R.id.line_code_err)
+    View line_code_err;
+    @BindView(R.id.line_email)
+    View line_email;
+    @BindView(R.id.line_email_err)
+    View line_email_err;
+
+    @BindView(R.id.line_pass)
+    View line_pass;
+    @BindView(R.id.line_pass_err)
+    View line_pass_err;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,7 +126,8 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
         Util.isEmailEffective(edit_account, response -> {
             if (response.toString().equals("1")) {
                 text_err_email.setVisibility(View.GONE);
-                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                line_email.setVisibility(View.VISIBLE);
+                line_email_err.setVisibility(View.GONE);
                 text_getCode.setEnabled(true);
                 if (Util.isCode(edit_code.getText().toString()) && Util.isPass(edit_password.getText().toString())) {
                     btn_submit.setEnabled(true);
@@ -120,13 +136,15 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 }
             } else if (response.toString().equals("0")) {
                 text_err_email.setVisibility(View.VISIBLE);
-                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                line_email.setVisibility(View.GONE);
+                line_email_err.setVisibility(View.VISIBLE);
                 text_getCode.setEnabled(false);
                 btn_submit.setEnabled(false);
 
             } else if (response.toString().equals("-1")) {
                 text_err_email.setVisibility(View.GONE);
-                layout_account.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                line_email.setVisibility(View.VISIBLE);
+                line_email_err.setVisibility(View.GONE);
                 text_getCode.setEnabled(false);
                 btn_submit.setEnabled(false);
 
@@ -160,7 +178,8 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
         Util.isPassEffective(edit_password, response -> {
             if (response.toString().equals("1")) {
                 text_err_pass.setVisibility(View.GONE);
-                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                line_pass.setVisibility(View.VISIBLE);
+                line_pass_err.setVisibility(View.GONE);
                 if (Util.isEmail(edit_account.getText().toString()) && Util.isCode(edit_code.getText().toString())) {
                     btn_submit.setEnabled(true);
                 } else {
@@ -168,11 +187,13 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 }
             } else if (response.toString().equals("0")) {
                 text_err_pass.setVisibility(View.VISIBLE);
-                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit_err));
+                line_pass.setVisibility(View.GONE);
+                line_pass_err.setVisibility(View.VISIBLE);
                 btn_submit.setEnabled(false);
             } else if (response.toString().equals("-1")) {
                 text_err_pass.setVisibility(View.GONE);
-                layout_pass.setBackground(getResources().getDrawable(R.drawable.bg_shape_edit));
+                line_pass.setVisibility(View.VISIBLE);
+                line_pass_err.setVisibility(View.GONE);
                 btn_submit.setEnabled(false);
             }
 

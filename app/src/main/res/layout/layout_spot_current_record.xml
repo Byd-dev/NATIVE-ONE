@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_spot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main_color"
     android:orientation="vertical">
 
 
+    <include layout="@layout/layout_spot_item_layout" />
 
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-
-    <include layout="@layout/layout_spot_item_layout"/>
-
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipeRefreshLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--列表-->
 
-            <RelativeLayout
+            <com.pro.bityard.view.HeaderRecyclerView
+                android:id="@+id/recyclerView_spot"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-                <!--列表-->
-
-                <com.pro.bityard.view.HeaderRecyclerView
-                    android:id="@+id/recyclerView_spot"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                android:layout_height="match_parent" />
 
 
-                <include layout="@layout/layout_null" />
+            <include layout="@layout/layout_null" />
 
 
-            </RelativeLayout>
+        </RelativeLayout>
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 </LinearLayout>
