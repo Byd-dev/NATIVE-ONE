@@ -17,7 +17,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal">
+
+            >
 
             <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/stay_balance"
@@ -35,13 +36,20 @@
                 android:id="@+id/img_eye_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="@dimen/margin_10"
                 android:layout_toRightOf="@+id/stay_balance"
                 android:paddingLeft="@dimen/margin_20"
                 android:paddingRight="@dimen/margin_20"
                 android:src="@mipmap/icon_eye_open_black" />
+
+            <ImageView
+                android:id="@+id/img_assets_record"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/margin_15"
+                android:src="@mipmap/icon_assets_record"/>
         </RelativeLayout>
         <!--余额-->
         <LinearLayout
@@ -60,14 +68,7 @@
                 android:textStyle="bold"
                 android:typeface="monospace" />
 
-            <com.pro.bityard.view.textview.ManropeTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="(USDT)"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal_two"
-                android:typeface="monospace"
-                android:visibility="gone" />
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -103,6 +104,9 @@
             </LinearLayout>
 
 
+
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -133,10 +137,10 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_weight="1"
-                android:background="@drawable/bg_kuang_main_color"
+                android:background="@drawable/bg_coin"
                 android:gravity="center"
                 android:text="@string/text_withdrawal"
-                android:textColor="@color/maincolor"
+                android:textColor="@color/text_main_color"
                 android:textSize="@dimen/size_normal"
                 android:typeface="monospace" />
 
@@ -194,8 +198,17 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:buttonTint="@color/maincolor"
-
+                android:visibility="gone"
                 />
+
+            <Switch
+                android:id="@+id/btn_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:thumb="@drawable/switch_ios_thumb"
+                android:layout_marginRight="@dimen/margin_10"
+                android:track="@drawable/switch_ios_track_selector" />
 
             <com.pro.bityard.view.textview.ManropeTextView
                 android:layout_width="wrap_content"
@@ -203,8 +216,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_gravity="center"
                 android:text="@string/text_hide_small_coin"
-                android:textColor="@color/maincolor"
-                android:textSize="@dimen/size_big" />
+                android:textColor="@color/text_second_color"
+                android:textSize="@dimen/size_normal" />
 
         </LinearLayout>
 

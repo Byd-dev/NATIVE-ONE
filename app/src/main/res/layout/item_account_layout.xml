@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_main_color"
     android:orientation="vertical">
 
     <LinearLayout
@@ -83,6 +82,7 @@
         android:layout_height="@dimen/size_line"
         android:background="@color/home_line"
         android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginRight="@dimen/margin_15"
         />
 
 

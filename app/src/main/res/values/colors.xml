@@ -8,7 +8,7 @@
     <color name="white">#ffffff</color>
     <color name="background_main_color">#121622</color>
     <color name="home_line">#121622</color>
-    <color name="maincolor">#F6AE36</color>
+    <color name="maincolor">#F3AB39</color>
     <color name="tab_color_normal">#848E9C</color>
     <color name="text_main_color">#ffffff</color>
     <color name="text_secondcolor">#637996</color>
@@ -65,4 +65,5 @@
     <color name="color_kline_line">#232939</color>
     <color name="color_market_search">#1B202E</color>
     <color name="color_assets_bg">#1A202E</color>
+    <color name="text_stay_color">#2A2E3A</color>
 </resources>

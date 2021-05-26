@@ -215,7 +215,6 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         TextView text_currency, text_balance,text_balance_transfer;
         ImageView img_bg;
         LinearLayout layout_item;
-        View line;
 
 
         public MyViewHolder(View itemView) {
@@ -226,7 +225,6 @@ public class AccountAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
             img_bg = itemView.findViewById(R.id.img_bg);
             layout_item = itemView.findViewById(R.id.layout_item);
-            line = itemView.findViewById(R.id.line);
 
 
         }

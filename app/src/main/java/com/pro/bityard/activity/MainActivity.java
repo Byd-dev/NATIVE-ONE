@@ -1,4 +1,4 @@
-package com.pro.bityard.activity;
+                package com.pro.bityard.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -19,12 +19,14 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -1406,6 +1408,7 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
         img_eye_switch = headView.findViewById(R.id.img_eye_switch);
         text_currency = headView.findViewById(R.id.text_currency);
         img_eye_switch.setImageDrawable(getResources().getDrawable(R.mipmap.icon_eye_open_black));
+        headView.findViewById(R.id.img_assets_record).setOnClickListener(this);
 
 
 
@@ -1426,6 +1429,20 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
                 accountAdapter.hideSmallCoin(true);
             } else {
                 accountAdapter.hideSmallCoin(false);
+
+            }
+        });
+
+        Switch btn_switch=headView.findViewById(R.id.btn_switch);
+        btn_switch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!btn_switch.isPressed()) {
+                return;
+            }
+            if (isChecked) {
+                accountAdapter.hideSmallCoin(true);
+            } else {
+                accountAdapter.hideSmallCoin(false);
+                BalanceManger.getInstance().getBalance("USDT");
 
             }
         });
@@ -2310,8 +2327,13 @@ public class MainActivity extends BaseActivity implements Observer, View.OnClick
                     LoginActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_LOGIN);
                 }
                 break;
-
-
+            case R.id.img_assets_record:
+                if (isLogin()) {
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_FUND_STATEMENT);
+                } else {
+                    LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
             case R.id.text_register:
                 RegisterActivity.enter(MainActivity.this, IntentConfig.Keys.KEY_REGISTER);
                 break;
