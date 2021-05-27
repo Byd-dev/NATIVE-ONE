@@ -34,6 +34,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.SpotTradeActivity;
+import com.pro.bityard.activity.TradeTabActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.activity.WebActivity;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
@@ -57,6 +58,7 @@ import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.TradeListEntity;
 import com.pro.bityard.manger.BalanceManger;
 import com.pro.bityard.manger.ChargeUnitManger;
+import com.pro.bityard.manger.NoticeManger;
 import com.pro.bityard.manger.PositionRealManger;
 import com.pro.bityard.manger.PositionSimulationManger;
 import com.pro.bityard.manger.Quote15MinCurrentManger;
@@ -145,10 +147,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     }
 
 
-    @BindView(R.id.text_position_size)
-    TextView text_position_size;
-    @BindView(R.id.text_position)
-    TextView text_position;
+
     @BindView(R.id.layout_switch)
     LinearLayout layout_switch;
     @BindView(R.id.img_star_contract)
@@ -782,13 +781,12 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         if (isLogin()) {
             layout_trade.setVisibility(View.VISIBLE);
-            stay_view.setVisibility(View.VISIBLE);
+            //stay_view.setVisibility(View.VISIBLE);
             //获取持仓数
-            getPositionSize();
 
         } else {
             layout_trade.setVisibility(View.GONE);
-            stay_view.setVisibility(View.GONE);
+            //stay_view.setVisibility(View.GONE);
 
         }
 
@@ -916,14 +914,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
                 text_change.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
                 text_range.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
-                img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_down));
+              //  img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_down));
 
                 break;
             case "1":
                 text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
                 text_change.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
                 text_range.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
-                img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_up));
+             //   img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_up));
 
                 break;
             case "0":
@@ -948,7 +946,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     }
 
 
-    private void getPositionSize() {
+    /*private void getPositionSize() {
         NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
             if (state.equals(SUCCESS)) {
                 PositionEntity positionEntity = (PositionEntity) response1;
@@ -964,12 +962,13 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     text_position_size.setVisibility(View.VISIBLE);
                     text_position_size.setText(size + "");
                     text_position.setTextColor(activity.getResources().getColor(R.color.maincolor));
-                    text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position_yellow), null, null);
+                   // text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position_yellow), null, null);
+                    text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position), null, null);
 
                 }
             }
         });
-    }
+    }*/
 
     private void initTabView(View view) {
         titles.add("Line");
@@ -1743,7 +1742,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                         PositionRealManger.getInstance().getHold();
                         PositionSimulationManger.getInstance().getHold();
                         BalanceManger.getInstance().getBalance("USDT");
-                        getPositionSize();
+                        //getPositionSize();
+                        NoticeManger.getInstance().notice();
 
                     } else if (state.equals(FAILURE)) dismissProgressDialog();
                 }
@@ -2313,7 +2313,8 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     text_market_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()));
                     text_limit_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()));
                 }
-                getPositionSize();
+                NoticeManger.getInstance().notice();
+               // getPositionSize();
                 break;
             //自选的监听
             case R.id.layout_optional:

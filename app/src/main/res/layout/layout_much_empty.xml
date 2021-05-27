@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:visibility="gone">
+
+                <com.pro.bityard.view.textview.ManropeTextView
+                    android:id="@+id/text_position"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:drawableTop="@mipmap/icon_position"
+                    android:drawablePadding="@dimen/margin_5"
+                    android:gravity="center"
+                    android:text="@string/text_open"
+                    android:textColor="@color/text_second_color"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <com.pro.bityard.view.textview.ManropeTextView
+                    android:id="@+id/text_position_size"
+                    android:layout_width="@dimen/margin_15"
+                    android:layout_height="@dimen/margin_15"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/margin_2"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:background="@drawable/bg_shape_circle_white"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textColor="@color/maincolor"
+                    android:textSize="12sp" />
+
+
+            </RelativeLayout>
+
+
+            <com.pro.bityard.view.textview.ManropeTextView
+                android:id="@+id/text_charge"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/icon_add_coin"
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center"
+                android:text="@string/text_add_coin"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/size_normal_two" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_much"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_shape_green"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+
+                <com.pro.bityard.view.textview.ManropeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/text_buy_much"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <com.pro.bityard.view.textview.ManropeTextView
+                    android:id="@+id/text_buy_much"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="@string/text_default"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_normal_two" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/layout_empty"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:layout_marginRight="@dimen/margin_10"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_40"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_shape_red"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <com.pro.bityard.view.textview.ManropeTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:gravity="center"
+                    android:text="@string/text_buy_empty"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_normal_two" />
+
+                <com.pro.bityard.view.textview.ManropeTextView
+                    android:id="@+id/text_buy_empty"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_5"
+                    android:gravity="center"
+                    android:text="@string/text_default"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/size_normal_two" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>

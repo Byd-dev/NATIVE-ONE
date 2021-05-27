@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/img_triangle"
-            android:background="@drawable/bg_kuang_second_color"
+            android:background="@drawable/bg_edit_second_color"
             android:orientation="vertical"
             android:visibility="visible">
 
@@ -103,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/margin_30"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
                     android:orientation="horizontal">
 
                     <TextView

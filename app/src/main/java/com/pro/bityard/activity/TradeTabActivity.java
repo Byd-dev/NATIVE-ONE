@@ -6,16 +6,21 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.adapter.MyPagerAdapter;
+import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
 import com.pro.bityard.config.AppConfig;
+import com.pro.bityard.config.IntentConfig;
+import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.fragment.trade.ContractTradeFragment;
 import com.pro.bityard.fragment.trade.SpotTradeFragment;
 import com.pro.bityard.manger.BalanceManger;
+import com.pro.bityard.manger.NoticeManger;
 import com.pro.bityard.manger.Quote15MinHistoryManger;
 import com.pro.bityard.manger.Quote1MinHistoryManger;
 import com.pro.bityard.manger.Quote3MinHistoryManger;
@@ -40,6 +45,7 @@ import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
+import static com.pro.bityard.api.NetManger.SUCCESS;
 import static com.pro.bityard.utils.TradeUtil.itemQuoteContCode;
 
 public class TradeTabActivity extends BaseActivity implements View.OnClickListener, Observer {
@@ -53,8 +59,10 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     TabLayout tabLayout_title;
     @BindView(R.id.viewPager)
     ViewPager viewPager;
-
-
+    @BindView(R.id.text_position)
+    TextView text_position;
+    @BindView(R.id.text_position_size)
+    TextView text_position_size;
 
     public static void enter(Context context, String tradeType, String data) {
         Intent intent = new Intent(context, TradeTabActivity.class);
@@ -93,7 +101,12 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
         BalanceManger.getInstance().getBalance("USDT");
         WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
+        if (isLogin()) {
+            //获取持仓数
+            getPositionSize();
+        } else {
 
+        }
 
     }
     @Override
@@ -108,7 +121,6 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     protected void onDestroy() {
         super.onDestroy();
         Log.d("progress", "onDestroy: "+"TabActivity onDestroy");
-
 
     }
     @Override
@@ -135,6 +147,10 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initView(View view) {
         Log.d("progress", "initView: "+"TabActivity initView");
+
+        NoticeManger.getInstance().addObserver(this);
+
+        text_position.setOnClickListener(this);
 
         Handler handler = new Handler();
         handler.postDelayed(() -> initContent(), 50);
@@ -167,7 +183,29 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    public void getPositionSize() {
+        NetManger.getInstance().getHold(tradeType, (state, response1, response2) -> {
+            if (state.equals(SUCCESS)) {
+                PositionEntity positionEntity = (PositionEntity) response1;
+                int size = positionEntity.getData().size();
+                if (size == 0) {
+                    if (text_position_size != null) {
+                        text_position_size.setVisibility(View.GONE);
+                        //text_position.setTextColor(getResources().getColor(R.color.text_second_color));
+                      //  text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position), null, null);
 
+                    }
+                } else {
+                    text_position_size.setVisibility(View.VISIBLE);
+                    text_position_size.setText(size + "");
+                    //text_position.setTextColor(getResources().getColor(R.color.maincolor));
+                    // text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position_yellow), null, null);
+                  //  text_position.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.mipmap.icon_position), null, null);
+
+                }
+            }
+        });
+    }
     private void initContent() {
         viewPager.setOffscreenPageLimit(3);
         tabLayout_title.setupWithViewPager(viewPager);
@@ -228,6 +266,15 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
             case R.id.img_back:
                 finish();
                 break;
+            case R.id.text_position:
+
+                if (isLogin()) {
+                   // WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
+                    UserActivity.enter(this, IntentConfig.Keys.KEY_HOLD);
+                } else {
+                    LoginActivity.enter(this, IntentConfig.Keys.KEY_LOGIN);
+                }
+                break;
         }
     }
 
@@ -250,7 +297,8 @@ public class TradeTabActivity extends BaseActivity implements View.OnClickListen
 
             tabLayout_title.getTabAt(1).select();
 
+        }else if (o==NoticeManger.getInstance()){
+            getPositionSize();
         }
-
     }
 }

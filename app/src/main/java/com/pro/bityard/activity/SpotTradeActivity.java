@@ -108,6 +108,10 @@ import static com.pro.bityard.utils.TradeUtil.listQuotePrice;
 import static com.pro.bityard.utils.TradeUtil.listQuoteTodayPrice;
 
 public class SpotTradeActivity extends BaseActivity implements View.OnClickListener, Observer {
+    @Override
+    protected int setContentLayout() {
+        return R.layout.activity_trade_spot;
+    }
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
     private static final String quoteType = "all";
@@ -251,10 +255,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    @Override
-    protected int setContentLayout() {
-        return R.layout.activity_trade_spot;
-    }
+
 
 
 

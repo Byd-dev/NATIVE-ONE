@@ -726,7 +726,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
                     android:orientation="horizontal">
 
                     <TextView
@@ -759,7 +759,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
 
                     >
 
@@ -805,7 +805,7 @@
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_marginTop="@dimen/margin_12"
                     android:layout_marginRight="@dimen/margin_10"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
                     android:orientation="horizontal">
 
                     <TextView
@@ -956,7 +956,7 @@
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_10"
-                android:background="@drawable/bg_kuang_second_color"
+                android:background="@drawable/bg_edit_second_color"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -1003,7 +1003,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
                     android:orientation="horizontal">
 
                     <TextView
@@ -1037,7 +1037,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
 
                     >
 
@@ -1083,7 +1083,7 @@
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_marginTop="@dimen/margin_12"
                     android:layout_marginRight="@dimen/margin_10"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
                     android:orientation="horizontal">
 
                     <TextView
@@ -1230,7 +1230,7 @@
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_10"
-                android:background="@drawable/bg_kuang_second_color"
+                android:background="@drawable/bg_edit_second_color"
                 android:orientation="vertical"
                 android:visibility="gone">
 

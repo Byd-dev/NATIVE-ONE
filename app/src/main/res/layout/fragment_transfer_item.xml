@@ -22,7 +22,7 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1.5"
             android:visibility="gone"
-            android:background="@drawable/bg_kuang_second_color"
+            android:background="@drawable/bg_edit_second_color"
             android:orientation="horizontal">
 
             <ImageView

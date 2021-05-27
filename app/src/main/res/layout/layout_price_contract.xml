@@ -2,31 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
+    <!--头部-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/margin_top_market"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                >
 
                 <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_lastPrice"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="26sp"
@@ -38,24 +38,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:layout_toRightOf="@+id/text_lastPrice"
-                    android:src="@mipmap/icon_market_up"
-                    android:visibility="gone" />
+                    android:layout_marginLeft="@dimen/margin_10"
+                    android:layout_toRightOf="@+id/text_lastPrice" />
 
             </RelativeLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:gravity="center|left"
                 android:orientation="horizontal">
 
                 <com.pro.bityard.view.textview.ManropeTextView
                     android:id="@+id/text_change"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:text="-.-"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big"
@@ -65,27 +63,28 @@
                     android:id="@+id/text_range"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/margin_20"
+                    android:layout_toRightOf="@+id/text_change"
                     android:text="@string/text_default"
-                    android:layout_marginLeft="@dimen/margin_10"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big"
                     android:typeface="monospace" />
 
 
-            </LinearLayout>
-        </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_marginLeft="@dimen/margin_10"
             android:layout_marginRight="@dimen/margin_10"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal">
@@ -103,12 +102,9 @@
                     android:id="@+id/text_max"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_5"
-
                     android:layout_toRightOf="@id/text_max_stay"
-                    android:gravity="right"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal" />
@@ -117,11 +113,9 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="@dimen/margin_5"
-                android:layout_marginBottom="@dimen/margin_5"
                 android:orientation="horizontal">
 
                 <com.pro.bityard.view.textview.ManropeTextView
@@ -137,11 +131,9 @@
                     android:id="@+id/text_min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_toRightOf="@id/text_min_stay"
-                    android:gravity="right"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal" />
@@ -169,17 +161,15 @@
                     android:id="@+id/text_volume"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_5"
                     android:layout_toRightOf="@id/text_volume_stay"
-                    android:gravity="right"
                     android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_normal" />
 
 
             </RelativeLayout>
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

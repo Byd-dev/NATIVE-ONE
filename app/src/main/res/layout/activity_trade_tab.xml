@@ -4,7 +4,7 @@
     android:id="@+id/layout_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main_color"
+    android:background="@color/background_second_color"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
@@ -15,7 +15,8 @@
         android:id="@+id/layout_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bar_height"
-        android:orientation="horizontal">
+
+        >
 
         <ImageView
             android:id="@+id/img_back"
@@ -48,10 +49,51 @@
             app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/maincolor"
             app:tabTextAppearance="@style/TabStyle"
-            app:tabTextColor="@color/text_second_color" />
+            app:tabTextColor="@color/text_main_color" />
+
+        <RelativeLayout
+            android:id="@+id/layout_position"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            >
+
+            <com.pro.bityard.view.textview.ManropeTextView
+                android:id="@+id/text_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@mipmap/icon_position"
+                android:drawablePadding="@dimen/margin_5"
+                android:paddingLeft="@dimen/margin_15"
+                android:paddingRight="@dimen/margin_15"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                />
+
+
+            <com.pro.bityard.view.textview.ManropeTextView
+                android:id="@+id/text_position_size"
+                android:layout_width="@dimen/margin_15"
+                android:layout_height="@dimen/margin_15"
+                android:textColor="@color/white"
+                android:text="0"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_2"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:visibility="gone"
+                android:background="@drawable/bg_circle_main_color"
+                />
+
+
+        </RelativeLayout>
 
 
     </RelativeLayout>
+
+    <include layout="@layout/layout_line" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"

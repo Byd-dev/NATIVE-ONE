@@ -1,8 +1,5 @@
 package com.pro.bityard.manger;
 
-import com.pro.bityard.config.AppConfig;
-import com.pro.switchlibrary.SPUtils;
-
 import java.util.Observable;
 
 public class NoticeManger extends Observable {

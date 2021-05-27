@@ -4,7 +4,6 @@
     android:id="@+id/layout_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main_color"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
@@ -130,177 +129,9 @@
 
 
 
-
-    <!--头部-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/margin_top_market"
-        android:orientation="vertical">
+    <include layout="@layout/layout_price_spot" />
 
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-
-                >
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_lastPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="26sp"
-                    android:textStyle="bold"
-                    android:typeface="monospace" />
-
-                <ImageView
-                    android:id="@+id/img_up_down"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_toRightOf="@+id/text_lastPrice" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:orientation="horizontal">
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_change"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="-.-"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_big"
-                    android:typeface="monospace" />
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_range"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_20"
-                    android:layout_toRightOf="@+id/text_change"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_big"
-                    android:typeface="monospace" />
-
-
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_marginRight="@dimen/margin_10"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:orientation="horizontal">
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_max_stay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/text_max"
-                    android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal" />
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:layout_toRightOf="@id/text_max_stay"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_normal" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:orientation="horizontal">
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_min_stay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/text_min"
-                    android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal" />
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_min"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:layout_toRightOf="@id/text_min_stay"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_normal" />
-
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:orientation="horizontal">
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_volume_stay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:text="@string/text_volume"
-                    android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal" />
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_volume"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:layout_toRightOf="@id/text_volume_stay"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_normal" />
-
-
-            </RelativeLayout>
-        </RelativeLayout>
-    </LinearLayout>
     <include layout="@layout/layout_line_big"/>
     <!--中间-->
     <LinearLayout
@@ -312,7 +143,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_35"
-            android:background="@color/color_bg_left"
             android:orientation="horizontal">
 
             <com.google.android.material.tabs.TabLayout
@@ -341,8 +171,9 @@
                 android:gravity="center"
                 android:paddingLeft="@dimen/margin_15"
                 android:paddingRight="@dimen/margin_10"
+                android:drawableLeft="@mipmap/icon_rule"
                 android:text="@string/text_rule"
-                android:textColor="@color/text_main_color"
+                android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
         </LinearLayout>
@@ -607,44 +438,28 @@
     <View
         android:id="@+id/stay_view"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="@dimen/size_line_big"
         android:background="@color/home_line" />
     <!--市价和限价-->
     <LinearLayout
         android:id="@+id/layout_trade"
         android:layout_width="match_parent"
-        android:layout_height="148dp"
+        android:layout_height="200dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/layout_radioGroup"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_30"
-            android:layout_alignParentRight="true"
+            android:layout_height="@dimen/margin_40"
             android:layout_marginRight="@dimen/margin_10"
             android:orientation="horizontal">
-
-
-            <com.pro.bityard.view.textview.ManropeTextView
-                android:id="@+id/img_setting"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:drawableRight="@mipmap/icon_setting"
-                android:drawablePadding="@dimen/margin_5"
-                android:gravity="center"
-                android:paddingLeft="@dimen/margin_10"
-                android:text="@string/text_trade_settings"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal"
-                android:visibility="visible" />
 
             <RadioGroup
                 android:id="@+id/radioGroup"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
@@ -660,7 +475,7 @@
                     android:paddingLeft="@dimen/margin_15"
                     android:text="@string/text_market_price"
                     android:textColor="@color/sel_switcher_txt"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/size_big"
                     android:typeface="monospace"
 
                     />
@@ -678,16 +493,33 @@
                     android:paddingLeft="@dimen/margin_15"
                     android:text="@string/text_limit_price"
                     android:textColor="@color/sel_switcher_txt"
-                    android:textSize="@dimen/size_normal_two"
+                    android:textSize="@dimen/size_big"
                     android:typeface="monospace"
 
                     />
 
 
             </RadioGroup>
+            <com.pro.bityard.view.textview.ManropeTextView
+                android:id="@+id/img_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+
+                android:drawablePadding="@dimen/margin_5"
+                android:gravity="center"
+                android:paddingLeft="@dimen/margin_10"
+                android:text="@string/text_trade_settings"
+                android:textColor="@color/text_main_color"
+                android:textSize="@dimen/size_normal_two"
+                android:visibility="visible" />
+
+
 
 
         </RelativeLayout>
+        <include layout="@layout/layout_line"/>
 
 
         <!--市价-->
@@ -702,16 +534,17 @@
             <LinearLayout
                 android:id="@+id/layout_pop_market"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_36"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
+                android:layout_height="@dimen/margin_40"
+                android:layout_marginTop="@dimen/margin_15"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
                     android:orientation="horizontal">
 
                     <com.pro.bityard.view.textview.ManropeTextView
@@ -744,7 +577,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
 
                     >
 
@@ -802,11 +635,11 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_36"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginTop="@dimen/margin_12"
-                    android:layout_marginRight="@dimen/margin_10"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:layout_height="@dimen/margin_40"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:background="@drawable/bg_edit_second_color"
                     android:orientation="horizontal">
 
                     <com.pro.bityard.view.textview.ManropeTextView
@@ -887,7 +720,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_marginLeft="@dimen/margin_15"
                         android:orientation="horizontal">
 
                         <com.pro.bityard.view.textview.ManropeTextView
@@ -937,7 +770,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/margin_5"
-                            android:layout_marginRight="@dimen/margin_10"
+                            android:layout_marginRight="@dimen/margin_15"
                             android:text="@string/text_default"
                             android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
@@ -957,7 +790,7 @@
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_10"
-                android:background="@drawable/bg_kuang_second_color"
+                android:background="@drawable/bg_edit_second_color"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -994,9 +827,10 @@
             <!--限价下单和杠杆选择-->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/margin_36"
-                android:layout_marginLeft="@dimen/margin_10"
-                android:layout_marginRight="@dimen/margin_10"
+                android:layout_height="@dimen/margin_40"
+                android:layout_marginLeft="@dimen/margin_15"
+                android:layout_marginRight="@dimen/margin_15"
+                android:layout_marginTop="@dimen/margin_15"
                 android:orientation="horizontal">
 
 
@@ -1004,7 +838,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
                     android:orientation="horizontal">
 
                     <com.pro.bityard.view.textview.ManropeTextView
@@ -1038,7 +872,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/margin_10"
                     android:layout_weight="1"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:background="@drawable/bg_edit_second_color"
 
                     >
 
@@ -1095,11 +929,11 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/margin_36"
-                    android:layout_marginLeft="@dimen/margin_10"
-                    android:layout_marginTop="@dimen/margin_12"
-                    android:layout_marginRight="@dimen/margin_10"
-                    android:background="@drawable/bg_kuang_second_color"
+                    android:layout_height="@dimen/margin_40"
+                    android:layout_marginLeft="@dimen/margin_15"
+                    android:layout_marginTop="@dimen/margin_15"
+                    android:layout_marginRight="@dimen/margin_15"
+                    android:background="@drawable/bg_edit_second_color"
                     android:orientation="horizontal">
 
                     <com.pro.bityard.view.textview.ManropeTextView
@@ -1179,7 +1013,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="@dimen/margin_10"
+                        android:layout_marginLeft="@dimen/margin_15"
                         android:orientation="horizontal">
 
                         <com.pro.bityard.view.textview.ManropeTextView
@@ -1228,7 +1062,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/margin_5"
-                            android:layout_marginRight="@dimen/margin_10"
+                            android:layout_marginRight="@dimen/margin_15"
                             android:text="@string/text_default"
                             android:textColor="@color/text_main_color"
                             android:textSize="@dimen/size_normal" />
@@ -1246,7 +1080,7 @@
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginTop="@dimen/margin_8"
                 android:layout_marginRight="@dimen/margin_10"
-                android:background="@drawable/bg_kuang_second_color"
+                android:background="@drawable/bg_edit_second_color"
                 android:orientation="vertical"
                 android:visibility="gone">
 
@@ -1276,151 +1110,7 @@
     </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:background="@color/color_bg_left"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                >
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_position"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:drawableTop="@mipmap/icon_position"
-                    android:drawablePadding="@dimen/margin_5"
-                    android:gravity="center"
-                    android:text="@string/text_open"
-                    android:textColor="@color/text_second_color"
-                    android:textSize="@dimen/size_normal_two" />
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_position_size"
-                    android:layout_width="@dimen/margin_15"
-                    android:layout_height="@dimen/margin_15"
-                    android:textColor="@color/maincolor"
-                    android:text="0"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/margin_15"
-                    android:layout_marginTop="@dimen/margin_2"
-                    android:gravity="center"
-                    android:textSize="12sp"
-                    android:background="@drawable/bg_shape_circle_white"
-                    />
+    <include layout="@layout/layout_much_empty"/>
 
 
-            </RelativeLayout>
-
-
-
-            <com.pro.bityard.view.textview.ManropeTextView
-                android:id="@+id/text_charge"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:drawableTop="@mipmap/icon_add_coin"
-                android:drawablePadding="@dimen/margin_5"
-                android:gravity="center"
-                android:text="@string/text_add_coin"
-                android:textColor="@color/text_second_color"
-                android:textSize="@dimen/size_normal_two" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_much"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/margin_10"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@mipmap/icon_market_much"
-                android:gravity="center"
-                android:orientation="vertical">
-
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/text_buy_much"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_bigger" />
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_buy_much"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_normal" />
-            </LinearLayout>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/layout_empty"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/margin_10"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@mipmap/icon_much_empty"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:gravity="center"
-                    android:text="@string/text_buy_empty"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_bigger" />
-
-                <com.pro.bityard.view.textview.ManropeTextView
-                    android:id="@+id/text_buy_empty"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/margin_5"
-                    android:gravity="center"
-                    android:text="@string/text_default"
-                    android:textColor="@color/text_main_color"
-                    android:textSize="@dimen/size_normal" />
-
-            </LinearLayout>
-        </LinearLayout>
-
-
-    </LinearLayout>
 </LinearLayout>

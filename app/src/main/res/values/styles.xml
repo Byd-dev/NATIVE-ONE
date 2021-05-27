@@ -38,6 +38,7 @@
     </style>
     <style name="TabStyle" parent="Base.Widget.Design.TabLayout">
         <item name="android:textSize">@dimen/title_size</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="MyTablayoutStyleQuote" parent="Base.Widget.Design.TabLayout">
