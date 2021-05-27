@@ -7,9 +7,9 @@
     <string name="tab_four">持仓</string>
     <string name="tab_five">资产</string>
     <string name="text_jump">跳过</string>
-    <string name="text_register">注册</string>
-    <string name="text_mobile_login">手机号码登录-></string>
-    <string name="text_email_login">邮箱登录-></string>
+    <string name="text_register">立即注册</string>
+    <string name="text_mobile_login">手机登录</string>
+    <string name="text_email_login">邮箱登录</string>
     <string name="text_email">电子邮箱</string>
     <string name="text_email_input">请输入邮箱</string>
     <string name="text_input_pass">请输入密码</string>
@@ -20,12 +20,12 @@
     <string name="text_select">选择国家或地区</string>
     <string name="text_login">立即登录</string>
     <string name="text_register_title">注册Bityard</string>
-    <string name="text_mobile_register">手机号码注册-></string>
+    <string name="text_mobile_register">手机注册</string>
     <string name="text_email_code">邮箱验证码</string>
     <string name="text_email_code_input">请输入邮箱验证码</string>
     <string name="text_mobile_code">短信验证码</string>
     <string name="text_mobile_code_input">请输入短信验证码</string>
-    <string name="text_email_register">邮箱注册-></string>
+    <string name="text_email_register">邮箱注册</string>
     <string name="text_try">点击重试</string>
     <string name="text_register_success">注册成功!</string>
     <string name="text_err_tip">后端小哥在努力升级ing</string>

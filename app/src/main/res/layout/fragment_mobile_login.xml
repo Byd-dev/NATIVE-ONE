@@ -7,17 +7,8 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/margin_25"
-        android:layout_marginTop="@dimen/margin_40"
-        android:layout_marginRight="@dimen/margin_25"
-        android:layout_marginBottom="@dimen/margin_50"
-        android:src="@mipmap/icon_bityard_user"
+    <include layout="@layout/layout_title" />
 
-        />
 
     <include layout="@layout/layout_mobile_code" />
 
@@ -36,7 +27,7 @@
         android:gravity="right"
         android:paddingBottom="@dimen/margin_10"
         android:text="@string/text_forget_pass"
-        android:textColor="@color/maincolor"
+        android:textColor="@color/text_main_color"
         android:textSize="@dimen/size_normal" />
 
     <!--登录button-->
@@ -47,7 +38,6 @@
         android:layout_marginLeft="@dimen/margin_25"
         android:layout_marginTop="@dimen/margin_28"
         android:layout_marginRight="@dimen/margin_25"
-        android:layout_marginBottom="@dimen/margin_15"
         android:background="@drawable/sel_switcher_enabled_bg"
         android:enabled="false"
         android:padding="10dp"
@@ -57,15 +47,31 @@
 
         />
 
-    <com.pro.bityard.view.textview.ManropeTextView
-        android:id="@+id/text_email_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:padding="@dimen/margin_15"
-        android:text="@string/text_email_login"
-        android:textColor="@color/maincolor"
-        android:textSize="16sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <com.pro.bityard.view.textview.ManropeTextView
+            android:id="@+id/text_email_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_10"
+            android:padding="@dimen/margin_15"
+            android:text="@string/text_email_login"
+            android:textColor="@color/text_main_color"
+            android:textSize="16sp" />
 
+        <TextView
+            android:id="@+id/text_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_10"
+            android:padding="@dimen/margin_15"
+            android:text="@string/text_register"
+            android:textColor="@color/maincolor"
+            android:textSize="@dimen/size_big" />
+
+    </RelativeLayout>
 </LinearLayout>

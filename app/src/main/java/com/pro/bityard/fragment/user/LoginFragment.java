@@ -42,8 +42,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
         initViewPager(viewPager);
         //text_title.setText(R.string.text_login_title);
-        text_right.setVisibility(View.VISIBLE);
-        text_right.setText(R.string.text_register);
+        //text_right.setVisibility(View.VISIBLE);
+       // text_right.setText(R.string.text_register);
         view_line.setVisibility(View.GONE);
 
         view.findViewById(R.id.img_back).setOnClickListener(this);

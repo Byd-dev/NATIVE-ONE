@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.pro.bityard.view.textview.ManropeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_25"
+        android:layout_marginTop="@dimen/margin_40"
+        android:layout_marginRight="@dimen/margin_25"
+        android:layout_marginBottom="@dimen/margin_50"
+        android:text="Hallo,\n Welcome to Bityard"
+        android:textColor="@color/text_main_color"
+        android:textSize="@dimen/size_user_title"
+        android:textStyle="bold" />
+</LinearLayout>

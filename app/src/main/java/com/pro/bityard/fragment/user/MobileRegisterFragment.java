@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.user;
 
 import android.annotation.SuppressLint;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -60,6 +61,10 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class MobileRegisterFragment extends BaseFragment implements View.OnClickListener {
+    @Override
+    protected int setLayoutResourceID() {
+        return R.layout.fragment_mobile_register;
+    }
     @BindView(R.id.layout_view)
     ScrollView layout_view;
 
@@ -121,6 +126,8 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
     View line_pass;
     @BindView(R.id.line_pass_err)
     View line_pass_err;
+    @BindView(R.id.text_email_login)
+    TextView text_email_login;
 
     public MobileRegisterFragment() {
 
@@ -147,8 +154,10 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
 
     @Override
     protected void initView(View view) {
-
+        text_email_login.getPaint().setFlags(text_email_login.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //下划线
+        text_email_login.getPaint().setAntiAlias(true);//抗锯齿
         view.findViewById(R.id.text_email_login).setOnClickListener(this);
+        view.findViewById(R.id.text_login).setOnClickListener(this);
 
         view.findViewById(R.id.layout_country).setOnClickListener(this);
         btn_submit.setOnClickListener(this);
@@ -234,10 +243,7 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         });
     }
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_mobile_register;
-    }
+
 
     @Override
     protected void intPresenter() {
@@ -295,6 +301,9 @@ public class MobileRegisterFragment extends BaseFragment implements View.OnClick
         switch (v.getId()) {
             case R.id.text_email_login:
                 viewPager.setCurrentItem(0);
+                break;
+            case R.id.text_login:
+                getActivity().finish();
                 break;
             case R.id.img_eye:
                 if (eye) {

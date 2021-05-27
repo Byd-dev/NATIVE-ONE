@@ -48,12 +48,12 @@
             <TextView
                 android:id="@+id/text_getCode_mobile"
                 android:layout_width="89dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/sel_switcher_enabled_bg"
+                android:layout_height="@dimen/margin_30"
+                android:background="@drawable/sel_switcher_code_bg"
                 android:gravity="center"
                 android:enabled="false"
                 android:text="@string/text_get_code"
-                android:textColor="@color/color_code"
+                android:textColor="@color/color_get_code"
                 android:textSize="@dimen/size_normal" />
 
 

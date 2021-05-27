@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.geetest.sdk.GT3ErrorBean;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ForgetActivity;
+import com.pro.bityard.activity.RegisterActivity;
 import com.pro.bityard.api.Gt3Util;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.api.OnGtUtilResult;
@@ -68,6 +69,9 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     @BindView(R.id.text_forget_pass)
     TextView text_forget_pass;
 
+    @BindView(R.id.text_mobile_login)
+    TextView text_mobile_login;
+
     @BindView(R.id.line_email)
     View line_email;
     @BindView(R.id.line_email_err)
@@ -109,7 +113,9 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
     protected void initView(View view) {
 
 
-        view.findViewById(R.id.text_mobile_login).setOnClickListener(this);
+       text_mobile_login.setOnClickListener(this);
+       view.findViewById(R.id.text_register).setOnClickListener(this);
+
 
         text_forget_pass.setText(getResources().getText(R.string.text_forget_pass) + "?");
 
@@ -210,10 +216,10 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
         });*/
 
         //忘记密码下划线
-        text_forget_pass.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-        text_forget_pass.getPaint().setAntiAlias(true);//抗锯齿
 
 
+        text_mobile_login.getPaint().setFlags(text_mobile_login.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //下划线
+        text_mobile_login.getPaint().setAntiAlias(true);//抗锯齿
     }
 
 
@@ -252,6 +258,10 @@ public class EmailLoginFragment extends BaseFragment implements View.OnClickList
             case R.id.img_eye:
 
                 Util.setEye(getActivity(), edit_password, img_eye);
+
+                break;
+            case R.id.text_register:
+                RegisterActivity.enter(getContext(), IntentConfig.Keys.KEY_REGISTER);
 
                 break;
             case R.id.btn_submit:

@@ -43,5 +43,5 @@
     <color name="color_market_search_night">#EAECF0</color>
     <color name="color_assets_bg_night">#ffffff</color>
     <color name="background_second_color_night">#ffffff</color>
-
+    <color name="color_get_code_night">#2A2E3A</color>
 </resources>

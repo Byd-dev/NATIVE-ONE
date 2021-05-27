@@ -50,12 +50,12 @@
             <com.pro.bityard.view.textview.ManropeTextView
                 android:id="@+id/text_getCode"
                 android:layout_width="89dp"
-                android:layout_height="match_parent"
+                android:layout_height="@dimen/margin_30"
                 android:text="@string/text_get_code"
                 android:enabled="false"
-                android:background="@drawable/sel_switcher_enabled_bg"
+                android:background="@drawable/sel_switcher_code_bg"
                 android:gravity="center"
-                android:textColor="@color/color_code"
+                android:textColor="@color/color_get_code"
                 android:textSize="@dimen/size_normal"
                 />
 

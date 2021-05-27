@@ -8,8 +8,8 @@
     <string name="tab_four">持倉</string>
     <string name="tab_five">资产</string>
     <string name="text_jump">跳過</string>
-    <string name="text_register">註冊</string>
-    <string name="text_mobile_login">手機號碼登錄</string>
+    <string name="text_register">立即註冊</string>
+    <string name="text_mobile_login">手機登錄</string>
     <string name="text_email_login">郵箱登錄</string>
     <string name="text_email">電子郵箱</string>
     <string name="text_email_input">請輸入郵箱</string>
@@ -21,7 +21,7 @@
     <string name="text_select">選擇國家或地區</string>
     <string name="text_login">立即登錄</string>
     <string name="text_register_title">註冊Bityard</string>
-    <string name="text_mobile_register"><![CDATA[手機號碼註冊->]]></string>
+    <string name="text_mobile_register"><![CDATA[手機註冊]]></string>
     <string name="text_email_code">郵箱驗證碼</string>
     <string name="text_email_code_input">請輸入郵箱驗證碼</string>
     <string name="text_mobile_code">短信驗證碼</string>

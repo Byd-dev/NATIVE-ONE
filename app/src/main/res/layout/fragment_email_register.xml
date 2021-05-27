@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     android:id="@+id/layout_view"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusable="true"
     android:focusableInTouchMode="true"
@@ -13,17 +13,17 @@
         android:orientation="vertical">
 
 
-        <ImageView
+        <com.pro.bityard.view.textview.ManropeTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_marginLeft="@dimen/margin_25"
             android:layout_marginTop="@dimen/margin_40"
             android:layout_marginRight="@dimen/margin_25"
             android:layout_marginBottom="@dimen/margin_50"
-            android:src="@mipmap/icon_bityard_user"
-
-
+            android:text="@string/text_email_register"
+            android:textStyle="bold"
+            android:textSize="@dimen/size_user_title"
+            android:textColor="@color/text_main_color"
             />
 
         <!--账户-->
@@ -45,7 +45,6 @@
             android:layout_marginLeft="@dimen/margin_25"
             android:layout_marginTop="@dimen/margin_40"
             android:layout_marginRight="@dimen/margin_25"
-            android:layout_marginBottom="@dimen/margin_15"
             android:background="@drawable/sel_switcher_enabled_bg"
             android:enabled="false"
             android:padding="10dp"
@@ -55,16 +54,32 @@
 
             />
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <com.pro.bityard.view.textview.ManropeTextView
-            android:id="@+id/text_mobile_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:padding="@dimen/margin_15"
-            android:text="@string/text_mobile_register"
-            android:textColor="@color/maincolor"
-            android:textSize="16sp" />
+            <com.pro.bityard.view.textview.ManropeTextView
+                android:id="@+id/text_mobile_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_10"
+                android:padding="@dimen/margin_15"
+                android:text="@string/text_mobile_register"
+                android:textColor="@color/text_main_color"
+                android:textSize="16sp" />
 
+            <TextView
+                android:id="@+id/text_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/margin_10"
+                android:padding="@dimen/margin_15"
+                android:text="@string/text_login"
+                android:textColor="@color/maincolor"
+                android:textSize="@dimen/size_big" />
+
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>

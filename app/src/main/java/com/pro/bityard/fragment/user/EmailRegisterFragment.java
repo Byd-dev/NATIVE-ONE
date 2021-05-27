@@ -1,6 +1,7 @@
 package com.pro.bityard.fragment.user;
 
 import android.annotation.SuppressLint;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -47,6 +48,10 @@ import static com.pro.bityard.api.NetManger.FAILURE;
 import static com.pro.bityard.api.NetManger.SUCCESS;
 
 public class EmailRegisterFragment extends BaseFragment implements View.OnClickListener {
+    @Override
+    protected int setLayoutResourceID() {
+        return R.layout.fragment_email_register;
+    }
     @BindView(R.id.img_eye)
     ImageView img_eye;
 
@@ -94,6 +99,9 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     @BindView(R.id.line_pass_err)
     View line_pass_err;
 
+    @BindView(R.id.text_mobile_login)
+    TextView text_mobile_login;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,12 +122,17 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     @Override
     protected void initView(View view) {
 
+
+        text_mobile_login.getPaint().setFlags(text_mobile_login.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG); //下划线
+        text_mobile_login.getPaint().setAntiAlias(true);//抗锯齿
         view.findViewById(R.id.text_mobile_login).setOnClickListener(this);
         btn_submit.setOnClickListener(this);
 
         img_eye.setOnClickListener(this);
 
         text_getCode.setOnClickListener(this);
+
+        view.findViewById(R.id.text_login).setOnClickListener(this);
 
 
         //邮箱输入框焦点的监听
@@ -201,10 +214,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    @Override
-    protected int setLayoutResourceID() {
-        return R.layout.fragment_email_register;
-    }
+
 
     @Override
     protected void intPresenter() {
@@ -228,6 +238,10 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
             case R.id.text_mobile_login:
                 viewPager.setCurrentItem(1);
                 break;
+            case R.id.text_login:
+                getActivity().finish();
+
+                break;
 
             case R.id.img_eye:
                 if (eye) {
@@ -249,7 +263,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 }
 
 
-                NetManger.getInstance().getEmailCode(getActivity(),layout_view,account_value, "REGISTER", (state, response1, response2) -> {
+                NetManger.getInstance().getEmailCode(getActivity(), layout_view, account_value, "REGISTER", (state, response1, response2) -> {
                     if (state.equals(BUSY)) {
                         showProgressDialog();
                     } else if (state.equals(SUCCESS)) {
@@ -297,7 +311,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 HashMap<String, String> map2 = new HashMap<>();
                 map2.put("email", account_value);
                 map2.put("password", pass_value);
-                map2.put("ru",value_kode);
+                map2.put("ru", value_kode);
 
                 String value_sign = Util.getSign(map2, AppConfig.SIGN_KEY);
 
@@ -317,7 +331,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                         Log.d("print", "onClick:验证验证码: " + tipEntity);
                         if (tipEntity.getCode() == 200 && tipEntity.isCheck()) {
                             //成功了再注册
-                            register(account_value, pass_value, value_sign,value_kode);
+                            register(account_value, pass_value, value_sign, value_kode);
 
 
                         } else {
@@ -341,10 +355,10 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     }
 
 
-    private void register(String account_value, String pass_value, String value_sign,String value_kode) {
+    private void register(String account_value, String pass_value, String value_sign, String value_kode) {
 
 
-        NetManger.getInstance().register(true,null,null,account_value, pass_value, value_sign,value_kode, (state, response) -> {
+        NetManger.getInstance().register(true, null, null, account_value, pass_value, value_sign, value_kode, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {
@@ -352,7 +366,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                 TipEntity tipEntity = (TipEntity) response;
                 if (tipEntity.getCode() == 200) {
                     //注册成功登录
-                    login(account_value, pass_value,"undefined");
+                    login(account_value, pass_value, "undefined");
                 }
 
                 if (tipEntity.getMessage().equals("")) {
@@ -370,7 +384,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
     }
 
     private void login(String account_value, String pass_value, String geetestToken) {
-        NetManger.getInstance().login(account_value, pass_value,true, Util.Random32(), geetestToken, (state, response) -> {
+        NetManger.getInstance().login(account_value, pass_value, true, Util.Random32(), geetestToken, (state, response) -> {
             if (state.equals(BUSY)) {
                 showProgressDialog();
             } else if (state.equals(SUCCESS)) {
@@ -389,7 +403,7 @@ public class EmailRegisterFragment extends BaseFragment implements View.OnClickL
                         TagManger.getInstance().tag();
                         getActivity().finish();
                         MainActivity.enter(getActivity(), MainActivity.TAB_TYPE.TAB_HOME);
-                        SPUtils.putString(AppConfig.POP_LOGIN,"pop_login");
+                        SPUtils.putString(AppConfig.POP_LOGIN, "pop_login");
                     } else if (state2.equals(FAILURE)) {
                         dismissProgressDialog();
                     }

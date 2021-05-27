@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.geetest.sdk.GT3ErrorBean;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.ForgetActivity;
+import com.pro.bityard.activity.RegisterActivity;
 import com.pro.bityard.adapter.CountryCodeAdapter;
 import com.pro.bityard.adapter.CountryCodeHeadAdapter;
 import com.pro.bityard.api.Gt3Util;
@@ -99,6 +100,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
     @BindView(R.id.line_mobile_err)
     View line_mobile_err;
 
+@BindView(R.id.text_email_login)
+TextView text_email_login;
 
     @BindView(R.id.line_pass)
     View line_pass;
@@ -126,7 +129,7 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
         view.findViewById(R.id.text_email_login).setOnClickListener(this);
         view.findViewById(R.id.layout_country).setOnClickListener(this);
         view.findViewById(R.id.text_forget_pass).setOnClickListener(this);
-
+        view.findViewById(R.id.text_register).setOnClickListener(this);
         view.findViewById(R.id.btn_login).setOnClickListener(this);
         img_eye.setOnClickListener(this);
         text_forget_pass.setText(getResources().getText(R.string.text_forget_pass) + "?");
@@ -195,8 +198,8 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
         });
 
         //忘记密码下划线
-        text_forget_pass.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
-        text_forget_pass.getPaint().setAntiAlias(true);//抗锯齿
+        text_email_login.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG); //下划线
+        text_email_login.getPaint().setAntiAlias(true);//抗锯齿
 
     }
 
@@ -284,7 +287,10 @@ public class MobileLoginFragment extends BaseFragment implements View.OnClickLis
             case R.id.text_email_login:
                 viewPager.setCurrentItem(0);
                 break;
+            case R.id.text_register:
+                RegisterActivity.enter(getContext(), IntentConfig.Keys.KEY_REGISTER);
 
+                break;
             case R.id.layout_country:
                 countryCodeEntity = SPUtils.getData(AppConfig.COUNTRY_CODE, CountryCodeEntity.class);
                 showEditPopWindow(countryCodeEntity);
