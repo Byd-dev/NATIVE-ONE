@@ -32,7 +32,7 @@ import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.ProportionSelectAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
-import com.pro.bityard.adapter.SellBuyListAdapter;
+import com.pro.bityard.adapter.SellListAdapter;
 import com.pro.bityard.adapter.SpotPositionAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.AppContext;
@@ -116,7 +116,7 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
     private List<Integer> proportionList;
 
 
-    private SellBuyListAdapter sellAdapter, buyAdapter;
+    private SellListAdapter sellAdapter, buyAdapter;
     private RecyclerView recyclerView_sell;
     private RecyclerView recyclerView_buy;
     private List<BuySellEntity> buyList;
@@ -320,12 +320,12 @@ public class SpotTradeFragment extends BaseFragment implements View.OnClickListe
         layout_switch_limit_price.setOnClickListener(this);
 
 
-        sellAdapter = new SellBuyListAdapter(getActivity());
+        sellAdapter = new SellListAdapter(getActivity());
         recyclerView_sell = headView.findViewById(R.id.recyclerView_sell);
         recyclerView_sell.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_sell.setAdapter(sellAdapter);
 
-        buyAdapter = new SellBuyListAdapter(getActivity());
+        buyAdapter = new SellListAdapter(getActivity());
         recyclerView_buy = headView.findViewById(R.id.recyclerView_buy);
         recyclerView_buy.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView_buy.setAdapter(buyAdapter);

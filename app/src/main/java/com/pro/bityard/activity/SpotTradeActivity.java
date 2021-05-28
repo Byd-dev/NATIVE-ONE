@@ -26,12 +26,13 @@ import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
+import com.pro.bityard.adapter.BuyListAdapter;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
 import com.pro.bityard.adapter.QuoteAdapter;
 import com.pro.bityard.adapter.QuotePopAdapter;
 import com.pro.bityard.adapter.RadioGroupAdapter;
 import com.pro.bityard.adapter.RadioRateAdapter;
-import com.pro.bityard.adapter.SellBuyListAdapter;
+import com.pro.bityard.adapter.SellListAdapter;
 import com.pro.bityard.adapter.TradeNewAdapter;
 import com.pro.bityard.api.NetManger;
 import com.pro.bityard.base.BaseActivity;
@@ -77,7 +78,6 @@ import com.pro.bityard.utils.ChartUtil;
 import com.pro.bityard.utils.SocketUtil;
 import com.pro.bityard.utils.TradeUtil;
 import com.pro.bityard.utils.Util;
-import com.pro.bityard.viewutil.StatusBarUtil;
 import com.pro.switchlibrary.SPUtils;
 
 import org.jetbrains.annotations.NotNull;
@@ -112,6 +112,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     protected int setContentLayout() {
         return R.layout.activity_trade_spot;
     }
+
     private static final String TYPE = "tradeType";
     private static final String VALUE = "value";
     private static final String quoteType = "all";
@@ -210,8 +211,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     LinearLayout layout_commission_record;
     @BindView(R.id.recyclerView_trade)
     RecyclerView recyclerView_trade;
-    @BindView(R.id.stay_view)
-    View stay_view;
 
 
     @BindView(R.id.text_trade_rule)
@@ -236,7 +235,8 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     private String quote_code = null, quote_code_old = null;
     private QuoteMinEntity quoteMinEntity;
 
-    private SellBuyListAdapter sellAdapter, buyAdapter;
+    private SellListAdapter sellAdapter;
+    private BuyListAdapter buyAdapter;
 
 
     // 声明平移动画
@@ -253,10 +253,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         intent.putExtra("bundle", bundle);
         context.startActivity(intent);
     }
-
-
-
-
 
 
     @Override
@@ -300,7 +296,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void initView(View view) {
-        Log.d("print", "initView:305:  "+view);
+        Log.d("print", "initView:305:  " + view);
         initTabView();
         showProgressDialog();
 
@@ -576,11 +572,11 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
-        sellAdapter = new SellBuyListAdapter(this);
+        sellAdapter = new SellListAdapter(this);
         recyclerView_sell.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_sell.setAdapter(sellAdapter);
 
-        buyAdapter = new SellBuyListAdapter(this);
+        buyAdapter = new BuyListAdapter(this);
         recyclerView_buy.setLayoutManager(new LinearLayoutManager(this));
         recyclerView_buy.setAdapter(buyAdapter);
 
@@ -592,7 +588,6 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
 
     private Set<String> optionalList;
-
 
 
     @Override
@@ -1370,13 +1365,13 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.layout_contract_rule:
-               // finish();
+                // finish();
                 String[] split = itemData.split(",");
-                int length=split.length;
-                StringBuilder quoteData=new StringBuilder();
+                int length = split.length;
+                StringBuilder quoteData = new StringBuilder();
                 quoteData.append(contractCode(itemData)).append(",1,55291.04,53717.68,55291.04,0.0586,55291.04,0.0586,55830.9,53511.39,56454.6958,").append(contractCode(itemData)).append(",").append(AppConfig.TYPE_FT).append(",")
-                        .append(AppConfig.DEFI).append(",").append(split[length-2]).append(",").append(split[length-1]);
-                Log.d("print", "onClick:1384: "+quoteData);
+                        .append(AppConfig.DEFI).append(",").append(split[length - 2]).append(",").append(split[length - 1]);
+                Log.d("print", "onClick:1384: " + quoteData);
                 WebSocketManager.getInstance().cancelQuotes("4002", contractCode(itemData));
                 TradeTabActivity.enter(this, "1", quoteData.toString());
                 break;
@@ -1644,7 +1639,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
 
             } else {
                 if (quoteMinEntity != null) {
-                    Log.d("print", "update:1690: "+quoteMinEntity.getSymbol());
+                    Log.d("print", "update:1690: " + quoteMinEntity.getSymbol());
                     Quote1MinHistoryManger.getInstance().quote(quoteMinEntity.getSymbol(), -2);
                 }
             }
@@ -1666,7 +1661,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
         } else if (o == Quote5MinHistoryManger.getInstance()) {
             QuoteChartEntity data = (QuoteChartEntity) arg;
             kData5MinHistory = ChartUtil.klineList(data);
-            Log.d("print", "update:1699:  "+kData5MinHistory);
+            Log.d("print", "update:1699:  " + kData5MinHistory);
             if (kData5MinHistory != null) {
                 myKLineView_5Min.initKDataList(kData5MinHistory);
             } else {
@@ -1751,17 +1746,13 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-
-
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d("progress", "onResume: "+"SpotActivity onResume");
+        Log.d("progress", "onResume: " + "SpotActivity onResume");
 
         BalanceManger.getInstance().getBalance("USDT");
         WebSocketManager.getInstance().sendQuotes("4001", itemQuoteContCode(itemData), "1");
-
-
 
 
     }
@@ -1769,7 +1760,7 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d("progress", "onDestroy: "+"SpotActivity onDestroy");
+        Log.d("progress", "onDestroy: " + "SpotActivity onDestroy");
 
         quote_code = null;
         cancelTimer();
@@ -1808,24 +1799,23 @@ public class SpotTradeActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d("progress", "onStop: "+"SpotActivity onStop");
+        Log.d("progress", "onStop: " + "SpotActivity onStop");
         //要取消计时 防止内存溢出
 
 
-
-
     }
+
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d("progress", "onStart: "+"SpotActivity onStart");
+        Log.d("progress", "onStart: " + "SpotActivity onStart");
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d("progress", "onPause: "+"SpotActivity onPause");
+        Log.d("progress", "onPause: " + "SpotActivity onPause");
         if (quote_code_old != null) {
             WebSocketManager.getInstance().cancelQuotes("4002", quote_code_old);
         }

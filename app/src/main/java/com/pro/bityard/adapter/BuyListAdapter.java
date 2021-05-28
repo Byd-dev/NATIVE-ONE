@@ -1,7 +1,6 @@
 package com.pro.bityard.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,14 +12,13 @@ import com.pro.bityard.R;
 import com.pro.bityard.api.TradeResult;
 import com.pro.bityard.entity.BuySellEntity;
 import com.pro.bityard.utils.TradeUtil;
-import com.pro.bityard.utils.Util;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class SellBuyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BuyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context context;
     private List<BuySellEntity> datas;
 
@@ -38,7 +36,7 @@ public class SellBuyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<Double> incomeList;
 
 
-    public SellBuyListAdapter(Context context) {
+    public BuyListAdapter(Context context) {
         this.context = context;
         datas = new ArrayList<>();
     }
@@ -84,7 +82,7 @@ public class SellBuyListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         if (viewType == TYPE_ITEM) {
 
-            View view = LayoutInflater.from(context).inflate(R.layout.item_buy_sell_layout, parent, false);
+            View view = LayoutInflater.from(context).inflate(R.layout.item_buy_layout, parent, false);
             holder = new MyViewHolder(view);
             return holder;
         }

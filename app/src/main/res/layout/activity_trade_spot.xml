@@ -4,7 +4,7 @@
     android:id="@+id/layout_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main_color"
+    android:background="@color/background_second_color"
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical">
@@ -131,7 +131,7 @@
     <!--头部-->
     <!--中间-->
     <include layout="@layout/layout_price_spot" />
-
+    <include layout="@layout/layout_line_big"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -167,22 +167,18 @@
         <include layout="@layout/layout_kline_view" />
     </LinearLayout>
 
-    <View
-        android:id="@+id/stay_view"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_line_big"
-        android:background="@color/home_line" />
+
 
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="198dp"
+        android:layout_height="205dp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/layout_radioGroup"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_35"
+            android:layout_height="@dimen/margin_40"
             android:orientation="horizontal">
 
             <com.google.android.material.tabs.TabLayout
@@ -233,7 +229,7 @@
                     android:paddingLeft="@dimen/margin_10"
                     android:paddingRight="@dimen/margin_10"
                     android:text="100X"
-                    android:textColor="@color/text_main_color_black"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -373,7 +369,7 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:text="@string/text_buy"
-                    android:textColor="@color/text_main_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_bigger" />
 
 
@@ -406,7 +402,7 @@
                     android:layout_marginLeft="@dimen/margin_5"
                     android:gravity="center"
                     android:text="@string/text_sell"
-                    android:textColor="@color/text_main_color"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/size_bigger" />
 
 

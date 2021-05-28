@@ -2,14 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/background_main_color"
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/margin_42">
@@ -39,9 +38,8 @@
 
 
         </RelativeLayout>
+
         <include layout="@layout/layout_line" />
-
-
 
 
         <LinearLayout
@@ -62,8 +60,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
-                    android:text="@string/text_default"
                     android:drawablePadding="@dimen/margin_5"
+                    android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
@@ -176,8 +174,8 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/margin_15"
-                    android:text="@string/text_default"
                     android:drawablePadding="@dimen/margin_5"
+                    android:text="@string/text_default"
                     android:textColor="@color/text_main_color"
                     android:textSize="@dimen/size_big" />
 
@@ -267,11 +265,7 @@
         </LinearLayout>
 
 
-
-
-
         <include layout="@layout/layout_line" />
-
 
 
         <RelativeLayout
@@ -295,9 +289,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_toRightOf="@+id/stay_id"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_15"
+                android:layout_toRightOf="@+id/stay_id"
                 android:text="@string/text_default"
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_big" />
@@ -306,13 +300,9 @@
         </RelativeLayout>
 
 
-
-
-
-
     </LinearLayout>
 
-  <include layout="@layout/layout_line_big"/>
+    <include layout="@layout/layout_line_big" />
 
 
 </LinearLayout>

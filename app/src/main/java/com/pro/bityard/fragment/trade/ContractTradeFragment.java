@@ -34,7 +34,6 @@ import com.google.android.material.tabs.TabLayout;
 import com.pro.bityard.R;
 import com.pro.bityard.activity.LoginActivity;
 import com.pro.bityard.activity.SpotTradeActivity;
-import com.pro.bityard.activity.TradeTabActivity;
 import com.pro.bityard.activity.UserActivity;
 import com.pro.bityard.activity.WebActivity;
 import com.pro.bityard.adapter.OptionalSelectAdapter;
@@ -52,7 +51,6 @@ import com.pro.bityard.entity.AddScoreEntity;
 import com.pro.bityard.entity.BalanceEntity;
 import com.pro.bityard.entity.ChargeUnitEntity;
 import com.pro.bityard.entity.LoginEntity;
-import com.pro.bityard.entity.PositionEntity;
 import com.pro.bityard.entity.QuoteChartEntity;
 import com.pro.bityard.entity.QuoteMinEntity;
 import com.pro.bityard.entity.TradeListEntity;
@@ -145,7 +143,6 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         fragment.setArguments(args);
         return fragment;
     }
-
 
 
     @BindView(R.id.layout_switch)
@@ -770,11 +767,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
-        Log.d("progress", "onResume: "+"Contract onResume");
+        Log.d("progress", "onResume: " + "Contract onResume");
 
         BalanceManger.getInstance().getBalance("USDT");
         //WebSocketManager.getInstance().sendQuotes("4001", quote_code,"1");
@@ -914,14 +910,14 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
                 text_change.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
                 text_range.setTextColor(getActivity().getResources().getColor(R.color.text_quote_red));
-              //  img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_down));
+                //  img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_down));
 
                 break;
             case "1":
                 text_lastPrice.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
                 text_change.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
                 text_range.setTextColor(getActivity().getResources().getColor(R.color.text_quote_green));
-             //   img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_up));
+                //   img_up_down.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_market_up));
 
                 break;
             case "0":
@@ -2210,22 +2206,24 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
 
         }
     }
+
     @Override
     public void onStart() {
         super.onStart();
-        Log.d("progress", "onStart: "+"Contract onStart");
+        Log.d("progress", "onStart: " + "Contract onStart");
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        Log.d("progress", "onStop: "+"Contract onStop");
+        Log.d("progress", "onStop: " + "Contract onStop");
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
-        Log.d("progress", "onPause: "+"Contract onPause");
+        Log.d("progress", "onPause: " + "Contract onPause");
 
         SocketUtil.switchQuotesList("3002");
         WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
@@ -2235,8 +2233,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("progress", "onDestroy: "+"Contract onDestroy");
-
+        Log.d("progress", "onDestroy: " + "Contract onDestroy");
 
 
         cancelTimer();
@@ -2270,11 +2267,10 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
         }
 
 
-       // WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
+        // WebSocketManager.getInstance().cancelQuotes("4002", quote_code);
         quote_code = null;
 
     }
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -2314,7 +2310,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                     text_limit_balance.setText(TradeUtil.justDisplay(BalanceManger.getInstance().getBalanceSim()));
                 }
                 NoticeManger.getInstance().notice();
-               // getPositionSize();
+                // getPositionSize();
                 break;
             //自选的监听
             case R.id.layout_optional:

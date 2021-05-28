@@ -4,14 +4,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.pro.bityard.R;
+import com.pro.bityard.config.AppConfig;
 import com.pro.bityard.entity.FundItemEntity;
 import com.pro.bityard.utils.ChartUtil;
+import com.pro.switchlibrary.SPUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,11 +93,27 @@ public class FundSelectAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
             ChartUtil.setIcon(code,((MyViewHolder) holder).img_bg);
 
+            boolean theme = SPUtils.getBoolean(AppConfig.KEY_THEME, true);
 
             if (index == position) {
-                ((MyViewHolder) holder).layout_usd.setBackground(context.getResources().getDrawable(R.drawable.sel_switcher_fund_bg));
+                if (theme){
+                    //((MyViewHolder) holder).layout_usd.setChecked(true);
+                    ((MyViewHolder) holder).layout_usd.setBackground(context.getResources().getDrawable(R.drawable.sel_switcher_fund_bg));
+                }else {
+                    ((MyViewHolder) holder).layout_usd.setBackground(context.getResources().getDrawable(R.drawable.sel_switcher_fund_bg_night));
+
+                }
+
             } else {
-                ((MyViewHolder) holder).layout_usd.setBackground(context.getResources().getDrawable(R.drawable.sel_switcher_fund_normal_bg));
+               // ((MyViewHolder) holder).layout_usd.setChecked(false);
+                if (theme){
+                    //((MyViewHolder) holder).layout_usd.setChecked(true);
+                    ((MyViewHolder) holder).layout_usd.setBackground(context.getResources().getDrawable(R.drawable.sel_switcher_fund_normal_bg));
+
+                }else {
+                    ((MyViewHolder) holder).layout_usd.setBackground(context.getResources().getDrawable(R.drawable.sel_switcher_fund_normal_bg_night));
+
+                }
 
             }
 
