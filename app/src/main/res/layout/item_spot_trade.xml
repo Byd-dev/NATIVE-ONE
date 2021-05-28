@@ -10,7 +10,7 @@
         android:layout_height="@dimen/margin_35"
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
-        android:background="@drawable/bg_color_left"
+        android:background="@drawable/bg_edit_second_color"
         android:orientation="horizontal">
 
         <RadioButton
@@ -50,7 +50,7 @@
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginTop="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
-        android:background="@drawable/bg_color_left">
+        android:background="@drawable/bg_edit_second_color">
 
         <com.pro.bityard.view.textview.ManropeTextView
             android:id="@+id/text_limit_market"

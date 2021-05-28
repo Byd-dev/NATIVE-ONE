@@ -5,7 +5,7 @@
         <shape>
             <corners android:radius="@dimen/radius_size" />
             <stroke android:width="@dimen/size_frame" android:color="@color/maincolor" />
-            <solid android:color="@color/background_main_color" />
+            <solid android:color="@color/maincolor" />
 
         </shape>
     </item>
@@ -13,8 +13,8 @@
     <item android:state_checked="false">
         <shape>
             <corners android:radius="@dimen/radius_size" />
-            <stroke android:width="@dimen/size_frame" android:color="@color/text_edit_pop" />
-            <solid android:color="@color/background_main_color" />
+            <stroke android:width="@dimen/size_frame" android:color="@color/color_title_bar" />
+            <solid android:color="@color/color_title_bar" />
         </shape>
     </item>
 </selector>

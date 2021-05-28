@@ -3,18 +3,17 @@
 
     <item android:state_checked="true">
         <shape>
-            <corners android:radius="@dimen/radius_size" />
+            <corners android:radius="@dimen/margin_2"/>
             <stroke android:width="@dimen/size_frame" android:color="@color/maincolor" />
-            <solid android:color="@color/maincolor" />
-
+            <solid android:color="@color/background_main_color_night"/>
         </shape>
     </item>
 
     <item android:state_checked="false">
         <shape>
-            <corners android:radius="@dimen/radius_size" />
-            <stroke android:width="@dimen/size_frame" android:color="@color/color_edit_lever" />
-            <solid android:color="@color/color_edit_lever" />
+            <corners android:radius="@dimen/margin_2"/>
+            <stroke android:width="@dimen/size_frame" android:color="@color/background_main_color_night"/>
+            <solid android:color="@color/background_main_color_night"/>
         </shape>
     </item>
 </selector>

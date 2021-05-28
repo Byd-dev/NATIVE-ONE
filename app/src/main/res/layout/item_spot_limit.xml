@@ -14,7 +14,7 @@
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginTop="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
-        android:background="@drawable/bg_color_left"
+        android:background="@drawable/bg_edit_second_color"
         android:orientation="horizontal">
 
         <com.pro.bityard.view.textview.ManropeTextView
@@ -40,7 +40,7 @@
             android:gravity="center"
             android:hint="@string/text_price_usdt"
             android:inputType="numberDecimal"
-            android:textColor="@color/text_main_color"
+            android:textColor="@color/text_second_color"
             android:textColorHint="@color/text_second_color"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/size_normal" />
@@ -67,7 +67,7 @@
         android:layout_marginLeft="@dimen/margin_10"
         android:layout_marginTop="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
-        android:background="@drawable/bg_color_left"
+        android:background="@drawable/bg_edit_second_color"
         android:orientation="horizontal">
 
         <com.pro.bityard.view.textview.ManropeTextView
@@ -93,7 +93,7 @@
             android:gravity="center"
             android:hint="@string/text_amount_withdrawal"
             android:inputType="numberDecimal"
-            android:textColor="@color/text_main_color"
+            android:textColor="@color/text_second_color"
             android:textColorHint="@color/text_second_color"
             android:textCursorDrawable="@null"
             android:textSize="@dimen/size_normal" />
@@ -129,7 +129,7 @@
         android:layout_marginTop="@dimen/margin_10"
         android:layout_marginRight="@dimen/margin_10"
         android:gravity="center"
-        android:background="@drawable/bg_color_left"
+        android:background="@drawable/bg_edit_second_color"
         android:orientation="horizontal">
 
 

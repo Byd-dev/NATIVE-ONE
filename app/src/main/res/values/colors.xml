@@ -24,7 +24,7 @@
     <color name="text_quote_green">#00C76F</color>
     <color name="text_report_color">#ACB9BC</color>
     <color name="text_mainclor_black">#1D2A34</color>
-    <color name="text_second_color">#8F96A6</color>
+    <color name="text_second_color">#798296</color>
     <color name="text_main_color_black">#333333</color>
     <color name="text_red_position">#D55F58</color>
     <color name="text_edit_pop">#798296</color>
@@ -68,4 +68,5 @@
     <color name="text_stay_color">#2A2E3A</color>
     <color name="background_second_color">#1A202E</color>
     <color name="color_get_code">#FFFFFF</color>
+    <color name="color_edit_lever">#2B3243</color>
 </resources>

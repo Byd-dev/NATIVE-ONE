@@ -173,6 +173,7 @@
                 android:paddingRight="@dimen/margin_10"
                 android:drawableLeft="@mipmap/icon_rule"
                 android:text="@string/text_rule"
+                android:drawablePadding="@dimen/margin_2"
                 android:textColor="@color/text_second_color"
                 android:textSize="@dimen/size_normal" />
 
@@ -358,6 +359,7 @@
                 android:layout_height="35dp"
                 android:layout_marginLeft="@dimen/margin_10"
                 android:layout_marginRight="@dimen/margin_10"
+                android:layout_marginTop="@dimen/margin_5"
                 android:background="@drawable/bg_kuang_background"
                 android:orientation="horizontal"
                 android:visibility="gone">
@@ -474,7 +476,7 @@
                     android:maxLines="1"
                     android:paddingLeft="@dimen/margin_15"
                     android:text="@string/text_market_price"
-                    android:textColor="@color/sel_switcher_txt"
+                    android:textColor="@color/switch_limit_market"
                     android:textSize="@dimen/size_big"
                     android:typeface="monospace"
 
@@ -492,8 +494,8 @@
                     android:maxLines="1"
                     android:paddingLeft="@dimen/margin_15"
                     android:text="@string/text_limit_price"
-                    android:textColor="@color/sel_switcher_txt"
-                    android:textSize="@dimen/size_big"
+                    android:textColor="@color/switch_limit_market"
+                    android:textSize="@dimen/size_normal_two"
                     android:typeface="monospace"
 
                     />
@@ -660,7 +662,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:inputType="numberDecimal"
-                        android:textColor="@color/text_main_color"
+                        android:textColor="@color/text_second_color"
                         android:textColorHint="@color/text_second_color"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/size_normal" />
@@ -859,7 +861,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:inputType="numberDecimal"
-                        android:textColor="@color/text_main_color"
+                        android:textColor="@color/text_second_color"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/size_normal" />
 
@@ -954,7 +956,7 @@
                         android:layout_weight="1"
                         android:background="@null"
                         android:inputType="numberDecimal"
-                        android:textColor="@color/text_main_color"
+                        android:textColor="@color/text_second_color"
                         android:textColorHint="@color/text_second_color"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/size_normal" />

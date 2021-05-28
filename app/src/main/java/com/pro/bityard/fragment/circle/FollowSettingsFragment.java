@@ -359,7 +359,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
     }
 
 
-    private void setEdit(String isAmount, EditText edit, SeekBar seekBar, int max, int min) {
+    private void setEdit(String isAmount, DecimalEditText edit, SeekBar seekBar, int max, int min) {
         edit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -399,7 +399,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         });
     }
 
-    private void setAdd(TextView add, EditText edit, String value, int count) {
+    private void setAdd(TextView add, DecimalEditText edit, String value, int count) {
         add.setOnClickListener(v -> {
             int a;
             if (value.equals("")) {
@@ -412,7 +412,7 @@ public class FollowSettingsFragment extends BaseFragment implements View.OnClick
         });
     }
 
-    private void setSub(TextView sub, EditText edit, String value, int count) {
+    private void setSub(TextView sub, DecimalEditText edit, String value, int count) {
         sub.setOnClickListener(v -> {
             int a;
             if (value.equals("")) {

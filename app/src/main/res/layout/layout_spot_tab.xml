@@ -95,7 +95,6 @@
 
     </RelativeLayout>
 
-    <include layout="@layout/layout_line_big" />
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -18,7 +18,7 @@
         android:gravity="center"
         android:maxLines="1"
         android:text="300%"
-        android:textColor="@color/sel_switcher_txt_night"
+        android:textColor="@color/sel_switcher_txt"
         android:textSize="@dimen/size_normal"
         android:typeface="monospace" />
 

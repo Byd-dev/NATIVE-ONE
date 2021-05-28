@@ -2192,7 +2192,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 layout_limit_price.setVisibility(View.GONE);
                 text_buy_much.setVisibility(View.VISIBLE);
                 text_buy_empty.setVisibility(View.VISIBLE);
-                radio_btn0.setTextSize(14);
+                radio_btn0.setTextSize(15);
                 radio_btn1.setTextSize(13);
                 orderType = "0";
 
@@ -2203,7 +2203,7 @@ public class ContractTradeFragment extends BaseFragment implements Observer, Vie
                 text_buy_much.setVisibility(View.GONE);
                 text_buy_empty.setVisibility(View.GONE);
                 radio_btn0.setTextSize(13);
-                radio_btn1.setTextSize(14);
+                radio_btn1.setTextSize(15);
                 orderType = "1";
                 break;
 

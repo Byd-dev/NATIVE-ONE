@@ -4,7 +4,6 @@
     android:id="@+id/layout_hold"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_main_color"
     android:orientation="vertical">
 
 
@@ -400,13 +399,11 @@
                 app:tabTextAppearance="@style/MyTablayoutstyle"
                 app:tabTextColor="@color/text_second_color" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/size_line"
-                android:background="@color/home_line" />
+
 
 
         </RelativeLayout>
+        <include layout="@layout/layout_line"/>
 
 
         <androidx.viewpager.widget.ViewPager

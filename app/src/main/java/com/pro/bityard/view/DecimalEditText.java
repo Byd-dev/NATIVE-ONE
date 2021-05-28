@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.pro.bityard.R;
 
@@ -21,9 +20,9 @@ public class DecimalEditText extends AppCompatEditText {
      */
     private int mDecimalStarNumber = 20;
 
-    private double max=75.0;
+    private double max = 75.0;
 
-    private double min=0.75;
+    private double min = 0.75;
 
     public double getMax() {
         return max;
@@ -44,7 +43,7 @@ public class DecimalEditText extends AppCompatEditText {
     /**
      * 保留小数点后多少位，默认两位
      */
-    private int mDecimalEndNumber = 2 ;
+    private int mDecimalEndNumber = 2;
 
     public DecimalEditText(Context context) {
         this(context, null);
@@ -60,8 +59,8 @@ public class DecimalEditText extends AppCompatEditText {
 
         mDecimalStarNumber = typedArray.getInt(R.styleable.DecimalEditText_decimalStarNumber, mDecimalStarNumber);
         mDecimalEndNumber = typedArray.getInt(R.styleable.DecimalEditText_decimalEndNumber, mDecimalEndNumber);
-        max=typedArray.getFloat(R.styleable.DecimalEditText_max,0);
-        min=typedArray.getFloat(R.styleable.DecimalEditText_min,0);
+        max = typedArray.getFloat(R.styleable.DecimalEditText_max, 0);
+        min = typedArray.getFloat(R.styleable.DecimalEditText_min, 0);
         typedArray.recycle();
         init();
     }
@@ -99,7 +98,6 @@ public class DecimalEditText extends AppCompatEditText {
                 }
 
 
-
                 if (lastInputContent.contains(".")) {
                     int index = lastInputContent.indexOf(".");
                     if (dend - index >= mDecimalEndNumber + 1) {
@@ -110,10 +108,6 @@ public class DecimalEditText extends AppCompatEditText {
                         return "";
                     }
                 }
-
-
-
-
 
 
                 return null;
